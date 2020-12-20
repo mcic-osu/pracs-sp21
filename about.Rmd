@@ -1,9 +1,19 @@
 ---
-title: "About this blog"
-description: |
-  Some additional details about the blog
+title: "About this site"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+This is the Github website for the course Practical Computing Skills for Biologists
+(a section of PP8300 -- Current Topics in Plant Pathology),
+a 2-credit course taught online at Ohio State University during the Spring
+semester of 2021.
+
+Only slide decks and code-along materials are hosted on this website.
+If you are a student in this course, your starting point should always be
+the [CarmenCanvas site for this course](https://osu.instructure.com/courses/92221).
+(Note that you can always find the link to the CarmenCanvas site in the top-right
+corner of this site by clicking on the graduation cap icon.)
+
