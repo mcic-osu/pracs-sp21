@@ -1,13 +1,12 @@
 ---
-title: "Welcome to Practical Computing Skill for Biologists (PP8300-SP21)"
+title: "Welcome to Practical Computing Skill for Biologists"
 description: |
-  Welcome to our new blog, Practical Computing Skill for Biologists (PP8300-SP21). We hope you enjoy 
-  reading what we have to say!
+  Welcome to the Github website for the course Practical Computing Skills for Biologists -- Spring 2021!
 author:
-  - name: Nora Jones 
-    url: https://example.com/norajones
-    affiliation: Spacely Sprockets
-    affiliation_url: https://example.com/spacelysprokets
+  - name: Jelmer Poelstra
+    url: mailto:poelstra.1@osu.edu
+    affiliation: MCIC Wooster, Ohio State University
+    affiliation_url: https://mcic.osu.edu
 date: 12-20-2020
 output:
   distill::distill_article:
@@ -16,10 +15,6 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-
-# Learn more about creating blogs with Distill at:
-# https://rstudio.github.io/distill/blog.html
-
 ```
 
 
