@@ -8,8 +8,9 @@ knitr::opts_chunk$set(echo = FALSE)
 
 This is the Github website for the course Practical Computing Skills for Biologists
 (a section of PP8300 -- Current Topics in Plant Pathology),
-a 2-credit course taught online at Ohio State University during the Spring
-semester of 2021.
+a 2-credit online-only course at Ohio State University during the Spring
+semester of 2021. The course is taught by [Jelmer Poelstra](mailto:poelstra.1@osu.edu)
+from the [MCIC](https://mcic.osu.edu).
 
 Only slide decks and code-along materials are hosted on this website.
 If you are a student in this course, your starting point should always be

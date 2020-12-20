@@ -1,0 +1,21 @@
+---
+title: "Week 01"
+description: |
+  Course Intro & Shell Basics
+date: 2021-01-10
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+- Tue, Jan 12 -- Slides: Course Intro & Overview
+
+- Thu, Jan 14 -- Slides: Shell Basics
+
+- Exercises for Week 1: Shell Basics
+
+

@@ -4,7 +4,8 @@ title: "pracs-sp21"
 description: |
   Practical Computing Skills for Biologists (PP8300-SP21)
 output_dir: "docs"
-theme: theme.css
+theme: distill.css
+base_url: https://mcic-osu.github.io/pracs-sp21
 navbar:
   left:
     - text: "Home"

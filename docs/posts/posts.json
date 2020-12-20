@@ -1,19 +1,14 @@
 [
   {
-    "path": "posts/week01/",
-    "title": "Week 1",
-    "description": {},
-    "author": [
-      {
-        "name": "Jelmer Poelstra",
-        "url": "mailto:poelstra.1@osu.edu"
-      }
-    ],
-    "date": "2020-12-20",
+    "path": "posts/2020-12-20-week-01/",
+    "title": "Week 01",
+    "description": "Course Intro & Shell Basics",
+    "author": [],
+    "date": "2021-01-10",
     "categories": [],
-    "contents": "\n- Slides for Tuesday’s Zoom session: Course Intro & Overview\n- Slide for Thursday’s Zoom session: Shell Basics\n\n\n\n",
+    "contents": "\nTue, Jan 12 – Slides: Course Intro & Overview\nThu, Jan 14 – Slides: Shell Basics\nExercises for Week 1: Shell Basics\n\n\n\n",
     "preview": {},
-    "last_modified": "2020-12-20T15:15:35-05:00",
-    "input_file": "overview.utf8.md"
+    "last_modified": "2020-12-20T16:40:08-05:00",
+    "input_file": {}
   }
 ]
