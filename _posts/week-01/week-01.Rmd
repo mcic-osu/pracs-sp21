@@ -12,10 +12,10 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-- Tue, Jan 12 -- [Slides: Course Intro & Overview](slides/slides-02-shell.html)
+- Tue, Jan 12 -- [Slides: Course Intro & Overview](slides/slides-01-intro.html)
 
-- Thu, Jan 14 -- Slides: Shell Basics
+- Thu, Jan 14 -- [Slides: Shell Basics](slides/slides-02-shell.html)
 
-- Exercises for Week 1: Shell Basics
+- Exercises for Week 1: [Shell Basics](/week01-ex-shell.Rmd)
 
 
