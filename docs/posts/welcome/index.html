@@ -85,38 +85,38 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-<title>Practical Computing Skills for Biologists (PP8300-SP21): Welcome to Practical Computing Skill for Biologists (PP8300-SP21)</title>
+<title>pracs-sp21: Welcome to Practical Computing Skill for Biologists</title>
 
-<meta property="description" itemprop="description" content="Welcome to our new blog, Practical Computing Skill for Biologists (PP8300-SP21). We hope you enjoy &#10;reading what we have to say!"/>
+<meta property="description" itemprop="description" content="Welcome to the Github website for the course Practical Computing Skills for Biologists -- Spring 2021!"/>
 
 
 <!--  https://schema.org/Article -->
 <meta property="article:published" itemprop="datePublished" content="2020-12-20"/>
 <meta property="article:created" itemprop="dateCreated" content="2020-12-20"/>
-<meta name="article:author" content="Nora Jones"/>
+<meta name="article:author" content="Jelmer Poelstra"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Practical Computing Skills for Biologists (PP8300-SP21): Welcome to Practical Computing Skill for Biologists (PP8300-SP21)"/>
+<meta property="og:title" content="pracs-sp21: Welcome to Practical Computing Skill for Biologists"/>
 <meta property="og:type" content="article"/>
-<meta property="og:description" content="Welcome to our new blog, Practical Computing Skill for Biologists (PP8300-SP21). We hope you enjoy &#10;reading what we have to say!"/>
+<meta property="og:description" content="Welcome to the Github website for the course Practical Computing Skills for Biologists -- Spring 2021!"/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:site_name" content="Practical Computing Skills for Biologists (PP8300-SP21)"/>
+<meta property="og:site_name" content="pracs-sp21"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="Practical Computing Skills for Biologists (PP8300-SP21): Welcome to Practical Computing Skill for Biologists (PP8300-SP21)"/>
-<meta property="twitter:description" content="Welcome to our new blog, Practical Computing Skill for Biologists (PP8300-SP21). We hope you enjoy &#10;reading what we have to say!"/>
+<meta property="twitter:title" content="pracs-sp21: Welcome to Practical Computing Skill for Biologists"/>
+<meta property="twitter:description" content="Welcome to the Github website for the course Practical Computing Skills for Biologists -- Spring 2021!"/>
 
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Welcome to Practical Computing Skill for Biologists (PP8300-SP21)"]},{"type":"character","attributes":{},"value":["Welcome to our new blog, Practical Computing Skill for Biologists (PP8300-SP21). We hope you enjoy \nreading what we have to say!"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Nora Jones"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]},{"type":"character","attributes":{},"value":["Spacely Sprockets"]},{"type":"character","attributes":{},"value":["https://example.com/spacelysprokets"]}]}]},{"type":"character","attributes":{},"value":["12-20-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Welcome to Practical Computing Skill for Biologists"]},{"type":"character","attributes":{},"value":["Welcome to the Github website for the course Practical Computing Skills for Biologists -- Spring 2021!"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Jelmer Poelstra"]},{"type":"character","attributes":{},"value":["mailto:poelstra.1@osu.edu"]},{"type":"character","attributes":{},"value":["MCIC Wooster, Ohio State University"]},{"type":"character","attributes":{},"value":["https://mcic.osu.edu"]}]}]},{"type":"character","attributes":{},"value":["12-20-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["welcome_files/anchor-4.2.2/anchor.min.js","welcome_files/bowser-1.9.3/bowser.min.js","welcome_files/distill-2.2.21/template.v2.js","welcome_files/header-attrs-2.6.3/header-attrs.js","welcome_files/header-attrs-2.6/header-attrs.js","welcome_files/jquery-1.11.3/jquery.min.js","welcome_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -456,6 +456,7 @@ d-title {
 
 </style>
 
+<script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
 <link href="../../site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
 <link href="../../site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
 <script src="../../site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -568,6 +569,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         },
         templates: {
           suggestion: function(suggestion) {
+            var img = Object.keys(suggestion.preview).length > 0
+              ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+              : '';
             var html = `
               <div class="search-item">
                 <h3>${suggestion.title}</h3>
@@ -575,7 +579,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
                   ${suggestion.description}
                 </div>
                 <div class="search-item-preview">
-                  <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                  ${img}
                 </div>
               </div>
             `;
@@ -598,6 +602,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 
 <style type="text/css">
+
+.nav-search {
+  font-size: x-small;
+}
 
 /* Algolioa Autocomplete */
 
@@ -1996,7 +2004,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.6/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.6.3/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
@@ -2013,7 +2021,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Welcome to Practical Computing Skill for Biologists (PP8300-SP21)","description":"Welcome to our new blog, Practical Computing Skill for Biologists (PP8300-SP21). We hope you enjoy \nreading what we have to say!","authors":[{"author":"Nora Jones","authorURL":"https://example.com/norajones","affiliation":"Spacely Sprockets","affiliationURL":"https://example.com/spacelysprokets","orcidID":""}],"publishedDate":"2020-12-20T00:00:00.000-05:00","citationText":"Jones, 2020"}
+{"title":"Welcome to Practical Computing Skill for Biologists","description":"Welcome to the Github website for the course Practical Computing Skills for Biologists -- Spring 2021!","authors":[{"author":"Jelmer Poelstra","authorURL":"mailto:poelstra.1@osu.edu","affiliation":"MCIC Wooster, Ohio State University","affiliationURL":"https://mcic.osu.edu","orcidID":""}],"publishedDate":"2020-12-20T00:00:00.000-05:00","citationText":"Poelstra, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2021,13 +2029,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
-<a href="../../index.html" class="title">Practical Computing Skills for Biologists (PP8300-SP21)</a>
+<a href="../../index.html" class="title">pracs-sp21</a>
+<a href="../../index.html">Home</a>
 <input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
-<a href="../../index.html">Home</a>
 <a href="../../about.html">About</a>
-<a href="https://github.com/rstudio/distill" aria-label="Link to source">
+<a href="https://osu.instructure.com/courses/92221">
+<i class="fas fa-graduation-cap" aria-hidden="true"></i>
+</a>
+<a href="https://github.com/mcic-osu/pracs-sp21" aria-label="Link to source">
 <i class="fab fa-github" aria-hidden="true"></i>
 </a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
@@ -2039,14 +2050,14 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Welcome to Practical Computing Skill for Biologists (PP8300-SP21)</h1>
+<h1>Welcome to Practical Computing Skill for Biologists</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Welcome to our new blog, Practical Computing Skill for Biologists (PP8300-SP21). We hope you enjoy reading what we have to say!</p></p>
+<p><p>Welcome to the Github website for the course Practical Computing Skills for Biologists – Spring 2021!</p></p>
 </div>
 
 <div class="d-byline">
-  Nora Jones <a href="https://example.com/norajones" class="uri">https://example.com/norajones</a> (Spacely Sprockets)<a href="https://example.com/spacelysprokets" class="uri">https://example.com/spacelysprokets</a>
+  Jelmer Poelstra <a href="mailto:poelstra.1@osu.edu" class="uri">mailto:poelstra.1@osu.edu</a> (MCIC Wooster, Ohio State University)<a href="https://mcic.osu.edu" class="uri">https://mcic.osu.edu</a>
   
 <br/>12-20-2020
 </div>

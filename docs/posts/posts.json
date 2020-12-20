@@ -1,19 +1,19 @@
 [
   {
     "path": "posts/welcome/",
-    "title": "Welcome to Practical Computing Skill for Biologists (PP8300-SP21)",
-    "description": "Welcome to our new blog, Practical Computing Skill for Biologists (PP8300-SP21). We hope you enjoy \nreading what we have to say!",
+    "title": "Welcome to Practical Computing Skill for Biologists",
+    "description": "Welcome to the Github website for the course Practical Computing Skills for Biologists -- Spring 2021!",
     "author": [
       {
-        "name": "Nora Jones",
-        "url": "https://example.com/norajones"
+        "name": "Jelmer Poelstra",
+        "url": "mailto:poelstra.1@osu.edu"
       }
     ],
     "date": "2020-12-20",
     "categories": [],
     "contents": "\n\n\n\n",
     "preview": {},
-    "last_modified": "2020-12-20T13:11:30-05:00",
+    "last_modified": "2020-12-20T15:00:00-05:00",
     "input_file": {}
   }
 ]

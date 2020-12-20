@@ -85,26 +85,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Practical Computing Skills for Biologists (PP8300-SP21): Practical Computing Skill for Biologists (PP8300-SP21)</title>
+  <title>pracs-sp21: </title>
 
 
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Practical Computing Skills for Biologists (PP8300-SP21): Practical Computing Skill for Biologists (PP8300-SP21)"/>
+  <meta property="og:title" content="pracs-sp21: "/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
-  <meta property="og:site_name" content="Practical Computing Skills for Biologists (PP8300-SP21)"/>
+  <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Practical Computing Skills for Biologists (PP8300-SP21): Practical Computing Skill for Biologists (PP8300-SP21)"/>
+  <meta property="twitter:title" content="pracs-sp21: "/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":["Practical Computing Skill for Biologists (PP8300-SP21)"]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":[""]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -445,6 +445,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   </style>
 
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -557,6 +558,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           },
           templates: {
             suggestion: function(suggestion) {
+              var img = Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
               var html = `
                 <div class="search-item">
                   <h3>${suggestion.title}</h3>
@@ -564,7 +568,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
                     ${suggestion.description}
                   </div>
                   <div class="search-item-preview">
-                    <img src="${suggestion.preview ? offsetURL(suggestion.preview) : ''}"</img>
+                    ${img}
                   </div>
                 </div>
               `;
@@ -587,6 +591,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <style type="text/css">
+
+  .nav-search {
+    font-size: x-small;
+  }
 
   /* Algolioa Autocomplete */
 
@@ -1985,8 +1993,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/header-attrs-2.6.3/header-attrs.js"></script>
   <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
@@ -2002,7 +2009,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Practical Computing Skill for Biologists (PP8300-SP21)","authors":[]}
+{"title":"","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2010,7 +2017,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
-<a href="index.html" class="title">Practical Computing Skills for Biologists (PP8300-SP21)</a>
+<a href="index.html" class="title">pracs-sp21</a>
 <input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
@@ -2160,23 +2167,20 @@ function init_posts_list() {
 
 <div class="posts-container posts-apply-limit l-page">
 <div class="posts-list">
-<h1 class="posts-list-caption" data-caption="Practical Computing Skill for Biologists (PP8300-SP21)">Practical Computing Skill for Biologists (PP8300-SP21)</h1>
+<h1 class="posts-list-caption" data-caption=""></h1>
 <a href="posts/welcome/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":[]}</script>
 <div class="metadata">
 <div class="publishedDate">Dec. 20, 2020</div>
 <div class="dt-authors">
-<div class="dt-author">Nora Jones</div>
+<div class="dt-author">Jelmer Poelstra</div>
 </div>
 </div>
-<div class="thumbnail">
-<img/>
-</div>
+<div class="thumbnail"></div>
 <div class="description">
-<h2>Welcome to Practical Computing Skill for Biologists (PP8300-SP21)</h2>
+<h2>Welcome to Practical Computing Skill for Biologists</h2>
 <div class="dt-tags"></div>
-<p>Welcome to our new blog, Practical Computing Skill for Biologists (PP8300-SP21). We hope you enjoy 
-reading what we have to say!</p>
+<p>Welcome to the Github website for the course Practical Computing Skills for Biologists -- Spring 2021!</p>
 </div>
 </a>
 </div>
@@ -2187,7 +2191,7 @@ reading what we have to say!</p>
 <!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>Practical Computing Skill for Biologists (PP8300-SP21)</h1>
+<h1>index.utf8</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2195,6 +2199,10 @@ reading what we have to say!</p>
 
 
 <div class="d-article">
+<p><br> <br></p>
+<h2 align="center">
+Practical Computing Skills for Biologists: <br> Spring 2021 (pracs-sp21) <br> <span style="color:#bb0000; font-size:20px">A section of Current Topics in Plant Pathology (PP8300)</span>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
