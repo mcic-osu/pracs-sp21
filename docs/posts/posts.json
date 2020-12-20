@@ -1,6 +1,6 @@
 [
   {
-    "path": "posts/2020-12-20-week-01/",
+    "path": "posts/week-01/",
     "title": "Week 01",
     "description": "Course Intro & Shell Basics",
     "author": [],
@@ -8,7 +8,7 @@
     "categories": [],
     "contents": "\nTue, Jan 12 – Slides: Course Intro & Overview\nThu, Jan 14 – Slides: Shell Basics\nExercises for Week 1: Shell Basics\n\n\n\n",
     "preview": {},
-    "last_modified": "2020-12-20T16:40:08-05:00",
-    "input_file": {}
+    "last_modified": "2020-12-20T17:28:41-05:00",
+    "input_file": "week-01.utf8.md"
   }
 ]

@@ -12,7 +12,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-- Tue, Jan 12 -- Slides: Course Intro & Overview
+- Tue, Jan 12 -- [Slides: Course Intro & Overview](slides/slides-02-shell.html)
 
 - Thu, Jan 14 -- Slides: Shell Basics
 
