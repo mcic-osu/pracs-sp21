@@ -4,6 +4,7 @@ title: "pracs-sp21"
 description: |
   Practical Computing Skills for Biologists (PP8300-SP21)
 output_dir: "docs"
+theme: theme.css
 navbar:
   left:
     - text: "Home"
@@ -11,7 +12,7 @@ navbar:
   right:
     - text: "About"
       href: about.html
-    - icon: fas fa-graduation-cap
+    - icon: fas fa-large fa-graduation-cap
       href: https://osu.instructure.com/courses/92221
   search: true
   source_url: https://github.com/mcic-osu/pracs-sp21
