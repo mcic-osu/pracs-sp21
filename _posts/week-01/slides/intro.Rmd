@@ -2,7 +2,7 @@
 title: "Course Intro & Overview"
 author: "Jelmer Poelstra"
 institute: "MCIC Wooster"
-date: "2020/12/16 (updated: `r Sys.Date()`)"
+date: "2021/01/12 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     css: ["default", "default-fonts",  "/slides.css"]
