@@ -16,6 +16,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - Thu, Jan 14 -- [Slides: Shell Basics](slides/slides-02-shell.html)
 
-- Exercises for Week 1: [Shell Basics](/week01-ex-shell.Rmd)
+- Exercises for Week 1: [Shell Basics](../../week01-ex-shell.html)
 
 
