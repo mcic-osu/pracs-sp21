@@ -1,0 +1,16 @@
+---
+name: "pracs-sp21-site"
+title: "Practical Computing Skills for Biologists (PP8300-SP21)"
+description: |
+  Practical Computing Skills for Biologists (PP8300-SP21)
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+  search: true
+  source_url: https://github.com/rstudio/distill
+output: distill::distill_article
+---

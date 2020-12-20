@@ -1,0 +1,5 @@
+---
+title: "Practical Computing Skill for Biologists (PP8300-SP21)"
+site: distill::distill_website
+listing: posts
+---
