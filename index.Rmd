@@ -1,5 +1,14 @@
 ---
-title: "Practical Computing Skill for Biologists (PP8300-SP21)"
+title: ""
 site: distill::distill_website
 listing: posts
 ---
+
+<br> <br>
+
+<h2 align="center"> Practical Computing Skills for Biologists: <br> 
+Spring 2021 (pracs-sp21) <br>
+<span style="color:#bb0000; font-size:20px">A section of Current Topics in Plant Pathology (PP8300)</span>
+</h2>
+
+
