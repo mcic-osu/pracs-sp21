@@ -1,12 +1,8 @@
 ---
-title: "Welcome to Practical Computing Skill for Biologists"
-description: |
-  Welcome to the Github website for the course Practical Computing Skills for Biologists -- Spring 2021!
+title: "Week 1"
 author:
   - name: Jelmer Poelstra
     url: mailto:poelstra.1@osu.edu
-    affiliation: MCIC Wooster, Ohio State University
-    affiliation_url: https://mcic.osu.edu
 date: 12-20-2020
 output:
   distill::distill_article:
@@ -17,5 +13,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+### - Slides for Tuesday's Zoom session: Course Intro & Overview
 
+### - Slide for Thursday's Zoom session: Shell Basics
 
