@@ -9,7 +9,7 @@ base_url: https://mcic-osu.github.io/pracs-sp21
 creative_commons: CC BY
 navbar:
   left:
-    - text: "Home"
+    - icon: fas fa-home
       href: index.html
   right:
     - text: "About"
