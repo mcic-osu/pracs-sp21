@@ -14,8 +14,14 @@ navbar:
   right:
     - text: "About"
       href: about.html
+    - icon: fas fa-book-open
+      href: https://library.ohio-state.edu/record=b8624007~S7
+    - icon: fas fa-book
+      href: https://library.ohio-state.edu/record=b8538907~S7
+    - icon: fas fa-desktop
+      href: https://ondemand.osc.edu
     - icon: fas fa-large fa-graduation-cap
-      href: https://osu.instructure.com/courses/92221
+      href: https://osu.instructure.com/courses/94975
   search: true
   source_url: https://github.com/mcic-osu/pracs-sp21
 output: distill::distill_article
