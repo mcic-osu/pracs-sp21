@@ -5,21 +5,21 @@
       "title": "About this site",
       "author": [],
       "contents": "\nThis is the Github website for the course Practical Computing Skills for Biologists (a section of PP8300 – Current Topics in Plant Pathology), a 2-credit online-only course at Ohio State University during the Spring semester of 2021. The course is taught by Jelmer Poelstra from the MCIC.\nOnly slide decks, code-along materials, and exercises are hosted on this website. If you are a student in this course, your starting point should always be the CarmenCanvas site for this course. (Note that you can always find the link to the CarmenCanvas site in the top-right corner of this site by clicking on the graduation cap icon.)\n\n\n\n",
-      "last_modified": "2020-12-28T15:18:59-05:00"
+      "last_modified": "2020-12-31T12:06:00-05:00"
     },
     {
       "path": "index.html",
       "title": "",
       "author": [],
       "contents": "\n\n\nPractical Computing Skills for Biologists  Spring 2021  A section of Current Topics in Plant Pathology (PLNTPTH 8300)\n\n\n\n\n",
-      "last_modified": "2020-12-28T15:18:59-05:00"
+      "last_modified": "2020-12-31T12:06:01-05:00"
     },
     {
       "path": "week02-ex-md.html",
       "title": "Week 1 Exercises: Shell Basics",
       "author": [],
       "contents": "\n…\n\n\n\n",
-      "last_modified": "2020-12-28T15:18:59-05:00"
+      "last_modified": "2020-12-31T12:06:01-05:00"
     }
   ],
   "collections": ["posts/posts.json"]

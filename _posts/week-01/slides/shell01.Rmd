@@ -1,5 +1,5 @@
 ---
-title: "An Introduction to the shell"
+title: "Week 1 - Lecture 2<br><br>An Introduction to the shell<br><br>PLACEHOLDER FILE - TO BE UPDATED<br><br>"
 author: "Jelmer Poelstra"
 institute: "MCIC Wooster"
 date: "2021/01/14 (updated: `r Sys.Date()`)"
