@@ -1,0 +1,21 @@
+---
+title: "Week 02"
+description: |
+  Git & Github
+date: 2021-01-18
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+- Part I - Some Best Practices for Project Organization -- Tuesday Zoom (Jan 19) -- [Slides: ...](slides/02-1-proj-org.html)
+
+- Part II - Managing Files in the Shell -- Tue/Thu -- [Slides: ...](slides/02-2-shfiles.html)
+
+- Part III - Markdown and VS Code -- Thursday Zoom (Jan 21) -- [Slides: ...](slides/02-3-md.html)
+
+- [Exercises](../../week02_exercises.html)
