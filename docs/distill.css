@@ -76,3 +76,11 @@ d-appendix {
 /*-- Additional custom styles --*/
 /* Add any additional CSS rules below                      */
 
+code {
+  background-color: #e8e8e8;
+  border-radius: 5px;
+}
+
+pre code {
+  background-color: white;
+}

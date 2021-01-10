@@ -85,27 +85,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Week 1 Exercises: Shell Basics</title>
+  <title>pracs-sp21: Week 2 Exercises</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Week 1 Exercises: Shell Basics"/>
+  <meta property="og:title" content="pracs-sp21: Week 2 Exercises"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Week 1 Exercises: Shell Basics"/>
+  <meta property="twitter:title" content="pracs-sp21: Week 2 Exercises"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 1 Exercises: Shell Basics"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 2 Exercises"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2148,7 +2148,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   /*-- Additional custom styles --*/
   /* Add any additional CSS rules below                      */
-  </style>
+
+  code {
+    background-color: #e8e8e8;
+    border-radius: 5px;
+  }
+
+  pre code {
+    background-color: white;
+  }</style>
   <style type="text/css">
   /* base style */
 
@@ -2296,11 +2304,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   	color: var(--hover-color, white);
   }</style>
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.6.3/header-attrs.js"></script>
-  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
-  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
-  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <script src="week02_exercises_files/header-attrs-2.6.3/header-attrs.js"></script>
+  <script src="week02_exercises_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="week02_exercises_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="week02_exercises_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="week02_exercises_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
   <!--/radix_placeholder_site_in_header-->
 
@@ -2312,7 +2320,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Week 1 Exercises: Shell Basics","authors":[]}
+{"title":"Week 2 Exercises","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2352,7 +2360,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Week 1 Exercises: Shell Basics</h1>
+<h1>Week 2 Exercises</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2360,8 +2368,134 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <div class="d-article">
-<p>…</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="exercise-1-course-notes-in-markdown">Exercise 1: Course notes in Markdown</h2>
+<p>Create a Markdown document with course notes. I recommend writing this in VS Code.</p>
+<ul>
+<li><p>Cover this week’s material in some detail – if you made notes for last week in another format, copy/digitize those too. (And try to keep using this document throughout the course!)</p></li>
+<li><p>Use several header levels and use them consistently: e.g. a level 1 header (<code>#</code>) for the document’s title, level 2 headers (<code>##</code>) for each week, and so on.</p></li>
+<li><p>Though it should foremost be a <em>functional</em> document for notes, try to incorporate any appropriate formatting option: e.g. <strong>bold text</strong>, <em>italic text</em>, <code>inline code</code>, code blocks, ordered/unordered lists, hyperlinks, and perhaps a figure.</p></li>
+<li><p>You may even want to try your hand at a <em>table</em> in Markdown (e.g. for an overview of certain commands), though admittedly, the syntax for a table is not particularly graceful or easy to use.</p></li>
+<li><p>Make sure you know how to start a new paragraph and how to force a newline.</p></li>
+</ul>
+<p><br></p>
+<h2 id="exercise-2">Exercise 2</h2>
+<p><em>While doing this exercise, save the commands you use in a text document – either write in a text document in VS Code and send the commands to the terminal, or copy them into a text document later.</em></p>
+<ol type="1">
+<li><p>Create a directory for this exercise, and change your working dir to go there. You can do this either in your <code>$HOME</code> dir (e.g. <code>~/pracs-sp21/w02/ex2/</code>) or your dir in the project dir (<code>/fs/ess/PAS1855/users/$USER/w02/ex2/</code>).</p></li>
+<li><p>Using the <code>touch</code> command and brace expansion, create 100s of empty files, either in a <em>single directory</em> or a <em>disorganized</em> dir structure. If you want, you can create file types according to what you typically have in your project — otherwise, create files with:</p>
+<ul>
+<li>Raw data (e.g. <code>.fastq.gz</code>)</li>
+<li>Reference data (e.g. <code>.fasta</code>),</li>
+<li>Metadata (e.g. <code>.txt</code> or <code>.csv</code>)</li>
+<li>Processed data and results (e.g. <code>.bam</code>, <code>.out</code>)</li>
+<li>Scripts (e.g. <code>.sh</code>, <code>.py</code> or <code>.R</code>)</li>
+<li>Figures (e.g. <code>.png</code> or <code>.eps</code>)</li>
+<li>Notes (<code>.txt</code> and/or <code>.md</code>)</li>
+<li>Perhaps some other file type you usually have in your projects.</li>
+</ul></li>
+<li><p>Organize the project according to some of the principles we discussed this week. As we saw, there is no single perfect dir structure: what is optimal will depend on what works for you and on the project size and structure. Therefore, think about what makes sense to you, and what makes sense given the files you find yourself with.</p>
+<p>Try to use as few commands as possible to move the files – use wildcards!</p></li>
+<li><p>Change permissions to what you think is reasonable; but in any case, make sure no-one has write permissions for the raw data.</p></li>
+<li><p>Create a directory <code>alignment</code> inside an appropriate dir in your project (e.g. <code>analysis</code>, <code>results</code>, or a dir for <em>processed</em> data), and create files for all combinations of 50 samples (<code>01</code>-<code>50</code>), 8 treatments (<code>A</code>-<code>H</code>), and 2 dates (<code>08-14-2020</code> and <code>09-16-2020</code>): <code>sample01_A_08-14-2020.sam</code> - <code>sample50_H_09-16-2020.sam</code>. These 800 files can be created with a single <code>touch</code> command.</p></li>
+<li><p>Woops! We stored the alignment files we created in the previous step as SAM files (<code>.sam</code>), but this was an error – the files are actually the binary counterparts of SAM files: BAM files (<code>.bam</code>).</p>
+<p>Move in the dir with your SAM files, and use a <code>for</code> loop to rename the files: change the extension from <code>.sam</code> to <code>.bam</code>. <em>Hint: This can be most easily done with the <code>basename</code> command.</em></p></li>
+<li><p>Still in the dir with your SAM files, create a new dir <code>subset</code>. Then, using a single <code>cp</code> command, copy files for samples 1-29 and treatments A-D into this dir (that is: <em>excluding</em> any sample number &gt;29 and treatment E-H). Create a <code>README.md</code> in the dir that explains what you did. <em>Hint: you can use two consecutive character sets.</em></p></li>
+<li><p><strong>Bonus: a trickier wildcard selection.</strong><br />
+Still in the dir with your SAM files, create a new dir <code>subset2</code>. Then, copy all files <em>except the two for “<code>sample48</code>”</em> into this dir. Do so using a single <code>cp</code> command, though with two separate wildcard expansion arguments: <code>cp wildcard-selection1 wildcard-selection2 destination</code>.</p></li>
+<li><p><strong>Bonus: a trickier renaming loop.</strong><br />
+You now realize that your date format is suboptimal (<code>MM-DD-YYYY</code> to give <code>08-14-2020</code> and <code>09-16-2020</code>) and that you should use the <code>YYYY-MM-DD</code> format. Use a <code>for</code> loop to rename the files. <em>Hint: test your commands by echo-ing and processing a single file name as</em> <em>an example.</em></p></li>
+<li><p>Include a <code>README.md</code> that described what you did; again, try to get familiar with Markdown syntax by using formatting liberally.</p></li>
+</ol>
+<h2 id="exercise-3-optional">Exercise 3 (Optional)</h2>
+<ol type="1">
+<li>If you feel like it would be good to reorganize one of your own projects, you can do so using what you’ve learned this week. But make sure you create a backup copy of the entire project first!</li>
+</ol>
+<h2 id="solutions">Solutions</h2>
+<ol type="1">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">mkdir</span> ~/pracs-sp21/w02/ex2/ <span class="co"># or similar, whatever dir you chose</span></span></code></pre></div>
+<ol start="2" type="1">
+<li></li>
+</ol>
+<p>An example:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">touch</span> sample<span class="dt">{001..150}</span>_<span class="dt">{F,R}</span>.fastq.gz</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">touch</span> ref.fasta ref.fai</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">touch</span> sample_info.csv sequence_barcodes.txt</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">touch</span> sample<span class="dt">{001..150}</span>.<span class="dt">{bam,bai,_fastqc.zip,_fastqc.html}</span>.bam.bai gene-counts.tsv DE-results.txt enrichment.txt</span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">touch</span> fastqc.sh multiqc.sh align.sh sort_bam.sh count1.py count2.py DE.R GO.R KEGG.R</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">touch</span> Fig<span class="dt">{1..5}</span>.png all_qc_plots.eps weird-sample.png</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="fu">touch</span> dontforget.txt README.md README_DE.md README_aligh.md tmp5.txt</span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="fu">touch</span> slurm-84789570.out slurm-84789571.out slurm-84789572.out</span></code></pre></div>
+<ol start="3" type="1">
+<li></li>
+</ol>
+<p>An example:</p>
+<p>Create directories:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">mkdir</span> -p data/<span class="dt">{raw,meta,ref}</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">mkdir</span> results/<span class="dt">{align,count,DE,enrichment,logfiles}</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">mkdir</span> -p scripts/<span class="dt">{qc,align,count,DE,enrichment}</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">mkdir</span> -p figures/<span class="dt">{ms,sandbox}</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="fu">mkdir</span> -p doc/</span></code></pre></div>
+<p>Move files:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">...</span></span></code></pre></div>
+<ol start="4" type="1">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">chmod</span> a=r data/raw/*</span></code></pre></div>
+<ol start="5" type="1">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a>$ <span class="fu">mkdir</span> -p results/alignment</span>
+<span id="cb6-2"><a href="#cb6-2"></a>$ <span class="co"># rm results/alignment/* # In the example above, we already had such a dir with files</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co"># Create the files:</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>$ <span class="fu">touch</span> sample<span class="dt">{01..50}</span>_<span class="dt">{A..H}</span>_<span class="dt">{08-14-2020,09-16-2020}</span>.sam</span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># Check if we have 800 files:</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>$ <span class="fu">ls</span> <span class="kw">|</span> <span class="fu">wc</span> -l</span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co"># 800</span></span></code></pre></div>
+<ol start="6" type="1">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="bu">cd</span> results/alignment</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">for</span> <span class="ex">oldname</span> in *.sam</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">do</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>   <span class="va">newname=$(</span><span class="fu">basename</span> <span class="va">$oldname</span> sam<span class="va">)</span>bam</span>
+<span id="cb7-5"><a href="#cb7-5"></a>   <span class="bu">echo</span> <span class="st">&quot;Old name: </span><span class="va">${oldname}</span><span class="st">&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>   <span class="bu">echo</span> -e <span class="st">&quot;New name: </span><span class="va">${newname}</span><span class="st"> \n&quot;</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>   <span class="fu">mv</span> <span class="va">${oldname}</span> <span class="va">${newname}</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="kw">done</span></span></code></pre></div>
+<ol start="7" type="1">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">mkdir</span> subset</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">cp</span> sample[0-2][0-9]_[A-D]* subset/</span>
+<span id="cb8-3"><a href="#cb8-3"></a></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="bu">echo</span> <span class="st">&quot;On </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">, created a dir &quot;</span>subset<span class="st">&quot; and copied only files for samples 1-29 \</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="st">and treatments A-D into this dir&quot;</span> <span class="op">&gt;</span> subset/README.md</span></code></pre></div>
+<ol start="8" type="1">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">mkdir</span> subset2</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">cp</span> sample04[^8]* sample?[^4]* subset2/</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="fu">cp</span> sample<span class="dt">{001..047}</span>* sample<span class="dt">{049..100}</span>* subset2/</span></code></pre></div>
+<ol start="10" type="1">
+<li></li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">for</span> <span class="ex">oldname</span> in sample01*.bam</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">do</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>   <span class="va">month=$(</span><span class="bu">echo</span> <span class="va">${oldname}</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 1<span class="va">)</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>   <span class="va">day=$(</span><span class="bu">echo</span> <span class="va">${oldname}</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 2<span class="va">)</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>   <span class="va">year=$(</span><span class="fu">basename</span> <span class="va">${oldname}</span> .bam <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 3<span class="va">)</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>   <span class="va">prefix=$(</span><span class="bu">echo</span> <span class="va">${oldname}</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 1-2<span class="va">)</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a>   <span class="va">newname=${prefix}</span>_<span class="va">${year}</span>-<span class="va">${month}</span>-<span class="va">${day}</span>.bam</span>
+<span id="cb10-8"><a href="#cb10-8"></a>   <span class="bu">echo</span> <span class="st">&quot;Old name: </span><span class="va">${oldname}</span><span class="st">&quot;</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a>   <span class="bu">echo</span> -e <span class="st">&quot;New name: </span><span class="va">${newname}</span><span class="st"> \n&quot;</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a>   <span class="fu">mv</span> <span class="va">${oldname}</span> <span class="va">${newname}</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="kw">done</span></span></code></pre></div>
+<p>Note: this can be done more succinctly using <em>regular expression</em> and the <code>sed</code> command, both of which we’ll learn about later in the course.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

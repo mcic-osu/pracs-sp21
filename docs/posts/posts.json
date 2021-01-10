@@ -1,5 +1,17 @@
 [
   {
+    "path": "posts/week-02/",
+    "title": "Week 02",
+    "description": "Git & Github",
+    "author": [],
+    "date": "2021-01-18",
+    "categories": [],
+    "contents": "\nPart I - Some Best Practices for Project Organization – Tuesday Zoom (Jan 19) – Slides: …\nPart II - Managing Files in the Shell – Tue/Thu – Slides: …\nPart III - Markdown and VS Code – Thursday Zoom (Jan 21) – Slides: …\nExercises\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-01-10T16:13:36-05:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/week-01/",
     "title": "Week 01",
     "description": "Course Intro & Shell Basics",

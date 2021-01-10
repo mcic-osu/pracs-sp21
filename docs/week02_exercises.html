@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="https://mcic-osu.github.io/pracs-sp21/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -86,27 +85,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: </title>
+  <title>pracs-sp21: Week 2 Exercises</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: "/>
+  <meta property="og:title" content="pracs-sp21: Week 2 Exercises"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: "/>
+  <meta property="twitter:title" content="pracs-sp21: Week 2 Exercises"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":[""]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 2 Exercises"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2316,12 +2315,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"","authors":[]}
+{"title":"Week 2 Exercises","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2359,180 +2358,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).load(function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash && window.location.hash.startsWith("#category:")) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace(/^#category:/, "");
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
-
-      // update the list_caption
-      var list_caption = $('.posts-list-caption');
-      var caption = (page_category || '').toLowerCase() === "articles"
-        ? list_caption.attr('data-caption')
-        : ('Category: ' + page_category.replace(/_/g," "));
-      list_caption.text(caption);
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-      // reset list caption
-      var list_caption = $('.posts-list-caption');
-      list_caption.text(list_caption.attr('data-caption'));
-
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // click handling for tags
-  $('.dt-tag').click(function(ev) {
-    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
-    return false;
-  })
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-apply-limit l-page">
-<div class="posts-list">
-<h1 class="posts-list-caption" data-caption=""></h1>
-<a href="posts/week-02/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 18, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Week 02</h2>
-<div class="dt-tags"></div>
-<p>Git &amp; Github</p>
-</div>
-</a>
-<a href="posts/week-01/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 10, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Week 01</h2>
-<div class="dt-tags"></div>
-<p>Course Intro &amp; Shell Basics</p>
-</div>
-</a>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>index.utf8</h1>
+<h1>Week 2 Exercises</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2540,11 +2368,64 @@ function init_posts_list() {
 
 
 <div class="d-article">
-<p><br> <br></p>
-<h2 align="center" style="font-size:30px">
-Practical Computing Skills for Biologists <br> <span style="color:#969696"> Spring 2021 <br> </span> <span style="color:#bb0000; font-size:20px">A section of Current Topics in Plant Pathology (PLNTPTH 8300)</span>
-</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="exercise-1-course-notes-in-markdown">Exercise 1: Course notes in Markdown</h2>
+<p>Create a Markdown document with course notes. I recommend writing this in VS Code.</p>
+<ul>
+<li><p>Cover this week’s material in some detail – if you made notes for last week in another format, copy/digitize those too. (And try to keep using this document throughout the course!)</p></li>
+<li><p>Use several header levels and use them consistently: e.g. a level 1 header (<code>#</code>) for the document’s title, level 2 headers (<code>##</code>) for each week, and so on.</p></li>
+<li><p>Though it should foremost be a <em>functional</em> document for notes, try to incorporate any appropriate formatting option: e.g. <strong>bold text</strong>, <em>italic text</em>, <code>inline code</code>, code blocks, ordered/unordered lists, hyperlinks, and perhaps a figure.</p></li>
+<li><p>You may even want to try your hand at a <em>table</em> in Markdown (e.g. for an overview of certain commands), though admittedly, the syntax for a table is not particularly graceful or easy to use.</p></li>
+<li><p>Make sure you know how to start a new paragraph and how to force a newline.</p></li>
+</ul>
+<p><br></p>
+<h2 id="exercise-2">Exercise 2</h2>
+<p><em>While doing this exercise, save the commands you use in a text document – either write in a text document in VS Code and send the commands to the terminal, or copy them into a text document later.</em></p>
+<ol type="1">
+<li><p>Create a directory for this exercise, and change your working dir to go there. You can do this either in your <code>$HOME</code> dir (e.g. <code>~/pracs-sp21/w02/ex2/</code>) or your dir in the project dir (<code>/fs/ess/PAS1855/users/$USER/w02/ex2/</code>).</p></li>
+<li><p>Using the <code>touch</code> command and brace expansion, create 100s of empty files, either in a <em>single directory</em> or a <em>disorganized</em> dir structure. If you want, you can create file types according to what you typically have in your project – otherwise, create files with:</p></li>
+</ol>
+<ul>
+<li>Raw data (e.g. <code>.fastq.gz</code>)</li>
+<li>Reference data (e.g. <code>.fasta</code>),</li>
+<li>Metadata (e.g. <code>.txt</code> or <code>.csv</code>)</li>
+<li>Processed data and results (e.g. <code>.bam</code>, <code>.out</code>)</li>
+<li>Scripts (e.g. <code>.sh</code>, <code>.py</code> or <code>.R</code>)</li>
+<li>Figures (e.g. <code>.png</code> or <code>.eps</code>)</li>
+<li>Notes (<code>.txt</code> and/or <code>.md</code>)</li>
+<li>Perhaps some other file type you usually have in your projects.</li>
+</ul>
+<ol start="3" type="1">
+<li><p>Organize the project according to some of the principles we discussed this week. As we saw, there is no single perfect dir structure, this will vary according to what works for you and also depends on the project size and structure. Therefore, think about what makes sense to you, and what makes in light of the files you find yourself with.</p>
+<p>Try to use as few commands as possible to move the files – use wildcards!</p></li>
+<li><p>Change permissions to what you think is reasonable; but certainly, make sure no-one (not even you) has write permissions for the raw data.</p></li>
+<li><p>Create a directory <code>alignment</code> inside an appropriate dir in your project (e.g. <code>analysis</code>, <code>results</code>, or a dir for <em>processed</em> data), and create files for 99 samples (01-99) and 8 treatments (A-H): <code>sample01_A.sam</code> - <code>sample99_H.sam</code>. This can be done with a single <code>touch</code> command.</p></li>
+<li><p>Create a new dir <code>subset</code> and copy the files for samples 1-40 and treatments A-D into this dir, using a single <code>mv</code> command. Create a <code>README.md</code> in the dir that explains what you did. <em>Hint: you can use two consecutive character sets.</em></p></li>
+<li><p><strong>Bonus: a trickier wildcard selection.</strong> Create a new dir <code>subset2</code> and copy all files <em>except the two for “<code>sample48</code>”</em> into this dir, using a single <code>mv</code> command.</p></li>
+<li><p>Woops! We stored our alignment files, created in <em>5.</em>, as SAM files (<code>.sam</code>), but this was an error – the files are actually the binary counterparts of SAM files: BAM files (<code>.bam</code>).</p>
+<p>Use a <code>for</code> loop to rename the files: change the extension from <code>.sam</code> to <code>.bam</code>. This can be most easily done with the <code>basename</code> command.</p></li>
+<li><p><strong>Bonus: a trickier renaming loop.</strong></p></li>
+<li><p>Include a <code>README.md</code> that described what you did; again, try to get familiar with Markdown syntax by using formatting liberally.</p></li>
+</ol>
+<h2 id="exercise-3-optional">Exercise 3 (Optional)</h2>
+<ol type="1">
+<li><strong>Bonus:</strong> If you feel like it would be good to reorganize one of your own projects, you can do so using what you’ve learned this week. But make sure you create backup copy first!</li>
+</ol>
+<h2 id="solutions">Solutions</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="bu">echo</span> F3D141_S207_L001_R1_001.fq <span class="kw">|</span> <span class="fu">cut</span> -d_ -f1-4</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">for</span> <span class="ex">i</span> in *.fq</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">do</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>   <span class="va">newname=$(</span><span class="bu">echo</span> <span class="va">$i</span> <span class="kw">|</span> <span class="fu">cut</span> -d_ -f1-4<span class="va">)</span>.fq</span>
+<span id="cb1-5"><a href="#cb1-5"></a>   <span class="fu">mv</span> <span class="va">$i</span> <span class="va">$newname</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">done</span></span></code></pre></div>
+</div>
+<ol start="4" type="1">
+<li><strong>Bonus:</strong> Copy all files <em>except the two for “<code>sample48</code>”</em> into a new directory called <code>selection</code> — use a wildcard to do the move with a single command.</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">mkdir</span> selection</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">mv</span> sample04[^8]* sample?[^4]* selection/</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">mv</span> sample<span class="dt">{001..047}</span>* sample<span class="dt">{049..100}</span>* selection/</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">```</span>{<span class="ex">.r</span> .distill-force-highlighting-css}</span></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
