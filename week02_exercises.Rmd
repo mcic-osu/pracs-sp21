@@ -1,0 +1,122 @@
+---
+title: "Week 2 Exercises"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+## Exercise 1: Course notes in Markdown
+
+Create a Markdown document with course notes. I recommend writing this in VS Code.
+
+- Cover this week's material in some detail -- if you made notes for last week
+  in another format, copy/digitize those too.
+  (And try to keep using this document throughout the course!)
+
+- Use several header levels and use them consistently: e.g. a level 1 header (`#`)
+  for the document's title, level 2 headers (`##`) for each week, and so on.
+
+- Though it should foremost be a *functional* document for notes,
+  try to incorporate any appropriate formatting option:
+  e.g. **bold text**, *italic text*, `inline code`, code blocks,
+  ordered/unordered lists, hyperlinks, and perhaps a figure.
+
+- You may even want to try your hand at a *table* in Markdown
+  (e.g. for an overview of certain commands), though admittedly,
+  the syntax for a table is not particularly graceful or easy to use.
+  
+- Make sure you know how to start a new paragraph and how to force a newline.
+
+<br>
+
+## Exercise 2
+
+*While doing this exercise, save the commands you use in a text document --
+either write in a text document in VS Code and send the commands to the
+terminal, or copy them into a text document later.*
+
+1. Create a directory for this exercise, and change your working dir to
+   go there.
+   You can do this either in your `$HOME` dir (e.g. `~/pracs-sp21/w02/ex2/`)
+   or your dir in the project dir (`/fs/ess/PAS1855/users/$USER/w02/ex2/`).
+
+
+2. Using the `touch` command and brace expansion, create 100s of empty files,
+   either in a *single directory* or a *disorganized* dir structure.
+   If you want, you can create file types according to what you typically have
+   in your project -- otherwise, create files with:
+  - Raw data (e.g. `.fastq.gz`)
+  - Reference data (e.g. `.fasta`),
+  - Metadata (e.g. `.txt` or `.csv`)
+  - Processed data and results (e.g. `.bam`, `.out`)
+  - Scripts (e.g. `.sh`, `.py` or `.R`)
+  - Figures (e.g. `.png` or `.eps`)
+  - Notes (`.txt` and/or `.md`)
+  - Perhaps some other file type you usually have in your projects.
+
+3. Organize the project according to some of the principles we discussed this
+   week. As we saw, there is no single perfect dir structure, this will vary
+   according to what works for you and also depends on the project size and
+   structure. Therefore, think about what makes sense to you, and what makes
+   in light of the files you find yourself with.
+   
+   Try to use as few commands as possible to move the files -- use wildcards!
+
+4. Change permissions to what you think is reasonable; but certainly,
+   make sure no-one (not even you) has write permissions for the raw data.
+
+5. Create a directory `alignment` inside an appropriate dir in your project
+   (e.g. `analysis`, `results`, or a dir for *processed* data),
+   and create files for 99 samples (01-99) and 8 treatments (A-H):
+   `sample01_A.sam` - `sample99_H.sam`.
+   This can be done with a single `touch` command.
+
+6. Create a new dir `subset` and copy the files for samples 1-40 and
+   treatments A-D into this dir, using a single `mv` command.
+   Create a `README.md` in the dir that explains what you did.
+   *Hint: you can use two consecutive character sets.*
+   
+7. **Bonus: a trickier wildcard selection.**
+   Create a new dir `subset2` and copy all files
+   *except the two for "`sample48`"* into this dir,
+   using a single `mv` command.
+
+8. Woops! We stored our alignment files, created in *5.*, as SAM files (`.sam`),
+   but this was an error -- the files are actually the binary counterparts
+   of SAM files: BAM files (`.bam`).
+   
+   Use a `for` loop to rename the files:
+   change the extension from `.sam` to `.bam`.
+   This can be most easily done with the `basename` command.
+
+9. **Bonus: a trickier renaming loop.**
+
+10. Include a `README.md` that described what you did; again, try to get familiar
+    with Markdown syntax by using formatting liberally.
+
+
+## Exercise 3 (Optional)
+
+1. **Bonus:** If you feel like it would be good to reorganize one of your own
+  projects, you can do so using what you've learned this week.
+  But make sure you create backup copy first! 
+
+
+## Solutions
+
+```sh
+echo F3D141_S207_L001_R1_001.fq | cut -d_ -f1-4
+for i in *.fq
+do
+   newname=$(echo $i | cut -d_ -f1-4).fq
+   mv $i $newname
+done
+```
+
+4. **Bonus:** Copy all files *except the two for "`sample48`"* into a new directory
+  called `selection` &mdash; use a wildcard to do the move with a single command.
+  ```sh
+  mkdir selection
+  mv sample04[^8]* sample?[^4]* selection/
+  mv sample{001..047}* sample{049..100}* selection/

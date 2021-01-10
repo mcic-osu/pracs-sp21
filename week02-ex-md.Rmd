@@ -1,8 +1,0 @@
----
-title: "Week 1 Exercises: Shell Basics"
-output:
-  distill::distill_article:
-    self_contained: false
----
-
-...
