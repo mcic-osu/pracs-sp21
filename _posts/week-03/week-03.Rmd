@@ -1,0 +1,21 @@
+---
+title: "Week 03"
+description: |
+  Git & Github
+date: 2021-01-25
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+- Tuesday Zoom (Jan 26) -- [Slides: ...](slides/03-1-git.html)
+
+- Thursday Zoom (Jan 28) -- [Slides: ...](slides/03-2-git.html)
+
+- Ungraded Assigment: [Set up Git & Github](../../week03_UA_git-setup.html)
+
+- Graded Assignment
