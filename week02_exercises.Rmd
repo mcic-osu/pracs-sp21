@@ -45,52 +45,63 @@ terminal, or copy them into a text document later.*
 2. Using the `touch` command and brace expansion, create 100s of empty files,
    either in a *single directory* or a *disorganized* dir structure.
    If you want, you can create file types according to what you typically have
-   in your project -- otherwise, create files with:
-  - Raw data (e.g. `.fastq.gz`)
-  - Reference data (e.g. `.fasta`),
-  - Metadata (e.g. `.txt` or `.csv`)
-  - Processed data and results (e.g. `.bam`, `.out`)
-  - Scripts (e.g. `.sh`, `.py` or `.R`)
-  - Figures (e.g. `.png` or `.eps`)
-  - Notes (`.txt` and/or `.md`)
-  - Perhaps some other file type you usually have in your projects.
+   in your project &mdash; otherwise, create files with:
+     - Raw data (e.g. `.fastq.gz`)
+     - Reference data (e.g. `.fasta`),
+     - Metadata (e.g. `.txt` or `.csv`)
+     - Processed data and results (e.g. `.bam`, `.out`)
+     - Scripts (e.g. `.sh`, `.py` or `.R`)
+     - Figures (e.g. `.png` or `.eps`)
+     - Notes (`.txt` and/or `.md`)
+     - Perhaps some other file type you usually have in your projects.
 
 3. Organize the project according to some of the principles we discussed this
-   week. As we saw, there is no single perfect dir structure, this will vary
-   according to what works for you and also depends on the project size and
-   structure. Therefore, think about what makes sense to you, and what makes
-   in light of the files you find yourself with.
+   week. As we saw, there is no single perfect dir structure: what is optimal
+   will depend on what works for you and on the project size and structure.
+   Therefore, think about what makes sense to you, and what makes sense
+   given the files you find yourself with.
    
    Try to use as few commands as possible to move the files -- use wildcards!
 
-4. Change permissions to what you think is reasonable; but certainly,
-   make sure no-one (not even you) has write permissions for the raw data.
+4. Change permissions to what you think is reasonable; but in any case,
+   make sure no-one has write permissions for the raw data.
 
 5. Create a directory `alignment` inside an appropriate dir in your project
    (e.g. `analysis`, `results`, or a dir for *processed* data),
-   and create files for 99 samples (01-99) and 8 treatments (A-H):
-   `sample01_A.sam` - `sample99_H.sam`.
-   This can be done with a single `touch` command.
+   and create files for all combinations of 50 samples (`01`-`50`),
+   8 treatments (`A`-`H`), and 2 dates (`08-14-2020` and `09-16-2020`):
+   `sample01_A_08-14-2020.sam` - `sample50_H_09-16-2020.sam`.
+   These 800 files can be created with a single `touch` command.
 
-6. Create a new dir `subset` and copy the files for samples 1-40 and
-   treatments A-D into this dir, using a single `mv` command.
+6. Woops! We stored the alignment files we created in the previous step
+   as SAM files (`.sam`), but this was an error --
+   the files are actually the binary counterparts of SAM files:
+   BAM files (`.bam`).
+   
+   Move in the dir with your SAM files, and use a `for` loop to rename the files:
+   change the extension from `.sam` to `.bam`.
+   *Hint: This can be most easily done with the `basename` command.*
+   
+7. Still in the dir with your SAM files, create a new dir `subset`.
+   Then, using a single `cp` command,
+   copy files for samples 1-29 and treatments A-D into this dir
+   (that is: *excluding* any sample number >29 and treatment E-H).
    Create a `README.md` in the dir that explains what you did.
    *Hint: you can use two consecutive character sets.*
    
-7. **Bonus: a trickier wildcard selection.**
-   Create a new dir `subset2` and copy all files
-   *except the two for "`sample48`"* into this dir,
-   using a single `mv` command.
-
-8. Woops! We stored our alignment files, created in *5.*, as SAM files (`.sam`),
-   but this was an error -- the files are actually the binary counterparts
-   of SAM files: BAM files (`.bam`).
+8. **Bonus: a trickier wildcard selection.**  
+   Still in the dir with your SAM files, create a new dir `subset2`.
+   Then, copy all files *except the two for "`sample48`"* into this dir.
+   Do so using a single `cp` command, though with two separate wildcard
+   expansion arguments:
+   `cp wildcard-selection1 wildcard-selection2 destination`.
    
-   Use a `for` loop to rename the files:
-   change the extension from `.sam` to `.bam`.
-   This can be most easily done with the `basename` command.
-
-9. **Bonus: a trickier renaming loop.**
+9. **Bonus: a trickier renaming loop.**  
+   You now realize that your date format is suboptimal (`MM-DD-YYYY` to give
+   `08-14-2020` and `09-16-2020`) and that you should use the `YYYY-MM-DD` format.
+   Use a `for` loop to rename the files.
+   *Hint: test your commands by echo-ing and processing a single file name as*
+   *an example.*
 
 10. Include a `README.md` that described what you did; again, try to get familiar
     with Markdown syntax by using formatting liberally.
@@ -98,25 +109,119 @@ terminal, or copy them into a text document later.*
 
 ## Exercise 3 (Optional)
 
-1. **Bonus:** If you feel like it would be good to reorganize one of your own
-  projects, you can do so using what you've learned this week.
-  But make sure you create backup copy first! 
+1. If you feel like it would be good to reorganize one of your own
+   projects, you can do so using what you've learned this week.
+   But make sure you create a backup copy of the entire project first!
 
 
 ## Solutions
 
+1.
+
 ```sh
-echo F3D141_S207_L001_R1_001.fq | cut -d_ -f1-4
-for i in *.fq
+mkdir ~/pracs-sp21/w02/ex2/ # or similar, whatever dir you chose
+```
+
+2.
+
+An example:
+
+```sh
+touch sample{001..150}_{F,R}.fastq.gz
+touch ref.fasta ref.fai
+touch sample_info.csv sequence_barcodes.txt
+touch sample{001..150}.{bam,bai,_fastqc.zip,_fastqc.html}.bam.bai gene-counts.tsv DE-results.txt enrichment.txt
+touch fastqc.sh multiqc.sh align.sh sort_bam.sh count1.py count2.py DE.R GO.R KEGG.R
+touch Fig{1..5}.png all_qc_plots.eps weird-sample.png
+touch dontforget.txt README.md README_DE.md README_aligh.md tmp5.txt
+touch slurm-84789570.out slurm-84789571.out slurm-84789572.out
+```
+
+3.
+
+An example:
+
+Create directories:
+```sh
+mkdir -p data/{raw,meta,ref}
+mkdir results/{align,count,DE,enrichment,logfiles}
+mkdir -p scripts/{qc,align,count,DE,enrichment}
+mkdir -p figures/{ms,sandbox}
+mkdir -p doc/
+```
+
+Move files:
+```sh
+...
+```
+
+4.
+
+```sh
+chmod a=r data/raw/*
+```
+
+5.
+
+```sh
+$ mkdir -p results/alignment
+$ # rm results/alignment/* # In the example above, we already had such a dir with files
+
+# Create the files:
+$ touch sample{01..50}_{A..H}_{08-14-2020,09-16-2020}.sam
+
+# Check if we have 800 files:
+$ ls | wc -l
+# 800
+```
+
+6.
+
+```sh
+cd results/alignment
+for oldname in *.sam
 do
-   newname=$(echo $i | cut -d_ -f1-4).fq
-   mv $i $newname
+   newname=$(basename $oldname sam)bam
+   echo "Old name: ${oldname}"
+   echo -e "New name: ${newname} \n"
+   mv ${oldname} ${newname}
 done
 ```
 
-4. **Bonus:** Copy all files *except the two for "`sample48`"* into a new directory
-  called `selection` &mdash; use a wildcard to do the move with a single command.
-  ```sh
-  mkdir selection
-  mv sample04[^8]* sample?[^4]* selection/
-  mv sample{001..047}* sample{049..100}* selection/
+7.
+
+```sh
+mkdir subset
+cp sample[0-2][0-9]_[A-D]* subset/
+
+echo "On $(date), created a dir "subset" and copied only files for samples 1-29 \
+and treatments A-D into this dir" > subset/README.md
+```
+
+8.
+
+```sh
+mkdir subset2
+cp sample04[^8]* sample?[^4]* subset2/
+cp sample{001..047}* sample{049..100}* subset2/
+```
+
+10.
+
+```sh
+for oldname in sample01*.bam
+do
+   month=$(echo ${oldname} | cut -d "_" -f 3 | cut -d "-" -f 1)
+   day=$(echo ${oldname} | cut -d "_" -f 3 | cut -d "-" -f 2)
+   year=$(basename ${oldname} .bam | cut -d "_" -f 3 | cut -d "-" -f 3)
+   prefix=$(echo ${oldname} | cut -d "_" -f 1-2)
+   newname=${prefix}_${year}-${month}-${day}.bam
+   echo "Old name: ${oldname}"
+   echo -e "New name: ${newname} \n"
+   mv ${oldname} ${newname}
+done
+```
+
+Note: this can be done more succinctly using *regular expression* and the `sed`
+command, both of which we'll learn about later in the course.
+
