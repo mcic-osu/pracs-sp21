@@ -1,0 +1,583 @@
+---
+title: "Week 1 - Lecture 1 - Course Intro"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## *Week 1*
+----
+# Course Intro & Overview
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/01/12 (updated: `r Sys.Date()`)
+
+---
+
+## Today's objectives
+
+<br>
+.large[
+- Get to know each other 
+
+<br>
+
+- Get an overview of what we will cover in this course
+
+<br>
+
+- Get an overview of the course infrastructure
+]
+
+--
+
+.large[
+<br>
+- *May start with the Unix shell if time allows*
+]
+
+---
+class:inverse middle center
+
+# Overview
+
+----
+
+.pull-left[
+### [Zoom practicalities](#zoom)
+### [Introductions](#pers-intro)
+### [Course overview](#overview)
+### [Course topics](#topics)
+]
+
+.pull-right[
+### [Course infrastructure](#infrastructure)
+### [Homework](#homework)
+### [This week](#this-week)
+]
+
+---
+name: zoom
+
+## Zoom practicalities
+
+- Be muted by default, but feel free to unmute yourself to ask questions.
+
+- Questions can also be asked in chat.
+
+- *[Show other Zoom icons.]*
+
+--
+
+<br>
+
+- Having your camera turned on as much as possible is appreciated!
+
+--
+
+<br>
+
+- "Screen real estate" &mdash; large/multiple monitors or multiple devices best.
+  
+- Be ready to share your screen.
+
+
+
+---
+class: inverse middle center
+name: pers-intro
+
+# Introductions
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Introductions: Jelmer
+
+.pull-left[
+- Bioinformatician at MCIC in Wooster since June 2020
+
+- Background in evolutionary genomics:
+  
+  - *PhD*: speciation genomics in crows, Uppsala, Sweden.
+  
+  - *Postdocs*: UNC Chapel Hill (cichlids) and Duke (mouse lemurs).
+
+- In my free time, I watch birds.
+]
+
+.pull-right[
+<p align = "center">
+<img src=img/w01/jelmer.jpg width="130%">
+</p>
+]
+
+---
+
+## Introductions: Zach (TA)
+
+.pull-left[
+- Born and raised in pacific northwest rainforests.
+
+- Earned a *BS* studying biology and fungal antimicrobials at Oregon
+  State University.
+
+- *PhD*: exploring how horizontal gene flow affects genome organization and
+  charting the evolution and products of psilocybin genes and gene homologs.
+  
+- *At home*: gardening, developing software, cooking, and playing instruments.
+]
+
+.pull-right[
+<p align = "center">
+<img src=img/w01/zach_inthefield.png width="100%">
+</p>
+]
+
+---
+
+## Introductions: You!
+
+- Name
+
+- Lab and Department
+
+- Research interests and/or current topics
+
+- Something about you that is not work-related
+
+---
+class: inverse middle center
+name: overview
+
+# Course Overview
+
+----
+<br><br><br>
+
+---
+class: inverse middle center
+
+## The core goal of this course:
+
+----
+<br><br>
+
+# Learning skills to do your research <br> more reproducibly and efficiently
+
+<br> <br> <br> <br>
+
+---
+
+## Course background: Reproducibility
+
+<br>
+
+- Two related ideas:
+  
+  1. Getting same results with an independent experiment (*replicable*)
+  
+  2. Getting same results given the same data (*reproducible*)
+
+  Our focus is on #2.
+
+---
+
+## Course background: Reproducibility (cont.)
+
+<br>
+
+.large[
+> *"The most basic principle for reproducible research is: <br>Do everything via code."*
+]
+
+--
+
+<br>
+
+- Also important:
+
+  - Organization and documentation (*week 2*)
+  
+  - Sharing data and code (*Github for code, week 3*)
+  
+  - How you code (*especially week 10 - Python, and 13 - Snakemake*)
+
+--
+
+<br>
+
+- Another motivator: working reproducibly will benefit future you!
+
+> *"Your closest collaborator is you six months ago, but you don’t reply to
+> emails.”*   
+
+---
+
+## Course background: Efficiency and automation
+
+<br>
+
+- Using code enables you to work efficiently and largely automatically &mdash;
+  particularly useful when having to:
+  
+  - Do repetitive tasks
+  
+  - Recreate a figure or redo an analysis after adding a sample
+  
+  - Redo everything after uncovering a mistake in the first data processing
+   step.
+
+---
+class: inverse middle center
+name: topics
+
+# Course topics
+
+----
+<br>
+
+.left[
+### I: [The Unix shell & shell scripts](#shell)
+### II: [Project organization and Markdown](#proj-org)
+### III: [Version control](#git)
+### IV: [Python](#python)
+### V: [Automated workflow management](#snakemake)
+]
+
+---
+name: shell
+
+## Course topics I: <br> The Unix shell & shell scripts (Wk 1 & 4-6)
+
+*Being able to work in the shell is a fundamental skill in
+computational biology.*
+
+<br>
+
+- Week 1 (, 2), 4 and 5: Basics of working in the Unix shell.
+
+- Week 6: Shell *scripting*.
+
+- Week 7: Submitting shell scripts at OSC using *SLURM* directives.
+
+---
+name: proj-org
+
+## Course topics II: <br> Project organization and Markdown (Wk 2)
+
+*Good project organization and documentation is a necessary starting point
+for reproducible research.*
+
+<br>
+
+- Best practices for project organization, file naming, etc.,  
+  and how to use the Unix shell for this.
+
+- To document and report what we are doing: *Markdown*.
+
+---
+name: git
+
+## Course topics III: <br>Version control with Git and Github (Wk 3)
+
+<br>
+
+*Using version control, you can more effectively keep track of project
+progress, collaborate, experiment, revisit earlier versions, and undo.*
+
+<br>
+
+- *Git* is the version control software we will use,  
+  and *Github* is the website that hosts Git projects.
+
+---
+name: python
+
+## Course topics IV: <br> Python (Wk 8-12)
+
+<br>
+
+*For data processing beyond what is best done in the shell, we need to use
+a scripting language.*
+
+<br>
+
+- We'll use **Python**, which is very versatile and has a clear, human-readable
+  syntax, making it relatively easy to learn.
+
+--
+
+<br>
+
+.content-box-info[
+- While Python will be the main programming language for the course,
+  be warned: we will only be able to scratch the surface.
+  
+- We'll also emphasize general programming concepts and best practices
+  in the Python part.
+]
+
+---
+name: snakemake
+
+## Course topics V: <br> Automated workflow management (Wk 13)
+
+<br>
+
+*To be able to run an entire analysis pipeline with a single command,   
+  and easily change and rerun parts of it, we need a workflow manager.*
+
+<br>
+
+- We'll use **_Snakemake_**, which uses Python syntax.
+
+- With limited extra effort, this allows us to make big gains!
+
+---
+
+## Course topics & general expectations
+
+<br>
+
+- We will cover a pretty broad array of topics,
+  so you should see this as an *Introduction* to most of these topics.
+
+<br>
+
+- To get the most out of this course...
+
+  - Read the readings and do the exercises.
+  
+  - Keep practicing and applying after the course!
+
+
+---
+class: inverse middle center
+name: infrastructure
+
+# Course infrastructure
+
+----
+<br>
+
+.pull-left[
+### [CarmenCanvas website](#canvas)
+### [Github website](#git-site)
+### [MS Teams](#teams)
+]
+
+.pull-right[
+### [OSC](#osc)
+### [Github](#github)
+]
+
+---
+name: canvas
+
+## Course Infrastructure: CarmenCanvas website
+
+.center[
+### https://osu.instructure.com/courses/94975
+]
+
+<br>
+
+- **Announcements**: Primary mode of communication (notifications!)
+  
+- **Assignments**: Everything you should do has been made a type of "assignment"
+  on CarmenCanvas.
+
+- **Calendar**: Overview of all to-do's + sign up for office hours (**_show?_**).
+
+---
+name: git-site
+
+## Course infrastructure: Github website
+
+.center[
+### https://mcic-osu.github.io/pracs-sp21/
+]
+
+<br>
+
+- **Slide decks**
+
+- Most of the *exercises* and *assignments*  
+  (but always linked from the CarmenCanvas site).
+
+---
+name: teams
+
+## Course infrastructure: MS Teams
+
+<br>
+
+*Optional*, for any course-related:
+
+- Q&A 
+
+- Chat, sharing of tips & tricks and resources, etc.
+
+---
+name: osc
+
+## Course infrastructure: <br>Ohio Supercomputer Center (OSC)
+
+<br>
+
+- **All of our work can be done at OSC, in a browser (!)**
+
+  - Including *VS Code* (our text editor) and *Jupyter Notebooks* (Python)
+
+  - Avoids local installs, different behavior for different OS's, etc.
+
+<br>
+
+--
+
+.content-box-diy[
+For *local installation*, see the optional assignment for this week.
+]
+
+---
+name: github
+
+## Course infrastructure: Github
+
+<br>
+
+- You'll be submitting your **assignments** through Github.
+
+- This will double as practice with version control and sharing of scripts.
+
+---
+class: inverse center middle
+name: homework
+
+# Homework
+
+----
+<br>
+
+.left[
+### [Graded assignments](#graded)
+### [Final project](#project)
+### [Ungraded "assignments"](#ungraded)
+]
+
+---
+name: graded
+
+## Homework: Graded assignments and final project
+
+**Graded assignments** &ndash; three total for 10 points each, due on Tuesdays:
+  
+- I: Due in Week 4 (*Git and Markdown*)
+  
+- II: Due in Week 7 (*Shell scripting*)
+  
+- III: Due in Week 9/10 (*Python*)
+
+--
+
+<br>
+
+**Final project** &ndash; Plan and implement a small computational project:
+
+  - I: *Proposal* (due week 11, 10 points)
+  
+  - II: *Draft* (due week 13, 10 points)
+  
+  - III: Lightning *presentations* on Zoom (week 15, 10 points)
+  
+  - IV: *Final submission* (due April 23, 20 points)
+
+
+--
+
+.content-box-info[
+The final 20% of grade comes from in-class questions.
+]
+
+---
+name: ungraded
+
+## Homework: Ungraded "assignments"
+
+<br>
+
+- **Readings**, **Surveys**, **Setup** (installation etc.)
+
+- **Exercises**
+
+  - Set of exercises for most weeks.
+  
+  - You don't need to hand them in,  
+    but we may talk about them in class on Tuesday's.
+
+--
+ 
+  .content-box-diy[
+  Zach is available for an *optional* group session to go through
+  each week's exercises or assignment:  
+  If you're interested Fill out
+  [this Doodle poll](https://doodle.com/poll/6yh5sayqrahgykak)
+  to set a time.
+  ]
+
+---
+class: inverse middle center
+name: this-week
+
+# This week
+
+----
+
+<br><br><br>
+
+# Thoughts on CSB Chapter 0?
+
+---
+
+## Rest of the week
+
+<br>
+
+- **Thursday's Zoom**: code-along of CSB Chapter 1
+
+<br>
+
+- **Homework**:
+  
+  - Readings: CSB Chapter 1
+  
+  - Exercises: CSB Chapter 1
+
+  - Optional: Local software installation
+  
+---
+class: inverse middle center
+
+# Questions?
+
+----
+<br> <br> <br> <br>
