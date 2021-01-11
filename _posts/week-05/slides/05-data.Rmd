@@ -1,0 +1,172 @@
+---
+title: "Week 5: <br> Obtaining and Managing Data <br><br>"
+author: "Jelmer Poelstra"
+date: "2021/02/11 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts",  "/slides.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+
+---
+
+```sh
+n_seqs=$(expr $(cat sample1_F.fastq.gz | wc -l) / 4)
+echo $n_seqs
+```
+
+.content-box-info[
+#### Arithmetic in bash
+```sh
+$ expr 10 - 6
+$ expr 10 + 6
+$ expr 10 / 6   # !!
+$ expr 10 \* 6  # Why do we need the backslash?
+```
+]
+
+---
+
+---
+
+## Side note: Subsetting data for analysis test runs
+
+Using a very similar syntax, we could subsample all fastq files to include
+only the first 100 reads (= 400 lines):
+
+```sh
+for fq_file in *.fq
+do
+   head -400 $fq_file > subset/$fq_file
+done
+```
+
+<br>
+
+When you're working with lots of data, testing analyses on subsets is generally
+a good idea!
+
+
+---
+class: inverse middle center
+
+# Bonus Materials (Buffalo Chapter 6)
+
+----
+
+<br> <br> <br> <br>
+
+---
+background-color: #ededed
+
+## Bonus: Downloading data in the shell
+
+- `wget` and `curl` to download files using a URL
+
+- **TODO**: `wget` example off Github?
+
+- We'll talk about remote transfer (`scp`, `rsync`, `ftp`) in our OSC module
+  (Week 6).
+
+---
+background-color: #ededed
+
+## Bonus: Check Data Integrity Using Checksums
+
+- *Checksums* are like barcodes for the contents of a file,
+  and are useful to programmatically detect incomplete (or wrong!) files.
+
+- When downloading or copying data, compare checksums:
+
+  ```sh
+  shasum *md > shasums.txt
+  shasum -c shasums.txt
+  # pracs-infra.md: OK
+  # pracs.md: OK
+  ```
+
+- Change one thing:
+
+  ```sh
+  shasum -c shasums.txt
+  # pracs.md: FAILED
+  # shasum: WARNING: 1 computed checksum did NOT match
+  ```
+
+- Store checksums for your for important raw data along with the data:
+
+  ```sh
+  shasum *fastq > CHECKSUMS.txt
+  ```
+
+
+---
+background-color: #ededed
+
+## Bonus: Look at File Differences with `diff`
+
+- **TODO** -- Use same file as above to compare with diff
+
+```sh
+cd bds-files/chapter-06-bioinformatics-data
+
+diff --color -u gene-1.bed gene-2.bed  # "Unified" diff 
+
+diff --color -y gene-1.bed gene-2.bed  # Side-by-side diff
+```
+
+- We'll see more diff's in the Git module next week!
+
+---
+background-color: #ededed
+
+## Bonus: Compressed Data
+
+- `gzip` is widely used to compress files, including in bioinformatics:
+
+  ```sh
+  gzip sample1.fastq
+  gzip -c sample1.fastq > sample1.fastq.gz
+  cat sample1.fastq | gzip > sample1.fastq.gz
+  
+  gunzip sample1.fastq.gz
+  ```
+
+--
+
+- Many Unix commands have counterparts that can directly operate on compressed files!
+  
+  ```sh
+  zless sample1.fastq.gz
+  zcat sample1.fastq.gz
+  zgrep "AACGTGGA" sample1.fastq.gz
+  ```
+
+--
+
+- To zip up an entire directory into a single archive, use `tar`:
+
+  ```sh
+  tar -czvf project-backup.tar.gz my-project/
+  
+  tar -xzvf project-backup.tar.gz
+  ```
+ 
+## Data backup
+
+- Back up raw data
+
+- Back up scripts, results, etc
+  - For scripts, version control
