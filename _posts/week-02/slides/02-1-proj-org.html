@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 2 - Lecture 1 - Project Organization</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+## *Week 2: &lt;br&gt; Project Organization and Markdown*
+----
+# Part I: Project Organization
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/01/19 (updated: 2021-01-08)
+
+---
+
+## Goals for This Week
+
+- Learn some best practices for project organization, documentation, and management.
+
+- Learn how to do the above in the Unix shell.
+
+- Learn how to use Markdown for documentation (and beyond).
+
+- Get to know our text editor, VS Code, a bit better.
+
+---
+class:inverse middle center
+
+# Overview of Topics this Week
+
+----
+
+&lt;br&gt;
+
+.left[
+### I: Best Practices for Project Organization (this slide deck)
+### II: [Managing Files in the Shell (separate slide deck)](LINK)
+### III: [Markdown and VS Code (separate slide deck)](LINK)
+]
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class:inverse middle center
+
+# I: Best Practices for Project Organization
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Importance of Good Project Organization
+
+**Good project organization and documentation facilitates:**
+
+- Collaborating with others and yourself in the future
+
+- Reproducibility
+
+- Automation
+
+- Version control
+
+&lt;br&gt;
+
+In short, it is a necessary foundation for our building blocks in this course!
+
+---
+
+## Project organization &amp;ndash; some underlying principles
+
+- One dir (hierarchy) for one project
+
+- Take care naming dirs and files
+
+- Separate code from data
+
+- Separate raw data from processed data
+
+- Treat data as read-only
+
+- Slow down and document
+
+&lt;br&gt;
+
+--
+
+.large[
+&gt; *Have sympathy for your future self*
+]
+
+---
+
+## One dir for one project
+
+- Beneficial for finding files, sharing your project,
+  not throwing stuff away in error, etc.
+
+- Will allow you to use *relative paths* within projects,  
+  such that your paths in scripts are portable
+
+&lt;br&gt;
+
+.content-box-info[
+**Absolute vs relative paths:**
+  
+  - *Absolute* -- starting from the root directory (start with `/`)
+  
+  - *Relative* -- starting from the current location (*working dir*)
+]
+
+
+---
+
+## But what is a project, really?
+
+From [Wilson et al 2017 - Good Enough Practices in Scientific Computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510):
+
+.large[
+&gt; *As a rule of thumb, divide work into projects based on the overlap in data and*
+&gt; *code files.*
+&gt;
+&gt; *If 2 research efforts share no data or code,*
+&gt; *they will probably be easiest to manage independently.*  
+&gt;
+&gt; *If they share more than half of their data and code, they are probably best*
+&gt; *managed together.*
+
+&gt; *If you are building tools that are used in several projects,*
+&gt; *the common code should probably be in a project of its own.*
+]
+
+---
+
+## An example dir structure for a project
+
+```sh
+data: data/raw/ data/metadata/ data/processed/ # Or separate
+scripts/       # Large project: with subdirs
+analysis/      # OR: 'results'. Subdirs for each step/software.
+doc: doc/manuscript # Text documents
+bin/           # Software
+sandbox/       # Experimental and temporary files
+README.md      # Top-level README + in each important dir!
+```
+
+&lt;br&gt;
+
+- Use subdirectories liberally (e.g. within `analysis`)
+
+---
+
+## Using README files, slow down and document:
+  
+  - Your methods
+  
+  - Where/when/how each data and metadata file originated
+  
+  - Versions of software, databases, reference genomes
+  
+  - *...Everything needed to rerun whole project*
+  
+---
+
+## An ode to plain text files
+
+- Can be accessed on any computer, including over remote connections
+
+- Future-proof
+
+- Allow for version control
+
+---
+
+## File naming
+
+- Three principles for good file names
+  ([Jenny Bryan](https://speakerdeck.com/jennybc/how-to-name-files)):
+
+  - Machine readable
+
+  - Human readable
+
+  - Playing well with default ordering
+
+---
+
+## File naming: Machine readable
+
+- Spaces in file names lead to inconvenience or trouble:
+  
+  ```sh
+  $ rm -rf raw sequences
+  ```
+  
+- Consistent and informative naming helps to programmatically find  
+  and process files.
+  
+- Use *prefixes* for metadata: Sample ID, date, treatment.  
+  
+  - `sample032_2016-05-03_low.txt`  
+  
+  - `soil-samples_trtA_2019-01.txt`
+
+- *Suffices* (`.txt`, `.md`, `.csv`): Not necessary in Unix,
+  but still useful to distinguish file types easily and programmatically.
+
+---
+
+## File naming: Human readable
+
+&gt; *"Name all files to reflect their content or function.*
+&gt; *For example, use names such as bird_count_table.csv, manuscript.md,*
+&gt; *or sightings_analysis.py.*"  
+&gt; [Wilson et al. 2017](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
+  
+&lt;br&gt;
+
+- One good way:
+  
+  - Use **`-`** to delimit words
+  
+  - Use **`_`** to delimit units you may want to separate on later.
+  
+  - *(Avoid capitals.)*
+  
+---
+
+## File naming: Ordering
+
+- Leading zeros for lexicographic sorting
+
+- Dates should always be written as `YYYY-MM-DD`
+
+- Can group similar files together by starting with same phrase
+
+
+## TODO: GIVE SOME EXAMPLES
+
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Homework: Final Project
+
+**The project should:**
+
+- Be well-organized, and well-documented using Markdown READMEs.
+
+- Be version-controlled throughout, and repeatedly "pushed" to Github.
+
+--
+
+- Be re-runnable using a single Snakemake control script ("Snakefile").
+
+- Should have (most) analysis or data processing done using scripts  
+  in bash and/or Python.
+
+- Optionally run jobs at OSC.
+
+---
+
+## Homework: Final Project (cont.)
+
+- So, lots of "infrastructure" requirements &amp;mdash;
+  therefore, no need to devise a complicated project with many scripts.
+
+&lt;br&gt;
+
+--
+
+- We encourage you to *use your own data or find a dataset yourself*   
+  (but we can provide a dataset if needed).
+
+&lt;br&gt;
+
+--
+
+- You are quite free regarding the **topic** of the project:
+  
+  - From answering an actual or contrived research question...
+  
+  - ...to automating something "boring" that you so far did manually. 
+
+---
+background-color: #ededed
+name: software
+
+## Bonus: Managing software
+
+- Keep track of the versions of software that you use!
+
+- At OSC, load modules *with* a version specification --
+  otherwise, you may not know what you used,
+  and default versions changes can go unnoticed.
+  
+- `conda` environments can be useful too,
+  e.g. for maintaining multiple versions of the same software,
+  or being able to run mutually incompatible software.
+
+- We'll talk more about this in the OSC (Week 6) and Snakemake (Week 12) modules.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
