@@ -3,7 +3,7 @@ title: "Week 1 - Lecture 1 - Course Intro"
 output:
   xaringan::moon_reader:
     seal: false
-    css: ["default", "default-fonts", "slides.css"]
+    css: ["default", "default-fonts", "../../../slides.css"]
     lib_dir: libs
     nature:
       highlightStyle: rainbow
@@ -126,7 +126,7 @@ name: pers-intro
 
 .pull-right[
 <p align = "center">
-<img src=img/w01/jelmer.jpg width="130%">
+<img src=img/jelmer.jpg width="130%">
 </p>
 ]
 
@@ -148,7 +148,7 @@ name: pers-intro
 
 .pull-right[
 <p align = "center">
-<img src=img/w01/zach_inthefield.png width="100%">
+<img src=img/zach_inthefield.png width="100%">
 </p>
 ]
 

@@ -138,8 +138,8 @@ name: unix-intro
   ```
 
   .content-box-info[
-  **`$HOME`** is an *environment variable*, like **`$USER`**, which contains your  
-  username (we'll be using that one a lot).
+  **`$HOME`** is an *environment variable*, like **`$USER`**,
+  which contains your username (we'll be using that one a lot).
   ]
 
 ---
@@ -183,7 +183,7 @@ name: shell-intro
 ## 1.4.1 &ndash; Command structure
 
 <p align = "center">
-<img src=img/w01/command-structure.png width="90%">
+<img src=img/command-structure.png width="90%">
 </p>
 
 .content-box-info[

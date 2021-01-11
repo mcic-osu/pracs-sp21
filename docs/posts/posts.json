@@ -2,13 +2,13 @@
   {
     "path": "posts/week-01/",
     "title": "Week 01",
-    "description": "Course Intro & Shell Basics",
+    "description": "Course intro & Shell basics",
     "author": [],
     "date": "2021-01-10",
     "categories": [],
-    "contents": "\nTuesday Zoom (Jan 12) – Slides: Course Intro & Overview\nThursday Zoom (Jan 14) – Slides: Shell Basics\nExercises for this week.\n\n\n\n",
+    "contents": "\nTuesday Zoom (Jan 12) – Slides: Course intro\nThursday Zoom (Jan 14) – Slides: Shell basics\nExercises for this week.\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-01-11T10:28:52-05:00",
-    "input_file": {}
+    "last_modified": "2021-01-11T16:29:51-05:00",
+    "input_file": "week-01.utf8.md"
   }
 ]
