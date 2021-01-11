@@ -5,12 +5,14 @@ output:
     self_contained: false
     toc: true
     toc_depth: 3
-    toc_float: true
 ---
 
-*The following exercises were copied from Chapter 1 of the CSB book.*
+*The following exercises were copied from Chapter 1 of the CSB book,
+with hints and solutions modified from those provided in the book's
+Github repo.*
+
 *(The exercises marked as "Advanced" are omitted since they require topics not*
-*actually covered in the chapter, which we will cover in later modules.) *
+*actually covered in the chapter, which we will cover in later modules.)*
 
 <br>
 
