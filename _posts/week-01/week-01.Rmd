@@ -16,7 +16,4 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - Thursday Zoom (Jan 14) -- [Slides: Shell Basics](slides/shell01.html)
 
-- Exercises for this week are from CSB Chapter 1 and can be found on the
-  [CarmenCanvas website](https://osu.instructure.com/courses/94975).
-
-
+- [Exercises for this week](../../w01_exercises.html).
