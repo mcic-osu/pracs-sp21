@@ -105,7 +105,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 1 Exercises"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","css"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["distill.css"]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 1 Exercises"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth","css"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]},{"type":"character","attributes":{},"value":["distill.css"]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2409,9 +2409,44 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#main-exercises">Main exercises</a>
+<ul>
+<li><a href="#getting-set-up">Getting set up</a></li>
+<li><a href="#intermezzo-1.1">Intermezzo 1.1</a></li>
+<li><a href="#intermezzo-1.2">Intermezzo 1.2</a></li>
+<li><a href="#intermezzo-1.3">Intermezzo 1.3</a></li>
+<li><a href="#next-generation-sequencing-data">1.10.1 Next-Generation Sequencing Data</a></li>
+</ul></li>
+<li><a href="#bonus-exercises">Bonus exercises</a>
+<ul>
+<li><a href="#hormone-levels-in-baboons">1.10.2 Hormone Levels in Baboons</a></li>
+<li><a href="#plantpollinator-networks">1.10.3 Plant–Pollinator Networks</a></li>
+<li><a href="#data-explorer">1.10.4 Data Explorer</a></li>
+</ul></li>
+<li><a href="#solutions">Solutions</a>
+<ul>
+<li><a href="#intermezzo-1.1-1">Intermezzo 1.1</a></li>
+<li><a href="#intermezzo-1.2-1">Intermezzo 1.2</a></li>
+<li><a href="#intermezzo-1.3-1">Intermezzo 1.3</a></li>
+<li><a href="#next-generation-sequencing-data-1">1.10.1 Next-Generation Sequencing Data</a></li>
+<li><a href="#hormone-levels-in-baboons-1">1.10.2 Hormone Levels in Baboons</a></li>
+<li><a href="#plantpollinator-networks-1">1.10.3 Plant–Pollinator Networks</a></li>
+<li><a href="#data-explorer-1">1.10.4 Data Explorer</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
 <p><em>The following exercises were copied from Chapter 1 of the CSB book.</em> <em>(The exercises marked as “Advanced” are omitted since they require topics not</em> <em>actually covered in the chapter, which we will cover in later modules.) </em></p>
+<p><br></p>
+<h2 id="main-exercises">Main exercises</h2>
+<h3 id="getting-set-up">Getting set up</h3>
 <p>You should already have the book’s Github repository with exercise files.<br />
-If not, go to <code>/fs/ess/PAS1855/users/$USER</code>, and run <code>git clone https://github.com/CSB-book/CSB.git</code>. Then, you should have the <code>CSB</code> directory referred to in the first step of the first exercise.</p>
+If not, go to <code>/fs/ess/PAS1855/users/$USER</code>, and run <code>git clone https://github.com/CSB-book/CSB.git</code>.</p>
+<p>Now, you should have the <code>CSB</code> directory referred to in the first step of the first exercise.</p>
 <h3 id="intermezzo-1.1">Intermezzo 1.1</h3>
 <p><strong>(a)</strong> <del>Go to your home directory</del>. Go to <code>/fs/ess/PAS1855/users/$USER</code></p>
 <p><strong>(b)</strong> Navigate to the <code>sandbox</code> directory within the <code>CSB/unix</code> directory.</p>
@@ -2477,14 +2512,14 @@ To show the size of a file you can use the <code>-l</code> option of the command
 </details>
 <p><strong>3.</strong> Create a copy of <code>Marra2014_data.fasta</code> in the sandbox, and name it <code>my_file.fasta</code>.</p>
 <details>
-<summary>Show hint</summary>
+<summary>Show hints</summary>
 <p>
 Recall that with the <code>cp</code> command, it is also possible to give the copy a new name at once.
 </p>
 </details>
 <p><strong>4.</strong> How many contigs are classified as <code>isogroup00036</code>?</p>
 <details>
-<summary>Show hint</summary>
+<summary>Show hints</summary>
 <p>
 Is there a <code>grep</code> option that counts the number of occurrences?<br />
 Alternatively, you can pass the output of <code>grep</code> to <code>wc -l</code>.
@@ -2492,7 +2527,7 @@ Alternatively, you can pass the output of <code>grep</code> to <code>wc -l</code
 </details>
 <p><strong>5.</strong> Replace the original “two-spaces” delimiter with a <strong>comma</strong>.</p>
 <details>
-<summary>Show hint</summary>
+<summary>Show hints</summary>
 <p>
 <p>In the file, the information on each contig is separated by two spaces:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">&gt;</span><span class="ex">contig00001</span>  length=527  numreads=2  ...</span></code></pre></div>
@@ -2506,27 +2541,27 @@ Alternatively, you can pass the output of <code>grep</code> to <code>wc -l</code
 </details>
 <p><strong>6.</strong> How many unique isogroups are in the file?</p>
 <details>
-<summary>Show hint</summary>
+<summary>Show hints</summary>
 <p>
 You can use <code>grep</code> to match any line containing the word <code>isogroup</code>. Then, use <code>cut</code> to isolate the part detailing the isogroup. Finally, you want to remove the duplicates, and count.
 </p>
 </details>
 <p><strong>7.</strong> Which contig has the highest number of reads (<code>numreads</code>)? How many reads does it have?</p>
 <details>
-<summary>Show hint</summary>
+<summary>Show hints</summary>
 <p>
 Use a combination of <code>grep</code> and <code>cut</code> to extract the contig names and read counts. The command <code>sort</code> allows you to choose the delimiter and to order numerically.
 </p>
 </details>
 <p><br></p>
-<h2 id="optional-exercises">Optional exercises</h2>
+<h2 id="bonus-exercises">Bonus exercises</h2>
 <h3 id="hormone-levels-in-baboons">1.10.2 Hormone Levels in Baboons</h3>
 <p>Gesquiere et al. (2011) studied hormone levels in the blood of baboons. Every individual was sampled several times.</p>
 <ol type="1">
 <li>How many times were the levels of individuals 3 and 27 recorded?</li>
 </ol>
 <details>
-<summary>Hints</summary>
+<summary>Show hints</summary>
 <p>
 <ul>
 <li>You can use <code>cut</code> to extract just the <code>maleID</code> from the file.</li>
@@ -2538,7 +2573,7 @@ Use a combination of <code>grep</code> and <code>cut</code> to extract the conti
 <li>Write a script taking as input the file name and the ID of the individual, and returning the number of records for that ID.</li>
 </ol>
 <details>
-<summary>Hints</summary>
+<summary>Show hints</summary>
 <p>
 <ul>
 <li><p>You want to turn the solution of part 1 into a script; to do so, open a new file and copy the code you’ve written.</p></li>
@@ -2556,7 +2591,7 @@ Use a combination of <code>grep</code> and <code>cut</code> to extract the conti
 <span id="cb4-3"><a href="#cb4-3"></a><span class="co"># Number of rows: 97</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="co"># Number of columns: 80</span></span></code></pre></div>
 <details>
-<summary>Hints</summary>
+<summary>Show hints</summary>
 <p>
 <p>To build the script, you need to combine several commands: - To find the number of rows, you can use <code>wc</code>; - To find the number of columns, take the first line, remove the spaces, remove the line terminator <code>\n</code>, and count <em>characters</em>.</p>
 </p>
@@ -2582,7 +2617,7 @@ Use a combination of <code>grep</code> and <code>cut</code> to extract the conti
 <span id="cb6-7"><a href="#cb6-7"></a><span class="ex">Maximum</span> value:</span>
 <span id="cb6-8"><a href="#cb6-8"></a><span class="ex">14897.29471</span></span></code></pre></div>
 <details>
-<summary>Hints</summary>
+<summary>Show hints</summary>
 <p>
 <ol type="1">
 <li>You can select a given column from a <code>csv</code> file using the command <code>cut</code>. Then:
@@ -2599,7 +2634,7 @@ Use a combination of <code>grep</code> and <code>cut</code> to extract the conti
 <h2 id="solutions">Solutions</h2>
 <h3 id="intermezzo-1.1-1">Intermezzo 1.1</h3>
 <details>
-<summary>Solutions</summary>
+<summary>Solution</summary>
 <p>
 <p><strong>(a)</strong> <del>Go to your home directory.</del> Go to <code>/fs/ess/PAS1855/users/$USER</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a>$ <span class="bu">cd</span> /fs/ess/PAS1855/users/<span class="va">$USER</span> <span class="co"># To home would have been: &quot;cd ∼&quot;</span></span></code></pre></div>
@@ -2615,7 +2650,7 @@ Use a combination of <code>grep</code> and <code>cut</code> to extract the conti
 </details>
 <h3 id="intermezzo-1.2-1">Intermezzo 1.2</h3>
 <details>
-<summary>Solutions</summary>
+<summary>Solution</summary>
 <p>
 <p><strong>(a)</strong> Go to the data directory within <code>CSB/unix</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a>$ <span class="bu">cd</span> /fs/ess/PAS1855/users/<span class="va">$USER</span>/CSB/unix/data</span></code></pre></div>
@@ -2631,7 +2666,7 @@ Use a combination of <code>grep</code> and <code>cut</code> to extract the conti
 </details>
 <h3 id="intermezzo-1.3-1">Intermezzo 1.3</h3>
 <details>
-<summary>Solutions</summary>
+<summary>Solution</summary>
 <p>
 <p><strong>(a)</strong> If we order all species names (fifth column) of <code>Pacifici2013_data.csv</code><br />
       in alphabetical order, which is the first species? Which is the last?</p>

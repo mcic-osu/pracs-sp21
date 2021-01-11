@@ -3,6 +3,8 @@ title: "Week 1 Exercises"
 output:
   distill::distill_article:
     self_contained: false
+    toc: true
+    toc_depth: 3
     css: distill.css
 ---
 
@@ -10,10 +12,16 @@ output:
 *(The exercises marked as "Advanced" are omitted since they require topics not*
 *actually covered in the chapter, which we will cover in later modules.) *
 
+<br>
+
+## Main exercises
+
+### Getting set up
 You should already have the book's Github repository with exercise files.  
 If not, go to `/fs/ess/PAS1855/users/$USER`, and run
 `git clone https://github.com/CSB-book/CSB.git`.
-Then, you should have the `CSB` directory referred to in the first step of the
+
+Now, you should have the `CSB` directory referred to in the first step of the
 first exercise.
 
 ### Intermezzo 1.1
@@ -129,7 +137,7 @@ and to display human-readable file sizes, the `-h` option.
    and name it `my_file.fasta`.
 
 <details>
-<summary>Show hint</summary>
+<summary>Show hints</summary>
 <p>
 Recall that with the `cp` command,
 it is also possible to give the copy a new name at once.
@@ -139,7 +147,7 @@ it is also possible to give the copy a new name at once.
 **4.** How many contigs are classified as `isogroup00036`?
 
 <details>
-<summary>Show hint</summary>
+<summary>Show hints</summary>
 <p>
 Is there a `grep` option that counts the number of occurrences?  
 Alternatively, you can pass the output of `grep` to `wc -l`.
@@ -149,7 +157,7 @@ Alternatively, you can pass the output of `grep` to `wc -l`.
 **5.** Replace the original "two-spaces" delimiter with a **comma**.
 
 <details>
-<summary>Show hint</summary>
+<summary>Show hints</summary>
 <p>
 In the file, the information on each contig is separated by two spaces:
 ```sh
@@ -180,7 +188,7 @@ and on a separate line, overwrite the original file using `mv`.
 **6.** How many unique isogroups are in the file?
 
 <details>
-<summary>Show hint</summary>
+<summary>Show hints</summary>
 <p>
 You can use `grep` to match any line containing the word `isogroup`.
 Then, use `cut` to isolate the part detailing the isogroup.
@@ -192,7 +200,7 @@ Finally, you want to remove the duplicates, and count.
    How many reads does it have?
 
 <details>
-<summary>Show hint</summary>
+<summary>Show hints</summary>
 <p>
 Use a combination of `grep` and `cut` to extract the contig names and read counts.
 The command `sort` allows you to choose the delimiter and to order numerically.
@@ -201,7 +209,7 @@ The command `sort` allows you to choose the delimiter and to order numerically.
 
 <br>
 
-## Optional exercises
+## Bonus exercises
 
 ### 1.10.2 Hormone Levels in Baboons
 
@@ -211,7 +219,7 @@ Every individual was sampled several times.
 1. How many times were the levels of individuals 3 and 27 recorded?
 
 <details>
-<summary>Hints</summary>
+<summary>Show hints</summary>
 <p>
 
 - You can use `cut` to extract just the `maleID` from the file.
@@ -226,7 +234,7 @@ Every individual was sampled several times.
    and returning the number of records for that ID.
 
 <details>
-<summary>Hints</summary>
+<summary>Show hints</summary>
 <p>
 
 - You want to turn the solution of part 1 into a script; to do so, open a new
@@ -265,7 +273,7 @@ $ bash netsize.sh ../data/Saavedra2013/n1.txt
 ```
 
 <details>
-<summary>Hints</summary>
+<summary>Show hints</summary>
 <p>
 
 To build the script, you need to combine several commands:
@@ -309,7 +317,7 @@ Maximum value:
 ```
 
 <details>
-<summary>Hints</summary>
+<summary>Show hints</summary>
 <p>
 
 1. You can select a given column from a `csv` file using the command `cut`.
@@ -334,7 +342,7 @@ Maximum value:
 ### Intermezzo 1.1
 
 <details>
-<summary>Solutions</summary>
+<summary>Solution</summary>
 <p>
 **(a)** ~~Go to your home directory.~~ Go to `/fs/ess/PAS1855/users/$USER`.
 ```sh
@@ -366,7 +374,7 @@ cd -
 ### Intermezzo 1.2
 
 <details>
-<summary>Solutions</summary>
+<summary>Solution</summary>
 <p>
 
 **(a)** Go to the data directory within `CSB/unix`. 
@@ -397,7 +405,7 @@ rm ../sandbox/toremove.txt
 ### Intermezzo 1.3
 
 <details>
-<summary>Solutions</summary>
+<summary>Solution</summary>
 <p>
 
 **(a)** If we order all species names (fifth column) of `Pacifici2013_data.csv`  
