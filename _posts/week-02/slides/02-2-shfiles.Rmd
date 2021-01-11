@@ -673,6 +673,19 @@ to define what will be looped over.
   ```
 
 ---
+
+## Creating symbolic links
+
+- Use absolute path for the source
+
+```sh
+ln -s -t scripts/ ~/scripts/*
+ln -s -t data/ref/ ~/data/ref/refgenome.fa
+```
+
+- Practice: create a symbolic link to the project dir from your home dir
+
+---
 class: inverse middle center
 
 # Questions?

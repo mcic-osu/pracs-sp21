@@ -1,12 +1,15 @@
 ---
-title: "Week 2 Exercises"
+title: "Week 1 Exercises"
 output:
   distill::distill_article:
     self_contained: false
+    toc: true
+    toc_depth: 3
 ---
 
 
 ## Exercise 1: Course notes in Markdown
+
 
 Create a Markdown document with course notes. I recommend writing this in VS Code.
 
@@ -161,7 +164,7 @@ mkdir -p doc/
 
 Move files:
 ```sh
-...
+aap
 ```
 
 4.
