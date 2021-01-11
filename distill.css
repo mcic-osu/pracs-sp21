@@ -73,6 +73,8 @@ d-appendix {
   --bkgd-color:       #0F2E3D;
 }
 
+/* --------------------------------------------------------------------------/*
+/* --------------------------------------------------------------------------/*
 /*-- Additional custom styles --*/
 /* Add any additional CSS rules below                      */
 
@@ -83,4 +85,38 @@ code {
 
 pre code {
   background-color: white;
+}
+
+/*
+d-article pre {
+
+}*/
+
+d-article h3 {
+  color: #bb0000;
+}
+
+/* --------------------------------------------------------------------------/*
+/* details sections */
+
+details > summary {
+  padding: 2px 6px;
+  background-color: #f0f8ff;
+  border: none;
+  box-shadow: 3px 3px 4px black;
+  margin-bottom: 30px;
+}
+
+details > p:first-of-type {
+  margin-top: -30px;
+}
+
+details > p {
+  color: #707070;
+  padding: 10px 15px;
+  /*background-color: #f0f8ff;
+  border-left-width: 5px;
+  border-left-style: solid;
+  border-left-color: #b3dbff;
+  border-radius: 0;*/
 }
