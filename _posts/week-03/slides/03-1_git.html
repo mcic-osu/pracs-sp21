@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 3: Git and Github</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+## *Week 3: &lt;br&gt; Git and Github*
+
+----
+
+# Part I: Getting started with Git
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/01/26 (updated: 2021-01-04)
+
+---
+
+## What is version control?
+
+...
+
+&lt;p align="left"&gt;
+&lt;img src=img/w03/git-scm-snapshots.png width="90%"&gt;
+&lt;/p&gt;
+  
+
+---
+
+
+## Why use version control?
+
+- "History of changes"
+
+- Time machine for your project   
+
+- Simultaneous collaborative work
+
+- By using *branches*:
+  
+  - No worries about breaking things that work.
+  
+  - Make (experimental) changes without affecting others work,
+    but staying up-to-date with the main project.
+
+- Makes sharing your code easy
+
+&lt;br&gt;
+
+&gt; *Version control is a way to keep your scientific projects tidily organized,*
+&gt; *collaborate on science, and have the whole history of each project at your*
+&gt; *fingertips.*  
+&gt; &amp;mdash; CSB
+
+---
+
+## What are Git and Github?
+
+- **Git** is the most widely used software for version control
+
+&lt;br&gt;
+
+- **Github** is the most widely used *website* to host Git repositories.
+
+  Github can be linked up to Git so you can sync your repositories from the
+  command line.
+
+---
+
+## Key concepts
+
+- A "repository" (or "repo") ...
+
+- A "commit" is a saved snapshot of the project
+
+- Git saves *differences* between commits, it does not keep copies of all files
+  or even the entire changed files for every commit.
+
+---
+
+## What do I put under version control?
+
+- Commit the source, not the derived files
+
+- Raw data may or may not be committed
+
+- Binary files can't be tracked effectively
+
+Limitations:
+  - Repository size (best to keep under 1 GB)
+  - File size (Github will not allow files over 100 MB)
+  - File type
+
+- The general model of Git is that one repository corresponds to everything
+  inside a single directory structure (last week's project organization!),
+  but you can instruct Git to ignore certain files.
+
+---
+
+## Using Git
+
+- GUIs, IDEs, and command-line usage
+
+- Every git command is called using: `git &lt;(sub)command&gt;`: `git config`, 
+  `git status`, etc.
+  
+  Like bash, most of these commands can also take *options* and *arguments*.
+
+---
+
+## CSB 2.4.1: Basic Workflow
+
+Only three commands tend to make up the vast majority of your Git work:
+
+- **`git status`**  
+  Will report the status of your repository: which files have changed,
+  which new files are present, etc.
+  
+- **`git add`**  
+  *Stages* files to be committed (including previously untracked files).
+
+- **`git commit`**  
+  Commits all currently staged changes.
+
+[TODO: ADD IMG]
+
+---
+
+## Misc. git commands
+
+- **`git init`**  
+
+- **`git log`**  
+
+- **`git diff`**  
+  [EXPAND A BIT ON DIFF?]
+
+- **`git rm`** and **`git mv`**
+
+---
+
+## CSB 2.4.3: Using a `.gitignore` file
+
+[ADD A COUPLE OF COMMANDS TO ADD UNWANTED FILE, THEN CREATE AND COMMIT .GITIGNORE]
+
+---
+
+## CSB 2.4.5: Troubleshooting Git
+
+### Undoing unstaged changes
+
+```sh
+echo "todo: ask sequencing center about adapters" &gt; readme.md
+cat readme.md # oops
+git status    # git tells us how to undo our change
+git checkout -- readme.md # to checkout 'readme.md' from the last commit
+git restore readme.md     # same, with more recent version of git
+cat readme.md # yes!
+git status
+```
+
+---
+
+## CSB 2.4.5: Troubleshooting Git (cont.)
+
+### Unstaging a file
+
+- You can use `git reset` to unstage a file, so you can change a mistake you made.
+
+  ```sh
+  echo "XXX" &gt; README.md
+  git status              # git status will tell us what to do!
+  
+  git reset HEAD README.md
+  ```
+  
+- But this will not revert the file back to its state at the last commit
+  (cf. CSB &amp;ndash; mistake!).
+  
+- Often when you've made a mistake, or when you just prematurely staged,
+  unstaging is all you need,
+  but sometimes you do need to revert back to a previously saved version.
+  
+---
+
+## CSB 2.4.5: Troubleshooting Git (cont.)
+
+### Undoing staged changes
+
+```sh
+echo "todo: ask sequencing center about adapters" &gt; readme.md
+git add readme.md
+git reset HEAD readme.md
+cat readme.md # mistake still there, but unstaged
+
+git status
+
+git checkout -- readme.md
+cat readme.md # yes!
+```
+
+[ADD FIGURE SHOWING CHECKOUT AND RESET!]
+
+---
+
+## CSB 2.5: Remote repositories
+
+---
+
+## CSB 2.6: Branching and merging
+
+---
+
+## CSB 2.6: Branching and merging (cont.)
+
+### Merge conflicts
+
+```sh
+code &lt;conflicting-file&gt; # Show features!
+```
+
+---
+
+## What can you do with someone else's GitHub repository?
+
+If you do not have push rights:
+  - You can clone the repository and make changes locally, but you cannot push your changes
+  - You can fork their repository and develop it independently
+  - You can submit a pull request to their repository if you want to contribute to the original project
+  - (You can contact the owner of the repository and ask them to include you as a
+    contributor and give you push rights.)
+
+---
+
+## Some Git best practices
+
+- Write informative commit messages -- imagine looking back at your project
+  in a few months, after finding an error that you introduced a while ago.
+
+- Commit often, using small commits -- will also help to keep commit messages informative.
+
+- Before committing, check what you've changed using `git diff`.
+
+- If you've worked on multiple disparate things before committing,
+  create two separate commits: `git add` + `git commit` separately for two
+  sets of files.
+
+- When collaborating, pull often.
+
+- Don't commit unnecessary files, which can also lead to conflicts.
+
+---
+
+## More on commit messages
+
+- Bad: "Updated file"
+- Good: "Updated x function to include y"
+
+
+---
+
+## Github
+
+- Note that a `README` file (usually `README.md`) in the top level of the repo
+  will always show up, rendered, on the front page of your repo.
+  
+- Show forking and how this is displayed in the forked repo.
+  - Make a change
+  - Will say "1 commit ahead" -&gt; Click `Compare`
+  - `Create Pull Request`
+
+- Show Issues pointing to Pull Requests and vice versa?
+
+---
+
+## Misc.
+
+- If you want a GUI for Git, I've heard good things about `GitKraken`,
+  and it available for Windows, Mac, and Linux.
+
+- Zenodo for getting a DOI when publishing (see &lt;https://github.com/ngs-docs/2020-GGG298/blob/master/Week6-Git_and_GitHub_for_file_tracking_and_sharing/README.md&gt;)
+
+---
+class: inverse middle center
+
+# Bonus Materials
+
+----
+
+---
+
+## Bonus: Undoing committed changes
+
+- Create a new commit that will revert all the changes made in a previous commit
+  (the last commit in this example):
+
+```sh
+git revert HEAD
+```
+
+- This will work and be safe both for commits that were and that were not
+  pushed online.
+  
+---
+
+## Bonus: Checking out previous versions
+
+- Get a version of a file from a past commit:
+
+  ```sh
+  git checkout HEAD~2 -- README.md
+  git checkout 3ba6674 -- README.md
+  
+  less README.md  # This will now be "the old version"
+  git status   # "The old version" has been staged
+  ```
+
+- Nope, please take me back to my current version:
+
+  ```sh
+  git checkout HEAD -- README.md
+  less README.md  # Phew!
+  git status   # Up-to-date
+  ```
+
+- Another possibility:
+  ```sh
+  git show 3ba6674:README.md
+  
+  git show 3ba6674:README.md &gt; README.md
+  ```
+
+&lt;br&gt;
+
+- Look at state of entire project in a previous commit:
+
+  ```sh
+  git checkout HEAD~2
+  git checkout 3ba6674
+  ```
+  
+- This is best just for looking around, to go back:
+
+
+- Or if you want to permanently move back to that state of the project:
+  ```sh
+  git revert HEAD~2
+  ```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
