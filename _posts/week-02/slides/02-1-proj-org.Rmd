@@ -95,7 +95,9 @@ In short, it is a necessary foundation for our building blocks in this course!
 
 - Separate raw data from processed data
 
-- Treat data as read-only
+- Treat raw data as read-only
+
+- Treat generated output as disposable
 
 - Slow down and document
 
@@ -165,6 +167,8 @@ README.md      # Top-level README + in each important dir!
 <br>
 
 - Use subdirectories liberally (e.g. within `analysis`)
+- To access files outside of the project (e.g., shared across projects),
+  simplest way is creating symbolic links.
 
 ---
 
@@ -253,7 +257,7 @@ README.md      # Top-level README + in each important dir!
 - Can group similar files together by starting with same phrase
 
 
-## TODO: GIVE SOME EXAMPLES
+## TODO: GIVE SOME FILE NAME EXAMPLES
 
 
 ---

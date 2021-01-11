@@ -12,10 +12,11 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-- Part I - Some Best Practices for Project Organization -- Tuesday Zoom (Jan 19) -- [Slides: ...](slides/02-1-proj-org.html)
+- [Slides: Part I -- Some best practices for project
+  organization](slides/02-1-proj-org.html) -- Tuesday Zoom (Jan 19)
 
-- Part II - Managing Files in the Shell -- Tue/Thu -- [Slides: ...](slides/02-2-shfiles.html)
+- [Slides: Part II - Managing files in the shell](slides/02-2-shfiles.html) -- Tue/Thu Zoom
 
-- Part III - Markdown and VS Code -- Thursday Zoom (Jan 21) -- [Slides: ...](slides/02-3-md.html)
+- [Slide: Part III - Markdown and VS Code](slides/02-3-md.html) -- Thursday Zoom (Jan 21)
 
-- [Exercises](../../week02_exercises.html)
+- [Exercises for this week](../../week02_exercises.html)
