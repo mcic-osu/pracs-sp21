@@ -2184,6 +2184,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   details > p:first-of-type {
     margin-top: -30px;
+    padding: 10px 15px;
   }
 
   details > p {
@@ -2197,6 +2198,91 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     border-left-style: solid;
     border-left-color: #b3dbff;
     border-radius: 0;*/
+  }
+
+  /******************
+   * Coloured content boxes
+   ****************/
+
+  .content-box {
+    box-sizing: border-box;
+    background-color: #e2e2e2;
+  }
+
+  .content-box-q,
+  .content-box-answer,
+  .content-box-diy,
+  .content-box-warning,
+  .content-box-info {
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin: 0 0 15px;
+    overflow: hidden;
+    padding: 15px 0px 0px 70px;
+    width: 100%;
+    position: relative;
+  }
+
+  .content-box-info {
+    background-color: #dfedff;
+    border: solid 5px #c0dffa;
+  }
+
+  .content-box-warning {
+    background-color: #ffcccc;
+    border: solid 5px #ed8080;
+  }
+
+  .content-box-diy {
+    background-color: #e4ede4;
+    border: solid 5px #50ab50;
+  }
+
+  .content-box-q {
+    background-color: #f4e9f5;
+    border: solid 5px #ce84d1;
+  }
+
+  .content-box-answer {
+    background-color: #e4ede4;
+    border: solid 5px #50ab50;
+  }
+
+  .content-box-info:before,
+  .content-box-warning:before,
+  .content-box-diy:before,
+  .content-box-q:before,
+  .content-box-answer:before {
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+      color: #000;
+      font-size: 25px;
+      padding-right: 0.5em;
+      position: absolute;
+      top: 15px;
+      left: 20px;
+  }
+
+  .content-box-info:before {
+      content: "\f05a";
+  }
+
+  .content-box-warning:before {
+      content: "\f071";
+  }
+
+  .content-box-diy:before {
+      content: "\f044";
+  }
+
+  .content-box-q:before {
+      content: "\f128";
+  }
+
+  .content-box-answer:before {
+      content: "\f00c";
   }</style>
   <style type="text/css">
   /* base style */

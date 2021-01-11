@@ -5,7 +5,7 @@ output:
     self_contained: false
     toc: true
     toc_depth: 3
-    css: distill.css
+    toc_float: true
 ---
 
 *The following exercises were copied from Chapter 1 of the CSB book.*
@@ -83,9 +83,11 @@ Which is the last?
 <details>
 <summary>Show hints</summary>
 <p>
-You can either first select the 5th column using `cut` and then `sort`,
-or directly specify the column to sort by to the `sort` command.
-You'll also need to specify the delimiter in either case. 
+You can either first select the 5th column using `cut`, and then use `sort`,
+or directly tell the `sort` command which column to sort by.
+
+In either case, you'll also need to specify the column delimiter. 
+
 To view just the first or the last line, pipe to `head` or `tail`.
 </p>
 </details>
@@ -96,7 +98,7 @@ To view just the first or the last line, pipe to `head` or `tail`.
 <summary>Show hints</summary>
 <p>
 - Start by selecting the relevant column.
-- Use a `tail` trick shown in the chapter to exclude the header (first line).
+- Use a `tail` trick shown in the chapter to exclude the first line.
 - Remember to sort before using `uniq`.
 </p>
 </details>
@@ -240,8 +242,8 @@ Every individual was sampled several times.
 - You want to turn the solution of part 1 into a script; to do so, open a new
   file and copy the code you've written.
 
-- In the script, you can use generic variables `$1` and `$2` as placeholders
-  for the file name and the `maleID`.
+- In the script, you can use the first two so-called *positional parameters*,
+  `$1` and `$2`, to represent the file name and the `maleID`, respectively.
   
 - `$1` and `$2` represent the first and the second argument passed to a script
    like so: `bash myscript.sh arg1 arg2`.
@@ -277,9 +279,11 @@ $ bash netsize.sh ../data/Saavedra2013/n1.txt
 <p>
 
 To build the script, you need to combine several commands:
-   - To find the number of rows, you can use `wc`;
-   - To find the number of columns, take the first line, remove the spaces,
-     remove the line terminator `\n`, and count *characters*.
+
+- To find the number of rows, you can use `wc`.
+
+- To find the number of columns, take the first line, remove the spaces,
+  remove the line terminator `\n`, and count *characters*.
 
 </p>
 </details>
@@ -329,7 +333,7 @@ Maximum value:
       `tail`, `sort` and `uniq`).
    - The minimum and maximum values can be found by combining `sort` and
      `head` (or `tail`),
-   - To write the script, use the generic placeholders `$1` and `$2` for the
+   - To write the script, use the positional parameters `$1` and `$2` for the
      file name and column number, respectively.
 
 </p>
@@ -409,8 +413,8 @@ rm ../sandbox/toremove.txt
 <p>
 
 **(a)** If we order all species names (fifth column) of `Pacifici2013_data.csv`  
-&nbsp; &nbsp; &nbsp; in alphabetical order, which is the first species?
-Which is the last?
+in alphabetical order, which is the first species?
+And which is the last?
 ```sh
 cd ∼/CSB/unix/data/
 
@@ -423,6 +427,21 @@ cut -d ";" -f 5 Pacifici2013_data.csv | sort | tail -n 1
 # Or, using sort directly, but then you get all columns unless you pipe to cut:
 sort -t";" -k 5 Pacifici2013_data.csv | head -n 1
 ```
+
+<div class="content-box-info">
+<div>
+*_Following the output that you wanted, you may have gotten errors like this:_*
+```sh
+sort: write failed: 'standard output': Broken pipe
+sort: write error
+```
+This may seem disconcerting, but is nothing to worry about, and has to do with
+the way data *streams* through a pipe: after `head`/`tail` exits because it
+has done what was asked (print one line), `sort` or `cut` may still try to pass on
+data.
+</div>
+</div>
+
 
 **(b)** How many families are represented in the database?
 ```sh
@@ -630,6 +649,14 @@ echo "Counting the nr of occurrences of individual ${ind_ID} in file ${filename}
 cut -f 1 ${filename} | grep -c -w ${ind_ID}
 ```
 
+<div class="content-box-info">
+<div>
+Variables are *assigned* using `name=value` (no dollar sign!),
+and *recalled* using `$name` or `${name}`.
+It is good practice to put curly braces around the variable name.
+We will talk more about bash variables in the next few weeks.
+</div>
+</div>
 
 - To run the script, assuming it is named `count_baboons.sh`:
 ```sh
@@ -696,8 +723,19 @@ echo "Number of columns:"
 head -n 1 ${filename} | tr -d ' ' | tr -d '\n' | wc -c
 ```
 
-**_P.S. We'll learn about a quicker and more general way to count columns
-in a few weeks._**
+- To run the script, assuming it is named `counter.sh`:
+
+```sh
+bash counter.sh ../data/Saavedra2013/n10.txt
+# 5
+```
+
+<div class="content-box-info">
+<div>
+*We'll learn about a quicker and more general way to count columns
+in a few weeks.*
+</div>
+</div>
 
 </p>
 </details>
@@ -739,17 +777,17 @@ cut -d ',' -f 7 ../data/Buzzard2015_data.csv | tail -n +2 | sort -n | tail -n 1
 ```sh
 #!/bin/bash
 
-# $1 is the file name
-# $2 is the column of interest
+filename=$1
+column_nr=$2
 
 echo "Column name"
-cut -d ',' -f $2 $1 | head -n 1
+cut -d ',' -f ${column_nr} ${filename} | head -n 1
 echo "Number of distinct values:"
-cut -d ',' -f $2 $1 | tail -n +2 | sort | uniq | wc -l
+cut -d ',' -f ${column_nr} ${filename} | tail -n +2 | sort | uniq | wc -l
 echo "Minimum value:"
-cut -d ',' -f $2 $1 | tail -n +2 | sort -n | head -n 1
+cut -d ',' -f ${column_nr} ${filename} | tail -n +2 | sort -n | head -n 1
 echo "Maximum value:"
-cut -d ',' -f $2 $1 | tail -n +2 | sort -n | tail -n 1
+cut -d ',' -f ${column_nr} ${filename} | tail -n +2 | sort -n | tail -n 1
 ```
 
 </p>
