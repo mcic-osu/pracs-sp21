@@ -1,0 +1,285 @@
+---
+title: "Week 5: <br> Bash Scripts <br><br>"
+author: "Jelmer Poelstra"
+date: "2021/02/09 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    css: ["default", "default-fonts",  "/slides.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+---
+
+## Bash scripts
+
+- Most Bash scripts in bioinformatics are simply commands organized into a
+  rerunnable script with some added bells and whistles to check that files exist
+  and ensuring any error causes the script to abort.
+
+- Relatively simple to write with what you already know!
+
+---
+
+## Safe scripts
+
+```sh
+set -e
+set -u
+set -o pipefail
+```
+
+- Another useful setting is `set -x`,
+  which will print back commands as they are executed:
+
+```sh
+set -x 
+```
+
+---
+
+## Running scripts
+
+bash myscript.sh
+./myscript.sh
+
+chmod u+x
+
+---
+
+## Variables
+
+- Protip - rather than having to change numerous hardcoded values in your
+  scripts, using variables to store settings means you only have to change
+  one value—the value you’ve assigned to the variable
+
+- Alternatively/additionally, can use a configuration file.
+
+----
+
+## Assigning and using variables
+
+- A variable is nothing more than a pointer to the actual data
+
+.pull-left[
+**Assign** a variable (no **`$`**):
+
+```sh
+# Any string:
+my_name=Jelmer
+```
+]
+
+.pull-right[
+**Recall** a variable (with **`$`**):
+
+```sh
+$ echo $my_name
+# Jelmer
+  ```
+]
+
+--
+
+.pull-left[
+```sh
+# A file name:
+my_file="README.txt"
+```
+]
+
+.pull-right[
+```sh
+$ ls -lh $my_file
+# -rw-r--r-- 1 jelmer PAS0471 568 Dec  7 09:58 README.txt
+```
+]
+
+--
+
+.pull-left[  
+```sh
+# Use "command substitution"
+# to assign a command's output
+today=$(date +%F)
+```
+]
+
+.pull-right[
+```sh
+$ touch README_$today.txt
+$ ls README_*
+# README_2020-12-10.txt
+```
+]
+
+--
+
+.pull-left[
+Pre-existing variables:
+("**Environment variables**")
+]
+
+.pull-right[
+```sh
+$ echo $USER
+# jelmer
+```
+]
+
+---
+
+
+## More on quoting in shell commands
+
+Recall that we can use quoting to escape special characters:
+
+```sh
+$ cd XXX
+
+$ echo *
+# Should show a list of files
+
+$ echo "*"
+# *
+```
+
+But what about this?
+
+```sh
+$ echo "* and this is my shell: $SHELL"
+# * and this is my shell: /bin/bash
+```
+
+We can use *single quotes* to also escape the "**`$`**":
+```sh
+$ echo '* and this is my shell: $SHELL'
+# * and this is my shell: $SHELL
+```
+
+---
+
+## Script arguments ("positional parameters")
+
+```sh
+./myscript.sh john doe
+```
+
+- Inside the script:
+
+  ```sh
+  #!/bin/bash
+  
+  echo $1 # john
+  echo $2 # doe
+  ```
+
+- To make things clear, we can also give these arguments names in the script:
+
+  ```sh
+  #!/bin/bash
+  
+  first_name=$1
+  last_name=$1
+  ```
+
+- Notes:
+  - `$0` stores the script name [TODO: check if works with Slurm on OSC]
+  - Use `${10}`, `${11}` notation to go beyond 9 (...)
+  - `$#` has the number of arguments that were provided
+
+---
+
+## A very minimal script
+
+- Create and run a very simple script:
+  ```sh
+  $ echo 'echo "Hello $1"' > hello.sh
+  
+  $ bash hello.sh Jelmer
+  # Hello Jelmer
+  ```
+
+--
+
+.pull-left[
+- Or, assign a variable first:
+  ```sh
+  $ my_name=Jelmer
+  $ hello.sh $my_name
+  # Hello Jelmer
+  ```
+]
+
+.pull-right[
+- Or use `$USER`:
+  ```sh
+  $ hello.sh $USER
+  # Hello jelmer
+  ```
+]
+
+--
+
+- We can also redirect the output to a file:
+  ```sh
+  $ hello.sh Jelmer > hello.txt
+  
+  $ cat hello.txt
+  # Hello Jelmer
+  ```
+
+
+
+---
+
+## Another simple script:
+
+```sh
+echo "script name: $0"
+echo "first argument: $1"
+echo "number of arguments: $#"
+(head -n 2; tail -n 2) < "$1"
+```
+
+bash headtail.sh file.txt
+
+---
+
+for i in `seq 1 $2`;
+  do
+    echo "Launching program $1 with seed $i"
+    Rscript $1 $i
+  done
+
+---
+
+## Conditionals
+
+---
+
+## For loops
+
+```sh
+for item in lizard dog ukulele
+do
+  echo $item
+  echo $item >> words.txt
+done
+```
+
+---
+
+## Saving file names in an array
+
+
