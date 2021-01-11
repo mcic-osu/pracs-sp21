@@ -1,0 +1,1002 @@
+---
+title: "Week 4 - Unix Data Tools"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## *Week 4: <br> Unix Data Tools*
+----
+# Part I: ...
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/02/02 (updated: `r Sys.Date()`)
+
+---
+
+## Context for this week
+
+In the past two weeks, we learned the basics of the Unix shell.
+
+This week, we'll focus on commands to **inspect and process data**.
+
+We'll revisit some commands we saw in CSB Chapter 1 (`cut`, `uniq`, `grep`, etc),
+and will learn several new commands including the two very powerful commands
+`sed` and `awk`.
+
+---
+
+## A note before we get started
+
+There are too many commands to remember their details and syntax.
+
+And it is also not necessary to do so!
+
+More important to understand general usage and what's possible, etc.
+
+FWIW, I constantly need to look up syntax even for some of the most common
+and basic commands.
+
+---
+
+## Get the files to code-along with Buffalo Chapter 7
+
+- Go to `/fs/ess/PAS1855/$USER`
+
+- Run `git clone https://github.com/vsbuffalo/bds-files.git`
+
+- Move into the newly downloaded dir `bds-files`,  
+  and then into `chapter-07-unix-data-tools`.
+
+---
+
+## Head and tail again
+
+- `head` / `tail` will simply show the first / last few lines of a file.
+  ```sh
+  $ head Mus_musculus.GRCm38.75_chr1.bed # First/last 10 lines
+  
+  $ head -n 7 Mus_musculus.GRCm38.75_chr1.gtf # Specify with -n
+  ```
+
+--
+
+- Skip the first line of a file (*cut off the header*, if you only want the data):
+  ```sh
+  $ tail -n +6 Mus_musculus.GRCm38.75_chr1.gtf
+  $ tail -n +6 Mus_musculus.GRCm38.75_chr1.gtf | head
+  ```
+--
+
+- Print a specific line number:
+  ```sh
+  $ head -n 1866 Mus_musculus.GRCm38.75_chr1.bed | tail -n 1
+  ```
+
+--
+
+- Also useful to see if a pipeline is doing what it should:
+
+```sh
+$ grep "some_string" huge_file.txt | program1 | program2 | head -n 5
+```
+
+---
+
+## The `less` pager
+
+- `less` doesn't load entire files into memory: **easy to look at large files**.
+  ```sh
+  $ less my_file.txt
+  
+  $ zless my_fastq.gz    # `zless` variant to view zipped files!
+  ```
+
+- Now you'll be inside the pager, and your prompt is gone.
+
+--
+
+- Keyboard shortcuts:
+
+| key           | function |
+|---------------|----------|
+| `q`           | Exit `less`
+| `space bar` / `b` | Next / previous page <br>Note: `pgup` / `pgdn` usually also work.
+| `d` / `u`     | Go down / up half a page.
+| `g` / `G`     | Go to the first / last line (`home` / `end` also work)
+|`/<pattern>` / `?<pattern>` | Search forward/backward: next type keyword to search for
+| `n` / `N`     | Go to next/previous search match
+
+---
+background-color:#e4ede4
+
+## Your turn: `less`
+
+You should be in your `bds-files` directory.
+
+- Open a fastq file with `less`:
+  ```sh
+  less contaminated.fastq
+  ```
+
+- Try to move around a bit.
+
+- Jump to the first and last line.
+
+- Now look for the following pattern:
+  "AGATCGG"
+
+- Exit.
+
+---
+
+## File summary information
+
+- Number of lines with `wc -l`:
+  ```sh
+  $ wc -l contaminated.fastq # Divive by 4 to get the number of sequences
+  ```
+
+- File size with `ls -lh` or `du -h`:
+  
+  ```sh
+  ls -lh Mus_musculus.GRCm38.75_chr1.bed
+  
+  du -h Mus_musculus.GRCm38.75_chr1.bed
+  ```
+
+- Counting columns with `awk`:
+  ```sh
+  awk -F "\t" '{print NF; exit}' file
+  ```
+
+---
+
+## More `cut`, and `column` for tabular file viewing
+
+- Tab-delimited files can look messy in the terminal or text editors:
+
+```sh
+$ grep -v "^#" Mus_musculus.GRCm38.75_chr1.gtf | cut -f1-8 | head -n3
+```
+
+- With `column`, we can make this look better:
+
+```sh
+$ grep -v "^#" Mus_musculus.GRCm38.75_chr1.gtf | cut -f 1-8 | \
+  column -t | head -n 3
+```
+
+--
+
+- `column` can make even more of a difference for CSV files:
+
+```sh
+$ column -s "," -t Mus_musculus.GRCm38.75_chr1_bed.csv | head -n 3
+```
+
+--
+
+> *`column` illustrates an important point about how we should treat data:*
+> *there’s no reason to make data formats attractive at the expense of readable *
+> *by programs.*
+
+---
+
+## Regular expressions ("regex")
+
+- Regular expressions are character sequences defining a search pattern,
+  and have many symbols with a special meaning.
+  (We'll talk about regex much more in Week 11!)
+
+- Some symbols mentioned in this chapter:
+
+| Symbol            | Meaning | Example
+|-------------------|---------|--------
+| **`.`**           | Any character | `grep -o "Olfr.*"`
+| **`*`**           | Matches preceding<br>character any # times | `grep -o "Olfr.*"`
+| **`\t`**          | tab     | `echo -e "column1 \t column2"`
+| **`\n`**          | newline | `echo -e "Line1 \n Line2"`
+| **`^`** / **`$`** | beginning/end<br>of line | `grep -v "^$"`
+| **`\w`**          | alphanumeric<br> character or "_"  | `grep -E -o 'gene_id "\w+"'`
+| <code>&#124;</code> | logical or  | <code>grep -E "intron&#124;exon"</code> <br> <code>grep "intron\&#124;exon"</code>
+
+---
+
+## "Basic" versus "Extended" Regular Expressions
+
+- By default, `grep` and `sed` use Basic Regular Expressions (BRE) &mdash;  
+to turn on Extended Regular 
+  Expressions (ERE), use `grep -E` or `sed -E`.
+
+- Where this gets particularly confusing is that there are both "*POSIX*"
+  and "*GNU*" versions of each.
+  
+  We are using *GNU* tools (if you're on a Mac: see Bonus slide to install
+  the *GNU* tools), so the GNU regex are relevant to us.
+  
+- Differences between BRE and ERE for GNU tools:
+
+| ERE | BRE   | Meaning|
+|-----|-------|--------|
+| `?` | `\?`  | Matches preceding character at most once
+| `+` | `\+`  | Matches preceding character at least once
+| `{m,n}`| `\{m,n\}`| Matches preceding character *m* to *n* times
+| <code>&#124;</code> | <code>\&#124;</code> | Logical or
+|  `\(ab` `\)\1` | `(ab)\1` | Backreference *capture* with () and *recall*<br>with \1; matches "abab"
+
+- `awk` uses ERE by defaults.
+
+---
+
+## Regular expressions versus shell wildcards
+
+| Wildcard  | Regex symbol(s) | Meaning
+|-----------|-----------------|--------------------------
+| **`?`**   | **`.`**         | Any single character
+| **`*`**   | **`.*`**        | Any number of any character
+| **`[]`** and **`[^]`**   | same!        | Match/negate match of *character class*
+
+<br>
+
+- Wildcards match *file names*; matches are expanded directly by the shell.
+
+- Regular expressions match any input for the command.
+
+---
+
+## More `grep`
+
+- `grep` will allow partial matching:
+  ```sh
+  grep "Olfr" Mus_musculus.GRCm38.75_chr1_genes.txt | head -n 5
+  ```
+
+- `-v` to invert matches:
+  ```sh
+  # All strings (gene names) with Olfr except Olfr1413:
+  grep "Olfr" Mus_musculus.GRCm38.75_chr1_genes.txt | \
+      grep -v "Olfr1413"
+  
+  # Skip any line begining with a "#":
+  grep -v "^#" Mus_musculus.GRCm38.75_chr1.gtf
+  ```
+
+- `-w` to match words (consecutive alphanumeric characters *and* "_":
+  ```sh
+  $ cat example.txt
+  
+  $ grep bioinfo example.txt
+  
+  $ grep -w bioinfo example.txt
+  ```
+
+---
+
+## More `grep` (cont.)
+
+- Print lines surrounding matches using `-A`, `-B`, and `-C`:
+  ```sh
+  grep -B1 -A2 "AGATCGG" contam.fastq | head -n 6
+  ```
+  ```sh
+  # Make sure records are not separated by -- lines:
+  # grep -B1 -A2 --no-group-separator
+  ```
+
+- Match two different records:
+  ```sh
+  grep "Olfr141[13]" Mus_musculus.GRCm38.75_chr1_genes.txt
+  grep -E "(Olfr1413|Olfr1411)" Mus_musculus.GRCm38.75_chr1_genes.txt
+  ```
+
+- Count matching lines using `-c`:
+  ```sh
+  # Count gene names starting with "Olfr":
+  $ grep -c "\tOlfr" Mus_musculus.GRCm38.75_chr1_genes.txt
+  
+  # Count snRNAs:
+  $ grep -c 'gene_biotype "snRNA"' Mus_musculus.GRCm38.75_chr1.gtf
+  ```
+
+---
+
+## More `grep` (cont.)
+
+- Output only the matching part of the line with `-o`:
+  
+```sh
+# Get all gene names starting with "Olfr":
+grep -o "Olfr.*" Mus_musculus.GRCm38.75_chr1_genes.txt | head -n 3
+
+# Extract the quoted word following the gene_id column:
+grep -E -o 'gene_id "\w+"' Mus_musculus.GRCm38.75_chr1.gtf | \
+    head -n 5
+```
+
+- Use a nice little pipeline to get a cleaned list of gene names
+  by building on the previous command:
+
+```sh
+grep -E -o 'gene_id "\w+"' Mus_musculus.GRCm38.75_chr1.gtf | \
+cut -f2 -d" " | \
+sed 's/"//g' | \
+sort | \
+uniq > mm_gene_id.txt
+```
+
+---
+
+## More `sort`
+
+- Recap: `-k` to select fields, `n` to turn on *numeric* sorting,
+  and `-r` for reverse sorting:
+```sh
+# Sort a bed file by chromosome and (reversed) start position:
+$ sort -k1,1 -k2,2nr example.bed
+```
+
+- `-c` to check if a file is sorted &mdash; we get a message when the file is
+  *not* sorted, but no output when the file is sorted:
+  
+  ```sh
+  sort -k1,1 -k2,2n -c example.bed
+  # sort: example.bed:4: disorder: chr1     40      49
+  
+  sort -k1,1 -k2,2n -c example_sorted.bed
+  ```
+
+- `V` for XX sorting:
+  ```sh
+  sort -k1,1V -k2,2n example2.bed
+  ```
+
+- Show Scientific number sorting?
+
+---
+
+## Exit status of a command
+
+- We could check the *exit status* of the command (0 = success, 1 = fail):
+
+```sh
+sort -k1,1 -k2,2n -c example_sorted.bed
+echo $?
+```
+
+- grep > dev/null example?
+
+---
+
+## More `uniq`: Count occurences with `-c`
+
+```sh
+sort letters.txt | uniq -c
+```
+
+- This is very useful, e.g. this will output the total number of each type of
+  annotated element ("feature") in a genome:
+  ```sh
+  grep -v "^#" Mus_musculus.GRCm38.75_chr1.gtf | cut -f3 | \
+      sort | uniq -c
+  ```
+
+- Sort these counts in order from most frequent to least:
+  ```sh
+  grep -v "^#" Mus_musculus.GRCm38.75_chr1.gtf | cut -f3 | \
+      sort | uniq -c | sort -rn
+  ```
+
+- Or count combinations across columns &ndash; here features per strand:
+  ```sh
+  grep -v "^#" Mus_musculus.GRCm38.75_chr1.gtf | cut -f3,7 | \
+      sort | uniq -c
+  ```
+
+---
+
+## More `uniq`: Count occurences with `-c`
+
+- Check number of different features for a particular gene:
+  ```sh
+  $ grep "ENSMUSG00000033793" Mus_musculus.GRCm38.75_chr1.gtf | \
+      cut -f3 | sort | uniq -c
+  ```
+
+- Check for duplicates using `-d`:
+  ```sh
+  uniq -d mm_gene_names.txt | wc -l
+  
+  uniq -d test.bed | wc -l
+  ```
+
+---
+
+## `join` [OR SKIP JOIN?]
+
+- Also note `paste`
+
+
+---
+
+## `awk`
+
+- `awk` is a small programming language in itself!  
+  Not the best choice for complicated tasks,
+  but great for quick *file processing*.
+
+- Two core concepts: **record processing** and **pattern-action pairs**.
+
+---
+
+## `awk` record processing: Records and fields
+
+- `awk` processes *records* (by default a *line*) one at a time,  
+  as if it were a `for` loop going line by line.  
+    
+    - Each entire record is assigned to `$0`.
+
+- Designed to work with tabular data: each *column* is a *field*.
+  
+    - Columns are automatically assigned to `$1`, `$2`, `$3`, etc. 
+
+---
+
+## `awk` record processing: Pattern-action pairs
+
+- The *pattern* is an expression or regex pattern &ndash; a condition to be tested.
+
+- If the pattern evaluates to true, the *action* is performed.
+
+- General syntax: **`awk 'pattern { action }' file`**
+
+- Only one of the two is required:
+
+  - Omit the pattern: action is performed for *every record*.
+  
+  - Omit the action: print all records that match the pattern.
+
+---
+
+## Simple `awk` examples
+
+- If we omit a pattern, and print the entire record with `print $0`,
+  we can mimic `cat` &mdash; each line will be printed in its entirety.
+  ```sh
+  awk '{ print $0 }' example.bed  # Recall: action between {}
+  ```
+
+- We can also mimic cut while immediately addressing cut's main limitation
+  &mdash; column reordering:
+  ```sh
+  awk '{ print $3 "\t" $2 }' example.bed  # Cf. Buffalo example
+  
+  # What happes without "\t"?
+  awk '{ print $3 $2 }' example.bed       # Columns concatenated
+  awk '{ print $3,$2 }' example.bed       # Default sep: " "
+  ```
+
+- Print only lines where the BED feature is at least 18 bp long,
+  by subtracting two columns (!):
+  ```sh
+  awk '$3 - $2 > 18' example.bed
+  ```
+
+---
+
+## `awk` comparison and logical operators
+
+| Comparison  | Description
+|-------------|-------------|
+| `a == b`    | `a` is equal to `b`
+| `a != b`    | `a` is not equal to `b`
+| `a < b`     | `a` is less than `b`
+| `a > b`     | `a` is greater than `b`
+| `a <= b`    | `a` is less than or equal to `b`
+| `a >= b`    | `a` is greater than or equal to `b`
+| `a ~ /b/`   | `a` matches regular expression pattern `b`
+| `a !~ /b/`  | `a` does not match regular expression pattern `b`
+| `a && b`    | logical and: `a` **and** `b`
+| `a` <code>&#124;</code><code>&#124;</code> `b` | logical or: `a` **or** `b` *[note typo in Buffalo]*
+| `!a`        | not a (logical negation)
+
+---
+
+## `awk`: Filtering and combining expressions
+
+- Regular expression patterns are placed between forward slashes:
+  ```sh
+  # Print all lines where the first column contains chr1:
+  awk '$1 ~ /chr1/' example.bed
+  ```
+
+- Combining patterns &ndash; print *chr1* features longer than 10 bp:
+
+  ```sh
+  awk '$1 ~ /chr1/ && $3 - $2 > 10' example.bed
+  ```
+
+- Adding a column that contains feature length: 
+  ```sh
+  awk '$1 ~ /chr2|chr3/ { print $0 "\t" $3 - $2 }' example.bed
+  ```
+.content-box-purple[
+`r icon::fa("info-circle")` &nbsp; '|' can be used directly: `awk` uses *extended regex* (ERE) by default.
+]
+.content-box-purple[
+`r icon::fa("info-circle")` &nbsp; We can use **`|`** *within* a regex,  
+    &nbsp; &nbsp; &nbsp; &nbsp; and **`||`** and **`&&`** to chain together multiple regex.
+]
+  
+---
+
+## `awk` so far
+
+> *So far, these exercises have illustrated two ways Awk can come in handy:*
+> - *For filtering data using rules that can combine regular expressions and arithmetic*
+> - *Reformatting the columns of data using arithmetic*
+
+---
+
+## `awk`: Actions before and after record processing
+
+- The `BEGIN` and `END` patterns can be used to specify actions before and
+  after record processing. Here:
+  
+    - We initialize a variable `s` before starting record processing;
+    - For each record, add the sum of the feature length (col3 - col2) to `s`;
+    - After record processing, calculate the mean by dividing by `NR`,  
+      the number of records.
+  
+  ```sh
+  awk 'BEGIN{ s = 0 };            
+      { s += ($3-$2) };             
+      END{ print "mean: " s/NR };' \
+      example.bed
+  ```
+
+.content-box-purple[
+`r icon::fa("info-circle")` &nbsp; The `+=` operator is shorthand for adding to a variable:
+`x += 1` means &nbsp; &nbsp; &nbsp; &nbsp; `x = x + 1`. It is used in many languages including Python.
+] 
+
+.content-box-purple[
+`r icon::fa("info-circle")` &nbsp; When using multiple pattern-action pairs, they are separated by "**`;`**".
+]
+---
+
+## `awk` special variables and keywords
+
+| keyword/<br>variable  | meaning    |
+|----------|------------|
+| `BEGIN`  | Used as a pattern that matches the start of the file
+| `END`    | Used as a pattern that matches the end of the file
+| `NR`     | Number of Records (running count; in `END`: total nr. of lines)
+| `NF`     | Number of Fields (for each record)
+| `$0`     | Contains entire record (usually a line)
+| `$1` - `$n` | Contains one column each
+
+---
+
+## `awk` special variables and keywords
+
+| keyword/<br>variable  | meaning    |
+|----------|------------|
+| `BEGIN`  | Used as a pattern that matches the start of the file
+| `END`    | Used as a pattern that matches the end of the file [cf. `EOF`]
+| `NR`     | Number of Records (running count; in `END`: total nr. of lines)
+| `NF`     | Number of Fields (for each record)
+| `$0`     | Contains entire record (usually a line)
+| `$1` - `$n` | Contains one column each
+| `FS`     | Input Field Separator (default: any whitespace)
+| `OFS`    | Output Field Separator (default: single space)
+| `RS`     | Input Record Separator (default: newline)
+| `ORS`    | Output Record Separator (default: newline)
+
+---
+
+## `awk` functions
+
+| Function         | Meaning                        |
+|------------------|--------------------------------|
+| `length(<string>)`        | Return number of characters
+| `tolower(<string>)`       | Convert to lowercase
+| `toupper(<string>)`       | Convert to uppercase
+| `substr(<string>, <start>, <end>)`  | Return substring
+| `split(<string>, <array>, <delimiter>)`   | Split into chunks in an array
+| `sub(<from>, <to>, <string>)`        | Substitute (replace) regex
+| `gsub(<from>, <to> <string>)`        | >1 substitution per line 
+| print                     | Print, e.g. column: `print $1`
+| exit                      | Break out of record-processing loop; e.g. to stop when match is found
+| next                      | Don't process later fields: to next iteration
+| 
+
+---
+
+## Counting columns with `awk`
+
+- `NF` is the number of *fields*. This finally brings us to the
+  **column-counting** examples shown earlier in the Buffalo chapter:
+  ```sh
+  awk -F "\t" '{print NF; exit}' Mus_musculus.GRCm38.75_chr1.bed
+  ```
+  
+  .content-box-red[
+  `r icon::fa("question")` &nbsp; Why do we need the `exit` function here?
+  ]
+
+- For the gtf file, we first get rid of the header lines:
+  ```sh
+  grep -v "^#" Mus_musculus.GRCm38.75_chr1.gtf | \
+      awk -F "\t" '{print NF; exit}'
+  ```
+  
+  ```sh
+  # We can also do that in awk:
+  awk -F "\t" '!/^#/ {print NF; exit}' Mus_musculus.GRCm38.75_chr1.gtf
+  ```
+
+---
+
+## Misc `awk`
+
+- We can also use `NR` to print specific lines (here, 3-5):
+  ```sh
+  awk 'NR >= 3 && NR <= 5' example.bed
+  ```
+
+- We can convert a GTF file to a BED file (subtracting 1 off the end location):
+  ```sh
+  awk '!/^#/ { print $1 "\t" $4-1 "\t" $5 }' \
+      Mus_musculus.GRCm38.75_chr1.gtf | head -n 3
+  ```
+
+<br>
+
+- We'll skip the final example, which shows the use of an "associative array"
+  (same as "dictionary" in Python) and a `for` loop within `awk`:  
+  We're generally better off using Python (or R, etc) in such cases. 
+
+- For those working with sequencing data a lot, have a look at the `bioawk`
+  section.
+
+---
+
+## Replacing strings with `sed`
+
+- `sed` is most often used to perform string replacements,  
+  using the syntax `'s/pattern/replacement/[modifiers]'`,  
+  where `s` stands for *substitute*.
+  
+  For instance, we can replace "chrom" by "chr" like so:
+
+  ```sh
+  head -n 3 chroms.txt # before sed
+  
+  sed 's/chrom/chr/' chroms.txt | head -n 3
+  ```
+
+- For global substitution (>1 per line), we would use the `g` modifier,
+  and for case-insensitive matching, the `i` modifier:
+  
+  ```sh
+  sed 's/chrom/chr/ig' chroms.txt | head -n 3
+  ```
+
+---
+
+## `sed` output
+
+- Note that `sed` does not edit the file in place, and outputs to standard out.
+  Usually, we redirect the output to a new file:
+  ```sh
+  sed 's/chrom/chr/ig' chroms.txt > chroms_renamed.txt
+  ```
+
+- When we want replacements in place, **don't redirect to the same file!**
+  
+  ```sh
+  sed 's/chrom/chr/ig' chroms.txt > chroms.txt # NO!!
+  ```
+  
+  .content-box-red[
+  `r icon::fa("question")` &nbsp; Why does this fail?
+  ]
+
+- We *can* instruct sed to perform the replacement in place:
+
+  ```sh
+  cp chroms.txt chroms_inplace.txt
+  sed -i 's/chrom/chr/' test_chroms.txt # Edits original file
+  
+  # Or create a backup copy using "inplace=<backup-suffix>"
+  cp chroms.txt chroms_inplace.txt
+  sed --inplace=backup 's/chrom/chr/' test_chroms.txt
+  ```
+
+---
+
+## Reformatting using `sed`
+
+- Let's say we want to replace the format `chr1:28427874-28425431`
+  ("chrom:start-end") by having a tab (`"\t"`) between each field.  
+  
+  We would normally this using files, but we can test with `echo`:
+  ```sh
+  # Use two consecutive sed calls:
+  $ echo "chr1:28427874-28425431" | sed 's/:/\t/' | sed 's/-/\t/'
+  
+  # Use -e for multiple expressions:
+  $ echo "chr1:28427874-28425431" | sed -e 's/:/\t/' -e 's/-/\t/'
+  
+  # Use a character class to match both the : and - at once:
+  $ echo "chr1:28427874-28425431" | sed 's/[:-]/\t/g'
+  ```
+  
+- Note that `tr` would also work here:
+  ```sh
+  $ echo "chr1:28427874-28425431" | tr ':-' '\t'
+  ```
+
+---
+
+## Backreferences in regular expressions
+
+- Let's say our start and end columns are reversed.
+  In `awk`, fields-as-variables (`$1`, etc.) allows reordering.
+  How can we do this with `sed`?
+
+- We can use **backreferences**, which allow you to capture a matched string,
+  and *recall it*.
+  (A general regex feature: we will see this in Python.)
+
+- Backreferences are *captured* in parentheses:  **`(pattern1)-(pattern2)`**,
+  and *recalled* using **`\1`** for the first, **`\2`** for the second, etc.
+  
+- For instance, in `sed`, to invert the order of two words:
+
+  ```sh
+  $ echo "inverted words" | sed -E 's/(\w+) (\w+)/\2 \1/'
+  # words inverted
+  ```
+
+- Recalling a backreference can also happen while matching!
+
+  ```sh
+  echo "abab" | grep -E '(ab)\1'
+  # abab
+  ```
+
+  .content-box-purple[
+  `r icon::fa("info-circle")` &nbsp; Don't forget to turn on extended regex with `-E`!
+  ]
+
+---
+
+## Reformatting using `sed` (cont.)
+
+- So, let's invert these two fields:
+  ```sh
+  $ echo "28425431-28427874" | \
+      sed -E 's/([0-9]+)-([0-9]+)/\2-\1/'
+  ```
+  
+- Going back to the format that has `chr` as well:  
+  ```sh
+  echo "chr1:28425431-28427874" | \
+      sed -E 's/(chr[0-9]+):([0-9]+)-([0-9]+)/\1:\3-\2/'
+  ```
+
+- What if some chromosomes had names like `chr9a`?
+  To allow for *any* character up until the delimiter (`:`),
+  we could use `:` as a character class and *negate* it:
+  ```sh
+  echo "chr9a:28425431-28427874" | \
+      sed -E 's/(chr[^:]+):([0-9]+)-([0-9]+)/\1:\3-\2/'
+  ```
+
+---
+
+## Reformatting using `sed` (cont.)
+
+- Finally, we can reformat the output. Here is the example from Buffalo,
+  which gives tab-separated (**`\t`**) output:
+  
+  ```sh
+  echo "chr1:28427874-28425431" | \
+      sed -E 's/^(chr[^:]+):([0-9]+)-([0-9]+)/\1\t\2\t\3/'
+  ```
+  
+  .content-box-purple[
+  `r icon::fa("info-circle")` &nbsp; Note the caret sign **`^`** in **`s/^`**,
+  which matches the beginning of a line.
+  Not to be confused with a **`^`** as the first character inside **`[]`**,
+  which is for negation (!). The counterpart of **`^`** is **`$`**,
+  which matches the end of a line.
+  ]
+
+---
+
+## Print only matching or selected lines using `sed`
+
+- Let's say we want to extract a list of transcript IDs from a GTF file,  
+  which are listed as `"transcript_id "ENSMUST00000160944"`.
+
+  ```sh
+  grep -v "^#" Mus_musculus.GRCm38.75_chr1.gtf | head -n 3 | \
+      sed -E 's/.*transcript_id "([^"]+)".*/\1/'
+  ```
+  What went wrong? By default, non-matching lines are also printed,
+  and since there is no replacement going on there, the full lines are printed.
+  
+- We can tell `sed` to only print matching lines using `-n` and `p`:
+  ```sh
+  grep -v "^#" Mus_musculus.GRCm38.75_chr1.gtf | head -n 3 | \
+      sed -E -n 's/.*transcript_id "([^"]+)".*/\1/p'
+  ```
+
+<br>
+
+- We can also use this construct to simply print specific line numbers:
+  ```sh
+  sed -n '20,50p' Mus_musculus.GRCm38.75_chr1.gtf
+  ```
+
+---
+
+## Greedy and non-greedy matching [BONUS?]
+
+- When matching with regular expressions, you need to take care to match to
+  "greedily".
+  
+  For instance, when using a delimiter to try to define the end of the match,
+  but this delimited occurs multiple times, problems can occur:
+  
+  ```sh
+  $ echo 'transcript_id "ENSMUST00000160944"; gene_name "Gm16088"' \
+        > greedy_example.txt
+  
+  $ sed -E 's/transcript_id "(.*)".*/\1/' greedy_example.txt
+  # ENSMUST00000160944"; gene_name "Gm16088
+  
+  $ sed -E 's/transcript_id "([^"]+)".*/\1/' greedy_example.txt
+  # ENSMUST00000160944
+  ```
+
+---
+
+## Misc. `sed`
+
+- Note that you can use other delimiters than `/` in the substitution command,
+  which can be useful when patterns and/or replacement contain slashes:
+  
+  ```sh
+  sed 's_ _ _'
+  ```
+
+---
+
+## Subshells
+
+```sh
+(zgrep "^#" Mus_musculus.GRCm38.75_chr1.gtf.gz; \
+zgrep -v "^#" Mus_musculus.GRCm38.75_chr1.gtf.gz | \
+sort -k1,1 -k4,4n) | gzip > Mus_musculus.GRCm38.75_chr1_sorted.gtf.gz
+```
+
+---
+
+## Process substitution
+
+```sh
+cat <(echo "hello, process substitution")
+```
+
+```sh
+cat $(echo "hello, process substitution")
+cat: hello,: No such file or directory
+cat: process: No such file or directory
+cat: substitution: No such file or directory
+```
+
+```sh
+echo "hello, process substitution" | cat
+```
+
+---
+
+## Process substitution (cont.)
+
+- Capturing input streams:
+  ```sh
+  program --in1 <(makein raw1.txt) --in2 <(makein raw2.txt) \
+  --out1 out1.txt --out2 out2.txt
+  ```
+
+- Capturing output streams:
+  ```sh
+  program --in1 in1.txt --in2 in2.txt \
+  --out1 >(gzip > out1.txt.gz) --out2 >(gzip > out2.txt.gz)
+  ```
+
+- Combining both:
+  ```sh
+  program --in1 <(makein raw1.txt) --in2 <(makein raw2.txt) \
+      --out1 >(gzip > out1.txt.gz) --out2 >(gzip > out2.txt.gz)
+  ```
+
+- Why is this useful? Why not write intermediate files?
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+<br> <br> <br> <br>
+
+---
+class: inverse middle center
+
+# Bonus Materials
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Bonus: Optional install for Mac Users: `GNU` instead of `BDS` tools
+
+Assumes you have already installed Homebrew &mdash;
+if not, go back to the optional installation instructions in Week 1.
+
+```sh
+brew install coreutils # Basic tools like ls, cat, head, tail etc.
+brew install grep      # To get GNU grep, not included in basic tools
+brew install gnu-sed   # To get GNU sed, also not included in basic
+```
+
+- After this, use `gcat` instead of `cat`, `ggrep` instead of `grep` etc.
+
+- To check your installation, e.g.:
+  ```sh
+  ggrep --version
+  ```
+
+---
+
+## Bonus: A subshell and a custom function
+
+- "Subshell" between ( ): both head and tail get the same standard input:
+  
+  ```sh
+  (head -n 2; tail -n 2) < file
+  ```
+
+- Creating a custom function:
+
+  ```sh
+  # Note that there was an error in Buffalo's function, lacking a trailing ";"
+  i() { (head -n 2; tail -n 2) < "$1" | column -t; }
+  ```
+  
+  - This is a nice trick, but ...
+  
+  - Mention aliases?
