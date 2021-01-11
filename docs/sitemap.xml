@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
-    <loc>https://mcic-osu.github.io/pracs-sp21/about.html</loc>
-    <lastmod>2020-12-20T16:52:14-05:00</lastmod>
-  </url>
-  <url>
-    <loc>https://mcic-osu.github.io/pracs-sp21/</loc>
-    <lastmod>2020-12-20T17:09:49-05:00</lastmod>
-  </url>
-  <url>
-    <loc>https://mcic-osu.github.io/pracs-sp21/week02-ex-md.html</loc>
-    <lastmod>2020-12-20T17:51:58-05:00</lastmod>
+    <loc>https://mcic-osu.github.io/pracs-sp21/w01_exercises.html</loc>
+    <lastmod>2021-01-11T08:51:35-05:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-01/</loc>
