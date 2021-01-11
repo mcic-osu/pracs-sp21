@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>pracs-sp21</title>
+    <link>https://mcic-osu.github.io/pracs-sp21</link>
+    <atom:link href="https://mcic-osu.github.io/pracs-sp21/index.xml" rel="self" type="application/rss+xml"/>
+    <description>Practical Computing Skills for Biologists (PP8300-SP21)
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Sun, 10 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Week 01</title>
+      <link>https://mcic-osu.github.io/pracs-sp21/posts/week-01</link>
+      <description>&lt;p&gt;Course Intro &amp;amp; Shell Basics&lt;/p&gt;
+</description>
+      <guid>https://mcic-osu.github.io/pracs-sp21/posts/week-01</guid>
+      <pubDate>Sun, 10 Jan 2021 00:00:00 +0000</pubDate>
+    </item>
+  </channel>
+</rss>
