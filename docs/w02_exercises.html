@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="https://mcic-osu.github.io/pracs-sp21/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -86,27 +85,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: </title>
+  <title>pracs-sp21: Exercises: Week 2</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: "/>
+  <meta property="og:title" content="pracs-sp21: Exercises: Week 2"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: "/>
+  <meta property="twitter:title" content="pracs-sp21: Exercises: Week 2"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":[""]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Exercises: Week 2"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2442,12 +2441,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"","authors":[]}
+{"title":"Exercises: Week 2","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2485,180 +2484,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).load(function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash && window.location.hash.startsWith("#category:")) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace(/^#category:/, "");
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
-
-      // update the list_caption
-      var list_caption = $('.posts-list-caption');
-      var caption = (page_category || '').toLowerCase() === "articles"
-        ? list_caption.attr('data-caption')
-        : ('Category: ' + page_category.replace(/_/g," "));
-      list_caption.text(caption);
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-      // reset list caption
-      var list_caption = $('.posts-list-caption');
-      list_caption.text(list_caption.attr('data-caption'));
-
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // click handling for tags
-  $('.dt-tag').click(function(ev) {
-    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
-    return false;
-  })
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-apply-limit l-page">
-<div class="posts-list">
-<h1 class="posts-list-caption" data-caption=""></h1>
-<a href="posts/week-02/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 18, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Week 02</h2>
-<div class="dt-tags"></div>
-<p>Project organization and Markdown</p>
-</div>
-</a>
-<a href="posts/week-01/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 10, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Week 01</h2>
-<div class="dt-tags"></div>
-<p>Course intro &amp; Shell basics</p>
-</div>
-</a>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>index.utf8</h1>
+<h1>Exercises: Week 2</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2666,11 +2494,274 @@ function init_posts_list() {
 
 
 <div class="d-article">
-<p><br> <br></p>
-<h2 align="center" style="font-size:30px">
-Practical Computing Skills for Biologists <br> <span style="color:#969696"> Spring 2021 <br> </span> <span style="color:#bb0000; font-size:20px">A section of Current Topics in Plant Pathology (PLNTPTH 8300)</span>
-</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#main-exercises">Main exercises</a>
+<ul>
+<li><a href="#exercise-1-course-notes-in-markdown">Exercise 1: Course notes in Markdown</a></li>
+<li><a href="#exercise-2">Exercise 2</a></li>
+</ul></li>
+<li><a href="#bonus-exercises">Bonus exercises</a>
+<ul>
+<li><a href="#exercise-3">Exercise 3</a></li>
+<li><a href="#buffalo-chapter-3-code-along">Buffalo Chapter 3 code-along</a></li>
+</ul></li>
+<li><a href="#solutions">Solutions</a>
+<ul>
+<li><a href="#exercise-2-1">Exercise 2</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<h2 id="main-exercises">Main exercises</h2>
+<h3 id="exercise-1-course-notes-in-markdown">Exercise 1: Course notes in Markdown</h3>
+<p>Create a Markdown document with course notes. I recommend writing this document in <em>VS Code</em>.</p>
+<p>Cover this week’s material in some detail. If you made notes last week in another format, include those too. (And try to keep using this document throughout the course!)</p>
+<p>Some pointers:</p>
+<ul>
+<li><p>Use several header levels and use them consistently: e.g. a level 1 header (<code>#</code>) for the document’s title, level 2 headers (<code>##</code>) for each week, and so on.</p></li>
+<li><p>Though it should foremost be a <em>functional</em> document for notes, try to incorporate any appropriate formatting option: e.g. <strong>bold text</strong>, <em>italic text</em>, <code>inline code</code>, code blocks, ordered/unordered lists, hyperlinks, and perhaps a figure.</p></li>
+<li><p>You may even want to try your hand at a <em>table</em> in Markdown (e.g. for an overview of certain commands), though admittedly, the syntax for a table is not particularly graceful or easy to use.</p></li>
+<li><p>Make sure you know how to start a new paragraph and how to force a newline.</p></li>
+</ul>
+<h3 id="exercise-2">Exercise 2</h3>
+<p><em>While doing this exercise, save the commands you use in a text document – either write in a text document in VS Code and send the commands to the terminal, or copy them into a text document later.</em></p>
+<ol type="1">
+<li><p><strong>Getting set up</strong><br />
+Create a directory for this exercise, and change your working dir to go there. You can do this either in your <code>$HOME</code> dir (e.g. <code>~/pracs-sp21/w02/ex2/</code>) or your dir in the project dir (<code>/fs/ess/PAS1855/users/$USER/w02/ex2/</code>).</p></li>
+<li><p><strong>Create a disorganized mock project</strong><br />
+Using the <code>touch</code> command and brace expansions, create a mock project by creating 100s of empty files, either in a <em>single directory</em> or a <em>disorganized</em> dir structure.</p>
+<p>If you want, you can create file types according to what you typically have in your project — otherwise, create files with:</p>
+<ul>
+<li>Raw data (e.g. <code>.fastq.gz</code>)</li>
+<li>Reference data (e.g. <code>.fasta</code>),</li>
+<li>Metadata (e.g. <code>.txt</code> or <code>.csv</code>)</li>
+<li>Processed data and results (e.g. <code>.bam</code>, <code>.out</code>)</li>
+<li>Scripts (e.g. <code>.sh</code>, <code>.py</code> or <code>.R</code>)</li>
+<li>Figures (e.g. <code>.png</code> or <code>.eps</code>)</li>
+<li>Notes (<code>.txt</code> and/or <code>.md</code>)</li>
+<li>Perhaps some other file type you usually have in your projects.</li>
+</ul></li>
+<li><p><strong>Organize the mock project</strong><br />
+Organize the mock project according to some of the principles we discussed this week.</p>
+<p>Even while adhering to these principles, there is plenty of wiggle room and no single perfect dir structure: what is optimal will depend on what works for you and on the project size and structure. Therefore, think about what makes sense to you, and what makes sense given the files you find yourself with.</p>
+<p>Try to use as few commands as possible to move the files – use wildcards!</p></li>
+<li><p><strong>Change file permissions</strong><br />
+Change permissions to what you think is reasonable; but in any case, make sure no-one has write permissions for the raw data files.</p></li>
+<li><p><strong>Create mock alignment files</strong><br />
+Create a directory <code>alignment</code> inside an appropriate dir in your project (e.g. <code>analysis</code>, <code>results</code>, or a dir for <em>processed</em> data), and create files for all combinations of 30 samples (<code>01</code>-<code>30</code>), 5 treatments (<code>A</code>-<code>E</code>), and 2 dates (<code>08-14-2020</code> and <code>09-16-2020</code>): <code>sample01_A_08-14-2020.sam</code> - <code>sample50_H_09-16-2020.sam</code>. These 300 files can be created with a single <code>touch</code> command.</p></li>
+<li><p><strong>Rename files in a batch</strong><br />
+Woops! We stored the alignment files that we created in the previous step as SAM files (<code>.sam</code>), but this was a mistake – the files are actually the binary counterparts of SAM files: BAM files (<code>.bam</code>).</p>
+<p>Move into the dir with your misnamed BAM files, and use a <code>for</code> loop to rename them: change the extension from <code>.sam</code> to <code>.bam</code>.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>This can be most easily done with the <code>basename</code> command.</p>
+</p>
+</details></li>
+<li><p><strong>Copy files with wildcards</strong><br />
+Still in the dir with your SAM files, create a new dir <code>subset</code>. Then, using a single <code>cp</code> command, copy files that satisfy the following conditions into the <code>subset</code> dir:</p>
+<ul>
+<li>The sample number should be 01-19;</li>
+<li>The treatment should be A, B, or C. Create a <code>README.md</code> in the dir that explains what you did.</li>
+</ul>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>Hint: you can use two consecutive character sets.</p>
+</p>
+</details></li>
+<li><p><strong>Bonus: a trickier wildcard selection</strong><br />
+Still in the dir with your SAM files, create a new dir <code>subset2</code>. Then, copy all files <em>except the one for “<code>sample28</code>”</em> into this dir. Do so using a single <code>cp</code> command, though you’ll need two separate wildcard expansion or brace expansion arguments (as in <code>cp wildcard-selection1 wildcard-selection2 destination/</code>).</p></li>
+<li><p><strong>Bonus: a trickier renaming loop</strong><br />
+You now realize that your date format is suboptimal (<code>MM-DD-YYYY</code> to give <code>08-14-2020</code> and <code>09-16-2020</code>) and that you should use the <code>YYYY-MM-DD</code> format. Use a <code>for</code> loop to rename the files.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>Test your commands by echo-ing and processing a single file name as an example.</p>
+</p>
+</details></li>
+<li><p><strong>Create a README</strong><br />
+Include a <code>README.md</code> that described what you did; again, try to get familiar with Markdown syntax by using formatting liberally.</p></li>
+</ol>
+<h2 id="bonus-exercises">Bonus exercises</h2>
+<h3 id="exercise-3">Exercise 3</h3>
+<p>If you feel like it would be good to reorganize one of your own projects, you can do so using what you’ve learned this week. But make sure you create a backup copy of the entire project first!</p>
+<h3 id="buffalo-chapter-3-code-along">Buffalo Chapter 3 code-along</h3>
+<p>Move back to <code>/fs/ess/PAS1855/users/$USER</code> and download the repository accompanying the Buffalo book using <code>git clone https://github.com/vsbuffalo/bds-files.git</code>. Then, move into the new dir <code>bds-files</code>, and code along with Buffalo Chapter 3.</p>
+<p><br></p>
+<h2 id="solutions">Solutions</h2>
+<h3 id="exercise-2-1">Exercise 2</h3>
+<details>
+<summary>1. Getting set up</summary>
+<p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">mkdir</span> ~/pracs-sp21/w02/ex2/ <span class="co"># or similar, whatever dir you chose</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="bu">cd</span> !$                       <span class="co"># !$ is a shortcut to recall the last argument from the last commands</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<summary>2. Create a disorganized mock project</summary>
+<p>
+<p>An example:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">touch</span> sample<span class="dt">{001..150}</span>_<span class="dt">{F,R}</span>.fastq.gz</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">touch</span> ref.fasta ref.fai</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">touch</span> sample_info.csv sequence_barcodes.txt</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">touch</span> sample<span class="dt">{001..150}</span>.<span class="dt">{bam,.bam.bai,_fastqc.zip,_fastqc.html}</span>.bam.bai gene-counts.tsv DE-results.txt GO-out.txt</span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="fu">touch</span> fastqc.sh multiqc.sh align.sh sort_bam.sh count1.py count2.py DE.R GO.R KEGG.R</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">touch</span> Fig<span class="dt">{1..5}</span>.png all_qc_plots.eps weird-sample.png</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="fu">touch</span> dontforget.txt README.md README_DE.md tmp5.txt</span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="fu">touch</span> slurm-84789570.out slurm-84789571.out slurm-84789572.out</span></code></pre></div>
+</p>
+</details>
+<details>
+<summary>3. Organize the mock project</summary>
+<p>
+<p>An example:</p>
+<p>Create directories:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">mkdir</span> -p data/<span class="dt">{raw,meta,ref}</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">mkdir</span> results/<span class="dt">{alignment,counts,DE,enrichment,logfiles,qc/figures}</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">mkdir</span> -p scripts</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">mkdir</span> -p figures/<span class="dt">{ms,sandbox}</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="fu">mkdir</span> -p doc/misc</span></code></pre></div>
+<p>Move files:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">mv</span> *fastq.gz data/raw/</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">mv</span> ref.fa* data/ref/</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">mv</span> sample_info.csv sequence_barcodes.txt data/meta/</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="fu">mv</span> *.bam *.bam.bai results/alignment/</span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="fu">mv</span> *fastqc* results/qc/</span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="fu">mv</span> gene_counts.tsv results/counts/</span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="fu">mv</span> DE-results.txt results/DE/</span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="fu">mv</span> GO-out.txt results/enrichment/</span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="fu">mv</span> *.sh *.R *.py scripts/</span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="fu">mv</span> README_DE.md results/DE/</span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="fu">mv</span> Fig[0-9]* figures/ms</span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="fu">mv</span> weird-sample.png figures/sandbox</span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="fu">mv</span> all_qc_plots.eps results/qc/figures/</span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="fu">mv</span> dontforget.txt tmp5.txt doc/misc/</span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="fu">mv</span> slurm* results/logfiles/</span></code></pre></div>
+</p>
+</details>
+<details>
+<summary>4. Change file permissions</summary>
+<p>
+<p>To ensure that no-one has write permission for the raw data, you could, for example, use:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">chmod</span> a=r data/raw/*</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">chmod</span> a-w data/raw/*</span></code></pre></div>
+</p>
+</details>
+<details>
+<summary>5. Create mock alignment files</summary>
+<p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a>$ <span class="fu">mkdir</span> -p results/alignment</span>
+<span id="cb6-2"><a href="#cb6-2"></a>$ <span class="co"># rm results/alignment/* # In the example above, we already had such a dir with files</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co"># Create the files:</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>$ <span class="fu">touch</span> sample<span class="dt">{01..30}</span>_<span class="dt">{A..E}</span>_<span class="dt">{08-14-2020,09-16-2020}</span>.sam</span>
+<span id="cb6-6"><a href="#cb6-6"></a></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># Check if we have 400 files:</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>$ <span class="fu">ls</span> <span class="kw">|</span> <span class="fu">wc</span> -l</span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co"># 400</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<summary>6. Rename files in a batch</summary>
+<p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Move into the directory so we don&#39;t have to deal with dirname:</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="bu">cd</span> results/alignment</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co"># Use *globbing* to match the files to loop over (rather than `ls`):</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">for</span> <span class="ex">oldname</span> in *.sam</span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="kw">do</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>   <span class="co"># Remove the `sam` suffix using `basename $oldname sam`,</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>   <span class="co"># use command substitution (`$()` syntax) to catch the output of the</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>   <span class="co"># `basename` command, and paste `bam` at the end:</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>   <span class="va">newname=$(</span><span class="fu">basename</span> <span class="va">$oldname</span> sam<span class="va">)</span>bam</span>
+<span id="cb7-11"><a href="#cb7-11"></a>   </span>
+<span id="cb7-12"><a href="#cb7-12"></a>   <span class="co"># Report what we have:</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>   <span class="co"># (Using `-e` with echo we can print an extra newline with &#39;\n`,</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a>   <span class="co"># to separate files by an empty line)</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a>   <span class="bu">echo</span> <span class="st">&quot;Old name: </span><span class="va">${oldname}</span><span class="st">&quot;</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a>   <span class="bu">echo</span> -e <span class="st">&quot;New name: </span><span class="va">${newname}</span><span class="st"> \n&quot;</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>   </span>
+<span id="cb7-18"><a href="#cb7-18"></a>   <span class="co"># Execute the move:</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>   <span class="fu">mv</span> <span class="va">${oldname}</span> <span class="va">${newname}</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a><span class="kw">done</span></span></code></pre></div>
+<p>A couple of take-aways:</p>
+<ul>
+<li>Note that we don’t need a special construction to paste strings together. we simply type <code>bam</code> after what will be the extension-less file name from the <code>basename</code> command.</li>
+<li>We print the old and new names to screen; this is not necessary, of course, but good practice. Moreover, this way we can test whether our loop works before adding the <code>mv</code> command.</li>
+<li>We use informative variable names (<code>oldname</code> and <code>newname</code>), not cryptic ones like <code>i</code> and <code>o</code>.</li>
+</ul>
+</p>
+</details>
+<details>
+<summary>7. Copy files with wildcards</summary>
+<p>
+<ul>
+<li>Create the new dir:</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">mkdir</span> subset</span></code></pre></div>
+<ul>
+<li>Copy the files using three consecutive wildcard selections:</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">cp</span> sample[0-1][0-9]_[A-C]* subset/</span></code></pre></div>
+<ul>
+<li>Report what we did, including a command substitution to insert the current date:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="bu">echo</span> <span class="st">&quot;On </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">, created a dir &quot;</span>subset<span class="st">&quot; and copied only files for samples 1-29 \</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">and treatments A-D into this dir&quot;</span> <span class="op">&gt;</span> subset/README.md</span></code></pre></div>
+</p>
+</details>
+<details>
+<summary>8. Bonus: a trickier wildcard selection</summary>
+<p>
+<ul>
+<li>Create the new dir:</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">mkdir</span> subset2</span></code></pre></div>
+<ul>
+<li>The most straightforward way in this case is using two brace expansion selections, one for sample numbers smaller than 28, and one for sample numbers larger than 28:</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">cp</span> sample<span class="dt">{01..27}</span>* sample<span class="dt">{29..30}</span>* subset2/</span></code></pre></div>
+<ul>
+<li>However, we may not always be able to use ranges, and being a little creative with wildcard expansion also works — first we select all samples not starting with a 2, and then among samples that do start with a 2, we exclude 28:</li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">cp</span> sample?[^2]* sample2[^8]* subset2/</span></code></pre></div>
+</p>
+</details>
+<details>
+<summary>9. Bonus: a trickier renaming loop</summary>
+<p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">for</span> <span class="ex">oldname</span> in sample01*.bam</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">do</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a>   <span class="co"># Use `cut` to extract month, day, year, and a &quot;prefix&quot; that contains</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>   <span class="co"># the sample number and the treatment, and save these using command substitution:</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>   <span class="va">month=$(</span><span class="bu">echo</span> <span class="va">${oldname}</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 1<span class="va">)</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a>   <span class="va">day=$(</span><span class="bu">echo</span> <span class="va">${oldname}</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 2<span class="va">)</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a>   <span class="va">year=$(</span><span class="fu">basename</span> <span class="va">${oldname}</span> .bam <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 3<span class="va">)</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>   <span class="va">prefix=$(</span><span class="bu">echo</span> <span class="va">${oldname}</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 1-2<span class="va">)</span></span>
+<span id="cb14-9"><a href="#cb14-9"></a>   </span>
+<span id="cb14-10"><a href="#cb14-10"></a>   <span class="co"># Paste together the new name:</span></span>
+<span id="cb14-11"><a href="#cb14-11"></a>   <span class="va">newname=${prefix}</span>_<span class="va">${year}</span>-<span class="va">${month}</span>-<span class="va">${day}</span>.bam</span>
+<span id="cb14-12"><a href="#cb14-12"></a>   </span>
+<span id="cb14-13"><a href="#cb14-13"></a>   <span class="co"># Report what we have:</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a>   <span class="bu">echo</span> <span class="st">&quot;Old name: </span><span class="va">${oldname}</span><span class="st">&quot;</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a>   <span class="bu">echo</span> -e <span class="st">&quot;New name: </span><span class="va">${newname}</span><span class="st"> \n&quot;</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a>   </span>
+<span id="cb14-17"><a href="#cb14-17"></a>   <span class="co"># Execute the move:</span></span>
+<span id="cb14-18"><a href="#cb14-18"></a>   <span class="fu">mv</span> <span class="va">${oldname}</span> <span class="va">${newname}</span></span>
+<span id="cb14-19"><a href="#cb14-19"></a><span class="kw">done</span></span></code></pre></div>
+<div class="content-box-info">
+<div>
+<p>This can be done more succinctly using <em>regular expression</em> and the <code>sed</code> command, both of which we’ll learn about later in the course.</p>
+</div>
+</div>
+</p>
+</details>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

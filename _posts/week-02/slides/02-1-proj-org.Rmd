@@ -1,0 +1,332 @@
+---
+title: "Week 2 - Lecture 1 - Project Organization"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## *Week 2: <br> Project Organization and Markdown*
+----
+# Part I: Project Organization
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/01/19 (updated: `r Sys.Date()`)
+
+---
+
+## Goals for This Week
+
+- Learn some best practices for project organization, documentation, and management.
+
+- Learn how to do the above in the Unix shell.
+
+- Learn how to use Markdown for documentation (and beyond).
+
+- Get to know our text editor, VS Code, a bit better.
+
+---
+class:inverse middle center
+
+# Overview of Topics this Week
+
+----
+
+<br>
+
+.left[
+### I: Some Best Practices for Project Organization (this slide deck)
+### II: [Managing Files in the Shell (separate slide deck)](LINK)
+### III: [Markdown and VS Code (separate slide deck)](LINK)
+]
+
+<br> <br> <br> <br>
+
+---
+class:inverse middle center
+
+# I: Some Best Practices for Project Organization
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Importance of Good Project Organization
+
+**Good project organization and documentation facilitates:**
+
+- Collaborating with others and yourself in the future
+
+- Reproducibility
+
+- Automation
+
+- Version control
+
+<br>
+
+In short, it is a necessary foundation for our building blocks in this course!
+
+---
+
+## Project organization &ndash; some underlying principles
+
+- One dir (hierarchy) for one project
+
+- Take care naming dirs and files
+
+- Separate code from data
+
+- Separate raw data from processed data
+
+- Treat raw data as read-only
+
+- Treat generated output as disposable
+
+- Slow down and document
+
+<br>
+
+--
+
+.large[
+> *Have sympathy for your future self*
+]
+
+---
+
+## One dir for one project
+
+- Beneficial for finding files, sharing your project,
+  not throwing stuff away in error, etc.
+
+- Will allow you to use *relative paths* within projects,  
+  such that your paths in scripts are portable
+
+<br>
+
+.content-box-info[
+**Absolute vs relative paths:**
+  
+  - *Absolute* -- starting from the root directory (start with `/`)
+  
+  - *Relative* -- starting from the current location (*working dir*)
+]
+
+
+---
+
+## But what is a project, really?
+
+From [Wilson et al 2017 - Good Enough Practices in Scientific Computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510):
+
+.large[
+> *As a rule of thumb, divide work into projects based on the overlap in data and*
+> *code files.*
+>
+> *If 2 research efforts share no data or code,*
+> *they will probably be easiest to manage independently.*  
+>
+> *If they share more than half of their data and code, they are probably best*
+> *managed together.*
+
+> *If you are building tools that are used in several projects,*
+> *the common code should probably be in a project of its own.*
+]
+
+---
+
+## An example dir structure for a project
+
+```sh
+data: data/raw/ data/metadata/ data/processed/ # Or separate
+scripts/       # Large project: with subdirs
+analysis/      # OR: 'results'. Subdirs for each step/software.
+doc: doc/manuscript # Text documents
+bin/           # Software
+sandbox/       # Experimental and temporary files
+README.md      # Top-level README + in each important dir!
+```
+
+<br>
+
+- Use subdirectories liberally (e.g. within `analysis`)
+- To access files outside of the project (e.g., shared across projects),
+  simplest way is creating symbolic links.
+
+---
+
+## Using README files, slow down and document:
+  
+  - Your methods
+  
+  - Where/when/how each data and metadata file originated
+  
+  - Versions of software, databases, reference genomes
+  
+  - *...Everything needed to rerun whole project*
+  
+---
+
+## An ode to plain text files
+
+- Can be accessed on any computer, including over remote connections
+
+- Future-proof
+
+- Allow for version control
+
+---
+
+## File naming
+
+- Three principles for good file names
+  ([Jenny Bryan](https://speakerdeck.com/jennybc/how-to-name-files)):
+
+  - Machine readable
+
+  - Human readable
+
+  - Playing well with default ordering
+
+---
+
+## File naming: Machine readable
+
+- Spaces in file names lead to inconvenience or trouble:
+  
+  ```sh
+  $ rm -rf raw sequences
+  ```
+  
+- Consistent and informative naming helps to programmatically find  
+  and process files.
+  
+- Use *prefixes* for metadata: Sample ID, date, treatment.  
+  
+  - `sample032_2016-05-03_low.txt`  
+  
+  - `soil-samples_trtA_2019-01.txt`
+
+- *Suffices* (`.txt`, `.md`, `.csv`): Not necessary in Unix,
+  but still useful to distinguish file types easily and programmatically.
+
+---
+
+## File naming: Human readable
+
+> *"Name all files to reflect their content or function.*
+> *For example, use names such as bird_count_table.csv, manuscript.md,*
+> *or sightings_analysis.py.*"  
+> [Wilson et al. 2017](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
+  
+<br>
+
+- One good way:
+  
+  - Use **`-`** to delimit words
+  
+  - Use **`_`** to delimit units you may want to separate on later.
+  
+  - *(Avoid capitals.)*
+  
+---
+
+## File naming: Ordering
+
+- Leading zeros for lexicographic sorting
+
+- Dates should always be written as `YYYY-MM-DD`
+
+- Can group similar files together by starting with same phrase
+
+
+## TODO: GIVE SOME FILE NAME EXAMPLES
+
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Homework: Final Project
+
+**The project should:**
+
+- Be well-organized, and well-documented using Markdown READMEs.
+
+- Be version-controlled throughout, and repeatedly "pushed" to Github.
+
+--
+
+- Be re-runnable using a single Snakemake control script ("Snakefile").
+
+- Should have (most) analysis or data processing done using scripts  
+  in bash and/or Python.
+
+- Optionally run jobs at OSC.
+
+---
+
+## Homework: Final Project (cont.)
+
+- So, lots of "infrastructure" requirements &mdash;
+  therefore, no need to devise a complicated project with many scripts.
+
+<br>
+
+--
+
+- We encourage you to *use your own data or find a dataset yourself*   
+  (but we can provide a dataset if needed).
+
+<br>
+
+--
+
+- You are quite free regarding the **topic** of the project:
+  
+  - From answering an actual or contrived research question...
+  
+  - ...to automating something "boring" that you so far did manually. 
+
+---
+background-color: #ededed
+name: software
+
+## Bonus: Managing software
+
+- Keep track of the versions of software that you use!
+
+- At OSC, load modules *with* a version specification --
+  otherwise, you may not know what you used,
+  and default versions changes can go unnoticed.
+  
+- `conda` environments can be useful too,
+  e.g. for maintaining multiple versions of the same software,
+  or being able to run mutually incompatible software.
+
+- We'll talk more about this in the OSC (Week 6) and Snakemake (Week 12) modules.
+

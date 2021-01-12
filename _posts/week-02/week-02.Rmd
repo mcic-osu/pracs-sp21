@@ -1,0 +1,22 @@
+---
+title: "Week 02"
+description: |
+  Project organization and Markdown
+date: 2021-01-18
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+- [Slides: Part I -- Some best practices for project
+  organization](slides/02-1-proj-org.html) -- Tuesday Zoom (Jan 19)
+
+- [Slides: Part II - Managing files in the shell](slides/02-2-shfiles.html) -- Tue/Thu Zoom
+
+- [Slide: Part III - Markdown and VS Code](slides/02-3-md.html) -- Thursday Zoom (Jan 21)
+
+- [Exercises for this week](../../w02_exercises.html)
