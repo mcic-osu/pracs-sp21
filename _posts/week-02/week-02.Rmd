@@ -12,11 +12,17 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+### Slides
+
 - [Slides: Part I -- Some best practices for project
   organization](slides/02-1-proj-org.html) -- Tuesday Zoom (Jan 19)
 
 - [Slides: Part II - Managing files in the shell](slides/02-2-shfiles.html) -- Tue/Thu Zoom
 
-- [Slide: Part III - Markdown and VS Code](slides/02-3-md.html) -- Thursday Zoom (Jan 21)
+- [Slides: Part III - Markdown and VS Code](slides/02-3-md.html) -- Thursday Zoom (Jan 21)
+
+### Ungraded assignments
 
 - [Exercises for this week](../../w02_exercises.html)
+
+- [Sign up for a Github account (CarmenCanvas site)](https://osu.instructure.com/courses/94975/assignments/2002693)
