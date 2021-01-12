@@ -12,8 +12,8 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-- Tuesday Zoom (Jan 12) -- [Slides: Course intro](slides/01-1-intro.html)
+- [Slides: Course intro](slides/01-1-intro.html) -- Tuesday Zoom (Jan 12)
 
-- Thursday Zoom (Jan 14) -- [Slides: Shell basics](slides/01-2-shell.html)
+- [Slides: Shell basics](slides/01-2-shell.html) -- Thursday Zoom (Jan 14)
 
 - [Exercises for this week](../../w01_exercises.html).
