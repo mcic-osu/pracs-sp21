@@ -23,6 +23,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Ungraded assignments
 
-- [Exercises for this week](../../w02_exercises.html)
+- [Exercises for week 2](../../w02_exercises.html)
 
 - [Sign up for a Github account (CarmenCanvas site)](https://osu.instructure.com/courses/94975/assignments/2002693)

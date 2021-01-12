@@ -7,6 +7,7 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -22,7 +23,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/01/19 (updated: 2021-01-08)
+### 2021/01/19 (updated: 2021-01-12)
 
 ---
 
@@ -46,7 +47,7 @@ class:inverse middle center
 &lt;br&gt;
 
 .left[
-### I: Best Practices for Project Organization (this slide deck)
+### I: Some Best Practices for Project Organization (this slide deck)
 ### II: [Managing Files in the Shell (separate slide deck)](LINK)
 ### III: [Markdown and VS Code (separate slide deck)](LINK)
 ]
@@ -56,7 +57,7 @@ class:inverse middle center
 ---
 class:inverse middle center
 
-# I: Best Practices for Project Organization
+# I: Some Best Practices for &lt;br&gt; Project Organization
 
 ----
 
@@ -78,13 +79,13 @@ class:inverse middle center
 
 &lt;br&gt;
 
-In short, it is a necessary foundation for our building blocks in this course!
+In short, it is a necessary foundation for our goals and tools in this course.
 
 ---
 
 ## Project organization &amp;ndash; some underlying principles
 
-- One dir (hierarchy) for one project
+- One dir hierarchy for one project
 
 - Take care naming dirs and files
 
@@ -92,21 +93,19 @@ In short, it is a necessary foundation for our building blocks in this course!
 
 - Separate raw data from processed data
 
-- Treat data as read-only
+- Treat raw data as read-only (and treat generated output as disposable)
 
 - Slow down and document
 
-&lt;br&gt;
-
---
-
-.large[
-&gt; *Have sympathy for your future self*
-]
-
 ---
 
-## One dir for one project
+## One dir hierarchy for one project
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-dirs-1.png width=50%&gt;
+&lt;/p&gt;
+
+&lt;br&gt;
 
 - Beneficial for finding files, sharing your project,
   not throwing stuff away in error, etc.
@@ -114,16 +113,33 @@ In short, it is a necessary foundation for our building blocks in this course!
 - Will allow you to use *relative paths* within projects,  
   such that your paths in scripts are portable
 
-&lt;br&gt;
+---
+
+## One dir hierarchy for one project (cont.)
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-dirs-2.png width=75%&gt;
+&lt;/p&gt;
 
 .content-box-info[
 **Absolute vs relative paths:**
-  
   - *Absolute* -- starting from the root directory (start with `/`)
-  
   - *Relative* -- starting from the current location (*working dir*)
 ]
 
+---
+
+## One dir hierarchy for one project (cont.)
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-dirs-3.png width=75%&gt;
+&lt;/p&gt;
+
+.content-box-info[
+**Absolute vs relative paths:**
+  - *Absolute* -- starting from the root directory (start with `/`)
+  - *Relative* -- starting from the current location (*working dir*)
+]
 
 ---
 
@@ -147,12 +163,56 @@ From [Wilson et al 2017 - Good Enough Practices in Scientific Computing](https:/
 
 ---
 
+## Projects with shared data or code
+
+- To access files outside of the project (e.g., shared across projects),  
+  the simplest way is by creating symbolic links:
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-shared-1.png width=60%&gt;
+&lt;/p&gt;
+
+
+---
+
+## Projects with shared data or code (cont.)
+
+- Shared data or scripts may be best stored in a separate dir altogether:
+  
+&lt;p align="center"&gt;
+&lt;img src=img/proj-shared-2.png width=60%&gt;
+&lt;/p&gt;
+
+&lt;br&gt;
+
+.content-box-warning[
+These methods do decrease the portability of your project,  
+and moving the shared files even within your own computer will cause
+links to break.
+]
+
+
+---
+
+## Projects with shared data or code (cont.)
+
+- Scripts can most easily be kept and accessed from an online repository:
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-shared-3.png width=90%&gt;
+&lt;/p&gt;
+
+- For data, something similar can apply once the data have been desposited
+  in a public repository.
+
+---
+
 ## An example dir structure for a project
 
 ```sh
 data: data/raw/ data/metadata/ data/processed/ # Or separate
 scripts/       # Large project: with subdirs
-analysis/      # OR: 'results'. Subdirs for each step/software.
+results/       # OR: 'analysis'. Subdirs for each step/software.
 doc: doc/manuscript # Text documents
 bin/           # Software
 sandbox/       # Experimental and temporary files
@@ -163,27 +223,44 @@ README.md      # Top-level README + in each important dir!
 
 - Use subdirectories liberally (e.g. within `analysis`)
 
+
+---
+
+## An example dir structure for a project
+
+&lt;p align="left"&gt;
+&lt;img src=img/proj-ex3.png width=30%&gt;
+&lt;/p&gt;
+
+
+&lt;br&gt;
+
+- Use subdirectories liberally (e.g. within `analysis`)
+
 ---
 
 ## Using README files, slow down and document:
   
-  - Your methods
+- Your methods
   
-  - Where/when/how each data and metadata file originated
+- Where/when/how each data and metadata file originated
   
-  - Versions of software, databases, reference genomes
+- Versions of software, databases, reference genomes
   
-  - *...Everything needed to rerun whole project*
+- *...Everything needed to rerun whole project*
   
 ---
 
 ## An ode to plain text files
 
+Unlike proprietary &amp; binary formats like `.docx` and `.xlsx` files,  
+**plain text files**:
+
 - Can be accessed on any computer, including over remote connections
 
-- Future-proof
+- Are future-proof
 
-- Allow for version control
+- Allow to be version controlled
 
 ---
 
@@ -202,24 +279,31 @@ README.md      # Top-level README + in each important dir!
 
 ## File naming: Machine readable
 
-- Spaces in file names lead to inconvenience or trouble:
-  
-  ```sh
-  $ rm -rf raw sequences
-  ```
-  
-- Consistent and informative naming helps to programmatically find  
-  and process files.
-  
-- Use *prefixes* for metadata: Sample ID, date, treatment.  
+Consistent and informative naming helps to programmatically find  
+and process files.
+
+- In file names, provide *metadata* like Sample ID, date, treatment:
   
   - `sample032_2016-05-03_low.txt`  
   
   - `soil-samples_trtA_2019-01.txt`
+  
+- *Suffices*, like `.txt`, `.md`, and `.csv` are generally not necessary
+  in Unix,  
+  but are still useful to distinguish file types easily and programmatically.
 
-- *Suffices* (`.txt`, `.md`, `.csv`): Not necessary in Unix,
-  but still useful to distinguish file types easily and programmatically.
+&lt;br&gt;
 
+Spaces in file names lead to inconvenience or trouble:
+  
+```sh
+$ rm -rf raw sequences
+```
+
+- More generally, only use alphanumeric characters &lt;kbd&gt;A-Za-z0-9&lt;/kbd&gt;,  
+  underscore &lt;kbd&gt;_&lt;/kbd&gt;, hyphen &lt;kbd&gt;-&lt;/kbd&gt; and dots/periods &lt;kbd&gt;.&lt;/kbd&gt;
+  in file names.
+  
 ---
 
 ## File naming: Human readable
@@ -229,28 +313,38 @@ README.md      # Top-level README + in each important dir!
 &gt; *or sightings_analysis.py.*"  
 &gt; [Wilson et al. 2017](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
   
-&lt;br&gt;
+---
 
-- One good way:
+## File naming: Combiining machine and human readable
+
+- *One* good way (opinionated recommendation):
   
-  - Use **`-`** to delimit words
+  - Use **`_`** to delimit units you may want to separate on later:  
+    sampleID, treatment, date, etc.
   
-  - Use **`_`** to delimit units you may want to separate on later.
+  - Use **`-`** to delimit words: `grass-samples`.
   
-  - *(Avoid capitals.)*
+  - Use periods only prior to the file extension:  
+    `sample005_treatmentG_aligned_sorted.bam`
+  
+  - Avoid capitals.
   
 ---
 
 ## File naming: Ordering
 
-- Leading zeros for lexicographic sorting
+- Leading zeros for lexicographic sorting: `sample005`.
 
-- Dates should always be written as `YYYY-MM-DD`
+- Dates should always be written as `YYYY-MM-DD`: `2020-10-11`.
 
-- Can group similar files together by starting with same phrase
+- Can group similar files together by starting with same phrase:
+  ```sh
+  DE-01-normalize.R
+  DE-02-test.R
+  DE-03-process.R
+  ```
 
-
-## TODO: GIVE SOME EXAMPLES
+## TODO: ADD FILE NAME EXAMPLES
 
 
 ---
@@ -261,49 +355,6 @@ class: inverse middle center
 ----
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-
-## Homework: Final Project
-
-**The project should:**
-
-- Be well-organized, and well-documented using Markdown READMEs.
-
-- Be version-controlled throughout, and repeatedly "pushed" to Github.
-
---
-
-- Be re-runnable using a single Snakemake control script ("Snakefile").
-
-- Should have (most) analysis or data processing done using scripts  
-  in bash and/or Python.
-
-- Optionally run jobs at OSC.
-
----
-
-## Homework: Final Project (cont.)
-
-- So, lots of "infrastructure" requirements &amp;mdash;
-  therefore, no need to devise a complicated project with many scripts.
-
-&lt;br&gt;
-
---
-
-- We encourage you to *use your own data or find a dataset yourself*   
-  (but we can provide a dataset if needed).
-
-&lt;br&gt;
-
---
-
-- You are quite free regarding the **topic** of the project:
-  
-  - From answering an actual or contrived research question...
-  
-  - ...to automating something "boring" that you so far did manually. 
 
 ---
 background-color: #ededed
