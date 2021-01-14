@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 2 - Part II - Managing Files in the Shell</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+## *Week 2: &lt;br&gt; Project Organization and Markdown*
+----
+# Part II: Managing Files in the Shell
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021-01-19/21 (updated: 2021-01-13)
+
+---
+class: center middle inverse
+
+# Overview
+
+----
+
+.pull-left[
+### [VS Code setup](#osc-vscode)
+### [Wildcard expansion](#wildcard)
+### [Brace expansion](#brace)
+]
+.pull-right[
+### [Command substitution](#command-sub)
+### [File renaming](#renaming)
+### [File permissions](#permissions)
+]
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+name:osc-vscode
+
+## Starting VS Code at OSC
+
+1. Go to &lt;https://ondemand.osc.edu&gt; in your browser, and log in.
+
+2. Click on `Interactive Apps` in the blue top bar.
+
+3. Near the bottom, click `Code Server`.
+
+4. In the form:
+   - Under `Number of hours`, select 1 or 2 hours.
+   - Under `Working directory`, type `/fs/ess/PAS1855`.
+
+5. Click the blue `Launch` button, and you'll move to a different page.
+
+5. Once the top bar of the box is green, and click `Connect to VS Code`.
+
+&lt;p align="center"&gt;
+&lt;img src=img/osc-code-launch.png width="55%"&gt;
+&lt;/p&gt;
+
+---
+
+## Getting VS Code ready
+
+**We need to start with a bit of housekeeping:**
+
+1. Gain screen real estate by toggling off the Side Bar:
+  press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt;.
+
+2. Open a Terminal: press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; or
+   &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;C&lt;/kbd&gt;.
+  
+3. Close the "*Welcome*" tab (click the `X`) and pull up the terminal's dividing
+   line to the top of your window.
+
+4. In the terminal, the prompt says `Singularity&gt;`. This means we are inside a
+   Singularity container. **Type `bash` to exit the container.**
+
+5. Create a directory for this week, e.g.: `mkdir users/$USER/week02/`  
+   (inside `/fs/ess/PAS1855`).
+   
+6. Let's start a text document: Click `File` &gt; `New File`
+   (or press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;N&lt;/kbd&gt;).
+   Immediately save the document (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;S&lt;/kbd&gt;) inside the
+   dir you just created.
+
+Finally, we're ready to go...
+
+---
+
+## Getting VS Code ready
+
+&lt;br&gt;
+
+.content-box-warning[
+In *VS Code*, there are default existing keybindings for the
+&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;K&lt;/kbd&gt; (*cut to end of line*) and 
+&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;E&lt;/kbd&gt; (*go to end of line*) combinations,
+so they won't be properly interpreted by the shell.
+
+If you have an &lt;kbd&gt;end&lt;/kbd&gt; key, that will also work to move to the end of
+the line.
+]
+
+---
+
+## Create a dummy project &amp;ndash; following Buffalo
+
+- Go to the dir for this week you just created:
+  ```sh
+  $ cd /fs/ess/PAS1855/users/$USER/week02
+  ```
+  
+- Create the following set of directories:
+
+  ```sh
+  $ mkdir zmays-snps
+  $ cd zmays-snps
+  $ mkdir -p data/seqs scripts analysis
+  ```
+
+--
+
+- Create some empty "sequence files":
+  ```sh
+  $ cd data/seqs
+  $ touch sample1_F.fastq.gz sample1_R.fastq.gz \
+        sample2_F.fastq.gz sample2_R.fastq.gz \
+        sample3_F.fastq.gz sample3_R.fastq.gz
+  ```
+
+--
+
+- For a nice overview of your directory structure:
+
+  ```sh
+  $ tree ../../..
+  ```
+
+---
+class: inverse middle center
+name: wildcard
+
+# Shell expansion I: Wildcard expansion
+----
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## Shell expansion I: Wildcard expansion
+
+|Wildcard | Matches |
+|-|-|
+| * | Any number of any character, including nothing |
+| ? | Any single character 
+| [] and [^] | One or none (`^`) of the "character set" within the brackets   
+
+--
+
+- With the following files in a directory:
+  ```sh
+  # sample1_F.fastq.gz sample1_R.fastq.gz
+  # sample2_F.fastq.gz sample2_R.fastq.gz
+  # sample3_F.fastq.gz sample3_R.fastq.gz
+  ```
+
+- **To match both "*sample1*" files:**
+  ```sh
+  ls sample1_?.fastq.gz
+  ls sample1*
+  ls sample1*fastq.gz
+  ```
+
+---
+
+## Shell expansion I: Wildcard expansion (cont.)
+
+|Wildcard | Matches |
+|-|-|
+| * | Any number of any character, including nothing |
+| ? | Any single character 
+| [] and [^] | One or none (`^`) of the "character set" within the brackets   
+
+- With the following files in a directory:
+  ```sh
+  # sample1_F.fastq.gz sample1_R.fastq.gz
+  # sample2_F.fastq.gz sample2_R.fastq.gz
+  # sample3_F.fastq.gz sample3_R.fastq.gz
+  ```
+
+- **To match only files with forward (*"F"*) reads:**
+  ```sh
+  $ ls *F*
+  $ ls *F.fastq.gz
+  ```
+
+---
+
+## Shell expansion I: Wildcard expansion (cont.)
+
+|Wildcard | Matches |
+|---------|---------|
+| * | Any number of any character, including nothing |
+| ? | Any single character 
+| [] and [^] | One or none (`^`) of the "character set" within the brackets   
+
+- With the following files in a directory:
+  ```sh
+  # sample1_F.fastq.gz sample1_R.fastq.gz
+  # sample2_F.fastq.gz sample2_R.fastq.gz
+  # sample3_F.fastq.gz sample3_R.fastq.gz
+  ```
+
+- **To match files for sample1 and sample2 using only a character class:**
+  ```sh
+  $ ls sample[12]*   # Use the character class notation
+  $ ls sample[1-2]*  # Can use ranges like [0-9], [A-Z], [a-z].
+  $ ls sample[^3]*   # Other way around: exclude sample3
+  ```
+
+--
+
+  .content-box-warning[
+  `[]` works on character ranges only: 0-9 works; 10-13 does not.
+  ]
+
+---
+
+## Shell expansion I: Wildcard expansion (cont.)
+
+- Wildcards are only used to match (or *expand to*) existing file names:  
+  this process is also called "**_globbing_**".
+  
+- Why do we call this a type of _**shell** expansion_?
+
+--
+
+  - The expansion &amp;ndash;to all matching file names&amp;ndash;
+    is done *by the shell*,   
+    not by `ls` or another command you might be using wildcards with.  
+    **Thus, `ls` will see the list of files *after* the expansion.**
+
+--
+
+.content-box-answer[
+You can make use of this when using shell expansion to *move* or *delete* files:
+first check what your command will "see", then execute:
+  
+  ```sh
+  echo sample[12]*    # Or use `ls`
+  # sample1_F.fastq.gz sample1_R.fastq.gz sample2_F.fastq.gz sample2_R.fastq.gz
+  rm !$
+  ```
+]
+
+.content-box-info[
+Examples so far may seem trivial, but you can use these techniques to easily
+operate on selections among 100s or 1000s of files.
+]
+
+---
+
+## Shell expansion I: Wildcard expansion (cont.)
+
+&lt;br&gt;
+
+- **Don't confuse wildcards with regular expressions!**
+
+  .content-box-q[
+  What do **`*`** and **`?`** mean in regular expressions?
+  ]
+
+&lt;br&gt;
+
+--
+
+- Regular expressions are useful across the board in programming,  
+  and we will have a Python module devoted to them (week 11).
+
+---
+class: inverse middle center
+name: brace
+
+# Shell expansion II: Brace expansion
+----
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## Shell expansion II: Brace expansion
+
+*Wildcard expansion* looks for corresponding files and expands to whichever
+files are present: can't be used to create files or dirs.
+
+**_Brace expansion_**, on the other hand, expands to whatever you tell it to:
+
+--
+
+- Use `..` to indicate ranges:
+  ```sh
+  $ cd ..                         # to: zmays-snps/data
+  $ mkdir -p obs/2021-01-{01..31} # Numeric range works!
+  
+  $ cd ..                         # to: zmays-snps
+  $ mkdir figs
+  $ touch figs/fig-1{A..F}        # Character range works
+  ```
+
+- Use a comma-separated list:
+  ```sh
+  $ touch figs/fig-1A-{small,medium,large}-{color,grayscale}
+  ```
+
+---
+
+## Shell expansion II: Brace expansion
+
+*Wildcard expansion* looks for corresponding files and expands to whichever
+files are present: can't be used to create files or dirs.
+
+**_Brace expansion_**, on the other hand, expands to whatever you tell it to.  
+
+.content-box-q[
+What will happen in these two cases?
+  
+  ```sh
+  $ cd figs
+  $ ls
+  # fig-1A fig-1B fig-1C fig-1D fig-1E fig-1F
+  ```
+  
+  ```sh
+  $ ls fig-1[A-G]
+  ```
+  
+  ```sh
+  $ ls fig-1{A..G}
+  ```
+]
+
+---
+
+## Shell expansion II: Brace expansion
+
+*Wildcard expansion* looks for corresponding files and expands to whichever
+files are present: can't be used to create files or dirs.
+
+**_Brace expansion_**, on the other hand, expands to whatever you tell it to.  
+  
+.content-box-answer[
+- Wildcard expansion will ignore the missing "*plot-G*":
+```sh
+$ ls fig-1[A-G]
+# fig-1A fig-1B fig-1C fig-1D fig-1E fig-1F
+```
+
+- Brace expansion will complain about the missing "*plot-G*":
+```sh
+$ ls fig-1{A..G}
+# ls: cannot access 'plot-G': No such file or directory
+# fig-1A fig-1B fig-1C fig-1D fig-1E fig-1F
+```
+]
+
+---
+
+## <i class="fas  fa-user-edit "></i> Your turn: File matching
+
+1. Go into `zmays-snps/data/seqs/` and remove the files in there.
+
+2. Using *brace expansion* and the **`touch`** command,
+  create empty `R1` and `R2` fastq files for 100 samples with IDs from `001`
+  to `100`: `sample&lt;ID&gt;_R1_001.fastq` and `sample&lt;ID&gt;_R2_001.fastq`.
+
+3. Using *wildcard matching* and by piping **`ls`** output into **`wc -l`**,  
+  count the number of "`R1`" files (forward reads).
+
+4. **_Bonus:_** Copy all files *except the two for "`sample100`"* into a new
+  directory called `selection` &amp;mdash;
+  use a wildcard to do the move with a single command.
+  (But you'll need to create the new dir first.)
+
+---
+
+## Solutions: File matching
+
+1. Go into `zmays-snps/data/seqs/` and remove the files in there.
+```sh
+cd ../data/seqs/   # Assuming you were still in figs
+rm *fastq.gz
+```
+
+2. Create empty `R1` and `R2` fastq files for 100 samples:
+```sh
+touch sample{001..100}_R{1,2}_001.fastq
+```
+
+3. Count the number of `R1` files:
+```sh
+ls sample*R1*fastq | wc -l
+ls *R1* | wc -l # This works too but restrictive is often better
+```
+
+4. **_Bonus:_** Copy all files except "`sample100`" into a new dir called `selection`:
+```sh
+mkdir selection
+cp sample[^1]* selection/
+```
+
+---
+class: inverse middle center
+name: command-sub
+
+# Shell expansion III: Command substitution
+----
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## Shell expansion III: Command substitution
+
+- *Command substitution* allows you to store and pass the output of a command
+  (or pipeline of commands) to another command.
+  
+  These two examples show how that can be useful, and that a pipe wouldn't work:
+  ```sh
+  echo "I have $(ls *fastq | wc -l) fastq files."
+  # I have 200 fastq files.
+    
+  mkdir results_$(date +%F)
+  # results_2021-01-05
+  ```
+
+---
+
+## Shell expansion III: Command substitution (cont.)
+
+- We can also save a result in a *variable*:
+  ```sh
+  n_files=$(ls *fastq | wc -l)
+  echo ${n_files}   # Shorthand: "$n_samples"
+  ```
+
+--
+
+- Or in an *array*, using an extra set of parentheses `()`:
+  ```sh
+  samples=($(ls *fastq | cut -d "_" -f 1 | uniq))
+  
+  # Print the entire array:
+  echo ${samples[@]}
+  # sample001 sample002 sample003 sample004 sample005 sample006 sample007 sample008 sample009 ...
+  
+  # Print the 11th element (arrays are 0-indexed):
+  echo ${samples[10]}
+  # sample 011
+  ```
+
+  .content-box-info[
+  Arrays can be *looped over* &amp;ndash; we'll see an example of a loop  
+  in a bit.
+  ]
+
+---
+
+## Side note: Special characters and escaping them
+
+We've seen that the wildcards **`*`** and **`?`** have a special meaning.  
+
+What if we had unwieldy file names,
+and needed to match a *literal* **`*`** or **`?`**
+
+--
+
+- A **backslash** ("**`\`**") can be used to "escape" the special meaning
+  of the character that follows it:
+  ```sh
+  ls
+  # 'my bad*file'
+  rm my\ bad\*file  # Tab autocomplete will work and insert \'s
+  ```
+
+--
+
+- **Quoting** a string of characters will also escape special meaning
+  of characters within them, with single quotes (**`'...'`**) being more severe
+  than double quotes (**`"..."`**) &amp;ndash; more on this later. 
+
+  ```sh
+  rm 'my bad*file'
+  ```
+
+--
+
+.content-box-info[
+Backslashes can also *assign* special meaning
+&amp;ndash; e.g. **`\t`** (tab) and **`\n`** (newline).
+We'll talk more about these *regular expressions* later.
+]
+
+---
+class: inverse middle center
+name: renaming
+
+# Programmatically renaming files
+----
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## Programmatically renaming files
+
+- There are many different ways to do this in the shell &amp;ndash;  
+  admittedly none as easy as one might have hoped.
+  
+- Here, we'll use the `basename` command and a `for` loop.
+
+- `basename` strips any dir name that may be present from a file name (path),
+  and optionally, removes a suffix:
+  ```sh
+  $ basename selection/sample001_R1_001.fastq
+  # sample001_R1_001.fastq
+  
+  # Specify a suffix:
+  $ basename selection/sample001_R1_001.fastq _001.fastq
+  # sample001_R1
+  ```
+
+---
+
+## Programmatically renaming files (cont.) 
+  
+`for` loops are a verbose method for tasks like renaming,  
+but are intuitive and good practice.
+  
+- The following shows the basic syntax of a for loop,
+  and how the variable that is looped over is *assigned* to `oldname`,
+  but *recalled* as `${oldname}`:
+
+  ```sh
+  for oldname in *.fastq
+  do
+     echo "Old name: ${oldname}"
+  done
+  ```
+
+--
+
+.content-box-info[
+Note how we are using *globbing* (wildcard file name matching)
+to define what will be looped over.
+]
+
+.content-box-info[
+To loop over an array:
+```sh
+for sample in ${samples}[@]
+```
+]
+
+---
+
+## Programmatically renaming files (cont.) 
+
+`for` loops are a verbose way for tasks like renaming,  
+but are intuitive and good practice.
+  
+- Next, we assign a new name for each file, and `echo` the names as  
+  a sanity check:
+  
+  ```sh
+  for oldname in *.fastq
+  do
+     newname=$(basename $oldname _001.fastq).fq
+     echo "Old/new name: $oldname $newname"
+  done
+  ```
+
+---
+
+## Programmatically renaming files (cont.) 
+  
+`for` loops are a verbose way for tasks like renaming,  
+but are intuitive and good practice.
+  
+- Finally, we add the actual `mv` command:  
+
+  ```sh
+  for oldname in *.fastq
+  do
+     newname=$(basename $oldname _001.fastq).fq
+     echo "Old/new name: $oldname $newname"
+     mv $oldname $newname
+  done
+  ```
+
+---
+class: inverse middle center
+name: permissions
+
+# Treating data as read-only:
+# Viewing and modifying file permissions
+----
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## Showing file permissions
+
+- To show file permissions, use **`ls`**  with the **`-l`** (*long* format)
+  option.shows file permissions.
+  
+  (The command below also uses the **`-a`** option to show all files,
+  including hidden ones, and **`-h`** shows file sizes in "human-readable"
+  format.)
+
+&lt;p align="center"&gt;
+&lt;img src=img/long-ls.png width="700"&gt;
+&lt;/p&gt;
+
+---
+
+## File permissions (cont.)
+
+&lt;br&gt;
+
+&lt;p align="center"&gt;
+&lt;img src=img/permissions.png width="400"&gt;
+&lt;/p&gt;
+
+&lt;br&gt;
+
+.content-box-info[
+Generally, it is prudent to not give "others" write permissions.
+]
+
+---
+
+## File permissions (cont.)
+
+Can be changed in several ways with the `chmod` command:
+
+```sh
+# chmod &lt;who&gt;=&lt;permission-to-set&gt;`:
+chmod a=rwx
+  
+# chmod &lt;who&gt;+&lt;permission-to-add&gt;:
+chmod a+r  
+# chmod &lt;who&gt;-&lt;permission-to-remove&gt;:
+chmod o-w
+```
+
+--
+
+- Using numbers:
+  
+.pull-left[
+| Nr | Permission     |
+|----|----------------|
+| 1  | e**x**ecute    |
+| 2  | **w**rite      |
+| 4  | **r**ead       |
+| 5  | r + x          |
+| 6  | r + w          |
+| 7  | r + w + x      |
+]
+
+.pull-right[
+Three numbers are needed to specify permissions for user, group, and others:
+```sh
+# rwx permissions for all:
+chmod 777 file.txt
+# rwx for me, r for others:
+chmod 744 file.txt
+```
+]
+
+---
+
+## File permissions (cont.)
+
+**To make your raw data read-only:**
+  ```sh
+  chmod a=r data/raw/*       # all=read
+  
+  chmod u-w data/raw/*       # Remove write permission
+  
+  chmod 400 data/raw/*       # User: read, group &amp; others: none
+  ```
+
+--
+&lt;br&gt;
+
+.content-box-info[
+**Dir permissions.**  
+One tricky aspects of file permissions is that to list a directory's content,
+you need *execute* permissions for the dir!
+
+This is something to take into account when you want to grant others
+access to your project e.g. at OSC.
+
+To set execute permissions *only for dirs* throughout a dir hierarchy:
+```sh
+chmod -R a+X my-project-dir  # Note the *uppercase* X
+```
+]
+
+---
+
+## File permissions: Practice
+
+- First, let's look at the original permissions of the files:
+  ```sh
+  # Assuming you are still in week02/zmays-snps/data/seqs
+  ls -l selection/
+  ```
+
+- Then, limit permissions for **a**ll to **r**ead, and check what we did:
+  ```sh
+  chmod a=r selection/*
+  ls -l selection/
+  ```
+--
+
+- What happens when we try to remove write-protected files?
+  ```sh
+  rm selection/*
+  
+  rm -f selection/*
+  ```
+
+  .content-box-info[
+  While *you* (the file owner) can still remove write-protected files,
+  others really can't read/write/execute files without appropriate permissions.
+  ]
+
+---
+
+## `rm` sidenote &amp; "The Unix Chainsaw"
+
+- What will these two commands do?
+  ```sh
+  rm -rf tmp-data/aligned-reads*
+  
+  rm -rf tmp-data/aligned-reads *
+  ```
+
+--
+
+- What are we removing with the last command?
+  ```sh
+  mkdir "raw sequences"
+  mkdir sequences
+  
+  rm -rf raw sequences
+  ```
+
+--
+
+.content-box-warning[
+Be careful with `rm`, especially `-r` / `-f` / `-rf`.
+
+- Using `-i` can be helpful in some cases.
+
+- You can avoid `-r` by first removing files and *then* the empty dir
+  using the `rmdir` command (only works when a dir is empty).
+]
+
+---
+
+## Creating symbolic links: single files
+
+- A symbolic (or soft) links only links to the *path* of the original file,
+  whereas a hard link directly links to the *contents* of the original file.
+  
+  But note that modifying a file via either a hard or soft link *will* modify
+  the original file.
+
+- Create a *symlink* to a file using `ln -s &lt;source&gt; [&lt;link&gt;]`:
+  ```sh
+  # Only provide source: create link of the same name in the wd:
+  ln -s ~/share/scripts/align.sh
+  # The link can also be given an arbitrary name/path:
+  ln -s ~/share/scripts/align.sh align_from-shared.sh
+  ```
+
+.content-box-info[
+It's best to always **use an absolute path for the source file(s)**.  
+
+The `$PWD` environment variable can come in handy to do so:
+```sh
+ln -s $PWD/shared-scripts/align.sh project1/scripts/
+```
+]
+
+---
+
+## Creating symbolic links: multiple files
+
+- Link to multiple files in a directory at once:
+  ```sh
+  ln -s $PWD/shared_scripts/* project1/scripts/ 
+  ```
+
+- Link to a directory:
+  ```sh
+  ln -s $PWD/shared_scripts/ project1/scripts/
+  ln -s $PWD/shared_scripts/ project1/scripts/link-to-shared-scripts
+  ```
+
+--
+
+.content-box-warning[
+Be careful when linking *directories* directly:
+you are creating a *point of entry* to the source dir.  
+  
+Therefore, even if you enter via the symlink, you are interacting
+with the original files: 
+    
+Do not use `rm -rf symlink-to-dir`!
+  
+Instead, `rm symlink-to-dir` or `unlink symlink-to-dir` will only
+remove the link.
+]
+
+---
+
+## Creating symbolic links: practice
+
+.content-box-diy[
+Create a symbolic link in your `$HOME` dir that points to your personal dir in the project dir (`/fs/ess/PAS1855/users/$USER`).
+
+If you don't provide a name for the link, it will be your username (why?),
+which is not particularly informative about its destination.
+Therefore, give it a name that makes sense to you,
+like `PLNTPTH8300-SP21` or `pracs-sp21`. 
+]
+
+--
+
+.content-box-answer[
+```sh
+ln -s /fs/ess/PAS1855/users/$USER $HOME/PLNTPTH8300-SP21
+```
+]
+
+--
+
+.content-box-q[
+What will happen if you do `rm -rf $HOME/PLNTPTH8300-SP21`?
+]
+
+--
+
+.content-box-answer[
+The content of the original dir will be removed.
+]
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class: inverse middle center
+name: bonus
+
+# Bonus Materials
+
+----
+
+&lt;br&gt;
+
+### [More conditional file processing](#conditional)
+### [Other tricks from Buffalo Ch. 3](#tricks)
+
+---
+background-color: #f2f5eb
+name:conditional
+
+## Bonus: More conditional file processing
+
+**To remove all empty files in a directory:**
+
+```sh
+for i in *
+do
+   if [ ! -s $i ]
+   then
+      echo rm $i
+   fi
+done
+```
+
+An overview of *file test operators* that can be used in this way:
+
+| operator | returns true if:
+|----------|----------------
+| -s       | file is not zero size
+| -e       | file exists
+| -f       | file is a regular file (e.g. not a directory)
+| -d       | file is a directory 
+| -h       | file is a symbolic link
+| -r/w/x   | file has read/write/execute permissions
+
+
+---
+background-color: #f2f5eb
+name:conditional
+
+## Bonus: More conditional file processing
+
+**To remove all empty files in a directory:**
+
+```sh
+for i in *
+do
+   if [ ! -s $i ]
+   then
+      echo rm $i
+   fi
+done
+```
+
+&lt;br&gt;
+
+.content-box-info[
+Code similar to the above can be applied to many tasks,  
+though this particular task can be achieved much more concisely
+using `find`:
+
+```sh
+find . -size 0 -delete
+```
+]
+
+---
+background-color: #f2f5eb
+name:tricks
+
+## More tricks from Buffalo Chapter 3
+
+- **`tee`**: Redirect standard out to file *and* to screen / into a pipe:
+  ```sh
+  program1 in.txt | tee intermediate-file.txt | program2 &gt; out.txt
+  ```
+  
+&lt;br&gt;
+
+- **`tail -f`** to "follow" a file &amp;ndash; monitor output of a long-running command:
+  ```sh
+  tail -f                 # Press `Ctrl + C` to stop
+  ```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

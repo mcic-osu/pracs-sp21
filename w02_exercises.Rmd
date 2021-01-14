@@ -14,8 +14,8 @@ output:
 Create a Markdown document with course notes.
 I recommend writing this document in *VS Code*.
 
-Cover this week's material in some detail.
-If you made notes last week in another format, include those too.
+Make notes of this week's material in some detail.
+If you have notes from last week in another format, include those too.
 (And try to keep using this document throughout the course!)
 
 Some pointers:
@@ -29,11 +29,8 @@ Some pointers:
   e.g. **bold text**, *italic text*, `inline code`, code blocks,
   ordered/unordered lists, hyperlinks, and perhaps a figure.
 
-- You may even want to try your hand at a *table* in Markdown
-  (e.g. for an overview of certain commands), though admittedly,
-  the syntax for a table is not particularly graceful or easy to use.
-  
-- Make sure you know how to start a new paragraph and how to force a newline.
+- Make sure you understand and try out how Markdown deals with whitespace,
+  e.g. starting a new paragraph and how to force a newline.
 
 ### Exercise 2
 
@@ -78,15 +75,18 @@ terminal, or copy them into a text document later.*
    Try to use as few commands as possible to move the files -- use wildcards!
 
 4. **Change file permissions**  
-   Change permissions to what you think is reasonable; but in any case,
-   make sure no-one has write permissions for the raw data files.
+   Make sure no-one has write permissions for the raw data files.
+   You can also change other permissions to what you think is reasonable
+   or necessary precaution for your fictional project.
    
 <details>
 <summary>Hints</summary>
 <p>
 Use the `chmod` command to change file permissions and recall that you
 can use wildcard expansion to operate on many files at once.
-Alternatively, `chmod` also has an `-R` argument to act **r**ecursively.
+Alternatively, `chmod` also has an `-R` argument to act **r**ecursively:
+that is, to act on dirs and all of their contents
+(including other dirs and *their* contents).
 </p>
 </details>
 
@@ -99,13 +99,17 @@ Alternatively, `chmod` also has an `-R` argument to act **r**ecursively.
    `sample01_A_08-14-2020.sam` - `sample50_H_09-16-2020.sam`.
    
    These 300 files can be created with a single `touch` command.
+   (If you already had an `alignment` dir, first delete its contents
+   or rename it.)
    
 <details>
 <summary>Hints</summary>
 <p>
+
 Use brace expansion three times: to expand sample IDs, treatments, and dates.
    
 Note that `{01..20}` will successfully zero-pad single-digit numbers.
+
 </p>
 </details>
    
@@ -122,10 +126,11 @@ Note that `{01..20}` will successfully zero-pad single-digit numbers.
 <details>
 <summary>Hints</summary>
 <p>
+
 - Loop over the files using globbing (wildcard expansion) directly;
   there is no need to call `ls`.
-- Use the `basename` command to strip the extension.
-- Store the output of the `basename` call using command substitution
+- Use the `basename` command, or alternatively, `cut`, to strip the extension.
+- Store the output of the `basename` (or `cut`) call using command substitution
   (`$(command)` syntax).
 - The new extension can simply be pasted behind the file name, like
   `newname=${filename_no_extension}bam` or `newname=$(basename ...)bam`.
@@ -137,7 +142,9 @@ Note that `{01..20}` will successfully zero-pad single-digit numbers.
    Still in the dir with your SAM files, create a new dir called `subset`.
    Then, using a single `cp` command,
    copy files that satisfy the following conditions into the `subset` dir:
+   
       - The sample ID/number should be 01-19;
+      
       - The treatment should be A, B, or C.  
    
    Create a `README.md` in the dir that explains what you did.
@@ -153,6 +160,7 @@ you can use two consecutive wildcard character sets (`[]`) here.
 8. **Bonus: a trickier wildcard selection**  
    Still in the dir with your SAM files, create a new dir `subset2`.
    Then, copy all files *except the one for "`sample28`"* into this dir.
+   
    Do so using a single `cp` command, though you'll need two separate wildcard
    expansion or brace expansion arguments
    (as in `cp wildcard-selection1 wildcard-selection2 destination/`).
@@ -161,20 +169,21 @@ you can use two consecutive wildcard character sets (`[]`) here.
 <summary>Hints</summary>
 <p>
 - When using brace expansion (`{}`), simply use two numeric ranges:
-  smaller than and larger than the ID that is to be excluded.
+  one for IDs smaller than and one for IDs larger than the focal ID.
 
 - When trying to do this with wildcard character sets (`[]`),
-  you'll realize one of its limits: you can't combine conditions with a
-  logical *and*.
+  you'll run into one of its limits:
+  you can't combine conditions with a logical *or*.
   Therefore, to exclude only sample 28,
-  you separately have to select IDs that do not start with a 2,
-  and IDs that do start with a 2 but do not end with an 8.
+  you have to separately select IDs that (1) do not start with a 2
+  and (2) start with a 2 but do not end with an 8.
 </p>
 </details>
    
 9. **Bonus: a trickier renaming loop**  
-   You now realize that your date format is suboptimal (`MM-DD-YYYY` to give
-   `08-14-2020` and `09-16-2020`) and that you should use the `YYYY-MM-DD` format.
+   You now realize that your date format is suboptimal (`MM-DD-YYYY`;
+   which gave `08-14-2020` and `09-16-2020`)
+   and that you should use the `YYYY-MM-DD` format.
    Use a `for` loop to rename the files.
    
 <details>
@@ -186,7 +195,9 @@ you can use two consecutive wildcard character sets (`[]`) here.
   like: `day=$(commands)`.
 - Finally, paste your new file name together like:
   `newname=${part1}_${year}` etc.
-- When writing you commands, start by echo-ing a single example file name, as in:
+- When first writing your commands,
+  it's helpful to be able to experiment easily:
+  start by echo-ing a single example file name, as in:
   `echo sample23_C_09-16-2020.sam | cut ...`.
 </p>
 </details>
@@ -298,13 +309,14 @@ chmod a-w data/raw/*
 ```sh
 $ mkdir -p results/alignment
 $ # rm results/alignment/* # In the example above, we already had such a dir with files
+$ cd results/alignment 
 
 # Create the files:
 $ touch sample{01..30}_{A..E}_{08-14-2020,09-16-2020}.sam
 
-# Check if we have 400 files:
+# Check if we have 300 files:
 $ ls | wc -l
-# 400
+# 300
 ```
 </p>
 </details>
@@ -314,8 +326,7 @@ $ ls | wc -l
 <summary>6. Rename files in a batch</summary>
 <p>
 ```sh
-# Move into the directory so we don't have to deal with dirname:
-cd results/alignment
+# cd results/alignment  # If you weren't already there
 
 # Use *globbing* to match the files to loop over (rather than `ls`):
 for oldname in *.sam
@@ -360,7 +371,13 @@ A couple of take-aways:
 mkdir subset
 ```
 
-- Copy the files using three consecutive wildcard selections:
+- Copy the files using four consecutive wildcard selections:
+  - The first digit should be a 0 or a 1 `[0-1]`,
+  - The second can be any number `[0-9]` (`?` would work, too),
+  - The third, after an underscore, should be A, B, or C `[A-C]`,
+  - We don't care about what comes after that, but do need to account for
+    the additional characters, so will use a `*` to match any character:
+  
 ```sh
 cp sample[0-1][0-9]_[A-C]* subset/
 ```
@@ -369,6 +386,9 @@ cp sample[0-1][0-9]_[A-C]* subset/
 ```sh
 echo "On $(date), created a dir "subset" and copied only files for samples 1-29 \
 and treatments A-D into this dir" > subset/README.md
+
+# See if it worked:
+cat subset/README.md
 ```
 
 </p>
@@ -390,10 +410,10 @@ mkdir subset2
 cp sample{01..27}* sample{29..30}* subset2/
 ```
 
-- However, we may not always be able to use ranges, and being a little creative
-  with wildcard expansion also works &mdash; first we select all samples not
-  starting with a 2, and then among samples that do start with a 2,
-  we exclude 28:
+- However, we may not always be able to use ranges like that,
+  and being a little creative with wildcard expansion also works &mdash;
+  first, we select all samples not starting with a 2,
+  and then among samples that do start with a 2, we exclude 28:
 ```sh
 cp sample[^2]* sample2[^8]* subset2/
 ```
@@ -405,7 +425,7 @@ cp sample[^2]* sample2[^8]* subset2/
 <summary>9. Bonus: a trickier renaming loop</summary>
 <p>
 ```sh
-for oldname in sample01*.bam
+for oldname in *.bam
 do
    # Use `cut` to extract month, day, year, and a "prefix" that contains
    # the sample number and the treatment, and save these using command substitution:
@@ -428,8 +448,9 @@ done
 
 <div class="content-box-info">
 <div>
-This can be done more succinctly using *regular expression* and the `sed`
-command, both of which we'll learn about later in the course.
+This renaming task can be done more succinctly using *regular expressions*
+and the `sed` command &ndash; we'll learn about both of these topics later
+in the course.
 </div>
 </div>
 

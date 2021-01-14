@@ -17,9 +17,9 @@ knitr::opts_chunk$set(echo = FALSE)
 - [Slides: Part I -- Some best practices for project
   organization](slides/02-1-proj-org.html) -- Tuesday Zoom (Jan 19)
 
-- [Slides: Part II - Managing files in the shell](slides/02-2-shfiles.html) -- Tue/Thu Zoom
+- [Slides: Part II - Markdown and VS Code](slides/02-2-md.html) -- Tue/Thu Zoom
 
-- [Slides: Part III - Markdown and VS Code](slides/02-3-md.html) -- Thursday Zoom (Jan 21)
+- [Slides: Part III - Managing files in the shell](slides/02-3-shfiles.html) -- Thursday Zoom (Jan 21)
 
 ### Ungraded assignments
 

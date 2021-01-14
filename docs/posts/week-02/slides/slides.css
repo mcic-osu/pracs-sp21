@@ -13,7 +13,7 @@ blockquote {
 }
 
 .large {
-  font-size: 120%;
+  font-size: 110%;
 }
 
 .larger {
@@ -103,8 +103,8 @@ kbd {
 }
 
 .content-box-diy {
-  background-color: #e4ede4;
-  border: solid 5px #50ab50;
+  background-color: #f4e9f5;
+  border: solid 5px #ce84d1;
 }
 
 .content-box-q {

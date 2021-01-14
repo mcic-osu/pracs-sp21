@@ -2519,13 +2519,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h2 id="main-exercises">Main exercises</h2>
 <h3 id="exercise-1-course-notes-in-markdown">Exercise 1: Course notes in Markdown</h3>
 <p>Create a Markdown document with course notes. I recommend writing this document in <em>VS Code</em>.</p>
-<p>Cover this week’s material in some detail. If you made notes last week in another format, include those too. (And try to keep using this document throughout the course!)</p>
+<p>Make notes of this week’s material in some detail. If you have notes from last week in another format, include those too. (And try to keep using this document throughout the course!)</p>
 <p>Some pointers:</p>
 <ul>
 <li><p>Use several header levels and use them consistently: e.g. a level 1 header (<code>#</code>) for the document’s title, level 2 headers (<code>##</code>) for each week, and so on.</p></li>
 <li><p>Though this should foremost be a <em>functional</em> document for notes, try to incorporate any appropriate formatting option: e.g. <strong>bold text</strong>, <em>italic text</em>, <code>inline code</code>, code blocks, ordered/unordered lists, hyperlinks, and perhaps a figure.</p></li>
-<li><p>You may even want to try your hand at a <em>table</em> in Markdown (e.g. for an overview of certain commands), though admittedly, the syntax for a table is not particularly graceful or easy to use.</p></li>
-<li><p>Make sure you know how to start a new paragraph and how to force a newline.</p></li>
+<li><p>Make sure you understand and try out how Markdown deals with whitespace, e.g. starting a new paragraph and how to force a newline.</p></li>
 </ul>
 <h3 id="exercise-2">Exercise 2</h3>
 <p><em>While doing this exercise, save the commands you use in a text document – either write in a text document in VS Code and send the commands to the terminal, or copy them into a text document later.</em></p>
@@ -2550,24 +2549,24 @@ Organize the mock project according to some of the principles we discussed this 
 <p>Even while adhering to these principles, there is plenty of wiggle room and no single perfect dir structure: what is optimal will depend on what works for you and on the project size and structure. Therefore, think about what makes sense to you, and what makes sense given the files you find yourself with.</p>
 <p>Try to use as few commands as possible to move the files – use wildcards!</p></li>
 <li><p><strong>Change file permissions</strong><br />
-Change permissions to what you think is reasonable; but in any case, make sure no-one has write permissions for the raw data files.</p></li>
+Make sure no-one has write permissions for the raw data files. You can also change other permissions to what you think is reasonable or necessary precaution for your fictional project.</p></li>
 </ol>
 <details>
 <summary>Hints</summary>
 <p>
-Use the <code>chmod</code> command to change file permissions and recall that you can use wildcard expansion to operate on many files at once. Alternatively, <code>chmod</code> also has an <code>-R</code> argument to act <strong>r</strong>ecursively.
+Use the <code>chmod</code> command to change file permissions and recall that you can use wildcard expansion to operate on many files at once. Alternatively, <code>chmod</code> also has an <code>-R</code> argument to act <strong>r</strong>ecursively: that is, to act on dirs and all of their contents (including other dirs and <em>their</em> contents).
 </p>
 </details>
 <ol start="5" type="1">
 <li><p><strong>Create mock alignment files</strong><br />
 Create a directory <code>alignment</code> inside an appropriate dir in your project (e.g. <code>analysis</code>, <code>results</code>, or a dir for <em>processed</em> data), and create files for all combinations of 30 samples (<code>01</code>-<code>30</code>), 5 treatments (<code>A</code>-<code>E</code>), and 2 dates (<code>08-14-2020</code> and <code>09-16-2020</code>), like so: <code>sample01_A_08-14-2020.sam</code> - <code>sample50_H_09-16-2020.sam</code>.</p>
-<p>These 300 files can be created with a single <code>touch</code> command.</p></li>
+<p>These 300 files can be created with a single <code>touch</code> command. (If you already had an <code>alignment</code> dir, first delete its contents or rename it.)</p></li>
 </ol>
 <details>
 <summary>Hints</summary>
 <p>
 <p>Use brace expansion three times: to expand sample IDs, treatments, and dates.</p>
-Note that <code>{01..20}</code> will successfully zero-pad single-digit numbers.
+<p>Note that <code>{01..20}</code> will successfully zero-pad single-digit numbers.</p>
 </p>
 </details>
 <ol start="6" type="1">
@@ -2580,20 +2579,20 @@ Woops! We stored the alignment files that we created in the previous step as SAM
 <p>
 <ul>
 <li>Loop over the files using globbing (wildcard expansion) directly; there is no need to call <code>ls</code>.</li>
-<li>Use the <code>basename</code> command to strip the extension.</li>
-<li>Store the output of the <code>basename</code> call using command substitution (<code>$(command)</code> syntax).</li>
+<li>Use the <code>basename</code> command, or alternatively, <code>cut</code>, to strip the extension.</li>
+<li>Store the output of the <code>basename</code> (or <code>cut</code>) call using command substitution (<code>$(command)</code> syntax).</li>
 <li>The new extension can simply be pasted behind the file name, like <code>newname=${filename_no_extension}bam</code> or <code>newname=$(basename ...)bam</code>.</li>
 </ul>
 </p>
 </details>
 <ol start="7" type="1">
-<li><strong>Copy files with wildcards</strong><br />
-Still in the dir with your SAM files, create a new dir called <code>subset</code>. Then, using a single <code>cp</code> command, copy files that satisfy the following conditions into the <code>subset</code> dir:
+<li><p><strong>Copy files with wildcards</strong><br />
+Still in the dir with your SAM files, create a new dir called <code>subset</code>. Then, using a single <code>cp</code> command, copy files that satisfy the following conditions into the <code>subset</code> dir:</p>
 <ul>
-<li>The sample ID/number should be 01-19;</li>
-<li>The treatment should be A, B, or C.</li>
+<li><p>The sample ID/number should be 01-19;</p></li>
+<li><p>The treatment should be A, B, or C.</p></li>
 </ul>
-Create a <code>README.md</code> in the dir that explains what you did.</li>
+<p>Create a <code>README.md</code> in the dir that explains what you did.</p></li>
 </ol>
 <details>
 <summary>Hints</summary>
@@ -2602,21 +2601,22 @@ Just like you used multiple consecutive brace expansions above, you can use two 
 </p>
 </details>
 <ol start="8" type="1">
-<li><strong>Bonus: a trickier wildcard selection</strong><br />
-Still in the dir with your SAM files, create a new dir <code>subset2</code>. Then, copy all files <em>except the one for “<code>sample28</code>”</em> into this dir. Do so using a single <code>cp</code> command, though you’ll need two separate wildcard expansion or brace expansion arguments (as in <code>cp wildcard-selection1 wildcard-selection2 destination/</code>).</li>
+<li><p><strong>Bonus: a trickier wildcard selection</strong><br />
+Still in the dir with your SAM files, create a new dir <code>subset2</code>. Then, copy all files <em>except the one for “<code>sample28</code>”</em> into this dir.</p>
+<p>Do so using a single <code>cp</code> command, though you’ll need two separate wildcard expansion or brace expansion arguments (as in <code>cp wildcard-selection1 wildcard-selection2 destination/</code>).</p></li>
 </ol>
 <details>
 <summary>Hints</summary>
 <p>
 <ul>
-<li><p>When using brace expansion (<code>{}</code>), simply use two numeric ranges: smaller than and larger than the ID that is to be excluded.</p></li>
-<li><p>When trying to do this with wildcard character sets (<code>[]</code>), you’ll realize one of its limits: you can’t combine conditions with a logical <em>and</em>. Therefore, to exclude only sample 28, you separately have to select IDs that do not start with a 2, and IDs that do start with a 2 but do not end with an 8.</p></li>
+<li><p>When using brace expansion (<code>{}</code>), simply use two numeric ranges: one for IDs smaller than and one for IDs larger than the focal ID.</p></li>
+<li><p>When trying to do this with wildcard character sets (<code>[]</code>), you’ll run into one of its limits: you can’t combine conditions with a logical <em>or</em>. Therefore, to exclude only sample 28, you have to separately select IDs that (1) do not start with a 2 and (2) start with a 2 but do not end with an 8.</p></li>
 </ul>
 </p>
 </details>
 <ol start="9" type="1">
 <li><strong>Bonus: a trickier renaming loop</strong><br />
-You now realize that your date format is suboptimal (<code>MM-DD-YYYY</code> to give <code>08-14-2020</code> and <code>09-16-2020</code>) and that you should use the <code>YYYY-MM-DD</code> format. Use a <code>for</code> loop to rename the files.</li>
+You now realize that your date format is suboptimal (<code>MM-DD-YYYY</code>; which gave <code>08-14-2020</code> and <code>09-16-2020</code>) and that you should use the <code>YYYY-MM-DD</code> format. Use a <code>for</code> loop to rename the files.</li>
 </ol>
 <details>
 <summary>Hints</summary>
@@ -2625,7 +2625,7 @@ You now realize that your date format is suboptimal (<code>MM-DD-YYYY</code> to 
 <li>Use <code>cut</code> to extract the three elements of the date (day, month, and year) on three separate lines.</li>
 <li>Store the output of these lines in variables using commands substitution, like: <code>day=$(commands)</code>.</li>
 <li>Finally, paste your new file name together like: <code>newname=${part1}_${year}</code> etc.</li>
-<li>When writing you commands, start by echo-ing a single example file name, as in: <code>echo sample23_C_09-16-2020.sam | cut ...</code>.</li>
+<li>When first writing your commands, it’s helpful to be able to experiment easily: start by echo-ing a single example file name, as in: <code>echo sample23_C_09-16-2020.sam | cut ...</code>.</li>
 </ul>
 </p>
 </details>
@@ -2655,9 +2655,9 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">touch</span> sample<span class="dt">{001..150}</span>_<span class="dt">{F,R}</span>.fastq.gz</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="fu">touch</span> ref.fasta ref.fai</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="fu">touch</span> sample_info.csv sequence_barcodes.txt</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">touch</span> sample<span class="dt">{001..150}</span>.<span class="dt">{bam,.bam.bai,_fastqc.zip,_fastqc.html}</span>.bam.bai gene-counts.tsv DE-results.txt GO-out.txt</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="fu">touch</span> sample<span class="dt">{001..150}{.bam,.bam.bai,_fastqc.zip,_fastqc.html}</span> gene-counts.tsv DE-results.txt GO-out.txt</span>
 <span id="cb2-5"><a href="#cb2-5"></a><span class="fu">touch</span> fastqc.sh multiqc.sh align.sh sort_bam.sh count1.py count2.py DE.R GO.R KEGG.R</span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">touch</span> Fig<span class="dt">{1..5}</span>.png all_qc_plots.eps weird-sample.png</span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="fu">touch</span> Fig<span class="dt">{01..05}</span>.png all_qc_plots.eps weird-sample.png</span>
 <span id="cb2-7"><a href="#cb2-7"></a><span class="fu">touch</span> dontforget.txt README.md README_DE.md tmp5.txt</span>
 <span id="cb2-8"><a href="#cb2-8"></a><span class="fu">touch</span> slurm-84789570.out slurm-84789571.out slurm-84789572.out</span></code></pre></div>
 </p>
@@ -2668,7 +2668,7 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 <p>An example:</p>
 <p>Create directories:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">mkdir</span> -p data/<span class="dt">{raw,meta,ref}</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">mkdir</span> results/<span class="dt">{alignment,counts,DE,enrichment,logfiles,qc/figures}</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">mkdir</span> -p results/<span class="dt">{alignment,counts,DE,enrichment,logfiles,qc/figures}</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="fu">mkdir</span> -p scripts</span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="fu">mkdir</span> -p figures/<span class="dt">{ms,sandbox}</span></span>
 <span id="cb3-5"><a href="#cb3-5"></a><span class="fu">mkdir</span> -p doc/misc</span></code></pre></div>
@@ -2678,12 +2678,12 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 <span id="cb4-3"><a href="#cb4-3"></a><span class="fu">mv</span> sample_info.csv sequence_barcodes.txt data/meta/</span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="fu">mv</span> *.bam *.bam.bai results/alignment/</span>
 <span id="cb4-5"><a href="#cb4-5"></a><span class="fu">mv</span> *fastqc* results/qc/</span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="fu">mv</span> gene_counts.tsv results/counts/</span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="fu">mv</span> gene-counts.tsv results/counts/</span>
 <span id="cb4-7"><a href="#cb4-7"></a><span class="fu">mv</span> DE-results.txt results/DE/</span>
 <span id="cb4-8"><a href="#cb4-8"></a><span class="fu">mv</span> GO-out.txt results/enrichment/</span>
 <span id="cb4-9"><a href="#cb4-9"></a><span class="fu">mv</span> *.sh *.R *.py scripts/</span>
 <span id="cb4-10"><a href="#cb4-10"></a><span class="fu">mv</span> README_DE.md results/DE/</span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="fu">mv</span> Fig[0-9]* figures/ms</span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="fu">mv</span> Fig[0-9][0-9]* figures/ms</span>
 <span id="cb4-12"><a href="#cb4-12"></a><span class="fu">mv</span> weird-sample.png figures/sandbox</span>
 <span id="cb4-13"><a href="#cb4-13"></a><span class="fu">mv</span> all_qc_plots.eps results/qc/figures/</span>
 <span id="cb4-14"><a href="#cb4-14"></a><span class="fu">mv</span> dontforget.txt tmp5.txt doc/misc/</span>
@@ -2704,38 +2704,38 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 <p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a>$ <span class="fu">mkdir</span> -p results/alignment</span>
 <span id="cb6-2"><a href="#cb6-2"></a>$ <span class="co"># rm results/alignment/* # In the example above, we already had such a dir with files</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co"># Create the files:</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a>$ <span class="fu">touch</span> sample<span class="dt">{01..30}</span>_<span class="dt">{A..E}</span>_<span class="dt">{08-14-2020,09-16-2020}</span>.sam</span>
-<span id="cb6-6"><a href="#cb6-6"></a></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># Check if we have 400 files:</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a>$ <span class="fu">ls</span> <span class="kw">|</span> <span class="fu">wc</span> -l</span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co"># 400</span></span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3"></a>$ <span class="bu">cd</span> results/alignment </span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co"># Create the files:</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>$ <span class="fu">touch</span> sample<span class="dt">{01..30}</span>_<span class="dt">{A..E}</span>_<span class="dt">{08-14-2020,09-16-2020}</span>.sam</span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co"># Check if we have 300 files:</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>$ <span class="fu">ls</span> <span class="kw">|</span> <span class="fu">wc</span> -l</span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co"># 300</span></span></code></pre></div>
 </p>
 </details>
 <details>
 <summary>6. Rename files in a batch</summary>
 <p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Move into the directory so we don&#39;t have to deal with dirname:</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="bu">cd</span> results/alignment</span>
-<span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co"># Use *globbing* to match the files to loop over (rather than `ls`):</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">for</span> <span class="ex">oldname</span> in *.sam</span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="kw">do</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a>   <span class="co"># Remove the `sam` suffix using `basename $oldname sam`,</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a>   <span class="co"># use command substitution (`$()` syntax) to catch the output of the</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a>   <span class="co"># `basename` command, and paste `bam` at the end:</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a>   <span class="va">newname=$(</span><span class="fu">basename</span> <span class="va">$oldname</span> sam<span class="va">)</span>bam</span>
-<span id="cb7-11"><a href="#cb7-11"></a>   </span>
-<span id="cb7-12"><a href="#cb7-12"></a>   <span class="co"># Report what we have:</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a>   <span class="co"># (Using `-e` with echo we can print an extra newline with &#39;\n`,</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a>   <span class="co"># to separate files by an empty line)</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a>   <span class="bu">echo</span> <span class="st">&quot;Old name: </span><span class="va">${oldname}</span><span class="st">&quot;</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a>   <span class="bu">echo</span> -e <span class="st">&quot;New name: </span><span class="va">${newname}</span><span class="st"> \n&quot;</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a>   </span>
-<span id="cb7-18"><a href="#cb7-18"></a>   <span class="co"># Execute the move:</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a>   <span class="fu">mv</span> <span class="va">${oldname}</span> <span class="va">${newname}</span></span>
-<span id="cb7-20"><a href="#cb7-20"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># cd results/alignment  # If you weren&#39;t already there</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co"># Use *globbing* to match the files to loop over (rather than `ls`):</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="kw">for</span> <span class="ex">oldname</span> in *.sam</span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">do</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>   <span class="co"># Remove the `sam` suffix using `basename $oldname sam`,</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>   <span class="co"># use command substitution (`$()` syntax) to catch the output of the</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>   <span class="co"># `basename` command, and paste `bam` at the end:</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>   <span class="va">newname=$(</span><span class="fu">basename</span> <span class="va">$oldname</span> sam<span class="va">)</span>bam</span>
+<span id="cb7-10"><a href="#cb7-10"></a>   </span>
+<span id="cb7-11"><a href="#cb7-11"></a>   <span class="co"># Report what we have:</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>   <span class="co"># (Using `-e` with echo we can print an extra newline with &#39;\n`,</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>   <span class="co"># to separate files by an empty line)</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a>   <span class="bu">echo</span> <span class="st">&quot;Old name: </span><span class="va">${oldname}</span><span class="st">&quot;</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a>   <span class="bu">echo</span> -e <span class="st">&quot;New name: </span><span class="va">${newname}</span><span class="st"> \n&quot;</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a>   </span>
+<span id="cb7-17"><a href="#cb7-17"></a>   <span class="co"># Execute the move:</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>   <span class="fu">mv</span> <span class="va">${oldname}</span> <span class="va">${newname}</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="kw">done</span></span></code></pre></div>
 <p>A couple of take-aways:</p>
 <ul>
 <li>Note that we don’t need a special construction to paste strings together. we simply type <code>bam</code> after what will be the extension-less file name from the <code>basename</code> command.</li>
@@ -2752,14 +2752,23 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 </ul>
 <div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">mkdir</span> subset</span></code></pre></div>
 <ul>
-<li>Copy the files using three consecutive wildcard selections:</li>
+<li>Copy the files using four consecutive wildcard selections:
+<ul>
+<li>The first digit should be a 0 or a 1 <code>[0-1]</code>,</li>
+<li>The second can be any number <code>[0-9]</code> (<code>?</code> would work, too),</li>
+<li>The third, after an underscore, should be A, B, or C <code>[A-C]</code>,</li>
+<li>We don’t care about what comes after that, but do need to account for the additional characters, so will use a <code>*</code> to match any character:</li>
+</ul></li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">cp</span> sample[0-1][0-9]_[A-C]* subset/</span></code></pre></div>
 <ul>
 <li>Report what we did, including a command substitution to insert the current date:</li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="bu">echo</span> <span class="st">&quot;On </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">, created a dir &quot;</span>subset<span class="st">&quot; and copied only files for samples 1-29 \</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="st">and treatments A-D into this dir&quot;</span> <span class="op">&gt;</span> subset/README.md</span></code></pre></div>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">and treatments A-D into this dir&quot;</span> <span class="op">&gt;</span> subset/README.md</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="co"># See if it worked:</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="fu">cat</span> subset/README.md</span></code></pre></div>
 </p>
 </details>
 <details>
@@ -2774,7 +2783,7 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 </ul>
 <div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">cp</span> sample<span class="dt">{01..27}</span>* sample<span class="dt">{29..30}</span>* subset2/</span></code></pre></div>
 <ul>
-<li>However, we may not always be able to use ranges, and being a little creative with wildcard expansion also works — first we select all samples not starting with a 2, and then among samples that do start with a 2, we exclude 28:</li>
+<li>However, we may not always be able to use ranges like that, and being a little creative with wildcard expansion also works — first, we select all samples not starting with a 2, and then among samples that do start with a 2, we exclude 28:</li>
 </ul>
 <div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="fu">cp</span> sample[^2]* sample2[^8]* subset2/</span></code></pre></div>
 </p>
@@ -2782,7 +2791,7 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 <details>
 <summary>9. Bonus: a trickier renaming loop</summary>
 <p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">for</span> <span class="ex">oldname</span> in sample01*.bam</span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">for</span> <span class="ex">oldname</span> in *.bam</span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="kw">do</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a>   <span class="co"># Use `cut` to extract month, day, year, and a &quot;prefix&quot; that contains</span></span>
 <span id="cb14-4"><a href="#cb14-4"></a>   <span class="co"># the sample number and the treatment, and save these using command substitution:</span></span>
@@ -2803,7 +2812,7 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 <span id="cb14-19"><a href="#cb14-19"></a><span class="kw">done</span></span></code></pre></div>
 <div class="content-box-info">
 <div>
-<p>This can be done more succinctly using <em>regular expression</em> and the <code>sed</code> command, both of which we’ll learn about later in the course.</p>
+<p>This renaming task can be done more succinctly using <em>regular expressions</em> and the <code>sed</code> command – we’ll learn about both of these topics later in the course.</p>
 </div>
 </div>
 </p>
