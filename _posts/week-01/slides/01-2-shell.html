@@ -624,6 +624,8 @@ Unfortunately, we can't *reorder* columns using `cut`.
 Let's say we want an alphabetically sorted list of animal *orders* from
 the `Pacifici2013_data.csv` file...
 
+--
+
 - First, we select our column of interest, and get rid of the header line:
   ```sh
   $ cut -d ";" -f 2 Pacifici2013_data.csv | \
@@ -640,7 +642,7 @@ the `Pacifici2013_data.csv` file...
   ```
 
 .content-box-info[
-`uniq` only works (as you intend it to) on sorted data.
+`uniq` only removes all duplicates for *sorted* data.
 ]
 
 ---
@@ -715,6 +717,8 @@ We'll talk more about regular expressions later.
   $ grep -v "Vombatidae" Pacifici2013_data.csv  # v for inVert
   ```
 
+--
+
 .content-box-info[
 - It is best to always use quotes around the pattern
 - Incomplete matches work: "`Vombat`" matches `Vombatidae`
@@ -726,7 +730,7 @@ We'll talk more about regular expressions later.
   
   - `-c` to count matches
   - `-i` to ignore case
-  - `-r` to search file recursively -- **very useful**
+  - `-r` to search file recursively &amp;ndash; **very useful**
   - `-B` and `-A` to print lines surrounding matches
   - `-w` to match "words"
   
