@@ -24,7 +24,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021-01-21 (updated: 2021-01-13)
+### 2021-01-21 (updated: 2021-01-14)
 
 ---
 
@@ -83,7 +83,6 @@ like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
 | \*italic\* / \_italic\_       | *italic* / *italic*
 | \*\*bold\*\*      | **bold**
 | `` `inline code` `` | `inline code`
-| `&lt;https://website.com&gt;`   | Clickable link: &lt;https://website.com&gt;
 | \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
 | \!\[\](path/to/figure.png)   | Figure
 | # My Title        | Header level 1 (largest)
@@ -91,8 +90,8 @@ like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
 | ### My Subsection | Header level 3 &amp;ndash; and so forth
 | - List item       | Unordered (bulleted) list
 | 1. List item      | Ordered (numbered) list
-| `----`            | Horizontal line
-| ```` ``` ````     | Start/end of generic code block (on separate line) 
+| `---`             | Horizontal rule (line)
+| ```` ``` ```` or 4 leading spaces     | Start/end of generic code block
 | ```` ```bash ```` | Start of `bash` code block (end with ```` ``` ````)
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt;
@@ -186,33 +185,11 @@ h1 {color: red}
 - **List spacing**: if you leave blank lines between individual items in
   unordered or ordered lists, the list will be spaced more widely.
 
----
-
-## Markdown syntax: Tables
-
 &lt;br&gt;
 
-**Tables are a little clunky to write:**
-
-.pull-left[
-&lt;br&gt;
-
-\| syntax \| result  
-\|------------\|----------\|  
-\| \*italic\* \| *italic* \|  
-\| \*\*bold\*\* \| **bold** \|  
-\| # My Title \| Header level 1
-
-]
-
-.pull-right[
-&lt;br&gt;
-
-| syntax | result
-|---|
-| \*italic\* | *italic*
-| \*\*bold\*\* | **bold**
-| # My Title        | Header level 1
+.content-box-info[
+Learn more about Markdown and its syntax in this excellent documentation:
+&lt;https://www.markdownguide.org/&gt;
 ]
 
 ---
@@ -233,7 +210,7 @@ For installation (all OS's): see &lt;https://pandoc.org/installing.html&gt;.
 
 ---
 
-## Markdown for everything?!
+## Markdown extensions &amp;ndash; Markdown for everything?!
 
 - Markdown documents can also contain code that *runs*!
   
@@ -241,19 +218,25 @@ For installation (all OS's): see &lt;https://pandoc.org/installing.html&gt;.
   
   - Jupyter Notebooks
   
-- These slides are written in (R) Markdown
+- These slides are written in R Markdown
 
-- Our Github course website is written in (R) Markdown
+- Our Github course website is written in R Markdown
 
-- R Markdown also has support for citations
+- R Markdown also has support for citations, journal-specific formatting, etc.
 
-.content-box-warning[
-Markdown flavors
+&lt;br&gt;
+
+.content-box-info[
+There are a number of extended Markdown flavors, such a R Markdown (highly
+extended), Github-flavored Markdown, and so on.
+This is very useful but can also get confusing &amp;ndash; which syntax is
+supported where?
 ]
+
 
 ---
 
-## VS Code: Misc.
+## VS Code: Miscellaneous tips
 
 - For parentheses `()`, brackets `{}` `[]`, etc:
   
@@ -262,11 +245,28 @@ Markdown flavors
   - Selecting text and then typing an opening parentheses `(` will place
     the entire selection between parentheses.
     
-## Multiple cursors
+- *Multiple cursors*: Press and hold &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;,
+  then press Up/Down arrows to expand.
 
-- Open a file in VS code from the shell using `code &lt;file&gt;`.
+- To open a text file (script, data) in VS code from the shell: `code &lt;file&gt;`.
 
-- Color theme I like: `Quiet Light`.
+- Command Palette (?)
+
+---
+
+## VS Code: Appearance
+
+- **Side bars**:
+  - `View` &gt; `Appearance` &gt; `Activity Bar` to toggle the narrow side bar.
+    This bar mainly serves to switch between different options for the wide
+    side bar (see below).
+  
+  - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt; to toggle the wide side bar,
+    which can show the "*Explorer*" (files), "*Extensions*", and a view other 
+    things (see `View` menu for options).
+
+- **Color themes**: Press the gear icon <i class="fas  fa-cog "></i> and then
+  `Color Theme` to try out different color themes. I like "*Quiet Light*".
 
 ---
 
@@ -323,18 +323,61 @@ class: inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
+background-color: #f2f5eb
 
-## Bonus: Some more Markdown syntax
+## Bonus: Some additional Markdown syntax
 
-- ~~strikethrough~~
+- Basic syntax:
 
-- superscript^2^
+| Syntax | Result
+|---------------------------|
+| `&lt;https://website.com&gt;`   | Clickable link: &lt;https://website.com&gt;
+| &gt; Text                    | Blockquote (think quoted text in email)
 
-- subscript~2~
+- Extended syntax &amp;ndash; not supported by all interpreters:
 
-- Footnotes
+| Syntax | Result
+|----------------------------|
+| \~\~strikethrough\~\~      | ~~strikethrough~~
+| Footnote ref[^1]           | Footnote ref&lt;sup&gt;1&lt;/sup&gt;
+| [^1]: Text                 | The actual footnote
 
-- `&gt;` Blockquote
+  - Tables:
+  
+.pull-left[
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; \| syntax \| result  
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; \|------------\|----------\|  
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; \| \*italic\* \| *italic* \|  
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; \| \*\*bold\*\* \| **bold** \|  
+]
+
+.pull-right[
+| syntax | result
+|---|
+| \*italic\* | *italic*
+| \*\*bold\*\* | **bold**
+]
+
+---
+background-color: #f2f5eb
+
+## Bonus: Some handy HTML
+
+| Syntax | Result |
+|---------------------------|
+| `superscript&lt;sup&gt;2&lt;/sup&gt;` | superscript&lt;sup&gt;2&lt;/sup&gt;
+| `superscript&lt;sub&gt;2&lt;/sub&gt;` | subscript&lt;sub&gt;2&lt;/sub&gt;
+| `&lt;br&gt;`
+
+&lt;br&gt;
+
+- Figures - pretty easy to modify alignment (`center` / `left` / `right`)  
+  and size:
+  ```HTML
+  &lt;p align="center"&gt;
+  &lt;img src=img/markdown-preview-vscode.png width=50%&gt;
+  &lt;/p&gt;
+  ```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

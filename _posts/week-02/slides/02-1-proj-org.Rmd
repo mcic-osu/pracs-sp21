@@ -50,8 +50,8 @@ class:inverse middle center
 
 .left[
 ### Part I: Some Best Practices for Project Organization (this slide deck)
-### Part II: Managing Files in the Shell [(separate slide deck)](LINK)
-### Part III: Markdown and VS Code [(separate slide deck)](LINK)
+### Part II: Markdown and VS Code [(separate slide deck)](https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-2-shfiles.html)
+### Part III: Managing Files in the Shell [(separate slide deck)](https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-md.html)
 ]
 
 <br> <br> <br> <br>
@@ -373,7 +373,7 @@ class: inverse middle center
 <br> <br> <br> <br>
 
 ---
-background-color: #ededed
+background-color: #f2f5eb
 name: software
 
 ## Bonus: Managing software

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ## *Week 2: <br> Project Organization and Markdown*
 ----
-# Part II: Managing Files in the Shell
+# Part III: Managing Files in the Shell
 
 <br> <br> <br> <br> <br>
 
@@ -35,84 +35,18 @@ class: center middle inverse
 ----
 
 .pull-left[
-### [VS Code setup](#osc-vscode)
 ### [Wildcard expansion](#wildcard)
 ### [Brace expansion](#brace)
+### [Command substitution](#command-sub)
 ]
 .pull-right[
-### [Command substitution](#command-sub)
+
 ### [File renaming](#renaming)
 ### [File permissions](#permissions)
+### [Symbolic links](#symlinks)
 ]
 
 <br> <br> <br>
-
----
-name:osc-vscode
-
-## Starting VS Code at OSC
-
-1. Go to <https://ondemand.osc.edu> in your browser, and log in.
-
-2. Click on `Interactive Apps` in the blue top bar.
-
-3. Near the bottom, click `Code Server`.
-
-4. In the form:
-   - Under `Number of hours`, select 1 or 2 hours.
-   - Under `Working directory`, type `/fs/ess/PAS1855`.
-
-5. Click the blue `Launch` button, and you'll move to a different page.
-
-5. Once the top bar of the box is green, and click `Connect to VS Code`.
-
-<p align="center">
-<img src=img/osc-code-launch.png width="55%">
-</p>
-
----
-
-## Getting VS Code ready
-
-**We need to start with a bit of housekeeping:**
-
-1. Gain screen real estate by toggling off the Side Bar:
-  press <kbd>Ctrl</kbd>+<kbd>B</kbd>.
-
-2. Open a Terminal: press <kbd>Ctrl</kbd>+<kbd>backtick</kbd> or
-   <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd>.
-  
-3. Close the "*Welcome*" tab (click the `X`) and pull up the terminal's dividing
-   line to the top of your window.
-
-4. In the terminal, the prompt says `Singularity>`. This means we are inside a
-   Singularity container. **Type `bash` to exit the container.**
-
-5. Create a directory for this week, e.g.: `mkdir users/$USER/week02/`  
-   (inside `/fs/ess/PAS1855`).
-   
-6. Let's start a text document:
-   Click the "hamburger menu" `r icon::fa("bars")`, then `File` > `New File`.
-   Immediately save the document (<kbd>Ctrl</kbd>+<kbd>S</kbd>) inside the
-   dir you just created.
-
-Finally, we're ready to go...
-
----
-
-## Getting VS Code ready
-
-<br>
-
-.content-box-warning[
-In *VS Code*, there are default existing keybindings for the
-<kbd>Ctrl</kbd>+<kbd>K</kbd> (*cut to end of line*) and 
-<kbd>Ctrl</kbd>+<kbd>E</kbd> (*go to end of line*) combinations,
-so they won't be properly interpreted by the shell.
-
-If you have an <kbd>end</kbd> key, that will also work to move to the end of
-the line.
-]
 
 ---
 
@@ -777,6 +711,15 @@ Be careful with `rm`, especially `-r` / `-f` / `-rf`.
 - You can avoid `-r` by first removing files and *then* the empty dir
   using the `rmdir` command (only works when a dir is empty).
 ]
+
+---
+class: inverse middle center
+name: permissions
+
+# Using files across projects:
+# Using symbolic links
+----
+<br><br><br>
 
 ---
 

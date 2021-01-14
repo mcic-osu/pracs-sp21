@@ -20,12 +20,94 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ## *Week 2: <br> Project Organization and Markdown*
 ----
-# Part III: Markdown and VS Code
+# Part II: Markdown and VS Code
 
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
 ### 2021-01-21 (updated: `r Sys.Date()`)
+
+---
+class: center middle inverse
+
+# Overview
+
+----
+
+.left[
+### [VS Code setup](#osc-vscode)
+### [Markdown](#brace)
+### [VS Code tips](#command-sub)
+]
+
+<br> <br> <br>
+
+---
+name:osc-vscode
+
+## Starting VS Code at OSC
+
+1. Go to <https://ondemand.osc.edu> in your browser, and log in.
+
+2. Click on `Interactive Apps` in the blue top bar.
+
+3. Near the bottom, click `Code Server`.
+
+4. In the form:
+   - Under `Number of hours`, select 1 or 2 hours.
+   - Under `Working directory`, type `/fs/ess/PAS1855`.
+
+5. Click the blue `Launch` button, and you'll move to a different page.
+
+5. Once the top bar of the box is green, and click `Connect to VS Code`.
+
+<p align="center">
+<img src=img/osc-code-launch.png width="55%">
+</p>
+
+---
+
+## Getting VS Code ready
+
+**We need to start with a bit of housekeeping:**
+
+1. Gain screen real estate by hiding the Side Bar:
+   press <kbd>Ctrl</kbd>+<kbd>B</kbd>.
+
+2. Open a Terminal: press <kbd>Ctrl</kbd>+<kbd>backtick</kbd> or
+   <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd>.
+  
+3. Close the "*Welcome*" tab (click the `X`) and pull up the terminal's dividing
+   line to the top of your window.
+
+4. In the terminal, the prompt says `Singularity>`. This means we are inside a
+   Singularity container. **Type `bash` to exit the container.**
+
+5. Create a directory for this week, e.g.: `mkdir users/$USER/week02/`  
+   (inside `/fs/ess/PAS1855`).
+   
+6. Let's start a text document:
+   Click the "hamburger menu" `r icon::fa("bars")`, then `File` > `New File`.
+   Immediately save the document (<kbd>Ctrl</kbd>+<kbd>S</kbd>) inside the
+   dir you just created.
+
+Finally, we're ready to go...
+
+---
+
+## Getting VS Code ready
+
+<br>
+
+.content-box-warning[
+In *VS Code*, there are default existing keybindings for the
+<kbd>Ctrl</kbd>+<kbd>K</kbd> (*cut to end of line*) and 
+<kbd>Ctrl</kbd>+<kbd>E</kbd> (*go to end of line*) combinations,
+so they won't be properly interpreted by the shell.
+
+If you have an <kbd>end</kbd> key, that will also work to move to the end of
+the line.
+]
 
 ---
 
@@ -84,7 +166,6 @@ like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
 | \*italic\* / \_italic\_       | *italic* / *italic*
 | \*\*bold\*\*      | **bold**
 | `` `inline code` `` | `inline code`
-| `<https://website.com>`   | Clickable link: <https://website.com>
 | \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
 | \!\[\](path/to/figure.png)   | Figure
 | # My Title        | Header level 1 (largest)
@@ -92,8 +173,8 @@ like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
 | ### My Subsection | Header level 3 &ndash; and so forth
 | - List item       | Unordered (bulleted) list
 | 1. List item      | Ordered (numbered) list
-| `----`            | Horizontal line
-| ```` ``` ````     | Start/end of generic code block (on separate line) 
+| `---`             | Horizontal rule (line)
+| ```` ``` ```` or 4 leading spaces     | Start/end of generic code block
 | ```` ```bash ```` | Start of `bash` code block (end with ```` ``` ````)
 
 <br> <br> <br>
@@ -187,33 +268,11 @@ h1 {color: red}
 - **List spacing**: if you leave blank lines between individual items in
   unordered or ordered lists, the list will be spaced more widely.
 
----
-
-## Markdown syntax: Tables
-
 <br>
 
-**Tables are a little clunky to write:**
-
-.pull-left[
-<br>
-
-\| syntax \| result  
-\|------------\|----------\|  
-\| \*italic\* \| *italic* \|  
-\| \*\*bold\*\* \| **bold** \|  
-\| # My Title \| Header level 1
-
-]
-
-.pull-right[
-<br>
-
-| syntax | result
-|---|
-| \*italic\* | *italic*
-| \*\*bold\*\* | **bold**
-| # My Title        | Header level 1
+.content-box-info[
+Learn more about Markdown and its syntax in this excellent documentation:
+<https://www.markdownguide.org/>
 ]
 
 ---
@@ -234,7 +293,7 @@ For installation (all OS's): see <https://pandoc.org/installing.html>.
 
 ---
 
-## Markdown for everything?!
+## Markdown extensions &ndash; Markdown for everything?!
 
 - Markdown documents can also contain code that *runs*!
   
@@ -242,19 +301,25 @@ For installation (all OS's): see <https://pandoc.org/installing.html>.
   
   - Jupyter Notebooks
   
-- These slides are written in (R) Markdown
+- These slides are written in R Markdown
 
-- Our Github course website is written in (R) Markdown
+- Our Github course website is written in R Markdown
 
-- R Markdown also has support for citations
+- R Markdown also has support for citations, journal-specific formatting, etc.
 
-.content-box-warning[
-Markdown flavors
+<br>
+
+.content-box-info[
+There are a number of extended Markdown flavors, such a R Markdown (highly
+extended), Github-flavored Markdown, and so on.
+This is very useful but can also get confusing &ndash; which syntax is
+supported where?
 ]
+
 
 ---
 
-## VS Code: Misc.
+## VS Code: Miscellaneous tips
 
 - For parentheses `()`, brackets `{}` `[]`, etc:
   
@@ -263,11 +328,28 @@ Markdown flavors
   - Selecting text and then typing an opening parentheses `(` will place
     the entire selection between parentheses.
     
-## Multiple cursors
+- *Multiple cursors*: Press and hold <kbd>Ctrl</kbd>+<kbd>Shift</kbd>,
+  then press Up/Down arrows to expand.
 
-- Open a file in VS code from the shell using `code <file>`.
+- To open a text file (script, data) in VS code from the shell: `code <file>`.
 
-- Color theme I like: `Quiet Light`.
+- Command Palette (?)
+
+---
+
+## VS Code: Appearance
+
+- **Side bars**:
+  - `View` > `Appearance` > `Activity Bar` to toggle the narrow side bar.
+    This bar mainly serves to switch between different options for the wide
+    side bar (see below).
+  
+  - <kbd>Ctrl</kbd>+<kbd>B</kbd> to toggle the wide side bar,
+    which can show the "*Explorer*" (files), "*Extensions*", and a view other 
+    things (see `View` menu for options).
+
+- **Color themes**: Press the gear icon `r icon::fa("cog")` and then
+  `Color Theme` to try out different color themes. I like "*Quiet Light*".
 
 ---
 
@@ -324,15 +406,58 @@ class: inverse middle center
 <br> <br> <br> <br>
 
 ---
+background-color: #f2f5eb
 
-## Bonus: Some more Markdown syntax
+## Bonus: Some additional Markdown syntax
 
-- ~~strikethrough~~
+- Basic syntax:
 
-- superscript^2^
+| Syntax | Result
+|---------------------------|
+| `<https://website.com>`   | Clickable link: <https://website.com>
+| > Text                    | Blockquote (think quoted text in email)
 
-- subscript~2~
+- Extended syntax &ndash; not supported by all interpreters:
 
-- Footnotes
+| Syntax | Result
+|----------------------------|
+| \~\~strikethrough\~\~      | ~~strikethrough~~
+| Footnote ref[^1]           | Footnote ref<sup>1</sup>
+| [^1]: Text                 | The actual footnote
 
-- `>` Blockquote
+  - Tables:
+  
+.pull-left[
+&nbsp; &nbsp; &nbsp; &nbsp; \| syntax \| result  
+&nbsp; &nbsp; &nbsp; &nbsp; \|------------\|----------\|  
+&nbsp; &nbsp; &nbsp; &nbsp; \| \*italic\* \| *italic* \|  
+&nbsp; &nbsp; &nbsp; &nbsp; \| \*\*bold\*\* \| **bold** \|  
+]
+
+.pull-right[
+| syntax | result
+|---|
+| \*italic\* | *italic*
+| \*\*bold\*\* | **bold**
+]
+
+---
+background-color: #f2f5eb
+
+## Bonus: Some handy HTML
+
+| Syntax | Result |
+|---------------------------|
+| `superscript<sup>2</sup>` | superscript<sup>2</sup>
+| `superscript<sub>2</sub>` | subscript<sub>2</sub>
+| `<br>`
+
+<br>
+
+- Figures - pretty easy to modify alignment (`center` / `left` / `right`)  
+  and size:
+  ```HTML
+  <p align="center">
+  <img src=img/markdown-preview-vscode.png width=50%>
+  </p>
+  ```
