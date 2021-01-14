@@ -25,7 +25,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/01/19 (updated: `r Sys.Date()`)
+### 2021-01-19 (updated: `r Sys.Date()`)
 
 ---
 
@@ -35,9 +35,9 @@ knitr::opts_chunk$set(eval = FALSE)
 
 - Learn how to do the above in the Unix shell.
 
-- Learn how to use Markdown for documentation (and beyond).
+- Learn how to use *Markdown* for documentation (and beyond).
 
-- Get to know our text editor, VS Code, a bit better.
+- Get to know our text editor, *VS Code*, a bit better.
 
 ---
 class:inverse middle center
@@ -49,9 +49,9 @@ class:inverse middle center
 <br>
 
 .left[
-### I: Some Best Practices for Project Organization (this slide deck)
-### II: [Managing Files in the Shell (separate slide deck)](LINK)
-### III: [Markdown and VS Code (separate slide deck)](LINK)
+### Part I: Some Best Practices for Project Organization (this slide deck)
+### Part II: Managing Files in the Shell [(separate slide deck)](LINK)
+### Part III: Markdown and VS Code [(separate slide deck)](LINK)
 ]
 
 <br> <br> <br> <br>
@@ -59,15 +59,17 @@ class:inverse middle center
 ---
 class:inverse middle center
 
-# I: Some Best Practices for <br> Project Organization
-
+## Part I
 ----
+# Some Best Practices for <br> Project Organization
 
 <br> <br> <br> <br>
 
 ---
 
 ## Importance of Good Project Organization
+
+<br>
 
 **Good project organization and documentation facilitates:**
 
@@ -87,15 +89,26 @@ In short, it is a necessary foundation for our goals and tools in this course.
 
 ## Project organization &ndash; some underlying principles
 
-- One dir hierarchy for one project
+<br>
 
-- Take care naming dirs and files
+- One dir hierarchy for one project, and:
 
-- Separate code from data
+  - Separate code from data
 
-- Separate raw data from processed data
+  - Separate raw data from processed data
+
+<br>
+
+--
+
+- Use dir and file naming that is machine-readable, human-readable,  
+  and works well with default ordering
+
+<br>
 
 - Treat raw data as read-only (and treat generated output as disposable)
+
+<br>
 
 - Slow down and document
 
@@ -103,17 +116,18 @@ In short, it is a necessary foundation for our goals and tools in this course.
 
 ## One dir hierarchy for one project
 
-<p align="center">
-<img src=img/proj-dirs-1.png width=50%>
-</p>
+Having a single directory hierarchy for each project:
 
-<br>
-
-- Beneficial for finding files, sharing your project,
+- Is beneficial for finding files, sharing your project,
   not throwing stuff away in error, etc.
 
 - Will allow you to use *relative paths* within projects,  
   such that your paths in scripts are portable
+
+
+<p align="center">
+<img src=img/proj-dirs-1.png width=60%>
+</p>
 
 ---
 
@@ -147,9 +161,10 @@ In short, it is a necessary foundation for our goals and tools in this course.
 
 ## But what is a project, really?
 
+<br>
+
 From [Wilson et al 2017 - Good Enough Practices in Scientific Computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510):
 
-.large[
 > *As a rule of thumb, divide work into projects based on the overlap in data and*
 > *code files.*
 >
@@ -161,14 +176,13 @@ From [Wilson et al 2017 - Good Enough Practices in Scientific Computing](https:/
 
 > *If you are building tools that are used in several projects,*
 > *the common code should probably be in a project of its own.*
-]
 
 ---
 
 ## Projects with shared data or code
 
 - To access files outside of the project (e.g., shared across projects),  
-  the simplest way is by creating symbolic links:
+  it is easiest to create file links:
 
 <p align="center">
 <img src=img/proj-shared-1.png width=60%>
@@ -179,90 +193,53 @@ From [Wilson et al 2017 - Good Enough Practices in Scientific Computing](https:/
 
 ## Projects with shared data or code (cont.)
 
-- Shared data or scripts may be best stored in a separate dir altogether:
+- Shared data or scripts may be best stored in a separate dir,  
+  and then linked to from each project using them:
   
 <p align="center">
 <img src=img/proj-shared-2.png width=60%>
 </p>
 
-<br>
+--
 
 .content-box-warning[
 These methods do decrease the portability of your project,  
-and moving the shared files even within your own computer will cause
-links to break.
+and moving the shared files even within your own computer  
+will cause links to break.
 ]
-
 
 ---
 
 ## Projects with shared data or code (cont.)
 
-- Scripts can most easily be kept and accessed from an online repository:
+A more portable method is to keep shared files online &ndash;  
+this is especially feasible for **scripts** under version control,  
+which can be synced to and accessed from an online repository:
 
 <p align="center">
-<img src=img/proj-shared-3.png width=90%>
+<img src=img/proj-shared-3.png width=80%>
 </p>
 
-- For data, something similar can apply once the data have been desposited
-  in a public repository.
+--
 
----
-
-## An example dir structure for a project
-
-```sh
-data: data/raw/ data/metadata/ data/processed/ # Or separate
-scripts/       # Large project: with subdirs
-results/       # OR: 'analysis'. Subdirs for each step/software.
-doc: doc/manuscript # Text documents
-bin/           # Software
-sandbox/       # Experimental and temporary files
-README.md      # Top-level README + in each important dir!
-```
-
-<br>
-
-- Use subdirectories liberally (e.g. within `analysis`)
-
+For **data**, something similar can apply once the data have been  
+deposited in a public repository.
 
 ---
 
 ## An example dir structure for a project
 
 <p align="left">
-<img src=img/proj-ex3.png width=30%>
+<img src=img/proj-ex3.png width=20%>
 </p>
 
+### Add sandbox!
 
-<br>
+- Can also use `analysis` dir instead of `results` (Buffalo)
+- Can also spread data across top-level dirs: `raw_data`, `processed_data`, `metadata`
+- Use subdirectories liberally (e.g. within `analysis`, `scripts`)
+- Add READMEs also within dirs.
 
-- Use subdirectories liberally (e.g. within `analysis`)
-
----
-
-## Using README files, slow down and document:
-  
-- Your methods
-  
-- Where/when/how each data and metadata file originated
-  
-- Versions of software, databases, reference genomes
-  
-- *...Everything needed to rerun whole project*
-  
----
-
-## An ode to plain text files
-
-Unlike proprietary & binary formats like `.docx` and `.xlsx` files,  
-**plain text files**:
-
-- Can be accessed on any computer, including over remote connections
-
-- Are future-proof
-
-- Allow to be version controlled
 
 ---
 
@@ -271,15 +248,15 @@ Unlike proprietary & binary formats like `.docx` and `.xlsx` files,
 - Three principles for good file names
   ([Jenny Bryan](https://speakerdeck.com/jennybc/how-to-name-files)):
 
-  - Machine readable
+  - Machine-readable
 
-  - Human readable
+  - Human-readable
 
   - Playing well with default ordering
 
 ---
 
-## File naming: Machine readable
+## File naming: Machine-readable
 
 Consistent and informative naming helps to programmatically find  
 and process files.
@@ -308,7 +285,7 @@ $ rm -rf raw sequences
   
 ---
 
-## File naming: Human readable
+## File naming: Human-readable
 
 > *"Name all files to reflect their content or function.*
 > *For example, use names such as bird_count_table.csv, manuscript.md,*
@@ -317,7 +294,7 @@ $ rm -rf raw sequences
   
 ---
 
-## File naming: Combiining machine and human readable
+## File naming: Combining machine- and human-readable
 
 - *One* good way (opinionated recommendation):
   
@@ -348,6 +325,43 @@ $ rm -rf raw sequences
 
 ## TODO: ADD FILE NAME EXAMPLES
 
+---
+
+## Slow down and document
+
+<br>
+
+**Use README files to document:**
+  
+- Your methods
+  
+- Where/when/how each data and metadata file originated
+  
+- Versions of software, databases, reference genomes
+  
+- *...Everything needed to rerun whole project*
+  
+---
+
+## Slow down and document (cont.)
+
+### An ode to plain text files
+
+Unlike proprietary & binary formats (like `.docx` and `.xlsx`),
+**plain text files**:
+
+- Can be accessed on any computer, including over remote connections
+
+- Are future-proof
+
+- Allow to be version-controlled
+
+<br>
+
+.content-box-answer[
+These considerations apply not just to files for documentation,  
+but also to data files, etc!
+]
 
 ---
 class: inverse middle center

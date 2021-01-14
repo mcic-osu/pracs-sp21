@@ -3,7 +3,7 @@ title: "Week 2 - Part III - Markdown and VS Code"
 output:
   xaringan::moon_reader:
     seal: false
-    css: ["default", "default-fonts", "slides.css"]
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
     lib_dir: libs
     nature:
       highlightStyle: rainbow
@@ -25,109 +25,279 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/01/21 (updated: `r Sys.Date()`)
+### 2021-01-21 (updated: `r Sys.Date()`)
 
 ---
 
-## Markdown Syntax
+## About Markdown
 
-- Note line break behavior and leading spaces
-  - Similarly, a single blank line versus multiple will look the same.
+<br>
 
-- Horizontal line
+- Markdown is a very lightweight text markup language:
+  
+  - Easy to write: a dozen syntax constructs is nearly all you use.
+  
+  - Very well readable in its raw (non-*rendered*) form.
 
-- Table syntax
+<br>
 
-- HTML: <br>
+- For instance, putting single **`*`** or double asterisks **`*`** around one
+  or more characters will make those characters italic and bold, respectively:
+  
+  - Writing `*italic example*` -> rendered as *italic example*.
+  
+  - Writing `**bold example**` -> rendered as **bold example**.
 
 ---
 
 ## Markdown in VS Code
 
+- Markdown files have the extension `.md`.
+
+  When you save a file in VS Code with an `.md` extension:
+  
+  - Some formatting will be automatically applied in the editor.
+  
+  - You can open a live preview by pressing the icon to
+    "*Open Preview to the Side*" (top-right corner):
+
+<p align="center">
+<img src=img/markdown-preview-vscode.png width=8%>
+</p>
+
+<br>
+
+--
+
+.content-box-info[
+Select text and press **`*`**: text will be *surrounded* by asterisks.  
+Same when typing the opening character for open-close characters
+like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
+]
+
 ---
 
-## HTML in Markdown
+## Most commonly used Markdown syntax
 
-- `<br>` to force a line break or extra space between items 
+| Syntax            | Result
+|-------------------|-------|
+| \*italic\* / \_italic\_       | *italic* / *italic*
+| \*\*bold\*\*      | **bold**
+| `` `inline code` `` | `inline code`
+| `<https://website.com>`   | Clickable link: <https://website.com>
+| \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
+| \!\[\](path/to/figure.png)   | Figure
+| # My Title        | Header level 1 (largest)
+| ## My Section     | Header level 2
+| ### My Subsection | Header level 3 &ndash; and so forth
+| - List item       | Unordered (bulleted) list
+| 1. List item      | Ordered (numbered) list
+| `----`            | Horizontal line
+| ```` ``` ````     | Start/end of generic code block (on separate line) 
+| ```` ```bash ```` | Start of `bash` code block (end with ```` ``` ````)
 
-- Useful for figures
-
-- Useful to color words
-
----
-
-## Optional install: Pandoc
-
-- To *render* a Markdown file into e.g. HTML or PDF, use `Pandoc`:
+<br> <br> <br>
 
 ```sh
-pandoc README.md > README.html
-pandoc -o README.pdf README.md
 ```
 
-- For installation (all OS's), see <https://pandoc.org/installing.html>.
+---
+
+## Whitespace in Markdown
+
+- It's recommended (in some cases necessary) to leave a  
+  *blank line between different sections* (lists, headers, etc.).
+
+- *A blank line between regular text* will start a **new paragraph**,  
+  with some whitespace between the two.
+  
+  Like this.
+
+- A *single newline in text* is **ignored**, and multiple consecutive spaces or
+  blank lines are treated the same as a single space or blank line.
+
+.content-box-blue[
+.pull-left[
+**This:**  
+
+Writing  
+one  
+word  
+per  
+line
+
+<br>
+
+Empty &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;space
+]
+
+.pull-right[
+**Will be rendered as:**  
+
+Writing one word per line
+<br><br><br><br><br><br><br><br>
+Empty space
+]
+]
+
+---
+
+## Markdown syntax: Whitespace (cont.)
+
+- A **linebreak** can be forced using *two or more spaces*
+  (press the spacebar twice) after the last character on a line.
+
+- If you want **more vertical whitespace** than what is provided between
+  paragraphs, you have to resort to HTML:
+  each **`<br>`** item forces a visible linebreak.
+
+--
+
+.content-box-info[
+**You can use any *HTML* syntax in Markdown!**  
+I often use it for figures (sizing, alignment, legends) in particular.
+
+If you need inline <span style="color:red">colored</span> text,
+you also need to use HTML:  
+`inline <span style="color:red">colored</span> text`.
+
+For systematic styling of existing (e.g. headers) or custom elements,
+you need to use **_CSS_**, e.g. including this in Markdown document will
+turn all level 1 headers (`#`) red:
+```sh
+<style>
+h1 {color: red}
+</style>
+```
+]
+
+---
+
+## Markdown syntax: Whitespace (cont.)
+
+- A **linebreak** can be forced using *two or more spaces*
+  (press the spacebar twice) after the last character on a line.
+
+- If you want **more vertical whitespace** than what is provided between
+  paragraphs, you have to resort to HTML:
+  each **`<br>`** item forces a visible linebreak.
+
+<br>
+
+- **List spacing**: if you leave blank lines between individual items in
+  unordered or ordered lists, the list will be spaced more widely.
+
+---
+
+## Markdown syntax: Tables
+
+<br>
+
+**Tables are a little clunky to write:**
+
+.pull-left[
+<br>
+
+\| syntax \| result  
+\|------------\|----------\|  
+\| \*italic\* \| *italic* \|  
+\| \*\*bold\*\* \| **bold** \|  
+\| # My Title \| Header level 1
+
+]
+
+.pull-right[
+<br>
+
+| syntax | result
+|---|
+| \*italic\* | *italic*
+| \*\*bold\*\* | **bold**
+| # My Title        | Header level 1
+]
+
+---
+
+## *Pandoc* to render Markdown files
+
+- To *render* a Markdown file into e.g. HTML or PDF, use *Pandoc*:
+  ```sh
+  $ pandoc README.md > README.html
+  $ pandoc -o README.pdf README.md
+  ```
+
+<br>
+
+.content-box-diy[
+For installation (all OS's): see <https://pandoc.org/installing.html>.
+]
 
 ---
 
 ## Markdown for everything?!
 
-- These slides have been written in Markdown
-
-- Our Github course website has been written in Markdown
-
 - Markdown documents can also contain code that *runs*!
   
-  - R Markdown
+  - R Markdown (`.Rmd`)
   
   - Jupyter Notebooks
   
----
+- These slides are written in (R) Markdown
 
-## VS Code: A Quick Tour
+- Our Github course website is written in (R) Markdown
+
+- R Markdown also has support for citations
+
+.content-box-warning[
+Markdown flavors
+]
 
 ---
 
 ## VS Code: Misc.
 
 - For parentheses `()`, brackets `{}` `[]`, etc:
+  
   - Typing an *opening* character will immediately get you a closing one
-  - Selecting text and then pressing and opening parentheses will place entire selection
-    between parentheses, etc.
-  - Multiple cursors
+  
+  - Selecting text and then typing an opening parentheses `(` will place
+    the entire selection between parentheses.
+    
+## Multiple cursors
 
-- Open a file in VS code from the shell using `code <file>`
+- Open a file in VS code from the shell using `code <file>`.
 
-- Color theme I like: `Quiet Light`
+- Color theme I like: `Quiet Light`.
 
 ---
 
 ## VS Code: Keyboard Shortcuts
 
+**Especially useful shortcuts:**
+
+- <kbd>Ctrl</kbd>+<kbd>backtick</kbd> and <kbd>Ctrl</kbd>+<kbd>1</kbd>:
+  toggle between terminal and editor.
+
+- <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd> to delete a line
+  ("Delete Line" &ndash; change to <kbd>Ctrl</kbd> + <kbd>D</kbd>?) 
+
+**Some browser-like shortcuts:**
+  
+- <kbd>Ctrl</kbd>+<kbd>PgDn</kbd> / <kbd>Ctrl</kbd>+<kbd>PgUp</kbd> to
+  move between editor tabs.
+
+- <kbd>Ctrl</kbd>+<kbd>W<k/bd> to close an editor tab.
+
+- <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> to reopen the last tab.
+
+.content-box-diy[
 **Add a shortcut to run shell commands from editor:**
 
-- Gear icon `r icon::fa("cog")` in bottom-left > "`Keyboard Shortcuts`".
+- Gear icon `r icon::fa("cog")` in bottom-left > `Keyboard Shortcuts`.
 
-- Find "`Terminal: Run Selected Text in Active Terminal`",  
-  then add a shortcut, e.g. `Ctrl + Enter`.
-
-<br>
-
-Especially useful shortcuts:
-
-- `Ctrl` + `backtick` and `Ctrl` + `1`: toggle between terminal and editor.
-
-- `Ctrl` + `Shift` + `K` to delete a line
-  ("Delete Line" &ndash; change to `Ctrl` + `D`?) 
-
-<br>
-
-Some browser-like shortcuts:
-  
-- Ctrl + PgDn/PgUp to toggle editor tabs,
-
-- `Ctrl + W` to close a tab
-
-- `Ctrl + Shift + T` to reopen the last tab.
+- Find `Terminal: Run Selected Text in Active Terminal`,
+  then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
+]
 
 ---
 
@@ -144,12 +314,6 @@ Some browser-like shortcuts:
   
       - "**Remote Development**" (Microsoft)
   
-  - *If you want fancier Markdown previews/options:*
-  
-      - "**Markdown Preview Enhanced**" (Yiyi Wang)
-    
-      - "**Markdown TOC**" (AlanWalk) &ndash; to auto-generate TOCs
-  
 ---
 class: inverse middle center
 
@@ -159,3 +323,16 @@ class: inverse middle center
 
 <br> <br> <br> <br>
 
+---
+
+## Bonus: Some more Markdown syntax
+
+- ~~strikethrough~~
+
+- superscript^2^
+
+- subscript~2~
+
+- Footnotes
+
+- `>` Blockquote
