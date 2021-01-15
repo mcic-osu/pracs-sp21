@@ -1,0 +1,458 @@
+---
+title: "Exercises: Week 2"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+## Main exercises
+
+### Exercise 1: Course notes in Markdown
+
+Create a Markdown document with course notes.
+I recommend writing this document in *VS Code*.
+
+Make notes of this week's material in some detail.
+If you have notes from last week in another format, include those too.
+(And try to keep using this document throughout the course!)
+
+Some pointers:
+
+- Use several header levels and use them consistently: e.g. a level 1 header
+  (`#`) for the document's title, level 2 headers (`##`) for each week,
+  and so on.
+
+- Though this should foremost be a *functional* document for notes,
+  try to incorporate any appropriate formatting option:
+  e.g. **bold text**, *italic text*, `inline code`, code blocks,
+  ordered/unordered lists, hyperlinks, and perhaps a figure.
+
+- Make sure you understand and try out how Markdown deals with whitespace,
+  e.g. starting a new paragraph and how to force a newline.
+
+### Exercise 2
+
+*While doing this exercise, save the commands you use in a text document --
+either write in a text document in VS Code and send the commands to the
+terminal, or copy them into a text document later.*
+
+1. **Getting set up**  
+   Create a directory for this exercise,
+   and change your working dir to go there.
+   You can do this either in your `$HOME` dir (e.g. `~/pracs-sp21/w02/ex2/`)
+   or your personal dir in the course's project dir
+   (`/fs/ess/PAS1855/users/$USER/w02/ex2/`).
+
+
+2. **Create a disorganized mock project**  
+   Using the `touch` command and brace expansions,
+   create a mock project by creating 100s of empty files,
+   either in a *single directory* or a *disorganized* directory structure.
+   
+   If you want, you can create file types according to what you typically have
+   in your project -- otherwise, a suggestion is to create files with:
+     - Raw data (e.g. `.fastq.gz`)
+     - Reference data (e.g. `.fasta`),
+     - Metadata (e.g. `.txt` or `.csv`)
+     - Processed data and results (e.g. `.bam`, `.out`)
+     - Scripts (e.g. `.sh`, `.py` or `.R`)
+     - Figures (e.g. `.png` or `.eps`)
+     - Notes (`.txt` and/or `.md`)
+     - Perhaps some other file type you usually have in your projects.
+
+3. **Organize the mock project**  
+   Organize the mock project according to some of the principles we discussed
+   this week.
+   
+   Even while adhering to these principles, there is plenty of
+   wiggle room and no single perfect dir structure: what is optimal
+   will depend on what works for you and on the project size and structure.
+   Therefore, think about what makes sense to you, and what makes sense
+   given the files you find yourself with.
+   
+   Try to use as few commands as possible to move the files -- use wildcards!
+
+4. **Change file permissions**  
+   Make sure no-one has write permissions for the raw data files.
+   You can also change other permissions to what you think is reasonable
+   or necessary precaution for your fictional project.
+   
+<details>
+<summary>Hints</summary>
+<p>
+Use the `chmod` command to change file permissions and recall that you
+can use wildcard expansion to operate on many files at once.
+Alternatively, `chmod` also has an `-R` argument to act **r**ecursively:
+that is, to act on dirs and all of their contents
+(including other dirs and *their* contents).
+</p>
+</details>
+
+5. **Create mock alignment files**  
+   Create a directory `alignment` inside an appropriate dir in your project
+   (e.g. `analysis`, `results`, or a dir for *processed* data),
+   and create files for all combinations of 30 samples (`01`-`30`),
+   5 treatments (`A`-`E`), and 2 dates (`08-14-2020` and `09-16-2020`),
+   like so:
+   `sample01_A_08-14-2020.sam` - `sample50_H_09-16-2020.sam`.
+   
+   These 300 files can be created with a single `touch` command.
+   (If you already had an `alignment` dir, first delete its contents
+   or rename it.)
+   
+<details>
+<summary>Hints</summary>
+<p>
+
+Use brace expansion three times: to expand sample IDs, treatments, and dates.
+   
+Note that `{01..20}` will successfully zero-pad single-digit numbers.
+
+</p>
+</details>
+   
+6. **Rename files in a batch**  
+   Woops! We stored the alignment files that we created in the previous step
+   as SAM files (`.sam`), but this was a mistake --
+   the files are actually the binary counterparts of SAM files:
+   BAM files (`.bam`).
+   
+   Move into the dir with your misnamed BAM files,
+   and use a `for` loop to rename them:
+   change the extension from `.sam` to `.bam`.
+   
+<details>
+<summary>Hints</summary>
+<p>
+
+- Loop over the files using globbing (wildcard expansion) directly;
+  there is no need to call `ls`.
+- Use the `basename` command, or alternatively, `cut`, to strip the extension.
+- Store the output of the `basename` (or `cut`) call using command substitution
+  (`$(command)` syntax).
+- The new extension can simply be pasted behind the file name, like
+  `newname=${filename_no_extension}bam` or `newname=$(basename ...)bam`.
+   
+</p>
+</details>
+   
+7. **Copy files with wildcards**  
+   Still in the dir with your SAM files, create a new dir called `subset`.
+   Then, using a single `cp` command,
+   copy files that satisfy the following conditions into the `subset` dir:
+   
+      - The sample ID/number should be 01-19;
+      
+      - The treatment should be A, B, or C.  
+   
+   Create a `README.md` in the dir that explains what you did.
+   
+<details>
+<summary>Hints</summary>
+<p>
+Just like you used multiple consecutive brace expansions above,
+you can use two consecutive wildcard character sets (`[]`) here.
+</p>
+</details>
+   
+8. **Bonus: a trickier wildcard selection**  
+   Still in the dir with your SAM files, create a new dir `subset2`.
+   Then, copy all files *except the one for "`sample28`"* into this dir.
+   
+   Do so using a single `cp` command, though you'll need two separate wildcard
+   expansion or brace expansion arguments
+   (as in `cp wildcard-selection1 wildcard-selection2 destination/`).
+   
+<details>
+<summary>Hints</summary>
+<p>
+- When using brace expansion (`{}`), simply use two numeric ranges:
+  one for IDs smaller than and one for IDs larger than the focal ID.
+
+- When trying to do this with wildcard character sets (`[]`),
+  you'll run into one of its limits:
+  you can't combine conditions with a logical *or*.
+  Therefore, to exclude only sample 28,
+  you have to separately select IDs that (1) do not start with a 2
+  and (2) start with a 2 but do not end with an 8.
+</p>
+</details>
+   
+9. **Bonus: a trickier renaming loop**  
+   You now realize that your date format is suboptimal (`MM-DD-YYYY`;
+   which gave `08-14-2020` and `09-16-2020`)
+   and that you should use the `YYYY-MM-DD` format.
+   Use a `for` loop to rename the files.
+   
+<details>
+<summary>Hints</summary>
+<p>
+- Use `cut` to extract the three elements of the date (day, month, and year)
+  on three separate lines.
+- Store the output of these lines in variables using commands substitution,
+  like: `day=$(commands)`.
+- Finally, paste your new file name together like:
+  `newname=${part1}_${year}` etc.
+- When first writing your commands,
+  it's helpful to be able to experiment easily:
+  start by echo-ing a single example file name, as in:
+  `echo sample23_C_09-16-2020.sam | cut ...`.
+</p>
+</details>
+
+10. **Create a README**  
+   Include a `README.md` that described what you did; again, try to get familiar
+   with Markdown syntax by using formatting liberally.
+
+## Bonus exercises
+
+### Exercise 3
+
+If you feel like it would be good to reorganize one of your own,
+real projects, you can do so using what you've learned this week.
+Make sure you create a backup copy of the entire project first!
+
+
+### Buffalo Chapter 3 code-along
+
+Move back to `/fs/ess/PAS1855/users/$USER` and download the repository
+accompanying the Buffalo book using
+`git clone https://github.com/vsbuffalo/bds-files.git`.
+Then, move into the new dir `bds-files`, and code along with Buffalo Chapter 3.
+
+<br>
+
+## Solutions
+
+### Exercise 2
+
+<details>
+<summary>1. Getting set up</summary>
+<p>
+```sh
+mkdir ~/pracs-sp21/w02/ex2/ # or similar, whatever dir you chose
+cd !$                       # !$ is a shortcut to recall the last argument from the last commands
+```
+</p>
+</details>
+
+<details>
+<summary>2. Create a disorganized mock project</summary>
+<p>
+An example:
+```sh
+touch sample{001..150}_{F,R}.fastq.gz
+touch ref.fasta ref.fai
+touch sample_info.csv sequence_barcodes.txt
+touch sample{001..150}{.bam,.bam.bai,_fastqc.zip,_fastqc.html} gene-counts.tsv DE-results.txt GO-out.txt
+touch fastqc.sh multiqc.sh align.sh sort_bam.sh count1.py count2.py DE.R GO.R KEGG.R
+touch Fig{01..05}.png all_qc_plots.eps weird-sample.png
+touch dontforget.txt README.md README_DE.md tmp5.txt
+touch slurm-84789570.out slurm-84789571.out slurm-84789572.out
+```
+</p>
+</details>
+
+<details>
+<summary>3. Organize the mock project</summary>
+<p>
+An example:
+
+Create directories:
+```sh
+mkdir -p data/{raw,meta,ref}
+mkdir -p results/{alignment,counts,DE,enrichment,logfiles,qc/figures}
+mkdir -p scripts
+mkdir -p figures/{ms,sandbox}
+mkdir -p doc/misc
+```
+
+Move files:
+```sh
+mv *fastq.gz data/raw/
+mv ref.fa* data/ref/
+mv sample_info.csv sequence_barcodes.txt data/meta/
+mv *.bam *.bam.bai results/alignment/
+mv *fastqc* results/qc/
+mv gene-counts.tsv results/counts/
+mv DE-results.txt results/DE/
+mv GO-out.txt results/enrichment/
+mv *.sh *.R *.py scripts/
+mv README_DE.md results/DE/
+mv Fig[0-9][0-9]* figures/ms
+mv weird-sample.png figures/sandbox
+mv all_qc_plots.eps results/qc/figures/
+mv dontforget.txt tmp5.txt doc/misc/
+mv slurm* results/logfiles/
+```
+</p>
+</details>
+
+<details>
+<summary>4. Change file permissions</summary>
+<p>
+To ensure that no-one has write permission for the raw data,
+you could, for example, use:
+```sh
+chmod a=r data/raw/*
+
+chmod a-w data/raw/*
+```
+</p>
+</details>
+
+<details>
+<summary>5. Create mock alignment files</summary>
+<p>
+```sh
+$ mkdir -p results/alignment
+$ # rm results/alignment/* # In the example above, we already had such a dir with files
+$ cd results/alignment 
+
+# Create the files:
+$ touch sample{01..30}_{A..E}_{08-14-2020,09-16-2020}.sam
+
+# Check if we have 300 files:
+$ ls | wc -l
+# 300
+```
+</p>
+</details>
+
+
+<details>
+<summary>6. Rename files in a batch</summary>
+<p>
+```sh
+# cd results/alignment  # If you weren't already there
+
+# Use *globbing* to match the files to loop over (rather than `ls`):
+for oldname in *.sam
+do
+   # Remove the `sam` suffix using `basename $oldname sam`,
+   # use command substitution (`$()` syntax) to catch the output of the
+   # `basename` command, and paste `bam` at the end:
+   newname=$(basename $oldname sam)bam
+   
+   # Report what we have:
+   # (Using `-e` with echo we can print an extra newline with '\n`,
+   # to separate files by an empty line)
+   echo "Old name: ${oldname}"
+   echo -e "New name: ${newname} \n"
+   
+   # Execute the move:
+   mv ${oldname} ${newname}
+done
+```
+
+A couple of take-aways:
+
+- Note that we don't need a special construction to paste strings together.
+  we simply type `bam` after what will be the extension-less file name
+  from the `basename` command.
+- We print the old and new names to screen; this is not necessary, of course,
+  but good practice.
+  Moreover, this way we can test whether our loop works before adding the `mv`
+  command.
+- We use informative variable names (`oldname` and `newname`),
+  not cryptic ones like `i` and `o`.
+
+</p>
+</details>
+
+<details>
+<summary>7. Copy files with wildcards</summary>
+<p>
+
+- Create the new dir:
+```sh
+mkdir subset
+```
+
+- Copy the files using four consecutive wildcard selections:
+  - The first digit should be a 0 or a 1 `[0-1]`,
+  - The second can be any number `[0-9]` (`?` would work, too),
+  - The third, after an underscore, should be A, B, or C `[A-C]`,
+  - We don't care about what comes after that, but do need to account for
+    the additional characters, so will use a `*` to match any character:
+  
+```sh
+cp sample[0-1][0-9]_[A-C]* subset/
+```
+
+- Report what we did, including a command substitution to insert the current date:
+```sh
+echo "On $(date), created a dir "subset" and copied only files for samples 1-29 \
+and treatments A-D into this dir" > subset/README.md
+
+# See if it worked:
+cat subset/README.md
+```
+
+</p>
+</details>
+
+<details>
+<summary>8. Bonus: a trickier wildcard selection</summary>
+<p>
+
+- Create the new dir:
+```sh
+mkdir subset2
+```
+
+- The most straightforward way in this case is using two brace expansion 
+  selections, one for sample numbers smaller than 28, and one for sample
+  numbers larger than 28:
+```sh
+cp sample{01..27}* sample{29..30}* subset2/
+```
+
+- However, we may not always be able to use ranges like that,
+  and being a little creative with wildcard expansion also works &mdash;
+  first, we select all samples not starting with a 2,
+  and then among samples that do start with a 2, we exclude 28:
+```sh
+cp sample[^2]* sample2[^8]* subset2/
+```
+
+</p>
+</details>
+
+<details>
+<summary>9. Bonus: a trickier renaming loop</summary>
+<p>
+```sh
+for oldname in *.bam
+do
+   # Use `cut` to extract month, day, year, and a "prefix" that contains
+   # the sample number and the treatment, and save these using command substitution:
+   month=$(echo ${oldname} | cut -d "_" -f 3 | cut -d "-" -f 1)
+   day=$(echo ${oldname} | cut -d "_" -f 3 | cut -d "-" -f 2)
+   year=$(basename ${oldname} .bam | cut -d "_" -f 3 | cut -d "-" -f 3)
+   prefix=$(echo ${oldname} | cut -d "_" -f 1-2)
+   
+   # Paste together the new name:
+   newname=${prefix}_${year}-${month}-${day}.bam
+   
+   # Report what we have:
+   echo "Old name: ${oldname}"
+   echo -e "New name: ${newname} \n"
+   
+   # Execute the move:
+   mv ${oldname} ${newname}
+done
+```
+
+<div class="content-box-info">
+<div>
+This renaming task can be done more succinctly using *regular expressions*
+and the `sed` command &ndash; we'll learn about both of these topics later
+in the course.
+</div>
+</div>
+
+</p>
+</details>

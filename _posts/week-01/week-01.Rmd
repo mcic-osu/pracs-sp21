@@ -1,7 +1,7 @@
 ---
 title: "Week 01"
 description: |
-  Course Intro & Shell Basics
+  Course intro & Shell basics
 date: 2021-01-10
 output:
   distill::distill_article:
@@ -12,11 +12,14 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-- Tuesday Zoom (Jan 12) -- [Slides: Course Intro & Overview](slides/intro.html)
+### Slides
 
-- Thursday Zoom (Jan 14) -- [Slides: Shell Basics](slides/shell01.html)
+- [Slides: Course intro](slides/01-1-intro.html) -- Tuesday Zoom (Jan 12)
 
-- Exercises for this week are from CSB Chapter 1 and can be found on the
-  [CarmenCanvas website](https://osu.instructure.com/courses/94975).
+- [Slides: Shell basics](slides/01-2-shell.html) -- Thursday Zoom (Jan 14)
 
+### Ungraded assignments
 
+- [Exercises for week 1](../../w01_exercises.html)
+
+- [*Optional:* Local software installation (CarmenCanvas site)](https://osu.instructure.com/courses/94975/assignments/2002692)

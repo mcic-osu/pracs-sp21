@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 1 - Lecture 1 - Course Intro</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+## *Week 1*
+----
+# Course Intro &amp; Overview
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/01/12 (updated: 2021-01-12)
+
+---
+
+## Today's objectives
+
+&lt;br&gt;
+.large[
+- Get to know each other 
+
+&lt;br&gt;
+
+- Get an overview of what we will cover in this course
+
+&lt;br&gt;
+
+- Get an overview of the course infrastructure
+]
+
+--
+
+.large[
+&lt;br&gt;
+- *May start with the Unix shell if time allows*
+]
+
+---
+class:inverse middle center
+
+# Overview
+
+----
+
+.pull-left[
+### [Zoom practicalities](#zoom)
+### [Introductions](#pers-intro)
+### [Course overview](#overview)
+### [Course topics](#topics)
+]
+
+.pull-right[
+### [Course infrastructure](#infrastructure)
+### [Homework](#homework)
+### [This week](#this-week)
+]
+
+---
+name: zoom
+
+## Zoom practicalities
+
+- Be muted by default, but feel free to unmute yourself to ask questions.
+
+- Questions can also be asked in chat.
+
+- *[Show other Zoom icons.]*
+
+--
+
+&lt;br&gt;
+
+- Having your camera turned on as much as possible is appreciated!
+
+--
+
+&lt;br&gt;
+
+- "Screen real estate" &amp;mdash; large/multiple monitors or multiple devices best.
+  
+- Be ready to share your screen.
+
+
+
+---
+class: inverse middle center
+name: pers-intro
+
+# Introductions
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Introductions: Jelmer
+
+.pull-left[
+- Bioinformatician at MCIC in Wooster since June 2020
+
+- Background in evolutionary genomics:
+  
+  - *PhD*: speciation genomics in crows, Uppsala, Sweden.
+  
+  - *Postdocs*: UNC Chapel Hill (cichlids) and Duke (mouse lemurs).
+
+- In my free time, I watch birds.
+]
+
+.pull-right[
+&lt;p align = "center"&gt;
+&lt;img src=img/jelmer.jpg width="130%"&gt;
+&lt;/p&gt;
+]
+
+---
+
+## Introductions: Zach (TA)
+
+.pull-left[
+- Born and raised in pacific northwest rainforests.
+
+- Earned a *BS* studying biology and fungal antimicrobials at Oregon
+  State University.
+
+- *PhD*: exploring how horizontal gene flow affects genome organization and
+  charting the evolution and products of psilocybin genes and gene homologs.
+  
+- *At home*: gardening, developing software, cooking, and playing instruments.
+]
+
+.pull-right[
+&lt;p align = "center"&gt;
+&lt;img src=img/zach_inthefield.png width="100%"&gt;
+&lt;/p&gt;
+]
+
+---
+
+## Introductions: You!
+
+- Name
+
+- Lab and Department
+
+- Research interests and/or current topics
+
+- Something about you that is not work-related
+
+---
+class: inverse middle center
+name: overview
+
+# Course overview
+
+----
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+class: middle center
+
+## The core goal of this course:
+
+&lt;br&gt;
+
+# Learning skills to do your research &lt;br&gt; more reproducibly and efficiently
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Course background: Reproducibility
+
+&lt;br&gt;
+
+- Two related ideas:
+  
+  1. Getting same results with an independent experiment (*replicable*)
+  
+  2. Getting same results given the same data (*reproducible*)
+
+  Our focus is on #2.
+
+---
+
+## Course background: Reproducibility (cont.)
+
+&lt;br&gt;
+
+.large[
+&gt; *"The most basic principle for reproducible research is: &lt;br&gt;Do everything via code."*
+]
+
+--
+
+&lt;br&gt;
+
+- Also important:
+
+  - Project organization and documentation (*week 2*)
+  
+  - *Sharing* data and code (*Github for code, week 3*)
+  
+  - *How* you code (*especially week 10 - Python, and 13 - Snakemake*)
+
+--
+
+&lt;br&gt;
+
+- Another motivator: working reproducibly will benefit future you!
+
+&gt; *"Your closest collaborator is you six months ago, but you don’t reply to
+&gt; emails.”*   
+
+---
+
+## Course background: Efficiency and automation
+
+&lt;br&gt;
+
+- Using code enables you to work efficiently and largely automatically &amp;mdash;
+  particularly useful when having to:
+  
+  - Do repetitive tasks
+  
+  - Recreate a figure or redo an analysis after adding a sample
+  
+  - Redo everything after uncovering a mistake in the first data processing
+   step.
+
+---
+class: inverse middle center
+name: topics
+
+# Course topics
+
+----
+&lt;br&gt;
+
+.left[
+### I: [The Unix shell &amp; shell scripts](#shell)
+### II: [Project organization and Markdown](#proj-org)
+### III: [Version control](#git)
+### IV: [Python](#python)
+### V: [Automated workflow management](#snakemake)
+]
+
+---
+name: shell
+
+## Course topics I: &lt;br&gt; The Unix shell &amp; shell scripts (Wk 1 &amp; 4-6)
+
+*Being able to work in the shell is a fundamental skill in
+computational biology.*
+
+&lt;br&gt;
+
+- Week 1, (2,) 4, and 5: Working in the Unix shell.
+
+- Week 6: Shell *scripting*.
+
+- Week 7: Submitting shell scripts at OSC using *SLURM* directives.
+
+---
+name: proj-org
+
+## Course topics II: &lt;br&gt; Project organization and Markdown (Wk 2)
+
+*Good project organization and documentation is a necessary starting point
+for reproducible research.*
+
+&lt;br&gt;
+
+- Best practices for project organization, file naming, etc.,  
+  and how to use the Unix shell for this.
+
+- To document and report what we are doing: *Markdown*.
+
+---
+name: git
+
+## Course topics III: &lt;br&gt;Version control with Git and Github (Wk 3)
+
+&lt;br&gt;
+
+*Using version control, you can more effectively keep track of project
+progress, collaborate, experiment, revisit earlier versions, and undo.*
+
+&lt;br&gt;
+
+- *Git* is the version control software we will use,  
+  and *Github* is the website that hosts Git projects.
+
+---
+name: python
+
+## Course topics IV: &lt;br&gt; Python (Wk 8-12)
+
+&lt;br&gt;
+
+*For data processing beyond what is best done in the shell, we need to use
+a scripting language.*
+
+&lt;br&gt;
+
+- We'll use *Python*, which is very versatile and has a clear, human-readable
+  syntax, making it relatively easy to learn.
+
+- We'll also emphasize general programming concepts and best practices
+  while working with Python.
+
+---
+name: snakemake
+
+## Course topics V: &lt;br&gt; Automated workflow management (Wk 13)
+
+&lt;br&gt;
+
+*To be able to run an entire analysis pipeline with a single command,   
+  and easily change and rerun parts of it, we need a workflow manager.*
+
+&lt;br&gt;
+
+- We'll use *Snakemake*, which uses Python syntax. With limited extra effort,
+  this allows us to make big gains!
+
+---
+
+## Course topics &amp; general expectations
+
+&lt;br&gt;
+
+- We will cover a pretty broad array of topics,
+  so you should see this as an *Introduction* to most of these topics.
+
+&lt;br&gt;
+
+- To get the most out of this course...
+
+  - Read the readings and do the exercises.
+  
+  - Keep practicing and applying after the course!
+
+
+---
+class: inverse middle center
+name: infrastructure
+
+# Course infrastructure
+
+----
+&lt;br&gt;
+
+.pull-left[
+### [CarmenCanvas website](#canvas)
+### [Github website](#git-site)
+### [MS Teams](#teams)
+]
+
+.pull-right[
+### [OSC](#osc)
+### [Github](#github)
+]
+
+---
+name: canvas
+
+## Course Infrastructure: CarmenCanvas website
+
+.center[
+### https://osu.instructure.com/courses/94975
+]
+
+&lt;br&gt;
+
+- **Announcements**: Primary mode of communication (notifications!)
+  
+- **Assignments**: Everything you should do has been made a type of "assignment"
+  on CarmenCanvas.
+
+- **Calendar**: Overview of all to-do's + sign up for office hours (**_show?_**).
+
+---
+name: git-site
+
+## Course infrastructure: Github website
+
+.center[
+### https://mcic-osu.github.io/pracs-sp21/
+]
+
+&lt;br&gt;
+
+- Slide decks
+
+- Most of the *exercises* and *assignments*  
+  (but always linked from the CarmenCanvas site).
+
+---
+name: teams
+
+## Course infrastructure: MS Teams
+
+&lt;br&gt;
+
+**_Optional_**, for any course-related:
+
+- Q&amp;A 
+
+- Chat, sharing of tips &amp; tricks and resources, etc.
+
+---
+name: osc
+
+## Course infrastructure: &lt;br&gt;Ohio Supercomputer Center (OSC)
+
+&lt;br&gt;
+
+- **All of our work can be done at OSC, in a browser (!)**
+
+  - Including *VS Code* (our text editor) and *Jupyter Notebooks* (Python)
+
+  - Avoids local installs, different behavior for different OS's, etc.
+
+&lt;br&gt;
+
+--
+
+.content-box-diy[
+For *local installation*, see the optional assignment for this week.
+]
+
+---
+name: github
+
+## Course infrastructure: Github
+
+&lt;br&gt;
+
+- You'll be submitting your **assignments** through Github.
+
+- This will double as practice with version control and sharing of scripts.
+
+---
+class: inverse center middle
+name: homework
+
+# Homework
+
+----
+&lt;br&gt;
+
+.left[
+### [Graded assignments](#graded)
+### [Final project](#project)
+### [Ungraded "assignments"](#ungraded)
+]
+
+---
+name: graded
+
+## Homework: Graded assignments and final project
+
+**Graded assignments** &amp;ndash; three total for 10 points each, due on Tuesdays:
+  
+- I: Due in Week 4 (*Git and Markdown*)
+  
+- II: Due in Week 7 (*Shell scripting*)
+  
+- III: Due in Week 9/10 (*Python*)
+
+--
+
+&lt;br&gt;
+
+**Final project** &amp;ndash; Plan and implement a small computational project:
+
+  - I: *Proposal* (due week 11, 10 points)
+  
+  - II: *Draft* (due week 13, 10 points)
+  
+  - III: Lightning *presentations* on Zoom (week 15, 10 points)
+  
+  - IV: *Final submission* (due April 23, 20 points)
+
+
+--
+
+.content-box-info[
+The final 20% of grade comes from in-class questions.
+]
+
+---
+name: ungraded
+
+## Homework: Ungraded "assignments"
+
+&lt;br&gt;
+
+- **Readings**, **Surveys**, **Setup** (installation etc.)
+
+- **Exercises**
+
+  - Set of exercises for most weeks.
+  
+  - You don't need to hand them in,  
+    but we may talk about them in class on Tuesday's.
+
+--
+ 
+  .content-box-diy[
+  Zach is available for an *optional* group session to go through
+  each week's exercises or assignment:  
+  If you're interested Fill out
+  [this Doodle poll](https://doodle.com/poll/6yh5sayqrahgykak)
+  to set a time.
+  ]
+
+---
+class: inverse middle center
+name: this-week
+
+# This week
+
+----
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+# Thoughts on CSB Chapter 0?
+
+---
+
+## Rest of the week
+
+&lt;br&gt;
+
+- **Thursday's Zoom**: code-along of CSB Chapter 1
+
+&lt;br&gt;
+
+- **Homework**:
+  
+  - Readings: CSB Chapter 1
+  
+  - [Exercises: CSB Chapter 1](https://mcic-osu.github.io/pracs-sp21/w01_exercises.html)
+
+  - [Optional: Local software installation](https://osu.instructure.com/courses/94975/assignments/2002692?module_item_id=5406932)
+  
+---
+class: inverse middle center
+
+# Questions?
+
+----
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
