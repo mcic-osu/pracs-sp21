@@ -19,7 +19,7 @@ class:inverse middle center
 
 ## *Week 2: &lt;br&gt; Project Organization and Markdown*
 ----
-# Part III: Markdown and VS Code
+# Part II: Markdown and VS Code
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
@@ -27,25 +27,107 @@ class:inverse middle center
 ### 2021-01-21 (updated: 2021-01-14)
 
 ---
+class: center middle inverse
+
+# Overview
+
+----
+
+.left[
+### [VS Code setup](#osc-vscode)
+### [Markdown](#brace)
+### [VS Code tips](#command-sub)
+]
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+name:osc-vscode
+
+## Starting VS Code at OSC
+
+1. Go to &lt;https://ondemand.osc.edu&gt; in your browser, and log in.
+
+2. Click on `Interactive Apps` in the blue top bar.
+
+3. Near the bottom, click `Code Server`.
+
+4. In the form:
+   - Under `Number of hours`, select 1 or 2 hours.
+   - Under `Working directory`, type `/fs/ess/PAS1855`.
+
+5. Click the blue `Launch` button, and you'll move to a different page.
+
+5. Once the top bar of the box is green, and click `Connect to VS Code`.
+
+&lt;p align="center"&gt;
+&lt;img src=img/osc-code-launch.png width="55%"&gt;
+&lt;/p&gt;
+
+---
+
+## Getting VS Code ready
+
+**We need to start with a bit of housekeeping:**
+
+1. Gain screen real estate by hiding the Side Bar:
+   press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt;.
+
+2. Open a Terminal: press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; or
+   &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;C&lt;/kbd&gt;.
+  
+3. Close the "*Welcome*" tab (click the `X`) and pull up the terminal's dividing
+   line to the top of your window.
+
+4. In the terminal, the prompt says `Singularity&gt;`. This means we are inside a
+   Singularity container. **Type `bash` to exit the container.**
+
+5. Create a directory for this week, e.g.: `mkdir users/$USER/week02/`  
+   (inside `/fs/ess/PAS1855`).
+   
+6. Let's start a text document:
+   Click the "hamburger menu" <i class="fas  fa-bars "></i>, then `File` &gt; `New File`.
+   Immediately save the document (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;S&lt;/kbd&gt;) inside the
+   dir you just created.
+
+Finally, we're ready to go...
+
+---
+
+## Getting VS Code ready
+
+&lt;br&gt;
+
+.content-box-warning[
+In *VS Code*, there are default existing keybindings for the
+&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;K&lt;/kbd&gt; (*cut to end of line*) and 
+&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;E&lt;/kbd&gt; (*go to end of line*) combinations,
+so they won't be properly interpreted by the shell.
+
+If you have an &lt;kbd&gt;end&lt;/kbd&gt; key, that will also work to move to the end of
+the line.
+]
+
+---
 
 ## About Markdown
 
 &lt;br&gt;
 
-- Markdown is a very lightweight text markup language:
+- **Markdown is a very lightweight text markup language:**
   
-  - Easy to write: a dozen syntax constructs is nearly all you use.
+  - *Easy to write*: a dozen syntax constructs is nearly all you use.
   
-  - Very well readable in its raw (non-*rendered*) form.
+  - *Easy to read* also in its raw (non-*rendered*) form.
 
 &lt;br&gt;
 
-- For instance, putting single **`*`** or double asterisks **`*`** around one
+- For instance, putting single or double asterisks (**`*`**) around one
   or more characters will make those characters italic and bold, respectively:
   
-  - Writing `*italic example*` -&gt; rendered as *italic example*.
+  - Writing `*italic example*` &amp;mdash; rendered as: *italic example*.
   
-  - Writing `**bold example**` -&gt; rendered as **bold example**.
+  - Writing `**bold example**` &amp;mdash; rendered as: **bold example**.
 
 ---
 
@@ -55,9 +137,9 @@ class:inverse middle center
 
   When you save a file in VS Code with an `.md` extension:
   
-  - Some formatting will be automatically applied in the editor.
+  - Some formatting will be automatically applied *in the editor*.
   
-  - You can open a live preview by pressing the icon to
+  - You can open a live preview of the *rendered version* by pressing the icon to
     "*Open Preview to the Side*" (top-right corner):
 
 &lt;p align="center"&gt;
@@ -69,7 +151,9 @@ class:inverse middle center
 --
 
 .content-box-info[
-Select text and press **`*`**: text will be *surrounded* by asterisks.  
+In VS COde, when you *select some text* and then press **`*`**:
+the selected text will be *surrounded* by asterisks.  
+
 Same when typing the opening character for open-close characters
 like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
 ]
@@ -80,8 +164,8 @@ like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
 
 | Syntax            | Result
 |-------------------|-------|
-| \*italic\* / \_italic\_       | *italic* / *italic*
-| \*\*bold\*\*      | **bold**
+| \*italic\*        | *italic* (alternative: single `_`)
+| \*\*bold\*\*      | **bold** (alternative: double `_`)
 | `` `inline code` `` | `inline code`
 | \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
 | \!\[\](path/to/figure.png)   | Figure
@@ -110,6 +194,8 @@ like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
   with some whitespace between the two.
   
   Like this.
+
+--
 
 - A *single newline in text* is **ignored**, and multiple consecutive spaces or
   blank lines are treated the same as a single space or blank line.
@@ -140,7 +226,7 @@ Empty space
 
 ---
 
-## Markdown syntax: Whitespace (cont.)
+## Whitespace in Markdown (cont.)
 
 - A **linebreak** can be forced using *two or more spaces*
   (press the spacebar twice) after the last character on a line.
@@ -155,13 +241,13 @@ Empty space
 **You can use any *HTML* syntax in Markdown!**  
 I often use it for figures (sizing, alignment, legends) in particular.
 
-If you need inline &lt;span style="color:red"&gt;colored&lt;/span&gt; text,
-you also need to use HTML:  
+If you need "inline &lt;span style="color:red"&gt;colored&lt;/span&gt; text",
+you should also use HTML:  
 `inline &lt;span style="color:red"&gt;colored&lt;/span&gt; text`.
 
-For systematic styling of existing (e.g. headers) or custom elements,
-you need to use **_CSS_**, e.g. including this in Markdown document will
-turn all level 1 headers (`#`) red:
+For systematic styling of existing or custom elements,
+you need to use **_CSS_**. For example, including the following anywhere
+in a Markdown document will turn all level 1 headers (`#`) red:
 ```sh
 &lt;style&gt;
 h1 {color: red}
@@ -171,14 +257,7 @@ h1 {color: red}
 
 ---
 
-## Markdown syntax: Whitespace (cont.)
-
-- A **linebreak** can be forced using *two or more spaces*
-  (press the spacebar twice) after the last character on a line.
-
-- If you want **more vertical whitespace** than what is provided between
-  paragraphs, you have to resort to HTML:
-  each **`&lt;br&gt;`** item forces a visible linebreak.
+## Whitespace in Markdown (cont.)
 
 &lt;br&gt;
 
@@ -212,19 +291,22 @@ For installation (all OS's): see &lt;https://pandoc.org/installing.html&gt;.
 
 ## Markdown extensions &amp;ndash; Markdown for everything?!
 
-- Markdown documents can also contain code that *runs*!
+- With several extensions, Markdown documents can also contain code that *runs*,
+  and whose output will be included in the document!
   
   - R Markdown (`.Rmd`)
   
   - Jupyter Notebooks
+
+- Also, consider that:  
   
-- These slides are written in R Markdown
+  - These slides are written in R Markdown
+  
+  - Our Github course website is written in R Markdown
+  
+  - R Markdown also has support for citations, journal-specific formatting, etc.
 
-- Our Github course website is written in R Markdown
-
-- R Markdown also has support for citations, journal-specific formatting, etc.
-
-&lt;br&gt;
+--
 
 .content-box-info[
 There are a number of extended Markdown flavors, such a R Markdown (highly
@@ -280,6 +362,8 @@ supported where?
 - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;K&lt;/kbd&gt; to delete a line
   ("Delete Line" &amp;ndash; change to &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;D&lt;/kbd&gt;?) 
 
+--
+
 **Some browser-like shortcuts:**
   
 - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;PgDn&lt;/kbd&gt; / &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;PgUp&lt;/kbd&gt; to
@@ -288,6 +372,8 @@ supported where?
 - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;W&lt;k/bd&gt; to close an editor tab.
 
 - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;T&lt;/kbd&gt; to reopen the last tab.
+
+--
 
 .content-box-diy[
 **Add a shortcut to run shell commands from editor:**
@@ -300,7 +386,7 @@ supported where?
 
 ---
 
-## VS Code: Extensions
+## VS Code: Useful extensions to install
 
 - Click the gear icon <i class="fas  fa-cog "></i> and then `Extensions`,
   and search for:
@@ -327,14 +413,14 @@ background-color: #f2f5eb
 
 ## Bonus: Some additional Markdown syntax
 
-- Basic syntax:
+- **Basic syntax**:
 
 | Syntax | Result
 |---------------------------|
 | `&lt;https://website.com&gt;`   | Clickable link: &lt;https://website.com&gt;
 | &gt; Text                    | Blockquote (think quoted text in email)
 
-- Extended syntax &amp;ndash; not supported by all interpreters:
+- **Extended syntax** &amp;ndash; not supported by all interpreters:
 
 | Syntax | Result
 |----------------------------|
@@ -342,7 +428,7 @@ background-color: #f2f5eb
 | Footnote ref[^1]           | Footnote ref&lt;sup&gt;1&lt;/sup&gt;
 | [^1]: Text                 | The actual footnote
 
-  - Tables:
+  - **Tables**:
   
 .pull-left[
 &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; \| syntax \| result  
@@ -367,12 +453,12 @@ background-color: #f2f5eb
 |---------------------------|
 | `superscript&lt;sup&gt;2&lt;/sup&gt;` | superscript&lt;sup&gt;2&lt;/sup&gt;
 | `superscript&lt;sub&gt;2&lt;/sub&gt;` | subscript&lt;sub&gt;2&lt;/sub&gt;
-| `&lt;br&gt;`
+| `&lt;br&gt;` | linebreak / empty line
 
 &lt;br&gt;
 
-- Figures - pretty easy to modify alignment (`center` / `left` / `right`)  
-  and size:
+- By inserting **figures** with HTML rather than Markdown syntax,
+  it's pretty easy to modify alignment (`center` / `left` / `right`) and size:
   ```HTML
   &lt;p align="center"&gt;
   &lt;img src=img/markdown-preview-vscode.png width=50%&gt;

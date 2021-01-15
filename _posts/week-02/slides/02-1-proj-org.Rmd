@@ -58,15 +58,6 @@ class:inverse middle center
 <br> <br> <br> <br>
 
 ---
-class:inverse middle center
-
-## Part I
-----
-# Some best practices for <br> project organization
-
-<br> <br> <br> <br>
-
----
 
 ## Importance of Good Project Organization
 
@@ -85,7 +76,7 @@ class:inverse middle center
 <br>
 
 In short, it is a necessary foundation to use this course's tools and  
-reach some of its goals.
+to reach some of its goals.
 
 ---
 
@@ -227,7 +218,7 @@ this is especially feasible for **scripts** under version control,
 which can be synced to and accessed from an online repository:
 
 <p align="center">
-<img src=img/proj-dirs-6.svg width=80%>
+<img src=img/proj-dirs-6.svg width=70%>
 </p>
 
 --
@@ -237,7 +228,7 @@ deposited in a public repository.
 
 ---
 
-## An example dir structure for a project
+## Example dir structures for a project
 
 .pull-left[
 
@@ -288,13 +279,13 @@ and process files.
   
   - `sample032_2016-05-03_low.txt`  
   
-  - `samples_soil_trtA_2019-01.txt`
+  - `samples_soil_treatmentA_2019-01.txt`
 
 - Now, you can use globbing to select samples from a certain month or treatment:
   ```sh
   $ ls *2016-05*
   
-  $ ls *trtA*
+  $ ls *treatmentA*
   ```
 
 .content-box-info[
@@ -309,6 +300,9 @@ in Unix, but are still useful to distinguish file types easily and programmatica
 - Spaces in file names lead to inconvenience or trouble:
   
   ```sh
+  $ mkdir "raw sequences"
+  $ mkdir sequences
+  
   $ rm -rf raw sequences
   ```
 
@@ -338,7 +332,7 @@ in Unix, but are still useful to distinguish file types easily and programmatica
   
   - Reserve periods to use for the file extension.
   
-  - Avoid capitals.
+  - (Generally avoid capitals &ndash; minor and particularly opinionated point).
   
 ```sh
 mmus001_treatmentA_filtered-mq30-only_sorted_dedupped.bam
@@ -425,9 +419,19 @@ name: software
   otherwise, you may not know what you used,
   and default versions changes can go unnoticed.
   
+  ```sh
+  # Load default -- you can bet this will be a different one in a year or two
+  module load R 
+  
+  # Preferred:
+  module load R/4.0.2
+  ```
+  
 - `conda` environments can be useful too,
   e.g. for maintaining multiple versions of the same software,
   or being able to run mutually incompatible software.
 
-- We'll talk more about this in the OSC (Week 6) and Snakemake (Week 12) modules.
+.content-box-info[
+We'll talk more about this in the OSC (Week 6) and Snakemake (Week 12) modules.
+]
 

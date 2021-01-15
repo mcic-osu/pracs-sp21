@@ -115,20 +115,20 @@ the line.
 
 <br>
 
-- Markdown is a very lightweight text markup language:
+- **Markdown is a very lightweight text markup language:**
   
-  - Easy to write: a dozen syntax constructs is nearly all you use.
+  - *Easy to write*: a dozen syntax constructs is nearly all you use.
   
-  - Very well readable in its raw (non-*rendered*) form.
+  - *Easy to read* also in its raw (non-*rendered*) form.
 
 <br>
 
-- For instance, putting single **`*`** or double asterisks **`*`** around one
+- For instance, putting single or double asterisks (**`*`**) around one
   or more characters will make those characters italic and bold, respectively:
   
-  - Writing `*italic example*` -> rendered as *italic example*.
+  - Writing `*italic example*` &mdash; rendered as: *italic example*.
   
-  - Writing `**bold example**` -> rendered as **bold example**.
+  - Writing `**bold example**` &mdash; rendered as: **bold example**.
 
 ---
 
@@ -138,9 +138,9 @@ the line.
 
   When you save a file in VS Code with an `.md` extension:
   
-  - Some formatting will be automatically applied in the editor.
+  - Some formatting will be automatically applied *in the editor*.
   
-  - You can open a live preview by pressing the icon to
+  - You can open a live preview of the *rendered version* by pressing the icon to
     "*Open Preview to the Side*" (top-right corner):
 
 <p align="center">
@@ -152,7 +152,9 @@ the line.
 --
 
 .content-box-info[
-Select text and press **`*`**: text will be *surrounded* by asterisks.  
+In VS COde, when you *select some text* and then press **`*`**:
+the selected text will be *surrounded* by asterisks.  
+
 Same when typing the opening character for open-close characters
 like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
 ]
@@ -163,8 +165,8 @@ like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
 
 | Syntax            | Result
 |-------------------|-------|
-| \*italic\* / \_italic\_       | *italic* / *italic*
-| \*\*bold\*\*      | **bold**
+| \*italic\*        | *italic* (alternative: single `_`)
+| \*\*bold\*\*      | **bold** (alternative: double `_`)
 | `` `inline code` `` | `inline code`
 | \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
 | \!\[\](path/to/figure.png)   | Figure
@@ -193,6 +195,8 @@ like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
   with some whitespace between the two.
   
   Like this.
+
+--
 
 - A *single newline in text* is **ignored**, and multiple consecutive spaces or
   blank lines are treated the same as a single space or blank line.
@@ -223,7 +227,7 @@ Empty space
 
 ---
 
-## Markdown syntax: Whitespace (cont.)
+## Whitespace in Markdown (cont.)
 
 - A **linebreak** can be forced using *two or more spaces*
   (press the spacebar twice) after the last character on a line.
@@ -238,13 +242,13 @@ Empty space
 **You can use any *HTML* syntax in Markdown!**  
 I often use it for figures (sizing, alignment, legends) in particular.
 
-If you need inline <span style="color:red">colored</span> text,
-you also need to use HTML:  
+If you need "inline <span style="color:red">colored</span> text",
+you should also use HTML:  
 `inline <span style="color:red">colored</span> text`.
 
-For systematic styling of existing (e.g. headers) or custom elements,
-you need to use **_CSS_**, e.g. including this in Markdown document will
-turn all level 1 headers (`#`) red:
+For systematic styling of existing or custom elements,
+you need to use **_CSS_**. For example, including the following anywhere
+in a Markdown document will turn all level 1 headers (`#`) red:
 ```sh
 <style>
 h1 {color: red}
@@ -254,14 +258,7 @@ h1 {color: red}
 
 ---
 
-## Markdown syntax: Whitespace (cont.)
-
-- A **linebreak** can be forced using *two or more spaces*
-  (press the spacebar twice) after the last character on a line.
-
-- If you want **more vertical whitespace** than what is provided between
-  paragraphs, you have to resort to HTML:
-  each **`<br>`** item forces a visible linebreak.
+## Whitespace in Markdown (cont.)
 
 <br>
 
@@ -295,19 +292,22 @@ For installation (all OS's): see <https://pandoc.org/installing.html>.
 
 ## Markdown extensions &ndash; Markdown for everything?!
 
-- Markdown documents can also contain code that *runs*!
+- With several extensions, Markdown documents can also contain code that *runs*,
+  and whose output will be included in the document!
   
   - R Markdown (`.Rmd`)
   
   - Jupyter Notebooks
+
+- Also, consider that:  
   
-- These slides are written in R Markdown
+  - These slides are written in R Markdown
+  
+  - Our Github course website is written in R Markdown
+  
+  - R Markdown also has support for citations, journal-specific formatting, etc.
 
-- Our Github course website is written in R Markdown
-
-- R Markdown also has support for citations, journal-specific formatting, etc.
-
-<br>
+--
 
 .content-box-info[
 There are a number of extended Markdown flavors, such a R Markdown (highly
@@ -363,6 +363,8 @@ supported where?
 - <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd> to delete a line
   ("Delete Line" &ndash; change to <kbd>Ctrl</kbd> + <kbd>D</kbd>?) 
 
+--
+
 **Some browser-like shortcuts:**
   
 - <kbd>Ctrl</kbd>+<kbd>PgDn</kbd> / <kbd>Ctrl</kbd>+<kbd>PgUp</kbd> to
@@ -371,6 +373,8 @@ supported where?
 - <kbd>Ctrl</kbd>+<kbd>W<k/bd> to close an editor tab.
 
 - <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> to reopen the last tab.
+
+--
 
 .content-box-diy[
 **Add a shortcut to run shell commands from editor:**
@@ -383,7 +387,7 @@ supported where?
 
 ---
 
-## VS Code: Extensions
+## VS Code: Useful extensions to install
 
 - Click the gear icon `r icon::fa("cog")` and then `Extensions`,
   and search for:
@@ -410,14 +414,14 @@ background-color: #f2f5eb
 
 ## Bonus: Some additional Markdown syntax
 
-- Basic syntax:
+- **Basic syntax**:
 
 | Syntax | Result
 |---------------------------|
 | `<https://website.com>`   | Clickable link: <https://website.com>
 | > Text                    | Blockquote (think quoted text in email)
 
-- Extended syntax &ndash; not supported by all interpreters:
+- **Extended syntax** &ndash; not supported by all interpreters:
 
 | Syntax | Result
 |----------------------------|
@@ -425,7 +429,7 @@ background-color: #f2f5eb
 | Footnote ref[^1]           | Footnote ref<sup>1</sup>
 | [^1]: Text                 | The actual footnote
 
-  - Tables:
+  - **Tables**:
   
 .pull-left[
 &nbsp; &nbsp; &nbsp; &nbsp; \| syntax \| result  
@@ -450,12 +454,12 @@ background-color: #f2f5eb
 |---------------------------|
 | `superscript<sup>2</sup>` | superscript<sup>2</sup>
 | `superscript<sub>2</sub>` | subscript<sub>2</sub>
-| `<br>`
+| `<br>` | linebreak / empty line
 
 <br>
 
-- Figures - pretty easy to modify alignment (`center` / `left` / `right`)  
-  and size:
+- By inserting **figures** with HTML rather than Markdown syntax,
+  it's pretty easy to modify alignment (`center` / `left` / `right`) and size:
   ```HTML
   <p align="center">
   <img src=img/markdown-preview-vscode.png width=50%>

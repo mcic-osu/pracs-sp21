@@ -52,7 +52,7 @@ class: center middle inverse
 
 ## Create a dummy project &ndash; following Buffalo
 
-- Go to the dir for this week you just created:
+- Go to the dir for this week you created earlier:
   ```sh
   $ cd /fs/ess/PAS1855/users/$USER/week02
   ```
@@ -112,9 +112,9 @@ name: wildcard
 
 - **To match both "*sample1*" files:**
   ```sh
-  ls sample1_?.fastq.gz
-  ls sample1*
-  ls sample1*fastq.gz
+  $ ls sample1_?.fastq.gz
+  $ ls sample1*
+  $ ls sample1*fastq.gz
   ```
 
 ---
@@ -193,9 +193,9 @@ You can make use of this when using shell expansion to *move* or *delete* files:
 first check what your command will "see", then execute:
   
   ```sh
-  echo sample[12]*    # Or use `ls`
+  $ echo sample[12]*    # Or use `ls`
   # sample1_F.fastq.gz sample1_R.fastq.gz sample2_F.fastq.gz sample2_R.fastq.gz
-  rm !$
+  $ rm !$
   ```
 ]
 
@@ -332,25 +332,25 @@ $ ls fig-1{A..G}
 
 1. Go into `zmays-snps/data/seqs/` and remove the files in there.
 ```sh
-cd ../data/seqs/   # Assuming you were still in figs
-rm *fastq.gz
+$ cd ../data/seqs/   # Assuming you were still in figs
+$ rm *fastq.gz
 ```
 
 2. Create empty `R1` and `R2` fastq files for 100 samples:
 ```sh
-touch sample{001..100}_R{1,2}_001.fastq
+$ touch sample{001..100}_R{1,2}_001.fastq
 ```
 
 3. Count the number of `R1` files:
 ```sh
-ls sample*R1*fastq | wc -l
-ls *R1* | wc -l # This works too but restrictive is often better
+$ ls sample*R1*fastq | wc -l
+$ ls *R1* | wc -l # This works too but restrictive is often better
 ```
 
 4. **_Bonus:_** Copy all files except "`sample100`" into a new dir called `selection`:
 ```sh
-mkdir selection
-cp sample[^1]* selection/
+$ mkdir selection
+$ cp sample[^1]* selection/
 ```
 
 ---
@@ -370,10 +370,10 @@ name: command-sub
   
   These two examples show how that can be useful, and that a pipe wouldn't work:
   ```sh
-  echo "I have $(ls *fastq | wc -l) fastq files."
+  $ echo "I have $(ls *fastq | wc -l) fastq files."
   # I have 200 fastq files.
     
-  mkdir results_$(date +%F)
+  $ mkdir results_$(date +%F)
   # results_2021-01-05
   ```
 
@@ -383,22 +383,22 @@ name: command-sub
 
 - We can also save a result in a *variable*:
   ```sh
-  n_files=$(ls *fastq | wc -l)
-  echo ${n_files}   # Shorthand: "$n_samples"
+  $ n_files=$(ls *fastq | wc -l)
+  $ echo ${n_files}   # Shorthand: "$n_samples"
   ```
 
 --
 
 - Or in an *array*, using an extra set of parentheses `()`:
   ```sh
-  samples=($(ls *fastq | cut -d "_" -f 1 | uniq))
+  $ samples=($(ls *fastq | cut -d "_" -f 1 | uniq))
   
   # Print the entire array:
-  echo ${samples[@]}
+  $ echo ${samples[@]}
   # sample001 sample002 sample003 sample004 sample005 sample006 sample007 sample008 sample009 ...
   
   # Print the 11th element (arrays are 0-indexed):
-  echo ${samples[10]}
+  $ echo ${samples[10]}
   # sample 011
   ```
 
@@ -421,9 +421,9 @@ and needed to match a *literal* **`*`** or **`?`**
 - A **backslash** ("**`\`**") can be used to "escape" the special meaning
   of the character that follows it:
   ```sh
-  ls
+  $ ls
   # 'my bad*file'
-  rm my\ bad\*file  # Tab autocomplete will work and insert \'s
+  $ rm my\ bad\*file  # Tab autocomplete will work and insert \'s
   ```
 
 --
@@ -433,7 +433,7 @@ and needed to match a *literal* **`*`** or **`?`**
   than double quotes (**`"..."`**) &ndash; more on this later. 
 
   ```sh
-  rm 'my bad*file'
+  $ rm 'my bad*file'
   ```
 
 --
@@ -484,10 +484,10 @@ but are intuitive and good practice.
   but *recalled* as `${oldname}`:
 
   ```sh
-  for oldname in *.fastq
-  do
-     echo "Old name: ${oldname}"
-  done
+  $ for oldname in *.fastq
+  > do
+  >   echo "Old name: ${oldname}"
+  > done
   ```
 
 --
@@ -500,7 +500,7 @@ to define what will be looped over.
 .content-box-info[
 To loop over an array:
 ```sh
-for sample in ${samples}[@]
+$ for sample in ${samples}[@]
 ```
 ]
 
@@ -515,11 +515,11 @@ but are intuitive and good practice.
   a sanity check:
   
   ```sh
-  for oldname in *.fastq
-  do
-     newname=$(basename $oldname _001.fastq).fq
-     echo "Old/new name: $oldname $newname"
-  done
+  $ for oldname in *.fastq
+  > do
+  >   newname=$(basename $oldname _001.fastq).fq
+  >   echo "Old/new name: $oldname $newname"
+  > done
   ```
 
 ---
@@ -532,12 +532,12 @@ but are intuitive and good practice.
 - Finally, we add the actual `mv` command:  
 
   ```sh
-  for oldname in *.fastq
-  do
-     newname=$(basename $oldname _001.fastq).fq
-     echo "Old/new name: $oldname $newname"
-     mv $oldname $newname
-  done
+  $ for oldname in *.fastq
+  > do
+  >   newname=$(basename $oldname _001.fastq).fq
+  >   echo "Old/new name: $oldname $newname"
+  >   mv $oldname $newname
+  > done
   ```
 
 ---
@@ -588,12 +588,12 @@ Can be changed in several ways with the `chmod` command:
 
 ```sh
 # chmod <who>=<permission-to-set>`:
-chmod a=rwx
+$ chmod a=rwx
   
 # chmod <who>+<permission-to-add>:
-chmod a+r  
+$ chmod a+r  
 # chmod <who>-<permission-to-remove>:
-chmod o-w
+$ chmod o-w
 ```
 
 --
@@ -615,9 +615,9 @@ chmod o-w
 Three numbers are needed to specify permissions for user, group, and others:
 ```sh
 # rwx permissions for all:
-chmod 777 file.txt
+$ chmod 777 file.txt
 # rwx for me, r for others:
-chmod 744 file.txt
+$ chmod 744 file.txt
 ```
 ]
 
@@ -627,11 +627,11 @@ chmod 744 file.txt
 
 **To make your raw data read-only:**
   ```sh
-  chmod a=r data/raw/*       # all=read
+  $ chmod a=r data/raw/*       # all=read
   
-  chmod u-w data/raw/*       # Remove write permission
+  $ chmod u-w data/raw/*       # Remove write permission
   
-  chmod 400 data/raw/*       # User: read, group & others: none
+  $ chmod 400 data/raw/*       # User: read, group & others: none
   ```
 
 --
@@ -658,21 +658,21 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 - First, let's look at the original permissions of the files:
   ```sh
   # Assuming you are still in week02/zmays-snps/data/seqs
-  ls -l selection/
+  $ ls -l selection/
   ```
 
 - Then, limit permissions for **a**ll to **r**ead, and check what we did:
   ```sh
-  chmod a=r selection/*
-  ls -l selection/
+  $ chmod a=r selection/*
+  $ ls -l selection/
   ```
 --
 
 - What happens when we try to remove write-protected files?
   ```sh
-  rm selection/*
+  $ rm selection/*
   
-  rm -f selection/*
+  $ rm -f selection/*
   ```
 
   .content-box-info[
@@ -686,19 +686,19 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 
 - What will these two commands do?
   ```sh
-  rm -rf tmp-data/aligned-reads*
+  $ rm -rf tmp-data/aligned-reads*
   
-  rm -rf tmp-data/aligned-reads *
+  $ rm -rf tmp-data/aligned-reads *
   ```
 
 --
 
 - What are we removing with the last command?
   ```sh
-  mkdir "raw sequences"
-  mkdir sequences
+  $ mkdir "raw sequences"
+  $ mkdir sequences
   
-  rm -rf raw sequences
+  $ rm -rf raw sequences
   ```
 
 --
@@ -734,9 +734,9 @@ name: permissions
 - Create a *symlink* to a file using `ln -s <source> [<link>]`:
   ```sh
   # Only provide source: create link of the same name in the wd:
-  ln -s ~/share/scripts/align.sh
+  $ ln -s ~/share/scripts/align.sh
   # The link can also be given an arbitrary name/path:
-  ln -s ~/share/scripts/align.sh align_from-shared.sh
+  $ ln -s ~/share/scripts/align.sh align_from-shared.sh
   ```
 
 .content-box-info[
@@ -744,7 +744,7 @@ It's best to always **use an absolute path for the source file(s)**.
 
 The `$PWD` environment variable can come in handy to do so:
 ```sh
-ln -s $PWD/shared-scripts/align.sh project1/scripts/
+$ ln -s $PWD/shared-scripts/align.sh project1/scripts/
 ```
 ]
 
@@ -754,13 +754,13 @@ ln -s $PWD/shared-scripts/align.sh project1/scripts/
 
 - Link to multiple files in a directory at once:
   ```sh
-  ln -s $PWD/shared_scripts/* project1/scripts/ 
+  $ ln -s $PWD/shared_scripts/* project1/scripts/ 
   ```
 
 - Link to a directory:
   ```sh
-  ln -s $PWD/shared_scripts/ project1/scripts/
-  ln -s $PWD/shared_scripts/ project1/scripts/link-to-shared-scripts
+  $ ln -s $PWD/shared_scripts/ project1/scripts/
+  $ ln -s $PWD/shared_scripts/ project1/scripts/link-to-shared-scripts
   ```
 
 --
@@ -795,7 +795,7 @@ like `PLNTPTH8300-SP21` or `pracs-sp21`.
 
 .content-box-answer[
 ```sh
-ln -s /fs/ess/PAS1855/users/$USER $HOME/PLNTPTH8300-SP21
+$ ln -s /fs/ess/PAS1855/users/$USER $HOME/PLNTPTH8300-SP21
 ```
 ]
 
@@ -842,13 +842,13 @@ name:conditional
 **To remove all empty files in a directory:**
 
 ```sh
-for i in *
-do
-   if [ ! -s $i ]
-   then
-      echo rm $i
-   fi
-done
+$ for i in *
+> do
+>   if [ ! -s $i ]
+>   then
+>      echo rm $i
+>   fi
+> done
 ```
 
 An overview of *file test operators* that can be used in this way:
@@ -872,13 +872,13 @@ name:conditional
 **To remove all empty files in a directory:**
 
 ```sh
-for i in *
-do
-   if [ ! -s $i ]
-   then
-      echo rm $i
-   fi
-done
+$ for i in *
+> do
+>   if [ ! -s $i ]
+>   then
+>      echo rm $i
+>   fi
+> done
 ```
 
 <br>
@@ -889,7 +889,7 @@ though this particular task can be achieved much more concisely
 using `find`:
 
 ```sh
-find . -size 0 -delete
+$ find . -size 0 -delete
 ```
 ]
 
@@ -901,12 +901,12 @@ name:tricks
 
 - **`tee`**: Redirect standard out to file *and* to screen / into a pipe:
   ```sh
-  program1 in.txt | tee intermediate-file.txt | program2 > out.txt
+  $ program1 in.txt | tee intermediate-file.txt | program2 > out.txt
   ```
   
 <br>
 
 - **`tail -f`** to "follow" a file &ndash; monitor output of a long-running command:
   ```sh
-  tail -f                 # Press `Ctrl + C` to stop
+  $ tail -f                 # Press `Ctrl + C` to stop
   ```
