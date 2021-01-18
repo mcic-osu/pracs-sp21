@@ -6,7 +6,9 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -24,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/01/26 (updated: 2021-01-04)
+### 2021/01/26 (updated: 2021-01-17)
 
 ---
 
@@ -33,14 +35,32 @@ class:inverse middle center
 ...
 
 &lt;p align="left"&gt;
-&lt;img src=img/w03/git-scm-snapshots.png width="90%"&gt;
+&lt;img src=img/git-scm-snapshots.png width="90%"&gt;
 &lt;/p&gt;
   
 
 ---
 
+## Versioning challenges without formal version control
 
-## Why use version control?
+- What to save?
+  
+  - Do you only save versions of individual files?  
+    --&gt; Space-efficient, but impossible to go back to the state of other files
+    at the same point in time.
+  
+  - Do you save the full project periodically?
+    --&gt; Better, but can quickly become prohibitive storage-wise.
+
+- How to manage different variants of files?
+
+- How to know what changes were made between saved versions?
+
+- Collaboration: How to simultaneously work on a project?
+
+---
+
+## Version control enables you to:
 
 - "History of changes"
 
@@ -66,181 +86,1099 @@ class:inverse middle center
 
 ---
 
-## What are Git and Github?
-
-- **Git** is the most widely used software for version control
+## What are Git and GitHub?
 
 &lt;br&gt;
 
-- **Github** is the most widely used *website* to host Git repositories.
+- **Git** is the most widely used software for version control.  
+  (Others include *SVN* and *Mercurial*.)
 
-  Github can be linked up to Git so you can sync your repositories from the
-  command line.
+- **GitHub** is the most widely used *website* to host Git repositories.  
+   (Others include *GitLab*, *Bitbucket*, and *SourceForge*.)
+
+&lt;br&gt;
+
+Github can be linked up to Git so you can sync your repositories from the
+command line.
 
 ---
 
-## Key concepts
+## A few key terms and concepts
 
-- A "repository" (or "repo") ...
+- A "**repository**" (or "repo") is the version-control database for a project.  
+  It is saved in a hidden folder `.git` in the root dir of your project.
+  
+  - You can start a repository in any dir on your computer using a single Git
+    command.
+    
+  - You can also download (`git clone`) an online repo,
+    whether or not it is your own (but you can only *upload* to repos with
+    permission).
 
-- A "commit" is a saved snapshot of the project
+- A "**commit**" is a saved *snapshot* of the project.
 
-- Git saves *differences* between commits, it does not keep copies of all files
-  or even the entire changed files for every commit.
+  It is always possible to go the exact state of a project for any commit.
+  When you commit, you also have to include a message describing the changes.
+
+&lt;br&gt;
+
+.content-box-info[
+Git saves *differences* between commits,
+it does not keep copies of all files for every commit.
+This is also true at the within-file level:
+only the changes are saved. 
+]
 
 ---
 
 ## What do I put under version control?
 
-- Commit the source, not the derived files
+- The prime things to version control are:
+  - **Scripts** (/ software source)
+  - **Documentation**
+  - **Manuscripts** (if you write them in plain text)
+  
+- **Raw data** may or may not be committed (see *Limitations* on next slide).
 
-- Raw data may or may not be committed
+&lt;br&gt;
 
-- Binary files can't be tracked effectively
+- In general: **version-control the source, not the derived files**.
 
-Limitations:
-  - Repository size (best to keep under 1 GB)
-  - File size (Github will not allow files over 100 MB)
-  - File type
+  - For instance, version-control:
+      - Your markdown file, not the HTML it produces.
+      - Your script, not the figure it produces.
 
-- The general model of Git is that one repository corresponds to everything
-  inside a single directory structure (last week's project organization!),
-  but you can instruct Git to ignore certain files.
+  - Also gets back to one of last weeks points: derived data and other derived
+    files are (or should be...) *dispensable*.
+
+---
+
+## What do I put under version control? (cont.)
+
+.content-box-info[
+The general model of Git is that *one repository corresponds to everything
+inside a single directory structure* (last week's project organization!).
+
+You can instruct Git to ignore certain file(type)s and directories:
+we'll learn how to, this week.
+]
+
+--
+
+**Limitations:**
+
+- *File type*: Binary files can't be tracked *effectively* &amp;ndash;
+  Git will just save a new version of the file whenever there's been a change.
+
+- *Repository size*: Best to keep individual repo's under 1 GB.
+
+- *File size*: Github will not allow files over 100 MB.
+
+--
+
+.content-box-warning[
+NGS data is therefore generally too large to be version-controlled.  
+You should use dedicated repositories for this like the NCBI's SRA.
+]
+
 
 ---
 
 ## Using Git
 
-- GUIs, IDEs, and command-line usage
-
-- Every git command is called using: `git &lt;(sub)command&gt;`: `git config`, 
-  `git status`, etc.
+- You can use Git in several different ways:
   
-  Like bash, most of these commands can also take *options* and *arguments*.
+  - Native command-line interface (CLI).
+  
+  - Third-party GUIs &amp;ndash; *Git Kraken* works for all operating systems.
+  
+  - Using IDEs with Git integration like RStudio and VS Code.
+
+.content-box-info[
+In this course, we will mainly focus on the CLI because it's the most universal
+and powerful.
+]
 
 ---
 
-## CSB 2.4.1: Basic Workflow
+## Git CLI &amp;ndash; General structure of commands
+
+- Every git command is called using:  
+  ```sh
+  $ git &lt;(sub)command&gt; [options] [args]
+  ```
+  
+  For instance: 
+  ```sh
+  $ git status
+  
+  $ git add file.txt
+  
+  $ git commit -m "My commit message"
+  ```
+  
+---
+
+## CSB 2.4.1: Basic workflow
 
 Only three commands tend to make up the vast majority of your Git work:
 
-- **`git status`**  
-  Will report the status of your repository: which files have changed,
-  which new files are present, etc.
-  
 - **`git add`**  
   *Stages* files to be committed (including previously untracked files).
 
 - **`git commit`**  
   Commits all currently staged changes.
 
-[TODO: ADD IMG]
+- **`git status`**  
+  Will report the status of your repository: which files have changed,
+  which new files are present, etc.
 
 ---
 
-## Misc. git commands
+## CSB 2.4.1: Basic workflow
 
-- **`git init`**  
+Only three commands tend to make up the vast majority of your Git work:
 
-- **`git log`**  
+- **`git add`**  
+  *Stages* files to be committed, including previously untracked files.
 
-- **`git diff`**  
-  [EXPAND A BIT ON DIFF?]
+- **`git commit`**  
+  Commits all currently staged changes.
 
-- **`git rm`** and **`git mv`**
-
----
-
-## CSB 2.4.3: Using a `.gitignore` file
-
-[ADD A COUPLE OF COMMANDS TO ADD UNWANTED FILE, THEN CREATE AND COMMIT .GITIGNORE]
-
----
-
-## CSB 2.4.5: Troubleshooting Git
-
-### Undoing unstaged changes
-
-```sh
-echo "todo: ask sequencing center about adapters" &gt; readme.md
-cat readme.md # oops
-git status    # git tells us how to undo our change
-git checkout -- readme.md # to checkout 'readme.md' from the last commit
-git restore readme.md     # same, with more recent version of git
-cat readme.md # yes!
-git status
-```
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-staging-area.svg" width="120%"&gt;
+&lt;figcaption&gt;Figure from swcarpentry.github.io&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
 
 ---
 
-## CSB 2.4.5: Troubleshooting Git (cont.)
+## CSB 2.4.1: Basic workflow
 
-### Unstaging a file
+Only three commands tend to make up the vast majority of your Git work:
 
-- You can use `git reset` to unstage a file, so you can change a mistake you made.
+- **`git add`**  
+  *Stages* files to be committed, including previously untracked files.
 
-  ```sh
-  echo "XXX" &gt; README.md
-  git status              # git status will tell us what to do!
+- **`git commit`**  
+  Commits all currently staged changes.
   
-  git reset HEAD README.md
+.content-box-info[
+New files are not automatically tracked: you need to add them using `git add`.
+```sh
+$ git add myfile.txt    # File will now be tracked + staged 
+
+$ git add --all         # All project files are now staged
+```
+]
+
+---
+
+## CSB 2.4.1: Basic workflow (cont.)
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/buffalo-git-add.png" width="50%"&gt;
+&lt;figcaption&gt;Figure from Buffalo (2015)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## CSB 2.4.1: Code-along &amp;ndash; Starting a repo
+
+- Creating a dir for a mock project to version-control:
+  ```sh
+  $ cd /fs/PAS1855/users/$USER/CSB/git/sandbox
+  $ mkdir originspecies
+  $ cd originspecies
+  ```
+
+- Initializing the repo with `git init`:
+  ```sh
+  $ git init
+  ```
+
+- Check what's going on:
+  ```sh
+  $ git status
+  ```
+
+---
+
+## CSB 2.4.1: Code-along &amp;ndash; Our first commit
+
+- Start writing the book:
+  ```sh
+  $ touch origin.txt
+  $ echo "An Abstract of an Essay on the Origin of Species and \
+        Varieties Through Natural Selection" &gt; origin.txt
+  $ cat origin.txt
+  ```
+
+- Start tracking and stage the file: 
+  ```sh
+  $ git add origin.txt
+  ```
+
+- Check the status of the repo:
+  ```sh
+  $ git status
+  ```
+
+- Looks good? Let's commit:
+  ```sh
+  $ git commit -m "started the book"
+  ```
+
+---
+
+## CSB 2.4.1: Code-along &amp;ndash; Our first commit (cont.)
+
+- Check the status again:
+  ```sh
+  $ git status
+  ```
+
+- Check the history of the repo:
+  ```sh
+  $ git log
+  ```
+
+---
+
+## CSB 2.4.1: Code-along &amp;ndash; Our second commit
+
+- Modify the file:
+  ```sh
+  $ echo "On the Origin of Species, by Means of Natural Selection, \
+        or the Preservation of Favoured Races in the Struggle \
+        for Life" &gt; origin.txt
+  ```
+
+- Check the status of the repo:
+  ```sh
+  $ git status
+  ```
+
+- We see that Git has noticed the changes, but we need to add them:
+  ```sh
+  $ git add origin.txt
   ```
   
-- But this will not revert the file back to its state at the last commit
-  (cf. CSB &amp;ndash; mistake!).
+- Commit and check the history of the repo:
+  ```sh
+  $ git commit -m "Changed the title as suggested by Murray"
   
-- Often when you've made a mistake, or when you just prematurely staged,
-  unstaging is all you need,
-  but sometimes you do need to revert back to a previously saved version.
+  $ git log
+  ```
   
 ---
 
-## CSB 2.4.5: Troubleshooting Git (cont.)
+## CSB 2.4.1: Basic workflow (recap)
 
-### Undoing staged changes
+Only three commands tend to make up the vast majority of your Git work:
 
+- **`git add`**  
+  *Stages* files to be committed (including previously untracked files).
+
+.content-box-info[
+**Ways to use `git add` and `git commit`**
+
+You can add individual files, everything, or wildcard selections:  
 ```sh
-echo "todo: ask sequencing center about adapters" &gt; readme.md
-git add readme.md
-git reset HEAD readme.md
-cat readme.md # mistake still there, but unstaged
-
-git status
-
-git checkout -- readme.md
-cat readme.md # yes!
+$ git add myfile.txt    # File will now be tracked + staged 
+$ git add --all         # Or "git add ." or "git add *"
+$ git add scripts/*
+$ git add /** # TO DO: ADD SHELL FILES ANYWHERE IN REPO
 ```
 
-[ADD FIGURE SHOWING CHECKOUT AND RESET!]
+You can also use the `-a` option to `git commit` as a shortcut add and commit
+all changes with a single command (but note that this will *not add untracked files*):
+```sh
+git commit -am "My commit message"
+```
+]
+
+---
+
+## CSB 2.4.1: Basic workflow (recap)
+
+Only three commands tend to make up the vast majority of your Git work:
+
+- **`git add`**  
+  *Stages* files to be committed (including previously untracked files).
+
+.content-box-q[
+Thinking about the purposes of version control broadly,
+what could be a disavantage of committing all changes simultaneously?
+]
+
+.content-box-answer[
+It's good practice to not simply and only commit at the end of each day,
+but to try and create commits for *units of progress worth saving* and to *separate commits for distinct changes*.
+
+An example of the latter:  
+You look at the files you've changed using `git status` and find that you have
+updated a README to include additional sampling information,
+and worked on a script to QC sequence files.
+**This does not make sense as a single commit.**
+]
+
+---
+
+## <i class="fas  fa-user-edit "></i> Intermezzo 2.1
+
+1. Create the file `todo.txt` containing the line:  
+   `June 18, 1858: read essay from Wallace`.
+
+2. Add the file to the next snapshot.
+
+3. Commit the snapshot, with message `Added to-do list`.
+
+---
+
+## <i class="fas  fa-user-edit "></i> Intermezzo 2.1 &amp;ndash; solutions
+
+1. Create the file `todo.txt`:
+   ```sh
+   $ echo "June 18, 1858: read essay from Wallace" &gt; todo.txt
+   ```
+
+2. Add the file to the next snapshot.
+   ```sh
+   $ git add todo.txt
+   ```
+3. Commit the snapshot, with message `Added to-do list`.
+   ```sh
+   $ git commit -m "Added to-do list"
+   ```
+   
+---
+
+## CSB 2.4.2: Showing changes
+
+- By default, `git diff` will show all changes made since the last commit:
+  ```sh
+  $ git diff
+  ```
+
+## TO DO: EXPAND ON DIFF -- MAKE SOME CHANGES
+  
+---
+
+## CSB 2.4.3: Ignoring files and directories
+
+Using a `.gitignore` file
+
+## TODO: ADD A COUPLE OF COMMANDS TO ADD UNWANTED FILE, THEN CREATE AND COMMIT .GITIGNORE
+
+```sh
+*~
+*.tmp
+binaries/
+largedataset.db
+```
+
+---
+
+## CSB 2.4.3: Moving and removing tracked files
+
+To remove or move (including renaming) files tracked by Git, it is best to
+preface `rm` and `mv` with `git`:
+
+```sh
+$ git rm filetorem.txt
+$ git rm *txt
+$ git rm myoldname.txt mynewname.csv
+```
+
+.content-box-info[
+You will inevitably forget about this, and Git will eventually figure out what
+happened.
+For instance, for a renamed file, Git will first think you removed a file
+and also notice a new, untracked file.
+Then, when you add this "new" file, Git will realize the file was renamed.
+
+However, it is cleaner to use `git mv` and `git rm`,
+so please do so whenever you think of it.
+]
+
+.content-box-info[
+When you haven't started tracking a file yet, you can use regular `mv` and `rm`
+&amp;ndash; in fact, Git will error out if you try to do `git rm` for an untracked file. 
+]
+
+---
+
+## CSB 2.4.5: Troubleshooting Git &amp;ndash; Amending commits
+
+- Let's say we forgot to add a file to a commit,
+  or see a typo in what we just committed.
+  ```sh
+  $ git add forgottenfile.txt
+  $ git add code.py
+  ```
+  
+- Creating a separate commit for his seems "wasteful" or inappropriate,
+  and including these changes along with others in a next commit is likely
+  also inappropriate.
+  
+  In such cases, we can *amend* the commit
+  (and here, we also use the  
+  `--no-edit` flag to not change the commit message):
+  ```sh
+  $ git commit --amend --no-edit
+  ```
+
+&lt;br&gt;
+
+.content-box-warning[
+Do do not amend commits that have been published in (*pushed to*) the online
+counterpart of the repo.
+]
+
+---
+
+## CSB 2.4.5: Troubleshooting Git &amp;ndash; Concepts
+
+The three states for files correspond to the three "trees" of Git:
+ 
+ - **HEAD**: State of the project in most recent commit (on current branch)
+ 
+ - **Index** (*Stage*): State of the project ready to be committed.
+ 
+ - **Working directory**: State of the project as currently on your computer. 
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-3trees.svg" width="40%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## CSB 2.4.5: Troubleshooting Git &amp;ndash; Concepts
+
+**When a file is:**
+
+| State     | HEAD (Last commit) | Index (Stage) | Working Dir
+|-----------|--------------------|---------------|
+| **Committed** | version X          | version X     | version X 
+| **Staged**    | version X          | **&lt;span style=color:green&gt; version Y&lt;/span&gt;**     | **&lt;span style=color:green&gt;version Y&lt;/span&gt;**
+| **Modified**  | version ?          | version X     | **&lt;span style=color:red&gt;version Y&lt;/span&gt;**
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-do.svg" width="60%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## CSB 2.4.5: Troubleshooting Git &amp;ndash; Concepts
+
+**When a file is:**
+
+| State     | HEAD (Last commit) | Index (Stage) | Working Dir
+|-----------|--------------------|---------------|
+| Committed | version X          | version X     | version X 
+| Staged    | version X          | **&lt;span style=color:green&gt; version Y&lt;/span&gt;**     | **&lt;span style=color:green&gt;version Y&lt;/span&gt;**
+| Modified  | version ?          | version X     | **&lt;span style=color:red&gt;version Y&lt;/span&gt;**
+| Untracked | &amp;nbsp; -           | &amp;nbsp; -       | **&lt;span style=color:red&gt;version X&lt;/span&gt;**
+
+---
+
+## CSB 2.4.5: Troubleshooting &amp;ndash; Concepts
+
+&lt;br&gt;
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-do-undo.svg" width="100%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+
+---
+
+## CSB 2.4.5: Troubleshooting &amp;ndash; Undoing working dir changes by recovering an old version from the repo
+
+- Let's say we accidentally overwrite instead of append to a file:
+  ```sh
+  $ echo "todo: ask sequencing center about adapters" &gt; README.md
+  ```
+
+- Always start by checking the status:
+  ```sh
+  $ git status
+  ```
+
+- We want to "discard changes in working directory" by recovering the version of
+  the file in the index (and HEAD), and Git told us how to do this:
+  ```sh
+  $ git checkout -- README.md
+  ```
+
+.content-box-info[
+On recent Git versions (not yet on OSC), it instead recommends:
+```sh
+git restore README.md
+```
+]
+
+---
+
+## CSB 2.4.5: Undoing changes that have not been staged &lt;br&gt; by recovering an old version from the repo
+
+- Let's say we accidentally overwrite instead of append to a file:
+  ```sh
+  $ echo "todo: ask sequencing center about adapters" &gt; README.md
+  ```
+
+- Always start by checking the status:
+  ```sh
+  $ git status
+  ```
+
+- Git told us how to do undo the change:
+  ```sh
+  $ git checkout -- README.md
+  ```
+
+.content-box-info[
+When mistakes weren't staged or committed, you may, of course,
+not need Git to fix it for you: if you made a typo, you can simply change this
+in the file.
+]
+
+---
+
+## CSB 2.4.5: Troubleshooting &amp;ndash; Unstaging a file
+
+- `git reset` can *unstage* a file, which is most often needed when you
+  added a file that was not supposed to be part of the next commit:
+
+  ```sh
+  $ echo "The foloqing TruSeq adapters were used:" &gt;&gt; README.md
+  $ echo "wc -l *fastq" &gt; count_reads.sh
+  $ git add --all
+  ```
+
+- Oops, those two file changes should be part of separate commits.  
+  Again, we check the status first and find we should use `git reset`:  
+  ```sh
+  $ git reset HEAD -- README.md
+  ```
+
+.content-box-warning[
+This will only unstage and **not** revert the file back to its state at the
+last commit (cf. CSB &amp;ndash; mistake!).
+]
+
+.content-box-info[
+If you *staged* a file and realize you made a mistake,
+or staged prematurely, you can continue editing the file and re-add it.
+]
+
+---
+
+## CSB 2.4.5: Troubleshooting &amp;ndash; Unstaging a file
+
+- `git reset` can *unstage* a file, which is most often needed when you
+  added a file that was not supposed to be part of the next commit:
+
+  ```sh
+  $ echo "The foloqing TruSeq adapters were used:" &gt;&gt; README.md
+  $ echo "wc -l *fastq" &gt; count_reads.sh
+  $ git add --all
+  ```
+
+- Oops, those two file changes should be part of separate commits.  
+  Again, we check the status first and find we should use `git reset`:  
+  ```sh
+  $ git reset HEAD -- README.md
+  ```
+
+.content-box-warning[
+This will only unstage and **not** revert the file back to its state at the
+last commit (cf. CSB &amp;ndash; mistake!).
+]
+
+.content-box-info[
+On recent Git versions (not yet on OSC), it instead recommends:
+```sh
+git restore --staged README.md
+```
+]
+
+---
+
+## CSB 2.4.5: Troubleshooting &amp;ndash; Undoing staged changes
+
+What if we had even staged our changes,
+but we just want to get of all changes in the file since the last commit?
+
+For instance, we overwrote the README.md and staged the misshapen file:
+  ```sh
+  $ echo "Todo: ask sequencing center about adapters" &gt; README.md
+  $ git add README.md
+  ```
+
+To get back the version that is stored in the last commit,
+and disregard any staged or unstaged changes to the file:
+```sh  
+$ git checkout HEAD -- README.md
+```
+
+.content-box-warning[
+Be careful with the `git checkout` command,  
+because it irrevocably discards the non-committed changes.
+]
+
+---
+
+## CSB 2.4.5: Troubleshooting &amp;ndash; Undoing staged changes
+
+&lt;br&gt;
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-undo.svg" width="100%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## CSB 2.4.5: Troubleshooting &amp;ndash; Other options
+
+### But what if I want to get back to a previous version, like above, &lt;br&gt; but am not sure I want to permanently delete the recent changes?
+
+1. **Create a new *branch***, commit the changes there, and then move back to
+   the main/previous branch. *=&gt; CSB Ch. 2.6*
+
+2. ***Stash* the changes** and possibly retrieve (*apply*) them later.
+   This only makes sense if you may or may not want to keep the changes and
+   think you will find out soon. *=&gt; Bonus materials*
+
+### But what if I need to get back an old version of the entire project?
+
+...
+
+---
+
+## CSB 2.4.5: Troubleshooting &amp;ndash; Undo summary so far
+
+For a particular file `README.md`:
+
+- I want to unstage a file, but don't need to discard (replace) any changes:
+  ```sh
+  git reset HEAD -- README.md
+  ```
+  
+- I want to go back to the last commit and have unstaged changes in my working
+  dir that should be discarded:
+  ```sh
+  git checkout -- README.md # Technically: grabs file from *Index*
+  ```
+
+- I want to go back to the last commit and have staged changes (and optionally
+  unstaged changes, too) that should be discarded:
+  ```sh
+  git checkout HEAD -- README.md
+  ```
+--
+
+- **Bonus** &amp;ndash; I need to get an earlier version, e.g. from the one-to-last
+  commit, or any arbitrary commit:
+  ```sh
+  git checkout HEAD^ -- README.md
+  git checkout &lt;sha-id&gt; -- README.md
+  ```
 
 ---
 
 ## CSB 2.5: Remote repositories
 
+We have our *Origin* repo that we have been version-controlling,  
+but now we also want to have this repo online, on Github:
+
+- To share our work and/or
+
+- To have a online backup and/or
+
+- To collaborate with others
+
+While we can interact with online repos using Git commands,  
+we *can't create a new online repo* with the Git CLI.
+
+So, we go to &lt;https://github.com&gt; to create a new repo.
+
 ---
 
-## CSB 2.6: Branching and merging
+## CSB 2.5: Remote repos &amp;ndash; Creating a Github repo
+
+## TO DO: ADD STEPS
 
 ---
+
+## CSB 2.5: Remote repos &amp;ndash; I: Single-user workflow
+
+In a single-user workflow, all changes are made in the *local repo*,
+and the remote repo is simply periodically updated.
+
+So, the interaction between local and remote is unidirectional:
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/buffalo-remote-uni.png" width="35%"&gt;
+&lt;figcaption&gt;Figure from Buffalo (2015)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## CSB 2.5: Remote repos &amp;ndash; I: Single-user workflow
+
+Our workflow is only modified by occasional *pushing* to remote:
+
+```sh
+$ git push
+```
+
+&lt;br&gt;
+
+By default, `git push` pushes:
+ - The currently active *branch* (which will always be `master` or `main` if we
+   haven't created new branches)
+ - To the default remote connection, which by convention is name `origin`.
+
+&lt;br&gt;
+
+Therefore, assuming the remote is `origin` and the current branch is `master`,
+`git push` is shorthand for:
+
+```sh
+$ git push origin master
+```
+
+---
+
+## CSB 2.5: Remote repos &amp;ndash; II: Multi-user workflow
+
+With a multi-user workflow, changes made by different users are shared *via*
+the online copy.
+
+Like earlier, changes to your local repo remain local-only unless you
+actively **push** to remote (i.e., this is not automatic).
+
+Similarly, changes to the remote repo (that someone else has pushed) only
+make it into your local repo if you actively **pull** from remote
+(also *not automatic*).
+
+---
+
+## CSB 2.5: Remote repos &amp;ndash; II: Multi-user workflow
+
+A multi-user workflow starts with a second user downloading (*cloning*)  
+the online repo **(b)**:
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/buffalo-remote-1.png" width="70%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## CSB 2.5: Remote repos &amp;ndash; II: Multi-user workflow
+
+Then, the second user can push their changes to the shared remote **(a)**:
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/buffalo-remote-2a.png" width="70%"&gt;
+&lt;figcaption&gt;Figure from Buffalo (2015)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## CSB 2.5: Remote repos &amp;ndash; II: Multi-user workflow
+
+Then, the second user can push their changes to the shared remote **(a)**:
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/buffalo-remote-2.png" width="70%"&gt;
+&lt;figcaption&gt;Figure from Buffalo (2015)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+To go full circle, the first user (you in this case) then *pulls* in
+the changes made by the second user **(b)**. 
+
+---
+
+## CSB 2.5: Remote repos &amp;ndash; II: Multi-user workflow
+
+## TODO: ADD MULTI-USER PUSH-PULL PRACTICE
+
+---
+
+## CSB 2.6: Branching and merging &amp;ndash; Code-along
+
+- First, we create a dummy repo with a few commits by running a shell script:
+  ```sh
+  $ less ../data/create_repository.sh  # press `q` to exit less
+  
+  $ ./../data/create_repository.sh
+  ```
+
+- Let's see what has been done in this repo:
+  ```sh
+  $ cd branching_example
+  
+  $ git log --oneline --decorate
+  ```
+
+- We want to improve the code, but these changes are experimental, and we want
+  to retain our previous version that we know works.
+  
+  This is where *branching* comes in:
+  ```sh
+  $ git branch fastercode
+  ```
+ 
+---
+
+## CSB 2.6: Branching and merging &amp;ndash; Code-along
+
+- Let's see what our log looks like now, and list the branches:
+  ```sh
+  $ git log --oneline --decorate
+  ```
+  
+  ```sh
+  $ git branch
+  ```
+
+- It turns out we created a new branch but we are still on the master branch,
+  so we should switch branches:
+  ```sh
+  $ git checkout fastercode  # Note reuse of `checkout` command!
+  ```
+
+- We edit the code, stage and commit the changes:
+  ```sh
+  $ echo "Yeah, faster code" &gt;&gt; code.txt
+  $ git add code.txt
+  $ git commit -m "Managed to make code faster"
+  ```
+
+- Let's check the log again:
+  ```sh
+  $ git log --oneline --decorate
+  ```
+
+---
+
+## CSB 2.6: Branching and merging &amp;ndash; Code-along
+
+- We need to switch gears completely and add references to the paper draft
+  in the same project.
+  
+  We should do this not in the `fastercode` branch, but on the `master` branch:
+  
+  ```sh
+  $ git checkout master
+  
+  $ echo "Marra et al. 2014" &gt; references.txt
+  $ git add references.txt
+  $ git commit -m "Fixed the references"
+  ```
+
+- Now we've made changes to each of the two branches independently.
+  Let's see the log in "graph" format:  
+  ```sh
+  git log --oneline --decorate --all --graph
+  ```
+
+---
+
+## CSB 2.6: Branching and merging &amp;ndash; Code-along
+
+- We actually finished speeding up the code, but need to document our changes,
+  so we go back to the `fastercode` branch:
+  ```sh
+  $ git checkout fastercode
+  
+  $ echo "# My documentation" &gt;&gt; code.txt
+  $ git add code.txt
+  $ git commit -m "Added comments to the code"
+  ```
+
+- Again we check the "graph":  
+  ```sh
+  git log --oneline --decorate --all --graph
+  ```
+
+---
+
+## CSB 2.6: Branching and merging &amp;ndash; Code-along
+
+- We are happy with the changes to the code, and want to make the `fastercode`
+  version the default version.
+  
+  This means we should merge the `fastercode` branch back into `master`.
+  To do so, we first have to move back to master:
+  ```sh
+  $ git checkout master
+  ```
+
+- Now we are ready to merge, and we use the `git merge` command.
+  We also provide a commit message, because a merge is always accompanied
+  by a commit:
+  ```sh
+  $ git merge fastercode -m "Much faster version of code"
+  ```
+
+- Again we check the "graph":  
+  ```sh
+  git log --oneline --decorate --all --graph
+  ```
+
+---
+
+## CSB 2.6: Branching and merging &amp;ndash; Code-along
+
+- We no longer need the `fastercode` branch:
+  ```sh
+  git branch -d fastercode
+  ```
+
+- Again we check the "graph":  
+  ```sh
+  git log --oneline --decorate --all --graph
+  ```
+
+---
+
+## CSB 2.6: Branching and merging &amp;ndash; Workflow summary
+
+```sh
+# create a new branch
+$ git branch mybranch
+# see that you are in master
+$ git branch
+
+# move to new branch
+$ git checkout mybranch
+# start working on the branch
+...
+# add and commit changes
+git add --all
+git commit -m "my message"
+# once you are satisfied, and want to include the changes into the main project,
+# move back to main trunk
+$ git checkout master
+# then merge the branch
+$ git merge mybranch -m "message for merge"
+# and [optionally] delete the branch
+$ git -d mybranch
+```
+
+
+---
+
+## CSB 2.6: Branching and merging &amp;ndash; Code-along
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/csb-branch.png" width="100%"&gt;
+&lt;figcaption&gt;Figure from Allesino &amp; Wilmes (2019)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## CSB 2.6: Viewing past revisions
+
+```sh
+$ git log --oneline --decorate --all --graph
+```
+
+```sh
+$ git checkout bc4831a
+```
+
+```sh
+$ git checkout master
+```
+
+## TODO - FINISH
+
+---
+
 
 ## CSB 2.6: Branching and merging (cont.)
 
 ### Merge conflicts
 
 ```sh
-code &lt;conflicting-file&gt; # Show features!
+$ code &lt;conflicting-file&gt; # Show features!
 ```
 
 ---
 
-## What can you do with someone else's GitHub repository?
+## Intermezzo 2.2
+
+(a) Move to the directory CSB/git/sandbox .
+
+(b) Create a thesis directory and turn it into a Git repository.
+
+(c) Create the file introduction.txt with the line “The best introduction
+ever.”
+
+(d) Add the file introduction.txt to the next snapshot and commit with
+the message “Started introduction.”
+
+(e) Create the branch newintro and change into it.
+
+(f) Change the contents of introduction.txt , create a new file with the
+name methods.txt , and commit.
+
+(g) Look at the commit history of the branches.
+
+(h) Change to the branch master , merge, and confirm that the changes you
+performed within the branch newintro are now also part of the branch
+master .
+
+(i) Delete the branch newintro .
+
+---
+
+## Intermezzo 2.2: Solutions
+
+
+---
+
+## CSB 2.7 Contributing to Public Repositories
+
+---
+
+## CSB 2.7: What can you do with someone else's GitHub repository?
 
 If you do not have push rights:
-  - You can clone the repository and make changes locally, but you cannot push your changes
+  
+  - You can clone the repository and make changes locally,
+    but you cannot push your changes
+  
   - You can fork their repository and develop it independently
-  - You can submit a pull request to their repository if you want to contribute to the original project
-  - (You can contact the owner of the repository and ask them to include you as a
-    contributor and give you push rights.)
+  
+  - You can submit a pull request to their repository if you want to contribute
+    to the original project
 
 ---
 
@@ -249,7 +1187,8 @@ If you do not have push rights:
 - Write informative commit messages -- imagine looking back at your project
   in a few months, after finding an error that you introduced a while ago.
 
-- Commit often, using small commits -- will also help to keep commit messages informative.
+- Commit often, using small commits -- will also help to keep commit messages
+  informative.
 
 - Before committing, check what you've changed using `git diff`.
 
@@ -287,10 +1226,8 @@ If you do not have push rights:
 
 ## Misc.
 
-- If you want a GUI for Git, I've heard good things about `GitKraken`,
-  and it available for Windows, Mac, and Linux.
-
-- Zenodo for getting a DOI when publishing (see &lt;https://github.com/ngs-docs/2020-GGG298/blob/master/Week6-Git_and_GitHub_for_file_tracking_and_sharing/README.md&gt;)
+- Zenodo for getting a DOI when publishing
+  (see &lt;https://github.com/ngs-docs/2020-GGG298/blob/master/Week6-Git_and_GitHub_for_file_tracking_and_sharing/README.md&gt;)
 
 ---
 class: inverse middle center
@@ -305,10 +1242,9 @@ class: inverse middle center
 
 - Create a new commit that will revert all the changes made in a previous commit
   (the last commit in this example):
-
-```sh
-git revert HEAD
-```
+  ```sh
+  $ git revert HEAD
+  ```
 
 - This will work and be safe both for commits that were and that were not
   pushed online.
@@ -342,7 +1278,9 @@ git revert HEAD
   git show 3ba6674:README.md &gt; README.md
   ```
 
-&lt;br&gt;
+---
+
+## Bonus: Checking out previous versions (cont.)
 
 - Look at state of entire project in a previous commit:
 
@@ -352,12 +1290,25 @@ git revert HEAD
   ```
   
 - This is best just for looking around, to go back:
-
+  ```sh
+  ...
+  ```
 
 - Or if you want to permanently move back to that state of the project:
   ```sh
   git revert HEAD~2
   ```
+
+---
+
+## Bonus: Checking out previous versions (cont.)
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-checkout.svg" width="120%"&gt;
+&lt;figcaption&gt;Figure from swcarpentry.github.io&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

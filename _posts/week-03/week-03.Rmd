@@ -12,10 +12,10 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-- Tuesday Zoom (Jan 26) -- [Slides: ...](slides/03-1-git.html)
+- [Slides: Git and Github Part I](slides/03-1-git.html) -- Tuesday Zoom (Jan 26)
 
-- Thursday Zoom (Jan 28) -- [Slides: ...](slides/03-2-git.html)
+- [Slides: Git and Github Part II](slides/03-2-git.html) -- Thursday Zoom (Jan 28)
 
-- Ungraded Assigment: [Set up Git & Github](../../week03_UA_git-setup.html)
+- Ungraded Assigment: [Set up Git & Github](../../w03_UA_git-setup.html)
 
-- Graded Assignment
+- Graded Assignment: [Shell, Markdown and Git](../../w03_GA_git.html)
