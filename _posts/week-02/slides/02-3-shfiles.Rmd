@@ -25,7 +25,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021-01-19/21 (updated: `r Sys.Date()`)
+### 2021-01-21 (updated: `r Sys.Date()`)
 
 ---
 class: center middle inverse
@@ -57,7 +57,7 @@ class: center middle inverse
   $ cd /fs/ess/PAS1855/users/$USER/week02
   ```
   
-- Create the following set of directories:
+- Create a set of directories representing a dummy project:
 
   ```sh
   $ mkdir zmays-snps
@@ -167,42 +167,39 @@ name: wildcard
 --
 
   .content-box-warning[
-  `[]` works on character ranges only: 0-9 works; 10-13 does not.
+  `[]` works on character ranges only: 0-9 works but 10-13 does not.
   ]
 
 ---
 
 ## Shell expansion I: Wildcard expansion (cont.)
 
-- Wildcards are only used to match (or *expand to*) existing file names:  
-  this process is also called "**_globbing_**".
-  
-- Why do we call this a type of _**shell** expansion_?
+- Wildcards are only used to *match and expand to* existing file names:  
+  this process is also referred to as "**_globbing_**".
+
+.content-box-q[  
+Why do we call globbing a type of ***shell* expansion**?
+]
 
 --
 
-  - The expansion &ndash;to all matching file names&ndash;
-    is done *by the shell*,   
-    not by `ls` or another command you might be using wildcards with.  
-    **Thus, `ls` will see the list of files *after* the expansion.**
+.content-box-answer[  
+The expansion &ndash;to all matching file names&ndash; is done *by the shell*,   
+not by `ls` or another command you might be using wildcards with.  
+  
+**Therefore, `ls` will see the list of files *after* the expansion.**
+]
 
 --
 
-.content-box-answer[
-You can make use of this when using shell expansion to *move* or *delete* files:
-first check what your command will "see", then execute:
-  
+- You can make use of this when using shell expansion to *move* or *delete* files:
+  first check what your command will "see", then execute:
   ```sh
-  $ echo sample[12]*    # Or use `ls`
+  $ echo sample[12]*  # Or use `ls`
   # sample1_F.fastq.gz sample1_R.fastq.gz sample2_F.fastq.gz sample2_R.fastq.gz
-  $ rm !$
+  
+  $ rm !$     # !$: recall last arg of last command
   ```
-]
-
-.content-box-info[
-Examples so far may seem trivial, but you can use these techniques to easily
-operate on selections among 100s or 1000s of files.
-]
 
 ---
 
@@ -210,18 +207,19 @@ operate on selections among 100s or 1000s of files.
 
 <br>
 
-- **Don't confuse wildcards with regular expressions!**
-
-  .content-box-q[
-  What do **`*`** and **`?`** mean in regular expressions?
-  ]
+- Examples so far may seem trivial, but you can use these techniques to easily
+  operate on selections among 100s or 1000s of files.
 
 <br>
 
 --
 
-- Regular expressions are useful across the board in programming,  
-  and we will have a Python module devoted to them (week 11).
+- Don't confuse wildcards with regular expressions!
+
+  - What do **`*`** and **`?`** mean in regular expressions?
+
+  - Regular expressions are useful across the board in programming,  
+    and we will have a Python module devoted to them (week 11).
 
 ---
 class: inverse middle center
@@ -235,6 +233,12 @@ name: brace
 
 ## Shell expansion II: Brace expansion
 
+```sh
+cd ../..    # to: zmays-snps
+```
+
+<br>
+
 *Wildcard expansion* looks for corresponding files and expands to whichever
 files are present: can't be used to create files or dirs.
 
@@ -244,17 +248,15 @@ files are present: can't be used to create files or dirs.
 
 - Use `..` to indicate ranges:
   ```sh
-  $ cd ..                         # to: zmays-snps/data
-  $ mkdir -p obs/2021-01-{01..31} # Numeric range works!
+  $ mkdir -p data/obs/2021-01-{01..31} # Numeric range works!
   
-  $ cd ..                         # to: zmays-snps
   $ mkdir figs
-  $ touch figs/fig-1{A..F}        # Character range works
+  $ touch figs/fig-1{A..F}             # Character range works
   ```
 
 - Use a comma-separated list:
   ```sh
-  $ touch figs/fig-1A-{small,medium,large}-{color,grayscale}
+  $ mkdir data/obs/treatment-{Kr,Df,Tr}_temp-{lo,med,hi}
   ```
 
 ---
@@ -324,11 +326,11 @@ $ ls fig-1{A..G}
 4. **_Bonus:_** Copy all files *except the two for "`sample100`"* into a new
   directory called `selection` &mdash;
   use a wildcard to do the move with a single command.
-  (But you'll need to create the new dir first.)
+  (You will first need to create the new dir separately.)
 
 ---
 
-## Solutions: File matching
+## `r icon::fa("user-edit")` Solutions: File matching
 
 1. Go into `zmays-snps/data/seqs/` and remove the files in there.
 ```sh
@@ -347,7 +349,8 @@ $ ls sample*R1*fastq | wc -l
 $ ls *R1* | wc -l # This works too but restrictive is often better
 ```
 
-4. **_Bonus:_** Copy all files except "`sample100`" into a new dir called `selection`:
+4. **_Bonus:_** Copy all files except "`sample100`" into a new dir called
+   `selection`:
 ```sh
 $ mkdir selection
 $ cp sample[^1]* selection/
@@ -365,7 +368,7 @@ name: command-sub
 
 ## Shell expansion III: Command substitution
 
-- *Command substitution* allows you to store and pass the output of a command
+- **Command substitution** allows you to store and pass the output of a command
   (or pipeline of commands) to another command.
   
   These two examples show how that can be useful, and that a pipe wouldn't work:
@@ -377,35 +380,15 @@ name: command-sub
   # results_2021-01-05
   ```
 
----
-
-## Shell expansion III: Command substitution (cont.)
-
-- We can also save a result in a *variable*:
-  ```sh
-  $ n_files=$(ls *fastq | wc -l)
-  $ echo ${n_files}   # Shorthand: "$n_samples"
-  ```
-
 --
 
-- Or in an *array*, using an extra set of parentheses `()`:
-  ```sh
-  $ samples=($(ls *fastq | cut -d "_" -f 1 | uniq))
-  
-  # Print the entire array:
-  $ echo ${samples[@]}
-  # sample001 sample002 sample003 sample004 sample005 sample006 sample007 sample008 sample009 ...
-  
-  # Print the 11th element (arrays are 0-indexed):
-  $ echo ${samples[10]}
-  # sample 011
-  ```
+<br>
 
-  .content-box-info[
-  Arrays can be *looped over* &ndash; we'll see an example of a loop  
-  in a bit.
-  ]
+- It's often convenient to save the result in a *variable*:
+  ```sh
+  $ n_files=$(ls *fastq | wc -l)
+  $ echo "$n_files"
+  ```
 
 ---
 
@@ -430,7 +413,7 @@ and needed to match a *literal* **`*`** or **`?`**
 
 - **Quoting** a string of characters will also escape special meaning
   of characters within them, with single quotes (**`'...'`**) being more severe
-  than double quotes (**`"..."`**) &ndash; more on this later. 
+  than double quotes (**`"..."`**) &mdash; more on this later. 
 
   ```sh
   $ rm 'my bad*file'
@@ -468,13 +451,13 @@ name: renaming
   # sample001_R1_001.fastq
   
   # Specify a suffix:
-  $ basename selection/sample001_R1_001.fastq _001.fastq
+  $ basename selection/sample001_R1_001.fastq "_001.fastq"
   # sample001_R1
   ```
 
 ---
 
-## Programmatically renaming files (cont.) 
+## Programmatically renaming files (cont.)
   
 `for` loops are a verbose method for tasks like renaming,  
 but are intuitive and good practice.
@@ -486,7 +469,7 @@ but are intuitive and good practice.
   ```sh
   $ for oldname in *.fastq
   > do
-  >   echo "Old name: ${oldname}"
+  >   echo "Old name: $oldname"
   > done
   ```
 
@@ -495,13 +478,6 @@ but are intuitive and good practice.
 .content-box-info[
 Note how we are using *globbing* (wildcard file name matching)
 to define what will be looped over.
-]
-
-.content-box-info[
-To loop over an array:
-```sh
-$ for sample in ${samples}[@]
-```
 ]
 
 ---
@@ -517,7 +493,7 @@ but are intuitive and good practice.
   ```sh
   $ for oldname in *.fastq
   > do
-  >   newname=$(basename $oldname _001.fastq).fq
+  >   newname=$(basename "$oldname" _001.fastq).fq
   >   echo "Old/new name: $oldname $newname"
   > done
   ```
@@ -534,9 +510,9 @@ but are intuitive and good practice.
   ```sh
   $ for oldname in *.fastq
   > do
-  >   newname=$(basename $oldname _001.fastq).fq
+  >   newname=$(basename "$oldname" _001.fastq).fq
   >   echo "Old/new name: $oldname $newname"
-  >   mv $oldname $newname
+  >   mv "$oldname" "$newname"
   > done
   ```
 
@@ -566,7 +542,7 @@ name: permissions
 
 ---
 
-## File permissions (cont.)
+## File permission notation in `ls -l`
 
 <br>
 
@@ -576,15 +552,17 @@ name: permissions
 
 <br>
 
+--
+
 .content-box-info[
 Generally, it is prudent to not give "others" write permissions.
 ]
 
 ---
 
-## File permissions (cont.)
+## Changing file permissions
 
-Can be changed in several ways with the `chmod` command:
+This can be done in several ways with the `chmod` command:
 
 ```sh
 # chmod <who>=<permission-to-set>`:
@@ -623,7 +601,7 @@ $ chmod 744 file.txt
 
 ---
 
-## File permissions (cont.)
+## File permissions &ndash; Making your data read-only
 
 **To make your raw data read-only:**
   ```sh
@@ -653,7 +631,7 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 
 ---
 
-## File permissions: Practice
+## Changing file permissions: In practice
 
 - First, let's look at the original permissions of the files:
   ```sh
@@ -682,9 +660,10 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 
 ---
 
-## `rm` sidenote & "The Unix Chainsaw"
+## Sidenote: "The Unix Chainsaw"
 
 - What will these two commands do?
+  (Recall: **`-f`** for *force*, **`-r`** for *recursive*.)
   ```sh
   $ rm -rf tmp-data/aligned-reads*
   
@@ -706,7 +685,7 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 .content-box-warning[
 Be careful with `rm`, especially `-r` / `-f` / `-rf`.
 
-- Using `-i` can be helpful in some cases.
+- Using **`-i`** (*interactive*) can be helpful in some cases.
 
 - You can avoid `-r` by first removing files and *then* the empty dir
   using the `rmdir` command (only works when a dir is empty).
@@ -714,7 +693,7 @@ Be careful with `rm`, especially `-r` / `-f` / `-rf`.
 
 ---
 class: inverse middle center
-name: permissions
+name: symlinks
 
 # Using files across projects:
 # Using symbolic links
@@ -728,16 +707,21 @@ name: permissions
 - A symbolic (or soft) links only links to the *path* of the original file,
   whereas a hard link directly links to the *contents* of the original file.
   
-  But note that modifying a file via either a hard or soft link *will* modify
+  Modifying a file via either a hard or soft link *will* modify
   the original file.
 
-- Create a *symlink* to a file using `ln -s <source> [<link>]`:
+--
+
+- Create a *symlink* to a file using `ln -s <source-file> [<link-name>]`:
   ```sh
   # Only provide source: create link of the same name in the wd:
   $ ln -s ~/share/scripts/align.sh
+  
   # The link can also be given an arbitrary name/path:
   $ ln -s ~/share/scripts/align.sh align_from-shared.sh
   ```
+
+--
 
 .content-box-info[
 It's best to always **use an absolute path for the source file(s)**.  
@@ -760,19 +744,19 @@ $ ln -s $PWD/shared-scripts/align.sh project1/scripts/
 - Link to a directory:
   ```sh
   $ ln -s $PWD/shared_scripts/ project1/scripts/
-  $ ln -s $PWD/shared_scripts/ project1/scripts/link-to-shared-scripts
+  $ ln -s $PWD/shared_scripts/ project1/scripts/ln-shared-scripts
   ```
 
 --
 
 .content-box-warning[
-Be careful when linking *directories* directly:
-you are creating a *point of entry* to the source dir.  
+Be careful when linking to *directories*: you are creating  
+a **point of entry to the original dir**.  
   
 Therefore, even if you enter via the symlink, you are interacting
 with the original files: 
     
-Do not use `rm -rf symlink-to-dir`!
+**Do not use `rm -rf symlink-to-dir`!**
   
 Instead, `rm symlink-to-dir` or `unlink symlink-to-dir` will only
 remove the link.
@@ -842,11 +826,11 @@ name:conditional
 **To remove all empty files in a directory:**
 
 ```sh
-$ for i in *
+$ for file in *
 > do
->   if [ ! -s $i ]
+>   if [ ! -s "$file" ]
 >   then
->      echo rm $i
+>      echo rm "$file"
 >   fi
 > done
 ```
@@ -872,11 +856,11 @@ name:conditional
 **To remove all empty files in a directory:**
 
 ```sh
-$ for i in *
+$ for file in *
 > do
->   if [ ! -s $i ]
+>   if [ ! -s "$file" ]
 >   then
->      echo rm $i
+>      echo rm "$file"
 >   fi
 > done
 ```
@@ -899,14 +883,20 @@ name:tricks
 
 ## More tricks from Buffalo Chapter 3
 
-- **`tee`**: Redirect standard out to file *and* to screen / into a pipe:
-  ```sh
-  $ program1 in.txt | tee intermediate-file.txt | program2 > out.txt
-  ```
+### `tee`
+
+Redirect standard out to file *and* to screen / into a pipe:
+
+```sh
+$ program1 in.txt | tee intermediate-file.txt | program2 > out.txt
+```
   
 <br>
 
-- **`tail -f`** to "follow" a file &ndash; monitor output of a long-running command:
-  ```sh
-  $ tail -f                 # Press `Ctrl + C` to stop
-  ```
+### `tail -f`
+
+"Follow" a file &ndash; monitor output of a long-running command:
+
+```sh
+$ tail -f                 # Press `Ctrl + C` to stop
+```

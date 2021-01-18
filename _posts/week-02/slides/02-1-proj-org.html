@@ -23,7 +23,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021-01-19 (updated: 2021-01-14)
+### 2021-01-19 (updated: 2021-01-18)
 
 ---
 
@@ -63,7 +63,7 @@ class:inverse middle center
 
 **Good project organization and documentation facilitates:**
 
-- Collaborating with others and yourself in the future
+- Collaborating with others (and yourself in the future...)
 
 - Reproducibility
 
@@ -80,28 +80,30 @@ to reach some of its goals.
 
 ## Project organization &amp;ndash; some underlying principles
 
-- One dir hierarchy for one project &amp;mdash; in other words:
+- **One dir hierarchy for one project** &amp;mdash; in other words:
+
   - Don't keep multiple distinct projects under one dir.
+
   - Don't keep files for one project in multiple places.
-
-&lt;br&gt;
-
-- Within the dir hierarchy:
-  - Separate code from data
-  - Separate raw data from processed data
 
 &lt;br&gt;
 
 --
 
-- Use dir and file naming that is machine-readable, human-readable,  
-  and works well with default ordering.
+- Within the dir hierarchy:
+
+  - **Separate code from data**
+
+  - **Separate raw data from processed data**
 
 &lt;br&gt;
+
+--
 
 - Treat raw data as read-only (and treat generated output as disposable).
 
-&lt;br&gt;
+- Use dir and file naming that is machine-readable, human-readable,  
+  and works well with default ordering.
 
 - Slow down and document.
 
@@ -114,12 +116,12 @@ When you have a single directory hierarchy for each project, it is:
 - Easier to: find files, share your project,
   not throw away stuff in error, ...
 
-- Possible to use *relative paths* within a project,  
-  such that your paths in scripts are portable
+- Possible to use *relative paths* within a project's scripts =&gt; more portable.
 
+&lt;br&gt;
 
 &lt;p align="center"&gt;
-&lt;img src=img/proj-dirs-1.svg width=60%&gt;
+&lt;img src=img/proj-dirs-1.svg width=65%&gt;
 &lt;/p&gt;
 
 ---
@@ -127,8 +129,22 @@ When you have a single directory hierarchy for each project, it is:
 ## One dir hierarchy for one project (cont.)
 
 &lt;p align="center"&gt;
-&lt;img src=img/proj-dirs-2.svg width=70%&gt;
+&lt;img src=img/proj-dirs-2.svg width=100%&gt;
 &lt;/p&gt;
+
+---
+
+## One dir hierarchy for one project (cont.)
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-dirs-3.svg width=100%&gt;
+&lt;/p&gt;
+
+---
+
+## One dir hierarchy for one project (cont.)
+
+&lt;br&gt;
 
 .content-box-info[
 - **Absolute paths** start from the root directory,
@@ -143,22 +159,9 @@ When you have a single directory hierarchy for each project, it is:
 
 ## One dir hierarchy for one project (cont.)
 
-&lt;p align="center"&gt;
-&lt;img src=img/proj-dirs-3.svg width=70%&gt;
-&lt;/p&gt;
+&lt;br&gt;
 
-.content-box-info[
-- **Absolute paths** start from the root directory,
-  break when moving a project, and don't generally work across computers.
-
-- **Relative paths** start from a *working dir*: when you alway use the root of
-  the *project* as the working dir, paths work when moving the project and
-  across computers.
-]
-
----
-
-## But what is a project, really?
+### But how to define and separate projects?
 
 &lt;br&gt;
 
@@ -192,8 +195,8 @@ From [Wilson et al 2017 - Good Enough Practices in Scientific Computing](https:/
 
 ## Projects with shared data or code (cont.)
 
-- Shared data or scripts may be best stored in a separate dir,  
-  and then linked to from each project using them:
+- But shared data or scripts are generally better stored in separate dirs,  
+  and then linked to by each project using them:
   
 &lt;p align="center"&gt;
 &lt;img src=img/proj-dirs-5.svg width=60%&gt;
@@ -223,6 +226,30 @@ which can be synced to and accessed from an online repository:
 
 For **data**, something similar can be applied once the data have been  
 deposited in a public repository.
+
+---
+
+## Example dir structures for a project
+
+.pull-left[
+
+&lt;p align="left"&gt;
+&lt;img src=img/proj-ex1.png width=85%&gt;
+&lt;/p&gt;
+
+]
+
+---
+
+## Example dir structures for a project
+
+.pull-left[
+
+&lt;p align="left"&gt;
+&lt;img src=img/proj-ex-comb.png width=85%&gt;
+&lt;/p&gt;
+
+]
 
 ---
 
@@ -286,6 +313,8 @@ and process files.
   $ ls *treatmentA*
   ```
 
+--
+
 .content-box-info[
 *Suffices*, like `.txt`, `.md`, and `.csv` are generally not necessary
 in Unix, but are still useful to distinguish file types easily and programmatically.
@@ -298,6 +327,9 @@ in Unix, but are still useful to distinguish file types easily and programmatica
 - Spaces in file names lead to inconvenience or trouble:
   
   ```sh
+  $ mkdir "raw sequences"
+  $ mkdir sequences
+  
   $ rm -rf raw sequences
   ```
 
@@ -318,37 +350,41 @@ in Unix, but are still useful to distinguish file types easily and programmatica
 
 ## File naming: Combining machine- and human-readable
 
-- *One* good way (opinionated recommendation):
+- *One* good way (opinionated recommendations):
   
-  - Use **`_`** to delimit units you may want to separate on
+  - Use **underscores &lt;kbd&gt;_&lt;/kbd&gt; to delimit units** you may want to separate on
     (extract with `cut`, etc) later: sampleID, batch, treatment, date, etc. 
   
-  - Within such units, use **`-`** to delimit words: `grass-samples`.
+  - Within such units, use **dashes &lt;kbd&gt;-&lt;/kbd&gt; to delimit words**:
+    `grass-samples`.
   
-  - Reserve periods to use for the file extension.
+  - Limit the use of **periods &lt;kbd&gt;.&lt;/kbd&gt; to indicate file extensions**.
   
-  - (Generally avoid capitals &amp;ndash; minor and particularly opinionated point).
-  
-```sh
-mmus001_treatmentA_filtered-mq30-only_sorted_dedupped.bam
-mmus002_treatmentA_filtered-mq30-only_sorted_dedupped.bam
-.
-.
-.
-mmus086_treatmentG_filtered-mq30-only_sorted_dedupped.bam
-```
+  - (Generally *avoid capitals*.)
+
+&lt;br&gt;
+
+- For example:
+  ```sh
+  mmus001_treatmentA_filtered-mq30-only_sorted_dedupped.bam
+  mmus002_treatmentA_filtered-mq30-only_sorted_dedupped.bam
+  .
+  .
+  .
+  mmus086_treatmentG_filtered-mq30-only_sorted_dedupped.bam
+  ```
 
   
 ---
 
 ## File naming: Ordering
 
-- Leading zeros for lexicographic sorting: `sample005`.
+- **Leading zeros** for lexicographic sorting: `sample005`.
 
-- Dates should always be written as `YYYY-MM-DD`: `2020-10-11`.
+- **Dates** should always be written as `YYYY-MM-DD`: `2020-10-11`.
 
-- Can group similar files together by starting with same phrase,  
-  and number scripts according to execution order:
+- Can *group similar files together* by starting with same phrase,  
+  and *number scripts* according to their execution order:
   ```sh
   DE-01_normalize.R
   DE-02_test.R
@@ -387,6 +423,8 @@ Unlike proprietary &amp; binary formats (like `.docx` and `.xlsx`),
 - Allow to be version-controlled
 
 &lt;br&gt;
+
+--
 
 .content-box-answer[
 These considerations apply not just to files for documentation,  

@@ -24,7 +24,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021-01-21 (updated: 2021-01-14)
+### 2021-01-21 (updated: 2021-01-18)
 
 ---
 class: center middle inverse
@@ -35,8 +35,8 @@ class: center middle inverse
 
 .left[
 ### [VS Code setup](#osc-vscode)
-### [Markdown](#brace)
-### [VS Code tips](#command-sub)
+### [Markdown](#markdown)
+### [VS Code tips](#vscode-tips)
 ]
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt;
@@ -68,27 +68,29 @@ name:osc-vscode
 
 ## Getting VS Code ready
 
-**We need to start with a bit of housekeeping:**
+We need to start with a bit of housekeeping:
 
-1. Gain screen real estate by hiding the Side Bar:
-   press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt;.
+1. **Hide the *Side Bar*** to gain screen space:
+   press &lt;kbd&gt;Ctrl/⌘&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt;.
 
-2. Open a Terminal: press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; or
+2. **Open a *Terminal***: press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; or
    &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;C&lt;/kbd&gt;.
   
-3. Close the "*Welcome*" tab (click the `X`) and pull up the terminal's dividing
-   line to the top of your window.
+3. **Get a bash shell:** In the terminal, the prompt says `Singularity&gt;`.  
+   **Type `bash` and press &lt;kbd&gt;Enter&lt;/kbd&gt;** to break out of the Singularity
+   shell and start a bash shell.
 
-4. In the terminal, the prompt says `Singularity&gt;`. This means we are inside a
-   Singularity container. **Type `bash` to exit the container.**
-
-5. Create a directory for this week, e.g.: `mkdir users/$USER/week02/`  
+4. **Create a directory** for this week, e.g.: `mkdir users/$USER/week02/`  
    (inside `/fs/ess/PAS1855`).
    
-6. Let's start a text document:
-   Click the "hamburger menu" <i class="fas  fa-bars "></i>, then `File` &gt; `New File`.
-   Immediately save the document (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;S&lt;/kbd&gt;) inside the
-   dir you just created.
+5. **Start a text document:**
+   Click the "hamburger menu" <i class="fas  fa-bars "></i>, =  
+   then `File` &gt; `New File`.
+   Immediately save the document (&lt;kbd&gt;Ctrl/⌘&lt;/kbd&gt;+&lt;kbd&gt;S&lt;/kbd&gt;), inside the
+   dir you just created, as a Markdown (`.md`) file,  
+   e.g. `markdown-intro.md`.
+
+&lt;br&gt;
 
 Finally, we're ready to go...
 
@@ -98,36 +100,56 @@ Finally, we're ready to go...
 
 &lt;br&gt;
 
-.content-box-warning[
+.content-box-info[
 In *VS Code*, there are default existing keybindings for the
 &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;K&lt;/kbd&gt; (*cut to end of line*) and 
-&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;E&lt;/kbd&gt; (*go to end of line*) combinations,
+&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;E&lt;/kbd&gt; (*go to end of line*) combinations,  
 so they won't be properly interpreted by the shell.
 
 If you have an &lt;kbd&gt;end&lt;/kbd&gt; key, that will also work to move to the end of
 the line.
+
+Alternatively, you can reconfigure keyboard shortcuts &amp;ndash;  
+see [this slide](#vscode-kbd).
 ]
+
+---
+class: inverse middle center
+name: markdown
+
+# An introduction to Markdown
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
 ## About Markdown
 
-&lt;br&gt;
-
 - **Markdown is a very lightweight text markup language:**
   
-  - *Easy to write*: a dozen syntax constructs is nearly all you use.
+  - *Easy to write* &amp;ndash; a dozen syntax constructs is nearly all you use.
   
-  - *Easy to read* also in its raw (non-*rendered*) form.
+  - *Easy to read* &amp;ndash; also in its raw (non-*rendered*) form.
 
 &lt;br&gt;
 
-- For instance, putting single or double asterisks (**`*`**) around one
-  or more characters will make those characters italic and bold, respectively:
+--
+
+- For instance, surrounding one or more characters by single or double asterisks
+  (**`*`**) will make those characters italic and bold, respectively:
   
   - Writing `*italic example*` &amp;mdash; rendered as: *italic example*.
   
   - Writing `**bold example**` &amp;mdash; rendered as: **bold example**.
+
+&lt;br&gt;
+
+.content-box-info[
+Learn more about Markdown and its syntax in this excellent documentation:
+&lt;https://www.markdownguide.org/&gt;
+]
 
 ---
 
@@ -151,10 +173,10 @@ the line.
 --
 
 .content-box-info[
-In VS COde, when you *select some text* and then press **`*`**:
+In VS Code, when you *select some text* and then press **`*`**,  
 the selected text will be *surrounded* by asterisks.  
 
-Same when typing the opening character for open-close characters
+This also works when typing the opening character for open-close characters
 like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
 ]
 
@@ -166,7 +188,17 @@ like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
 |-------------------|-------|
 | \*italic\*        | *italic* (alternative: single `_`)
 | \*\*bold\*\*      | **bold** (alternative: double `_`)
-| `` `inline code` `` | `inline code`
+| \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
+| \!\[\](path/to/figure.png)   | Figure
+
+---
+
+## Most commonly used Markdown syntax
+
+| Syntax            | Result
+|-------------------|-------|
+| \*italic\*        | *italic* (alternative: single `_`)
+| \*\*bold\*\*      | **bold** (alternative: double `_`)
 | \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
 | \!\[\](path/to/figure.png)   | Figure
 | # My Title        | Header level 1 (largest)
@@ -174,9 +206,26 @@ like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
 | ### My Subsection | Header level 3 &amp;ndash; and so forth
 | - List item       | Unordered (bulleted) list
 | 1. List item      | Ordered (numbered) list
-| `---`             | Horizontal rule (line)
+
+---
+
+## Most commonly used Markdown syntax
+
+| Syntax            | Result
+|-------------------|-------|
+| \*italic\*        | *italic* (alternative: single `_`)
+| \*\*bold\*\*      | **bold** (alternative: double `_`)
+| \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
+| \!\[\](path/to/figure.png)   | Figure
+| # My Title        | Header level 1 (largest)
+| ## My Section     | Header level 2
+| ### My Subsection | Header level 3 &amp;ndash; and so forth
+| - List item       | Unordered (bulleted) list
+| 1. List item      | Ordered (numbered) list
+| `` `inline code` `` | `inline code`
 | ```` ``` ```` or 4 leading spaces     | Start/end of generic code block
 | ```` ```bash ```` | Start of `bash` code block (end with ```` ``` ````)
+| `---`             | Horizontal rule (line)
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
@@ -188,41 +237,127 @@ like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
 ## Whitespace in Markdown
 
 - It's recommended (in some cases necessary) to leave a  
-  *blank line between different sections* (lists, headers, etc.).
+  *blank line between different sections*: lists, headers, etc.:
+
+.content-box-purple[
+```
+## Section 2: List of ...
+
+- Item 1
+- Item 2
+
+For example, ....
+```
+]
+
+---
+
+## Whitespace in Markdown (cont.)
 
 - *A blank line between regular text* will start a **new paragraph**,  
-  with some whitespace between the two.
-  
-  Like this.
-
---
-
-- A *single newline in text* is **ignored**, and multiple consecutive spaces or
-  blank lines are treated the same as a single space or blank line.
-
-.content-box-blue[
-.pull-left[
+  with some whitespace between the two:
+ 
+.pull-left[ 
 **This:**  
-
-Writing  
-one  
-word  
-per  
-line
-
-&lt;br&gt;
-
-Empty &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;space
+.content-box-purple[
+```
+Paragraph 1.
+  
+Paragraph 2.
+```
+]
 ]
 
 .pull-right[
 **Will be rendered as:**  
+.content-box-green[
+Paragraph 1.
 
-Writing one word per line
-&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+Paragraph 2.
+]
+]
+
+---
+
+## Whitespace in Markdown (cont.)
+
+- **Ignored whitespace**:
+
+  - A *single newline in text*
+
+  - Multiple consecutive spaces / blank lines are treated like a single space
+    or blank line
+  
+.pull-left[
+**This:**  
+.content-box-purple[
+```
+Writing  
+one  
+word  
+per  
+line.
+```
+]
+
+&lt;br&gt;
+
+.content-box-purple[
+```
+Empty             space
+```
+]
+]
+
+.pull-right[
+**Will be rendered as:**  
+.content-box-green[
+Writing one word per line.
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+]
+.content-box-green[
 Empty space
 ]
 ]
+
+---
+
+## Whitespace in Markdown (cont.)
+
+- **Ignored whitespace**:
+
+  - A *single newline in text*
+
+  - Multiple consecutive spaces / blank lines are treated like a single space
+    or blank line
+  
+.pull-left[
+**This:**  
+.content-box-purple[
+```
+Many
+
+
+
+
+
+
+
+
+blank lines
+```
+]
+]
+
+.pull-right[
+**Will be rendered as:**  
+.content-box-green[
+Many
+
+blank lines
+]
+]
+
 
 ---
 
@@ -235,47 +370,62 @@ Empty space
   paragraphs, you have to resort to HTML:
   each **`&lt;br&gt;`** item forces a visible linebreak.
 
---
-
-.content-box-info[
-**You can use any *HTML* syntax in Markdown!**  
-I often use it for figures (sizing, alignment, legends) in particular.
-
-If you need "inline &lt;span style="color:red"&gt;colored&lt;/span&gt; text",
-you should also use HTML:  
-`inline &lt;span style="color:red"&gt;colored&lt;/span&gt; text`.
-
-For systematic styling of existing or custom elements,
-you need to use **_CSS_**. For example, including the following anywhere
-in a Markdown document will turn all level 1 headers (`#`) red:
-```sh
-&lt;style&gt;
-h1 {color: red}
-&lt;/style&gt;
+.pull-left[
+**This:**  
+.content-box-purple[
 ```
+One &lt;br&gt; word &lt;br&gt; per line
+and &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+several blank lines.
+```
+]
+]
+
+.pull-right[
+**Will be rendered as:**  
+.content-box-green[
+One &lt;br&gt; word &lt;br&gt; per line
+and &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+several blank lines.
+]
 ]
 
 ---
 
-## Whitespace in Markdown (cont.)
-
-&lt;br&gt;
-
-- **List spacing**: if you leave blank lines between individual items in
-  unordered or ordered lists, the list will be spaced more widely.
-
-&lt;br&gt;
+## Sidenote: HTML in Markdown
 
 .content-box-info[
-Learn more about Markdown and its syntax in this excellent documentation:
-&lt;https://www.markdownguide.org/&gt;
+**You can use any *HTML* syntax in Markdown!**
+
+- I often use it for figures (sizing, alignment, legends):
+
+  ```HTML
+  &lt;p align="center"&gt;
+  &lt;img src=my.png width=50%&gt;
+  &lt;/p&gt;
+  ```
+  
+- If you need "inline &lt;span style="color:red"&gt;colored&lt;/span&gt; text",
+  you can also use HTML:  
+  `inline &lt;span style="color:red"&gt;colored&lt;/span&gt; text`.
+
+- For systematic styling of existing or custom elements,
+  you need to use **_CSS_**. For example, including the following anywhere
+  in a Markdown document will turn all level 1 headers (`#`) red:
+  ```sh
+  &lt;style&gt;
+  h1 {color: red}
+  &lt;/style&gt;
+  ```
 ]
 
 ---
 
 ## *Pandoc* to render Markdown files
 
-- To *render* a Markdown file into e.g. HTML or PDF, use *Pandoc*:
+&lt;br&gt;
+
+- Use *Pandoc* to ***render* a Markdown file** to, for example, HTML or PDF:
   ```sh
   $ pandoc README.md &gt; README.html
   $ pandoc -o README.pdf README.md
@@ -291,30 +441,44 @@ For installation (all OS's): see &lt;https://pandoc.org/installing.html&gt;.
 
 ## Markdown extensions &amp;ndash; Markdown for everything?!
 
-- With several extensions, Markdown documents can also contain code that *runs*,
-  and whose output will be included in the document!
+- Several Markdown *extensions* allow Markdown documents to **contain code
+  that *runs***, and whose output can be included in rendered documents:
   
   - R Markdown (`.Rmd`)
   
   - Jupyter Notebooks
 
-- Also, consider that:  
+--
+
+- Many possibilities with Markdown! For instance, consider that:  
   
-  - These slides are written in R Markdown
+  - These **slides** are written using R Markdown
   
-  - Our Github course website is written in R Markdown
+  - Our Github course **website** is written using R Markdown
   
-  - R Markdown also has support for citations, journal-specific formatting, etc.
+  - R Markdown also has support for **citations**,
+    **journal-specific formatting**, etc.
 
 --
 
 .content-box-info[
-There are a number of extended Markdown flavors, such a R Markdown (highly
-extended), Github-flavored Markdown, and so on.
+There are a number of extended Markdown flavors, such a R Markdown and
+Github-flavored Markdown.
+
 This is very useful but can also get confusing &amp;ndash; which syntax is
 supported where?
 ]
 
+
+---
+class: inverse middle center
+name: vscode-tips
+
+# Some VS Code tips
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -327,10 +491,12 @@ supported where?
   - Selecting text and then typing an opening parentheses `(` will place
     the entire selection between parentheses.
     
-- *Multiple cursors*: Press and hold &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;,
-  then press Up/Down arrows to expand.
+- *Multiple cursors*: Press &amp; hold &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;,
+  then &lt;kbd&gt;⬆&lt;/kbd&gt;/&lt;kbd&gt;⬇&lt;/kbd&gt; arrows to expand.
 
 - To open a text file (script, data) in VS code from the shell: `code &lt;file&gt;`.
+
+- Split editor window vertically.
 
 - Command Palette (?)
 
@@ -351,13 +517,14 @@ supported where?
   `Color Theme` to try out different color themes. I like "*Quiet Light*".
 
 ---
+name: vscode-kbd
 
 ## VS Code: Keyboard Shortcuts
 
 **Especially useful shortcuts:**
 
 - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; and &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;1&lt;/kbd&gt;:
-  toggle between terminal and editor.
+  toggle between terminal and editor.  
 
 - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;K&lt;/kbd&gt; to delete a line
   ("Delete Line" &amp;ndash; change to &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;D&lt;/kbd&gt;?) 
@@ -376,7 +543,7 @@ supported where?
 --
 
 .content-box-diy[
-**Add a shortcut to run shell commands from editor:**
+**Add a shortcut to run shell commands from the editor:**
 
 - Gear icon <i class="fas  fa-cog "></i> in bottom-left &gt; `Keyboard Shortcuts`.
 
@@ -386,7 +553,7 @@ supported where?
 
 ---
 
-## VS Code: Useful extensions to install
+## <i class="fas  fa-user-edit "></i> VS Code: Useful extensions to install
 
 - Click the gear icon <i class="fas  fa-cog "></i> and then `Extensions`,
   and search for:
@@ -454,16 +621,6 @@ background-color: #f2f5eb
 | `superscript&lt;sup&gt;2&lt;/sup&gt;` | superscript&lt;sup&gt;2&lt;/sup&gt;
 | `superscript&lt;sub&gt;2&lt;/sub&gt;` | subscript&lt;sub&gt;2&lt;/sub&gt;
 | `&lt;br&gt;` | linebreak / empty line
-
-&lt;br&gt;
-
-- By inserting **figures** with HTML rather than Markdown syntax,
-  it's pretty easy to modify alignment (`center` / `left` / `right`) and size:
-  ```HTML
-  &lt;p align="center"&gt;
-  &lt;img src=img/markdown-preview-vscode.png width=50%&gt;
-  &lt;/p&gt;
-  ```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
