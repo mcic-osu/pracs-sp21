@@ -27,37 +27,31 @@ class:inverse middle center
 
 ---
 
-## Goals for This Week
+## Goals for this week
 
-- Learn some best practices for project organization, documentation,  
+
+- This presentation:  
+  
+  - Learn some best practices for project organization, documentation,  
   and management.
-
-- Learn how to use *Markdown* for documentation (and beyond).
-
-- Get to know our text editor, *VS Code*, a bit better.
-
-- Learn how to manage files in the Unix shell.
-
----
-class:inverse middle center
-
-# Overview of Topics this Week
-
-----
 
 &lt;br&gt;
 
-.left[
-### Part I: Some best practices for project organization (this slide deck)
-### Part II: Markdown and VS Code [(separate slide deck)](https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-2-shfiles.html)
-### Part III: Managing files in the shell [(separate slide deck)](https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-md.html)
-]
+- [Second slide deck (today)]((https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-2-shfiles.html):
+  
+  - Get to know our text editor, *VS Code*, a bit better.
+  
+  - Learn how to use *Markdown* for documentation (and beyond).
 
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+&lt;br&gt;
+
+- [Third slide deck (Thursday)]((https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-md.html):  
+
+  - Learn how to manage files in the Unix shell.
 
 ---
 
-## Importance of Good Project Organization
+## Importance of good project organization
 
 &lt;br&gt;
 
@@ -100,12 +94,11 @@ to reach some of its goals.
 
 --
 
-- Treat raw data as read-only (and treat generated output as disposable).
+- **Treat raw data as read-only** (and treat generated output as disposable).
 
-- Use dir and file naming that is machine-readable, human-readable,  
-  and works well with default ordering.
+- **Use good dir and file naming**.
 
-- Slow down and document.
+- **Slow down and document.**
 
 ---
 
@@ -144,22 +137,20 @@ When you have a single directory hierarchy for each project, it is:
 
 ## One dir hierarchy for one project (cont.)
 
-&lt;br&gt;
 
-.content-box-info[
+### Absolute versus relative path recap:
+
 - **Absolute paths** start from the root directory,
   break when moving a project, and don't generally work across computers.
+
 
 - **Relative paths** start from a *working dir*: when you always use the root of
   the *project* as the working dir, paths work when moving the project within
   and between computers.
-]
 
 ---
 
 ## One dir hierarchy for one project (cont.)
-
-&lt;br&gt;
 
 ### But how to define and separate projects?
 
@@ -232,7 +223,7 @@ For **data**, this is also possible but often not practical due to file sizes. I
 .pull-left[
 
 &lt;p align="left"&gt;
-&lt;img src=img/proj-ex1.png width=85%&gt;
+&lt;img src=img/proj-ex1.png width=100%&gt;
 &lt;/p&gt;
 
 ]
@@ -244,38 +235,30 @@ For **data**, this is also possible but often not practical due to file sizes. I
 .pull-left[
 
 &lt;p align="left"&gt;
-&lt;img src=img/proj-ex-comb.png width=85%&gt;
-&lt;/p&gt;
-
-]
-
----
-
-## Example project dir structures
-
-.pull-left[
-
-&lt;p align="left"&gt;
-&lt;img src=img/proj-ex-comb.png width=85%&gt;
+&lt;img src=img/proj-ex-comb.png width=100%&gt;
 &lt;/p&gt;
 
 ]
 
 .pull-right[
+**Several things depend on preferences and project specifics:**
+- `data` as single top-level dir?  
 
+- `results` vs `analysis` (Buffalo)
+
+- `src` (source) vs `scripts` vs `workflow`
+
+- Where to put figures &amp;ndash; `results/plots/qc` or `results/qc/plots/`?
+]
+
+--
+
+.content-box-info[
 **Other best practices:**
-  
+
 - Use subdirectories liberally (e.g. within `analysis`, `scripts`).
   
 - Also add *READMEs* within dirs.
-]
-
-.content-box-info[
-**Several things depend on preferences and project specifics:**
-- Could spread data across top-level dirs.  
-- Could use `analysis` dir instead of `results` (Buffalo)
-- People writing software often use a `src` (source) dir for code.
-- Where to put figures &amp;ndash; `results/plots/qc` or `results/qc/plots/`?
 ]
 
 ---
@@ -304,8 +287,8 @@ and process files.*
   
   - `samples_soil_treatmentA_2019-01.txt`
 
-- Now, you can use *globbing* to select samples from a certain month or
-  treatment:
+- Now, you can use **globbing** to select samples from a certain month or
+  treatment (*more about this on Thursday*):
   ```sh
   $ ls *2016-05*
   
@@ -405,7 +388,13 @@ in Unix, but are still useful to distinguish file types easily and programmatica
 - Versions of software, databases, reference genomes
   
 - *...Everything needed to rerun whole project*
-  
+
+&lt;br&gt;
+
+.content-box-info[
+See this week's Buffalo chapter (Ch. 2) for further details.
+]  
+
 ---
 
 ## Slow down and document &amp;ndash; Use plain text files
