@@ -469,23 +469,6 @@ name: vscode-tips
 
 - Available at OSC (and you can also SSH-tunnel-in your local installation). 
 
----
-
-## VS Code: Miscellaneous tips
-
-- To open a file in VS Code from the shell: `code <file>`.
-
-- **Split** editor window vertically (<kbd>Ctrl</kbd>+<kbd>\</kbd>)
-
-- **Workspaces** &mdash; Save all open files in a project:  
-  `File` > `Save Workspace As`.
-
-- **Color themes**: Press the gear icon `r icon::fa("cog")` and then
-  `Color Theme` to try out different color themes. I like "*Quiet Light*".
-
-- **Command Palette** &mdash; All VS Code commands
-  (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>)
-
 <br>
 
 .content-box-info[
@@ -494,25 +477,53 @@ name: vscode-tips
 
 ---
 
-## VS Code: Miscellaneous tips (cont.)
+## VS Code: Miscellaneous tips
 
-- **Side bars**:
-  - `View` > `Appearance` > `Activity Bar` to toggle the narrow side bar.
-    This bar mainly serves to switch between different options for the wide
-    side bar (see below).
+- To open a file in VS Code from the shell: `code <file>`.
+
+- **Split** editor window vertically (<kbd>Ctrl</kbd>+<kbd>\</kbd>)
+
+- **Color themes**: Press the gear icon `r icon::fa("cog")` and then
+  `Color Theme` to try out different color themes. (I like "*Quiet Light*".)
+
+- **Command Palette** &mdash; All VS Code commands
+  (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>).
+
+- **Workspaces** &mdash; Save all open files in a project.
   
-  - <kbd>Ctrl</kbd>+<kbd>B</kbd> to toggle the wide **side bar**,
-    which can show:
+<br>
+
+.content-box-diy[
+**Save a workspace.**
+
+- Click `File` > `Open Folder` and open your personal dir (`users/$USER`.)
+
+- Click `File` > `Save Workspace As` > pick a name.
+]
+
+---
+
+## VS Code: Side bars
+
+- `View` > `Appearance` > `Activity Bar` to toggle the narrow side bar.
+
+  This bar mainly serves to switch between different options for the wide
+  side bar (see below).
+
+<br>
+
+- <kbd>Ctrl</kbd>+<kbd>B</kbd> to toggle the wide **side bar**,
+  which can show:
     
-      - ***Explorer*** &mdash; File browser & Open file outlines
+  - ***Explorer*** &mdash; File browser & outline for open file.
     
-      - ***Search*** &mdash; Can search across files in active folder
+  - ***Search*** &mdash; Can search across files in active folder.
     
-      - ***Extensions***
+  - ***Extensions***
     
-      - ***Source Control***
+  - ***Source Control***
       
-      - And more...
+  - Debugger
 
 
 ---
