@@ -82,11 +82,14 @@ name:osc-vscode
 .content-box-info[
 **More resources to get started with VS Code:**
 
-- [A useful VS Code intro Video ](https://www.youtube.com/watch?v=S320N3sxinE&amp;list=PLj6YeMhvp2S5UgiQnBfvD7XgOMKs3O_G6) (and you can see more in the playlist.)
+- [A useful VS Code intro Video ](https://www.youtube.com/watch?v=S320N3sxinE&amp;list=PLj6YeMhvp2S5UgiQnBfvD7XgOMKs3O_G6) (+ more in the playlist.)
 
 - The `Welcome` tab that automatically opened
   (which you can also pull up again by clicking: <i class="fas  fa-bars "></i> &gt;
   `Help` &gt; `Welcome`).
+
+- Some handy keyboard shortcuts are in the
+  [bonus slides](#vscode-kbd).
 ]
 
 ---
@@ -98,7 +101,8 @@ name:osc-vscode
 
 --
 
-- **Workspaces**: To save which files you have open in a project.
+- **Workspaces**: To save which files you have open in a project,
+  and designate the top-level dir as the working dir.
   
 .content-box-diy[
 **Save a workspace.**
@@ -458,7 +462,6 @@ blank lines
 ]
 ]
 
-
 ---
 
 ## Whitespace in Markdown (cont.)
@@ -525,11 +528,12 @@ several blank lines.
 
 &lt;br&gt;
 
-- Use *Pandoc* to ***render* a Markdown file** to, for example, HTML or PDF:
-  ```sh
-  $ pandoc README.md &gt; README.html
-  $ pandoc -o README.pdf README.md
-  ```
+Use *Pandoc* to ***render* a Markdown file** to, for example, HTML or PDF:
+
+```sh
+$ pandoc README.md &gt; README.html
+$ pandoc -o README.pdf README.md
+```
 
 &lt;br&gt;
 
@@ -550,7 +554,9 @@ For installation (all OS's): see &lt;https://pandoc.org/installing.html&gt;.
 
 --
 
-- Many possibilities with Markdown! For instance, consider that:  
+&lt;br&gt;
+
+- **Many possibilities with Markdown!** For instance, consider that:  
   
   - These **slides** are written using R Markdown
   
@@ -559,7 +565,9 @@ For installation (all OS's): see &lt;https://pandoc.org/installing.html&gt;.
   - R Markdown also has support for **citations**,
     **journal-specific formatting**, etc.
 
---
+---
+
+## Markdown extensions &amp;ndash; Markdown for everything?!
 
 .content-box-info[
 There are a number of extended Markdown flavors, such a R Markdown and
@@ -569,6 +577,11 @@ This is very useful but can also get a bit confusing &amp;ndash; which syntax is
 supported where?
 ]
 
+&lt;br&gt;
+
+.content-box-info[
+See [this bonus slide](#md-bonus) for some additional Markdown syntax.
+]
 
 ---
 class: inverse middle center
@@ -581,8 +594,9 @@ class: inverse middle center
 
 ---
 name: vscode-kbd
+background-color: #f2f5eb
 
-## VS Code: Some keyboard shortcuts
+## Bonus: VS Code keyboard shortcuts
 
 - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; and &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;1&lt;/kbd&gt; to
   toggle between terminal and editor.  
@@ -600,14 +614,10 @@ name: vscode-kbd
 - *Multiple cursors*: Press &amp; hold &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;,
   then &lt;kbd&gt;⬆&lt;/kbd&gt;/&lt;kbd&gt;⬇&lt;/kbd&gt; arrows to expand.
 
---
-
 .content-box-info[
 For a single-page overview of keyboard shortcuts:  
 `Help` &gt; `Keyboard Shortcut Reference`.
 ]
-
---
 
 .content-box-info[
 You can also import keyboard shortcuts from different editors,  
@@ -617,7 +627,7 @@ in case you're attached one.
 ---
 background-color: #f2f5eb
 
-## Bonus: More VS Code keyboard shortcuts
+## Bonus: VS Code keyboard shortcuts (cont.)
 
 | Shortcut           | Function
 |--------------------|----------
@@ -642,6 +652,7 @@ background-color: #f2f5eb
 | &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;T&lt;/kbd&gt; | Reopen the last editor tab.
 
 ---
+name: md-bonus
 background-color: #f2f5eb
 
 ## Bonus: Some additional Markdown syntax
