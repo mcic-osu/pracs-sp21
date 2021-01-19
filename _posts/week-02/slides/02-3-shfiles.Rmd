@@ -3,7 +3,7 @@ title: "Week 2 - Part II - Managing Files in the Shell"
 output:
   xaringan::moon_reader:
     seal: false
-    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    css: ["default", "default-fonts", "slides_copy.css", "slides.css"]
     lib_dir: libs
     nature:
       highlightStyle: rainbow
@@ -83,6 +83,17 @@ class: center middle inverse
   $ tree ../../..
   ```
 ---
+
+## VS Code prep
+
+.content-box-diy[
+**Add a keyboard shortcut to run shell commands from the editor:**
+
+- Gear icon `r icon::fa("cog")` in bottom-left > `Keyboard Shortcuts`.
+
+- Find `Terminal: Run Selected Text in Active Terminal`,
+  then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
+]
 
 .content-box-info[
 In *VS Code*, there are default existing keybindings for the

@@ -7,8 +7,8 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -18,13 +18,15 @@ class:inverse middle center
 
 
 ## *Week 2: &lt;br&gt; Project Organization and Markdown*
+
 ----
-# Part II: Markdown and VS Code
+
+# Part II: VS Code and Markdown
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021-01-19 (updated: 2021-01-18)
+### 2021-01-19 (updated: 2021-01-19)
 
 ---
 class: center middle inverse
@@ -33,10 +35,8 @@ class: center middle inverse
 
 ----
 
-### [Setup](#osc-vscode)
-### [Markdown](#markdown)
-### [VS Code tips](#vscode-tips)
-
+### [Getting started with VS Code](#osc-vscode)
+### [An introduction to Markdown](#markdown)
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
@@ -65,27 +65,141 @@ name:osc-vscode
 
 ---
 
-## Getting VS Code ready
+## Why VS Code?
 
-1. **Hide the *Side Bar*** to gain screen space:
-   press &lt;kbd&gt;Ctrl/⌘&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt;.
+- Works with all operating systems, is free, and open source.
 
-2. **Open a *Terminal***: press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; or
-   &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;C&lt;/kbd&gt;.
+- IDE-like features such as an integrated terminal.
+
+- Very popular nowadays &amp;ndash; lots of development going on including by users
+  (*extensions*).
+
+- Available at OSC OnDemand (and also allows you to SSH-tunnel-in with 
+  your local installation). 
+
+&lt;br&gt;
+
+.content-box-info[
+**More resources to get started with VS Code:**
+
+- [A useful VS Code intro Video ](https://www.youtube.com/watch?v=S320N3sxinE&amp;list=PLj6YeMhvp2S5UgiQnBfvD7XgOMKs3O_G6) (and you can see more in the playlist.)
+
+- The `Welcome` tab that automatically opened
+  (which you can also pull up again by clicking: <i class="fas  fa-bars "></i> &gt;
+  `Help` &gt; `Welcome`).
+]
+
+---
+
+## VS Code: Getting started
+
+- **Color themes**: Press the gear icon <i class="fas  fa-cog "></i> and then
+  `Color Theme` to try out different color themes. (I like "*Quiet Light*".)
+
+--
+
+- **Workspaces**: To save which files you have open in a project.
   
-3. **Get a bash shell:** In the terminal, the prompt says `Singularity&gt;`.  
-   **Type `bash` and press &lt;kbd&gt;Enter&lt;/kbd&gt;** to break out of the Singularity
-   shell and start a bash shell.
+.content-box-diy[
+**Save a workspace.**
 
-4. **Create a directory** for this week, e.g.:
-   ```sh
-   mkdir users/$USER/week02/  # inside /fs/ess/PAS1855
-   ```
-   
-5. **Open a new file:**
-   Click the hamburger menu <i class="fas  fa-bars "></i>, 
-   then `File` &gt; `New File`.
-   
+- Click `File` &gt; `Open Folder` and open your personal dir
+  (`/fs/PAS1855/users/&lt;username&gt;`.)
+
+- Click `File` &gt; `Save Workspace As` and pick a name like `PLNTPTH8300-SP21`,
+  `pracs-sp21`, etc.
+]
+
+--
+
+- **Split** the editor window vertically (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;\&lt;/kbd&gt;).
+
+- **Command Palette**: To access all VS Code commands
+  (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;P&lt;/kbd&gt;).
+
+---
+
+## VS Code: Side bars
+
+- Click `View` &gt; `Appearance` &gt; `Activity Bar` to toggle the narrow side bar.
+
+  This bar mainly serves to switch between different options for the wide
+  side bar (see below).
+
+&lt;br&gt;
+
+- &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt; to toggle the wide **side bar**,
+  which can show:
+    
+  - ***Explorer***: File browser &amp; outline for the active file.
+    
+  - ***Search***: To search recursively across all files in the active folder.
+    
+  - ***Extensions***: To install extensions (*up soon*).
+    
+  - ***Source Control***: To work with Git (*next week*).
+      
+  - Debugger
+
+---
+
+## VS Code: Open a terminal
+
+- To open a terminal, press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; (or
+  &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;C&lt;/kbd&gt;).
+  
+- In the terminal, the prompt says `Singularity&gt;`.
+  This is because in OSC OnDemand, VS Code runs inside a Singularity container.
+  
+  To break out of the Singularity shell, Type `bash` and press &lt;kbd&gt;Enter&lt;/kbd&gt;. 
+
+--
+
+.content-box-info[
+Now we have a working bash shell.
+If you type `pwd`, you'll notice that you're in the dir you opened earlier
+in VS Code.
+  
+If you also open a folder / use a workspace for the top-level dir of
+your actual projects, you should very rarely need to `cd`,
+and can stick to relative paths.
+]
+
+--
+
+.content-box-diy[
+**Create a directory** for this week, e.g.:
+```sh
+mkdir week02  # inside /fs/ess/PAS1855/users/$USER
+```
+]
+
+---
+
+## <i class="fas  fa-user-edit "></i> VS Code: Extensions
+
+.content-box-diy[
+**Install a couple of useful extensions:**
+
+- Click the gear icon <i class="fas  fa-cog "></i> and then `Extensions`,
+  and search for:
+  
+  - **shellcheck** (by *simonwong*)
+  
+  - **Python** (by *Microsoft*)
+  
+  - **Rainbow CSV** (by *mechatroner*)
+]
+
+&lt;br&gt;
+
+.content-box-diy[
+*If you have VS Code installed locally, install this extension pack
+later:*
+
+  - **Remote Development** (*Microsoft*)
+]
+
 ---
 class: inverse middle center
 name: markdown
@@ -110,8 +224,8 @@ name: markdown
 
 --
 
-- For instance, surrounding one or more characters by single or double asterisks
-  (**`*`**) will make those characters italic and bold, respectively:
+- For instance: surrounding one or more characters by single or double asterisks
+  (**`*`**) will make those characters italic or bold, respectively:
   
   - Writing `*italic example*` &amp;mdash; rendered as: *italic example*.
   
@@ -126,14 +240,25 @@ Learn more about Markdown and its syntax in this excellent documentation:
 
 ---
 
-## Markdown in VS Code
+## Getting VS Code ready to try Markdown
 
-- Markdown files have the extension `.md`.
+1. **Hide the *Side Bar*** to gain screen space:
+   press &lt;kbd&gt;Ctrl/⌘&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt;.
 
-- **Save the file** (&lt;kbd&gt;Ctrl/⌘&lt;/kbd&gt;+&lt;kbd&gt;S&lt;/kbd&gt;),
+2. **Open a new file:**
+   Click the hamburger menu <i class="fas  fa-bars "></i>, 
+   then `File` &gt; `New File`.
+   
+3. Markdown files have the extension `.md`.
+
+  **Save the file** (&lt;kbd&gt;Ctrl/⌘&lt;/kbd&gt;+&lt;kbd&gt;S&lt;/kbd&gt;),
   inside the dir you just created,  
   as a Markdown file, e.g. `markdown-intro.md`.
   
+--
+
+&lt;br&gt;
+
 - When you save a file in VS Code with an `.md` extension:
   
   - Some formatting will be automatically applied *in the editor*.
@@ -159,11 +284,11 @@ Learn more about Markdown and its syntax in this excellent documentation:
 &lt;br&gt; &lt;br&gt;
 
 .content-box-info[
-In VS Code, when you *select some text* and then press **`*`**,  
+In VS Code, when you **select some text and then press `*`**,  
 the selected text will be *surrounded* by asterisks.  
 
-This also works when typing the opening character for open-close characters
-like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
+Depending on the file type, this also works when typing the *opening character*
+for open-close characters like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
 ]
 
 ---
@@ -258,10 +383,10 @@ Paragraph 2.
 
 - **Ignored whitespace**:
 
-  - A *single newline in text*
+  - A *single newline in text*.
 
   - Multiple consecutive spaces / blank lines are treated like a single space
-    or blank line
+    or blank line.
   
 .pull-left[
 **This:**  
@@ -339,10 +464,10 @@ blank lines
 ## Whitespace in Markdown (cont.)
 
 - A **linebreak** can be forced using *two or more spaces*
-  (press the spacebar twice) after the last character on a line.
+  (i.e., press the spacebar twice) after the last character on a line.
 
 - If you want **more vertical whitespace** than what is provided between
-  paragraphs, you have to resort to HTML:
+  paragraphs, you'll have to resort to HTML:
   each **`&lt;br&gt;`** item forces a visible linebreak.
 
 .pull-left[
@@ -440,97 +565,24 @@ For installation (all OS's): see &lt;https://pandoc.org/installing.html&gt;.
 There are a number of extended Markdown flavors, such a R Markdown and
 Github-flavored Markdown.
 
-This is very useful but can also get confusing &amp;ndash; which syntax is
+This is very useful but can also get a bit confusing &amp;ndash; which syntax is
 supported where?
 ]
 
 
 ---
 class: inverse middle center
-name: vscode-tips
 
-# Some VS Code tips
+# Questions?
 
 ----
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
-
-## Why VS Code?
-
-- Works with all operating systems, is free, and open source.
-
-- IDE-like features such as an integrated terminal.
-
-- Very popular nowadays &amp;ndash; lots of development going on including by users
-  (*extensions*)
-
-- Available at OSC (and you can also SSH-tunnel-in your local installation). 
-
-&lt;br&gt;
-
-.content-box-info[
-[Click here for a useful VS Code intro Video.](https://www.youtube.com/watch?v=S320N3sxinE&amp;list=PLj6YeMhvp2S5UgiQnBfvD7XgOMKs3O_G6)
-]
-
----
-
-## VS Code: Miscellaneous tips
-
-- To open a file in VS Code from the shell: `code &lt;file&gt;`.
-
-- **Split** editor window vertically (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;\&lt;/kbd&gt;)
-
-- **Color themes**: Press the gear icon <i class="fas  fa-cog "></i> and then
-  `Color Theme` to try out different color themes. (I like "*Quiet Light*".)
-
-- **Command Palette** &amp;mdash; All VS Code commands
-  (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;P&lt;/kbd&gt;).
-
-- **Workspaces** &amp;mdash; Save all open files in a project.
-  
-&lt;br&gt;
-
-.content-box-diy[
-**Save a workspace.**
-
-- Click `File` &gt; `Open Folder` and open your personal dir (`users/$USER`.)
-
-- Click `File` &gt; `Save Workspace As` &gt; pick a name.
-]
-
----
-
-## VS Code: Side bars
-
-- `View` &gt; `Appearance` &gt; `Activity Bar` to toggle the narrow side bar.
-
-  This bar mainly serves to switch between different options for the wide
-  side bar (see below).
-
-&lt;br&gt;
-
-- &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt; to toggle the wide **side bar**,
-  which can show:
-    
-  - ***Explorer*** &amp;mdash; File browser &amp; outline for open file.
-    
-  - ***Search*** &amp;mdash; Can search across files in active folder.
-    
-  - ***Extensions***
-    
-  - ***Source Control***
-      
-  - Debugger
-
-
----
 name: vscode-kbd
 
-## VS Code: Keyboard Shortcuts
-
-**Especially useful shortcuts:**
+## VS Code: Some keyboard shortcuts
 
 - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; and &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;1&lt;/kbd&gt; to
   toggle between terminal and editor.  
@@ -547,34 +599,6 @@ name: vscode-kbd
 
 - *Multiple cursors*: Press &amp; hold &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;,
   then &lt;kbd&gt;⬆&lt;/kbd&gt;/&lt;kbd&gt;⬇&lt;/kbd&gt; arrows to expand.
-  
---
-
-&lt;br&gt;
-
-**Some browser-like shortcuts:**
-  
-- &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;PgDn&lt;/kbd&gt; / &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;PgUp&lt;/kbd&gt; to
-  move between editor tabs.
-
-- &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;W&lt;/kbd&gt; to close an editor tab.
-
-- &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;T&lt;/kbd&gt; to reopen the last tab.
-
-
----
-name: vscode-kbd
-
-## VS Code: Keyboard Shortcuts (cont.)
-
-.content-box-diy[
-**Add a shortcut to run shell commands from the editor:**
-
-- Gear icon <i class="fas  fa-cog "></i> in bottom-left &gt; `Keyboard Shortcuts`.
-
-- Find `Terminal: Run Selected Text in Active Terminal`,
-  then add a shortcut, e.g. &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt;.
-]
 
 --
 
@@ -590,32 +614,32 @@ You can also import keyboard shortcuts from different editors,
 in case you're attached one.
 ]
 
-
 ---
+background-color: #f2f5eb
 
-## <i class="fas  fa-user-edit "></i> VS Code: Useful extensions to install
+## Bonus: More VS Code keyboard shortcuts
+
+| Shortcut           | Function
+|--------------------|----------
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;/&lt;/kbd&gt; | Toggle line(s) comment (any language)
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;[&lt;/kbd&gt; / &lt;kbd&gt;]&lt;/kbd&gt; | Fold / unfold code sections
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;I&lt;/kbd&gt; | Format code in active file  
+
 
 &lt;br&gt;
 
-- Click the gear icon <i class="fas  fa-cog "></i> and then `Extensions`,
-  and search for:
+- **Some browser-like shortcuts:**
   
-  - **Python**" (by *Microsoft*)
+  .content-box-info[
+  *These don't work in an actual browser like at OSC OnDemand,  
+  but are handy when working locally.*
+  ]
   
-  - **Rainbow CSV** (by *mechatroner*)
-  
-  - **shellcheck** (by *simonwong*)
-
-  - If you're (also) working locally: **Remote Development** (*Microsoft*)
-  
----
-class: inverse middle center
-
-# Questions?
-
-----
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+| Shortcut           | Function
+|--------------------|----------
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;PgDn&lt;/kbd&gt; / &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;PgUp&lt;/kbd&gt; | Move between editor tabs (or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Tab&lt;/kbd&gt;).
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;W&lt;/kbd&gt; | Close an editor tab.
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;T&lt;/kbd&gt; | Reopen the last editor tab.
 
 ---
 background-color: #f2f5eb
@@ -656,13 +680,14 @@ background-color: #f2f5eb
 ---
 background-color: #f2f5eb
 
-## Bonus: Some handy HTML
+## Bonus: Some handy HTML to use in Markdown
 
 | Syntax | Result |
 |---------------------------|
 | `superscript&lt;sup&gt;2&lt;/sup&gt;` | superscript&lt;sup&gt;2&lt;/sup&gt;
 | `superscript&lt;sub&gt;2&lt;/sub&gt;` | subscript&lt;sub&gt;2&lt;/sub&gt;
-| `&lt;br&gt;` | linebreak / empty line
+| `&lt;br&gt;`                    | linebreak / empty line
+| `&lt;!-- text --&gt;`           | comment
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

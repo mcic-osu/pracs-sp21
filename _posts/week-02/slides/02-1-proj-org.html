@@ -6,8 +6,8 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -23,7 +23,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021-01-19 (updated: 2021-01-18)
+### 2021-01-19 (updated: 2021-01-19)
 
 ---
 
@@ -82,7 +82,7 @@ to reach some of its goals.
 
 - **One dir hierarchy for one project** &amp;mdash; in other words:
 
-  - Don't keep multiple distinct projects under one dir.
+  - Don't keep multiple distinct projects inside one dir.
 
   - Don't keep files for one project in multiple places.
 
@@ -150,9 +150,9 @@ When you have a single directory hierarchy for each project, it is:
 - **Absolute paths** start from the root directory,
   break when moving a project, and don't generally work across computers.
 
-- **Relative paths** start from a *working dir*: when you alway use the root of
-  the *project* as the working dir, paths work when moving the project and
-  across computers.
+- **Relative paths** start from a *working dir*: when you always use the root of
+  the *project* as the working dir, paths work when moving the project within
+  and between computers.
 ]
 
 ---
@@ -162,8 +162,6 @@ When you have a single directory hierarchy for each project, it is:
 &lt;br&gt;
 
 ### But how to define and separate projects?
-
-&lt;br&gt;
 
 From [Wilson et al 2017 - Good Enough Practices in Scientific Computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510):
 
@@ -215,8 +213,7 @@ will cause links to break.
 ## Projects with shared data or code (cont.)
 
 A more portable method is to *keep shared (multi-project) files online* &amp;ndash;  
-this is especially feasible for **scripts** under version control,  
-which can be synced to and accessed from an online repository:
+this is especially feasible for **scripts** under version control:  
 
 &lt;p align="center"&gt;
 &lt;img src=img/proj-dirs-6.svg width=70%&gt;
@@ -224,12 +221,13 @@ which can be synced to and accessed from an online repository:
 
 --
 
-For **data**, something similar can be applied once the data have been  
-deposited in a public repository.
+.content-box-info[
+For **data**, this is also possible but often not practical due to file sizes. It's easier after data has been deposited in a public repository.
+]
 
 ---
 
-## Example dir structures for a project
+## Example project dir structures 
 
 .pull-left[
 
@@ -241,7 +239,7 @@ deposited in a public repository.
 
 ---
 
-## Example dir structures for a project
+## Example project dir structures
 
 .pull-left[
 
@@ -253,7 +251,7 @@ deposited in a public repository.
 
 ---
 
-## Example dir structures for a project
+## Example project dir structures
 
 .pull-left[
 
@@ -267,46 +265,47 @@ deposited in a public repository.
 
 **Other best practices:**
   
-- Use subdirectories liberally (e.g. within `analysis`, `scripts`)
+- Use subdirectories liberally (e.g. within `analysis`, `scripts`).
   
-- Also add READMEs within dirs.
+- Also add *READMEs* within dirs.
 ]
 
 .content-box-info[
-**Several things depend on preference and project specifics:**
-- Can also spread data across top-level dirs:  
-- Can also use `analysis` dir instead of `results` (Buffalo)
+**Several things depend on preferences and project specifics:**
+- Could spread data across top-level dirs.  
+- Could use `analysis` dir instead of `results` (Buffalo)
 - People writing software often use a `src` (source) dir for code.
-- Where to put figures?
+- Where to put figures &amp;ndash; `results/plots/qc` or `results/qc/plots/`?
 ]
 
 ---
 
 ## File naming
 
-- Three principles for good file names
-  ([Jenny Bryan](https://speakerdeck.com/jennybc/how-to-name-files)):
+**Three principles for good file names**
+([Jenny Bryan](https://speakerdeck.com/jennybc/how-to-name-files)):
 
-  - Machine-readable
+- Machine-readable
 
-  - Human-readable
+- Human-readable
 
-  - Playing well with default ordering
+- Playing well with default ordering
 
 ---
 
 ## File naming: Machine-readable
 
-Consistent and informative naming helps to programmatically find  
-and process files.
+Consistent and informative naming helps to *programmatically find  
+and process files.*
 
-- In file names, provide *metadata* like Sample ID, date, treatment:
+- In file names, provide **metadata** like Sample ID, date, and treatment:
   
   - `sample032_2016-05-03_low.txt`  
   
   - `samples_soil_treatmentA_2019-01.txt`
 
-- Now, you can use globbing to select samples from a certain month or treatment:
+- Now, you can use *globbing* to select samples from a certain month or
+  treatment:
   ```sh
   $ ls *2016-05*
   
@@ -333,9 +332,11 @@ in Unix, but are still useful to distinguish file types easily and programmatica
   $ rm -rf raw sequences
   ```
 
-- More generally, only use alphanumeric characters &lt;kbd&gt;A-Za-z0-9&lt;/kbd&gt;,  
-  underscore &lt;kbd&gt;_&lt;/kbd&gt;, hyphen &lt;kbd&gt;-&lt;/kbd&gt; and dots/periods &lt;kbd&gt;.&lt;/kbd&gt;
-  in file names.
+- More generally, only use the following in file names:
+  - Alphanumeric characters &lt;kbd&gt;A-Za-z0-9&lt;/kbd&gt;
+  - Underscores &lt;kbd&gt;_&lt;/kbd&gt;
+  - Hyphens (dashes) &lt;kbd&gt;-&lt;/kbd&gt;
+  - Periods (dots) &lt;kbd&gt;.&lt;/kbd&gt;
   
 ---
 
@@ -352,8 +353,8 @@ in Unix, but are still useful to distinguish file types easily and programmatica
 
 - *One* good way (opinionated recommendations):
   
-  - Use **underscores &lt;kbd&gt;_&lt;/kbd&gt; to delimit units** you may want to separate on
-    (extract with `cut`, etc) later: sampleID, batch, treatment, date, etc. 
+  - Use **underscores &lt;kbd&gt;_&lt;/kbd&gt; to delimit units** you may later want to
+    separate on (extract with `cut`, etc.): sampleID, batch, treatment, date.
   
   - Within such units, use **dashes &lt;kbd&gt;-&lt;/kbd&gt; to delimit words**:
     `grass-samples`.
@@ -379,12 +380,12 @@ in Unix, but are still useful to distinguish file types easily and programmatica
 
 ## File naming: Ordering
 
-- **Leading zeros** for lexicographic sorting: `sample005`.
+- Use **leading zeros** for lexicographic sorting: `sample005`.
 
 - **Dates** should always be written as `YYYY-MM-DD`: `2020-10-11`.
 
-- Can *group similar files together* by starting with same phrase,  
-  and *number scripts* according to their execution order:
+- Can **group similar files together** by starting with same phrase,  
+  and **number scripts** according to their execution order:
   ```sh
   DE-01_normalize.R
   DE-02_test.R
@@ -394,8 +395,6 @@ in Unix, but are still useful to distinguish file types easily and programmatica
 ---
 
 ## Slow down and document
-
-&lt;br&gt;
 
 **Use README files to document:**
   
@@ -409,12 +408,10 @@ in Unix, but are still useful to distinguish file types easily and programmatica
   
 ---
 
-## Slow down and document (cont.)
+## Slow down and document &amp;ndash; Use plain text files
 
-### An ode to plain text files
-
-Unlike proprietary &amp; binary formats (like `.docx` and `.xlsx`),
-**plain text files**:
+**Plain text files offer several benefits over proprietary &amp; binary formats**
+(like `.docx` and `.xlsx`):
 
 - Can be accessed on any computer, including over remote connections
 
@@ -467,7 +464,6 @@ name: software
 .content-box-info[
 We'll talk more about this in the OSC (Week 6) and Snakemake (Week 12) modules.
 ]
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

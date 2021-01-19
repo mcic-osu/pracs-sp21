@@ -3,7 +3,7 @@ title: "Week 2 - Part III - Markdown and VS Code"
 output:
   xaringan::moon_reader:
     seal: false
-    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    css: ["default", "default-fonts", "slides_copy.css", "slides.css"]
     lib_dir: libs
     nature:
       highlightStyle: rainbow
@@ -19,8 +19,10 @@ knitr::opts_chunk$set(eval = FALSE)
 ```
 
 ## *Week 2: <br> Project Organization and Markdown*
+
 ----
-# Part II: Markdown and VS Code
+
+# Part II: VS Code and Markdown
 
 <br> <br> <br> <br> <br>
 
@@ -34,10 +36,8 @@ class: center middle inverse
 
 ----
 
-### [Setup](#osc-vscode)
-### [Markdown](#markdown)
-### [VS Code tips](#vscode-tips)
-
+### [Getting started with VS Code](#osc-vscode)
+### [An introduction to Markdown](#markdown)
 
 <br> <br> <br>
 
@@ -66,27 +66,141 @@ name:osc-vscode
 
 ---
 
-## Getting VS Code ready
+## Why VS Code?
 
-1. **Hide the *Side Bar*** to gain screen space:
-   press <kbd>Ctrl/⌘</kbd>+<kbd>B</kbd>.
+- Works with all operating systems, is free, and open source.
 
-2. **Open a *Terminal***: press <kbd>Ctrl</kbd>+<kbd>backtick</kbd> or
-   <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd>.
+- IDE-like features such as an integrated terminal.
+
+- Very popular nowadays &ndash; lots of development going on including by users
+  (*extensions*).
+
+- Available at OSC OnDemand (and also allows you to SSH-tunnel-in with 
+  your local installation). 
+
+<br>
+
+.content-box-info[
+**More resources to get started with VS Code:**
+
+- [A useful VS Code intro Video ](https://www.youtube.com/watch?v=S320N3sxinE&list=PLj6YeMhvp2S5UgiQnBfvD7XgOMKs3O_G6) (and you can see more in the playlist.)
+
+- The `Welcome` tab that automatically opened
+  (which you can also pull up again by clicking: `r icon::fa("bars")` >
+  `Help` > `Welcome`).
+]
+
+---
+
+## VS Code: Getting started
+
+- **Color themes**: Press the gear icon `r icon::fa("cog")` and then
+  `Color Theme` to try out different color themes. (I like "*Quiet Light*".)
+
+--
+
+- **Workspaces**: To save which files you have open in a project.
   
-3. **Get a bash shell:** In the terminal, the prompt says `Singularity>`.  
-   **Type `bash` and press <kbd>Enter</kbd>** to break out of the Singularity
-   shell and start a bash shell.
+.content-box-diy[
+**Save a workspace.**
 
-4. **Create a directory** for this week, e.g.:
-   ```sh
-   mkdir users/$USER/week02/  # inside /fs/ess/PAS1855
-   ```
-   
-5. **Open a new file:**
-   Click the hamburger menu `r icon::fa("bars")`, 
-   then `File` > `New File`.
-   
+- Click `File` > `Open Folder` and open your personal dir
+  (`/fs/PAS1855/users/<username>`.)
+
+- Click `File` > `Save Workspace As` and pick a name like `PLNTPTH8300-SP21`,
+  `pracs-sp21`, etc.
+]
+
+--
+
+- **Split** the editor window vertically (<kbd>Ctrl</kbd>+<kbd>\</kbd>).
+
+- **Command Palette**: To access all VS Code commands
+  (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>).
+
+---
+
+## VS Code: Side bars
+
+- Click `View` > `Appearance` > `Activity Bar` to toggle the narrow side bar.
+
+  This bar mainly serves to switch between different options for the wide
+  side bar (see below).
+
+<br>
+
+- <kbd>Ctrl</kbd>+<kbd>B</kbd> to toggle the wide **side bar**,
+  which can show:
+    
+  - ***Explorer***: File browser & outline for the active file.
+    
+  - ***Search***: To search recursively across all files in the active folder.
+    
+  - ***Extensions***: To install extensions (*up soon*).
+    
+  - ***Source Control***: To work with Git (*next week*).
+      
+  - Debugger
+
+---
+
+## VS Code: Open a terminal
+
+- To open a terminal, press <kbd>Ctrl</kbd>+<kbd>backtick</kbd> (or
+  <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd>).
+  
+- In the terminal, the prompt says `Singularity>`.
+  This is because in OSC OnDemand, VS Code runs inside a Singularity container.
+  
+  To break out of the Singularity shell, Type `bash` and press <kbd>Enter</kbd>. 
+
+--
+
+.content-box-info[
+Now we have a working bash shell.
+If you type `pwd`, you'll notice that you're in the dir you opened earlier
+in VS Code.
+  
+If you also open a folder / use a workspace for the top-level dir of
+your actual projects, you should very rarely need to `cd`,
+and can stick to relative paths.
+]
+
+--
+
+.content-box-diy[
+**Create a directory** for this week, e.g.:
+```sh
+mkdir week02  # inside /fs/ess/PAS1855/users/$USER
+```
+]
+
+---
+
+## `r icon::fa("user-edit")` VS Code: Extensions
+
+.content-box-diy[
+**Install a couple of useful extensions:**
+
+- Click the gear icon `r icon::fa("cog")` and then `Extensions`,
+  and search for:
+  
+  - **shellcheck** (by *simonwong*)
+  
+  - **Python** (by *Microsoft*)
+  
+  - **Rainbow CSV** (by *mechatroner*)
+]
+
+<br>
+
+.content-box-diy[
+*If you have VS Code installed locally, install this extension pack
+later:*
+
+  - **Remote Development** (*Microsoft*)
+]
+
 ---
 class: inverse middle center
 name: markdown
@@ -111,8 +225,8 @@ name: markdown
 
 --
 
-- For instance, surrounding one or more characters by single or double asterisks
-  (**`*`**) will make those characters italic and bold, respectively:
+- For instance: surrounding one or more characters by single or double asterisks
+  (**`*`**) will make those characters italic or bold, respectively:
   
   - Writing `*italic example*` &mdash; rendered as: *italic example*.
   
@@ -127,14 +241,25 @@ Learn more about Markdown and its syntax in this excellent documentation:
 
 ---
 
-## Markdown in VS Code
+## Getting VS Code ready to try Markdown
 
-- Markdown files have the extension `.md`.
+1. **Hide the *Side Bar*** to gain screen space:
+   press <kbd>Ctrl/⌘</kbd>+<kbd>B</kbd>.
 
-- **Save the file** (<kbd>Ctrl/⌘</kbd>+<kbd>S</kbd>),
+2. **Open a new file:**
+   Click the hamburger menu `r icon::fa("bars")`, 
+   then `File` > `New File`.
+   
+3. Markdown files have the extension `.md`.
+
+  **Save the file** (<kbd>Ctrl/⌘</kbd>+<kbd>S</kbd>),
   inside the dir you just created,  
   as a Markdown file, e.g. `markdown-intro.md`.
   
+--
+
+<br>
+
 - When you save a file in VS Code with an `.md` extension:
   
   - Some formatting will be automatically applied *in the editor*.
@@ -160,11 +285,11 @@ Learn more about Markdown and its syntax in this excellent documentation:
 <br> <br>
 
 .content-box-info[
-In VS Code, when you *select some text* and then press **`*`**,  
+In VS Code, when you **select some text and then press `*`**,  
 the selected text will be *surrounded* by asterisks.  
 
-This also works when typing the opening character for open-close characters
-like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
+Depending on the file type, this also works when typing the *opening character*
+for open-close characters like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
 ]
 
 ---
@@ -259,10 +384,10 @@ Paragraph 2.
 
 - **Ignored whitespace**:
 
-  - A *single newline in text*
+  - A *single newline in text*.
 
   - Multiple consecutive spaces / blank lines are treated like a single space
-    or blank line
+    or blank line.
   
 .pull-left[
 **This:**  
@@ -340,10 +465,10 @@ blank lines
 ## Whitespace in Markdown (cont.)
 
 - A **linebreak** can be forced using *two or more spaces*
-  (press the spacebar twice) after the last character on a line.
+  (i.e., press the spacebar twice) after the last character on a line.
 
 - If you want **more vertical whitespace** than what is provided between
-  paragraphs, you have to resort to HTML:
+  paragraphs, you'll have to resort to HTML:
   each **`<br>`** item forces a visible linebreak.
 
 .pull-left[
@@ -441,97 +566,24 @@ For installation (all OS's): see <https://pandoc.org/installing.html>.
 There are a number of extended Markdown flavors, such a R Markdown and
 Github-flavored Markdown.
 
-This is very useful but can also get confusing &ndash; which syntax is
+This is very useful but can also get a bit confusing &ndash; which syntax is
 supported where?
 ]
 
 
 ---
 class: inverse middle center
-name: vscode-tips
 
-# Some VS Code tips
+# Questions?
 
 ----
 
 <br> <br> <br> <br>
 
 ---
-
-## Why VS Code?
-
-- Works with all operating systems, is free, and open source.
-
-- IDE-like features such as an integrated terminal.
-
-- Very popular nowadays &ndash; lots of development going on including by users
-  (*extensions*)
-
-- Available at OSC (and you can also SSH-tunnel-in your local installation). 
-
-<br>
-
-.content-box-info[
-[Click here for a useful VS Code intro Video.](https://www.youtube.com/watch?v=S320N3sxinE&list=PLj6YeMhvp2S5UgiQnBfvD7XgOMKs3O_G6)
-]
-
----
-
-## VS Code: Miscellaneous tips
-
-- To open a file in VS Code from the shell: `code <file>`.
-
-- **Split** editor window vertically (<kbd>Ctrl</kbd>+<kbd>\</kbd>)
-
-- **Color themes**: Press the gear icon `r icon::fa("cog")` and then
-  `Color Theme` to try out different color themes. (I like "*Quiet Light*".)
-
-- **Command Palette** &mdash; All VS Code commands
-  (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>).
-
-- **Workspaces** &mdash; Save all open files in a project.
-  
-<br>
-
-.content-box-diy[
-**Save a workspace.**
-
-- Click `File` > `Open Folder` and open your personal dir (`users/$USER`.)
-
-- Click `File` > `Save Workspace As` > pick a name.
-]
-
----
-
-## VS Code: Side bars
-
-- `View` > `Appearance` > `Activity Bar` to toggle the narrow side bar.
-
-  This bar mainly serves to switch between different options for the wide
-  side bar (see below).
-
-<br>
-
-- <kbd>Ctrl</kbd>+<kbd>B</kbd> to toggle the wide **side bar**,
-  which can show:
-    
-  - ***Explorer*** &mdash; File browser & outline for open file.
-    
-  - ***Search*** &mdash; Can search across files in active folder.
-    
-  - ***Extensions***
-    
-  - ***Source Control***
-      
-  - Debugger
-
-
----
 name: vscode-kbd
 
-## VS Code: Keyboard Shortcuts
-
-**Especially useful shortcuts:**
+## VS Code: Some keyboard shortcuts
 
 - <kbd>Ctrl</kbd>+<kbd>backtick</kbd> and <kbd>Ctrl</kbd>+<kbd>1</kbd> to
   toggle between terminal and editor.  
@@ -548,34 +600,6 @@ name: vscode-kbd
 
 - *Multiple cursors*: Press & hold <kbd>Ctrl</kbd>+<kbd>Shift</kbd>,
   then <kbd>⬆</kbd>/<kbd>⬇</kbd> arrows to expand.
-  
---
-
-<br>
-
-**Some browser-like shortcuts:**
-  
-- <kbd>Ctrl</kbd>+<kbd>PgDn</kbd> / <kbd>Ctrl</kbd>+<kbd>PgUp</kbd> to
-  move between editor tabs.
-
-- <kbd>Ctrl</kbd>+<kbd>W</kbd> to close an editor tab.
-
-- <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> to reopen the last tab.
-
-
----
-name: vscode-kbd
-
-## VS Code: Keyboard Shortcuts (cont.)
-
-.content-box-diy[
-**Add a shortcut to run shell commands from the editor:**
-
-- Gear icon `r icon::fa("cog")` in bottom-left > `Keyboard Shortcuts`.
-
-- Find `Terminal: Run Selected Text in Active Terminal`,
-  then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
-]
 
 --
 
@@ -591,32 +615,32 @@ You can also import keyboard shortcuts from different editors,
 in case you're attached one.
 ]
 
-
 ---
+background-color: #f2f5eb
 
-## `r icon::fa("user-edit")` VS Code: Useful extensions to install
+## Bonus: More VS Code keyboard shortcuts
+
+| Shortcut           | Function
+|--------------------|----------
+| <kbd>Ctrl</kbd>+<kbd>/</kbd> | Toggle line(s) comment (any language)
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>[</kbd> / <kbd>]</kbd> | Fold / unfold code sections
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd> | Format code in active file  
+
 
 <br>
 
-- Click the gear icon `r icon::fa("cog")` and then `Extensions`,
-  and search for:
+- **Some browser-like shortcuts:**
   
-  - **Python**" (by *Microsoft*)
+  .content-box-info[
+  *These don't work in an actual browser like at OSC OnDemand,  
+  but are handy when working locally.*
+  ]
   
-  - **Rainbow CSV** (by *mechatroner*)
-  
-  - **shellcheck** (by *simonwong*)
-
-  - If you're (also) working locally: **Remote Development** (*Microsoft*)
-  
----
-class: inverse middle center
-
-# Questions?
-
-----
-
-<br> <br> <br> <br>
+| Shortcut           | Function
+|--------------------|----------
+| <kbd>Ctrl</kbd>+<kbd>PgDn</kbd> / <kbd>Ctrl</kbd>+<kbd>PgUp</kbd> | Move between editor tabs (or <kbd>Ctrl</kbd>+<kbd>Tab</kbd>).
+| <kbd>Ctrl</kbd>+<kbd>W</kbd> | Close an editor tab.
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> | Reopen the last editor tab.
 
 ---
 background-color: #f2f5eb
@@ -657,10 +681,11 @@ background-color: #f2f5eb
 ---
 background-color: #f2f5eb
 
-## Bonus: Some handy HTML
+## Bonus: Some handy HTML to use in Markdown
 
 | Syntax | Result |
 |---------------------------|
 | `superscript<sup>2</sup>` | superscript<sup>2</sup>
 | `superscript<sub>2</sub>` | subscript<sub>2</sub>
-| `<br>` | linebreak / empty line
+| `<br>`                    | linebreak / empty line
+| `<!-- text -->`           | comment
