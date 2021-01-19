@@ -82,6 +82,20 @@ class: center middle inverse
   ```sh
   $ tree ../../..
   ```
+---
+
+.content-box-info[
+In *VS Code*, there are default existing keybindings for the
+<kbd>Ctrl</kbd>+<kbd>K</kbd> (*cut to end of line*) and 
+<kbd>Ctrl</kbd>+<kbd>E</kbd> (*go to end of line*) combinations,  
+so they won't be properly interpreted by the shell.
+
+If you have an <kbd>end</kbd> key, that will also work to move to the end of
+the line.
+
+Alternatively, you can reconfigure keyboard shortcuts &ndash;  
+see [this slide](#vscode-kbd).
+]
 
 ---
 class: inverse middle center

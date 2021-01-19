@@ -34,11 +34,10 @@ class: center middle inverse
 
 ----
 
-.left[
-### [VS Code setup](#osc-vscode)
+### [Setup](#osc-vscode)
 ### [Markdown](#markdown)
 ### [VS Code tips](#vscode-tips)
-]
+
 
 <br> <br> <br>
 
@@ -69,8 +68,6 @@ name:osc-vscode
 
 ## Getting VS Code ready
 
-We need to start with a bit of housekeeping:
-
 1. **Hide the *Side Bar*** to gain screen space:
    press <kbd>Ctrl/⌘</kbd>+<kbd>B</kbd>.
 
@@ -81,39 +78,15 @@ We need to start with a bit of housekeeping:
    **Type `bash` and press <kbd>Enter</kbd>** to break out of the Singularity
    shell and start a bash shell.
 
-4. **Create a directory** for this week, e.g.: `mkdir users/$USER/week02/`  
-   (inside `/fs/ess/PAS1855`).
+4. **Create a directory** for this week, e.g.:
+   ```sh
+   mkdir users/$USER/week02/  # inside /fs/ess/PAS1855
+   ```
    
-5. **Start a text document:**
-   Click the "hamburger menu" `r icon::fa("bars")`, =  
+5. **Open a new file:**
+   Click the hamburger menu `r icon::fa("bars")`, 
    then `File` > `New File`.
-   Immediately save the document (<kbd>Ctrl/⌘</kbd>+<kbd>S</kbd>), inside the
-   dir you just created, as a Markdown (`.md`) file,  
-   e.g. `markdown-intro.md`.
-
-<br>
-
-Finally, we're ready to go...
-
----
-
-## Getting VS Code ready
-
-<br>
-
-.content-box-info[
-In *VS Code*, there are default existing keybindings for the
-<kbd>Ctrl</kbd>+<kbd>K</kbd> (*cut to end of line*) and 
-<kbd>Ctrl</kbd>+<kbd>E</kbd> (*go to end of line*) combinations,  
-so they won't be properly interpreted by the shell.
-
-If you have an <kbd>end</kbd> key, that will also work to move to the end of
-the line.
-
-Alternatively, you can reconfigure keyboard shortcuts &ndash;  
-see [this slide](#vscode-kbd).
-]
-
+   
 ---
 class: inverse middle center
 name: markdown
@@ -158,7 +131,11 @@ Learn more about Markdown and its syntax in this excellent documentation:
 
 - Markdown files have the extension `.md`.
 
-  When you save a file in VS Code with an `.md` extension:
+- **Save the file** (<kbd>Ctrl/⌘</kbd>+<kbd>S</kbd>),
+  inside the dir you just created,  
+  as a Markdown file, e.g. `markdown-intro.md`.
+  
+- When you save a file in VS Code with an `.md` extension:
   
   - Some formatting will be automatically applied *in the editor*.
   
@@ -168,18 +145,6 @@ Learn more about Markdown and its syntax in this excellent documentation:
 <p align="center">
 <img src=img/markdown-preview-vscode.png width=8%>
 </p>
-
-<br>
-
---
-
-.content-box-info[
-In VS Code, when you *select some text* and then press **`*`**,  
-the selected text will be *surrounded* by asterisks.  
-
-This also works when typing the opening character for open-close characters
-like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
-]
 
 ---
 
@@ -191,6 +156,16 @@ like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
 | \*\*bold\*\*      | **bold** (alternative: double `_`)
 | \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
 | \!\[\](path/to/figure.png)   | Figure
+
+<br> <br>
+
+.content-box-info[
+In VS Code, when you *select some text* and then press **`*`**,  
+the selected text will be *surrounded* by asterisks.  
+
+This also works when typing the opening character for open-close characters
+like **`()`**, **`<>`**, ***`{}`** and **`[]`**.
+]
 
 ---
 
@@ -483,39 +458,62 @@ name: vscode-tips
 
 ---
 
-## VS Code: Miscellaneous tips
+## Why VS Code?
 
-- For parentheses `()`, brackets `{}` `[]`, etc:
-  
-  - Typing an *opening* character will immediately get you a closing one
-  
-  - Selecting text and then typing an opening parentheses `(` will place
-    the entire selection between parentheses.
-    
-- *Multiple cursors*: Press & hold <kbd>Ctrl</kbd>+<kbd>Shift</kbd>,
-  then <kbd>⬆</kbd>/<kbd>⬇</kbd> arrows to expand.
+- Works with all operating systems, is free, and open source.
 
-- To open a text file (script, data) in VS code from the shell: `code <file>`.
+- IDE-like features such as an integrated terminal.
 
-- Split editor window vertically.
+- Very popular nowadays &ndash; lots of development going on including by users
+  (*extensions*)
 
-- Command Palette (?)
+- Available at OSC (and you can also SSH-tunnel-in your local installation). 
 
 ---
 
-## VS Code: Appearance
+## VS Code: Miscellaneous tips
+
+- To open a file in VS Code from the shell: `code <file>`.
+
+- **Split** editor window vertically (<kbd>Ctrl</kbd>+<kbd>\</kbd>)
+
+- **Workspaces** &mdash; Save all open files in a project:  
+  `File` > `Save Workspace As`.
+
+- **Color themes**: Press the gear icon `r icon::fa("cog")` and then
+  `Color Theme` to try out different color themes. I like "*Quiet Light*".
+
+- **Command Palette** &mdash; All VS Code commands
+  (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>)
+
+<br>
+
+.content-box-info[
+[Click here for a useful VS Code intro Video.](https://www.youtube.com/watch?v=S320N3sxinE&list=PLj6YeMhvp2S5UgiQnBfvD7XgOMKs3O_G6)
+]
+
+---
+
+## VS Code: Miscellaneous tips (cont.)
 
 - **Side bars**:
   - `View` > `Appearance` > `Activity Bar` to toggle the narrow side bar.
     This bar mainly serves to switch between different options for the wide
     side bar (see below).
   
-  - <kbd>Ctrl</kbd>+<kbd>B</kbd> to toggle the wide side bar,
-    which can show the "*Explorer*" (files), "*Extensions*", and a view other 
-    things (see `View` menu for options).
+  - <kbd>Ctrl</kbd>+<kbd>B</kbd> to toggle the wide **side bar**,
+    which can show:
+    
+      - ***Explorer*** &mdash; File browser & Open file outlines
+    
+      - ***Search*** &mdash; Can search across files in active folder
+    
+      - ***Extensions***
+    
+      - ***Source Control***
+      
+      - And more...
 
-- **Color themes**: Press the gear icon `r icon::fa("cog")` and then
-  `Color Theme` to try out different color themes. I like "*Quiet Light*".
 
 ---
 name: vscode-kbd
@@ -524,24 +522,40 @@ name: vscode-kbd
 
 **Especially useful shortcuts:**
 
-- <kbd>Ctrl</kbd>+<kbd>backtick</kbd> and <kbd>Ctrl</kbd>+<kbd>1</kbd>:
+- <kbd>Ctrl</kbd>+<kbd>backtick</kbd> and <kbd>Ctrl</kbd>+<kbd>1</kbd> to
   toggle between terminal and editor.  
 
-- <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd> to delete a line
-  ("Delete Line" &ndash; change to <kbd>Ctrl</kbd> + <kbd>D</kbd>?) 
+- *Line actions*:
+  
+  - <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd> to **delete a line**
+  ("Delete Line" &ndash; change to <kbd>Ctrl</kbd> + <kbd>D</kbd>?)
+  
+  - <kbd>Ctrl</kbd>+<kbd>X</kbd> / <kbd>C</kbd> will **cut/copy the entire line**
+    with nothing selected.
+  
+  - <kbd>Alt</kbd>+<kbd>⬆</kbd>/<kbd>⬇</kbd> will **move lines** up or down.
 
+- *Multiple cursors*: Press & hold <kbd>Ctrl</kbd>+<kbd>Shift</kbd>,
+  then <kbd>⬆</kbd>/<kbd>⬇</kbd> arrows to expand.
+  
 --
+
+<br>
 
 **Some browser-like shortcuts:**
   
 - <kbd>Ctrl</kbd>+<kbd>PgDn</kbd> / <kbd>Ctrl</kbd>+<kbd>PgUp</kbd> to
   move between editor tabs.
 
-- <kbd>Ctrl</kbd>+<kbd>W<k/bd> to close an editor tab.
+- <kbd>Ctrl</kbd>+<kbd>W</kbd> to close an editor tab.
 
 - <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> to reopen the last tab.
 
---
+
+---
+name: vscode-kbd
+
+## VS Code: Keyboard Shortcuts (cont.)
 
 .content-box-diy[
 **Add a shortcut to run shell commands from the editor:**
@@ -552,20 +566,37 @@ name: vscode-kbd
   then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
 ]
 
+--
+
+.content-box-info[
+For a single-page overview of keyboard shortcuts:  
+`Help` > `Keyboard Shortcut Reference`.
+]
+
+--
+
+.content-box-info[
+You can also import keyboard shortcuts from different editors,  
+in case you're attached one.
+]
+
+
 ---
 
 ## `r icon::fa("user-edit")` VS Code: Useful extensions to install
 
+<br>
+
 - Click the gear icon `r icon::fa("cog")` and then `Extensions`,
   and search for:
   
-  - "**Python**" (by Microsoft)
+  - **Python**" (by *Microsoft*)
   
-  - "**Rainbow CSV**" (by *mechatroner*)
+  - **Rainbow CSV** (by *mechatroner*)
+  
+  - **shellcheck** (by *simonwong*)
 
-  - *If you're (also) working locally:*
-  
-      - "**Remote Development**" (Microsoft)
+  - If you're (also) working locally: **Remote Development** (*Microsoft*)
   
 ---
 class: inverse middle center
