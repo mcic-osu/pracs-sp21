@@ -12,10 +12,16 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-- [Slides: Git and Github Part I](slides/03-1-git.html) -- Tuesday Zoom (Jan 26)
+### Slides
 
-- [Slides: Git and Github Part II](slides/03-2-git.html) -- Thursday Zoom (Jan 28)
+- Slides: Part I -- CSB 2.1-2.4 (Git basics) -- Tuesday Zoom (Jan 26)
 
-- Ungraded Assigment: [Set up Git & Github](../../w03_UA_git-setup.html)
+- Slides: Part I -- CSB 2.1-2.4 (remotes and branching) -- Thursday Zoom (Jan 28)
 
-- Graded Assignment: [Shell, Markdown and Git](../../w03_GA_git.html)
+### Ungraded assignments
+
+- [Git setup & Github authentication](../../w03_UA_git-setup.html)
+
+### Graded assignments
+
+- Graded assignment I: Shell, Markdown and Git

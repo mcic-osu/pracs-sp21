@@ -1,5 +1,5 @@
 ---
-title: "Week 3 -- Ungraded Assignment: <br> Git and Github Setup"
+title: "Week 3 -- Ungraded Assignment: <br> Git setup and Github authentication"
 output:
   distill::distill_article:
     self_contained: false
@@ -82,7 +82,7 @@ you can also follow them to set up Git for your local computer.*
 
 <br>
 
-## Part 2: Github setup
+## Part 2: Github authentication
 
 ### Github authentication: Background
 
