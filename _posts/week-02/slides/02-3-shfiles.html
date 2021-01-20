@@ -696,9 +696,9 @@ name: bonus
 &lt;br&gt;
 
 ### [Special characters and escaping them](#escape)
-### [Working with symbolic links](#symlinks)
+### **[Working with symbolic links](#symlinks)**
 ### [More conditional file processing](#conditional)
-### [Other tricks from Buffalo Ch. 3](#tricks)
+### [Two more tricks from Buffalo Ch. 3](#tricks)
 
 ---
 class: inverse middle center
@@ -714,7 +714,7 @@ name: symlinks
 background-color: #f2f5eb
 name: escape
 
-## Side note: Special characters and escaping them
+## Special characters and escaping them
 
 We saw that wildcards like **`*`** have a special meaning.
 **What if we had terrible file names,
@@ -728,8 +728,6 @@ and needed to match a *literal* `*`**?
   $ rm my\ bad\*file  # Tab autocomplete will work and insert \'s
   ```
 
-&lt;br&gt;
-
 - **Quoting** a string of characters will also escape special meaning
   of characters within them, with single quotes (**`'...'`**) being more severe
   than double quotes (**`"..."`**) &amp;mdash; more on this later. 
@@ -737,6 +735,12 @@ and needed to match a *literal* `*`**?
   ```sh
   $ rm 'my bad*file'
   ```
+
+.content-box-info[
+Backslashes can also *assign* special meaning
+&amp;ndash; e.g. **`\t`** (tab) and **`\n`** (newline).
+We'll talk more about these *regular expressions* later.
+]
 
 ---
 background-color: #f2f5eb
@@ -842,7 +846,7 @@ The content of the original dir will be removed.
 background-color: #f2f5eb
 name:conditional
 
-## Bonus: More conditional file processing
+## More conditional file processing
 
 **To remove all empty files in a directory:**
 
@@ -872,7 +876,7 @@ An overview of *file test operators* that can be used in this way:
 background-color: #f2f5eb
 name:conditional
 
-## Bonus: More conditional file processing
+## More conditional file processing
 
 **To remove all empty files in a directory:**
 
@@ -902,7 +906,7 @@ $ find . -size 0 -delete
 background-color: #f2f5eb
 name:tricks
 
-## More tricks from Buffalo Chapter 3
+## Two more tricks from Buffalo Chapter 3
 
 ### `tee`
 

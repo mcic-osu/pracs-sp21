@@ -43,10 +43,38 @@ class: center middle inverse
 
 ### [File renaming](#renaming)
 ### [File permissions](#permissions)
-### [Symbolic links](#symlinks)
+### [Bonus: Symbolic links](#symlinks)
 ]
 
 <br> <br> <br>
+
+---
+
+## VS Code prep
+
+.content-box-diy[
+**Add a keyboard shortcut to run shell commands from the editor:**
+
+- Gear icon `r icon::fa("cog")` in bottom-left > `Keyboard Shortcuts`.
+
+- Find `Terminal: Run Selected Text in Active Terminal`,
+  then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
+]
+
+--
+
+<br>
+
+.content-box-info[
+In *VS Code*, there are default existing keybindings for the
+<kbd>Ctrl</kbd>+<kbd>K</kbd> (*cut to end of line*) and 
+<kbd>Ctrl</kbd>+<kbd>E</kbd> (*move cursor to end of line*) combinations,
+so they won't be properly interpreted by the shell.
+
+If you have an <kbd>end</kbd> key, that will also work to move the cursor
+to the end of the line. Alternatively, you can reconfigure these
+keyboard shortcuts.
+]
 
 ---
 
@@ -80,33 +108,8 @@ class: center middle inverse
 - For a nice overview of your directory structure:
 
   ```sh
-  $ tree ../../..
+  $ tree ../..    # "../.." is to tell tree to start two levels up
   ```
----
-
-## VS Code prep
-
-.content-box-diy[
-**Add a keyboard shortcut to run shell commands from the editor:**
-
-- Gear icon `r icon::fa("cog")` in bottom-left > `Keyboard Shortcuts`.
-
-- Find `Terminal: Run Selected Text in Active Terminal`,
-  then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
-]
-
-.content-box-info[
-In *VS Code*, there are default existing keybindings for the
-<kbd>Ctrl</kbd>+<kbd>K</kbd> (*cut to end of line*) and 
-<kbd>Ctrl</kbd>+<kbd>E</kbd> (*go to end of line*) combinations,  
-so they won't be properly interpreted by the shell.
-
-If you have an <kbd>end</kbd> key, that will also work to move to the end of
-the line.
-
-Alternatively, you can reconfigure keyboard shortcuts &ndash;  
-see [this slide](#vscode-kbd).
-]
 
 ---
 class: inverse middle center
@@ -217,34 +220,33 @@ not by `ls` or another command you might be using wildcards with.
 
 --
 
-- You can make use of this when using shell expansion to *move* or *delete* files:
-  first check what your command will "see", then execute:
+- You can make use of this when using shell expansion to *move* or *delete*
+  files &ndash;
+  first check what your command will see, then execute:
   ```sh
-  $ echo sample[12]*  # Or use `ls`
+  $ echo sample[12]*
   # sample1_F.fastq.gz sample1_R.fastq.gz sample2_F.fastq.gz sample2_R.fastq.gz
   
-  $ rm !$     # !$: recall last arg of last command
+  $ rm sample[12]*    # Recall samples[12]* with "Alt ."
   ```
 
 ---
 
 ## Shell expansion I: Wildcard expansion (cont.)
 
+.content-box-info[
+Examples so far may seem trivial, but you can use these techniques to easily
+operate on selections among 100s or 1000s of files.
+]
+
 <br>
 
-- Examples so far may seem trivial, but you can use these techniques to easily
-  operate on selections among 100s or 1000s of files.
+.content-box-warning[
+Don't confuse wildcards with **regular expressions**!
 
-<br>
-
---
-
-- Don't confuse wildcards with regular expressions!
-
-  - What do **`*`** and **`?`** mean in regular expressions?
-
-  - Regular expressions are useful across the board in programming,  
-    and we will have a Python module devoted to them (week 11).
+Regular expressions are useful across the board when coding,  
+and we will have a Python module devoted to them (week 11).
+]
 
 ---
 class: inverse middle center
@@ -358,28 +360,31 @@ $ ls fig-1{A..G}
 ## `r icon::fa("user-edit")` Solutions: File matching
 
 1. Go into `zmays-snps/data/seqs/` and remove the files in there.
-```sh
-$ cd ../data/seqs/   # Assuming you were still in figs
-$ rm *fastq.gz
-```
+  ```sh
+  $ cd ../data/seqs/   # Assuming you were still in figs
+  $ rm *fastq.gz
+  ```
 
 2. Create empty `R1` and `R2` fastq files for 100 samples:
-```sh
-$ touch sample{001..100}_R{1,2}_001.fastq
-```
+  ```sh
+  $ touch sample{001..100}_R{1,2}_001.fastq
+  ```
 
 3. Count the number of `R1` files:
-```sh
-$ ls sample*R1*fastq | wc -l
-$ ls *R1* | wc -l # This works too but restrictive is often better
-```
+  ```sh
+  $ ls *R1*fastq | wc -l
+  ```
 
 4. **_Bonus:_** Copy all files except "`sample100`" into a new dir called
    `selection`:
-```sh
-$ mkdir selection
-$ cp sample[^1]* selection/
-```
+
+  ```sh
+  $ mkdir selection
+  # Exclude sample numbers starting with a 1:
+  $ cp sample[^1]* selection/
+  # Other way around: Include sample numbers starting with a 0:
+  $ cp sample0* selection/ 
+  ```
 
 ---
 class: inverse middle center
@@ -416,43 +421,6 @@ name: command-sub
   ```
 
 ---
-
-## Side note: Special characters and escaping them
-
-We've seen that the wildcards **`*`** and **`?`** have a special meaning.  
-
-What if we had unwieldy file names,
-and needed to match a *literal* **`*`** or **`?`**
-
---
-
-- A **backslash** ("**`\`**") can be used to "escape" the special meaning
-  of the character that follows it:
-  ```sh
-  $ ls
-  # 'my bad*file'
-  $ rm my\ bad\*file  # Tab autocomplete will work and insert \'s
-  ```
-
---
-
-- **Quoting** a string of characters will also escape special meaning
-  of characters within them, with single quotes (**`'...'`**) being more severe
-  than double quotes (**`"..."`**) &mdash; more on this later. 
-
-  ```sh
-  $ rm 'my bad*file'
-  ```
-
---
-
-.content-box-info[
-Backslashes can also *assign* special meaning
-&ndash; e.g. **`\t`** (tab) and **`\n`** (newline).
-We'll talk more about these *regular expressions* later.
-]
-
----
 class: inverse middle center
 name: renaming
 
@@ -465,17 +433,16 @@ name: renaming
 ## Programmatically renaming files
 
 - There are many different ways to do this in the shell &ndash;  
-  admittedly none as easy as one might have hoped.
-  
-- Here, we'll use the `basename` command and a `for` loop.
+  admittedly none as easy as one might have hoped.  
+  Here, we'll use the `basename` command and a `for` loop.
 
 - `basename` strips any dir name that may be present from a file name (path),
-  and optionally, removes a suffix:
+  and optionally, removes any suffix too:
   ```sh
   $ basename selection/sample001_R1_001.fastq
   # sample001_R1_001.fastq
   
-  # Specify a suffix:
+  # Specify a suffix to remove:
   $ basename selection/sample001_R1_001.fastq "_001.fastq"
   # sample001_R1
   ```
@@ -489,7 +456,7 @@ but are intuitive and good practice.
   
 - The following shows the basic syntax of a for loop,
   and how the variable that is looped over is *assigned* to `oldname`,
-  but *recalled* as `${oldname}`:
+  but *recalled* as `$oldname`:
 
   ```sh
   $ for oldname in *.fastq
@@ -580,7 +547,10 @@ name: permissions
 --
 
 .content-box-info[
-Generally, it is prudent to not give "others" write permissions.
+- Generally, it is prudent to not give "others" write permissions.
+
+- Here, we're also interested in taking away write permission for ourselves
+  for the raw data.
 ]
 
 ---
@@ -641,7 +611,7 @@ $ chmod 744 file.txt
 <br>
 
 .content-box-info[
-**Dir permissions.**  
+**Permissions for directories**  
 One tricky aspects of file permissions is that to list a directory's content,
 you need *execute* permissions for the dir!
 
@@ -656,7 +626,7 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 
 ---
 
-## Changing file permissions: In practice
+## `r icon::fa("user-edit")` Changing file permissions: In practice
 
 - First, let's look at the original permissions of the files:
   ```sh
@@ -685,7 +655,7 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 
 ---
 
-## Sidenote: "The Unix Chainsaw"
+## Sidenote: "[The Unix Chainsaw](https://www.youtube.com/watch?v=sCZJblyT_XM)"
 
 - What will these two commands do?
   (Recall: **`-f`** for *force*, **`-r`** for *recursive*.)
@@ -695,17 +665,7 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
   $ rm -rf tmp-data/aligned-reads *
   ```
 
---
-
-- What are we removing with the last command?
-  ```sh
-  $ mkdir "raw sequences"
-  $ mkdir sequences
-  
-  $ rm -rf raw sequences
-  ```
-
---
+<br>
 
 .content-box-warning[
 Be careful with `rm`, especially `-r` / `-f` / `-rf`.
@@ -716,6 +676,31 @@ Be careful with `rm`, especially `-r` / `-f` / `-rf`.
   using the `rmdir` command (only works when a dir is empty).
 ]
 
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+<br> <br> <br> <br>
+
+---
+class: inverse middle center
+name: bonus
+
+# Bonus Materials
+
+----
+
+<br>
+
+### [Special characters and escaping them](#escape)
+### **[Working with symbolic links](#symlinks)**
+### [More conditional file processing](#conditional)
+### [Two more tricks from Buffalo Ch. 3](#tricks)
+
 ---
 class: inverse middle center
 name: symlinks
@@ -725,7 +710,42 @@ name: symlinks
 ----
 <br><br><br>
 
+
 ---
+background-color: #f2f5eb
+name: escape
+
+## Special characters and escaping them
+
+We saw that wildcards like **`*`** have a special meaning.
+**What if we had terrible file names,
+and needed to match a *literal* `*`**?
+
+- A **backslash** ("**`\`**") can be used to "escape" the special meaning
+  of the character that follows it:
+  ```sh
+  $ ls
+  # 'my bad*file'
+  $ rm my\ bad\*file  # Tab autocomplete will work and insert \'s
+  ```
+
+- **Quoting** a string of characters will also escape special meaning
+  of characters within them, with single quotes (**`'...'`**) being more severe
+  than double quotes (**`"..."`**) &mdash; more on this later. 
+
+  ```sh
+  $ rm 'my bad*file'
+  ```
+
+.content-box-info[
+Backslashes can also *assign* special meaning
+&ndash; e.g. **`\t`** (tab) and **`\n`** (newline).
+We'll talk more about these *regular expressions* later.
+]
+
+---
+background-color: #f2f5eb
+name: symlinks
 
 ## Creating symbolic links: single files
 
@@ -758,6 +778,7 @@ $ ln -s $PWD/shared-scripts/align.sh project1/scripts/
 ]
 
 ---
+background-color: #f2f5eb
 
 ## Creating symbolic links: multiple files
 
@@ -788,6 +809,7 @@ remove the link.
 ]
 
 ---
+background-color: #f2f5eb
 
 ## Creating symbolic links: practice
 
@@ -820,33 +842,12 @@ What will happen if you do `rm -rf $HOME/PLNTPTH8300-SP21`?
 The content of the original dir will be removed.
 ]
 
----
-class: inverse middle center
-
-# Questions?
-
-----
-
-<br> <br> <br> <br>
-
----
-class: inverse middle center
-name: bonus
-
-# Bonus Materials
-
-----
-
-<br>
-
-### [More conditional file processing](#conditional)
-### [Other tricks from Buffalo Ch. 3](#tricks)
 
 ---
 background-color: #f2f5eb
 name:conditional
 
-## Bonus: More conditional file processing
+## More conditional file processing
 
 **To remove all empty files in a directory:**
 
@@ -876,7 +877,7 @@ An overview of *file test operators* that can be used in this way:
 background-color: #f2f5eb
 name:conditional
 
-## Bonus: More conditional file processing
+## More conditional file processing
 
 **To remove all empty files in a directory:**
 
@@ -893,7 +894,7 @@ $ for file in *
 <br>
 
 .content-box-info[
-Code similar to the above can be applied to many tasks,  
+Constructions similar to the one above can be applied to many tasks,  
 though this particular task can be achieved much more concisely
 using `find`:
 
@@ -906,7 +907,7 @@ $ find . -size 0 -delete
 background-color: #f2f5eb
 name:tricks
 
-## More tricks from Buffalo Chapter 3
+## Two more tricks from Buffalo Chapter 3
 
 ### `tee`
 
