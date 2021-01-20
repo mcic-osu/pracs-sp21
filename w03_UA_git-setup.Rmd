@@ -1,5 +1,5 @@
 ---
-title: "Week 3 -- Ungraded Assignment: <br> Git setup and Github authentication"
+title: "Week 3 -- Ungraded Assignment : <br> Git setup and Github authentication"
 output:
   distill::distill_article:
     self_contained: false
@@ -16,7 +16,7 @@ you can also follow them to set up Git for your local computer.*
    <https://ondemand.osc.edu> in one of two ways:
    - Direct shell access: `Clusters` (top blue bar) > `Pitzer Shell Access`.
    - In VS Code: `Interactive Apps` > `Code Server` > then open a terminal
-     using <kbd>Ctrl</kbd>+<kbd>backtick</bkd> > break out of the Singularity
+     using <kbd>Ctrl</kbd>+<kbd>backtick</kbd> > break out of the Singularity
      shell by typing `bash`.
 
 2. **Load the OSC Git module.**  
@@ -28,8 +28,9 @@ you can also follow them to set up Git for your local computer.*
    module load git/2.18.0
    ```
 
-3. **Use `git config` to make your name known to Git.** 
-   Note that this should be your *actual name*, and not your Github username:
+3. **Use `git config` to make your name known to Git.**  
+   Somewhat confusingly, mote that this should be your *actual name*,
+   and not your Github username:
    
    ```sh
    git config --global user.name 'John Doe'
@@ -43,7 +44,7 @@ you can also follow them to set up Git for your local computer.*
    git config --global user.email 'doe.391@osu.edu'
    ```
 
-5. **Use `git config` Set a default text editor for Git**.  
+5. **Use `git config` to set a default text editor for Git**.  
    Occasionally, when you need to provide Git with a "commit message" to Git
    and you haven't entered one on the command line,
    Git will open up a text editor for you.

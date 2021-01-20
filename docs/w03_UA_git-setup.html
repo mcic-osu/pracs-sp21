@@ -85,27 +85,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Week 3 -- Ungraded Assignment: &lt;br&gt; Git setup and Github authentication</title>
+  <title>pracs-sp21: Week 3 -- Ungraded Assignment : &lt;br&gt; Git setup and Github authentication</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Week 3 -- Ungraded Assignment: &lt;br&gt; Git setup and Github authentication"/>
+  <meta property="og:title" content="pracs-sp21: Week 3 -- Ungraded Assignment : &lt;br&gt; Git setup and Github authentication"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Week 3 -- Ungraded Assignment: &lt;br&gt; Git setup and Github authentication"/>
+  <meta property="twitter:title" content="pracs-sp21: Week 3 -- Ungraded Assignment : &lt;br&gt; Git setup and Github authentication"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 3 -- Ungraded Assignment: <br> Git setup and Github authentication"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 3 -- Ungraded Assignment : <br> Git setup and Github authentication"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2447,7 +2447,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Week 3 -- Ungraded Assignment: <br> Git setup and Github authentication","authors":[]}
+{"title":"Week 3 -- Ungraded Assignment : <br> Git setup and Github authentication","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2487,7 +2487,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Week 3 – Ungraded Assignment:   Git setup and Github authentication</h1>
+<h1>Week 3 – Ungraded Assignment :   Git setup and Github authentication</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2502,17 +2502,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 You can do this after logging in at <a href="https://ondemand.osc.edu" class="uri">https://ondemand.osc.edu</a> in one of two ways:</p>
 <ul>
 <li>Direct shell access: <code>Clusters</code> (top blue bar) &gt; <code>Pitzer Shell Access</code>.</li>
-<li>In VS Code: <code>Interactive Apps</code> &gt; <code>Code Server</code> &gt; then open a terminal using <kbd>Ctrl</kbd>+<kbd>backtick</bkd> &gt; break out of the Singularity shell by typing <code>bash</code>.</li>
+<li>In VS Code: <code>Interactive Apps</code> &gt; <code>Code Server</code> &gt; then open a terminal using <kbd>Ctrl</kbd>+<kbd>backtick</kbd> &gt; break out of the Singularity shell by typing <code>bash</code>.</li>
 </ul></li>
 <li><p><strong>Load the OSC Git module.</strong><br />
 (<em>Note</em>: Git is available in any OSC shell without loading any modules, but that is a rather old version – so we load a newer one.)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">module</span> load git/2.18.0</span></code></pre></div></li>
-<li><p><strong>Use <code>git config</code> to make your name known to Git.</strong> Note that this should be your <em>actual name</em>, and not your Github username:</p>
+<li><p><strong>Use <code>git config</code> to make your name known to Git.</strong><br />
+Somewhat confusingly, mote that this should be your <em>actual name</em>, and not your Github username:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">git</span> config --global user.name <span class="st">&#39;John Doe&#39;</span></span></code></pre></div></li>
 <li><p><strong>Use <code>git config</code> to make your email address known to Git.</strong><br />
 <em>Make sure that you use the same email address you used to sign up for Github</em>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">git</span> config --global user.email <span class="st">&#39;doe.391@osu.edu&#39;</span></span></code></pre></div></li>
-<li><p><strong>Use <code>git config</code> Set a default text editor for Git</strong>.<br />
+<li><p><strong>Use <code>git config</code> to set a default text editor for Git</strong>.<br />
 Occasionally, when you need to provide Git with a “commit message” to Git and you haven’t entered one on the command line, Git will open up a text editor for you. Even though we’ll be mostly be working in VS Code during this course, in this case, it is better to select a text editor that can be run within the terminal, like <code>nano</code> (or <code>vim</code>, if you are familiar with it). To specify Nano as your default text editor for Git:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">git</span> config --global core.editor <span class="st">&quot;nano -w&quot;</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a></span>
