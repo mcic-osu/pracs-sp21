@@ -1,0 +1,27 @@
+---
+title: "Week 03"
+description: |
+  Git & Github
+date: 2021-01-25
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+### Slides
+
+- Slides: Part I -- CSB 2.1-2.4 (Git basics) -- Tuesday Zoom (Jan 26)
+
+- Slides: Part I -- CSB 2.1-2.4 (remotes and branching) -- Thursday Zoom (Jan 28)
+
+### Ungraded assignments
+
+- [Git setup & Github authentication](../../w03_UA_git-setup.html)
+
+### Graded assignments
+
+- Graded assignment I: Shell, Markdown and Git

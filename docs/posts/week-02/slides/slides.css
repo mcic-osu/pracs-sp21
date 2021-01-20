@@ -35,6 +35,19 @@ kbd {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+figure {
+  color: #666666;
+  text-align: right;
+  font-style: italic;
+  font-size: smaller;
+  text-indent: 0;
+  /*border: thin silver solid;*/
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+
 /******************
  * Coloured content boxes
  ****************/
