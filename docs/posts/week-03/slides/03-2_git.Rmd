@@ -1,0 +1,738 @@
+---
+title: "Week 3: Git and Github"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## *Week 3: <br> Git and Github*
+
+----
+
+# Part II: Remotes, branching, and merging
+## (CSB 2.5-2.7)
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/01/28 (updated: `r Sys.Date()`)
+
+---
+class:inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### CSB 2.5: [Remote repos](#remote)
+- ### CSB 2.6: [Branching and merging](#branch)
+- ### CSB 2.7 : [Public repos](#public)
+- ### [Some best practices](best-prac)
+]
+
+<br> <br>
+
+---
+
+## CSB 2.5: Remote repositories
+
+We have been locally version-controlling our *originspecies* repo,  
+but now we also want to **keep this repo online, on Github**, to:
+
+- Share our work and/or
+
+- Have an online backup and/or
+
+- Collaborate with others
+
+--
+
+### Creating a Github repo
+While we can interact with online repos using Git commands,  
+we *can't create a new online repo* with the Git CLI.
+
+So, we go to <https://github.com> to create a new repo.
+
+.content-box-info[
+VS Code actually provides functionality to create repos directly.
+]
+
+---
+
+## CSB 2.5: Remote repos &ndash; Creating a Github repo
+
+## TO DO: ADD STEPS
+
+- Note that a `README` file (usually `README.md`) in the top level of the repo
+  will always show up, rendered, on the front page of your repo.
+
+---
+
+## CSB 2.5: Remote repos &ndash; Single-user workflow
+
+In a single-user workflow, all changes are made in the *local repo*,
+and the remote repo is simply periodically updated.
+
+So, the interaction between local and remote is unidirectional:
+
+<figure>
+<p align="center">
+<img src="img/buffalo-remote-uni.png" width="35%">
+<figcaption>Figure from Buffalo (2015)</figcaption>
+</p>
+</figure>
+
+---
+
+## CSB 2.5: Remote repos &ndash; Single-user workflow
+
+In this case, our workflow is only modified by occasional *pushing* to remote:
+
+```sh
+$ git push
+```
+
+<br>
+
+--
+
+.content-box-info[
+Without any arguments, `git push` pushes:
+ - From and to the **currently active *branch*** (`master`/`main` by default)
+ - To the **default remote connection**,
+   which by convention has the nickname `origin`
+   (the nickname simply functions as a shorthand for the URL).
+
+Therefore, assuming the remote is `origin` and the current branch is `master`,
+`git push` is shorthand for:
+
+```sh
+$ git push origin master
+```
+]
+
+---
+
+## CSB 2.5: Remote repos &ndash; Multi-user workflow
+
+A multi-user workflow starts with a second user downloading (*cloning*)  
+the online repo **(b)**:
+
+<figure>
+<p align="center">
+<img src="img/buffalo-remote-1.png" width="70%">
+</p>
+</figure>
+
+---
+
+## CSB 2.5: Remote repos &ndash; Multi-user workflow
+
+- Then, the second user can push their changes to the shared remote **(a)**:
+
+<figure>
+<p align="center">
+<img src="img/buffalo-remote-2a.png" width="70%">
+<figcaption>Figure from Buffalo (2015)</figcaption>
+</p>
+</figure>
+
+---
+
+## CSB 2.5: Remote repos &ndash; Multi-user workflow
+
+- Then, the second user can push their changes to the shared remote **(a)**:
+
+<figure>
+<p align="center">
+<img src="img/buffalo-remote-2.png" width="70%">
+<figcaption>Figure from Buffalo (2015)</figcaption>
+</p>
+</figure>
+
+- To go full circle, the first user (you in this case) then *pulls* in
+  the changes made by the second user **(b)**. 
+
+---
+
+## CSB 2.5: Remote repos &ndash; Multi-user workflow
+
+.content-box-info[
+**Recap:**  
+With a multi-user workflow, changes made by different users are **shared *via*
+the online copy of the repo.**
+
+- Like earlier, changes to your local repo remain local-only unless you
+  actively **push** to remote (i.e., syncing is not automatic!).
+
+- Similarly, changes to the remote repo by someone else only make it into your
+  local repo if you actively **pull** from remote (also *not automatic*).
+]
+
+---
+class:inverse middle center
+
+# CSB 2.6
+
+----
+
+# Branching and merging
+
+<br> <br> <br> <br> <br>
+
+---
+
+## CSB 2.6: Branching and merging &ndash; Code-along
+
+- First, we create a dummy repo with a few commits by running a script:
+  ```sh
+  $ less ../data/create_repository.sh  # press `q` to exit less
+  
+  $ ../data/create_repository.sh
+  ```
+
+- Let's see what has been done in this repo:
+  ```sh
+  $ cd branching_example
+  
+  $ git log --oneline
+  ```
+
+--
+
+<br>
+
+- We want to improve the code, but these changes are experimental, and we want
+  to retain our previous version that we know works.
+  
+  This is where ***branching*** comes in &ndash; we create a new branch as
+  follows:
+  ```sh
+  $ git branch fastercode   # We name the branch "fastercode"
+  ```
+ 
+---
+
+## CSB 2.6: Branching and merging &ndash; Code-along
+
+- Let's see what our log looks like now, and list the branches:
+  ```sh
+  $ git log --oneline
+  ```
+  
+  ```sh
+  $ git branch  # Without args, will list the branches
+  ```
+
+--
+
+- It turns out we created a new branch **but we are still on the master branch**,
+  so we should switch branches:
+  ```sh
+  $ git checkout fastercode  # Note reuse of `checkout` command!
+  ```
+
+- We edit the code, stage and commit the changes:
+  ```sh
+  $ echo "Yeah, faster code" >> code.txt
+  $ git add code.txt
+  $ git commit -m "Managed to make code faster"
+  ```
+
+- Let's check the log again:
+  ```sh
+  $ git log --oneline # Last commit: on branch "fastercode"
+  ```
+
+---
+
+## CSB 2.6: Branching and merging &ndash; Code-along
+
+- We need to switch gears completely within the project,
+  and add references to the paper draft.
+  
+  Since this has nothing to do with our attempt at faster code,
+  we should make these changes back on the `master` branch:
+  
+  ```sh
+  # Move back to master:
+  $ git checkout master
+  
+  # Add the reference:
+  $ echo "Marra et al. 2014" > references.txt
+  
+  # Stage and commit:
+  $ git add references.txt
+  $ git commit -m "Fixed the references"
+  ```
+
+--
+
+- Now we've made changes to each of the two branches.
+  Let's see the log in "graph" format with `--graph`,
+  also listing all branches with `--all`:
+  ```sh
+  $ git log --oneline --graph --all
+  ```
+
+---
+
+## CSB 2.6: Branching and merging &ndash; Code-along
+
+- We actually already finished speeding up the code,
+  but need to document our changes,
+  so we go back to the `fastercode` branch:
+  ```sh
+  $ git checkout fastercode
+  
+  $ echo "# My documentation" >> code.txt
+  $ git add code.txt
+  $ git commit -m "Added comments to the code"
+  ```
+
+- Again we check the log graph:  
+  ```sh
+  $ git log --oneline --all --graph
+  ```
+
+---
+
+## CSB 2.6: Branching and merging &ndash; Code-along
+
+- We are happy with the changes to the code, and want to make the `fastercode`
+  version the default version.
+  
+  This means we should merge the `fastercode` branch back into `master`.
+  To do so, we first have to move back to master:
+  ```sh
+  $ git checkout master
+  ```
+
+- Now we are ready to merge, and we use the `git merge` command.
+  We also provide a commit message, because a merge is always accompanied
+  by a commit:
+  ```sh
+  $ git merge fastercode -m "Much faster version of code"
+  ```
+
+- *Again* we check the log graph:  
+  ```sh
+  $ git log --oneline --all --graph
+  ```
+
+---
+
+## CSB 2.6: Branching and merging &ndash; Code-along
+
+- We no longer need the `fastercode` branch, so we can delete it:
+  ```sh
+  git branch -d fastercode
+  ```
+
+- Again we check the log graph:
+  ```sh
+  git log --oneline --all --graph
+  ```
+
+---
+
+## CSB 2.6: Branching and merging &ndash; Workflow summary
+
+<figure>
+<p align="center">
+<img src="img/csb-branch.png" width="100%">
+<figcaption>Figure from Allesino & Wilmes (2019)</figcaption>
+</p>
+</figure>
+
+---
+
+## CSB 2.6: Branching and merging &ndash; Workflow summary
+
+```sh
+# Create a new branch:
+$ git branch mybranch
+
+# Move to new branch:
+$ git checkout mybranch
+
+# Add and commit changes:
+$ git add --all
+$ git commit -m "my message"
+
+# Done with branch -- move back to main trunk and merge
+$ git checkout master
+$ git merge mybranch -m "message for merge"
+
+# And [optionally] delete the branch:
+$ git -d mybranch
+```
+
+---
+
+---
+
+## Intermezzo 2.2
+
+**(a)** Move to the directory `CSB/git/sandbox`.
+
+**(b)** Create a directory `thesis` and turn it into a Git repository.
+
+**(c)** Create the file `introduction.txt` with the line *"The best introduction
+ever."*
+
+**(d)** Stage `introduction.txt` and commit with the message *"Started introduction."*
+
+**(e)** Create the branch `newintro` and change into it.
+
+**(f)** Change (overwrite) the contents of `introduction.txt`, create a new file  `methods.txt`, and commit.
+
+**(g)** Look at the commit history of the branches.
+
+**(h)** Change to the branch `master`, merge, and confirm that the changes you
+performed within the branch `newintro` are now also part of the branch
+`master`.
+
+**(i)** Delete the branch `newintro`.
+
+---
+
+## Intermezzo 2.2: Solutions
+
+**(a)** Move to the directory `CSB/git/sandbox`:
+
+```sh
+$ cd ∼/CSB/git/sandbox
+```
+
+**(b)** Create a directory `thesis` and turn it into a Git repository:
+
+```sh
+$ mkdir thesis
+$ cd thesis
+$ git init
+```
+
+**(c)** Create the file `introduction.txt`:
+```sh
+$ echo "The best introduction ever" > introduction.txt
+```
+
+**(d)** Stage and commit `introduction.txt`:
+```sh
+$ git add introduction.txt
+$ git commit -m "Started introduction"
+```
+
+---
+
+## Intermezzo 2.2: Solutions (cont.)
+
+**(e)** Create the branch `newintro` and change into it:
+```sh
+$ git branch newintro
+$ git checkout newintro
+```
+
+**(f)** Change the contents of `introduction.txt`, create a new file  `methods.txt`, and commit:
+```sh
+$ echo "A much better introduction" > introduction.txt
+$ touch methods.txt
+$ git add --all
+$ git commit -m "A new introduction and methods file"
+```
+
+**(g)** Look at the commit history of the branches:
+```sh
+$ git log --oneline
+```
+
+---
+
+## Intermezzo 2.2: Solutions (cont.)
+
+**(h)** Change to the branch `master`, merge, and confirm that the `newintro`
+changes are in `master`:
+```sh
+$ git checkout master
+$ git merge newintro
+$ ls
+$ cat introduction.txt
+```
+
+**(i)** Delete the branch `newintro`:
+```sh
+$ git branch -d newintro
+$ git log --oneline
+```
+
+---
+
+## CSB 2.6: Viewing past versions
+
+Let's say we wanted to go back and see what our project looked like at the
+time of a certain commit in the past.
+
+- First, we get an overview of past commits and their messages:
+  ```sh
+  $ git log --oneline --all --graph
+  ```
+
+- We find a commit we want to go back to, and look around:
+  ```sh
+  $ git checkout <sha-id> # Replace <sha-id> by an actual hash
+  
+  $ less myfile.txt       # Etc. ...
+  ```
+
+- To go back to where we were originally:
+  ```sh
+  $ git checkout master
+  ```
+
+.content-box-info[
+If you want to revert your repo back to an earlier state,
+it's best to move back to the present, as above, and then use `git revert`.
+]
+
+---
+
+## CSB 2.6: Viewing past versions (cont.)
+
+.content-box-warning[
+Note the confusing re-use of `git checkout`!
+We have now seen `git checkout` being used to:
+  - Move between branches
+  - Revert files back to previous states
+  - Move to previous commits to explore
+]
+
+<figure>
+<p align="center">
+<img src="img/git-checkout-softcarp.svg" width="80%">
+<figcaption>Figure from swcarpentry.github.io</figcaption>
+</p>
+</figure>
+
+---
+
+
+## CSB 2.6: Resolving merge conflicts
+
+```sh
+$ code <conflicting-file> # Show features!
+```
+
+## TODO
+
+---
+class:inverse middle center
+
+# CSB 2.7
+
+----
+
+# Contributing to public repositories
+
+<br> <br> <br>
+
+---
+
+## CSB 2.7: What can you do with <br> someone else's GitHub repository?
+
+If you do not have rights to *push*, you can:
+  
+  - **Clone** the repo and make changes locally (as we do with `CSB`).
+  
+  - **Fork** the repository and develop it independently (!)
+  
+  - Submit a **pull request** with proposed changes to the repo,  
+    if you want to contribute to the original project.
+
+--
+
+<br>
+.content-box-info[
+If it's a project your collaborating on, you should ask your collaborator
+to give you admin rights for the repo.
+]
+
+---
+
+## CSB 2.7: Pull requests
+
+## TODO
+
+- Show forking and how this is displayed in the forked repo.
+  - Make a change
+  - Will say "1 commit ahead" -> Click `Compare`
+  - `Create Pull Request`
+
+---
+class:inverse middle center
+
+# In closing: Some best practices for Git
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## Some best practices for Git
+
+- **Write informative commit messages.**  
+  Imagine looking back at your project
+  in a few months, after finding an error that you introduced a while ago.
+
+  - **Bad:** "Updated file"
+  - **Good:** "Updated x function to include y"
+
+--
+
+- **Commit often, using small commits.**  
+  This will also help to keep commit messages informative!
+
+- **Before committing, check what you've changed.**  
+  Use `git diff [--staged]` or VS Code functionality.
+
+.content-box-info[
+Separate commits if your working dir contains work from disparate edits:
+use `git add` + `git commit` separately for two sets of files.
+]
+
+--
+
+- **When collaborating: pull often.**  
+  This will reduce the chances of merge conflicts.
+
+- **Don't commit unnecessary files.**  
+  These can also lead to conflicts.
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+<br> <br> <br> <br>
+
+---
+class: inverse middle center
+
+# Bonus Materials
+
+----
+
+<br>
+
+.left[
+- ### [git stash](#stash)
+- ### [Examining/reverting to earlier versions of *files*](#)
+]
+
+<br> <br>
+
+
+---
+background-color: #f2f5eb
+name: stash
+
+## `git stash`
+
+Git stash can be useful when you need to pull from remote,
+but have changes in your working dir that:
+  - Are not appropriate for a separate commit
+  - Are not worth starting a new branch for because you want to get these
+    changes back on the current branch immediately.
+
+<br>
+
+```sh
+# Stash changes to tracked files:
+$ git stash    # Note: add option -u to include untracked files
+
+# Pull from the remote repository:
+$ git pull
+
+# Apply stashed changes:
+$ git stash apply
+```
+
+---
+background-color: #f2f5eb
+name: ex-previous
+
+## Examining/reverting to earlier versions of *files*
+
+- Get a version of a file from a past commit:
+
+  ```sh
+  git checkout HEAD^^ -- README.md   # Second-to-last commit
+  git checkout ad4ca74 -- README.md  # Arbitrary commit
+  
+  less README.md  # This will now be "the old version"
+  git status      # "The old version" has been staged
+  ```
+
+- Nope, please take me back to my current version:
+
+  ```sh
+  git checkout HEAD -- README.md
+  
+  less README.md  # Back to the current version
+  git status      # Up-to-date
+  ```
+
+.content-box-warning[
+Don't do this when you have uncommitted changes to the same file:
+those will be lost!
+(Recall how we used the same command to undo working dir changes...)
+]
+
+---
+background-color: #f2f5eb
+
+## Examining/reverting to earlier versions of *files*
+
+- Get a version of a file from a past commit:
+
+  ```sh
+  git checkout HEAD^^ -- README.md   # Second-to-last commit
+  git checkout ad4ca74 -- README.md  # Arbitrary commit
+  
+  less README.md  # Reverted to an old version
+  git status      # The old version has been staged
+  ```
+
+- Nope, please take me back to my current version:
+
+  ```sh
+  git checkout HEAD -- README.md
+  
+  less README.md  # Back to the current version
+  git status      # Up-to-date
+  ```
+
+.content-box-info[
+An alternative method:
+```sh
+git show ad4ca74:README.md             # View
+git show ad4ca74:README.md > README.md # Revert
+```
+]

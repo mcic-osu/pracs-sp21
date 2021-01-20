@@ -5,45 +5,51 @@ output:
     self_contained: false
 ---
 
-## Git Setup
+## Part 1: Git setup
 
 *These instructions are for setting up Git at OSC,
 but from Step 3 onwards,
 you can also follow them to set up Git for your local computer.*
 
-1. Open up a terminal at OSC: go to <https://ondemand.osc.edu>,
-   log in, click on `Clusters` in the top blue bar,
-   and then on `Pitzer Shell Access`.
-   (Alternatively, if you know how to, you can `ssh`
-   in from your local shell.)
+1. **Open up a terminal at OSC.**  
+   You can do this after logging in at
+   <https://ondemand.osc.edu> in one of two ways:
+   - Direct shell access: `Clusters` (top blue bar) > `Pitzer Shell Access`.
+   - In VS Code: `Interactive Apps` > `Code Server` > then open a terminal
+     using <kbd>Ctrl</kbd>+<kbd>backtick</bkd> > break out of the Singularity
+     shell by typing `bash`.
 
-2. Load the Git module (*note*: Git is available in any OSC shell without
-   loading any modules, but this is a rather old version):
+2. **Load the OSC Git module.**  
+   (*Note*: Git is available in any OSC shell without
+   loading any modules, but that is a rather old version -- so we load a
+   newer one.)
    
    ```sh
    module load git/2.18.0
    ```
 
-3. Use `git config` to make your name known to Git.
+3. **Use `git config` to make your name known to Git.** 
    Note that this should be your *actual name*, and not your Github username:
    
    ```sh
    git config --global user.name 'John Doe'
   ````
 
-4. Use `git config` to make your email address known to Git.
-   *Make sure that you use the same email address you used to sign up for Github*.
+4. **Use `git config` to make your email address known to Git.**  
+   *Make sure that you use the same email address you used to sign up for
+   Github*.
    
    ```sh
    git config --global user.email 'doe.391@osu.edu'
    ```
 
-5. Occasionally, when you need to provide Git with a "commit message" to Git and
-   you haven't entered one on the command line,
+5. **Use `git config` Set a default text editor for Git**.  
+   Occasionally, when you need to provide Git with a "commit message" to Git
+   and you haven't entered one on the command line,
    Git will open up a text editor for you.
    Even though we'll be mostly be working in VS Code during this course,
    in this case, it is better to select a text editor that can be run within the
-   terminal, like `nano` (or `vim` if you are familiar with it)
+   terminal, like `nano` (or `vim`, if you are familiar with it).
    To specify Nano as your default text editor for Git:
 
    ```sh
@@ -54,7 +60,7 @@ you can also follow them to set up Git for your local computer.*
    # git config --global core.editor "code --wait"
    ```
 
-5. Check whether you successfully changed the settings:
+5. **Check whether you successfully changed the settings:**  
 
    ```sh
    git config --global --list
@@ -65,8 +71,9 @@ you can also follow them to set up Git for your local computer.*
    # core.editor=nano -w
    ```
 
-6. Make sure you see `colour.ui=true` in the list (like above),
-   so Git output will use colors.
+6. **Set colors if needed.**  
+   Make sure you see `colour.ui=true` in the list (like above),
+   so Git output in the terminal will use colors.
    If you don't see this line, set it using:
   
    ```sh
@@ -75,7 +82,7 @@ you can also follow them to set up Git for your local computer.*
 
 <br>
 
-## Github Setup
+## Part 2: Github setup
 
 ### Github authentication: Background
 
@@ -89,7 +96,7 @@ or `HTTPS` access with a *Public Access Token*.
 We'll use `SSH`, as it is easier -- though still a bit of drag --
 and because learning this procedure will also be useful
 for when you'll be setting up SSH access to the Ohio Supercomputer Center.
-(But note that Github now labels `HTTPS` access as the preferred method.)
+(But note that Github now labels `HTTPS` access as the "preferred" method.)
 
 For everything on Github, there are separate SSH and HTTPS URLs,
 and Github will always show you both types of URLs.
