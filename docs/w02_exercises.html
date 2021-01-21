@@ -2554,7 +2554,9 @@ Make sure no-one has write permissions for the raw data files. You can also chan
 <details>
 <summary>Hints</summary>
 <p>
-Use the <code>chmod</code> command to change file permissions and recall that you can use wildcard expansion to operate on many files at once. Alternatively, <code>chmod</code> also has an <code>-R</code> argument to act <strong>r</strong>ecursively: that is, to act on dirs and all of their contents (including other dirs and <em>their</em> contents).
+<p>Use the <code>chmod</code> command to change file permissions and recall that you can use wildcard expansion to operate on many files at once.</p>
+<p>See the slides starting from <a href="https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-shfiles.html#permissions">here</a> for an overview of file permissions and the <code>chmod</code> command.</p>
+Alternatively, <code>chmod</code> also has an <code>-R</code> argument to act <strong>r</strong>ecursively: that is, to act on dirs and all of their contents (including other dirs and <em>their</em> contents).
 </p>
 </details>
 <ol start="5" type="1">
@@ -2581,7 +2583,7 @@ Woops! We stored the alignment files that we created in the previous step as SAM
 <li>Loop over the files using globbing (wildcard expansion) directly; there is no need to call <code>ls</code>.</li>
 <li>Use the <code>basename</code> command, or alternatively, <code>cut</code>, to strip the extension.</li>
 <li>Store the output of the <code>basename</code> (or <code>cut</code>) call using command substitution (<code>$(command)</code> syntax).</li>
-<li>The new extension can simply be pasted behind the file name, like <code>newname=${filename_no_extension}bam</code> or <code>newname=$(basename ...)bam</code>.</li>
+<li>The new extension can simply be pasted behind the file name, like <code>newname="$filename_no_extension"bam</code> or <code>newname=$(basename ...)bam</code>.</li>
 </ul>
 </p>
 </details>
@@ -2624,7 +2626,7 @@ You now realize that your date format is suboptimal (<code>MM-DD-YYYY</code>; wh
 <ul>
 <li>Use <code>cut</code> to extract the three elements of the date (day, month, and year) on three separate lines.</li>
 <li>Store the output of these lines in variables using commands substitution, like: <code>day=$(commands)</code>.</li>
-<li>Finally, paste your new file name together like: <code>newname=${part1}_${year}</code> etc.</li>
+<li>Finally, paste your new file name together like: <code>newname="$part1"_"$year"</code> etc.</li>
 <li>When first writing your commands, it’s helpful to be able to experiment easily: start by echo-ing a single example file name, as in: <code>echo sample23_C_09-16-2020.sam | cut ...</code>.</li>
 </ul>
 </p>
@@ -2694,9 +2696,9 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 <summary>4. Change file permissions</summary>
 <p>
 <p>To ensure that no-one has write permission for the raw data, you could, for example, use:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">chmod</span> a=r data/raw/*</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">chmod</span> a=r data/raw/*   <span class="co"># set permissions for &quot;a&quot; (all) to &quot;r&quot; (read)</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">chmod</span> a-w data/raw/*</span></code></pre></div>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">chmod</span> a-w data/raw/*   <span class="co"># take away &quot;w&quot; (write) permissions for &quot;a&quot; (all)</span></span></code></pre></div>
 </p>
 </details>
 <details>
@@ -2730,11 +2732,11 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 <span id="cb7-11"><a href="#cb7-11"></a>   <span class="co"># Report what we have:</span></span>
 <span id="cb7-12"><a href="#cb7-12"></a>   <span class="co"># (Using `-e` with echo we can print an extra newline with &#39;\n`,</span></span>
 <span id="cb7-13"><a href="#cb7-13"></a>   <span class="co"># to separate files by an empty line)</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a>   <span class="bu">echo</span> <span class="st">&quot;Old name: </span><span class="va">${oldname}</span><span class="st">&quot;</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a>   <span class="bu">echo</span> -e <span class="st">&quot;New name: </span><span class="va">${newname}</span><span class="st"> \n&quot;</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a>   <span class="bu">echo</span> <span class="st">&quot;Old name: </span><span class="va">$oldname</span><span class="st">&quot;</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a>   <span class="bu">echo</span> -e <span class="st">&quot;New name: </span><span class="va">$newname</span><span class="st"> \n&quot;</span></span>
 <span id="cb7-16"><a href="#cb7-16"></a>   </span>
 <span id="cb7-17"><a href="#cb7-17"></a>   <span class="co"># Execute the move:</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a>   <span class="fu">mv</span> <span class="va">${oldname}</span> <span class="va">${newname}</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>   <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$newname</span><span class="st">&quot;</span></span>
 <span id="cb7-19"><a href="#cb7-19"></a><span class="kw">done</span></span></code></pre></div>
 <p>A couple of take-aways:</p>
 <ul>
@@ -2795,21 +2797,23 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 <span id="cb14-2"><a href="#cb14-2"></a><span class="kw">do</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a>   <span class="co"># Use `cut` to extract month, day, year, and a &quot;prefix&quot; that contains</span></span>
 <span id="cb14-4"><a href="#cb14-4"></a>   <span class="co"># the sample number and the treatment, and save these using command substitution:</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a>   <span class="va">month=$(</span><span class="bu">echo</span> <span class="va">${oldname}</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 1<span class="va">)</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a>   <span class="va">day=$(</span><span class="bu">echo</span> <span class="va">${oldname}</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 2<span class="va">)</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a>   <span class="va">year=$(</span><span class="fu">basename</span> <span class="va">${oldname}</span> .bam <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 3<span class="va">)</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a>   <span class="va">prefix=$(</span><span class="bu">echo</span> <span class="va">${oldname}</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 1-2<span class="va">)</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>   <span class="va">month=$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 1<span class="va">)</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a>   <span class="va">day=$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 2<span class="va">)</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a>   <span class="va">year=$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> .bam <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 3 <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;-&quot;</span> -f 3<span class="va">)</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>   <span class="va">prefix=$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> -d <span class="st">&quot;_&quot;</span> -f 1-2<span class="va">)</span></span>
 <span id="cb14-9"><a href="#cb14-9"></a>   </span>
 <span id="cb14-10"><a href="#cb14-10"></a>   <span class="co"># Paste together the new name:</span></span>
-<span id="cb14-11"><a href="#cb14-11"></a>   <span class="va">newname=${prefix}</span>_<span class="va">${year}</span>-<span class="va">${month}</span>-<span class="va">${day}</span>.bam</span>
-<span id="cb14-12"><a href="#cb14-12"></a>   </span>
-<span id="cb14-13"><a href="#cb14-13"></a>   <span class="co"># Report what we have:</span></span>
-<span id="cb14-14"><a href="#cb14-14"></a>   <span class="bu">echo</span> <span class="st">&quot;Old name: </span><span class="va">${oldname}</span><span class="st">&quot;</span></span>
-<span id="cb14-15"><a href="#cb14-15"></a>   <span class="bu">echo</span> -e <span class="st">&quot;New name: </span><span class="va">${newname}</span><span class="st"> \n&quot;</span></span>
-<span id="cb14-16"><a href="#cb14-16"></a>   </span>
-<span id="cb14-17"><a href="#cb14-17"></a>   <span class="co"># Execute the move:</span></span>
-<span id="cb14-18"><a href="#cb14-18"></a>   <span class="fu">mv</span> <span class="va">${oldname}</span> <span class="va">${newname}</span></span>
-<span id="cb14-19"><a href="#cb14-19"></a><span class="kw">done</span></span></code></pre></div>
+<span id="cb14-11"><a href="#cb14-11"></a>   <span class="co"># (This will fail without quotes around prefix, because the underscore</span></span>
+<span id="cb14-12"><a href="#cb14-12"></a>   <span class="co"># is then interpreted as being part of the variable name.)</span></span>
+<span id="cb14-13"><a href="#cb14-13"></a>   <span class="va">newname=</span><span class="st">&quot;</span><span class="va">$prefix</span><span class="st">&quot;</span>_<span class="st">&quot;</span><span class="va">$year</span><span class="st">&quot;</span>-<span class="st">&quot;</span><span class="va">$month</span><span class="st">&quot;</span>-<span class="st">&quot;</span><span class="va">$day</span><span class="st">&quot;</span>.bam</span>
+<span id="cb14-14"><a href="#cb14-14"></a>   </span>
+<span id="cb14-15"><a href="#cb14-15"></a>   <span class="co"># Report what we have:</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a>   <span class="bu">echo</span> <span class="st">&quot;Old name: </span><span class="va">$oldname</span><span class="st">&quot;</span></span>
+<span id="cb14-17"><a href="#cb14-17"></a>   <span class="bu">echo</span> -e <span class="st">&quot;New name: </span><span class="va">$newname</span><span class="st"> \n&quot;</span></span>
+<span id="cb14-18"><a href="#cb14-18"></a>   </span>
+<span id="cb14-19"><a href="#cb14-19"></a>   <span class="co"># Execute the move:</span></span>
+<span id="cb14-20"><a href="#cb14-20"></a>   <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$newname</span><span class="st">&quot;</span></span>
+<span id="cb14-21"><a href="#cb14-21"></a><span class="kw">done</span></span></code></pre></div>
 <div class="content-box-info">
 <div>
 <p>This renaming task can be done more succinctly using <em>regular expressions</em> and the <code>sed</code> command – we’ll learn about both of these topics later in the course.</p>

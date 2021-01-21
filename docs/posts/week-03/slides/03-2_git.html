@@ -6,6 +6,7 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
@@ -59,7 +60,7 @@ but now we also want to **keep this repo online, on Github**, to:
 
 --
 
-### Creating a Github repo
+### CSB 2.5: Creating a Github repo
 While we can interact with online repos using Git commands,  
 we *can't create a new online repo* with the Git CLI.
 
@@ -71,14 +72,116 @@ VS Code actually provides functionality to create repos directly.
 
 ---
 
-## CSB 2.5: Remote repos &amp;ndash; Creating a Github repo
+## CSB 2.5: Creating a Github repo (cont.)
 
-## TO DO: ADD STEPS
+1. Go to &lt;https://github.com&gt; and sign in.
 
-- Note that a `README` file (usually `README.md`) in the top level of the repo
-  will always show up, rendered, on the front page of your repo.
+2. In the right-hand side bar, click the green `New` button
+   (next to Repositories).
+
+3. In the box `Repository name`, we'll use the same name that we gave to our
+   local repository: `originspecies` (*Note:* the names don't need to match up.)
+
+4. Leave other options as they are.  
+   (We're not added a README or other files, since we've already started a repo
+   locally &amp;ndash; that would make more sense when doing "online-first".)
+
+5. Click `Create Repository`.
 
 ---
+
+## CSB 2.5: Linking the local and remote repo's
+
+&lt;p align="center"&gt;
+&lt;img src=img/github-newrepo2.png width=70%&gt;
+&lt;/p&gt;
+
+- Note that you can click on the `HTTPS`/`SSH` button to change the URLs!
+
+---
+
+## CSB 2.5: Linking the local and remote repo's (cont.)
+
+We go back to the shell in VS Code, where we'll enter the commands under
+"*...or push an existing repository from the command line*" which is our use case.
+
+Breaking these commands down:
+
+- First, we tell Git to add a "remote" connection,
+  using the `git remote` command.
+  We provide three arguments to this command:
+  
+  - `add` &amp;ndash; because we're adding a remote
+  
+  - `origin` &amp;ndash; the nickname we're giving the connection.  
+    This is an arbitrary name but is usually *origin* by convention.   
+    (Note that a local repo can have multiple remote connections.)
+  
+  - The SSH URL to the Github repo.
+
+  ```sh
+  # git remote add &lt;remote-nickname&gt; &lt;URL&gt;
+  $ git remote add origin git@github.com:&lt;user&gt;/originspecies.git
+  ```
+
+---
+
+## CSB 2.5: Linking the local and remote repo's (cont.)
+
+- Second, we rename the default branch from `master` to `main`
+  (Github since recently uses `main` as the default branch):
+  ```sh
+  $ git branch -M main
+  ```
+
+- Third, we push our local repo to remote using `git push`.  
+  Whenever we push a branch for the first time,
+  we need to `-u` flag to set up an "upstream" counterpart:
+  ```sh
+  $ git push -u origin main
+  ```
+
+--
+
+.content-box-info[
+Without any arguments, `git push` pushes:
+ - To &amp; from the **currently active *branch*** (default: `master`/`main`)
+ - To the **default remote connection**.
+
+Therefore, from now on, we can mostly just use:
+
+```sh
+$ git push
+```
+]
+
+---
+
+## CSB 2.5: Updating the local repo and pushing to remote
+
+- Back at Github, click on `Code` in the lower of the top bars.  
+  Now, we can see the files that we just uploaded from our local repo.
+  
+&lt;br&gt;
+
+- Click where it says `x commits` (should be 4) with a clock icon,  
+  and you'll get an overview of commits somewhat like with `git log`.
+  
+  On the right hand side, there are three buttons for each commit:
+
+  - Click the hash (hexadecimal ID) to see changes made by that commit.
+  
+  - Click the &lt;kbd&gt;&lt; &gt;&lt;/kbd&gt; to see the state of the repo at the time
+    of that commit.
+  
+  &lt;figure&gt;
+  &lt;p align="center"&gt;
+  &lt;img src="img/github-commits.png" width="35%"&gt;
+  &lt;/p&gt;
+  &lt;/figure&gt;
+
+---
+
 
 ## CSB 2.5: Remote repos &amp;ndash; Single-user workflow
 
@@ -96,43 +199,41 @@ So, the interaction between local and remote is unidirectional:
 
 ---
 
-## CSB 2.5: Remote repos &amp;ndash; Single-user workflow
+## CSB 2.5: Remote repos &amp;ndash; Single-user workflow (cont.)
 
-In this case, our workflow is only modified by occasional *pushing* to remote:
+With a single-user workflow, our workflow is only modified by occasional *pushing* to remote.
 
-```sh
-$ git push
-```
+- Let's add a README.md file, and commit:
+  ```sh
+  $ echo "# Origin" &gt; README.md
+  $ echo "Repo for book draft on my new **theory**" &gt;&gt; README.md
+  $ git add README.md
+  $ git commit -m "Added a README"
+  ```
+
+- Now, we push to remote:
+  ```sh
+  $ git push
+  ```
 
 &lt;br&gt;
 
---
-
 .content-box-info[
-Without any arguments, `git push` pushes:
- - From and to the **currently active *branch*** (`master`/`main` by default)
- - To the **default remote connection**,
-   which by convention has the nickname `origin`
-   (the nickname simply functions as a shorthand for the URL).
-
-Therefore, assuming the remote is `origin` and the current branch is `master`,
-`git push` is shorthand for:
-
-```sh
-$ git push origin master
-```
+If we go back to Github, we show that the contents of the README.md
+automatically shows up as a rendered Markdown file!
 ]
 
 ---
 
 ## CSB 2.5: Remote repos &amp;ndash; Multi-user workflow
 
-A multi-user workflow starts with a second user downloading (*cloning*)  
-the online repo **(b)**:
+A multi-user workflow starts when a second user downloads (*clones*)  
+the online repo, as in **(b)** below:
 
 &lt;figure&gt;
 &lt;p align="center"&gt;
 &lt;img src="img/buffalo-remote-1.png" width="70%"&gt;
+&lt;figcaption&gt;Figure from Buffalo (2015)&lt;/figcaption&gt;
 &lt;/p&gt;
 &lt;/figure&gt;
 
@@ -171,14 +272,16 @@ the online repo **(b)**:
 
 .content-box-info[
 **Recap:**  
-With a multi-user workflow, changes made by different users are **shared *via*
-the online copy of the repo.**
 
-- Like earlier, changes to your local repo remain local-only unless you
-  actively **push** to remote (i.e., syncing is not automatic!).
+With a multi-user workflow, changes made by different users are *shared via
+the online copy of the repo.*
 
-- Similarly, changes to the remote repo by someone else only make it into your
-  local repo if you actively **pull** from remote (also *not automatic*).
+But **syncing is not automatic**:
+
+- Changes to your local repo remain local-only until you **push** to remote.
+
+- Someone else's changes to the remote repo do not make it into your
+  local repo until you **pull** from remote.
 ]
 
 ---
@@ -382,9 +485,7 @@ $ git -d mybranch
 
 ---
 
----
-
-## Intermezzo 2.2
+## <i class="fas  fa-user-edit "></i> Intermezzo 2.2
 
 **(a)** Move to the directory `CSB/git/sandbox`.
 
@@ -409,7 +510,7 @@ performed within the branch `newintro` are now also part of the branch
 
 ---
 
-## Intermezzo 2.2: Solutions
+## <i class="fas  fa-user-edit "></i> Intermezzo 2.2: Solutions
 
 **(a)** Move to the directory `CSB/git/sandbox`:
 
@@ -438,7 +539,7 @@ $ git commit -m "Started introduction"
 
 ---
 
-## Intermezzo 2.2: Solutions (cont.)
+## <i class="fas  fa-user-edit "></i> Intermezzo 2.2: Solutions (cont.)
 
 **(e)** Create the branch `newintro` and change into it:
 ```sh
@@ -461,7 +562,7 @@ $ git log --oneline
 
 ---
 
-## Intermezzo 2.2: Solutions (cont.)
+## <i class="fas  fa-user-edit "></i> Intermezzo 2.2: Solutions (cont.)
 
 **(h)** Change to the branch `master`, merge, and confirm that the `newintro`
 changes are in `master`:
@@ -477,65 +578,6 @@ $ cat introduction.txt
 $ git branch -d newintro
 $ git log --oneline
 ```
-
----
-
-## CSB 2.6: Viewing past versions
-
-Let's say we wanted to go back and see what our project looked like at the
-time of a certain commit in the past.
-
-- First, we get an overview of past commits and their messages:
-  ```sh
-  $ git log --oneline --all --graph
-  ```
-
-- We find a commit we want to go back to, and look around:
-  ```sh
-  $ git checkout &lt;sha-id&gt; # Replace &lt;sha-id&gt; by an actual hash
-  
-  $ less myfile.txt       # Etc. ...
-  ```
-
-- To go back to where we were originally:
-  ```sh
-  $ git checkout master
-  ```
-
-.content-box-info[
-If you want to revert your repo back to an earlier state,
-it's best to move back to the present, as above, and then use `git revert`.
-]
-
----
-
-## CSB 2.6: Viewing past versions (cont.)
-
-.content-box-warning[
-Note the confusing re-use of `git checkout`!
-We have now seen `git checkout` being used to:
-  - Move between branches
-  - Revert files back to previous states
-  - Move to previous commits to explore
-]
-
-&lt;figure&gt;
-&lt;p align="center"&gt;
-&lt;img src="img/git-checkout-softcarp.svg" width="80%"&gt;
-&lt;figcaption&gt;Figure from swcarpentry.github.io&lt;/figcaption&gt;
-&lt;/p&gt;
-&lt;/figure&gt;
-
----
-
-
-## CSB 2.6: Resolving merge conflicts
-
-```sh
-$ code &lt;conflicting-file&gt; # Show features!
-```
-
-## TODO
 
 ---
 class:inverse middle center
@@ -558,7 +600,8 @@ If you do not have rights to *push*, you can:
   
   - **Fork** the repository and develop it independently (!)
   
-  - Submit a **pull request** with proposed changes to the repo,  
+  - Submit a **pull request** [**(bonus slides)**](#pull-request)
+    with proposed changes to the repo,  
     if you want to contribute to the original project.
 
 --
@@ -568,17 +611,6 @@ If you do not have rights to *push*, you can:
 If it's a project your collaborating on, you should ask your collaborator
 to give you admin rights for the repo.
 ]
-
----
-
-## CSB 2.7: Pull requests
-
-## TODO
-
-- Show forking and how this is displayed in the forked repo.
-  - Make a change
-  - Will say "1 commit ahead" -&gt; Click `Compare`
-  - `Create Pull Request`
 
 ---
 class:inverse middle center
@@ -641,7 +673,8 @@ class: inverse middle center
 
 .left[
 - ### [git stash](#stash)
-- ### [Examining/reverting to earlier versions of *files*](#)
+- ### [Resolving merge conflicts](#merge-conflict)
+- ### [Forking and creating a Pull Request](#pr)
 ]
 
 &lt;br&gt; &lt;br&gt;
@@ -674,66 +707,28 @@ $ git stash apply
 
 ---
 background-color: #f2f5eb
-name: ex-previous
+name: merge-conflict
 
-## Examining/reverting to earlier versions of *files*
+## CSB 2.6: Resolving merge conflicts
 
-- Get a version of a file from a past commit:
+```sh
+$ code &lt;conflicting-file&gt; # Show features!
+```
 
-  ```sh
-  git checkout HEAD^^ -- README.md   # Second-to-last commit
-  git checkout ad4ca74 -- README.md  # Arbitrary commit
-  
-  less README.md  # This will now be "the old version"
-  git status      # "The old version" has been staged
-  ```
-
-- Nope, please take me back to my current version:
-
-  ```sh
-  git checkout HEAD -- README.md
-  
-  less README.md  # Back to the current version
-  git status      # Up-to-date
-  ```
-
-.content-box-warning[
-Don't do this when you have uncommitted changes to the same file:
-those will be lost!
-(Recall how we used the same command to undo working dir changes...)
-]
+## TODO
 
 ---
 background-color: #f2f5eb
+name: pr
 
-## Examining/reverting to earlier versions of *files*
+## CSB 2.7: Forking and creating a Pull Request
 
-- Get a version of a file from a past commit:
+## TODO
 
-  ```sh
-  git checkout HEAD^^ -- README.md   # Second-to-last commit
-  git checkout ad4ca74 -- README.md  # Arbitrary commit
-  
-  less README.md  # Reverted to an old version
-  git status      # The old version has been staged
-  ```
-
-- Nope, please take me back to my current version:
-
-  ```sh
-  git checkout HEAD -- README.md
-  
-  less README.md  # Back to the current version
-  git status      # Up-to-date
-  ```
-
-.content-box-info[
-An alternative method:
-```sh
-git show ad4ca74:README.md             # View
-git show ad4ca74:README.md &gt; README.md # Revert
-```
-]
+- Show forking and how this is displayed in the forked repo.
+  - Make a change
+  - Will say "1 commit ahead" -&gt; Click `Compare`
+  - `Create Pull Request`
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
