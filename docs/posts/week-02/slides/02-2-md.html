@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021-01-19 (updated: 2021-01-19)
+### 2021-01-19 (updated: 2021-01-21)
 
 ---
 class: center middle inverse
@@ -274,6 +274,35 @@ Learn more about Markdown and its syntax in this excellent documentation:
 &lt;img src=img/markdown-preview-vscode.png width=8%&gt;
 &lt;/p&gt;
 
+
+---
+
+## VS Code setup &amp;ndash; Thursday
+
+- **Launch VS Code**: Go to &lt;https://ondemand.osc.edu&gt; =&gt; `Interactive Apps` =&gt;
+  `Code Server` =&gt; 1 or 2 hours =&gt; `Launch` ... =&gt; `Connect to VS Code`.
+  
+- **Open your workspace**: On the *Welcome* page is a heading `Recent`,
+  and your workspace should be listed as "`&lt;workspace-name&gt; (Workspace)`".
+  
+  *If you didn't save a workspace yet:*
+    - <i class="fas  fa-bars "></i> =&gt; `File` =&gt; `Open Folder` =&gt;
+      `/fs/ess/PAS1855/users/&lt;name&gt;`.
+    - <i class="fas  fa-bars "></i> =&gt; `File` =&gt; `Save Workspace as`.
+
+- **Open your Markdown file** from Tuesday using the *Explorer* side bar.
+
+- **Open the Preview:** "*Open Preview to the Side*" icon in top-right corner.
+
+.content-box-diy[
+**Add keyboard shortcut to run shell commands from the editor:**
+
+- Click the <i class="fas  fa-cog "></i> (bottom-left) =&gt; `Keyboard Shortcuts`.
+
+- Find `Terminal: Run Selected Text in Active Terminal`, click on it,
+  then add a shortcut, e.g. &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt;.
+]
+
 ---
 
 ## Most commonly used Markdown syntax
@@ -389,9 +418,6 @@ Paragraph 2.
 
   - A *single newline in text*.
 
-  - Multiple consecutive spaces / blank lines are treated like a single space
-    or blank line.
-  
 .pull-left[
 **This:**  
 .content-box-purple[
@@ -468,6 +494,8 @@ blank lines
 
 - A **linebreak** can be forced using *two or more spaces*
   (i.e., press the spacebar twice) after the last character on a line.
+
+--
 
 - If you want **more vertical whitespace** than what is provided between
   paragraphs, you'll have to resort to HTML:
@@ -566,24 +594,6 @@ For installation (all OS's): see &lt;https://pandoc.org/installing.html&gt;.
     **journal-specific formatting**, etc.
 
 ---
-
-## Markdown extensions &amp;ndash; Markdown for everything?!
-
-.content-box-info[
-There are a number of extended Markdown flavors, such a R Markdown and
-Github-flavored Markdown.
-
-This is very useful but can also get a bit confusing &amp;ndash; which syntax is
-supported where?
-]
-
-&lt;br&gt;
-
-.content-box-info[
-See [this bonus slide](#md-bonus) for some additional Markdown syntax.
-]
-
----
 class: inverse middle center
 
 # Questions?
@@ -650,6 +660,22 @@ background-color: #f2f5eb
 | &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;PgDn&lt;/kbd&gt; / &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;PgUp&lt;/kbd&gt; | Move between editor tabs (or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Tab&lt;/kbd&gt;).
 | &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;W&lt;/kbd&gt; | Close an editor tab.
 | &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;T&lt;/kbd&gt; | Reopen the last editor tab.
+
+---
+background-color: #f2f5eb
+
+## Bonus: VS Code keyboard shortcuts (cont.)
+
+.content-box-info[
+In *VS Code*, there are default existing keybindings for the
+&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;K&lt;/kbd&gt; (*cut to end of line*) and 
+&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;E&lt;/kbd&gt; (*move cursor to end of line*) combinations,
+so they won't be properly interpreted by the shell.
+
+If you have an &lt;kbd&gt;end&lt;/kbd&gt; key, that will also work to move the cursor
+to the end of the line. Alternatively, you can reconfigure these
+keyboard shortcuts.
+]
 
 ---
 name: md-bonus

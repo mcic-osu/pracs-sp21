@@ -291,9 +291,9 @@ Learn more about Markdown and its syntax in this excellent documentation:
       `/fs/ess/PAS1855/users/<name>`.
     - `r icon::fa("bars")` => `File` => `Save Workspace as`.
 
-- Using the *Explorer* side bar, open you Markdown file from Tuesday.
+- **Open your Markdown file** from Tuesday using the *Explorer* side bar.
 
-- Open the Preview: "*Open Preview to the Side*" icon in top-right corner.
+- **Open the Preview:** "*Open Preview to the Side*" icon in top-right corner.
 
 .content-box-diy[
 **Add keyboard shortcut to run shell commands from the editor:**
@@ -419,9 +419,6 @@ Paragraph 2.
 
   - A *single newline in text*.
 
-  - Multiple consecutive spaces / blank lines are treated like a single space
-    or blank line.
-  
 .pull-left[
 **This:**  
 .content-box-purple[
@@ -498,6 +495,8 @@ blank lines
 
 - A **linebreak** can be forced using *two or more spaces*
   (i.e., press the spacebar twice) after the last character on a line.
+
+--
 
 - If you want **more vertical whitespace** than what is provided between
   paragraphs, you'll have to resort to HTML:
@@ -594,24 +593,6 @@ For installation (all OS's): see <https://pandoc.org/installing.html>.
   
   - R Markdown also has support for **citations**,
     **journal-specific formatting**, etc.
-
----
-
-## Markdown extensions &ndash; Markdown for everything?!
-
-.content-box-info[
-There are a number of extended Markdown flavors, such a R Markdown and
-Github-flavored Markdown.
-
-This is very useful but can also get a bit confusing &ndash; which syntax is
-supported where?
-]
-
-<br>
-
-.content-box-info[
-See [this bonus slide](#md-bonus) for some additional Markdown syntax.
-]
 
 ---
 class: inverse middle center
