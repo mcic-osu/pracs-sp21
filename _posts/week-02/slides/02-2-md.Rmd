@@ -1,5 +1,5 @@
 ---
-title: "Week 2 - Part III - Markdown and VS Code"
+title: "Week 2 - Part II - Markdown and VS Code"
 output:
   xaringan::moon_reader:
     seal: false

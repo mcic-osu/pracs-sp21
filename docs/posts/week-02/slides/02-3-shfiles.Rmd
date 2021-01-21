@@ -1,5 +1,5 @@
 ---
-title: "Week 2 - Part II - Managing Files in the Shell"
+title: "Week 2 - Part III - Managing Files in the Shell"
 output:
   xaringan::moon_reader:
     seal: false
