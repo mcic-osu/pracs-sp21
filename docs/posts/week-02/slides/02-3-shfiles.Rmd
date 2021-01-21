@@ -41,9 +41,8 @@ class: center middle inverse
 ]
 .pull-right[
 
-### [File renaming](#renaming)
+### [Programmatically renaming files](#renaming)
 ### [File permissions](#permissions)
-### [Bonus: Symbolic links](#symlinks)
 ]
 
 <br> <br> <br>
@@ -61,6 +60,7 @@ class: center middle inverse
 ----
 
 - **Open a new file**: `r icon::fa("bars")` => `File` => `New File`.
+  Save it as an `.md` file inside `week02`.
 
 - **Open a terminal** (<kbd>Ctrl</kbd>+<kbd>backtick</kbd>
   or `r icon::fa("bars")` => `Terminal` => `New Terminal`),
@@ -228,7 +228,7 @@ not by `ls` or another command you might be using wildcards with.
   $ echo sample[12]*
   # sample1_F.fastq.gz sample1_R.fastq.gz sample2_F.fastq.gz sample2_R.fastq.gz
   
-  $ rm sample[12]*    # (Recall sample[12]* quickly with "Alt .")
+  $ rm sample[12]*
   ```
 
 ---
@@ -649,27 +649,21 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 
 ---
 class: inverse middle center
+name: bonus
 
 # Questions?
 
 ----
 
-<br> <br> <br> <br>
+<br> <br> <br>
 
----
-class: inverse middle center
-name: bonus
-
-# Bonus Materials
-
-----
-
-<br>
-
-### [Special characters and escaping them](#escape)
-### **[Working with symbolic links](#symlinks)**
-### [More conditional file processing](#conditional)
-### [Two more tricks from Buffalo Ch. 3](#tricks)
+.left[
+### Bonus slides:
+- ### [Special characters and escaping them](#escape)
+- ### **[Working with symbolic links](#symlinks)**
+- ### [More conditional file processing](#conditional)
+- ### [Two more tricks from Buffalo Ch. 3](#tricks)
+]
 
 ---
 background-color: #f2f5eb
