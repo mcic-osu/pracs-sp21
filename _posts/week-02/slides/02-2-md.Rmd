@@ -275,6 +275,35 @@ Learn more about Markdown and its syntax in this excellent documentation:
 <img src=img/markdown-preview-vscode.png width=8%>
 </p>
 
+
+---
+
+## VS Code setup &ndash; Thursday
+
+- **Launch VS Code**: Go to <https://ondemand.osc.edu> => `Interactive Apps` =>
+  `Code Server` => 1 or 2 hours => `Launch` ... => `Connect to VS Code`.
+  
+- **Open your workspace**: On the *Welcome* page is a heading `Recent`,
+  and your workspace should be listed as "`<workspace-name> (Workspace)`".
+  
+  *If you didn't save a workspace yet:*
+    - `r icon::fa("bars")` => `File` => `Open Folder` =>
+      `/fs/ess/PAS1855/users/<name>`.
+    - `r icon::fa("bars")` => `File` => `Save Workspace as`.
+
+- Using the *Explorer* side bar, open you Markdown file from Tuesday.
+
+- Open the Preview: "*Open Preview to the Side*" icon in top-right corner.
+
+.content-box-diy[
+**Add keyboard shortcut to run shell commands from the editor:**
+
+- Click the `r icon::fa("cog")` (bottom-left) => `Keyboard Shortcuts`.
+
+- Find `Terminal: Run Selected Text in Active Terminal`, click on it,
+  then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
+]
+
 ---
 
 ## Most commonly used Markdown syntax
@@ -651,6 +680,22 @@ background-color: #f2f5eb
 | <kbd>Ctrl</kbd>+<kbd>PgDn</kbd> / <kbd>Ctrl</kbd>+<kbd>PgUp</kbd> | Move between editor tabs (or <kbd>Ctrl</kbd>+<kbd>Tab</kbd>).
 | <kbd>Ctrl</kbd>+<kbd>W</kbd> | Close an editor tab.
 | <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> | Reopen the last editor tab.
+
+---
+background-color: #f2f5eb
+
+## Bonus: VS Code keyboard shortcuts (cont.)
+
+.content-box-info[
+In *VS Code*, there are default existing keybindings for the
+<kbd>Ctrl</kbd>+<kbd>K</kbd> (*cut to end of line*) and 
+<kbd>Ctrl</kbd>+<kbd>E</kbd> (*move cursor to end of line*) combinations,
+so they won't be properly interpreted by the shell.
+
+If you have an <kbd>end</kbd> key, that will also work to move the cursor
+to the end of the line. Alternatively, you can reconfigure these
+keyboard shortcuts.
+]
 
 ---
 name: md-bonus

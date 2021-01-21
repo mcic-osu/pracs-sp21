@@ -50,31 +50,33 @@ class: center middle inverse
 
 ---
 
-## VS Code prep
+## VS Code setup
 
-.content-box-diy[
-**Add a keyboard shortcut to run shell commands from the editor:**
+- **Launch VS Code**: Go to <https://ondemand.osc.edu> => `Interactive Apps` =>
+  `Code Server` => 1 or 2 hours => `Launch` ... => `Connect to VS Code`.
+  
+- **Open your workspace**: On the *Welcome* page is a heading `Recent`,
+  and your workspace should be listed as "`<workspace-name> (Workspace)`".
 
-- Click the gear icon `r icon::fa("cog")` in bottom-left,
-  and then `Keyboard Shortcuts`.
+----
 
-- Find `Terminal: Run Selected Text in Active Terminal`,
-  then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
-]
+- **Open a new file**: `r icon::fa("bars")` => `File` => `New File`.
+
+- **Open a terminal** (<kbd>Ctrl</kbd>+<kbd>backtick</kbd>
+  or `r icon::fa("bars")` => `Terminal` => `New Terminal`),
+  and issue the command `bash` to break out of the Singularity shell.
 
 --
 
 <br>
 
-.content-box-info[
-In *VS Code*, there are default existing keybindings for the
-<kbd>Ctrl</kbd>+<kbd>K</kbd> (*cut to end of line*) and 
-<kbd>Ctrl</kbd>+<kbd>E</kbd> (*move cursor to end of line*) combinations,
-so they won't be properly interpreted by the shell.
+.content-box-diy[
+**Add keyboard shortcut to run shell commands from the editor:**
 
-If you have an <kbd>end</kbd> key, that will also work to move the cursor
-to the end of the line. Alternatively, you can reconfigure these
-keyboard shortcuts.
+- Click the `r icon::fa("cog")` (bottom-left) => `Keyboard Shortcuts`.
+
+- Find `Terminal: Run Selected Text in Active Terminal`, click on it,
+  then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
 ]
 
 ---
@@ -83,7 +85,7 @@ keyboard shortcuts.
 
 - Go to the dir for this week you created earlier:
   ```sh
-  $ cd /fs/ess/PAS1855/users/$USER/week02
+  $ cd week02  # Inside /fs/ess/PAS1855/users/$USER/
   ```
   
 - Create a set of directories representing a dummy project:
@@ -104,12 +106,10 @@ keyboard shortcuts.
         sample3_F.fastq.gz sample3_R.fastq.gz
   ```
 
---
-
 - For a nice overview of your directory structure:
 
   ```sh
-  $ tree ../..    # "../.." is to tell tree to start two levels up
+  $ tree ../..    # "../.." tells tree to start two levels up
   ```
 
 ---
@@ -188,9 +188,9 @@ name: wildcard
 
 - **To match files for sample1 and sample2 using only a character class:**
   ```sh
-  $ ls sample[12]*   # Use the character class notation
-  $ ls sample[1-2]*  # Can use ranges like [0-9], [A-Z], [a-z].
-  $ ls sample[^3]*   # Other way around: exclude sample3
+  $ ls sample[12]*   # Method 1: List all possible characters
+  $ ls sample[1-2]*  # Method 2: Use ranges - [0-9], [A-Z], [a-z].
+  $ ls sample[^3]*   # Method 3: *Exclude* something.
   ```
 
 --
@@ -228,7 +228,7 @@ not by `ls` or another command you might be using wildcards with.
   $ echo sample[12]*
   # sample1_F.fastq.gz sample1_R.fastq.gz sample2_F.fastq.gz sample2_R.fastq.gz
   
-  $ rm sample[12]*    # Recall samples[12]* with "Alt ."
+  $ rm sample[12]*    # (Recall sample[12]* quickly with "Alt .")
   ```
 
 ---
@@ -407,19 +407,23 @@ name: command-sub
   $ echo "I have $(ls *fastq | wc -l) fastq files."
   # I have 200 fastq files.
     
-  $ mkdir results_$(date +%F)
-  # results_2021-01-05
+  $ mkdir ../../results_$(date +%F)
+  # results_2021-01-21
   ```
 
 --
-
-<br>
 
 - It's often convenient to save the result in a *variable*:
   ```sh
   $ n_files=$(ls *fastq | wc -l)
   $ echo "$n_files"
   ```
+
+.content-box-info[
+Variables don't always have to be quoted like above (`$n_files` vs `"$n_files"`),
+but it is good practice as failing to do so *can* lead to problems.
+(Also: a variable can be put inside braces: `${n_files}`.)
+]
 
 ---
 class: inverse middle center
@@ -540,19 +544,8 @@ name: permissions
 <br>
 
 <p align="center">
-<img src=img/permissions.png width="400">
+<img src=img/permissions.svg width="50%">
 </p>
-
-<br>
-
---
-
-.content-box-info[
-- Generally, it is prudent to not give "others" write permissions.
-
-- Here, we're also interested in taking away write permission for ourselves
-  for the raw data.
-]
 
 ---
 
@@ -562,8 +555,8 @@ This can be done in several ways with the `chmod` command:
 
 ```sh
 # chmod <who>=<permission-to-set>`:
-$ chmod a=rwx
-  
+$ chmod a=rwx  # a: all / u: user / g: group / o: others
+   
 # chmod <who>+<permission-to-add>:
 $ chmod a+r  
 # chmod <who>-<permission-to-remove>:
@@ -632,51 +625,27 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 - First, let's look at the original permissions of the files:
   ```sh
   # Assuming you are still in week02/zmays-snps/data/seqs
-  $ ls -l selection/
+  $ ls -l
   ```
 
 - Then, limit permissions for **a**ll to **r**ead, and check what we did:
   ```sh
-  $ chmod a=r selection/*
-  $ ls -l selection/
+  $ chmod a=r *fastq*
+  $ ls -l
   ```
 --
 
 - What happens when we try to remove write-protected files?
   ```sh
-  $ rm selection/*
+  $ rm *fastq*
   
-  $ rm -f selection/*
+  $ rm -f *fastq*
   ```
 
   .content-box-info[
   While *you* (the file owner) can still remove write-protected files,
   others really can't read/write/execute files without appropriate permissions.
   ]
-
----
-
-## Sidenote: "[The Unix Chainsaw](https://www.youtube.com/watch?v=sCZJblyT_XM)"
-
-- What will these two commands do?
-  (Recall: **`-f`** for *force*, **`-r`** for *recursive*.)
-  ```sh
-  $ rm -rf tmp-data/aligned-reads*
-  
-  $ rm -rf tmp-data/aligned-reads *
-  ```
-
-<br>
-
-.content-box-warning[
-Be careful with `rm`, especially `-r` / `-f` / `-rf`.
-
-- Using **`-i`** (*interactive*) can be helpful in some cases.
-
-- You can avoid `-r` by first removing files and *then* the empty dir
-  using the `rmdir` command (only works when a dir is empty).
-]
-
 
 ---
 class: inverse middle center
@@ -701,16 +670,6 @@ name: bonus
 ### **[Working with symbolic links](#symlinks)**
 ### [More conditional file processing](#conditional)
 ### [Two more tricks from Buffalo Ch. 3](#tricks)
-
----
-class: inverse middle center
-name: symlinks
-
-# Using files across projects:
-# Using symbolic links
-----
-<br><br><br>
-
 
 ---
 background-color: #f2f5eb
@@ -745,8 +704,16 @@ We'll talk more about these *regular expressions* later.
 ]
 
 ---
-background-color: #f2f5eb
+class: inverse middle center
 name: symlinks
+
+# Using files across projects:
+# Using symbolic links
+----
+<br><br><br>
+
+---
+background-color: #f2f5eb
 
 ## Creating symbolic links: single files
 
