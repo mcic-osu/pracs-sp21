@@ -9,6 +9,8 @@ output:
 
 <br>
 
+## Introduction
+
 In this assignment, you will primarily be practicing your Git skills.
 You will also show that you can write in Markdown
 and can write a `for` loop to rename files.
@@ -235,11 +237,18 @@ Phew, those were a lot of commits! Let's share all of this work with the world.
     - Push the changes to remote.
     - Check your repo to see the update.
 
-19. Find the "Issues" tab for your repo on Github: 
-    this is the button in the lower bar next to Code and with an exclamation
-    mark icon, not the Issues button in the black uppermost bar....
+19. **Create an issue to mark that you're done!**  
+    Find the "Issues" tab for your repo on Github.
+    (This is the button in the lower bar next to Code and with an exclamation
+    mark icon, not the Issues button in the black uppermost bar: see image
+    below.)
     
-    Click the green button `New Issue` to open a new issue for you repo.
+    <p align="center">
+    <img src="img/github-issues-tab.png" width="80%">
+    </p>
+    
+    In the Issues tab, click the green button `New Issue` to open a new issue
+    for you repo.
     Give it a title like "I finished my assignment",
     and in the issue text, tag `@jelmerp`.
     You can say, for instance,
