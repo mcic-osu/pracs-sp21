@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 3: Git and Github</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+## *Week 3: Git and GitHub*
+
+----
+
+# Part III: &lt;br&gt; Undoing changes and viewing the past
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/01/28 (updated: 2021-01-24)
+
+---
+class:inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [Undoing changes that have not been committed](#undo)
+- ### [Viewing and undoing changes that have been committed](#undo-commit)
+]
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class:inverse middle center
+name: undo
+
+# Undoing changes &lt;br&gt; that have not been committed
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; 
+
+---
+
+## Undoing changes that have not been committed: &lt;br&gt; Overview
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-do-undo.svg" width="100%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Undoing changes that have not been committed: &lt;br&gt; Overview
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-undo.svg" width="100%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Undoing changes that have not been staged &lt;br&gt; by recovering a version from the repo
+
+- Let's say we accidentally overwrite instead of append to a file:
+  ```sh
+  $ echo "todo: ask sequencing center about adapters" &gt; README.md
+  ```
+
+--
+
+- Always start by checking the status:
+  ```sh
+  $ git status
+  ```
+
+- We want to "discard changes in working directory" by recovering the version of
+  the file in the index (and HEAD), and Git told us how to do this:
+  ```sh
+  $ git checkout -- README.md
+  ```
+
+--
+
+.content-box-info[
+On recent Git versions (not yet on OSC), it instead recommends:
+```sh
+git restore README.md
+```
+]
+
+---
+
+## Undoing changes that have not been staged &lt;br&gt; by recovering a version from the repo
+
+- Let's say we accidentally overwrite instead of append to a file:
+  ```sh
+  $ echo "todo: ask sequencing center about adapters" &gt; README.md
+  ```
+
+- Always start by checking the status:
+  ```sh
+  $ git status
+  ```
+
+- We want to "discard changes in working directory" by recovering the version of
+  the file in the index (and HEAD), and Git told us how to do this:
+  ```sh
+  $ git checkout -- README.md
+  ```
+
+.content-box-info[
+For `git checkout`, the CSB book example omits the dashes `--`.
+These indicate that the checkout command should operate on a file,
+but since the filename is provided too, this is not strictly necessary.
+]
+
+---
+
+## Undoing changes that have not been staged &lt;br&gt; by recovering a version from the repo: &lt;br&gt;visual
+
+&lt;br&gt;
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-checkout.svg" width="100%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Unstaging a file
+
+- `git reset` can *unstage* a file, which is most often needed when you
+  added a file that was not supposed to be part of the next commit:
+
+  ```sh
+  $ echo "The following TruSeq adapters were used:" &gt;&gt; README.md
+  $ echo "wc -l *fastq" &gt; count_reads.sh
+  $ git add --all
+  ```
+
+- Oops, those two file changes should be part of separate commits.  
+  Again, we check the status first &amp;ndash; and learn we should use `git reset`:  
+  ```sh
+  $ git reset HEAD README.md
+  ```
+
+--
+
+.content-box-warning[
+`git reset` will only unstage and **not** revert the file back
+to its state at the last commit
+(cf. CSB &amp;ndash; mistake in the book!).
+
+(`git reset --hard` *does* revert things back to the state of a desired commit,
+but only works on commits and not individual files.)
+]
+
+---
+
+## Unstaging a file &amp;ndash; Side notes
+
+.content-box-info[
+If you *staged* a file and realize you made a mistake,
+or staged prematurely, you can continue editing the file and re-add it.
+]
+
+&lt;br&gt;
+
+.content-box-info[
+For recent Git versions (not yet on OSC), Git will instead of `git reset`
+recommend the following when you do `git status`:
+```sh
+git restore --staged README.md
+```
+]
+
+---
+
+## Unstaging a file: visual
+
+&lt;br&gt;
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-reset.svg" width="100%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Undoing staged changes
+
+What if we had *staged our mistaken changes*,  
+and we need to recover the file from the last commit?
+
+For instance, we overwrote the README.md and staged the misshapen file:
+  ```sh
+  $ echo "Todo: ask sequencing center about adapters" &gt; README.md
+  $ git add README.md
+  ```
+
+--
+
+To recover the version stored in the last commit,  
+and disregard any staged and unstaged changes to the file:
+```sh  
+$ git checkout HEAD -- README.md
+```
+
+--
+
+.content-box-warning[
+Be careful with the `git checkout` command,  
+because it irrevocably discards the non-committed changes.
+
+More broadly: your data is only safe with Git once it has been committed.
+]
+
+---
+
+## Undoing staged changes: visual
+
+&lt;br&gt;
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-checkout-head.svg" width="100%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Summary of undoing non-commited changes
+
+.content-box-info[
+For a particular file `README.md`, I want to:
+
+- **Unstage the file**, but don't need to discard (replace) changes:
+  ```sh
+  $ git reset HEAD -- README.md
+  ```
+  
+- **Go back to the last commit and have unstaged changes** in my
+  working dir that should be discarded:
+  ```sh
+  $ git checkout -- README.md # Technically: grabs file from *Index*
+  ```
+
+- **Go back to the last commit and have staged changes**
+  (and optionally unstaged changes) that should be discarded:
+  ```sh
+  $ git checkout HEAD -- README.md
+  ```
+
+**Bonus**: undo any and all staged and unstaged changes (unsafe!):
+
+```sh
+git reset --hard HEAD
+```
+]
+
+---
+class:inverse middle center
+name: undo-commit
+
+# Viewing and undoing changes &lt;br&gt; that have been committed
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Viewing past versions of the repository
+
+Say, we want to see what our project looked like at some point in the past.
+
+- First, we print an overview of past commits and their messages:
+  ```sh
+  $ git log --oneline --all --graph
+  ```
+
+- We find a commit we want to go back to, and look around in the past:
+  ```sh
+  $ git checkout &lt;sha-id&gt; # Replace &lt;sha-id&gt; by an actual hash
+  $ less myfile.txt       # Etc. ...
+  ```
+
+- To go back to where we were originally:
+  ```sh
+  $ git checkout master
+  ```
+
+.content-box-info[
+If you want to **move your repo back** to this earlier state,
+there are several strategies (next slides).
+
+For a **single file**, a quick way can be to copy it out of your repo,
+move back to the present, and put it in your repo in the present.
+]
+
+---
+
+## Viewing past versions of the repository (cont.)
+
+.content-box-warning[
+Note the confusing re-use of `git checkout`!  
+We have now seen `git checkout` being used to:
+  - Move between branches
+  - Revert files back to previous states
+  - Move to previous commits to explore (**figure below**)
+]
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/git-checkout-softcarp.svg" width="80%"&gt;
+&lt;figcaption&gt;Figure from swcarpentry.github.io&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Undoing entire commits
+
+- To undo commits, i.e. move the state of your repository back to how it was
+  before the commit you want to undo, there are two main commands:
+  
+  - `git revert`: Undo the changes made by commits by reverting them in a new
+     commit.
+  
+  - `git reset`: Delete commits as if they were never made.
+
+.content-box-info[
+Undoing with `git revert` is much safer than with `git reset`,
+because `git revert` does not erase any history.
+
+For this reason, some argue you should not use `git reset` on commits altogether.
+At any rate, you should **never** use `git reset` for commits that have already 
+been pushed online.
+]
+
+---
+
+## Undoing commits with `git revert`
+
+- Create a new commit that will revert all changes made in the  
+  specified commit:
+  
+  ```sh
+  $ git revert HEAD     # Undo changes by most recent commit
+  
+  $ git revert HEAD^    # Undo changes by second-to-last commit
+  $ git revert e1c5739  # Undo changes by any arbitrary commit
+  ```
+
+---
+
+## Undoing commits with `git reset`
+
+.content-box-info[
+`git reset` is quite complicated as it has three modes
+(`--hard`, `--mixed` (default), and `--soft`)
+and can act both on individual files and on entire commits.
+
+We've already used `git reset` on individual files (to unstage).  
+To undo a commit and:
+
+- Stage all changes made by that commit:
+  ```sh
+  $ git reset --soft HEAD^ #Undo LAST=reset to 2nd-to-last
+  ```
+
+- Put all changes made by that commit in the working dir:
+  ```sh
+  $ git reset [--mixed] HEAD^ # --mixed is default
+  ```
+
+- Completely **discard** all changes made by that commit:
+  ```sh
+  $ git reset --hard HEAD^ 
+  ```
+]
+
+---
+
+## Viewing &amp; reverting to earlier versions of *files*
+
+- Get a specific version of a file from a past commit:
+
+  ```sh
+  git checkout HEAD^^ -- README.md   # From second-to-last commit
+  git checkout e1c5739 -- README.md  # From arbitrary commit
+  ```
+  
+- Your now have the old version in the working dir &amp; staged:
+  ```sh
+  cat README.md
+  git status
+  ```
+
+- You can go on to commit this version from the past,  
+  or go back current version as we will do below:
+
+  ```sh
+  git checkout HEAD -- README.md
+  
+  less README.md  # Back to the current version
+  git status      # Up-to-date
+  ```
+
+.content-box-warning[
+Be careful with `git checkout` as any uncommitted changes to the same file
+would be overwritten by the past version you are getting!
+]
+
+---
+
+## Viewing &amp; reverting to earlier versions of *files* (cont.)
+
+An alternative method to view and revert to older versions of specific files
+is to use `git show`.
+
+- We can view a file from any commit as follows:
+  ```sh
+  git show HEAD:README.md    # Version in the last commit
+  
+  git show ad4ca74:README.md # An arbitrary version
+  ```
+
+- Thanks to our shell skills, it's also easy to revert a file to a previous
+  version in this way:
+  ```sh
+  git show ad4ca74:README.md &gt; README.md
+  ```
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

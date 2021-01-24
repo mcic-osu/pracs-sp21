@@ -18,14 +18,13 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-## *Week 3: <br> Git and Github*
+## *Week 3: Git and GitHub*
 
 ----
 
-# Part III: Undoing changes and viewing the past
-## (CSB 2.5-2.7)
+# Part III: <br> Undoing changes and viewing the past
 
-<br> <br> <br> <br> <br>
+<br> <br> <br>
 
 ### Jelmer Poelstra
 ### 2021/01/28 (updated: `r Sys.Date()`)
@@ -38,86 +37,25 @@ class:inverse middle center
 ----
 
 .left[
-- ### [Key Git concepts and file states](#concepts)
-- ### [Undoing *un-committed* changes](#undo)
-- ### [Undoing *committed* changes](#undo-commit)
-- ### [Viewing past versions of the repo](#past-repo)
-- ### [Viewing & reverting to earlier versions of *files*](#past-files)
+- ### [Undoing changes that have not been committed](#undo)
+- ### [Viewing and undoing changes that have been committed](#undo-commit)
 ]
 
+<br> <br> <br>
+
 ---
-name: concepts
+class:inverse middle center
+name: undo
 
-## Key Git concepts and file states
+# Undoing changes <br> that have not been committed
 
-The three states for files correspond to the three "trees" of Git:
- 
- - **HEAD**: State of the project in most recent commit (on current branch)
- 
- - **Index** (*Stage*): State of the project ready to be committed.
- 
- - **Working directory**: State of the project as currently on your computer. 
+----
 
-<figure>
-<p align="center">
-<img src="img/git-3trees.svg" width="40%">
-</p>
-</figure>
+<br> <br> <br> <br> 
 
 ---
 
-## Key Git concepts and file states
-
-The three states for files correspond to the three "trees" of Git:
- 
- - **HEAD**: State of the project in most recent commit (on current branch)
- 
- - **Index** (*Stage*): State of the project ready to be committed.
- 
- - **Working directory**: State of the project as currently on your computer. 
-
-<figure>
-<p align="center">
-<img src="img/git-3trees-2.svg" width="40%">
-</p>
-</figure>
-
----
-
-## Key Git concepts and file states (cont.)
-
-**When a file is:**
-
-| State     | HEAD (Last commit) | Index (Stage) | Working Dir
-|-----------|--------------------|---------------|
-| **Committed** | version X          | version X     | version X 
-| **Staged**    | version X          | **<span style=color:green> version Y</span>**     | **<span style=color:green>version Y</span>**
-| **Modified**  | version ?          | version X     | **<span style=color:red>version Y</span>**
-
-<figure>
-<p align="center">
-<img src="img/git-do.svg" width="45%">
-</p>
-</figure>
-
----
-
-## Key Git concepts and file states (cont.)
-
-**When a file is:**
-
-| State     | HEAD (Last commit) | Index (Stage) | Working Dir
-|-----------|--------------------|---------------|
-| Committed | version X          | version X     | version X 
-| Staged    | version X          | **<span style=color:green> version Y</span>**     | **<span style=color:green>version Y</span>**
-| Modified  | version ?          | version X     | **<span style=color:red>version Y</span>**
-| Untracked | &nbsp; -           | &nbsp; -       | **<span style=color:red>version X</span>**
-
----
-
-## Key Git concepts and file states(cont.)
-
-<br>
+## Undoing changes that have not been committed: <br> Overview
 
 <figure>
 <p align="center">
@@ -127,9 +65,7 @@ The three states for files correspond to the three "trees" of Git:
 
 ---
 
-## Key Git concepts and file states (cont.)
-
-<br>
+## Undoing changes that have not been committed: <br> Overview
 
 <figure>
 <p align="center">
@@ -138,17 +74,8 @@ The three states for files correspond to the three "trees" of Git:
 </figure>
 
 ---
-name: undo
 
-# Undoing
-
-----
-
-<br> <br> <br> <br> 
-
----
-
-## Undoing working dir changes by recovering an old version from the repo
+## Undoing changes that have not been staged <br> by recovering a version from the repo
 
 - Let's say we accidentally overwrite instead of append to a file:
   ```sh
@@ -179,7 +106,7 @@ git restore README.md
 
 ---
 
-## Undoing working dir changes by recovering an old version from the repo
+## Undoing changes that have not been staged <br> by recovering a version from the repo
 
 - Let's say we accidentally overwrite instead of append to a file:
   ```sh
@@ -191,40 +118,21 @@ git restore README.md
   $ git status
   ```
 
-- Git told us how to do undo the change:
-  ```sh
-  $ git checkout -- README.md
-  ```
-
----
-
-## Undoing changes that have not been staged <br> by recovering an old version from the repo
-
-- Let's say we accidentally overwrite instead of append to a file:
-  ```sh
-  $ echo "todo: ask sequencing center about adapters" > README.md
-  ```
-
-- Always start by checking the status:
-  ```sh
-  $ git status
-  ```
-
-- Git told us how to do undo the change:
+- We want to "discard changes in working directory" by recovering the version of
+  the file in the index (and HEAD), and Git told us how to do this:
   ```sh
   $ git checkout -- README.md
   ```
 
 .content-box-info[
-For `git checkout`, the CSB book example omits the two dashes `--`.
-These dashes indicate that the checkout command should operate on a file,
+For `git checkout`, the CSB book example omits the dashes `--`.
+These indicate that the checkout command should operate on a file,
 but since the filename is provided too, this is not strictly necessary.
-However, it is what our OSC version of git recommends and is good practice. 
 ]
 
 ---
 
-## Undoing changes that have not been staged <br> by recovering an old version from the repo (cont.)
+## Undoing changes that have not been staged <br> by recovering a version from the repo: <br>visual
 
 <br>
 
@@ -242,13 +150,13 @@ However, it is what our OSC version of git recommends and is good practice.
   added a file that was not supposed to be part of the next commit:
 
   ```sh
-  $ echo "The foloqing TruSeq adapters were used:" >> README.md
+  $ echo "The following TruSeq adapters were used:" >> README.md
   $ echo "wc -l *fastq" > count_reads.sh
   $ git add --all
   ```
 
 - Oops, those two file changes should be part of separate commits.  
-  Again, we check the status first and find we should use `git reset`:  
+  Again, we check the status first &ndash; and learn we should use `git reset`:  
   ```sh
   $ git reset HEAD README.md
   ```
@@ -256,43 +164,28 @@ However, it is what our OSC version of git recommends and is good practice.
 --
 
 .content-box-warning[
-This will only unstage and **not** revert the file back to its state at the
-last commit (cf. CSB &ndash; mistake!).
+`git reset` will only unstage and **not** revert the file back
+to its state at the last commit
+(cf. CSB &ndash; mistake in the book!).
+
+(`git reset --hard` *does* revert things back to the state of a desired commit,
+but only works on commits and not individual files.)
 ]
 
---
+---
+
+## Unstaging a file &ndash; Side notes
 
 .content-box-info[
 If you *staged* a file and realize you made a mistake,
 or staged prematurely, you can continue editing the file and re-add it.
 ]
 
----
-
-## Unstaging a file
-
-- `git reset` can *unstage* a file, which is most often needed when you
-  added a file that was not supposed to be part of the next commit:
-
-  ```sh
-  $ echo "The foloqing TruSeq adapters were used:" >> README.md
-  $ echo "wc -l *fastq" > count_reads.sh
-  $ git add --all
-  ```
-
-- Oops, those two file changes should be part of separate commits.  
-  Again, we check the status first and find we should use `git reset`:  
-  ```sh
-  $ git reset HEAD README.md
-  ```
-
-.content-box-warning[
-This will only unstage and **not** revert the file back to its state at the
-last commit (cf. CSB &ndash; mistake!).
-]
+<br>
 
 .content-box-info[
-On recent Git versions (not yet on OSC), it instead recommends:
+For recent Git versions (not yet on OSC), Git will instead of `git reset`
+recommend the following when you do `git status`:
 ```sh
 git restore --staged README.md
 ```
@@ -300,7 +193,7 @@ git restore --staged README.md
 
 ---
 
-## Unstaging a file (cont.)
+## Unstaging a file: visual
 
 <br>
 
@@ -314,8 +207,8 @@ git restore --staged README.md
 
 ## Undoing staged changes
 
-What if we had even staged our changes,
-but we just want to get of all changes in the file since the last commit?
+What if we had *staged our mistaken changes*,  
+and we need to recover the file from the last commit?
 
 For instance, we overwrote the README.md and staged the misshapen file:
   ```sh
@@ -325,10 +218,8 @@ For instance, we overwrote the README.md and staged the misshapen file:
 
 --
 
-<br>
-
-To get back the version that is stored in the last commit,
-and disregard any staged or unstaged changes to the file:
+To recover the version stored in the last commit,  
+and disregard any staged and unstaged changes to the file:
 ```sh  
 $ git checkout HEAD -- README.md
 ```
@@ -338,11 +229,13 @@ $ git checkout HEAD -- README.md
 .content-box-warning[
 Be careful with the `git checkout` command,  
 because it irrevocably discards the non-committed changes.
+
+More broadly: your data is only safe with Git once it has been committed.
 ]
 
 ---
 
-## Undoing staged changes
+## Undoing staged changes: visual
 
 <br>
 
@@ -354,7 +247,7 @@ because it irrevocably discards the non-committed changes.
 
 ---
 
-## Undo summary so far
+## Summary of undoing non-commited changes
 
 .content-box-info[
 For a particular file `README.md`, I want to:
@@ -374,50 +267,32 @@ For a particular file `README.md`, I want to:
   (and optionally unstaged changes) that should be discarded:
   ```sh
   $ git checkout HEAD -- README.md
-  
-  # With slight modifications, you can get back *any* version:
-  $ git checkout HEAD^ -- README.md  # From second-to-last commit
-  $ git checkout <sha-id> -- README.md # From arbitrary commit
   ```
+
+**Bonus**: undo any and all staged and unstaged changes (unsafe!):
+
+```sh
+git reset --hard HEAD
+```
 ]
 
 ---
+class:inverse middle center
 name: undo-commit
 
-## Undoing *committed* changes
+# Viewing and undoing changes <br> that have been committed
 
-- Create a new commit that will revert all the changes made in a previous commit:
-  
-  ```sh
-  $ git revert HEAD     # Most recent commit
-  
-  $ git revert HEAD^    # Second-to-last commit
-  $ git revert <sha-id> # Any arbitrary commit
-  ```
+----
 
-<br>
-
-.content-box-info[
-Undoing with `git revert` will work and be safe both for commits that were
-and that were not pushed online.
-
-This is because `git revert` does not erase history,
-instead it creates a new commit that does exactly the inverse of the changes
-made, to get back to the desired past state.
-]
+<br> <br> <br> <br> <br>
 
 ---
 
+## Viewing past versions of the repository
 
----
-background-color: #f2f5eb
-name: past-repo
+Say, we want to see what our project looked like at some point in the past.
 
-## Viewing past versions of the repo
-
-Say we want to see what our project looked like at some point in the past.
-
-- First, we get an overview of past commits and their messages:
+- First, we print an overview of past commits and their messages:
   ```sh
   $ git log --oneline --all --graph
   ```
@@ -434,17 +309,16 @@ Say we want to see what our project looked like at some point in the past.
   ```
 
 .content-box-info[
-If you want to revert your repo back to an earlier state,
-it's best to move back to the present, as above, and then use `git revert`:
-```sh
-git revert <sha-id>
-```
+If you want to **move your repo back** to this earlier state,
+there are several strategies (next slides).
+
+For a **single file**, a quick way can be to copy it out of your repo,
+move back to the present, and put it in your repo in the present.
 ]
 
 ---
-background-color: #f2f5eb
 
-## Viewing past versions of the repo (cont.)
+## Viewing past versions of the repository (cont.)
 
 .content-box-warning[
 Note the confusing re-use of `git checkout`!  
@@ -462,22 +336,87 @@ We have now seen `git checkout` being used to:
 </figure>
 
 ---
-background-color: #f2f5eb
-name: past-files
+
+## Undoing entire commits
+
+- To undo commits, i.e. move the state of your repository back to how it was
+  before the commit you want to undo, there are two main commands:
+  
+  - `git revert`: Undo the changes made by commits by reverting them in a new
+     commit.
+  
+  - `git reset`: Delete commits as if they were never made.
+
+.content-box-info[
+Undoing with `git revert` is much safer than with `git reset`,
+because `git revert` does not erase any history.
+
+For this reason, some argue you should not use `git reset` on commits altogether.
+At any rate, you should **never** use `git reset` for commits that have already 
+been pushed online.
+]
+
+---
+
+## Undoing commits with `git revert`
+
+- Create a new commit that will revert all changes made in the  
+  specified commit:
+  
+  ```sh
+  $ git revert HEAD     # Undo changes by most recent commit
+  
+  $ git revert HEAD^    # Undo changes by second-to-last commit
+  $ git revert e1c5739  # Undo changes by any arbitrary commit
+  ```
+
+---
+
+## Undoing commits with `git reset`
+
+.content-box-info[
+`git reset` is quite complicated as it has three modes
+(`--hard`, `--mixed` (default), and `--soft`)
+and can act both on individual files and on entire commits.
+
+We've already used `git reset` on individual files (to unstage).  
+To undo a commit and:
+
+- Stage all changes made by that commit:
+  ```sh
+  $ git reset --soft HEAD^ #Undo LAST=reset to 2nd-to-last
+  ```
+
+- Put all changes made by that commit in the working dir:
+  ```sh
+  $ git reset [--mixed] HEAD^ # --mixed is default
+  ```
+
+- Completely **discard** all changes made by that commit:
+  ```sh
+  $ git reset --hard HEAD^ 
+  ```
+]
+
+---
 
 ## Viewing & reverting to earlier versions of *files*
 
-- Get a version of a file from a past commit:
+- Get a specific version of a file from a past commit:
 
   ```sh
-  git checkout HEAD^^ -- README.md   # Second-to-last commit
-  git checkout ad4ca74 -- README.md  # Arbitrary commit
+  git checkout HEAD^^ -- README.md   # From second-to-last commit
+  git checkout e1c5739 -- README.md  # From arbitrary commit
+  ```
   
-  less README.md  # This will now be "the old version"
-  git status      # "The old version" has been staged
+- Your now have the old version in the working dir & staged:
+  ```sh
+  cat README.md
+  git status
   ```
 
-- Nope, please take me back to my current version:
+- You can go on to commit this version from the past,  
+  or go back current version as we will do below:
 
   ```sh
   git checkout HEAD -- README.md
@@ -487,55 +426,35 @@ name: past-files
   ```
 
 .content-box-warning[
-Don't do this when you have uncommitted changes to the same file:
-those will be lost!
-(Recall how we used the same command to undo working dir changes...)
+Be careful with `git checkout` as any uncommitted changes to the same file
+would be overwritten by the past version you are getting!
 ]
 
 ---
-background-color: #f2f5eb
 
 ## Viewing & reverting to earlier versions of *files* (cont.)
 
-- Get a version of a file from a past commit:
+An alternative method to view and revert to older versions of specific files
+is to use `git show`.
 
+- We can view a file from any commit as follows:
   ```sh
-  git checkout HEAD^^ -- README.md   # Second-to-last commit
-  git checkout ad4ca74 -- README.md  # Arbitrary commit
+  git show HEAD:README.md    # Version in the last commit
   
-  less README.md  # Reverted to an old version
-  git status      # The old version has been staged
+  git show ad4ca74:README.md # An arbitrary version
   ```
 
-- Nope, please take me back to my current version:
-
+- Thanks to our shell skills, it's also easy to revert a file to a previous
+  version in this way:
   ```sh
-  git checkout HEAD -- README.md
-  
-  less README.md  # Back to the current version
-  git status      # Up-to-date
+  git show ad4ca74:README.md > README.md
   ```
-
-.content-box-info[
-An alternative method:
-```sh
-git show ad4ca74:README.md             # View
-git show ad4ca74:README.md > README.md # Revert
-```
-]
 
 ---
+class: inverse middle center
 
-## Other options
+# Questions?
 
-.content-box-info[
-**What if I want to get back to a previous version, like above,  
-but am not sure I want to permanently delete the recent changes?**
+----
 
-1. **Create a new *branch***, commit the changes there, and then move back to
-   the main/previous branch. *=> CSB Ch. 2.6*
-
-2. ***Stash* the changes** and possibly retrieve (*apply*) them later.
-   This only makes sense if you may or may not want to keep the changes and
-   think you will find out soon. *=> Bonus materials*
-]
+<br> <br> <br> <br>

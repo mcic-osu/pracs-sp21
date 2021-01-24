@@ -14,9 +14,11 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Slides
 
-- Slides: Part I -- CSB 2.1-2.4 (Git basics) -- Tuesday Zoom (Jan 26)
+- [Slides: Part I -- Getting started with Git](slides/03-2_git.html) -- Tuesday Zoom (Jan 26)
 
-- Slides: Part I -- CSB 2.1-2.4 (remotes and branching) -- Thursday Zoom (Jan 28)
+- [Slides: Part II -- Branching & merging, and remotes on Github](slides/03-2_git.html) -- Thursday Zoom (Jan 28)
+
+- [Slides: Part III -- Undoing changes and viewing the past](slides/03-3_git.html) -- Thursday / bonus
 
 ### Ungraded assignments
 
