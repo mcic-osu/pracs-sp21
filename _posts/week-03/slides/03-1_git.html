@@ -798,7 +798,7 @@ Don't panic, and press &lt;kbd&gt;q&lt;/kbd&gt; to exit `less`.
   git diff HEAD HEAD^
   
   # Last commit vs a specified commit - specific file: 
-  git diff HEAD d715c54 todo.txt 
+  $ git diff HEAD d715c54 todo.txt 
   ```
 ]
   
@@ -850,8 +850,8 @@ accidentally added using `git add --all`.
 - Now, we create a `.gitignore` file that instructs Git to ignore everything
   in the `data` dir, as well as any file that ends in a `~`:
   ```sh
-  echo "data/" &gt; .gitignore
-  echo "*~" &gt;&gt; .gitignore
+  $ echo "data/" &gt; .gitignore
+  $ echo "*~" &gt;&gt; .gitignore
   ```
   
 - Check the status:
