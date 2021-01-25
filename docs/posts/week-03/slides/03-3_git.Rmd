@@ -110,7 +110,7 @@ If you **accidentally deleted a file**,
 you can similarly retrieve it with `git checkout`:
 
 ```sh
-git checkout -- deleted-file.txt
+$ git checkout -- deleted-file.txt
 ```
 
 ]
@@ -121,7 +121,7 @@ git checkout -- deleted-file.txt
 For recent Git versions (not yet on OSC), Git will instead of `git checkout`
 recommend the following when you do `git status`:
 ```sh
-git restore README.md
+$ git restore README.md
 ```
 ]
 
@@ -182,7 +182,7 @@ or staged prematurely, you can continue editing the file and re-add it.
 For recent Git versions (not yet on OSC), Git will instead of `git reset`
 recommend the following when you do `git status`:
 ```sh
-git restore --staged README.md
+$ git restore --staged README.md
 ```
 ]
 
@@ -267,7 +267,7 @@ For a particular file `README.md`, I want to:
 **Bonus**: undo any and all staged and unstaged changes (unsafe!):
 
 ```sh
-git reset --hard HEAD
+$ git reset --hard HEAD
 ```
 ]
 
@@ -400,24 +400,24 @@ To undo a commit and:
 - Get a specific version of a file from a past commit:
 
   ```sh
-  git checkout HEAD^^ -- README.md   # From second-to-last commit
-  git checkout e1c5739 -- README.md  # From arbitrary commit
+  $ git checkout HEAD^^ -- README.md   # From second-to-last commit
+  $ git checkout e1c5739 -- README.md  # From arbitrary commit
   ```
   
 - Your now have the old version in the working dir & staged:
   ```sh
-  cat README.md
-  git status
+  $ cat README.md
+  $ git status
   ```
 
 - You can go on to commit this version from the past,  
   or go back current version as we will do below:
 
   ```sh
-  git checkout HEAD -- README.md
+  $ git checkout HEAD -- README.md
   
-  less README.md  # Back to the current version
-  git status      # Up-to-date
+  $ less README.md  # Back to the current version
+  $ git status      # Up-to-date
   ```
 
 .content-box-warning[
@@ -434,15 +434,15 @@ is to use `git show`.
 
 - We can view a file from any commit as follows:
   ```sh
-  git show HEAD:README.md    # Version in the last commit
+  $ git show HEAD:README.md    # Version in the last commit
   
-  git show ad4ca74:README.md # An arbitrary version
+  $ git show ad4ca74:README.md # An arbitrary version
   ```
 
 - Thanks to our shell skills, it's also easy to revert a file to a previous
   version in this way:
   ```sh
-  git show ad4ca74:README.md > README.md
+  $ git show ad4ca74:README.md > README.md
   ```
 
 ---

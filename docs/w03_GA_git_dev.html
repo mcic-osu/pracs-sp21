@@ -2496,8 +2496,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h3>Contents</h3>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#part-1-create-a-new-git-repo">Part 1 – Create a new Git repo</a></li>
-<li><a href="#part-2-add-some-markdown-content">Part 2 – Add some Markdown content</a></li>
+<li><a href="#part-i-create-a-new-git-repo">Part I – Create a new Git repo</a></li>
+<li><a href="#part-ii-add-some-markdown-content">Part II – Add some Markdown content</a></li>
 <li><a href="#part-iii-add-some-data-files">Part III – Add some “data” files</a></li>
 <li><a href="#part-iv-renaming-files-on-a-new-branch">Part IV – Renaming files on a new branch</a></li>
 <li><a href="#part-v-create-and-sync-an-online-version-of-the-repo">Part V – Create and sync an online version of the repo</a></li>
@@ -2506,7 +2506,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p><br></p>
 <h2 id="introduction">Introduction</h2>
-<p>In this assignment, you will primarily be practicing your Git skills. You will also show that you can write in Markdown and can write a <code>for</code> loop to rename files.</p>
+<p>In this assignment, you will primarily be practicing your Git skills. You will also show that you can write in Markdown and can write a <code>fo</code> loop to rename files.</p>
 <p>The instructions below will take you through it step-by-step. All of the the steps involve things that we have gone through in class and/or that you have practiced with in last week’s exercises.</p>
 <p>Grading information:</p>
 <ul>
@@ -2521,7 +2521,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><p>It’s also a good idea to regularly check the log with <code>git log</code>; recall that <code>git log --oneline</code> will provide a quick overview with one line per commit.</p></li>
 </ul>
 <p><br></p>
-<h2 id="part-1-create-a-new-git-repo">Part 1 – Create a new Git repo</h2>
+<h2 id="part-i-create-a-new-git-repo">Part I – Create a new Git repo</h2>
 <ol type="1">
 <li><strong>Create a new directory at OSC.</strong></li>
 </ol>
@@ -2530,22 +2530,22 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>I suggest the name <code>pracs-sp21-GA1</code> for the dir, (“GA1” for “Graded Assignment 1”), but you are free to pick a name that makes sense to you.</li>
 </ul>
 <ol start="2" type="1">
-<li><p><strong>Load the OSC git module.</strong></p></li>
-<li><p><strong>Initialize a local Git repository</strong> inside your new directory.</p></li>
+<li><p><strong>Load the OSC git module.</strong> Don’t forget to do this, or you will be working with a much older version of Git.</p></li>
+<li><p><strong>Initialize a local Git repository</strong> inside your new directory. <em>[0.5]</em></p></li>
 <li><p><strong>Create a README file in Markdown format.</strong> <em>[0.5]</em><br />
 The file should be named <code>README.md</code>, and for now, just contain a <em>header</em> saying that this is a repository for your assignment.</p></li>
 <li><p><strong><em>Stage</em> and then <em>commit</em> the README file.</strong> <em>[0.5]</em><br />
 Include an appropriate commit message.</p></li>
 </ol>
-<h2 id="part-2-add-some-markdown-content">Part 2 – Add some Markdown content</h2>
+<h2 id="part-ii-add-some-markdown-content">Part II – Add some Markdown content</h2>
 <ol start="5" type="1">
 <li><p><strong>Create a second Markdown file with some more contents.</strong> <em>[1.5]</em></p>
 <p>This file can have any name you want, and you can also choose what you want to write about.</p>
-<p>Just make sure to use of a good variety of Markdown syntax, as discussed and practiced in week 2: headers, lists, hyperlinks, and so on. (You’ll have to include some inline code and a code block later on, so you may or may not choose to use those now.) Also, make sure to read the next step before you finish writing.</p>
+<p>Use of a good variety of Markdown syntax, as discussed and practiced in week 2: headers, lists, hyperlinks, and so on. (You’ll have to include some inline code and a code block later on, so you may or may not choose to use those now.) Also, make sure to read the next step before you finish writing.</p>
 <p>As long as you are not writing minimalistic dummy text without any meaning (like “<em>Item 1, Item 2</em>”), you will not be graded for what you are writing about, so feel free to pick something you like – and don’t worry about the details.</p>
 <p>(If you’re not feeling inspired, here are some suggestions: lecture and reading notes for this week; a table of Unix and/or Git commands that we’ve covered; things that you so far find challenging or interesting about Git; how computational skills may help you with your research.)</p>
 <details>
-<p><summary>Hints</summary> Open the Markdown preview on the side, so you can experiment and see whether your formatting is working the way you intend.</p>
+<p><summary>Hints</summary> In VS Code, open the Markdown preview on the side, so you can experiment and see whether your formatting is working the way you intend.</p>
 </details></li>
 <li><p><strong>Create at least two commits while you work on the Markdown file.</strong> <em>[0.5]</em><br />
 Try to break your progress up into logical units that can be summarized with a descriptive commit message.</p>
@@ -2586,8 +2586,23 @@ You can keep it as simple as switching the file extension to <code>.csv</code>, 
 <summary>Hints</summary>
 <p>
 <ul>
+<li><p><a href="https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-shfiles.html#27">These slides</a> from last week have a similar renaming loop example.</p>
+<ul>
 <li><p>To replace the last part of the filename, like the extension, recall that you can strip suffices using the <code>basename</code> command.</p></li>
-<li><p>Before you go ahead and actually rename the files, use <code>echo</code> in your loop to print the (old and) new filenames: if it looks good, <em>then</em> add the renaming command to the loop.</p>
+<li><p>Before you go ahead and actually rename the files, use <code>echo</code> in your loop to print the (old and) new filenames: if it looks good, <em>then</em> add the renaming command to the loop.</p></li>
+</ul></li>
+<li><p><strong>If you just used <code>mv</code> and forgot to use <code>git mv</code></strong>, don’t fret. Have a look at the status of the repo, then do <code>git add --all</code> and check the status again: Git figured out the rename.</p></li>
+<li><p><strong>If things go wrong</strong>, for instance you renamed incorrectly, or even deleted the files, you can start over in a few ways:</p>
+<ul>
+<li><p>You can delete any files in <code>data/</code>, commit the deletion, and recreate the files. (The extra commits will not affect your grade, but use your commit messages to clarify what you’re doing.)</p></li>
+<li><p>A solution that would always work, including in case these files were actually valuable and you couldn’t just recreate them, is as follows:</p>
+<ul>
+<li>Like above, delete any files in <code>data/</code> and commit the deletion.</li>
+<li>Switch back to the <code>master</code> branch. Your <code>data/</code> files should be back.</li>
+<li>Create a new renaming branch and move there.</li>
+<li>Optionally, delete the old/failed renaming branch.</li>
+</ul></li>
+</ul>
 </p>
 </details></li>
 </ul>
@@ -2608,32 +2623,26 @@ In the README file, describe what you did, including some inline code formatting
 <li><p><strong>Create a Github repository.</strong> <em>[0.5]</em><br />
 Go to <a href="https://github.com" class="uri">https://github.com</a>, sign in, and create a new repository.</p>
 <ul>
-<li>You can give it the same name as your local repo, but these names don’t have to match.</li>
-<li>You will want to start a completely empty repository, because you will uploead all the contents from your local repo: therefore, don’t check any of the boxes to create files like a README.</li>
+<li>It’s a good idea to give it the same name as your local repo, but these names don’t <em>have to</em> match.</li>
+<li>You want to create an <em>empty</em> GitHub repository, because you will upload all the contents from your local repo: therefore, don’t check any of the boxes to create files like a README.</li>
 </ul></li>
 <li><p><strong>Push your local repo online.</strong> <em>[0.5]</em><br />
 With your repo created, follow the instructions that Github now gives you, under the heading “<em>…or push an existing repository from the command line</em>”.</p>
-<p>(Assuming that you’re using SSH authentication, which you should have set up in this week’s ungraded assignment, make sure you use the SSH link type: starting with <code>git@github.com</code> rather than <code>HTTPS</code>.)</p>
-<p>These instructions will comprise of three commands: <code>git remote add</code> to add the “remote” (online) connection, <code>git branch</code> to rename the default branch from <code>master</code> to <code>main</code>, and <code>git push</code> to actually “push” (upload) your local repo.</p>
-<p>When you’re done, click the <code>Code</code> button, and admire the rendered README on the front page of your Github repo.</p></li>
-<li><p><strong>Push a final local edit.</strong> <em>[1]</em><br />
-To see how it will now be easy to keep your remote repo in sync, and to practice with <code>.gitignore</code> files, you will do final commit and push:</p>
-<ul>
-<li>Create a file <code>my.tmp~</code> (so, ending in a tilde <code>~</code>).</li>
-<li>Check your repo’s status.</li>
-<li>Create a file <code>.gitignore</code> in which you use a shell wildcard to match any file ending in <code>~</code>.</li>
-<li>Add the <code>.gitignore</code> file.</li>
-<li>Check your status and make sure the <code>my.tmp~</code> file is not listed as an untracked file (or worse, as a staged file).</li>
-<li>Commit the <code>.gitignore</code> file.</li>
-<li>Push the changes to remote.</li>
-<li>Check your repo to see the update.</li>
-</ul></li>
-<li><p><strong>Create an issue to mark that you’re done!</strong><br />
-Find the “Issues” tab for your repo on Github. (This is the button in the lower bar next to Code and with an exclamation mark icon, not the Issues button in the black uppermost bar: see image below.)</p>
+<p>These instructions will comprise three commands: <code>git remote add</code> to add the “remote” (online) connection, <code>git branch</code> to rename the default branch from <code>master</code> to <code>main</code>, and <code>git push</code> to actually “push” (upload) your local repo.</p>
+<p>When you’re done, click the <code>Code</code> button, and admire the nicely rendered README on the front page of your Github repo.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>Assuming that you’re using SSH authentication, which you should have set up in this week’s ungraded assignment, make sure you use the SSH link type: starting with <code>git@github.com</code> rather than <code>HTTPS</code>.</p>
+</p>
+</details></li>
+<li><p><strong>Create an issue to mark that you’re done!</strong> <em>[0.5]</em><br />
+Find the “Issues” tab for your repo on Github:</p>
 <p align="center">
 <p><img src="img/github-issues-tab.png" width="80%"></p>
 </p>
-<p>In the Issues tab, click the green button <code>New Issue</code> to open a new issue for you repo. Give it a title like “I finished my assignment”, and in the issue text, tag <code>@jelmerp</code>. You can say, for instance, “<em>Hey <span class="citation" data-cites="jelmerp">@jelmerp</span>, can you please take a look at my repo?</em>”.</p>
+<p>In the Issues tab, click the green button <code>New Issue</code> to open a new issue for you repo.</p>
+<p>Give it a title like “I finished my assignment”, and in the issue text, tag <code>@jelmerp</code>. You can say, for instance, “<em>Hey <span class="citation" data-cites="jelmerp">@jelmerp</span>, can you please take a look at my repo?</em>”.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div></li>
 </ol>
 <!--radix_placeholder_article_footer-->

@@ -9,9 +9,11 @@ output:
 
 <br>
 
+## Introduction
+
 In this assignment, you will primarily be practicing your Git skills.
 You will also show that you can write in Markdown
-and can write a `for` loop to rename files.
+and can write a `fo` loop to rename files.
 
 The instructions below will take you through it step-by-step.
 All of the the steps involve things that we have gone through in class and/or
@@ -27,13 +29,13 @@ Grading information:
 - If you make a mistake like an unnecessary commit, or something that requires
   you to subsequently make an extra commit: this is no problem.
   Points will not be subtracted for extra commits as long as you indicate what
-  each commit is form, and I'm still able to figure out which commits are
+  each commit is for & I'm still able to figure out which commits are
   the ones that I requested.
 
-- Points are also not subtracted for minor things like typos in commit messages.
+- Points are not subtracted for minor things like typos in commit messages, either.
 
 - Basically, you should not feel like you have to *restart* the assignment unless
-  things have become a total mess.
+  things have become a total mess...
 
 Some general hints:
 
@@ -49,7 +51,7 @@ Some general hints:
 
 <br>
 
-## Part 1 -- Create a new Git repo
+## Part I -- Create a new Git repo
 
 1. **Create a new directory at OSC.**
   - A good place for this directory is in `/fs/ess/PAS1855/users/$USER/week03/`,
@@ -59,7 +61,11 @@ Some general hints:
     ("GA1" for "Graded Assignment 1"),
     but you are free to pick a name that makes sense to you. 
 
-2. **Initialize a local Git repository** inside your new directory.
+2. **Load the OSC git module.**
+   Don't forget to do this, or you will be working with a much older version
+   of Git. 
+
+2. **Initialize a local Git repository** inside your new directory. *[0.5]*  
 
 3. **Create a README file in Markdown format.** *[0.5]*  
    The file should be named `README.md`,
@@ -69,14 +75,14 @@ Some general hints:
 4. ***Stage* and then *commit* the README file.** *[0.5]*  
    Include an appropriate commit message.
 
-## Part 2 -- Add some Markdown content
+## Part II -- Add some Markdown content
 
 5. **Create a second Markdown file with some more contents.** *[1.5]*  
    
    This file can have any name you want,
    and you can also choose what you want to write about.
    
-   Just make sure to use of a good variety of Markdown syntax,
+   Use of a good variety of Markdown syntax,
    as discussed and practiced in week 2: headers, lists, hyperlinks, and so on.
    (You'll have to include some inline code and a code block later on,
    so you may or may not choose to use those now.)
@@ -93,21 +99,29 @@ Some general hints:
    things that you so far find challenging or interesting about Git;
    how computational skills may help you with your research.)
    
-   Hints:
-   
-   Open the Markdown preview on the side, so you can experiment and see whether
-   your formatting is working the way you intend.
+   <details>
+   <summary>Hints</summary>
+   In VS Code, open the Markdown preview on the side,
+   so you can experiment and see whether your formatting is working the way
+   you intend.
+   </details>
    
 6. **Create at least two commits while you work on the Markdown file.** *[0.5]*  
    Try to break your progress up into logical units that can be
    summarized with a descriptive commit message.
    
-   Hints:
+   <details>
+   <summary>Hints</summary>
    
-   Bad: "*First part of the file*" and "*Second part of the file*"
+   <p>
+   - **Bad** commits/commit messages:  
+     "*First part of the file*" along with "*Second part of the file*".
+   - **Good** commits and commit messages:  
+     "*Summarized key concepts in the Git workflow*" along with
+     "*Made a table of common Git commands*".
+   </p>
    
-   Good: "*Summarized key concepts in the Git workflow*" and
-   "*Made a table of common Git commands*".
+   </details>
 
 7. **Update the `README.md` file**. *[0.5]*  
    Briefly describe the current contents of your repo now that you actually
@@ -121,7 +135,7 @@ Some general hints:
    Create a directory called `data` and inside this directory,
    create 100 empty files with a single `touch` command and at least one
    brace expansion
-   (e.g. for samples numbered 1-100, or 20 samples for 2 treatments).
+   (e.g. for samples numbered 1-100, or 20 samples for 5 treatments).
    Give the files the extension `.txt`.
    
 10. **Stage and commit the `data` directory and its contents.** *[0.5]*  
@@ -129,13 +143,13 @@ Some general hints:
 
 ## Part IV -- Renaming files on a new branch
 
-As it turns out, your adviser messed up,
+As it turns out, there was a miscommunication,
 and and all the "data" files will have to be renamed.
 You realize that this is risky business,
 and you don't want to lose any data.
 
 It occurs to you that one good way of going about this
-would be to create a new Git *branch* and perform the renaming on that branch.
+is creating a new Git *branch* and performing the renaming task on that branch.
 Then, if anything goes wrong, it will be easy to go back:
 you can just switch back to the master branch.  
 (*Note that there are many other ways of undoing and going back in Git,
@@ -153,13 +167,42 @@ but this one is perhaps conceptually the easiest, and safe.*)
     recall that there is a Git-friendly modification to the command to rename
     files: use that in the loop.
 
-    Hints:
-    - To replace the last part of the filename, like the extension,
-      recall that you can strip shared suffices using the `basename` command.
+   <details>
+   <summary>Hints</summary>
+   <p>
 
-    - Before you actually rename the files,
-      use `echo` in your loop to print the (old and) new filenames:
-      if it looks good, *then* add the renaming command to the loop.
+- [These slides](https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-shfiles.html#27)
+  from last week have a similar renaming loop example.
+
+  - To replace the last part of the filename, like the extension,
+    recall that you can strip suffices using the `basename` command.
+  
+  - Before you go ahead and actually rename the files,
+    use `echo` in your loop to print the (old and) new filenames:
+    if it looks good, *then* add the renaming command to the loop.
+
+- **If you just used `mv` and forgot to use `git mv`**, don't fret.
+  Have a look at the status of the repo,
+  then do `git add --all` and check the status again: Git figured out the rename.
+
+- **If things go wrong**, for instance you renamed incorrectly,
+  or even deleted the files, you can start over in a few ways: 
+  
+  - You can delete any files in `data/`, commit the deletion,
+    and recreate the files. (The extra commits will not affect your grade,
+    but use your commit messages to clarify what you're doing.)
+    
+  - A solution that would always work, including in case these files were
+    actually valuable and you couldn't just recreate them, is as follows:
+    - Like above, delete any files in `data/` and commit the deletion.
+    - Switch back to the `master` branch. Your `data/` files should be back.
+    - Create a new renaming branch and move there.
+    - Optionally, delete the old/failed renaming branch.
+
+   </p>
+   </details>
+   
+13. **Commit the changes made by the renaming operation.**
 
 13. **Merge into the `master` branch.**  *[0.5]*  
     With the files successfully renamed, go back to the `master` branch.  
@@ -170,7 +213,7 @@ but this one is perhaps conceptually the easiest, and safe.*)
 14. **Update the README file.**  
     In the README file, describe what you did, including some inline code
     formatting, and put the code for the `for` loop in a code block.  
-    (*No, the repo doesn't really make sense as a cohesive unit any longer,
+    (*No, the repo doesn't really make sense as a cohesive unit anymore,
      but that's okay while we're practicing. :) *)
 
 15. **Stage and commit the updated README file.** *[0.5]*  
@@ -182,45 +225,44 @@ Phew, those were a lot of commits! Let's share all of this work with the world.
 16. **Create a Github repository.** *[0.5]*  
     Go to <https://github.com>, sign in, and create a new repository.
     
-    - You can give it the same name as your local repo,
-      but these names don't have to match.
-    - You will want to start a completely empty repository, because you will uploead
-      all the contents from your local repo:
+    - It's a good idea to give it the same name as your local repo,
+      but these names don't *have to* match.
+    - You want to create an *empty* GitHub repository,
+      because you will upload all the contents from your local repo:
       therefore, don't check any of the boxes to create files like a README.
     
 17. **Push your local repo online.** *[0.5]*  
     With your repo created, follow the instructions that Github now gives you,
     under the heading "*...or push an existing repository from the command line*".
     
-    (Assuming that you're using SSH authentication, which you should have set up
-    in this week's ungraded assignment, make sure you use the SSH link type:
-    starting with `git@github.com` rather than `HTTPS`.)
-    
-    These instructions will comprise of three commands:
+    These instructions will comprise three commands:
     `git remote add` to add the "remote" (online) connection,
     `git branch` to rename the default branch from `master` to `main`,
     and `git push` to actually "push" (upload) your local repo.
 
     When you're done, click the `Code` button, and
-    admire the rendered README on the front page of your Github repo.
+    admire the nicely rendered README on the front page of your Github repo.
 
-18. **Push a final local edit.** *[1]*  
-    To see how it is now quite easy to keep your remote repo in sync,
-    and to practice with `.gitignore` files, you will do final commit and push:
+    <details>
+    <summary>Hints</summary>
+    <p>
+    Assuming that you're using SSH authentication, which you should have set up
+    in this week's ungraded assignment, make sure you use the SSH link type:
+    starting with `git@github.com` rather than `HTTPS`.
+    </p>
+    </details>
+   
+18. **Create an issue to mark that you're done!** *[0.5]*    
+    Find the "Issues" tab for your repo on Github:
     
-    - Create a file `my.tmp~`.
-    - Check your status.
-    - Create a file `.gitignore` in which you use a shell wildcard to match any
-      file ending in `~`.
-    - Add the `.gitignore` file.
-    - Check your status and make sure the `my.tmp~` file is not listed as
-      an untracked file (or worse, as a staged file).
-    - Commit the `.gitignore` file.
-    - Push the changes to remote.
-    - Check your repo to see the update.
-
-19. Find the "Issue" tab on Github and open a new issue.
-    In the issue text, tag `@jelmerp`.
+    <p align="center">
+    <img src="img/github-issues-tab.png" width="80%">
+    </p>
+    
+    In the Issues tab,
+    click the green button `New Issue` to open a new issue for you repo.
+    
+    Give it a title like "I finished my assignment",
+    and in the issue text, tag `@jelmerp`.
     You can say, for instance,
     "*Hey @jelmerp, can you please take a look at my repo?*".
-
