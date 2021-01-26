@@ -394,6 +394,30 @@ $ git add --all    # Stages all previously untracked and
 
 ---
 
+## Getting set up at OSC
+
+- **Launch VS Code**:  
+  Go to <https://ondemand.osc.edu> => `Interactive Apps` =>
+  `Code Server` => 1 or 2 hours => `Launch` ... => `Connect to VS Code`.
+  
+- **Open your workspace**:  
+  On the *Welcome* page, under the heading `Recent`,
+  your workspace should be listed ("`<workspace-name> (Workspace)`").
+  
+- **Open a terminal in VS Code:**  
+  (<kbd>Ctrl</kbd>+<kbd>backtick</kbd>
+  or `r icon::fa("bars")` => `Terminal` => `New Terminal`),
+  and issue the command `bash` to break out of the Singularity shell.
+
+----
+
+- **Load the Git module:**
+  ```sh
+  $ module load git
+  ```
+
+---
+
 ## Start a Git repository
 
 - Create a dir for a mock project to version-control:
