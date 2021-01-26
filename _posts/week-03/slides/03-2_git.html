@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/01/28 (updated: 2021-01-24)
+### 2021/01/28 (updated: 2021-01-26)
 
 ---
 class:inverse middle center
@@ -244,6 +244,9 @@ class:inverse middle center
 
 ## Branching and merging &amp;ndash; Workflow summary
 
+.content-box-info[
+### Overview of the commands used in the branching workflow 
+
 ```sh
 # Create a new branch:
 $ git branch mybranch
@@ -255,13 +258,14 @@ $ git checkout mybranch
 $ git add --all
 $ git commit -m "my message"
 
-# Done with branch -- move back to main trunk and merge
+# Done with branch - move back to main trunk and merge
 $ git checkout master
 $ git merge mybranch -m "Message for merge"
 
 # And [optionally] delete the branch:
 $ git -d mybranch
 ```
+]
 
 ---
 
@@ -286,7 +290,7 @@ ever."*
 performed within the branch `newintro` are now also part of the branch
 `master`.
 
-**(i)** Delete the branch `newintro`.
+**(i)** *Bonus:* Delete the branch `newintro`.
 
 ---
 
@@ -353,7 +357,7 @@ $ ls
 $ cat introduction.txt
 ```
 
-**(i)** Delete the branch `newintro`:
+**(i)** *Bonus:* Delete the branch `newintro`:
 ```sh
 $ git branch -d newintro
 $ git log --oneline
@@ -672,7 +676,7 @@ the online repo, as in **(b)** below:
 &lt;/p&gt;
 &lt;/figure&gt;
 
-- To go full circle, the first user (you in this case) then *pulls* in
+- To go full circle, you *pull* in
   the changes made by the second user **(b)**. 
 
 .content-box-info[
@@ -691,7 +695,7 @@ and `git merge` to merge the newly fetched branch into you current branch.
 With a multi-user workflow, changes made by different users are *shared via
 the online copy of the repo.*
 
-**Syncing is not automatic**:
+*Syncing is not automatic*:
 
 - Changes to your local repo remain local-only until you **push** to remote.
 
@@ -731,7 +735,7 @@ you should ask your collaborator to give you admin rights for the repo.
 
 ---
 
-## Misc. GitHub functionality &amp;ndash; Issues
+## GitHub Issues
 
 - Each GitHub repository has "Issues" tab &amp;ndash; issues are mainly used to
   track bugs and other (potential) problems with a repository.
@@ -746,29 +750,6 @@ you should ask your collaborator to give you admin rights for the repo.
 **Forking**, **Pull Requests**, and **Issues** are Git*Hub* functionality,  
 and not part of Git.
 ]
-
----
-
-## Misc. GitHub functionality &amp;ndash; Add a collaborator
-
-- You can add a collaborator to a repository by going to the repository's
-  settings:
-  
-&lt;p align="center"&gt;
-&lt;img src="img/github-repo-settings.png" width="40%"&gt;
-&lt;/p&gt;
-
-----
-
-&lt;p align="center"&gt;
-&lt;img src="img/github-repo-access.png" width="40%"&gt;
-&lt;/p&gt;
-
-----
-
-&lt;p align="center"&gt;
-&lt;img src="img/github-repo-collaborator.png" width="40%"&gt;
-&lt;/p&gt;
 
 ---
 class:inverse middle center
@@ -873,50 +854,19 @@ class: inverse middle center
 ---
 class: inverse middle center
 
-# Bonus Materials
+# Bonus materials
 
 ----
 
 &lt;br&gt;
 
 .left[
-- ### [A few miscellaneous Git items](#misc)
 - ### [Resolving merge conflicts](#merge-conflict)
 - ### [Forking and creating a Pull Request](#pr)
 - ### [git stash](#stash)
+- ### [More Git tidbits](#misc)
+- ### [Add a collaborator in GitHub](#add-collab)
 ]
-
-&lt;br&gt; &lt;br&gt;
-
----
-background-color: #f2f5eb
-name: misc
-
-## A few miscellaneous Git items
-
-- Git will not pay attention to *empty* directories.
-
-- You can create a new branch and move to it in one go using:
-  ```sh
-  $ git checkout -b &lt;new-branch-name&gt;
-  ```
-
-- To show commits in which a specific file was changed, you can simply use:
-  ```sh
-  $ git log &lt;filename&gt;
-  ```
-
-- "*Aliases*" (command shortcuts) can be useful with Git,
-  and can be added to the `~/.gitconfig` file or set with `git config`:
-  ```sh
-  [alias]
-    hist = log --graph --pretty=format:'%h %ad | %s%d [%an]' --date=short
-    last = log -1 HEAD  # Just show the last commit
-  ```
-  
-  ```sh
-  $ git config --global alias.last "log -1 HEAD"
-  ```
 
 ---
 background-color: #f2f5eb
@@ -1230,6 +1180,62 @@ $ git pull
 # Apply stashed changes:
 $ git stash apply
 ```
+
+---
+background-color: #f2f5eb
+name: misc
+
+## More Git tidbits
+
+- Git will not pay attention to *empty* directories.
+
+- You can create a new branch and move to it in one go using:
+  ```sh
+  $ git checkout -b &lt;new-branch-name&gt;
+  ```
+
+- To show commits in which a specific file was changed, you can simply use:
+  ```sh
+  $ git log &lt;filename&gt;
+  ```
+
+- "*Aliases*" (command shortcuts) can be useful with Git,
+  and can be added to the `~/.gitconfig` file or set with `git config`:
+  ```sh
+  [alias]
+    hist = log --graph --pretty=format:'%h %ad | %s%d [%an]' --date=short
+    last = log -1 HEAD  # Just show the last commit
+  ```
+  
+  ```sh
+  $ git config --global alias.last "log -1 HEAD"
+  ```
+
+---
+background-color: #f2f5eb
+name: add-collab
+
+## Add a collaborator in GitHub
+
+- You can add a collaborator to a repository by going to the repository's
+  settings:
+  
+&lt;p align="center"&gt;
+&lt;img src="img/github-repo-settings.png" width="40%"&gt;
+&lt;/p&gt;
+
+----
+
+&lt;p align="center"&gt;
+&lt;img src="img/github-repo-access.png" width="40%"&gt;
+&lt;/p&gt;
+
+----
+
+&lt;p align="center"&gt;
+&lt;img src="img/github-repo-collaborator.png" width="40%"&gt;
+&lt;/p&gt;
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
