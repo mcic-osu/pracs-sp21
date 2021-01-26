@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/01/26 (updated: 2021-01-24)
+### 2021/01/26 (updated: 2021-01-26)
 
 ---
 class:inverse middle center
@@ -78,16 +78,16 @@ name: intro
 - **What to save?**
   
   - *Do you only save versions of individual files?*   
-    Space-efficient, but impossible to go back to the state of other files
-    at the same point in time.
+    Space-efficient, but not possible to go back to the state of other project
+    files at the same point in time.
   
   - *Do you save the full project periodically?*  
     Better, but can quickly become prohibitive in terms of disk storage.
 
 --
 
-- **How to manage simultaneous variants of files**, such as when making
-  experimental changes?
+- **How to manage simultaneous variants of files**,  
+  such as when making experimental changes?
 
 - **How to know what changes were made between saved versions?**  
   Try to summarize this in the file name?
@@ -98,7 +98,7 @@ name: intro
 
 ---
 
-## Why use a Version Control System?
+## Why use a Version Control System (VCS)?
 
 - You can easily **see your history of changes**.
 
@@ -124,7 +124,7 @@ name: intro
 
 ---
 
-## Why use a Version Control System?
+## Why use a Version Control System (VCS)?
 
 &lt;br&gt;
 
@@ -137,12 +137,24 @@ name: intro
 
 ---
 
-## What a Version Control System roughly does
+## What are Git and GitHub?
+
+&lt;br&gt;
+
+- **Git** is the most widely used Version Control System.  
+  (Others include *SVN* and *Mercurial*.)
+
+- **GitHub** is the most widely used *website* to host Git repositories.  
+   (Others include *GitLab*, *Bitbucket*, and *SourceForge*.)
+
+---
+
+## How Git roughly works
 
 You save snapshots of your entire project
 with every minor piece of progress.
 
-The Version Control System manages this cleverly without having to
+Git manages this cleverly without having to
 create full copies of the project for every snapshot.
 
 &lt;figure&gt;
@@ -154,7 +166,7 @@ create full copies of the project for every snapshot.
 
 ---
 
-## What a Version Control System roughly does
+## How Git roughly works
 
 You save snapshots of your entire project
 with every minor piece of progress.
@@ -172,21 +184,9 @@ create full copies of the project for every snapshot.
 &lt;br&gt;
 
 .content-box-info[
-One database (*repository*) manages the files
-inside a single directory structure (project organization!).
+One Git database manages the files inside a single directory structure
+(project organization!).
 ]
-
----
-
-## What are Git and GitHub?
-
-&lt;br&gt;
-
-- **Git** is the most widely used Version Control System.  
-  (Others include *SVN* and *Mercurial*.)
-
-- **GitHub** is the most widely used *website* to host Git repositories.  
-   (Others include *GitLab*, *Bitbucket*, and *SourceForge*.)
 
 ---
 
@@ -223,7 +223,7 @@ Whenever you commit, you also include a *message describing the changes*.
   
   - **Manuscripts** (if you write them in plain text)
   
-- **Raw data** may or may not be committed (see *Limitations* on next slide).
+- **_Raw data_** may or may not be committed (see *Limitations* on next slide).
 
 &lt;br&gt;
 
@@ -231,14 +231,13 @@ Whenever you commit, you also include a *message describing the changes*.
 
 - In general, **version-control the source, not derived files**. For instance:
     
-    - Version-control your markdown file, not the HTML it produces.
+    - Version-control your Markdown file, not the HTML it produces.
     
     - Version-control your script, not the figure it produces.
 
 .content-box-info[
-Recall last week's point that derived data and other derived files
-are (or should be...) *dispensable*, because they can be regenerated
-using the raw data + the scripts.
+Recall last week's point that derived files are (or should be...) *dispensable*,
+because they can be regenerated using the raw data + the scripts.
 ]
 
 ---
@@ -247,12 +246,12 @@ using the raw data + the scripts.
 
 ### Limitations:
 
-- *File type*: Binary files can't be tracked *effectively* &amp;ndash;
-  Git will just save a new version of the file whenever there's been a change.
+- *File type*: Binary (non-text) files can't be tracked effectively &amp;ndash;  
+  Git will just save a new version whenever there's been a change.
 
 - *Repository size*: Best to keep individual repo's under 1 GB.
 
-- *File size*: Github will not allow files over 100 MB.
+- *File size*: GitHub will not allow files over 100 MB.
 
 --
 
@@ -290,8 +289,7 @@ You should use dedicated repositories for this like the NCBI's SRA.
 
 .content-box-info[
 **In this course, we will mainly focus on the CLI** because it's the most
-universal and powerful interface,
-and (?) the best way to learn what's going on.
+universal and powerful interface.
 
 But it's absolutely fine to (partially) switch to GUI/usage later. 
 ]
@@ -324,7 +322,7 @@ Only three commands tend to make up the vast majority of your Git work:
   *Stage* files to be committed (including previously untracked files).
 
 - **`git commit`**  
-  Commit all currently staged changes.
+  Commit all currently staged changes (create a snapshot of the project).
 
 - **`git status`**  
   Get the status of your repository: which files have changed,
@@ -365,7 +363,7 @@ Only three commands tend to make up the vast majority of your Git work:
 Only three commands tend to make up the vast majority of your Git work:
 
 - **`git add`**  
-  *Stages* files to be committed, including previously untracked files.
+  *Stages* files to be committed (including previously untracked files).
 
 - **`git commit`**  
   Commits all currently staged changes.
@@ -373,7 +371,8 @@ Only three commands tend to make up the vast majority of your Git work:
 &lt;br&gt;
 
 .content-box-info[
-New files are not automatically tracked: you need to add them using `git add`.
+Files in your directory structure are not automatically tracked:  
+you need to add them using `git add`.
 ```sh
 $ git add file.txt # Starts tracking *and* stages the file 
 
@@ -434,7 +433,7 @@ $ git add --all    # Stages all previously untracked and
 
 --
 
-- **Start tracking the file, and stage it:**
+- Start tracking the file, and stage it:
   ```sh
   $ git add origin.txt   # Tab-completing filenames will work
   ```
@@ -467,7 +466,7 @@ $ git add --all    # Stages all previously untracked and
 
 --
 
-- We will also **look at the commit history of the repo with `git log`**:
+- We will also **look at the commit history** of the repo with `git log`:
   ```sh
   $ git log
   ```
@@ -586,7 +585,7 @@ last commit using `git status`, and you find that you have:
    $ echo "June 18, 1858: read essay from Wallace" &gt; todo.txt
    ```
 
-2. Stage the file.:
+2. Stage the file:
    ```sh
    $ git add todo.txt
    ```
@@ -617,7 +616,7 @@ name: concepts
   
   - Modified and staged since the last commit (*staged*)
   
-  - Modified (and not staged) since the last commit (*modified*)
+  - Modified but not staged since the last commit (*modified*)
 
 ---
 
@@ -694,13 +693,9 @@ name: concepts
 | 4rd-to-last      | HEAD^^^      | HEAD~3         
 | and so on...
 
-&lt;br&gt;
-
---
-
 &lt;figure&gt;
 &lt;p align="center"&gt;
-&lt;img src="img/git-head-notation.svg" width="85%"&gt;
+&lt;img src="img/git-head-notation.svg" width="95%"&gt;
 &lt;/p&gt;
 &lt;/figure&gt;
 
@@ -741,16 +736,6 @@ name: concepts
   $ git diff
   ```
 
---
-
-- Let's also change an *existing line* in `todo.txt`:
-  - Find the file in the VS Code *Explorer* side bar, and click on it.
-  - Change "essay" to "essays", save the file, and type:
-  
-  ```sh
-  $ git diff
-  ```
-
 ---
 
 ## Showing changes (cont.)
@@ -758,8 +743,9 @@ name: concepts
 .content-box-info[
 **VS Code can nicely show differences between files too:**
 
-1. Click on the git symbol in the narrow side bar to open the Source Control
-  side bar.
+1. Click on the git symbol in the narrow side bar to open the *Source Control*
+   side bar.
+   
 2. In the source control sidebar, click on the **`M`** next to the file
   `todo.txt`.
 ]
@@ -770,7 +756,7 @@ name: concepts
 
 .content-box-info[
 If there are a lot of differences to show,
-`git diff` will open the `less` file pager, and you no longer have a prompt.  
+`git diff` will open the **`less` file pager**, and you no longer have a prompt.  
 Don't panic, and press &lt;kbd&gt;q&lt;/kbd&gt; to exit `less`.
 ]
 
