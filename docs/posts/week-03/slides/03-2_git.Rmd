@@ -865,6 +865,7 @@ class: inverse middle center
 - ### [Resolving merge conflicts](#merge-conflict)
 - ### [Forking and creating a Pull Request](#pr)
 - ### [git stash](#stash)
+- ### [Amending commits](#amend)
 - ### [More Git tidbits](#misc)
 - ### [Add a collaborator in GitHub](#add-collab)
 ]
@@ -1181,6 +1182,39 @@ $ git pull
 # Apply stashed changes:
 $ git stash apply
 ```
+
+---
+background-color: #f2f5eb
+name: amend
+
+---
+
+## Amending commits
+
+Let's say we forgot to add a file to a commit,
+or we notice a silly typo in something we just committed.
+  
+Creating a separate commit for this seems "wasteful" or even confusing,  
+and including these changes along with others in a next commit is also likely
+to be inappropriate. **In such cases, we can _amend_ the commit**.
+
+- First, we stage the forgotten or fixed file: 
+  ```sh
+  $ git add <file>
+  ```
+
+- Then, we amend the commit (also using the `--no-edit` flag
+  because we do not want change the commit message):
+  ```sh
+  $ git commit --amend --no-edit
+  ```
+
+.content-box-warning[
+Because amending commits "changes history", some recommend avoiding this
+altogether.
+For sure, do **not** amend commits that have been published in (*pushed to*)
+the online counterpart of the repo.
+]
 
 ---
 background-color: #f2f5eb

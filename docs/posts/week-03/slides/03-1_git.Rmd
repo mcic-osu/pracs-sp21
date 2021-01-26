@@ -416,13 +416,20 @@ $ git add --all    # Stages all previously untracked and
   $ module load git
   ```
 
+<br>
+
+.content-box-info[
+To paste into the VS Code terminal:
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>.
+]
+
 ---
 
 ## Start a Git repository
 
 - Create a dir for a mock project to version-control:
   ```sh
-  $ cd /fs/PAS1855/users/$USER/
+  $ cd /fs/PAS1855/users/$USER/  # If necessary
   
   $ mkdir -p week03/originspecies
   
@@ -438,8 +445,6 @@ $ git add --all    # Stages all previously untracked and
   $ git init
   ```
 
---
-
 - Check the status of the repo:
   ```sh
   $ git status
@@ -449,11 +454,12 @@ $ git add --all    # Stages all previously untracked and
 
 ## Our first commit
 
-- Start writing the book:
+- Start writing the book and check the status:
   ```sh
   $ touch origin.txt
-
   $ echo "An Abstract of an Essay on ..." > origin.txt
+
+  $ git status
   ```
 
 --
@@ -463,12 +469,12 @@ $ git add --all    # Stages all previously untracked and
   $ git add origin.txt   # Tab-completing filenames will work
   ```
 
---
-
 - Check the status of the repo:
   ```sh
   $ git status
   ```
+
+--
 
 - Looks good? Let's make our first **commit**:
   ```sh
@@ -511,8 +517,6 @@ $ git add --all    # Stages all previously untracked and
   ```sh
   $ echo "On the Origin of Species" > origin.txt
   ```
-
---
 
 - Check the status of the repo:
   ```sh
@@ -697,10 +701,10 @@ name: concepts
 
 | File state     | HEAD (Last commit) | Index (Stage) | Working Dir
 |----------------|--------------------|---------------|
-| Committed | version X          | version X     | version X 
-| Staged    | version X          | **<span style=color:green> version Y</span>**     | **<span style=color:green>version Y</span>**
-| Modified  | version ?          | version X     | **<span style=color:red>version Y</span>**
-| Untracked | &nbsp; -           | &nbsp; -       | **<span style=color:red>version X</span>**
+| **Committed** | version X          | version X     | version X 
+| **Staged**    | version X          | **<span style=color:green> version Y</span>**     | **<span style=color:green>version Y</span>**
+| **Modified**  | version ?          | version X     | **<span style=color:red>version Y</span>**
+| **Untracked** | &nbsp; -           | &nbsp; -       | **<span style=color:red>version X</span>**
 
 ---
 
@@ -723,21 +727,6 @@ name: concepts
 <img src="img/git-head-notation.svg" width="95%">
 </p>
 </figure>
-
-
----
-
-## Showing changes
-
-- By default, `git diff` will show all changes between the **working dir** and:
-  - If something has been staged: the **_Index (stage)_**.
-  - If nothing has been staged: the **_last commit_**.
-
-- Right now, there are no differences to report, because our working dir,
-  the stage, and and the last commit are all the same:
-  ```sh
-  $ git diff
-  ```
 
 ---
 
@@ -806,7 +795,7 @@ Don't panic, and press <kbd>q</kbd> to exit `less`.
   arbitrary commits:
   ```sh
   # Last commit vs second-to-last commit - full repo:
-  git diff HEAD HEAD^
+  $ git diff HEAD HEAD^
   
   # Last commit vs a specified commit - specific file: 
   $ git diff HEAD d715c54 todo.txt 
@@ -846,7 +835,7 @@ accidentally added using `git add --all`.
   that text editors and other programs can produce):
   ```sh
   $ mkdir data
-  $ touch data/drawings-1855-{01..12}-{01..30} todo.txt~
+  $ touch data/drawings_1855-{01..12} todo.txt~
   ```
 
 - Check the status:
@@ -865,23 +854,18 @@ accidentally added using `git add --all`.
   $ echo "*~" >> .gitignore
   ```
   
-- Check the status:
+- Check the status again, and the files we want to ignore should no longer
+  be listed as untracked files:
   ```sh
   $ git status
   ```
 
 --
 
-- Add and commit the `.gitignore` file:
+- Finally, we'll add and commit the `.gitignore` file:
   ```sh
   $ git add .gitignore
   $ git commit -m "Added a gitignore file"
-  ```
-  
-- Check the status again, and the files we want to ignore should no longer
-  be listed as untracked files:
-  ```sh
-  $ git status
   ```
   
 ---
@@ -909,37 +893,6 @@ happened.
 
 However, it is cleaner to use `git mv` and `git rm`,
 so do so when you remember.
-]
-
----
-
-## Amending commits
-
-Let's say we forgot to add a file to a commit,
-or we notice a silly typo in something we just committed.
-  
-Creating a separate commit for this seems "wasteful" or even confusing,  
-and including these changes along with others in a next commit is also likely
-to be inappropriate. **In such cases, we can _amend_ the commit**.
-
-- First, we stage the forgotten or fixed file: 
-  ```sh
-  $ git add <file>
-  ```
-
-- Then, we amend the commit (also using the `--no-edit` flag
-  because we do not want change the commit message):
-  ```sh
-  $ git commit --amend --no-edit
-  ```
-
---
-
-.content-box-warning[
-Because amending commits "changes history", some recommend avoiding this
-altogether.
-For sure, do **not** amend commits that have been published in (*pushed to*)
-the online counterpart of the repo.
 ]
 
 ---
