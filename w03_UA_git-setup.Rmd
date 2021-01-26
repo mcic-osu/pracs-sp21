@@ -1,5 +1,5 @@
 ---
-title: "Week 3 -- Ungraded Assignment : <br> Git setup and Github authentication"
+title: "Week 3 -- Ungraded Assignment : <br> Git setup and GitHub authentication"
 output:
   distill::distill_article:
     self_contained: false
@@ -30,7 +30,7 @@ you can also follow them to set up Git for your local computer.*
 
 3. **Use `git config` to make your name known to Git.**  
    Somewhat confusingly, mote that this should be your *actual name*,
-   and not your Github username:
+   and not your GitHub username:
    
    ```sh
    git config --global user.name 'John Doe'
@@ -38,7 +38,7 @@ you can also follow them to set up Git for your local computer.*
 
 4. **Use `git config` to make your email address known to Git.**  
    *Make sure that you use the same email address you used to sign up for
-   Github*.
+   GitHub*.
    
    ```sh
    git config --global user.email 'doe.391@osu.edu'
@@ -83,24 +83,24 @@ you can also follow them to set up Git for your local computer.*
 
 <br>
 
-## Part 2: Github authentication
+## Part 2: GitHub authentication
 
-### Github authentication: Background
+### GitHub authentication: Background
 
 To be able to link local Git repositories to their online counterparts on
-Github, we need to set up Github authentication.
+GitHub, we need to set up GitHub authentication.
 
-Regular password access (over `HTTP`/`HTTPS`) is now "deprecated" by Github,
+Regular password access (over `HTTP`/`HTTPS`) is now "deprecated" by GitHub,
 and two better options are to set up `SSH` access with an *SSH key*,
 or `HTTPS` access with a *Public Access Token*.
 
 We'll use `SSH`, as it is easier -- though still a bit of drag --
 and because learning this procedure will also be useful
 for when you'll be setting up SSH access to the Ohio Supercomputer Center.
-(But note that Github now labels `HTTPS` access as the "preferred" method.)
+(But note that GitHub now labels `HTTPS` access as the "preferred" method.)
 
-For everything on Github, there are separate SSH and HTTPS URLs,
-and Github will always show you both types of URLs.
+For everything on GitHub, there are separate SSH and HTTPS URLs,
+and GitHub will always show you both types of URLs.
 When using `SSH`, we need to use URLs with the following format:
 
 ```sh
@@ -111,7 +111,7 @@ git@github.com:<USERNAME>/<REPOSITORY>.git
 `https://github.com/<USERNAME>/<REPOSITORY>.git`)
 
 
-### Setting up Github SSH authentication
+### Setting up GitHub SSH authentication
 
 *These instructions are for setting up authentication at OSC,
 but you can repeat the same steps to set up authentication for your local computer.*
@@ -137,7 +137,7 @@ but you can repeat the same steps to set up authentication for your local comput
 
 3. Now, you have a file called `id_rsa.pub` in your `~/.ssh` folder,
    which is your **public key**. To enable authentication,
-   we will put this public key on Github &ndash; our public key interacts
+   we will put this public key on GitHub &ndash; our public key interacts
    with our *private key*, which we do *not* share.  
    Print the public key to screen using `cat`:
   

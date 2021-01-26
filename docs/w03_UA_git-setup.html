@@ -85,27 +85,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Week 3 -- Ungraded Assignment : &lt;br&gt; Git setup and Github authentication</title>
+  <title>pracs-sp21: Week 3 -- Ungraded Assignment : &lt;br&gt; Git setup and GitHub authentication</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Week 3 -- Ungraded Assignment : &lt;br&gt; Git setup and Github authentication"/>
+  <meta property="og:title" content="pracs-sp21: Week 3 -- Ungraded Assignment : &lt;br&gt; Git setup and GitHub authentication"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Week 3 -- Ungraded Assignment : &lt;br&gt; Git setup and Github authentication"/>
+  <meta property="twitter:title" content="pracs-sp21: Week 3 -- Ungraded Assignment : &lt;br&gt; Git setup and GitHub authentication"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 3 -- Ungraded Assignment : <br> Git setup and Github authentication"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 3 -- Ungraded Assignment : <br> Git setup and GitHub authentication"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2443,7 +2443,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Week 3 -- Ungraded Assignment : <br> Git setup and Github authentication","authors":[]}
+{"title":"Week 3 -- Ungraded Assignment : <br> Git setup and GitHub authentication","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2483,7 +2483,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Week 3 – Ungraded Assignment :   Git setup and Github authentication</h1>
+<h1>Week 3 – Ungraded Assignment :   Git setup and GitHub authentication</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2504,10 +2504,10 @@ You can do this after logging in at <a href="https://ondemand.osc.edu" class="ur
 (<em>Note</em>: Git is available in any OSC shell without loading any modules, but that is a rather old version – so we load a newer one.)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">module</span> load git/2.18.0</span></code></pre></div></li>
 <li><p><strong>Use <code>git config</code> to make your name known to Git.</strong><br />
-Somewhat confusingly, mote that this should be your <em>actual name</em>, and not your Github username:</p>
+Somewhat confusingly, mote that this should be your <em>actual name</em>, and not your GitHub username:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">git</span> config --global user.name <span class="st">&#39;John Doe&#39;</span></span></code></pre></div></li>
 <li><p><strong>Use <code>git config</code> to make your email address known to Git.</strong><br />
-<em>Make sure that you use the same email address you used to sign up for Github</em>.</p>
+<em>Make sure that you use the same email address you used to sign up for GitHub</em>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">git</span> config --global user.email <span class="st">&#39;doe.391@osu.edu&#39;</span></span></code></pre></div></li>
 <li><p><strong>Use <code>git config</code> to set a default text editor for Git</strong>.<br />
 Occasionally, when you need to provide Git with a “commit message” to Git and you haven’t entered one on the command line, Git will open up a text editor for you. Even though we’ll be mostly be working in VS Code during this course, in this case, it is better to select a text editor that can be run within the terminal, like <code>nano</code> (or <code>vim</code>, if you are familiar with it). To specify Nano as your default text editor for Git:</p>
@@ -2528,15 +2528,15 @@ Make sure you see <code>colour.ui=true</code> in the list (like above), so Git o
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">git</span> config --global color.ui true</span></code></pre></div></li>
 </ol>
 <p><br></p>
-<h2 id="part-2-github-authentication">Part 2: Github authentication</h2>
-<h3 id="github-authentication-background">Github authentication: Background</h3>
-<p>To be able to link local Git repositories to their online counterparts on Github, we need to set up Github authentication.</p>
-<p>Regular password access (over <code>HTTP</code>/<code>HTTPS</code>) is now “deprecated” by Github, and two better options are to set up <code>SSH</code> access with an <em>SSH key</em>, or <code>HTTPS</code> access with a <em>Public Access Token</em>.</p>
-<p>We’ll use <code>SSH</code>, as it is easier – though still a bit of drag – and because learning this procedure will also be useful for when you’ll be setting up SSH access to the Ohio Supercomputer Center. (But note that Github now labels <code>HTTPS</code> access as the “preferred” method.)</p>
-<p>For everything on Github, there are separate SSH and HTTPS URLs, and Github will always show you both types of URLs. When using <code>SSH</code>, we need to use URLs with the following format:</p>
+<h2 id="part-2-github-authentication">Part 2: GitHub authentication</h2>
+<h3 id="github-authentication-background">GitHub authentication: Background</h3>
+<p>To be able to link local Git repositories to their online counterparts on GitHub, we need to set up GitHub authentication.</p>
+<p>Regular password access (over <code>HTTP</code>/<code>HTTPS</code>) is now “deprecated” by GitHub, and two better options are to set up <code>SSH</code> access with an <em>SSH key</em>, or <code>HTTPS</code> access with a <em>Public Access Token</em>.</p>
+<p>We’ll use <code>SSH</code>, as it is easier – though still a bit of drag – and because learning this procedure will also be useful for when you’ll be setting up SSH access to the Ohio Supercomputer Center. (But note that GitHub now labels <code>HTTPS</code> access as the “preferred” method.)</p>
+<p>For everything on GitHub, there are separate SSH and HTTPS URLs, and GitHub will always show you both types of URLs. When using <code>SSH</code>, we need to use URLs with the following format:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">git@github.com</span>:<span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>/<span class="op">&lt;</span>REPOSITORY<span class="op">&gt;</span>.git</span></code></pre></div>
 <p>(And when using <code>HTTPS</code>, you would use URLS like <code>https://github.com/&lt;USERNAME&gt;/&lt;REPOSITORY&gt;.git</code>)</p>
-<h3 id="setting-up-github-ssh-authentication">Setting up Github SSH authentication</h3>
+<h3 id="setting-up-github-ssh-authentication">Setting up GitHub SSH authentication</h3>
 <p><em>These instructions are for setting up authentication at OSC, but you can repeat the same steps to set up authentication for your local computer.</em></p>
 <ol type="1">
 <li><p>In a terminal at OSC, use the <code>ssh-keygen</code> command to generate a public-private <em>SSH key pair</em> like so:</p>
@@ -2548,7 +2548,7 @@ Make sure you see <code>colour.ui=true</code> in the list (like above), so Git o
 <p align="left">
 <p><img src=img/ssh-key-randomart2.png width="90%"></p>
 </p></li>
-<li><p>Now, you have a file called <code>id_rsa.pub</code> in your <code>~/.ssh</code> folder, which is your <strong>public key</strong>. To enable authentication, we will put this public key on Github – our public key interacts with our <em>private key</em>, which we do <em>not</em> share.<br />
+<li><p>Now, you have a file called <code>id_rsa.pub</code> in your <code>~/.ssh</code> folder, which is your <strong>public key</strong>. To enable authentication, we will put this public key on GitHub – our public key interacts with our <em>private key</em>, which we do <em>not</em> share.<br />
 Print the public key to screen using <code>cat</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">cat</span> ~/.ssh/id_rsa.pub</span></code></pre></div></li>
 <li><p>Copy the public key, i.e. the contents of the public key file, to your clipboard. Make sure you get all of it, including the “<code>ssh-rsa</code>” part (but beware that your new prompt may start on the same line as the end the key):</p>

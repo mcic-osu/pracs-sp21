@@ -1,5 +1,5 @@
 ---
-title: "Week 3: Git and Github"
+title: "Week 3: Git and GitHub"
 output:
   xaringan::moon_reader:
     seal: false
@@ -40,7 +40,7 @@ class:inverse middle center
 
 .left[
 - ### Part I: Getting started with Git (this slide deck)
-- ### Part II: [Branching & merging, and remotes on Github](03-2_git.Rmd)
+- ### Part II: [Branching & merging, and remotes on GitHub](03-2_git.Rmd)
 - ### Part III: [Undoing changes and viewing the past](03-3_git.Rmd)
 ]
 

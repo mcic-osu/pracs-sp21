@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Week 3: Git and Github</title>
+    <title>Week 3: Git and GitHub</title>
     <meta charset="utf-8" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
@@ -21,7 +21,7 @@ class:inverse middle center
 
 ----
 
-# Part II: &lt;br&gt; Branching &amp; merging, &lt;br&gt; and remotes on Github
+# Part II: &lt;br&gt; Branching &amp; merging, &lt;br&gt; and remotes on GitHub
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
@@ -366,7 +366,7 @@ $ git log --oneline
 ---
 class:inverse middle center
 
-# Remote repositories on Github
+# Remote repositories on GitHub
 
 ----
 
@@ -419,7 +419,7 @@ look for the `GitLens` extension by Eric Amodio.
 
 ---
 
-## Create a Github repo (cont.)
+## Create a GitHub repo (cont.)
 
 1. Go to &lt;https://github.com&gt; and sign in.
 
@@ -432,7 +432,7 @@ look for the `GitLens` extension by Eric Amodio.
 
 ---
 
-## Create a Github repo (cont.)
+## Create a GitHub repo (cont.)
 
 1. Go to &lt;https://github.com&gt; and sign in.
 
@@ -449,7 +449,7 @@ look for the `GitLens` extension by Eric Amodio.
 
 ---
 
-## Create a Github repo (cont.)
+## Create a GitHub repo (cont.)
 
 1. Go to &lt;https://github.com&gt; and sign in.
 
@@ -470,7 +470,7 @@ look for the `GitLens` extension by Eric Amodio.
 
 ---
 
-## Create a Github repo (cont.)
+## Create a GitHub repo (cont.)
 
 1. Go to &lt;https://github.com&gt; and sign in.
 
@@ -507,7 +507,7 @@ You can click on the `HTTPS`/`SSH` button to change the URL type.
 
 ## Link up the local and remote repositories (cont.)
 
-We go back to the shell, where we'll enter the commands that Github provided
+We go back to the shell, where we'll enter the commands that GitHub provided
 to us under "*...or push an existing repository from the command line*".
 
 - First, we tell Git to add a "remote" connection with `git remote`.  
@@ -518,7 +518,7 @@ to us under "*...or push an existing repository from the command line*".
   - `origin` &amp;ndash; the nickname we're giving the connection.  
     This is an arbitrary name but is usually *origin* by convention.   
   
-  - The SSH URL to the Github repo.
+  - The SSH URL to the GitHub repo.
 
   ```sh
   # git remote add &lt;remote-nickname&gt; &lt;URL&gt;
@@ -530,7 +530,7 @@ to us under "*...or push an existing repository from the command line*".
 ## Link up the local and remote repositories (cont.)
 
 - Second, we rename the default branch, from `master` to `main`
-  (Github since recently uses `main` as the default branch):
+  (GitHub since recently uses `main` as the default branch):
   ```sh
   $ git branch -M main
   ```
@@ -558,9 +558,9 @@ $ git push
 
 ---
 
-## Explore the repository on Github
+## Explore the repository on GitHub
 
-- Back at Github, click on `Code` in the lower of the top bars.  
+- Back at GitHub, click on `Code` in the lower of the top bars.  
   Now, we can see the files that we just uploaded from our local repo.
 
 &lt;p align="center"&gt;
@@ -626,7 +626,7 @@ In our day-to-day work, we now commit as usual, and in addition,
 --
 
 .content-box-info[
-If we go back to Github, we show that the contents of the README.md
+If we go back to GitHub, we show that the contents of the README.md
 automatically shows up as a rendered Markdown file!
 ]
 
@@ -1090,7 +1090,7 @@ background-color: #f2f5eb
 
 ## Creating a Pull Request
 
-- If we then go back to Github,
+- If we then go back to GitHub,
   we see that our forked repo is "*x commit(s) ahead*" of the original repo:
   
   &lt;p align="center"&gt;
@@ -1134,7 +1134,7 @@ background-color: #f2f5eb
   But, you *can* create an ongoing connection to the original repo,
   which you can use to periodically *pull* to keep your fork up-to-date.
   
-  This works similarly to connecting your own Github repo:
+  This works similarly to connecting your own GitHub repo:
   
 ```sh
 $ git remote add upstream git@github.com:jelmerp/originspecies.git

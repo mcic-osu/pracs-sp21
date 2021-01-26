@@ -1,5 +1,5 @@
 ---
-title: "Week 3: Git and Github"
+title: "Week 3: Git and GitHub"
 output:
   xaringan::moon_reader:
     seal: false
