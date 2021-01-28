@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - [Slides: Part I -- Getting started with Git](slides/03-1_git.html) -- Tuesday Zoom (Jan 26)
 
-- [Slides: Part II -- Branching & merging, and remotes on GitHub](slides/03-2_git.html) -- Thursday Zoom (Jan 28)
+- [Slides: Part II -- Remotes on GitHub, and branching & merging](slides/03-2_git.html) -- Thursday Zoom (Jan 28)
 
 - [Slides: Part III -- Undoing changes and viewing the past](slides/03-3_git.html) -- Thursday / bonus
 
