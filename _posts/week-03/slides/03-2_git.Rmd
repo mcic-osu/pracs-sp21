@@ -168,8 +168,8 @@ look for the `GitLens` extension by Eric Amodio.
    `New repository`.
    
 3. In the box `Repository name`, we'll use the same name that we gave to our
-   local directory: `origin-species`.  
-   (*Note:* these names don't need to match up.)
+   local directory: `originspecies`.  
+   (*Note:* these names don't *have to* match up.)
    
 4. Leave other options as they are.  
    (We're not adding a README or other files as we are "importing" an
@@ -189,8 +189,8 @@ look for the `GitLens` extension by Eric Amodio.
    `New repository`.
    
 3. In the box `Repository name`, we'll use the same name that we gave to our
-   local directory: `origin-species`.  
-   (*Note:* these names don't need to match up.)
+   local directory: `originspecies`.  
+   (*Note:* these names don't *have to* match up.)
    
 4. Leave other options as they are.  
    (We're not adding a README or other files as we are "importing" an
@@ -482,6 +482,8 @@ class:inverse middle center
   # Move to the repo dir:
   $ cd branching_example
   ```
+
+--
 
 - Let's see what has been done in this repo:
   ```sh
