@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/01/28 (updated: 2021-01-26)
+### 2021/01/28 (updated: 2021-01-27)
 
 ---
 class:inverse middle center
@@ -36,332 +36,42 @@ class:inverse middle center
 ----
 
 .left[
-- ### [Branching &amp; merging](#branch)
 - ### [Remote repos on GitHub](#remote)
+- ### [Branching &amp; merging](#branch)
 - ### [Some Git best practices](best-prac)
 ]
 
 &lt;br&gt; &lt;br&gt;
 
 ---
-class:inverse middle center
 
-# Branching &amp; merging
+## Getting set up at OSC
+
+- **Launch VS Code**:  
+  Go to &lt;https://ondemand.osc.edu&gt; =&gt; `Interactive Apps` =&gt;
+  `Code Server` =&gt; 1 or 2 hours =&gt; `Launch` ... =&gt; `Connect to VS Code`.
+  
+- **Open your workspace**:  
+  On the *Welcome* page, under the heading `Recent`,
+  your workspace should be listed ("`&lt;workspace-name&gt; (Workspace)`").
+  
+- **Open a terminal in VS Code:**  
+  (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt;
+  or <i class="fas  fa-bars "></i> =&gt; `Terminal` =&gt; `New Terminal`),
+  and issue the command `bash` to break out of the Singularity shell.
 
 ----
 
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-
-## Starting a repo with some commits
-
-- First, we create a dummy repo with a few commits by running a script:
+- **Load the Git module:**
   ```sh
-  $ cd /fs/ess/PAS1855/users/$USER/CSB/git/sandbox
-  $ less ../data/create_repository.sh  # press `q` to exit less
-  
-  $ ../data/create_repository.sh
+  $ module load git
   ```
 
-- Let's see what has been done in this repo:
+- **Move to the following dir:**
   ```sh
-  $ cd branching_example
-  
-  $ git log --oneline
+  $ cd week03/originspecies # Assumes you are in /fs/ess/PAS1855/users/$USER/
   ```
 
----
-
-## *Branches* in Git
-
-- *We now want to improve the code, but these changes are experimental,*  
-  and we want to retain our previous version that we know works.
-  
-- This is where ***branching*** comes in.
-
-  With a new branch, we can make changes that don't affect the `master` branch,
-  and we can also keep working on the `master` branch:
-  
-&lt;figure&gt;
-&lt;p align="center"&gt;
-&lt;img src="img/csb-branch-intro.png" width="75%"&gt;
-&lt;figcaption&gt;Figure modified after Allesino &amp; Wilmes (2019)&lt;/figcaption&gt;
-&lt;/p&gt;
-&lt;/figure&gt;
-
----
-
-## Creating a new branch
-
-- First, we create a new branch as follows:
-  ```sh
-  $ git branch fastercode   # We name the branch "fastercode"
-  ```
-
---
-
-- Let's see what our log looks like now, and list the branches:
-  ```sh
-  $ git log --oneline  # --oneline: 1-line summary per commit
-  ```
-  
-  ```sh
-  $ git branch  # Without args, git branch will list the branches
-  ```
-
---
-
-- It turns out we created a new branch **but we are still on the master branch**,
-  so we should switch branches:
-  ```sh
-  $ git checkout fastercode  # Note reuse of `checkout` command!
-  ```
-
----
-
-## Making experimental changes on the new branch
-
-- We edit the code, stage and commit the changes:
-  ```sh
-  $ echo "Yeah, faster code" &gt;&gt; code.txt
-  $ git add code.txt
-  $ git commit -m "Managed to make code faster"
-  ```
-
-- Let's check the log again:
-  ```sh
-  $ git log --oneline # Last commit: on branch "fastercode"
-  ```
-
----
-
-## Moving back to the `master` branch
-
-- We need to switch gears completely within the project,  
-  and add references to the paper draft.
-  
-  Since this has nothing to do with our attempt at faster code,  
-  we should make these changes **back on the `master` branch**:
-  
-  ```sh
-  # Move back to master:
-  $ git checkout master
-  
-  # Add the reference:
-  $ echo "Marra et al. 2014" &gt; references.txt
-  
-  # Stage and commit:
-  $ git add references.txt
-  $ git commit -m "Fixed the references"
-  ```
-
---
-
-- Now we've made changes to each of the two branches.  
-  Let's see the log in "graph" format with `--graph`,
-  also listing all branches with `--all`:
-  ```sh
-  $ git log --oneline --graph --all
-  ```
-
----
-
-## Finishing up on the experimental branch
-
-- At `fastercode`, we finished speeding up the code,
-  but still need to document our changes.
-  So, we go back to the `fastercode` branch:
-  ```sh
-  $ git checkout fastercode
-  
-  # Add the "documentation" to the code:
-  $ echo "# My documentation" &gt;&gt; code.txt
-  
-  # Stage and commit:
-  $ git add code.txt
-  $ git commit -m "Added comments to the code"
-  ```
-
-- Again we check the log graph:  
-  ```sh
-  $ git log --oneline --all --graph
-  ```
-
----
-
-## Merging the branches
-
-- We are happy with the changes to the code, and want to make the `fastercode`
-  version *the default version of the code*.
-  
-  This means we should merge the `fastercode` branch back into `master`.
-  To do so, we first have to move back to `master`:
-  ```sh
-  $ git checkout master
-  ```
-
---
-
-- Now we are ready to merge, and we use the `git merge` command.  
-  We also provide a commit message, *because a merge is always accompanied
-  by a commit*:
-  ```sh
-  $ git merge fastercode -m "Much faster version of code"
-  ```
-
-- Once again, we check the log graph:  
-  ```sh
-  $ git log --oneline --all --graph
-  ```
-
----
-
-## Cleaning up
-
-- We no longer need the `fastercode` branch, so we can delete it:
-  ```sh
-  $ git branch -d fastercode
-  ```
-
-- And again we check the log graph:
-  ```sh
-  $ git log --oneline --all --graph
-  ```
-
----
-
-## Branching and merging &amp;ndash; Workflow summary
-
-&lt;figure&gt;
-&lt;p align="center"&gt;
-&lt;img src="img/csb-branch.png" width="100%"&gt;
-&lt;figcaption&gt;Figure from Allesino &amp; Wilmes (2019)&lt;/figcaption&gt;
-&lt;/p&gt;
-&lt;/figure&gt;
-
----
-
-## Branching and merging &amp;ndash; Workflow summary
-
-.content-box-info[
-### Overview of the commands used in the branching workflow 
-
-```sh
-# Create a new branch:
-$ git branch mybranch
-
-# Move to new branch:
-$ git checkout mybranch
-
-# Add and commit changes:
-$ git add --all
-$ git commit -m "my message"
-
-# Done with branch - move back to main trunk and merge
-$ git checkout master
-$ git merge mybranch -m "Message for merge"
-
-# And [optionally] delete the branch:
-$ git -d mybranch
-```
-]
-
----
-
-## <i class="fas  fa-user-edit "></i> Intermezzo 2.2
-
-**(a)** Move to the directory `CSB/git/sandbox`.
-
-**(b)** Create a directory `thesis` and turn it into a Git repository.
-
-**(c)** Create the file `introduction.txt` with the line *"The best introduction
-ever."*
-
-**(d)** Stage `introduction.txt` and commit with the message *"Started introduction."*
-
-**(e)** Create the branch `newintro` and change into it.
-
-**(f)** Change (overwrite) the contents of `introduction.txt`, create a new file  `methods.txt`, and commit.
-
-**(g)** Look at the commit history of the branches.
-
-**(h)** Change to the branch `master`, merge, and confirm that the changes you
-performed within the branch `newintro` are now also part of the branch
-`master`.
-
-**(i)** *Bonus:* Delete the branch `newintro`.
-
----
-
-## <i class="fas  fa-user-edit "></i> Intermezzo 2.2: Solutions
-
-**(a)** Move to the directory `CSB/git/sandbox`:
-
-```sh
-$ cd ∼/CSB/git/sandbox
-```
-
-**(b)** Create a directory `thesis` and turn it into a Git repository:
-
-```sh
-$ mkdir thesis
-$ cd thesis
-$ git init
-```
-
-**(c)** Create the file `introduction.txt`:
-```sh
-$ echo "The best introduction ever" &gt; introduction.txt
-```
-
-**(d)** Stage and commit `introduction.txt`:
-```sh
-$ git add introduction.txt
-$ git commit -m "Started introduction"
-```
-
----
-
-## <i class="fas  fa-user-edit "></i> Intermezzo 2.2: Solutions (cont.)
-
-**(e)** Create the branch `newintro` and change into it:
-```sh
-$ git branch newintro
-$ git checkout newintro
-```
-
-**(f)** Change the contents of `introduction.txt`, create a new file  `methods.txt`, and commit:
-```sh
-$ echo "A much better introduction" &gt; introduction.txt
-$ touch methods.txt
-$ git add --all
-$ git commit -m "A new introduction and methods file"
-```
-
-**(g)** Look at the commit history of the branches:
-```sh
-$ git log --oneline
-```
-
----
-
-## <i class="fas  fa-user-edit "></i> Intermezzo 2.2: Solutions (cont.)
-
-**(h)** Change to the branch `master`, merge, and confirm that the `newintro`
-changes are in `master`:
-```sh
-$ git checkout master
-$ git merge newintro
-$ ls
-$ cat introduction.txt
-```
-
-**(i)** *Bonus:* Delete the branch `newintro`:
-```sh
-$ git branch -d newintro
-$ git log --oneline
-```
 
 ---
 class:inverse middle center
@@ -440,8 +150,8 @@ look for the `GitLens` extension by Eric Amodio.
    `New repository`.
    
 3. In the box `Repository name`, we'll use the same name that we gave to our
-   local directory: `origin-species`.  
-   (*Note:* these names don't need to match up.)
+   local directory: `originspecies`.  
+   (*Note:* these names don't *have to* match up.)
 
 &lt;p align="center"&gt;
 &lt;img src=img/github-newrepo-name.png width=60%&gt;
@@ -509,6 +219,11 @@ You can click on the `HTTPS`/`SSH` button to change the URL type.
 
 We go back to the shell, where we'll enter the commands that GitHub provided
 to us under "*...or push an existing repository from the command line*".
+
+```sh
+# Move to originspecies repo
+$ cd /fs/ess/PAS1855/users/$USER/week03/originspecies
+```
 
 - First, we tell Git to add a "remote" connection with `git remote`.  
   We provide three arguments to this command:
@@ -754,7 +469,249 @@ and not part of Git.
 ---
 class:inverse middle center
 
-# In closing: &lt;br&gt; Some Git best practices
+# Branching &amp; merging
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## A repo with a couple of commits
+
+- First, we create a dummy repo with a few commits by running a script:
+  ```sh
+  $ cd /fs/ess/PAS1855/users/$USER/CSB/git/sandbox
+  
+  # Have a look at the script:
+  $ less ../data/create_repository.sh  # press `q` to exit less
+  
+  # Run the script, which will create our repo:
+  $ ../data/create_repository.sh
+  
+  # Move to the repo dir:
+  $ cd branching_example
+  ```
+
+- Let's see what has been done in this repo:
+  ```sh
+  $ git log --oneline # --oneline: 1-line summary per commit
+  ```
+
+- We will later modify the file `code.txt` &amp;ndash;
+  let's see what it contains now:  
+  ```sh
+  $ cat code.txt
+  ```
+
+---
+
+## *Branches* in Git
+
+- *We now want to improve the code, but these changes are experimental,*  
+  and we want to retain our previous version that we know works.
+  
+- This is where ***branching*** comes in.
+
+  With a new branch, we can make changes that don't affect the `master` branch,
+  and we can also keep working on the `master` branch:
+  
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/csb-branch-intro.png" width="75%"&gt;
+&lt;figcaption&gt;Figure modified after Allesino &amp; Wilmes (2019)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Creating a new branch
+
+- First, we create a new branch as follows:
+  ```sh
+  $ git branch fastercode   # We name the branch "fastercode"
+  ```
+
+- Let's see what our log looks like now, and list the branches:
+  ```sh
+  $ git log --oneline
+  ```
+  
+  ```sh
+  $ git branch  # Without args, git branch will list the branches
+  ```
+
+--
+
+- It turns out we created a new branch *but we are still on the master branch*.
+  We can **switch branches with `git checkout`**:
+  ```sh
+  $ git checkout fastercode
+  
+  $ git branch   # Should now show we are on `fastercode`
+  $ git status   # Should also tell us we are on `fastercode`
+  ```
+
+---
+
+## Making experimental changes on the new branch
+
+- We edit the code, stage and commit the changes:
+  ```sh
+  $ echo "Yeah, faster code" &gt;&gt; code.txt
+  $ cat code.txt
+  $ git add code.txt
+  $ git commit -m "Managed to make code faster"
+  ```
+
+- Let's check the log again:
+  ```sh
+  $ git log --oneline # Last commit: on branch "fastercode"
+  ```
+
+---
+
+## Moving back to the `master` branch
+
+- We need to switch gears and add references to the paper draft.  
+  Since this has nothing to do with our attempt at faster code,  
+  we should make these changes **back on the `master` branch**:
+  
+  ```sh
+  $ git checkout master # move back to master
+  ```
+
+- What does `code.txt`, which we edited on `fastercode`, now look like?
+
+  ```sh
+  $ cat code.txt  # Our working dir contents has changed!!
+  ```
+
+- Now, let's add the reference, stage and commit:  
+  ```sh
+  $ echo "Marra et al. 2014" &gt; references.txt
+  $ git add references.txt
+  $ git commit -m "Fixed the references"
+  ```
+
+--
+
+- Now we've made changes to each of the two branches,
+  let's see the log in "graph" format with `--graph`,
+  also listing all branches with `--all`:
+  ```sh
+  $ git log --oneline --graph --all
+  ```
+
+---
+
+## Finishing up on the experimental branch
+
+- Earlier, we finished speeding up the code at the `fastercode` branch,
+  but we still need to document our changes.
+  So, we go back:
+  ```sh
+  $ git checkout fastercode
+  ```
+
+- Do we still have the `references.txt` file from the `master` branch?
+  ```sh
+  $ ls
+  ```
+ 
+- Then, we add the "documentation" to the code, stage and commit:
+  ```sh
+  $ echo "# My documentation" &gt;&gt; code.txt
+  $ git add code.txt
+  $ git commit -m "Added comments to the code"
+  ```
+
+- Again we check the log graph:  
+  ```sh
+  $ git log --oneline --all --graph
+  ```
+
+---
+
+## Merging the branches
+
+- We are happy with the changes to the code, and want to make the `fastercode`
+  version *the default version of the code*.
+  
+  This means we should merge the `fastercode` branch back into `master`.
+  To do so, we first have to move back to `master`:
+  ```sh
+  $ git checkout master
+  ```
+
+- Now we are ready to merge, and we use the `git merge` command.  
+  We also provide a commit message, *because a merge is always accompanied
+  by a commit*:
+  ```sh
+  $ git merge fastercode -m "Much faster version of code"
+  ```
+
+- Once again, we check the log graph:  
+  ```sh
+  $ git log --oneline --all --graph
+  ```
+
+---
+
+## Cleaning up
+
+- We no longer need the `fastercode` branch, so we can delete it:
+  ```sh
+  $ git branch -d fastercode
+  ```
+
+- And again we check the log graph:
+  ```sh
+  $ git log --oneline --all --graph
+  ```
+
+---
+
+## Branching and merging &amp;ndash; Workflow summary
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src="img/csb-branch.png" width="100%"&gt;
+&lt;figcaption&gt;Figure from Allesino &amp; Wilmes (2019)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Branching and merging &amp;ndash; Workflow summary
+
+.content-box-info[
+### Overview of the commands used in the branching workflow 
+
+```sh
+# Create a new branch:
+$ git branch mybranch
+
+# Move to new branch:
+$ git checkout mybranch
+
+# Add and commit changes:
+$ git add --all
+$ git commit -m "my message"
+
+# Done with branch - move back to main trunk and merge
+$ git checkout master
+$ git merge mybranch -m "Message for merge"
+
+# And [optionally] delete the branch:
+$ git -d mybranch
+```
+]
+
+---
+class:inverse middle center
+
+# Some Git best practices
 
 ----
 
@@ -843,6 +800,102 @@ use `git add` + `git commit` separately for two sets of files.
   ```
 
 ---
+
+## <i class="fas  fa-user-edit "></i> Intermezzo 2.2
+
+**(a)** Move to the directory `CSB/git/sandbox`.
+
+**(b)** Create a directory `thesis` and turn it into a Git repository.
+
+**(c)** Create the file `introduction.txt` with the line *"Best introduction
+ever."*
+
+**(d)** Stage `introduction.txt` and commit with the message *"Started introduction."*
+
+----
+
+**(e)** Create the branch `newintro` and change into it.
+
+**(f)** Overwrite the contents of `introduction.txt`, create a new file  `methods.txt`, stage, and commit.
+
+**(g)** Move back to `master`. What does your working directory look like now?
+
+**(h)** Merge in the `newintro` branch, and confirm that the changes you
+made there are now in your working dir.
+
+**(i)** *Bonus:* Delete the branch `newintro`.
+
+---
+
+## <i class="fas  fa-user-edit "></i> Intermezzo 2.2: Solutions
+
+**(a)** Move to the directory `CSB/git/sandbox`:
+
+```sh
+$ cd ∼/CSB/git/sandbox
+```
+
+**(b)** Create a directory `thesis` and turn it into a Git repository:
+
+```sh
+$ mkdir thesis
+$ cd thesis
+$ git init
+```
+
+**(c)** Create the file `introduction.txt`:
+```sh
+$ echo "The best introduction ever" &gt; introduction.txt
+```
+
+**(d)** Stage and commit `introduction.txt`:
+```sh
+$ git add introduction.txt
+$ git commit -m "Started introduction"
+```
+
+---
+
+## <i class="fas  fa-user-edit "></i> Intermezzo 2.2: Solutions (cont.)
+
+**(e)** Create the branch `newintro` and change into it:
+```sh
+$ git branch newintro
+$ git checkout newintro
+```
+
+**(f)** Change the contents of `introduction.txt`, create a new file  `methods.txt`, and commit:
+```sh
+$ echo "A much better introduction" &gt; introduction.txt
+$ touch methods.txt
+$ git add --all
+$ git commit -m "A new introduction and methods file"
+```
+
+**(g)** Move back to `master` and check the working dir:
+```sh
+$ git checkout master
+$ ls     # Changes made on the other branch are not visible here!
+$ cat introduction.txt
+```
+
+---
+
+## <i class="fas  fa-user-edit "></i> Intermezzo 2.2: Solutions (cont.)
+
+**(h)** Merge and confirm that the `newintro` changes are in `master`:
+```sh
+$ git merge newintro -m "New introduction"
+$ ls
+$ cat introduction.txt
+```
+
+**(i)** *Bonus:* Delete the branch `newintro`:
+```sh
+$ git branch -d newintro
+```
+
+---
 class: inverse middle center
 
 # Questions?
@@ -864,6 +917,7 @@ class: inverse middle center
 - ### [Resolving merge conflicts](#merge-conflict)
 - ### [Forking and creating a Pull Request](#pr)
 - ### [git stash](#stash)
+- ### [Amending commits](#amend)
 - ### [More Git tidbits](#misc)
 - ### [Add a collaborator in GitHub](#add-collab)
 ]
@@ -1180,6 +1234,39 @@ $ git pull
 # Apply stashed changes:
 $ git stash apply
 ```
+
+---
+background-color: #f2f5eb
+name: amend
+
+---
+
+## Amending commits
+
+Let's say we forgot to add a file to a commit,
+or we notice a silly typo in something we just committed.
+  
+Creating a separate commit for this seems "wasteful" or even confusing,  
+and including these changes along with others in a next commit is also likely
+to be inappropriate. **In such cases, we can _amend_ the commit**.
+
+- First, we stage the forgotten or fixed file: 
+  ```sh
+  $ git add &lt;file&gt;
+  ```
+
+- Then, we amend the commit (also using the `--no-edit` flag
+  because we do not want change the commit message):
+  ```sh
+  $ git commit --amend --no-edit
+  ```
+
+.content-box-warning[
+Because amending commits "changes history", some recommend avoiding this
+altogether.
+For sure, do **not** amend commits that have been published in (*pushed to*)
+the online counterpart of the repo.
+]
 
 ---
 background-color: #f2f5eb
