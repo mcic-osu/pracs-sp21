@@ -671,12 +671,16 @@ class:inverse middle center
 </p>
 </figure>
 
+.content-box-info[
+Visualization with <http://git-school.github.io/visualizing-git>.
+]
+
 ---
 
 ## Branching and merging &ndash; Workflow summary
 
 .content-box-info[
-### Overview of the commands used in the branching workflow 
+### Overview of commands used in the branching workflow 
 
 ```sh
 # Create a new branch:
@@ -696,10 +700,6 @@ $ git merge mybranch -m "Message for merge"
 # And [optionally] delete the branch:
 $ git -d mybranch
 ```
-]
-
-.content-box-info[
-Visualization with <http://git-school.github.io/visualizing-git>.
 ]
 
 ---

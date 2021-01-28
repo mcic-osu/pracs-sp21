@@ -67,7 +67,7 @@ figure {
 .content-box-yellow {
   box-sizing: border-box;
   border-radius: 15px;
-  margin: 0 0 15px;
+  margin: 10px 0 10px 0;
   overflow: hidden;
   padding: 0px 20px 0px 40px;
   width: 100%;
@@ -81,7 +81,7 @@ figure {
 .content-box-info {
   box-sizing: border-box;
   border-radius: 15px;
-  margin: 0 0 15px;
+  margin: 10px 0 10px 0;
   overflow: hidden;
   padding: 0px 20px 0px 70px;
   width: 100%;
