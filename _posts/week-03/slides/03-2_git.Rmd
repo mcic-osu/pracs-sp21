@@ -307,12 +307,61 @@ and the remote repo is simply periodically updated (*pushed to*).
 
 So, the interaction between local and remote is unidirectional:
 
-<figure>
 <p align="center">
-<img src="img/buffalo-remote-uni.png" width="35%">
-<figcaption>Figure from Buffalo (2015)</figcaption>
+<img src="img/git-remote-1.svg" width="55%">
 </p>
-</figure>
+
+---
+
+## Remote repos &ndash; Single-user workflow
+
+In a single-user workflow, all changes are made in the *local repo*,  
+and the remote repo is simply periodically updated (*pushed to*).
+
+So, the interaction between local and remote is unidirectional:
+
+<p align="center">
+<img src="img/git-remote-2.svg" width="55%">
+</p>
+
+---
+
+## Remote repos &ndash; Single-user workflow
+
+In a single-user workflow, all changes are made in the *local repo*,  
+and the remote repo is simply periodically updated (*pushed to*).
+
+So, the interaction between local and remote is unidirectional:
+
+<p align="center">
+<img src="img/git-remote-3.svg" width="55%">
+</p>
+
+---
+
+## Remote repos &ndash; Single-user workflow
+
+In a single-user workflow, all changes are made in the *local repo*,  
+and the remote repo is simply periodically updated (*pushed to*).
+
+So, the interaction between local and remote is unidirectional:
+
+<p align="center">
+<img src="img/git-remote-4.svg" width="55%">
+</p>
+
+---
+
+## Remote repos &ndash; Single-user workflow
+
+In a single-user workflow, all changes are made in the *local repo*,  
+and the remote repo is simply periodically updated (*pushed to*).
+
+So, the interaction between local and remote is unidirectional:
+
+<p align="center">
+<img src="img/git-remote-5.svg" width="55%">
+</p>
 
 ---
 
@@ -345,44 +394,53 @@ automatically shows up as a rendered Markdown file!
 
 ## Remote repos &ndash; Multi-user workflow
 
-A multi-user workflow starts when a second user downloads (*clones*)  
-the online repo, as in **(b)** below:
+- First, a second user downloads (*clones*) the online repo:
 
-<figure>
 <p align="center">
-<img src="img/buffalo-remote-1.png" width="70%">
-<figcaption>Figure from Buffalo (2015)</figcaption>
+<img src="img/git-remote-mult-1.svg" width="55%">
 </p>
-</figure>
 
 ---
 
 ## Remote repos &ndash; Multi-user workflow
 
-- Then, the second user can push their changes to the shared remote **(a)**:
+- Then, the second user can push their changes to the shared remote:  
 
-<figure>
 <p align="center">
-<img src="img/buffalo-remote-2a.png" width="70%">
-<figcaption>Figure from Buffalo (2015)</figcaption>
+<img src="img/git-remote-mult-2.svg" width="55%">
 </p>
-</figure>
 
 ---
 
 ## Remote repos &ndash; Multi-user workflow
 
-- Then, the second user can push their changes to the shared remote **(a)**:
+- Then, the second user can push their changes to the shared remote: 
 
-<figure>
 <p align="center">
-<img src="img/buffalo-remote-2.png" width="70%">
-<figcaption>Figure from Buffalo (2015)</figcaption>
+<img src="img/git-remote-mult-3.svg" width="55%">
 </p>
-</figure>
+
+---
+
+## Remote repos &ndash; Multi-user workflow
+
+- To go full circle, you *pull* in
+  the changes made by the second user: 
+
+<p align="center">
+<img src="img/git-remote-mult-4.svg" width="55%">
+</p>
+
+---
+
+## Remote repos &ndash; Multi-user workflow
 
 - To go full circle, you *pull* in
   the changes made by the second user **(b)**. 
+
+<p align="center">
+<img src="img/git-remote-mult-4.svg" width="40%">
+</p>
 
 .content-box-info[
 `git pull` is two commands in one: `git fetch` to download the updates
