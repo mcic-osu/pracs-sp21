@@ -69,7 +69,7 @@ class:inverse middle center
 
 - **Move to the following dir:**
   ```sh
-  $ cd week03/originspecies # Assumes you are in /fs/ess/PAS1855/users/$USER/
+  $ cd week03/originspecies # From /fs/ess/PAS1855/users/$USER/
   ```
 
 
@@ -220,11 +220,6 @@ You can click on the `HTTPS`/`SSH` button to change the URL type.
 We go back to the shell, where we'll enter the commands that GitHub provided
 to us under "*...or push an existing repository from the command line*".
 
-```sh
-# Move to originspecies repo
-$ cd /fs/ess/PAS1855/users/$USER/week03/originspecies
-```
-
 - First, we tell Git to add a "remote" connection with `git remote`.  
   We provide three arguments to this command:
   
@@ -341,14 +336,8 @@ In our day-to-day work, we now commit as usual, and in addition,
 --
 
 .content-box-info[
-If we go back to GitHub, we show that the contents of the README.md
+If we go back to GitHub, we see that the contents of the README.md
 automatically shows up as a rendered Markdown file!
-]
-
---
-
-.content-box-info[
-Visualization with &lt;http://git-school.github.io/visualizing-git&gt;.
 ]
 
 ---
@@ -706,6 +695,10 @@ $ git merge mybranch -m "Message for merge"
 # And [optionally] delete the branch:
 $ git -d mybranch
 ```
+]
+
+.content-box-info[
+Visualization with &lt;http://git-school.github.io/visualizing-git&gt;.
 ]
 
 ---
