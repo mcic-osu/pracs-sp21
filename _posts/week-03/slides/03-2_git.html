@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Week 3: Git and GitHub</title>
+    <title>Week 3: Remotes, branching, and merging</title>
     <meta charset="utf-8" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
@@ -21,12 +21,12 @@ class:inverse middle center
 
 ----
 
-# Part II: &lt;br&gt; Branching &amp; merging, &lt;br&gt; and remotes on GitHub
+# Part II: &lt;br&gt; Remotes on GitHub, &lt;br&gt; and branching &amp; merging
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/01/28 (updated: 2021-01-27)
+### 2021/01/28 (updated: 2021-01-28)
 
 ---
 class:inverse middle center
@@ -36,7 +36,7 @@ class:inverse middle center
 ----
 
 .left[
-- ### [Remote repos on GitHub](#remote)
+- ### [Remote repositories on GitHub](#remote)
 - ### [Branching &amp; merging](#branch)
 - ### [Some Git best practices](best-prac)
 ]
@@ -167,8 +167,8 @@ look for the `GitLens` extension by Eric Amodio.
    `New repository`.
    
 3. In the box `Repository name`, we'll use the same name that we gave to our
-   local directory: `origin-species`.  
-   (*Note:* these names don't need to match up.)
+   local directory: `originspecies`.  
+   (*Note:* these names don't *have to* match up.)
    
 4. Leave other options as they are.  
    (We're not adding a README or other files as we are "importing" an
@@ -188,8 +188,8 @@ look for the `GitLens` extension by Eric Amodio.
    `New repository`.
    
 3. In the box `Repository name`, we'll use the same name that we gave to our
-   local directory: `origin-species`.  
-   (*Note:* these names don't need to match up.)
+   local directory: `originspecies`.  
+   (*Note:* these names don't *have to* match up.)
    
 4. Leave other options as they are.  
    (We're not adding a README or other files as we are "importing" an
@@ -421,17 +421,21 @@ when you check `git status`:
 
 If you do not have rights to *push*, you can:
   
-  - **Clone** the repo and make changes locally (as we do with `CSB`).
+  - **Clone** the repo and make changes locally (as we do with `CSB`).  
+    You can also *pull* to remain up-to-date with changes in the original repo. 
   
-  - **Fork** the repository and develop it independently (!)
+  - **Fork** the repository on GitHub and develop it independently.  
+    Forking creates *a new personal GitHub repo*, to which you can push.
   
-  - Submit a **pull request** [**(bonus slides)**](#pull-request)
-    with proposed changes to the repo,  
-    if you want to contribute to the original project.
+  - Using a forked repo, you can also submit a **Pull Request** with proposed
+    changes to the *original repo*.
+
+.content-box-info[
+See [these bonus slides]((#pr) for more info on a fork =&gt; Pull Request workflow.
+]
 
 --
 
-&lt;br&gt;
 .content-box-info[
 If you're collaborating on a project,
 you should ask your collaborator to give you admin rights for the repo.
@@ -481,6 +485,8 @@ class:inverse middle center
   # Move to the repo dir:
   $ cd branching_example
   ```
+
+--
 
 - Let's see what has been done in this repo:
   ```sh
@@ -721,8 +727,6 @@ class:inverse middle center
   - **Bad:** "Updated file"
   - **Good:** "Updated x function to include y"
 
---
-
 &lt;figure&gt;
 &lt;p align="center"&gt;
 &lt;img src="img/xkcd-git-commit-msg.png" width="70%"&gt;
@@ -909,29 +913,31 @@ class: inverse middle center
 .left[
 - ### [Resolving merge conflicts](#merge-conflict)
 - ### [Forking and creating a Pull Request](#pr)
-- ### [git stash](#stash)
-- ### [Amending commits](#amend)
-- ### [More Git tidbits](#misc)
-- ### [Add a collaborator in GitHub](#add-collab)
+- ### [Other topics: stash, amend, tidbits, collaborate](#misc)
 ]
 
 ---
 background-color: #f2f5eb
 name: merge-conflict
 
-## *Merge conflicts* and resolving them
+## Merge conflicts and resolving them
 
-A *merge conflict* can occur when:
+A **merge conflict** can occur when all three of the following conditions are met:
 
-- You try to merge two branches, or pull from remote
-  (recall that a pull includes a merge), and
+- You try to merge two branches
+  (including when pulling from remote: recall that a pull includes a merge),
+  and:
   
 - One or more files have been changed (via commits) on **_both_** of these
-  branches since their divergence, and
+  branches since their divergence.
   
-- These changes were made in similar parts of the file, usually the same line(s).
+- Some of these changes were made in the same part(s) of file(s).
 
-In such a case, Git has no way of knowing which changes to keep,  
+--
+
+&lt;br&gt;
+
+When this occurs, Git has no way of knowing which changes to keep,  
 and it will report a merge conflict as follows:
 
 &lt;p align="center"&gt;
@@ -944,7 +950,7 @@ background-color: #f2f5eb
 
 ## *Merge conflicts* and resolving them (cont.)
 
-When you get a merge conflict, follow the following steps:
+When you get a merge conflict, follow these steps:
 
 1. Use `git status` to find the conflicting file(s).
 
@@ -1050,13 +1056,14 @@ When you get a merge conflict, follow the following steps:
   
   .content-box-info[
   Even if you provided a commit message for the merge at the outset,
-  Git will now launch your text editor if you don't again do do.
+  Git will now launch your text editor if you don't again do so.
   ]
   
 ---
 class: inverse middle center
+name: pr
 
-# CSB 2.7: Forking and creating a Pull Request
+# Forking and creating a Pull Request
 
 ----
 
@@ -1064,9 +1071,8 @@ class: inverse middle center
 
 ---
 background-color: #f2f5eb
-name: pr
 
-## *Forking* a GitHub repository
+## Forking a GitHub repository
 
 - Go to a GitHub repository, and click the "**_Fork_**" button in the top-right:
   
@@ -1074,26 +1080,46 @@ name: pr
   &lt;img src=img/github-fork.png width=50%&gt;
   &lt;/p&gt;
   
-  You'll be asked which account or organization to fork to &amp;ndash;
-  you likely just have your personal account, which you should pick at any rate.
+  You'll be asked which account or organization to fork to
+  (you should pick your personal account, which is likely the only one you have).
 
---
+&lt;br&gt;
 
-.content-box-info[
-**Now, you have your own version of the repository**.
+- Now, you have your own version of the repository,  
+  and it is labeled explicitly as a fork:
 
 &lt;p align="center"&gt;
 &lt;img src=img/github-forked.png width=55%&gt;
 &lt;/p&gt;
 
+&lt;br&gt;
+
+.content-box-diy[
+You can follow along by e.g. forking
+[my `originspecies` repo](https://github.com/jelmerp/originspecies).
+]
+
+---
+background-color: #f2f5eb
+
+## Forking workflow
+
 You can't directly modify the *original repository*, but you can:
-- First, *modify your fork*.
-- Then, submit a so-called *Pull Request* to the owner of the original repo
+
+- First, **modify your fork** (with local edits and pushing).
+
+- Then, **submit a so-called Pull Request** to the owner of the original repo
   to pull in your changes.
   
-You can also easily keep your fork up-to-date with changes to the original
-repository.
-]
+- Also, you can also easily **keep your fork up-to-date** with changes to the
+  original repository.
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/fork-triangle-happy.png width=70%&gt;
+&lt;figcaption&gt;Figure from &lt;a href="https://happygitwithr.com/fork-and-clone.html"&gt;Happy Git and GitHub for the useR&lt;/a&gt; &lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
 
 ---
 background-color: #f2f5eb
@@ -1176,7 +1202,7 @@ background-color: #f2f5eb
 ## Keeping your fork up-to-date
 
 - As we saw, you can't directly *push* to original repo but instead have to submit
-  a Pull Request (yes, confusing terminology!).
+  a Pull Request (yes, this terminology is confusing!).
   
   But, you *can* create an ongoing connection to the original repo,
   which you can use to periodically *pull* to keep your fork up-to-date.
@@ -1201,6 +1227,23 @@ $ git pull upstream main
 "*upstream*" is an arbitrary name often used by convention,  
 as opposed to "origin" for your *own* version of the online repo. 
 ]
+
+---
+class: inverse middle center
+name: misc
+
+# Other topics
+
+----
+
+.left[
+- ### [git stash](#stash)
+- ### [Amending commits](#amend)
+- ### [More Git tidbits](#tidbits)
+- ### [Add a collaborator in GitHub](#add-collab)
+]
+
+&lt;br&gt; &lt;br&gt;
 
 ---
 background-color: #f2f5eb
@@ -1232,8 +1275,6 @@ $ git stash apply
 background-color: #f2f5eb
 name: amend
 
----
-
 ## Amending commits
 
 Let's say we forgot to add a file to a commit,
@@ -1263,7 +1304,7 @@ the online counterpart of the repo.
 
 ---
 background-color: #f2f5eb
-name: misc
+name: tidbits
 
 ## More Git tidbits
 

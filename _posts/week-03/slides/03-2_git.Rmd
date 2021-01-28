@@ -1,5 +1,5 @@
 ---
-title: "Week 3: Git and GitHub"
+title: "Week 3: Remotes, branching, and merging"
 output:
   xaringan::moon_reader:
     seal: false
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ----
 
-# Part II: <br> Branching & merging, <br> and remotes on GitHub
+# Part II: <br> Remotes on GitHub, <br> and branching & merging
 
 <br> <br> <br>
 
@@ -37,7 +37,7 @@ class:inverse middle center
 ----
 
 .left[
-- ### [Remote repos on GitHub](#remote)
+- ### [Remote repositories on GitHub](#remote)
 - ### [Branching & merging](#branch)
 - ### [Some Git best practices](best-prac)
 ]
@@ -422,17 +422,21 @@ when you check `git status`:
 
 If you do not have rights to *push*, you can:
   
-  - **Clone** the repo and make changes locally (as we do with `CSB`).
+  - **Clone** the repo and make changes locally (as we do with `CSB`).  
+    You can also *pull* to remain up-to-date with changes in the original repo. 
   
-  - **Fork** the repository and develop it independently (!)
+  - **Fork** the repository on GitHub and develop it independently.  
+    Forking creates *a new personal GitHub repo*, to which you can push.
   
-  - Submit a **pull request** [**(bonus slides)**](#pull-request)
-    with proposed changes to the repo,  
-    if you want to contribute to the original project.
+  - Using a forked repo, you can also submit a **Pull Request** with proposed
+    changes to the *original repo*.
+
+.content-box-info[
+See [these bonus slides]((#pr) for more info on a fork => Pull Request workflow.
+]
 
 --
 
-<br>
 .content-box-info[
 If you're collaborating on a project,
 you should ask your collaborator to give you admin rights for the repo.
@@ -724,8 +728,6 @@ class:inverse middle center
   - **Bad:** "Updated file"
   - **Good:** "Updated x function to include y"
 
---
-
 <figure>
 <p align="center">
 <img src="img/xkcd-git-commit-msg.png" width="70%">
@@ -912,29 +914,31 @@ class: inverse middle center
 .left[
 - ### [Resolving merge conflicts](#merge-conflict)
 - ### [Forking and creating a Pull Request](#pr)
-- ### [git stash](#stash)
-- ### [Amending commits](#amend)
-- ### [More Git tidbits](#misc)
-- ### [Add a collaborator in GitHub](#add-collab)
+- ### [Other topics: stash, amend, tidbits, collaborate](#misc)
 ]
 
 ---
 background-color: #f2f5eb
 name: merge-conflict
 
-## *Merge conflicts* and resolving them
+## Merge conflicts and resolving them
 
-A *merge conflict* can occur when:
+A **merge conflict** can occur when all three of the following conditions are met:
 
-- You try to merge two branches, or pull from remote
-  (recall that a pull includes a merge), and
+- You try to merge two branches
+  (including when pulling from remote: recall that a pull includes a merge),
+  and:
   
 - One or more files have been changed (via commits) on **_both_** of these
-  branches since their divergence, and
+  branches since their divergence.
   
-- These changes were made in similar parts of the file, usually the same line(s).
+- Some of these changes were made in the same part(s) of file(s).
 
-In such a case, Git has no way of knowing which changes to keep,  
+--
+
+<br>
+
+When this occurs, Git has no way of knowing which changes to keep,  
 and it will report a merge conflict as follows:
 
 <p align="center">
@@ -947,7 +951,7 @@ background-color: #f2f5eb
 
 ## *Merge conflicts* and resolving them (cont.)
 
-When you get a merge conflict, follow the following steps:
+When you get a merge conflict, follow these steps:
 
 1. Use `git status` to find the conflicting file(s).
 
@@ -1053,13 +1057,14 @@ When you get a merge conflict, follow the following steps:
   
   .content-box-info[
   Even if you provided a commit message for the merge at the outset,
-  Git will now launch your text editor if you don't again do do.
+  Git will now launch your text editor if you don't again do so.
   ]
   
 ---
 class: inverse middle center
+name: pr
 
-# CSB 2.7: Forking and creating a Pull Request
+# Forking and creating a Pull Request
 
 ----
 
@@ -1067,9 +1072,8 @@ class: inverse middle center
 
 ---
 background-color: #f2f5eb
-name: pr
 
-## *Forking* a GitHub repository
+## Forking a GitHub repository
 
 - Go to a GitHub repository, and click the "**_Fork_**" button in the top-right:
   
@@ -1077,26 +1081,46 @@ name: pr
   <img src=img/github-fork.png width=50%>
   </p>
   
-  You'll be asked which account or organization to fork to &ndash;
-  you likely just have your personal account, which you should pick at any rate.
+  You'll be asked which account or organization to fork to
+  (you should pick your personal account, which is likely the only one you have).
 
---
+<br>
 
-.content-box-info[
-**Now, you have your own version of the repository**.
+- Now, you have your own version of the repository,  
+  and it is labeled explicitly as a fork:
 
 <p align="center">
 <img src=img/github-forked.png width=55%>
 </p>
 
+<br>
+
+.content-box-diy[
+You can follow along by e.g. forking
+[my `originspecies` repo](https://github.com/jelmerp/originspecies).
+]
+
+---
+background-color: #f2f5eb
+
+## Forking workflow
+
 You can't directly modify the *original repository*, but you can:
-- First, *modify your fork*.
-- Then, submit a so-called *Pull Request* to the owner of the original repo
+
+- First, **modify your fork** (with local edits and pushing).
+
+- Then, **submit a so-called Pull Request** to the owner of the original repo
   to pull in your changes.
   
-You can also easily keep your fork up-to-date with changes to the original
-repository.
-]
+- Also, you can also easily **keep your fork up-to-date** with changes to the
+  original repository.
+
+<figure>
+<p align="center">
+<img src=img/fork-triangle-happy.png width=70%>
+<figcaption>Figure from <a href="https://happygitwithr.com/fork-and-clone.html">Happy Git and GitHub for the useR</a> </figcaption>
+</p>
+</figure>
 
 ---
 background-color: #f2f5eb
@@ -1179,7 +1203,7 @@ background-color: #f2f5eb
 ## Keeping your fork up-to-date
 
 - As we saw, you can't directly *push* to original repo but instead have to submit
-  a Pull Request (yes, confusing terminology!).
+  a Pull Request (yes, this terminology is confusing!).
   
   But, you *can* create an ongoing connection to the original repo,
   which you can use to periodically *pull* to keep your fork up-to-date.
@@ -1204,6 +1228,23 @@ $ git pull upstream main
 "*upstream*" is an arbitrary name often used by convention,  
 as opposed to "origin" for your *own* version of the online repo. 
 ]
+
+---
+class: inverse middle center
+name: misc
+
+# Other topics
+
+----
+
+.left[
+- ### [git stash](#stash)
+- ### [Amending commits](#amend)
+- ### [More Git tidbits](#tidbits)
+- ### [Add a collaborator in GitHub](#add-collab)
+]
+
+<br> <br>
 
 ---
 background-color: #f2f5eb
@@ -1235,8 +1276,6 @@ $ git stash apply
 background-color: #f2f5eb
 name: amend
 
----
-
 ## Amending commits
 
 Let's say we forgot to add a file to a commit,
@@ -1266,7 +1305,7 @@ the online counterpart of the repo.
 
 ---
 background-color: #f2f5eb
-name: misc
+name: tidbits
 
 ## More Git tidbits
 
