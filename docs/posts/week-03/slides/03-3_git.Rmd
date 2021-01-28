@@ -77,7 +77,7 @@ name: undo
 
 ## Undoing changes that have not been staged <br> by recovering a version from the repo
 
-- Let's say we accidentally overwrite instead of append to a file:
+- Let's say we accidentally *overwrite* instead of *append to* a file:
   ```sh
   $ echo "todo: ask sequencing center about adapters" > README.md
   ```
@@ -93,6 +93,8 @@ name: undo
   $ git checkout -- README.md
   ```
 
+--
+
 .content-box-info[
 For `git checkout`, the CSB book example omits the dashes `--`.
 These indicate that the checkout command should operate on a file,
@@ -101,9 +103,7 @@ but since the filename is provided too, this is not strictly necessary.
 
 ---
 
-## Undoing changes that have not been staged <br> by recovering a version from the repo
-
-### Side notes
+## Undoing changes that have not been staged <br> by recovering a version from the repo: <br> Side notes
 
 .content-box-info[
 If you **accidentally deleted a file**,  
@@ -127,7 +127,7 @@ $ git restore README.md
 
 ---
 
-## Undoing changes that have not been staged <br> by recovering a version from the repo: <br>visual
+## Undoing changes that have not been staged <br> by recovering a version from the repo: <br>Visual
 
 <br>
 
@@ -188,7 +188,7 @@ $ git restore --staged README.md
 
 ---
 
-## Unstaging a file: visual
+## Unstaging a file: Visual
 
 <br>
 
@@ -247,19 +247,18 @@ More broadly: your data is only safe with Git once it has been committed.
 .content-box-info[
 For a particular file `README.md`, I want to:
 
-- **Unstage the file**, but don't need to discard (replace) changes:
+- **Unstage the file**, but don't discard (replace) its changes:
   ```sh
   $ git reset HEAD -- README.md
   ```
   
-- **Go back to the last commit and have unstaged changes** in my
-  working dir that should be discarded:
+- **Go back to the last commit and discard *unstaged* changes**:  
   ```sh
   $ git checkout -- README.md # Technically: grabs file from *Index*
   ```
 
-- **Go back to the last commit and have staged changes**
-  (and optionally unstaged changes) that should be discarded:
+- **Go back to the last commit and discard *staged* changes**  
+  (and any unstaged changes if those are also present):
   ```sh
   $ git checkout HEAD -- README.md
   ```
@@ -303,12 +302,14 @@ Say, we want to see what our project looked like at some point in the past.
   $ git checkout master
   ```
 
+--
+
 .content-box-info[
-If you want to **move your repo back** to this earlier state,
+If you want to **move your repo back** to this earlier state,  
 there are several strategies (next slides).
 
-For a **single file**, a quick way can be to copy it out of your repo,
-move back to the present, and put it in your repo in the present.
+For a **single file**, a quick way can be: copy it out of your repo,
+move back to the "present", and put it back in your repo in the present.
 ]
 
 ---
@@ -371,11 +372,12 @@ been pushed online.
 
 .content-box-info[
 `git reset` is quite complicated as it has three modes
-(`--hard`, `--mixed` (default), and `--soft`)
-and can act both on individual files and on entire commits.
+(`--hard`,  
+`--mixed` (default), and `--soft`)
+*and* can act either on individual files and on entire commits.
 
 We've already used `git reset` on individual files (to unstage).  
-To undo a commit and:
+**To undo a commit, and:**
 
 - Stage all changes made by that commit:
   ```sh
@@ -419,6 +421,8 @@ To undo a commit and:
   $ less README.md  # Back to the current version
   $ git status      # Up-to-date
   ```
+
+--
 
 .content-box-warning[
 Be careful with `git checkout` as any uncommitted changes to the same file
