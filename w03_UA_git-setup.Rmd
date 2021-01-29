@@ -1,0 +1,179 @@
+---
+title: "Week 3 -- Ungraded Assignment : <br> Git setup and GitHub authentication"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+## Part 1: Git setup
+
+*These instructions are for setting up Git at OSC,
+but from Step 3 onwards,
+you can also follow them to set up Git for your local computer.*
+
+1. **Open up a terminal at OSC.**  
+   You can do this after logging in at
+   <https://ondemand.osc.edu> in one of two ways:
+   - Direct shell access: `Clusters` (top blue bar) > `Pitzer Shell Access`.
+   - In VS Code: `Interactive Apps` > `Code Server` > then open a terminal
+     using <kbd>Ctrl</kbd>+<kbd>backtick</kbd> > break out of the Singularity
+     shell by typing `bash`.
+
+2. **Load the OSC Git module.**  
+   (*Note*: Git is available in any OSC shell without
+   loading any modules, but that is a rather old version -- so we load a
+   newer one.)
+   
+   ```sh
+   module load git/2.18.0
+   ```
+
+3. **Use `git config` to make your name known to Git.**  
+   Somewhat confusingly, mote that this should be your *actual name*,
+   and not your GitHub username:
+   
+   ```sh
+   git config --global user.name 'John Doe'
+  ````
+
+4. **Use `git config` to make your email address known to Git.**  
+   *Make sure that you use the same email address you used to sign up for
+   GitHub*.
+   
+   ```sh
+   git config --global user.email 'doe.391@osu.edu'
+   ```
+
+5. **Use `git config` to set a default text editor for Git**.  
+   Occasionally, when you need to provide Git with a "commit message" to Git
+   and you haven't entered one on the command line,
+   Git will open up a text editor for you.
+   Even though we'll be mostly be working in VS Code during this course,
+   in this case, it is better to select a text editor that can be run within the
+   terminal, like `nano` (or `vim`, if you are familiar with it).
+   To specify Nano as your default text editor for Git:
+
+   ```sh
+   git config --global core.editor "nano -w"
+   
+   # You could set VS Code as your editor on your local computer,
+   # if you use it there:
+   # git config --global core.editor "code --wait"
+   ```
+
+5. **Check whether you successfully changed the settings:**  
+
+   ```sh
+   git config --global --list
+   
+   # user.name=John Doe
+   # user.email=doe.39@osu.edu
+   # colour.ui=true
+   # core.editor=nano -w
+   ```
+
+6. **Set colors if needed.**  
+   Make sure you see `colour.ui=true` in the list (like above),
+   so Git output in the terminal will use colors.
+   If you don't see this line, set it using:
+  
+   ```sh
+   git config --global color.ui true
+   ```
+
+<br>
+
+## Part 2: GitHub authentication
+
+### GitHub authentication: Background
+
+To be able to link local Git repositories to their online counterparts on
+GitHub, we need to set up GitHub authentication.
+
+Regular password access (over `HTTP`/`HTTPS`) is now "deprecated" by GitHub,
+and two better options are to set up `SSH` access with an *SSH key*,
+or `HTTPS` access with a *Public Access Token*.
+
+We'll use `SSH`, as it is easier -- though still a bit of drag --
+and because learning this procedure will also be useful
+for when you'll be setting up SSH access to the Ohio Supercomputer Center.
+(But note that GitHub now labels `HTTPS` access as the "preferred" method.)
+
+For everything on GitHub, there are separate SSH and HTTPS URLs,
+and GitHub will always show you both types of URLs.
+When using `SSH`, we need to use URLs with the following format:
+
+```sh
+git@github.com:<USERNAME>/<REPOSITORY>.git
+```
+
+(And when using `HTTPS`, you would use URLS like
+`https://github.com/<USERNAME>/<REPOSITORY>.git`)
+
+
+### Setting up GitHub SSH authentication
+
+*These instructions are for setting up authentication at OSC,
+but you can repeat the same steps to set up authentication for your local computer.*
+
+1. In a terminal at OSC, use the `ssh-keygen` command to generate a public-private
+  *SSH key pair* like so:
+
+   ```sh
+   ssh-keygen -t rsa
+   ```
+
+2. You'll be asked three questions, and for all three,
+   you can accept the default by just pressing `Enter`:
+  
+   ```sh
+   # Enter file in which to save the key (<default path>):
+   # Enter passphrase (empty for no passphrase):
+   # Enter same passphrase again: 
+   ```
+  <p align="left">
+  <img src=img/ssh-key-randomart2.png width="90%">
+  </p>
+
+3. Now, you have a file called `id_rsa.pub` in your `~/.ssh` folder,
+   which is your **public key**. To enable authentication,
+   we will put this public key on GitHub &ndash; our public key interacts
+   with our *private key*, which we do *not* share.  
+   Print the public key to screen using `cat`:
+  
+   ```sh
+   cat ~/.ssh/id_rsa.pub
+   ```
+
+4. Copy the public key, i.e. the contents of the public key file, to your clipboard.
+   Make sure you get all of it,
+   including the "`ssh-rsa`" part (but beware that your new prompt may
+   start on the same line as the end the key):
+  
+   <p align="left">
+   <img src=img/ssh-copy-key.png width="90%">
+   </p>
+
+5. In your browser, go to <https://github.com> and log in.
+
+6. Go to your personal Settings.
+   (Click on your avatar in the far top-right of the page,
+   and select `Settings` in the drop-down menu.)
+
+7. Click on `SSH and GPG keys` in the sidebar.
+
+8. Click the green `New SSH key` button.
+
+9. Give the key an arbitrary, informative name, e.g. "OSC" to indicate that you
+   are using this key at OSC.
+
+10. Paste the public key, which you copied to your clipboard earlier,
+    into the box.
+
+   <p align="left">
+   <img src=img/ssh-key-add-github.png width="90%">
+   </p>
+
+11. Click the green `Add SSH key` button. Done!
+
+<br> <br>
