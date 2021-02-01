@@ -1,7 +1,7 @@
 ---
 title: "Week 04"
 description: |
-  Shell data tools
+  Unix data tools
 date: 2021-02-01
 output:
   distill::distill_article:
@@ -10,7 +10,7 @@ output:
 
 ### Slides
 
-- [Slides: Part I -- Shell data tools](slides/04-1_shell-data-tools.html) -- Tuesday Zoom (Feb 2)
+- [Slides: Part I -- Unix data tools](slides/04-1_data-tools.html) -- Tuesday Zoom (Feb 2)
 
 - [Slides: Part II -- `awk` and `sed`](slides/04-2_awk-sed.html) -- Thursday Zoom (Feb 4)
 

@@ -2,14 +2,14 @@
   {
     "path": "posts/week-04/",
     "title": "Week 04",
-    "description": "Shell data tools",
+    "description": "Unix data tools",
     "author": [],
     "date": "2021-02-01",
     "categories": [],
-    "contents": "\nSlides\nSlides: Part I – Shell data tools – Tuesday Zoom (Feb 2)\nSlides: Part II – awk and sed – Thursday Zoom (Feb 4)\nUngraded assignments\nExercises for week 4\n\n\n\n",
+    "contents": "\nSlides\nSlides: Part I – Unix data tools – Tuesday Zoom (Feb 2)\nSlides: Part II – awk and sed – Thursday Zoom (Feb 4)\nUngraded assignments\nExercises for week 4\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-01-28T19:57:32-05:00",
-    "input_file": {}
+    "last_modified": "2021-02-01T11:58:08-05:00",
+    "input_file": "week-04.utf8.md"
   },
   {
     "path": "posts/week-03/",
