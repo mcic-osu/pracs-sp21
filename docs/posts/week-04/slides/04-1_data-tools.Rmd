@@ -22,7 +22,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ----
 
-# Part I: <br>Miscellaneous tools
+# Part I: <br>Miscellaneous data tools
 
 <br> <br> <br> <br> <br>
 
