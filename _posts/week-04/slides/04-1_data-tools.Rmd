@@ -30,6 +30,49 @@ knitr::opts_chunk$set(eval = FALSE)
 ### 2021/02/02 (updated: `r Sys.Date()`)
 
 ---
+
+## Context for this week
+
+In week 1 (and 2), we learned the basics of the Unix shell.
+
+<br>
+
+**This week, we'll focus on commands to inspect and process data**:
+
+- We'll revisit some commands from CSB Chapter 1
+  (`sort`, `uniq`, **`grep`**, ...) and learn about using regular expressions
+  in the shell.
+
+- We will also learn several new commands including the two very powerful
+  commands `sed` and `awk` (Thursday).
+
+---
+
+## Get the files for Buffalo Chapter 7
+
+- Start VS Code in OSC OnDemand => open your workspace =>
+  open a terminal => type `bash` to break out of the Singularity shell. 
+
+- You can either enter today's commands directly in the terminal,
+  or run them from a new `.sh` file or a `.md` file with code blocks.  
+  If you want to do the latter: create and open this file.
+
+- Then:
+  ```sh
+  # You should be in your dir already, otherwise:
+  # $ cd /fs/ess/PAS1855/users/$USER
+  
+  # Download the repository for the Buffalo book:
+  $ git clone https://github.com/vsbuffalo/bds-files.git
+  
+  # Move into the dir for this chapter:
+  $ cd bds-files/chapter-07-unix-data-tools
+  
+  # Take a look at what's there:
+  $ ls
+  ```
+
+---
 class: inverse middle center
 
 # Overview
@@ -37,7 +80,7 @@ class: inverse middle center
 ----
 
 .left[
-- ### Introduction and sequence files
+- ### [Intro to sequence file formats](#seqfiles)
 - ### [Viewing data files](#view)
 - ### [Regular expressions](#regex)
 - ### [grep](#grep)
@@ -47,47 +90,9 @@ class: inverse middle center
 <br>
 
 ---
+name: seqfiles
 
-## Context for this week
-
-In week 1 (and 2), we learned the basics of the Unix shell.
-
-This week, we'll focus on commands to **inspect and process data**:
-
-- We'll revisit some commands from CSB Chapter 1
-  (`sort`, `uniq`, `grep`, ...).
-
-- We will also learn several new commands including the two very powerful
-  commands `sed` and `awk`.
-
----
-
-## Get the files for Buffalo Chapter 7
-
-- First, start VS Code in OSC OnDemand, open your workspace,
-  open a terminal, and type `bash` to break out of the Singularity shell. 
-
-- You can either enter today's commands directly in the terminal,
-  or run them from a new `.sh` file or a `.md` file with code blocks.
-
-- Then:
-  ```sh
-  # Go to your dir, if necessary
-  $ cd /fs/ess/PAS1855/users/$USER
-  
-  # Download the repository
-  $ git clone https://github.com/vsbuffalo/bds-files.git
-  
-  # Move into the dir for this chapter:
-  $ cd bds-files/chapter-07-unix-data-tools
-  
-  # Take a look:
-  $ ls
-  ```
-
----
-
-## Very quick intro to the sequence formats <br> used in this chapter
+## Very quick intro to the sequence file formats <br> used in this chapter
 
 - **_FASTA_** (`.fasta` or `.fa`)
 
@@ -108,13 +113,13 @@ see Buffalo ch. 10 & 11.
 
 ## FASTA files (`.fasta`)
 
-Can have one or more sequences of any length.  
+- Can have one or more sequences of any length.  
 
-For every sequence:
+- For every sequence:
 
-- The first line has a sequence identifier starting with `>`
+  - The first line has a free form sequence identifier starting with `>`.
 
-- The second line has the sequence (can be spread across multiple lines!)
+  - The second line has the sequence (sometimes spread across multiple lines...).
   
 ```sh
 >unique_sequence_ID Optional description (free form!)
@@ -127,7 +132,7 @@ ATTCATTAAAGCAGTTTATTGGCTTAATGTACATCAGTGAAATCATAAATGCTAAATG
 
 ## FASTQ files (`.fastq`)
 
-- Basically a fasta file with quality scores added, but more formalized.
+- Basically a FASTA file with **quality scores**, but also more formalized.
   *Represents individual reads from a sequencer.*
 
 --
@@ -156,7 +161,7 @@ TTACTCTGCGTTGATACCACTGCTTACTCTGCGTTGATACCACTGCTTACTCTGCGTTGATACC
 
 ## BED files (`.bed`)
 
-Often just contain genomic coordinates in 3 columns:
+Often just contains **genomic coordinates** in 3 columns:
 
   1. Chromosome / scaffold
   
@@ -176,13 +181,12 @@ chr1    40      49
 ## GTF files (`.gtf`)
 
 While genome *sequences* are stored in FASTA files,
-**annotation information is stored in files like GTF**.
+**annotation information** is stored in files like GTF.
 
-These contain genomic coordinates like a BED file, 
-and lots of additional information for each "(genomic) feature",
-one per row, which can be genes, transcripts, exons, etc.
+- Like a BED file, these contain coordinates for genomic features
+  genes, transcripts, exons, etc., one per row.
 
-<br>
+- But they also contain lots of additional information for each feature:
 
 ```sh
 # chrom     biotype*    feature     start   end     score   strand  frame   attribute
@@ -214,7 +218,7 @@ name:view
 ## `head` and `tail` again
 
 ```sh
-$ mus=Mus_musculus.GRCm38.75_chr1
+$ mus=Mus_musculus.GRCm38.75_chr1 # Save for quick recall
 ```
 
 - `head` / `tail` will simply show the first / last few lines of a file.
@@ -254,8 +258,8 @@ $ mus=Mus_musculus.GRCm38.75_chr1
 | key                             | function |
 |---------------------------------|----------|
 | <kbd>q</kbd>                    | Exit `less`
-| <kbd>space</kbd> / <kbd>b</kbd> | Next / previous page <br>(*`pgup` / `pgdn` usually also work.*)
-| <kbd>d</kbd> / <kbd>u</kbd>     | Go down / up half a page.
+| <kbd>space</kbd> / <kbd>b</kbd> | Next / previous page. <br>(*`pgup` / `pgdn` usually also work.*)
+| <kbd>d</kbd> / <kbd>u</kbd>     | Go down / up *half* a page.
 | <kbd>g</kbd> / <kbd>G</kbd>     | Go to the first / last line (`home` / `end` also work)
 | <kbd>/</kbd>`<pattern>` <br> <kbd>?</kbd>`<pattern>` | Search forward/backward: next type keyword to search for
 | <kbd>n</kbd> / <kbd>N</kbd>     | Go to next/previous search match
@@ -271,10 +275,10 @@ $ mus=Mus_musculus.GRCm38.75_chr1
 
 2. Try to move around a bit.
 
-3. Jump to the first and last line.
+3. Jump back to the first line and then to the last line.
 
 4. Now search for the following pattern: `AGATCGG`.  
-  Move to the next match and the next.
+   Move to the next match and the next.
 
 5. Exit.
 
@@ -437,7 +441,7 @@ name:grep
   #> ENSMUSG00000058904      Olfr1413
   #> ENSMUSG00000062497      Olfr1411
   ```
-  (Note that we need `-E` for extended regex for the **`|`** to work.)
+  *(Note that we need `-E` for extended regex for the **`|`** to work.)*
   
 ---
 
@@ -472,7 +476,7 @@ name:grep
 
 .content-box-info[
 In the second example, we use the `-P` flag to turn on "Perl-like regular
-expressions &ndash; yes, yet another type...!
+expressions &ndash; yes, yet another type of regex...!  
 This is needed to successfully match a tab character with `\t`.
 ]
 
@@ -515,18 +519,32 @@ $ grep -B 1 --no-group-separator "string" file.txt
 
 ## `grep`: Only print the match itself
 
-- Print only the match itself and not full lines with **`-o`**:
+**Print only the match itself and not full lines with `-o`**:
   
+- Get all gene names starting with "Olfr":
   ```sh
-  # Get all gene names starting with "Olfr":
-  $ grep -o "Olfr.*" "$mus"_genes.txt | head -n 3
-  #> Olfr1416
-  #> ...
+  $ grep "Olfr.*" "$mus"_genes.txt | head -n 2
+  #> ENSMUSG00000067064      Olfr1416
+  #> ENSMUSG00000057464      Olfr1415
   
-  # Capture the quoted word following the gene_id column:
-  $ grep -E -o 'gene_id "\w+"' "$mus".gtf | head -n 5
+  $ grep -o "Olfr.*" "$mus"_genes.txt | head -n 2
+  #> Olfr1416
+  #> Olfr1415
+  ```
+
+---
+
+## `grep`: Only print the match itself (cont.)
+
+- Capture the quoted word following the "gene_id" column:
+  ```sh
+  $ grep -E 'gene_id "\w+"' "$mus".gtf | head -n 2
+  #> 1       pseudogene      gene    3054233 3054733 .       +       .       gene_id "ENSMUSG00000090025"; gene_name "Gm16088"; gene_source "havana"; gene_biotype "pseudogene";
+  #> 1       unprocessed_pseudogene  transcript      3054233 3054733 .       +       .       gene_id "ENSMUSG00000090025"; transcript_id "ENSMUST00000160944"; gene_name "Gm16088"; gene_source "havana"; gene_biotype "pseudogene"; transcript_name "Gm16088-001"; transcript_source "havana"; tag "cds_end_NF"; tag "cds_start_NF"; tag "mRNA_end_NF"; tag "mRNA_start_NF";
+
+  $ grep -E -o 'gene_id "\w+"' "$mus".gtf | head -n 2
   #> gene_id "ENSMUSG00000090025"
-  #> ...
+  #> gene_id "ENSMUSG00000090025"
   ```
 
 --
@@ -540,7 +558,8 @@ $ grep -B 1 --no-group-separator "string" file.txt
       sed 's/"//g' | \
       sort | \
       uniq > mm_gene_id.txt
-  #> ENSMUSG00000090025
+  #> ENSMUSG00000000544
+  #> ENSMUSG00000000817
   #> ...
   ```
 
@@ -553,8 +572,8 @@ $ grep -B 1 --no-group-separator "string" file.txt
 
   *(Hint: this is the number of lines excluding the header.)*
 
-2. **Bonus: Count the number of "lincRNA" "exon"s by `grep`ping for both of these
-   strings.**
+2. **Bonus: Count the number of "exon" features belonging to a "lincRNA"
+   by `grep`ping for both of these strings.**
 
    *(You can either pipe together two grep commands,  
    or use a single `grep` command &ndash;
@@ -567,14 +586,13 @@ $ grep -B 1 --no-group-separator "string" file.txt
 1. Count the number of genomic features in `Mus_musculus.GRCm38.75_chr1.gtf`
    with a single `grep` command.
 
-  (Hint: this is the number of lines excluding the header.)
   ```sh
   $ grep -cv "^#" $mus.gtf
   #> 81226
   ```
 
-2. Bonus: Count the number of "lincRNA" "exon"s by `grep`ping for both of these
-   strings.
+2. Bonus: Count the number of "exon" features belonging to a "lincRNA"
+   by `grep`ping for both of these strings.
   ```sh
   $ grep "lincRNA" $mus.gtf | grep -c "exon"
   #> 408
@@ -649,8 +667,9 @@ name:sort-uniq
 
 ## Count tables with `sort | uniq -c` (cont.)
 
-- This is very useful &ndash; e.g. the following will output the total number
-  of each type of annotated element ("feature") in a genome:
+- The `sort | uniq -c` combination is very useful &ndash;
+  e.g. the following will print counts for each type of annotated element
+  ("feature") in a genome:
   ```sh
   $ grep -v "^#" "$mus".gtf | cut -f3 | sort | uniq -c
   #> 25901 CDS
@@ -680,7 +699,9 @@ name:sort-uniq
   #> 17994 exon    -
   ```
 
-- Count numbers of different features for a particular gene:
+--
+
+- Final example: count numbers of different features *for a particular gene*:
   ```sh
   $ grep "ENSMUSG00000033793" "$mus".gtf | \
         cut -f3 | sort | uniq -c
@@ -718,45 +739,12 @@ class: inverse middle center
 <br>
 
 .left[
-- ### [File summaries](#file-smr)
 - ### [*column* for tabular file viewing](#exit-status)
 - ### [*join* to merge tabular data files](#join)
 - ### [Sort and the exit status of a command](#exit-status)
 ]
 
 <br> <br> <br> <br>
-
----
-background-color: #f2f5eb
-name: file-smr
-
-## File summaries
-
-- Line count with `wc -l`:
-  ```sh
-  # Divide by 4 to get the number of sequences in a FASTQ file:
-  $ wc -l contaminated.fastq
-  ```
-
-.content-box-info[
-To directly get the number of sequences, you can use `expr` for arithmetics
-(though it will only give *integer* output!):
-```sh
-$ expr $(wc -l < pracs.md) / 4
-```
-]
-
-<br>
-
---
-
-- File size with `ls -lh` or `du -h`:
-  
-  ```sh
-  $ ls -lh "$mus".bed
-  
-  $ du -h "$mus".bed
-  ```
 
 ---
 background-color: #f2f5eb
