@@ -225,12 +225,6 @@ $ mus=Mus_musculus.GRCm38.75_chr1
 
 --
 
-- Skip the first line of a file (*cut off the header*, if you only want the data):
-  ```sh
-  $ tail -n +6 "$mus".gtf
-  ```
---
-
 - Print a specific line number:
   ```sh
   $ head -n 1866 "$mus".bed | tail -n 1  # Prints line nr. 1866
@@ -399,36 +393,52 @@ name:grep
 
 ---
 
-## `grep` partial & word matching, multiple patterns
+## `grep` partial & word matching
 
 - `grep` always allows partial matching (cf. file globbing):
   ```sh
-  $ grep "Olfr" "$mus"_genes.txt | head -n 5
+  $ grep "Olfr" "$mus"_genes.txt | head
+  #> ENSMUSG00000067064      Olfr1416
+  #> ENSMUSG00000057464      Olfr1415
+  #> ...
   ```
 
 --
 
 <br>
 
-- `-w` to match only entire words (alphanumeric characters *and* "_"):
+- `-w` to match only entire "words" &ndash;  
+  consecutive alphanumeric characters *and* "_":
   ```sh
   $ cat example.txt
   
-  $ grep "bioinfo" example.txt # Also matches "bioinformatics"
-  $ grep -w "bioinfo" example.txt  # Only matches "bioinfo"
+  $ grep "bioinfo" example.txt
+  #> bioinfo
+  #> bioinformatics
+  
+  $ grep -w "bioinfo" example.txt
+  #> bioinfo
   ```
 
---
+---
 
-<br>
+## `grep`: Search for multiple patterns
 
-- Match two different records using a character class or alternation with **`|`**:
+- Match two different records using a character class:
   ```sh
   $ grep "Olfr141[13]" "$mus"_genes.txt
-  
-  $ grep -E "(Olfr1413|Olfr1411)" "$mus"_genes.txt
+  #> ENSMUSG00000058904      Olfr1413
+  #> ENSMUSG00000062497      Olfr1411
   ```
 
+- More flexible &ndash; alternation with **`|`**:  
+  ```sh
+  $ grep -E "(Olfr1411|Olfr1413)" "$mus"_genes.txt
+  #> ENSMUSG00000058904      Olfr1413
+  #> ENSMUSG00000062497      Olfr1411
+  ```
+  (Note that we need `-E` for extended regex for the **`|`** to work.)
+  
 ---
 
 ## `grep`: Inverting matches
@@ -534,6 +544,46 @@ $ grep -B 1 --no-group-separator "string" file.txt
   #> ...
   ```
 
+---
+
+## `r icon::fa("user-edit")` Your turn: `grep`
+
+1. **Count the number of genomic features in `Mus_musculus.GRCm38.75_chr1.gtf`
+   with a single `grep` command.**
+
+  *(Hint: this is the number of lines excluding the header.)*
+
+2. **Bonus: Count the number of "lincRNA" "exon"s by `grep`ping for both of these
+   strings.**
+
+   *(You can either pipe together two grep commands,  
+   or use a single `grep` command &ndash;
+   "lincRNA" will occur before "exon" on a line).*
+
+---
+
+## `r icon::fa("user-edit")` Solutions: `grep`
+
+1. Count the number of genomic features in `Mus_musculus.GRCm38.75_chr1.gtf`
+   with a single `grep` command.
+
+  (Hint: this is the number of lines excluding the header.)
+  ```sh
+  $ grep -cv "^#" $mus.gtf
+  #> 81226
+  ```
+
+2. Bonus: Count the number of "lincRNA" "exon"s by `grep`ping for both of these
+   strings.
+  ```sh
+  $ grep "lincRNA" $mus.gtf | grep -c "exon"
+  #> 408
+  
+  $ grep -c "lincRNA.*exon" $mus.gtf
+  #> 408
+  ```
+   
+   
 ---
 class:inverse middle center
 name:sort-uniq

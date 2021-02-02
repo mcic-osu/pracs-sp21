@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/02 (updated: 2021-01-30)
+### 2021/02/02 (updated: 2021-02-02)
 
 ---
 
@@ -42,7 +42,9 @@ class:inverse middle center
 
 &lt;br&gt;
 
-To understand `awk`, we should cover its two core concepts:
+--
+
+To understand `awk`, we should cover its two core ideas / concepts:
   
   - **Record processing**
   
@@ -52,27 +54,32 @@ To understand `awk`, we should cover its two core concepts:
 
 ## `awk` record processing: Records and fields
 
-- "Records":
+- **Records**:
   
-  - `awk` processes *records* one at a time, like a `for` loop going line by line.  
+  - `awk` processes records one at a time, like a `for` loop going line-by-line.  
 
-  - By default, **each line is one _record_**.
+  - By default, **each line is one record**.
   
   - The entire record is assigned to `$0`.
 
-- "Fields":
-  
-  - Within a line, **each column is a _field_**.
-  
-  - Columns are automatically assigned to `$1`, `$2`, `$3`, etc. 
+  ```sh
+  $ awk '{ print $0 }' my.txt           # $0: full line
+  ```
 
 &lt;br&gt;
 
-```sh
-$ awk '{ print $0 }' my.txt           # $0: full line
+--
 
-$ awk '{ print $3 "\t" $2 }' my.txt   # $3 &amp; $2: 3rd and 2nd column
-```
+- **Fields**:
+  
+  - Within a line, **each column is a _field_**.
+  
+  - Columns are automatically assigned to `$1` (first column),
+    `$2` (second column), `$3` (third column), etc. 
+
+  ```sh
+  $ awk '{ print $3 "\t" $2 }' my.txt   # $3 &amp; $2: column 3 and 2
+  ```
 
 ---
 
@@ -85,21 +92,21 @@ $ awk '{ print $3 "\t" $2 }' my.txt   # $3 &amp; $2: 3rd and 2nd column
 .content-box-blue[
 General syntax: **`awk 'pattern { action }' file`**
 
-Note also that the `awk` command is placed *between single quotes*.
+(Note also that the entire `awk` command is placed *between single quotes*.)
 ]
 
 --
 
 &lt;br&gt;
 
-- Only one of the two (action and pattern) is required:
+- Only one of the two (pattern and action) is *required* in any `awk` command:
 
-  - Omit the pattern: action is performed for *every record*.
+  - Omit the pattern: the action is performed for *every record*.
   ```sh
-  $ awk '{ print $0 }' my.txt   # Pattern omitted
+  $ awk '{ print $1 }' my.txt   # Pattern omitted
   ```
   
-  - Omit the action: print all records that match the pattern.
+  - Omit the action: *print* all records that match the pattern.
   ```sh
   $ awk '$3 &lt; 10' my.txt        # Action omitted
   ```
@@ -108,33 +115,52 @@ Note also that the `awk` command is placed *between single quotes*.
 
 ## Simple `awk` examples: action only
 
-**First, we omit patterns, so all lines (records) are subjected
-to the action:**
+**In these first examples, we omit a pattern &amp;ndash;  
+all lines (records) are subjected to the action we specify.**
 
-- If we then print the entire record with `print $0`,  
-  we mimic `cat` &amp;mdash; each line will be printed in its entirety.
+- If our action then is to print the entire record,  
+  we mimic `cat` &amp;mdash; each line will be printed in full:
   ```sh
   $ awk '{ print $0 }' example.bed
   ```
 
-&lt;br&gt;
+---
+
+## Simple `awk` examples: action only (cont.)
+
+- We can also mimic `cut` &amp;ndash; and here we go beyond `cut` to *reorder* columns:
+  ```sh
+  $ awk '{ print $3 "\t" $2 }' example.bed
+  #&gt; 39      26
+  #&gt; 47      32
+  #&gt; 28      11
+  ```
 
 --
 
-- We can also mimic `cut` &amp;ndash; and here we go beyond `cut` to reorder columns:
+- Above, we explicitly printed a tab (`/t`) between the columns.  
+  What happens when we omit the `\t`?
   ```sh
-  $ awk '{ print $3 "\t" $2 }' example.bed  # Cf. Buffalo example
+  $ awk '{ print $3 $2 }' example.bed # Columns concatenated...
+  #&gt; 3926
+  #&gt; 4732
+  #&gt; 2811
+  ```
   
-  # What happes without "\t"?
-  $ awk '{ print $3 $2 }' example.bed       # Columns concatenated
-  $ awk '{ print $3,$2 }' example.bed       # Default sep: " "
+- We can use a comma `,` to invoke the default separator (a space):
+  ```sh
+  $ awk '{ print $3, $2 }' example.bed # Default sep: " "
+  #&gt; 39 26
+  #&gt; 47 32
+  #&gt; 28 11
   ```
 
 ---
 
-## Simple `awk` examples: pattern (condition) only
+## Simple `awk` examples: pattern only
 
-**Now, we use patterns and omit the action: all matching lines are printed.**
+**In the next examples, we use patterns and omit the action:  
+lines matching the pattern (condition) are printed in full.**
   
 - Print only lines where column 2 (start of BED feature) is larger than 30:
    ```sh
@@ -142,22 +168,25 @@ to the action:**
   ```
   
 - Calculate the length of each BED feature (column 3 - column 2),  
-  and only print lines in which the feature is at least 18 bp long:
+  and only print lines with a feature of at least 18 bp:
   ```sh
   $ awk '$3 - $2 &gt; 18' example.bed
   ```
 
---
+---
 
-- Print only lines from "chr1" &amp;ndash; exact match for first column:
+## Simple `awk` examples: pattern only (cont.)
+
+- Print only lines from "chr1" &amp;ndash; do an exact match for the first column:
   ```sh
   $ awk '$1 == "chr1"' example.bed # Quote the string
   ```
   
 - Regular expression patterns are placed between forward slashes:
   ```sh
-  $ awk '$1 ~ /chr1/' example.bed # Looks for match in column 1
   $ awk '/chr1/' example.bed  # Looks for match anywhere on line
+  
+  $ awk '$1 ~ /chr1/' example.bed # Looks for a match in column 1
   ```
 
 ---
@@ -171,7 +200,7 @@ to the action:**
 | `a &lt; b`     | `a` is less than `b`
 | `a &gt; b`     | `a` is greater than `b`
 | `a &lt;= b`    | `a` is less than or equal to `b`
-| `a &gt;= b`    | `a` is greater than or equal to `b`
+| `a &gt;= b`    | `a` is greater than or equal to `b` &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;
 
 ---
 
@@ -195,11 +224,12 @@ to the action:**
 
 ## <i class="fas  fa-user-edit "></i> `awk` mini-practice
 
-1. Use a pattern (condition) to only print features (= rows) in `example.bed`
-   which end at position 28.
+The following exercises use `example.bed`.
+
+1. Use a pattern to only print features (= rows) which end at position 28.
 
 2. Use an action to print, for each row, the chromosome and the length of
-   the feature (column 3 - column 2).
+   the feature (column 3 minus column 2).
 
 3. Combine the action from 1. with the pattern (condition) from 2.
 
@@ -207,14 +237,13 @@ to the action:**
 
 ## <i class="fas  fa-user-edit "></i> `awk` mini-practice: solutions
 
-1. Use a pattern (condition) to only print features (= rows) in `example.bed`
-   which end at position 28.
+1. Use a pattern to only print features (= rows) which end at position 28.
   ```sh
   $ awk '$3 == 28' example.bed
   ```
 
 2. Use an action to print, for each row, the chromosome and the length of
-   the feature (column 3 - column 2).
+   the feature (column 3 minus column 2).
   ```sh
   $ awk '{ print $1, $3-$2 }' example.bed
   $ awk '{ print $1 "\t" $3-$2 }' example.bed # Alt: tab-delimited
@@ -229,13 +258,13 @@ to the action:**
 
 ## `awk`: Filtering and combining expressions
 
-- Combining patterns &amp;ndash; print *chr1* features longer than 10 bp:
+- Combining patterns with `&amp;&amp;` &amp;ndash; print *chr1* features longer than 10 bp:
 
   ```sh
   $ awk '$1 ~ /chr1/ &amp;&amp; $3 - $2 &gt; 10' example.bed
   ```
 
-- Select *chr2* and *chr3* and add a column that contains feature length: 
+- Select lines with "chr2" *or* "chr3" using **`|`**:
   ```sh
   $ awk '$1 ~ /chr2|chr3/ { print $0 "\t" $3 - $2 }' example.bed
   ```
@@ -243,12 +272,12 @@ to the action:**
 --
 
 .content-box-info[
-**'|'** can be used directly: `awk` uses *extended regex* (ERE).
+**'|'** can be used directly in `awk`, as it uses *extended regex* (ERE).
 ]
 
 .content-box-info[
 We can use **`|`** *within* a regex,  
-and **`||`** and **`&amp;&amp;`** to chain together multiple regex.
+and **`||`** (and **`&amp;&amp;`**) to chain together multiple regex:
 
 ```sh
 $ awk '/chr1|chr2/' example.bed
@@ -283,6 +312,7 @@ $ awk '/chr1/ || /chr2/' example.bed
   $ awk 'BEGIN{ s = 0 };            
       { s += ($3-$2) };             
       END{ print "mean: " s/NR };' example.bed
+  #&gt; mean: 14
   ```
 
 --
@@ -353,51 +383,25 @@ When using multiple pattern-action pairs, separate them with "**`;`**".
   $ mus=Mus_musculus.GRCm38.75_chr1
   
   $ awk -F "\t" '{print NF; exit}' "$mus".bed
+  #&gt; 3
   ```
   
-  .content-box-red[
-  <i class="fas  fa-question "></i> &amp;nbsp; Why do we need the `exit` function here?
+  .content-box-q[
+  Why do we need the `exit` function here?
   ]
 
-&lt;br&gt;
-
 --
 
-- For the **GTF** file, we need to omit the header lines (starting with a `#`)
-  before we can count columns, which we can with `grep` or `awk` itself:
+- For the GTF file, we need to omit the header lines (starting with a `#`)
+  before we can count columns.
+  We can do this either with `grep` or with `awk` itself:
   ```sh
   $ grep -v "^#" "$mus".gtf | awk -F "\t" '{print NF; exit}'
+  #&gt; 9
   
   $ awk -F "\t" '!/^#/ {print NF; exit}' "$mus".gtf
+  #&gt; 9
   ```
-
----
-
-## Miscellaneous `awk`
-
-- We can also use `NR` to print specific lines (here, 3-5):
-  ```sh
-  $ awk 'NR &gt;= 3 &amp;&amp; NR &lt;= 5' example.bed
-  ```
-
-- We can convert a GTF file to a BED file (subtracting 1 from the end position):
-  ```sh
-  $ awk '!/^#/ { print $1 "\t" $4-1 "\t" `\(5 }' "\)`mus".gtf | \
-        head -n 3
-  ```
-
---
-
-.content-box-info[
-We'll skip the final example, which uses an "associative array"
-(= "dictionary" in Python) and a `for` loop within `awk` &amp;ndash;
-this level of complexity is where switching to Python/R often makes sense.  
-But have a look if you like `awk`!
-]
-
-.content-box-info[
-If you work a lot with sequencing data, check out the `bioawk` section.
-]
 
 ---
 
@@ -407,7 +411,7 @@ If you work a lot with sequencing data, check out the `bioawk` section.
   using the syntax `'s/pattern/replacement/[modifiers]'`,  
   where `s` stands for **substitute**.
   
-  For instance, we can replace "chrom" by "chr" like so:
+  We can replace "chrom" by "chr" in every line of a file as follows:
 
   ```sh
   $ head -n 3 chroms.txt # before sed
@@ -421,10 +425,9 @@ If you work a lot with sequencing data, check out the `bioawk` section.
 
 --
 
-&lt;br&gt;
-
-- For **global substitution** (&gt;1 per line), we use the **`g`** modifier,  
-  and for **case-insensitive** matching, the **`i`** modifier:
+- For **global substitution** (&gt;1 substitution per line),
+  we use the **`g`** modifier,  
+  and for **case-insensitive** matching, we use the **`i`** modifier:
   
   ```sh
   $ sed 's/chrom/chr/ig' chroms.txt | head -n 3
@@ -434,11 +437,13 @@ If you work a lot with sequencing data, check out the `bioawk` section.
 
 ## `sed` output options
 
-- Note that `sed` does not edit the file in place, and outputs to standard out.
-  Usually, we redirect the output to a new file:
+- Note that `sed` does not edit the file in place, and prints to standard out.
+  Usually, we'll redirect the output to a new file:
   ```sh
   $ sed 's/chrom/chr/ig' chroms.txt &gt; chroms_renamed.txt
   ```
+
+--
 
 - When we want replacements in place, **don't redirect to the same file!**
   
@@ -446,49 +451,50 @@ If you work a lot with sequencing data, check out the `bioawk` section.
   $ sed 's/chrom/chr/ig' chroms.txt &gt; chroms.txt # NO!!
   ```
   
-  .content-box-red[
-  <i class="fas  fa-question "></i> &amp;nbsp; Why does this fail?
+  .content-box-q[
+  Why does this fail?
   ]
 
 --
 
-- But we can instruct `sed` to perform the replacement **in place** like so:
+&lt;br&gt;
+
+- We can instruct `sed` to perform the replacement **in place**
+  with the **`-i`** flag, so that we edit the file:
 
   ```sh
   $ cp chroms.txt chroms_inplace.txt
-  $ sed -i 's/chrom/chr/' chroms_inplace.txt # Edits file!
-  
-  # Or create a backup copy using "inplace=&lt;backup-suffix&gt;"
-  $ cp chroms.txt chroms_inplace2.txt
-  $ sed --inplace=backup 's/chrom/chr/' chroms_inplace2.txt
+  $ sed -i 's/chrom/chr/' chroms_inplace.txt
   ```
 
 ---
 
 ## Reformatting using `sed`
 
-- Let's say we want to replace the format `chr1:28427874-28425431`
-  ("chrom:start-end") by having a tab (`"\t"`) between each field.  
+- Let's say we want to change the genomic coordinates format
+  `chr1:431-874` ("chrom:start-end") to one that has a tab (`"\t"`)
+  between each field.  
   
-  We would normally do this using input from a file,  
-  but we can nicely try things out with input piped from `echo`:
   ```sh
   # Use two consecutive sed calls:
-  $ echo "chr1:28427874-28425431" | sed 's/:/\t/' | sed 's/-/\t/'
+  $ echo "chr1:431-874" | sed 's/:/\t/' | sed 's/-/\t/'
+  #&gt; chr1    431     874
   
   # Use -e for multiple expressions:
-  $ echo "chr1:28427874-28425431" | sed -e 's/:/\t/' -e 's/-/\t/'
+  $ echo "chr1:431-874" | sed -e 's/:/\t/' -e 's/-/\t/'
+  #&gt; chr1    431     874
   
-  # Use a character class to match both the : and - at once:
-  $ echo "chr1:28427874-28425431" | sed 's/[:-]/\t/g'
+  # Use a character class to match the ":" and "-" at once:
+  $ echo "chr1:431-874" | sed 's/[:-]/\t/g'
+  #&gt; chr1    431     874
   ```
 
 --
 
 .content-box-info[
-Note that `tr` would also work for this task:
+Note that `tr` would also work for this particular task:
 ```sh
-$ echo "chr1:28427874-28425431" | tr ':-' '\t'
+$ echo "chr1:431-874" | tr ":-" "\t"
 ```
 ]
 
@@ -496,18 +502,45 @@ $ echo "chr1:28427874-28425431" | tr ':-' '\t'
 
 ## <i class="fas  fa-user-edit "></i> `sed` mini-practice
 
-In `Mus_musculus.GRCm38.75_chr1_genes.txt`:
+Make the following replacements in `Mus_musculus.GRCm38.75_chr1_genes.txt`
+with `sed`.
 
-1. The geneIDs were for the wrong organism: replace `ENSMUS` by `GALGAL`.
-   (Don't write to a new file, but check your result by piping into `head`.)
+For the first two, don't write to new files &amp;ndash;
+just check your result by piping into `head`.
+
+1. Oops, the geneIDs reference for the wrong organism!  
+   Replace `ENSMUS` by `GALGAL`.
    
-2. Replace the tabs by an underscore.
-   (Don't write to a new file, but check your result by piping into `head`.)
+2. Replace the tabs by an underscore (`_`).
    
 3. Do both at the same time, and write to a new file `genes_fixed.txt`.
 
 ---
 
+## <i class="fas  fa-user-edit "></i> `sed` mini-practice: solutions
+
+1. Replace `ENSMUS` by `GALGAL`.
+  ```sh
+  $ sed 's/ENSMUS/GALGAL/' "$mus"_genes.txt | head
+  ```
+
+2. Replace the tabs by an underscore (`_`).
+  ```sh
+  $ sed 's/\t/_/' "$mus"_genes.txt | head
+  ```
+
+3. Do both at the same time, and write to a new file `genes_fixed.txt`.
+  ```sh
+  # Pipe into a second sed call"
+  $ sed 's/ENSMUS/GALGAL/' "$mus"_genes.txt | \
+        sed 's/\t/_/' &gt; genes_fixed.txt
+  
+  # Use two expressions with "-e":
+  $ sed -e 's/ENSMUS/GALGAL/' -e 's/\t/_/' "$mus"_genes.txt \
+        &gt; genes_fixed.txt
+  ```
+
+---
 
 ## Backreferences in regular expressions
 
@@ -532,14 +565,9 @@ How can we do this with `sed`?
   # words inverted
   ```
 
-- Recalling a backreference can also happen while matching!
-
-  ```sh
-  echo "abab" | grep -E '(ab)\1'
-  # abab
-  ```
-
 --
+
+&lt;br&gt;
 
   .content-box-info[
   For `grep` &amp; `sed`, don't forget to turn on extended regex with **`-E`**!
@@ -547,54 +575,32 @@ How can we do this with `sed`?
 
 ---
 
-## Reformatting using `sed` (cont.)
+## Backreferences in `sed` for reformatting
 
 - So, let's invert these two fields:
   ```sh
-  $ echo "28425431-28427874" | sed -E 's/([0-9]+)-([0-9]+)/\2-\1/'
-  #&gt; 28427874-28425431
+  $ echo "431-874" | \
+        sed -E 's/([0-9]+)-([0-9]+)/\2-\1/'
+  #&gt; 874-431
   ```
   
 - Going back to the format that has `chr` as well:  
   ```sh
-  $ echo "chr1:28425431-28427874" | \
-      sed -E 's/(chr[0-9]+):([0-9]+)-([0-9]+)/\1:\3-\2/'
-  #&gt; 28427874-28425431
+  $ echo "chr1:431-874" | \
+        sed -E 's/(chr[0-9]+):([0-9]+)-([0-9]+)/\1:\3-\2/'
+  #&gt; chr1:874-431
   ```
+
+--
 
 - What if *some* chromosomes had names like `chr9a`?  
-  To allow for any character up until the delimiter (**`:`**),  
+  To allow for any character up until the delimiter (**`:`**),
   we could use **`:`** as a character class and *negate* it:
   ```sh
-  $ echo "chr9a:28425431-28427874" | \
-      sed -E 's/(chr[^:]+):([0-9]+)-([0-9]+)/\1:\3-\2/'
-  #&gt; 28427874-28425431
+  $ echo "chr9a:425-787" | \
+        sed -E 's/(chr[^:]+):([0-9]+)-([0-9]+)/\1:\3-\2/'
+  #&gt; chr9a:787-425
   ```
-
----
-
-## Reformatting using `sed` (cont.)
-
-- Finally, we can reformat the output. Here is the example from Buffalo,
-  which gives tab-separated (**`\t`**) output:
-  
-  ```sh
-  $ echo "chr1:28427874-28425431" | \
-      sed -E 's/^(chr[^:]+):([0-9]+)-([0-9]+)/\1\t\2\t\3/'
-  ```
-  
-  &lt;br&gt;
-  
-  .content-box-info[
-  Note the caret sign **`^`** in **`s/^`**,
-  which matches the beginning of a line.
-  
-  Not to be confused with a **`^`** as the first character inside **`[]`**,
-  which is used for negation (!).
-  
-  The counterpart of **`^`** is **`$`**,
-  which matches the end of a line.
-  ]
 
 ---
 
@@ -626,32 +632,45 @@ How can we do this with `sed`?
 
 ## Print only matching or selected lines using `sed`
 
-- We can tell `sed` to only print matching lines using the **`-n`** option,
-  which turns off printing lines, and then using the **`p`** modifier for matches,
-  to print those lines:
+- We can tell `sed` to only print matching lines by:
+
+  - Using the **`-n`** option,
+    which turns off the default behavior of printing all lines, *and*
+  
+  - Using the **`p`** modifier for matches, to print just matching lines:
+  
   ```sh
   # Print only lines containing the pattern 'abc' (mimics grep!): 
   $ sed -n '/abc/p' 
   ```
 
+--
+
 - So let's apply this technique to our GTF file:
   ```sh
-  $ grep -v "^#" "$mus".gtf | head -n 3 | \
-        sed -E -n 's/.*transcript_id "([^"]+)".*/\1/p'
-  ```
-
-&lt;br&gt;
-
-- We can also use this construct to simply print specific line numbers:
-  ```sh
-  $ sed -n '20,50p' "$mus".gtf # Print lines 20-50
+  $ grep -v "^#" "$mus".gtf | \
+        sed -E -n 's/.*transcript_id "([^"]+)".*/\1/p' | \
+        head -n 3
+  #&gt; ENSMUST00000160944
+  #&gt; ENSMUST00000160944
+  #&gt; ENSMUST00000082908
   ```
 
 ---
 
-## Misc. `sed`
+## Final `sed`
 
-- Note that you can use **other delimiters than `/`** in the substitution command,
+- We can also use the `-n` and `p` syntax to simply print specific lines
+  by their line numbers:
+  ```sh
+  $ sed -n '20,50p' "$mus".gtf # Print lines 20-50
+  ```
+
+--
+
+&lt;br&gt;
+
+- You can use **other delimiters than `/`** in the substitution command,
   which can be useful when patterns and/or replacement contain slashes:
   
   ```sh
@@ -659,23 +678,39 @@ How can we do this with `sed`?
   #&gt; sampleA.fastq
   ```
 
-&lt;br&gt;
-
-.content-box-info[
-Almost any character works, but the "rarer" the character, the better.  
-]
+  .content-box-info[
+  Almost any character works as the delimited,
+  but the "rarer" the character, the better.  
+  ]
 
 ---
 
-## McIlroy's oneliner
+## Back to McIlroy's oneliner
+
+Print the 10 most common words in a file:
 
 ```sh
-$ cat file | tr -c A-Za-z '\n' | \
+$ cat file | \
+    tr -cs A-Za-z '\n' | \
     tr A-Z a-z | \
-    sort | \
-    uniq -c | \
+    sort | uniq -c | \
     sort -rn | \
     sed 10q
+```
+
+---
+
+## Back to McIlroy's oneliner
+
+Print the 10 most common words in a file:
+
+```sh
+$ cat file | \
+    tr -cs A-Za-z '\n' | \  # Squeeze non-alphanum. chars &amp; convert to newlines
+    tr A-Z a-z | \          # Convert all letters to lowercase
+    sort | uniq -c | \      # Get counts for every word
+    sort -rn | \            # Sort in rev. num. order: highest first
+    sed 10q                 # Print first 10 lines
 ```
 
 ---
@@ -690,7 +725,7 @@ class: inverse middle center
 ---
 class: inverse middle center
 
-# Bonus Materials
+# Bonus Material
 
 ----
 
@@ -699,9 +734,43 @@ class: inverse middle center
 ---
 background-color: #f2f5eb
 
----
+## A subshell and a custom function
 
-## Subshells
+- "Subshell" between `( )`: both `head` and `tail` get the same standard input:
+  
+  ```sh
+  $ (head -n 2; tail -n 2) &lt; file
+  ```
+
+--
+
+- Creating a custom function with this subshell trick:
+
+  ```sh
+  # Note that there was an error in Buffalo's function, lacking a trailing ";"
+  $ i() { (head -n 2; tail -n 2) &lt; "$1" | column -t; }
+  ```
+
+- Now you can use `i` ("inspect") to print the first and last two lines
+  of a file:
+  
+  ```sh
+  $ i $mus.bed
+  #&gt; 1  3054233    3054733
+  #&gt; 1  3054233    3054733
+  #&gt; 1  195240910  195241007
+  #&gt; 1  195240910  195241007
+  ```
+
+.content-box-info[
+You'll have to add the function to your bash config file `~/.bashrc` to be
+able to use it any time.
+]
+
+---
+background-color: #f2f5eb
+
+## Another subshell example
 
 ```sh
 $ (zgrep "^#" "$mus".gtf.gz; \
@@ -709,28 +778,9 @@ $ (zgrep "^#" "$mus".gtf.gz; \
     gzip &gt; "$mus"_sorted.gtf.gz
 ```
 
----
-
-## A subshell and a custom function
-
-- "Subshell" between ( ): both head and tail get the same standard input:
-  
-  ```sh
-  (head -n 2; tail -n 2) &lt; file
-  ```
-
-- Creating a custom function:
-
-  ```sh
-  # Note that there was an error in Buffalo's function, lacking a trailing ";"
-  i() { (head -n 2; tail -n 2) &lt; "$1" | column -t; }
-  ```
-  
-  - This is a nice trick, but ...
-  
-  - Mention aliases?
 
 ---
+background-color: #f2f5eb
 
 ## Process substitution
 
@@ -750,6 +800,7 @@ $ echo "hello, process substitution" | cat
 ```
 
 ---
+background-color: #f2f5eb
 
 ## Process substitution (cont.)
 
@@ -802,6 +853,32 @@ background-color: #f2f5eb
 ---
 background-color: #f2f5eb
 
+## Another `sed` example
+
+- Here is the reformatting example from Buffalo,
+  which gives tab-separated (**`\t`**) output:
+  
+  ```sh
+  $ echo "chr1:28427874-28425431" | \
+        sed -E 's/^(chr[^:]+):([0-9]+)-([0-9]+)/\1\t\2\t\3/'
+  ```
+  
+  &lt;br&gt;
+  
+  .content-box-info[
+  **Note the two different uses of the caret sign **`^`** above!**
+  
+  - The first caret, in **`s/^`**, matches the beginning of a line.
+  
+  - The second caret, in **`[^:]`**, is used as the first character inside
+    a character class **`[]`**, which means that is functions to *negate*!
+  
+    So, **`[^:]`** will match any character that is *not* a colon **`:`**.
+  ]
+
+---
+background-color: #f2f5eb
+
 ## Optional install for Mac users: &lt;br&gt; `GNU` instead of `BDS` tools
 
 Assumes you have already installed Homebrew &amp;mdash;
@@ -819,6 +896,14 @@ brew install gnu-sed   # To get GNU sed, also not included in basic
   ```sh
   ggrep --version
   ```
+
+---
+
+## Optional instal: bioawk
+
+```sh
+git clone git://github.com/lh3/bioawk.git &amp;&amp; cd bioawk &amp;&amp; make &amp;&amp; sudo cp bioawk /usr/local/bin/
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
