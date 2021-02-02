@@ -2534,11 +2534,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>For most questions, the code required is quite similar to the examples in Buffalo chapter 7 (and the slides). If the hints are too cryptic for you, I recommend you first go back to the section on the relevant command in the chapter.</p>
 <h3 id="exercise-1-pseudogenes-with-grep-uniq--c-and-others">Exercise 1: Pseudogenes with <code>grep</code>, <code>uniq -c</code>, and others</h3>
 <p>In this exercise, we will start using the file <code>Mus_musculus.GRCm38.75_chr1.gtf</code> that we’ve seen in class.</p>
-<p>Let’s say that you need to extract all pseudogenes on mouse chromosome 1 from the GTF, and write the results to a new GTF file. We’ll do that in this exercise with a detour along the way.</p>
+<p>Let’s say that you need to extract annotation information for all pseudogenes on mouse chromosome 1 from the GTF, and write the results to a new GTF file. We’ll do that in this exercise with a detour along the way.</p>
 <ol type="1">
 <li><p>Count the number of lines with the string “<em>pseudogene</em>”.</p>
 <details>
-<p><summary>Hints</summary> Use <code>grep -c</code> to count.</p>
+<p><summary>Hints</summary> Use <code>grep -c</code> to count the matches.</p>
 </p>
 </details></li>
 </ol>
@@ -2552,14 +2552,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>To answer this question, compute count tables using <code>sort | uniq -c</code> after <code>grep</code>ping for “pseudogene”.</p>
 </p>
 </details></li>
-<li><p>If you are more restrictive in your <code>grep</code> matching to only match “pseudogene” as a full “word”, do you still see CDS or start/stop codons?</p></li>
+<li><p>If you are more restrictive in your <code>grep</code> matching to only match “pseudogene” as a full “word”, do you still see CDS or start/stop codons?</p>
+<details>
+<p><summary>Hints</summary> Use <code>grep -w</code> to only match full “words”: consecutive alphanumeric characters and the underscore.</p>
+<p>This would avoid matching longer words that <em>contain</em> “pseudogene”, such as “transcribed_pseudogene”.</p>
+</p>
+</details></li>
 <li><p>We have “exon”, “transcript” and “gene” features in column 3, but we want just the <strong>gene-level coordinates</strong> of the pseudogenes: after <code>grep</code>ping for “<em>pseudogene</em>” like in the previous question, select only rows for which the feature type in column 3 is <code>gene</code>.</p>
 <p>Pipe your output into <code>head</code> or <code>less</code>; we don’t want to write to a new file yet.</p>
 <details>
 <p><summary>Hints</summary></p>
 <p>
-<p>The “gene” you want to match is in its own column. Matching restrictively using the <code>-w</code> flag to only match whole “words” should work.</p>
-<p>Even better would be to explicitly match the tabs surrounding gene. This can be done using the <code>-P</code> flag to grep (<code>grep -P</code>) and the <code>\t</code> symbol for tabs.</p>
+<p>The “gene” you want to match is in its own column. Matching restrictively using the <code>-w</code> flag to only match whole “words” will work in this case.</p>
+<p>Even better would be to <em>explicitly match the tabs</em> surrounding “gene”. This can be done using the <code>-P</code> flag to grep (<code>grep -P</code>) and the <code>\t</code> symbol for tabs.</p>
 <p>Yet another approach that is even more explicit uses <code>awk</code> to make the match specifically for the 3rd column (recall that <code>$3</code> is the third column in <code>awk</code>, so you can use <code>$3 == "gene"</code>). If you try with <code>awk</code>, you’ll have to make sure to ignore the header lines, which are not tabular.</p>
 </p>
 </details></li>
@@ -2570,10 +2575,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>Pipe your previous command into <code>cut</code> and then <code>sort | uniq -c</code> to quickly check which values are present in column 3.</p>
 </p>
 </details></li>
-<li><p>Now you are almost ready to write a new GTF file, called <code>pseudogenes.gtf</code>, with the features you selected above: gene-level <em>pseudogene</em> features.</p>
+<li><p>Now, you are almost ready to write the results to a new GTF file, called <code>pseudogenes.gtf</code>, with the features you selected above: gene-level <em>pseudogene</em> features.</p>
 <p>One challenge is that you also want the header, which you won’t get when redirecting the output from the previous command.</p>
-<p>A straightforward solution would be to first write the header to a new file, and then appending the lines with the selected features.</p>
-<p>Alternatively, you can use <em>subshells</em> to do this in a single go. If you want to try this, make sure you have read Buffalo p. 169-170 first.</p>
+<p>A straightforward solution would be to first write the header to a new file, and then <em>append</em> the lines with the selected features.</p>
+<p>Alternatively, you can use <em>subshells</em> to do this in a single go. If you want to try this, make sure you have read the Buffalo section on subshells (p. 169-170) first.</p>
 <details>
 <p><summary>Hints</summary></p>
 <p>
@@ -2598,10 +2603,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><p>How many genes (“gene” in column 3) on the + strand (“+” in column 7) are at least 1,000 base pairs long?</p>
 <details>
 <p><summary>Hints</summary></p>
-<p>Adjust your command for the previous question:</p>
+<p>Adjust your command for the previous question as follows:</p>
 <ul>
-<li><p><code>grep</code> for “gene”, restricting matches using the <code>-w</code> flag. (Alternatively, match column 3 with <code>awk</code>, or turn on Perl-like regular expression in <code>grep</code> with the <code>-P</code> to enable matching tabs with <code>\t</code>.)</p></li>
-<li><p>Match columns 3 (feature type) and 7 (strand) with <code>awk</code>, using <code>==</code> in <code>awk</code> to only select matching rows.</p></li>
+<li><p>Match columns 3 (feature type) and 7 (strand) with <code>awk</code>, using <code>==</code> to only select matching rows.</p></li>
 <li><p>Use the <code>&amp;&amp;</code> operator in <code>awk</code> to combine conditions.</p></li>
 </ul>
 </p>
@@ -2612,7 +2616,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p><summary>Hints</summary></p>
 <ul>
 <li><p>First, remove the header from consideration using <code>grep -v</code>.</p></li>
-<li><p>Next, select “gene” only, which you can do with <code>awk</code> as above, with <code>grep -w</code>, or <code>grep -P</code> with <code>\t</code> for tab.</p></li>
+<li><p>Next, select “gene”-level features only, which you can do with <code>awk</code> as above, with <code>grep -w</code>, or with <code>grep -P</code> with <code>\t</code> for tab.</p></li>
 <li><p>Next, use a <strong>variable</strong> in <code>awk</code>:</p>
 <ul>
 <li>Initialize the variable in a <code>BEGIN</code> statement;</li>
@@ -2659,14 +2663,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 1) { printf(&quot;&gt;%s\n&quot;, substr($0,2)); } else if(NR%4 == 2) print; }&#39;</span> \</span>
 <span id="cb1-2"><a href="#cb1-2"></a>    contaminated.fastq <span class="op">&gt;</span> contaminated.fasta</span></code></pre></div>
 <ol start="2" type="1">
-<li><p>Select FASTA entries (sequence <em>and</em> header) from <code>contaminated.fasta</code> with the sequence <code>AGATCGGAAGA</code> and write them to a new file, <code>contaminated_sel.fasta</code>. (Your new file should have 12 lines.)</p>
+<li><p>Select FASTA entries (sequence <em>and</em> header) from <code>contaminated.fasta</code> with the sequence <code>AGATCGGAAGA</code> and write them to a new file, <code>contaminated_sel.fasta</code>. (Your new file should have 6 sequences, so 12 lines.)</p>
 <details>
 <p><summary>Hints</summary></p>
 <p>
-<p>Match the sequence with <code>grep</code> and use the <code>-B</code> option to also retrieve the preceding line, which is the sequence header/identifier. In addition, use <code>--no-group-separator</code> to prevent grep from printing <code>--</code> between matches (alternatively, one could use another call to <code>grep</code> with <code>-v</code> to filter out <code>--</code> lines).</p>
+<p>Match the sequence with <code>grep</code> and use the <code>-B</code> option to also retrieve the preceding line, which is the sequence header/identifier. In addition, use <code>--no-group-separator</code> to prevent grep from printing <code>--</code> between matches (alternatively, you could use another call to <code>grep</code> with <code>-v</code> to filter out <code>--</code> lines).</p>
 </p>
 </details></li>
-<li><p>Check how many sequences (if any) have one ore more undetermined bases (<code>N</code>).</p>
+<li><p>Check how many sequences, if any, have one ore more undetermined bases (<code>N</code>).</p>
 <details>
 <p><summary>Hints</summary></p>
 <p>
@@ -2713,7 +2717,8 @@ Get the frequency of each base for position 50 in the FASTA file.</p>
 <ul>
 <li><p>The number of genes is simply the number of lines in <code>exons.txt</code>.</p></li>
 <li><p>Count the number of exons using <code>uniq</code> and then <code>wc -l</code>.</p></li>
-<li><p>The division can be done with <code>expr $n_genes / $n_exons</code> although you will not get any decimals. This assumes you assigned the results to variables using command substitution, e.g.: <code>ngenes=$(wc -l ...)</code>. (You could also, e.g., call Python inline, but we’re not there yet.)</p></li>
+<li><p>The division can be done with <code>expr $n_genes / $n_exons</code> although you will not get any decimals (arithmetic in bash is very limited!). The above exmplae assumes you assigned the results to variables using command substitution, e.g.: <code>ngenes=$(wc -l ...)</code>.</p>
+<p>(You could also, e.g., call Python inline, but we’re not there yet.)</p></li>
 </ul>
 </p>
 </details></li>
@@ -2818,7 +2823,7 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 <div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a>$ <span class="fu">grep</span> -v <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;pseudogene&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> -w <span class="st">&quot;gene&quot;</span> <span class="kw">|</span> <span class="kw">\</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a>      <span class="fu">cut</span> -f 3 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> -c</span>
 <span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt;     223 gene</span></span></code></pre></div>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt; 223 gene</span></span></code></pre></div>
 <p>We select the third column and use the <code>sort | uniq -c</code> combination to create a count table, which will quickly tell us whether there are multiple values in the column.</p>
 </p>
 </details>
@@ -2827,11 +2832,17 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 <p>
 <p>Solution when writing the header and the rest of the file separately (don’t forget to use <code>&gt;&gt;</code> for appending the output of the second line, if you use this method!):</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a>$ <span class="fu">grep</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="op">&gt;</span> pseudogenes.gtf</span>
-<span id="cb9-2"><a href="#cb9-2"></a>$ <span class="fu">grep</span> -v <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;$2 == &quot;pseudogene&quot; &amp;&amp; $3 == &quot;gene&quot;&#39;</span> <span class="op">&gt;&gt;</span> pseudogenes.gtf</span></code></pre></div>
+<span id="cb9-2"><a href="#cb9-2"></a>$ <span class="fu">grep</span> -v <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="kw">\</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>      <span class="fu">awk</span> <span class="st">&#39;$2 == &quot;pseudogene&quot; &amp;&amp; $3 == &quot;gene&quot;&#39;</span> \</span>
+<span id="cb9-4"><a href="#cb9-4"></a>      <span class="op">&gt;&gt;</span> pseudogenes.gtf</span></code></pre></div>
 <p>Solution with subshells:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a>$ <span class="kw">(</span><span class="fu">grep</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span><span class="kw">;</span> <span class="fu">grep</span> -v <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;$2 == &quot;pseudogene&quot; &amp;&amp; $3 == &quot;gene&quot;&#39;</span><span class="kw">)</span> <span class="op">&gt;</span> <span class="ex">pseudogenes.gtf</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a>$ <span class="kw">(</span><span class="fu">grep</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span><span class="kw">;</span> <span class="fu">grep</span> -v <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="kw">\</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>      <span class="fu">awk</span> <span class="st">&#39;$2 == &quot;pseudogene&quot; &amp;&amp; $3 == &quot;gene&quot;&#39;</span><span class="kw">)</span> <span class="kw">\</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>      <span class="op">&gt;</span> <span class="ex">pseudogenes.gtf</span></span></code></pre></div>
 <p>Note: rather than with <code>grep -v "^#"</code>, we can also exclude the header using <code>!/^#/</code> in <code>awk</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a>$ <span class="kw">(</span><span class="fu">grep</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span><span class="kw">;</span> <span class="fu">awk</span> <span class="st">&#39;!/^#/ &amp;&amp; $2 == &quot;pseudogene&quot; &amp;&amp; $3 == &quot;gene&quot;&#39;</span> <span class="va">$gtf</span><span class="kw">)</span> <span class="op">&gt;</span> <span class="ex">pseudogenes.gtf</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a>$ <span class="kw">(</span><span class="fu">grep</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span><span class="kw">;</span> <span class="kw">\</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>      <span class="fu">awk</span> <span class="st">&#39;!/^#/ &amp;&amp; $2 == &quot;pseudogene&quot; &amp;&amp; $3 == &quot;gene&quot;&#39;</span> <span class="va">$gtf</span><span class="kw">)</span> <span class="kw">\</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>      <span class="op">&gt;</span> <span class="ex">pseudogenes.gtf</span></span></code></pre></div>
 </p>
 </details>
 <h3 id="exercise-2-calculations-with-awk-1">Exercise 2: Calculations with <code>awk</code></h3>
@@ -2916,7 +2927,7 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 </p>
 </details>
 <details>
-<summary>2. In <code>genotypes.txt</code>, replace the <code>/</code> delimiter for genotypes by a colon (<code>:</code>).</summary>
+<summary>2. In <code>genotypes.txt</code>, replace the <code>/</code> delimiter by a colon (<code>:</code>).</summary>
 <p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1"></a>$ <span class="fu">sed</span> <span class="st">&#39;s#/#:#g&#39;</span> genotypes.txt <span class="op">&gt;</span> genotypes3.txt</span>
 <span id="cb18-2"><a href="#cb18-2"></a></span>
@@ -2946,9 +2957,10 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 <span id="cb19-5"><a href="#cb19-5"></a></span>
 <span id="cb19-6"><a href="#cb19-6"></a><span class="co">#&gt; 12</span></span>
 <span id="cb19-7"><a href="#cb19-7"></a></span>
-<span id="cb19-8"><a href="#cb19-8"></a><span class="co"># Alternative to `--no-group-separator`: remove the lines with `--` afterwards:</span></span>
-<span id="cb19-9"><a href="#cb19-9"></a>$ <span class="fu">grep</span> -B 1 <span class="st">&quot;AGATCGGAAGA&quot;</span> contaminated.fasta <span class="kw">|</span> <span class="kw">\</span></span>
-<span id="cb19-10"><a href="#cb19-10"></a>      <span class="fu">grep</span> -v <span class="st">&quot;--&quot;</span> <span class="op">&gt;</span> contaminated_sel.fasta</span></code></pre></div>
+<span id="cb19-8"><a href="#cb19-8"></a><span class="co"># Alternative to `--no-group-separator`;</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a><span class="co"># remove the lines with `--` afterwards:</span></span>
+<span id="cb19-10"><a href="#cb19-10"></a>$ <span class="fu">grep</span> -B 1 <span class="st">&quot;AGATCGGAAGA&quot;</span> contaminated.fasta <span class="kw">|</span> <span class="kw">\</span></span>
+<span id="cb19-11"><a href="#cb19-11"></a>      <span class="fu">grep</span> -v <span class="st">&quot;--&quot;</span> <span class="op">&gt;</span> contaminated_sel.fasta</span></code></pre></div>
 <ul>
 <li><p>Use <code>B 1</code> to get the sequence ID line for each match.</p></li>
 <li><p>Use <code>--no-group-separator</code> (top solution) or pipe into <code>grep -v "--"</code> to avoid having a group separator, which grep inserts for multiline output like this, in the output.</p></li>
@@ -2956,7 +2968,7 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 </p>
 </details>
 <details>
-<summary>3. Check how many sequences (if any) have one ore more undetermined bases (N).</summary>
+<summary>3. Check how many sequences have one ore more undetermined bases (N).</summary>
 <p>
 <p>Make sure you first exclude the header lines, since you only want to match “N” in the sequences themselves:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a>$ <span class="fu">grep</span> -v <span class="st">&quot;^&gt;&quot;</span> contaminated.fasta <span class="kw">|</span> <span class="fu">grep</span> -c <span class="st">&quot;N&quot;</span></span>

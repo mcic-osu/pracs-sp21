@@ -32,15 +32,15 @@ chapter.
 In this exercise, we will start using the file `Mus_musculus.GRCm38.75_chr1.gtf`
 that we've seen in class.
 
-Let's say that you need to extract all pseudogenes on mouse chromosome 1
-from the GTF, and write the results to a new GTF file.
+Let's say that you need to extract annotation information for all pseudogenes
+on mouse chromosome 1 from the GTF, and write the results to a new GTF file.
 We'll do that in this exercise with a detour along the way.
 
 1. Count the number of lines with the string "*pseudogene*".
 
    <details>
    <summary>Hints</summary>
-   Use `grep -c` to count.
+   Use `grep -c` to count the matches.
    </p>
    </details>
 
@@ -68,6 +68,16 @@ This genomic feature type information is listed in column 3.
    "pseudogene" as a full "word",
    do you still see CDS or start/stop codons?
 
+   <details>
+   <summary>Hints</summary>
+   Use `grep -w` to only match full "words":
+   consecutive alphanumeric characters and the underscore.
+   
+   This would avoid matching longer words that *contain* "pseudogene",
+   such as "transcribed_pseudogene".
+   </p>
+   </details>
+   
 4. We have "exon", "transcript" and "gene" features in column 3,
    but we want just the **gene-level coordinates** of the pseudogenes:
    after `grep`ping for "*pseudogene*" like in the previous question,
@@ -81,9 +91,9 @@ This genomic feature type information is listed in column 3.
    <p>
    The "gene" you want to match is in its own column.
    Matching restrictively using the `-w` flag to only match whole "words"
-   should work.
+   will work in this case.
    
-   Even better would be to explicitly match the tabs surrounding gene.
+   Even better would be to *explicitly match the tabs* surrounding "gene".
    This can be done using the `-P` flag to grep (`grep -P`) and the `\t`
    symbol for tabs.
    
@@ -105,18 +115,19 @@ This genomic feature type information is listed in column 3.
    </p>
    </details>
 
-6. Now you are almost ready to write a new GTF file, called `pseudogenes.gtf`,
+6. Now, you are almost ready to write the results to a new GTF file,
+   called `pseudogenes.gtf`,
    with the features you selected above: gene-level *pseudogene* features.
 
    One challenge is that you also want the header,
    which you won't get when redirecting the output from the previous command.
 
    A straightforward solution would be to first write the header to a new file,
-   and then appending the lines with the selected features.
+   and then *append* the lines with the selected features.
 
    Alternatively, you can use *subshells* to do this in a single go.
-   If you want to try this, make sure you have read Buffalo p. 169-170 
-   first.
+   If you want to try this, make sure you have read the Buffalo section on
+   subshells (p. 169-170) first.
    
    <details>
    <summary>Hints</summary>
@@ -150,14 +161,10 @@ In this exercise, you will continue working with the GTF file `Mus_musculus.GRCm
    <details>
    <summary>Hints</summary>
    
-   Adjust your command for the previous question:
-   
-   - `grep` for "gene", restricting matches using the `-w` flag.
-     (Alternatively, match column 3 with `awk`, or turn on Perl-like regular
-     expression in `grep` with the `-P` to enable matching tabs with `\t`.)
+   Adjust your command for the previous question as follows:
    
    - Match columns 3 (feature type) and 7 (strand) with `awk`,
-     using `==` in `awk` to only select matching rows.
+     using `==` to only select matching rows.
    
    - Use the `&&` operator in `awk` to combine conditions.
    
@@ -172,8 +179,9 @@ In this exercise, you will continue working with the GTF file `Mus_musculus.GRCm
    
    - First, remove the header from consideration using `grep -v`.
    
-   - Next, select "gene" only, which you can do with `awk` as above,
-     with `grep -w`, or `grep -P` with `\t` for tab.
+   - Next, select "gene"-level features only,
+     which you can do with `awk` as above,
+     with `grep -w`, or with `grep -P` with `\t` for tab.
     
    - Next, use a **variable** in `awk`:
       - Initialize the variable in a `BEGIN` statement;
@@ -238,7 +246,8 @@ awk '{ if(NR%4 == 1) { printf(">%s\n", substr($0,2)); } else if(NR%4 == 2) print
 
 2. Select FASTA entries (sequence *and* header) from `contaminated.fasta`
   with the sequence `AGATCGGAAGA` and write them to a new file,
-  `contaminated_sel.fasta`. (Your new file should have 12 lines.)
+  `contaminated_sel.fasta`.
+  (Your new file should have 6 sequences, so 12 lines.)
   
    <details>
    <summary>Hints</summary>
@@ -246,12 +255,12 @@ awk '{ if(NR%4 == 1) { printf(">%s\n", substr($0,2)); } else if(NR%4 == 2) print
    Match the sequence with `grep` and use the `-B` option to also retrieve the
    preceding line, which is the sequence header/identifier.
    In addition, use `--no-group-separator` to prevent grep from printing `--`
-   between matches (alternatively, one could use another call to `grep` with
+   between matches (alternatively, you could use another call to `grep` with
    `-v` to filter out `--` lines).
    </p>
    </details>
 
-3. Check how many sequences (if any) have one ore more undetermined bases (`N`).
+3. Check how many sequences, if any, have one ore more undetermined bases (`N`).
    
    <details>
    <summary>Hints</summary>
@@ -317,9 +326,10 @@ Use the `exons.txt` file you created to answer the following questions.
    - Count the number of exons using `uniq` and then `wc -l`.
    
    - The division can be done with `expr $n_genes / $n_exons`
-     although you will not get any decimals.
-     This assumes you assigned the results to variables using command
+     although you will not get any decimals (arithmetic in bash is very limited!).
+     The above exmplae assumes you assigned the results to variables using command
      substitution, e.g.: `ngenes=$(wc -l ...)`.
+     
      (You could also, e.g., call Python inline, but we're not there yet.)
    </p>
    </details>
@@ -486,7 +496,7 @@ this is the most robust solution.
 $ grep -v "^#" $gtf | grep "pseudogene" | grep -w "gene" | \
       cut -f 3 | sort | uniq -c
 
-#>     223 gene
+#> 223 gene
 ```
 
 We select the third column and use the `sort | uniq -c` combination to create
@@ -505,19 +515,25 @@ Solution when writing the header and the rest of the file separately
 if you use this method!):
 ```sh
 $ grep "^#" $gtf > pseudogenes.gtf
-$ grep -v "^#" $gtf | awk '$2 == "pseudogene" && $3 == "gene"' >> pseudogenes.gtf
+$ grep -v "^#" $gtf | \
+      awk '$2 == "pseudogene" && $3 == "gene"' \
+      >> pseudogenes.gtf
 ```
 
 Solution with subshells:
 ```sh
-$ (grep "^#" $gtf; grep -v "^#" $gtf | awk '$2 == "pseudogene" && $3 == "gene"') > pseudogenes.gtf
+$ (grep "^#" $gtf; grep -v "^#" $gtf | \
+      awk '$2 == "pseudogene" && $3 == "gene"') \
+      > pseudogenes.gtf
 ```
 
 Note: rather than with `grep -v "^#"`, we can also exclude the header using
 `!/^#/` in `awk`:
 
 ```sh
-$ (grep "^#" $gtf; awk '!/^#/ && $2 == "pseudogene" && $3 == "gene"' $gtf) > pseudogenes.gtf
+$ (grep "^#" $gtf; \
+      awk '!/^#/ && $2 == "pseudogene" && $3 == "gene"' $gtf) \
+      > pseudogenes.gtf
 ```
 </p>
 </details>
@@ -648,7 +664,7 @@ Since there are multiple underscores on line 1, you need the `g` modifier.
 </details>
 
 <details>
-<summary>2. In `genotypes.txt`, replace the `/` delimiter for genotypes by a colon (`:`).</summary>
+<summary>2. In `genotypes.txt`, replace the `/` delimiter by a colon (`:`).</summary>
 <p>
 ```sh
 $ sed 's#/#:#g' genotypes.txt > genotypes3.txt
@@ -687,7 +703,8 @@ $ wc -l < contaminated_sel.fasta
 
 #> 12
 
-# Alternative to `--no-group-separator`: remove the lines with `--` afterwards:
+# Alternative to `--no-group-separator`;
+# remove the lines with `--` afterwards:
 $ grep -B 1 "AGATCGGAAGA" contaminated.fasta | \
       grep -v "--" > contaminated_sel.fasta
 ```
@@ -702,7 +719,7 @@ $ grep -B 1 "AGATCGGAAGA" contaminated.fasta | \
 </details>
 
 <details>
-<summary>3. Check how many sequences (if any) have one ore more undetermined bases (N).</summary>
+<summary>3. Check how many sequences have one ore more undetermined bases (N).</summary>
 <p>
 
 Make sure you first exclude the header lines, since you only want to match
