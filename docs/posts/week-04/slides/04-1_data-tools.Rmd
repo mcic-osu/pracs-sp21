@@ -273,9 +273,7 @@ $ mus=Mus_musculus.GRCm38.75_chr1 # Save for quick recall
   $ less contaminated.fastq
   ```
 
-2. Try to move around a bit.
-
-3. Jump back to the first line and then to the last line.
+2. Jump back to the last line and then back to the first line.
 
 4. Now search for the following pattern: `AGATCGG`.  
    Move to the next match and the next.
@@ -500,7 +498,7 @@ The example in Buffalo (p. 144) does not use `-P` but this fails!
 
 - Use this to print the full 4-line FASTQ entry when the sequence matches:  
   ```sh
-  $ grep -B 1 -A 2 "AGATCGG" contam.fastq | head -n 6
+  $ grep -B 1 -A 2 "AGATCGG" contam.fastq | head -n 4
   ```
 
 --
@@ -577,7 +575,7 @@ $ grep -B 1 --no-group-separator "string" file.txt
 
    *(You can either pipe together two grep commands,  
    or use a single `grep` command &ndash;
-   "lincRNA" will occur before "exon" on a line).*
+   "lincRNA" will occur before "exon" on a line.)*
 
 ---
 
@@ -611,35 +609,6 @@ name:sort-uniq
 ----
 
 <br> <br> <br> <br> <br>
-
----
-
-## Miscellaneous `sort`
-
-- `-k` to select fields, `n` to turn on *numeric* sorting,
-  and `-r` for reverse sorting:
-  ```sh
-  # Sort a BED file by chromosome and (reversed) start position:
-  $ sort -k1,1 -k2,2nr example.bed
-  ```
-
-- `-V` to recognize numbers within strings, and sort accordingly:
-  ```sh
-  $ sort -k1,1 -k2,2n example2.bed
-  #> chr1
-  #> chr10
-  #> chr2
-  
-  $ sort -k1,1V -k2,2n example2.bed > example_sorted.bed
-  #> chr1
-  #> chr2
-  ```
-
---
-
-  .content-box-info[
-  The `-g` flag will properly sort scientific number notation like 10e-2.
-  ]
 
 ---
 
@@ -720,6 +689,35 @@ $ uniq -d mm_gene_names.txt | wc -l  # 0 if no duplicates
 ```
 ]
 
+---
+
+## Miscellaneous `sort`
+
+- `-k` to select fields, `n` to turn on *numeric* sorting,
+  and `-r` for reverse sorting:
+  ```sh
+  # Sort a BED file by chromosome and (reversed) start position:
+  $ sort -k1,1 -k2,2nr example.bed
+  ```
+
+- `-V` to recognize numbers within strings, and sort accordingly:
+  ```sh
+  $ sort -k1,1 -k2,2n example2.bed
+  #> chr1
+  #> chr10
+  #> chr2
+  
+  $ sort -k1,1V -k2,2n example2.bed > example_sorted.bed
+  #> chr1
+  #> chr2
+  ```
+
+--
+
+  .content-box-info[
+  The `-g` flag will properly sort scientific number notation like 10e-2.
+  ]
+  
 ---
 class: inverse middle center
 
