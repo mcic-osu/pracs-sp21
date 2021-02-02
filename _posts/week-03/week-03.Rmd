@@ -26,4 +26,4 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Graded assignments
 
-- [Graded assignment I: Shell, Markdown and Git](../../w03_GA_git.Rmd)
+- [Graded assignment I: Shell, Markdown and Git](../../w03_GA_git.html)
