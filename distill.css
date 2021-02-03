@@ -79,12 +79,20 @@ d-appendix {
 /* Add any additional CSS rules below                      */
 
 code {
-  background-color: #e8e8e8;
+  background-color: #f0f0f0;
   border-radius: 5px;
 }
 
 pre code {
   background-color: white;
+}
+
+.sourceCode {
+  background-color: #f0f0f0;
+  /*padding: 10px 15px;*/
+  /*border-left-width: 5px;
+  border-left-style: solid;
+  border-left-color: #b3dbff;*/
 }
 
 /*
@@ -105,20 +113,17 @@ details > summary {
   background-color: #f0f8ff;
   border: none;
   box-shadow: 3px 3px 4px black;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 details > p:first-of-type {
-  margin-top: -30px;
-  padding: 10px 15px;
-}
-
-details > p {
-  padding: 10px 15px;
+  margin-top: -5px;
 }
 
 details {
   color: #707070;
+  margin-left: 10px;
+  padding: 10px 15px;
   /*background-color: #f0f8ff;
   border-left-width: 5px;
   border-left-style: solid;

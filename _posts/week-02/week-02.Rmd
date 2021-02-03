@@ -1,0 +1,28 @@
+---
+title: "Week 02"
+description: |
+  Project organization and Markdown
+date: 2021-01-18
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+### Slides
+
+- [Slides: Part I -- Some best practices for project
+  organization](slides/02-1-proj-org.html) -- Tuesday Zoom (Jan 19)
+
+- [Slides: Part II - Markdown and VS Code](slides/02-2-md.html) -- Tue/Thu Zoom
+
+- [Slides: Part III - Managing files in the shell](slides/02-3-shfiles.html) -- Thursday Zoom (Jan 21)
+
+### Ungraded assignments
+
+- [Exercises for week 2](../../w02_exercises.html)
+
+- [Sign up for a Github account (CarmenCanvas site)](https://osu.instructure.com/courses/94975/assignments/2002693)

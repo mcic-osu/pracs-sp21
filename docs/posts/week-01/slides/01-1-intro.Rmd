@@ -3,7 +3,7 @@ title: "Week 1 - Lecture 1 - Course Intro"
 output:
   xaringan::moon_reader:
     seal: false
-    css: ["default", "default-fonts", "../../../slides.css"]
+    css: ["default", "default-fonts", "slides.css"]
     lib_dir: libs
     nature:
       highlightStyle: rainbow
@@ -168,18 +168,17 @@ name: pers-intro
 class: inverse middle center
 name: overview
 
-# Course Overview
+# Course overview
 
 ----
 <br><br><br>
 
 ---
-class: inverse middle center
+class: middle center
 
 ## The core goal of this course:
 
-----
-<br><br>
+<br>
 
 # Learning skills to do your research <br> more reproducibly and efficiently
 
@@ -215,11 +214,11 @@ class: inverse middle center
 
 - Also important:
 
-  - Organization and documentation (*week 2*)
+  - Project organization and documentation (*week 2*)
   
-  - Sharing data and code (*Github for code, week 3*)
+  - *Sharing* data and code (*Github for code, week 3*)
   
-  - How you code (*especially week 10 - Python, and 13 - Snakemake*)
+  - *How* you code (*especially week 10 - Python, and 13 - Snakemake*)
 
 --
 
@@ -273,7 +272,7 @@ computational biology.*
 
 <br>
 
-- Week 1 (, 2), 4 and 5: Basics of working in the Unix shell.
+- Week 1, (2,) 4, and 5: Working in the Unix shell.
 
 - Week 6: Shell *scripting*.
 
@@ -321,20 +320,11 @@ a scripting language.*
 
 <br>
 
-- We'll use **Python**, which is very versatile and has a clear, human-readable
+- We'll use *Python*, which is very versatile and has a clear, human-readable
   syntax, making it relatively easy to learn.
 
---
-
-<br>
-
-.content-box-info[
-- While Python will be the main programming language for the course,
-  be warned: we will only be able to scratch the surface.
-  
 - We'll also emphasize general programming concepts and best practices
-  in the Python part.
-]
+  while working with Python.
 
 ---
 name: snakemake
@@ -348,9 +338,8 @@ name: snakemake
 
 <br>
 
-- We'll use **_Snakemake_**, which uses Python syntax.
-
-- With limited extra effort, this allows us to make big gains!
+- We'll use *Snakemake*, which uses Python syntax. With limited extra effort,
+  this allows us to make big gains!
 
 ---
 
@@ -419,7 +408,7 @@ name: git-site
 
 <br>
 
-- **Slide decks**
+- Slide decks
 
 - Most of the *exercises* and *assignments*  
   (but always linked from the CarmenCanvas site).
@@ -431,7 +420,7 @@ name: teams
 
 <br>
 
-*Optional*, for any course-related:
+**_Optional_**, for any course-related:
 
 - Q&A 
 
@@ -570,9 +559,9 @@ name: this-week
   
   - Readings: CSB Chapter 1
   
-  - Exercises: CSB Chapter 1
+  - [Exercises: CSB Chapter 1](https://mcic-osu.github.io/pracs-sp21/w01_exercises.html)
 
-  - Optional: Local software installation
+  - [Optional: Local software installation](https://osu.instructure.com/courses/94975/assignments/2002692?module_item_id=5406932)
   
 ---
 class: inverse middle center

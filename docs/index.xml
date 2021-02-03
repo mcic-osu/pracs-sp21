@@ -7,14 +7,38 @@
     <description>Practical Computing Skills for Biologists (PP8300-SP21)
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 10 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Week 04</title>
+      <link>https://mcic-osu.github.io/pracs-sp21/posts/week-04</link>
+      <description>&lt;p&gt;Unix data tools&lt;/p&gt;
+</description>
+      <guid>https://mcic-osu.github.io/pracs-sp21/posts/week-04</guid>
+      <pubDate>Mon, 01 Feb 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Week 03</title>
+      <link>https://mcic-osu.github.io/pracs-sp21/posts/week-03</link>
+      <description>&lt;p&gt;Git &amp;amp; GitHub&lt;/p&gt;
+</description>
+      <guid>https://mcic-osu.github.io/pracs-sp21/posts/week-03</guid>
+      <pubDate>Mon, 25 Jan 2021 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Week 02</title>
+      <link>https://mcic-osu.github.io/pracs-sp21/posts/week-02</link>
+      <description>&lt;p&gt;Project organization and Markdown&lt;/p&gt;
+</description>
+      <guid>https://mcic-osu.github.io/pracs-sp21/posts/week-02</guid>
+      <pubDate>Mon, 18 Jan 2021 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Week 01</title>
       <link>https://mcic-osu.github.io/pracs-sp21/posts/week-01</link>
       <description>&lt;p&gt;Course intro &amp;amp; Shell basics&lt;/p&gt;
 </description>
       <guid>https://mcic-osu.github.io/pracs-sp21/posts/week-01</guid>
-      <pubDate>Sun, 10 Jan 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 11 Jan 2021 00:00:00 +0000</pubDate>
     </item>
   </channel>
 </rss>

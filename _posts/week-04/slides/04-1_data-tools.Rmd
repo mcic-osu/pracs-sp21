@@ -1,0 +1,877 @@
+---
+title: "Week 4 - Unix Data Tools - I"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## *Week 4: Unix Data Tools*
+
+----
+
+# Part I: <br>Miscellaneous data tools
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/02/02 (updated: `r Sys.Date()`)
+
+---
+
+## Context for this week
+
+In week 1 (and 2), we learned the basics of the Unix shell.
+
+<br>
+
+**This week, we'll focus on commands to inspect and process data**:
+
+- We'll revisit some commands from CSB Chapter 1
+  (`sort`, `uniq`, **`grep`**, ...) and learn about using regular expressions
+  in the shell.
+
+- We will also learn several new commands including the two very powerful
+  commands `sed` and `awk` (Thursday).
+
+---
+
+## Get the files for Buffalo Chapter 7
+
+- Start VS Code in OSC OnDemand => open your workspace =>
+  open a terminal => type `bash` to break out of the Singularity shell. 
+
+- You can either enter today's commands directly in the terminal,
+  or run them from a new `.sh` file or a `.md` file with code blocks.  
+  If you want to do the latter: create and open this file.
+
+- Then:
+  ```sh
+  # You should be in your dir already, otherwise:
+  # $ cd /fs/ess/PAS1855/users/$USER
+  
+  # Download the repository for the Buffalo book:
+  $ git clone https://github.com/vsbuffalo/bds-files.git
+  
+  # Move into the dir for this chapter:
+  $ cd bds-files/chapter-07-unix-data-tools
+  
+  # Take a look at what's there:
+  $ ls
+  ```
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [Intro to sequence file formats](#seqfiles)
+- ### [Viewing data files](#view)
+- ### [Regular expressions](#regex)
+- ### [grep](#grep)
+- ### [sort and sort | uniq -c](#sort-uniq)
+]
+
+<br>
+
+---
+name: seqfiles
+
+## Very quick intro to the sequence file formats <br> used in this chapter
+
+- **_FASTA_** (`.fasta` or `.fa`)
+
+- **_FASTQ_** (`.fastq` or `.fq`)
+
+- **_BED_** (`.bed`)
+
+- **_GTF_** (`.gtf`)  
+
+<br>
+
+.content-box-info[
+If you want to learn more about these and other formats,  
+see Buffalo ch. 10 & 11.
+]
+
+---
+
+## FASTA files (`.fasta`)
+
+- Can have one or more sequences of any length.  
+
+- For every sequence:
+
+  - The first line has a free form sequence identifier starting with `>`.
+
+  - The second line has the sequence (sometimes spread across multiple lines...).
+  
+```sh
+>unique_sequence_ID Optional description (free form!)
+ATTCATTAAAGCAGTTTATTGGCTTAATGTACATCAGTGAAATCATAAATGCTAAAAA
+>unique_sequence_ID2
+ATTCATTAAAGCAGTTTATTGGCTTAATGTACATCAGTGAAATCATAAATGCTAAATG
+```
+
+---
+
+## FASTQ files (`.fastq`)
+
+- Basically a FASTA file with **quality scores**, but also more formalized.
+  *Represents individual reads from a sequencer.*
+
+--
+
+- Each sequence covers exactly 4 lines:
+
+| Line | Description |
+|------|-------------|
+| 1    | Sequence header: begins with **`@`**, then information about the read
+| 2    | DNA sequence
+| 3    | **`+`** separator
+| 4    | Quality scores: *a single character for each base*, <br>1-on-1 correspondence with sequences on line 2. 
+
+```sh
+@DJB775P1:248:D0MDGACXX:7:1202:12362:49613
+CACTGCTTGCTCTGCGTTGATACCACTGCTTACTCTGCGTTGATACCACTGCTTACTCTGCGTT
++
+CCCFFFFFHHHHHGHGFHIJJ9HHIIJJJJJIJJJJIIJJJIIJIJJJJJJJJJIIJJJJJJHI
+@DJB775P1:248:D0MDGACXX:7:1202:12782:49716
+TTACTCTGCGTTGATACCACTGCTTACTCTGCGTTGATACCACTGCTTACTCTGCGTTGATACC
++
+;@@FDFFFH0@DDGHIIGHIIIHIIIIIIIIIIIIIIIGIIIIIIIIIIIIIIIIIIIIIIIII
+```
+
+---
+
+## BED files (`.bed`)
+
+Often just contains **genomic coordinates** in 3 columns:
+
+  1. Chromosome / scaffold
+  
+  2. Start position
+
+  3. End position
+
+```sh
+chr1    26      39
+chr1    32      47
+chr3    11      28
+chr1    40      49
+```
+
+---
+
+## GTF files (`.gtf`)
+
+While genome *sequences* are stored in FASTA files,
+**annotation information** is stored in files like GTF.
+
+- Like a BED file, these contain coordinates for genomic features
+  genes, transcripts, exons, etc., one per row.
+
+- But they also contain lots of additional information for each feature:
+
+```sh
+# chrom     biotype*    feature     start   end     score   strand  frame   attribute
+1           snRNA       gene        3102016 3102125 .       +       .       gene_id "ENSMUSG00000064842"; gene_name "Gm26206"; gene_source "ensembl"; gene_biotype "snRNA";
+1           snRNA       transcript  3102016 3102125 .       +       .       gene_id "ENSMUSG00000064842"; transcript_id "ENSMUST00000082908"; gene_name "Gm26206"; gene_source "ensembl"; gene_biotype "snRNA"; transcript_name "Gm26206-201"; transcript_source "ensembl";
+1           snRNA       exon        3102016 3102125 .       +       .       gene_id "ENSMUSG00000064842"; transcript_id "ENSMUST00000082908"; exon_number "1"; gene_name "Gm26206"; gene_source "ensembl"; gene_biotype "snRNA"; transcript_name "Gm26206-201"; transcript_source "ensembl"; exon_id "ENSMUSE00000522066";
+```
+
+<br>
+
+--
+
+.content-box-info[
+Note that GFF (`.gff`) files are more common nowadays and very similar.
+]
+
+---
+class:inverse middle center
+name:view
+
+# Viewing data files
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## `head` and `tail` again
+
+```sh
+$ mus=Mus_musculus.GRCm38.75_chr1 # Save for quick recall
+```
+
+- `head` / `tail` will simply show the first / last few lines of a file.
+  ```sh
+  $ head "$mus".bed       # First/last 10 lines
+  $ tail -n 7 "$mus".gtf  # Specify with -n
+  ```
+
+--
+
+- Print a specific line number:
+  ```sh
+  $ head -n 1866 "$mus".bed | tail -n 1  # Prints line nr. 1866
+  ```
+
+--
+
+- Also useful to see if a pipeline is doing what it should:
+
+  ```sh
+  $ grep "string" huge_file.txt | program1 | program2 | head -n 5
+  ```
+
+---
+
+## The `less` pager
+
+- `less` doesn't load entire files into memory: **easy to look at large files**.
+  ```sh
+  $ less "$mus".gtf
+  ```
+
+--
+
+- You'll be inside the pager, and your prompt is gone. Keyboard shortcuts:
+
+| key                             | function |
+|---------------------------------|----------|
+| <kbd>q</kbd>                    | Exit `less`
+| <kbd>space</kbd> / <kbd>b</kbd> | Next / previous page. <br>(*`pgup` / `pgdn` usually also work.*)
+| <kbd>d</kbd> / <kbd>u</kbd>     | Go down / up *half* a page.
+| <kbd>g</kbd> / <kbd>G</kbd>     | Go to the first / last line (`home` / `end` also work)
+| <kbd>/</kbd>`<pattern>` <br> <kbd>?</kbd>`<pattern>` | Search forward/backward: next type keyword to search for
+| <kbd>n</kbd> / <kbd>N</kbd>     | Go to next/previous search match
+
+---
+
+## `r icon::fa("user-edit")` Your turn: `less`
+
+1. Open a FASTQ file with `less`:
+  ```sh
+  $ less contaminated.fastq
+  ```
+
+2. Jump back to the last line and then back to the first line.
+
+4. Now search for the following pattern: `AGATCGG`.  
+   Move to the next match and the next.
+
+5. Exit.
+
+---
+class: inverse middle center
+name: regex
+
+# Regular expressions
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## Regular expressions ("regex")
+
+- Regular expressions are **character sequences defining a search pattern**,
+  with symbols with a special, non-literal meaning (*More in Week 11!*).
+
+- Some symbols mentioned in this chapter:
+
+| Symbol            | Matches | Example
+|-------------------|---------|--------
+| **`.`**           | Any character | `grep -o "Olfr.*"` &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+| **`*`**           | Preceding character<br> any # times | `grep -o "Olfr.*"`
+
+---
+
+## Regular expressions ("regex")
+
+- Regular expressions are **character sequences defining a search pattern**,
+  with symbols with a special, non-literal meaning (*More in Week 11!*).
+
+- Some symbols mentioned in this chapter:
+
+| Symbol            | Matches | Example
+|-------------------|---------|--------
+| **`.`**           | Any character | `grep -o "Olfr.*"`
+| **`*`**           | Preceding character<br> any # times | `grep -o "Olfr.*"`
+| **`\t`**          | tab     | `echo -e "column1 \t column2"`
+| **`\n`**          | newline | `echo -e "Line1 \n Line2"`
+
+---
+
+## Regular expressions ("regex")
+
+- Regular expressions are **character sequences defining a search pattern**,
+  with symbols with a special, non-literal meaning (*More in Week 11!*).
+
+- Some symbols mentioned in this chapter:
+
+| Symbol            | Matches | Example
+|-------------------|---------|--------
+| **`.`**           | Any character | `grep -o "Olfr.*"`
+| **`*`**           | Preceding character<br> any # times | `grep -o "Olfr.*"`
+| **`\t`**          | tab     | `echo -e "column1 \t column2"`
+| **`\n`**          | newline | `echo -e "Line1 \n Line2"`
+| **`^`** / **`$`** | beginning/end<br>of line | `grep -v "^$"`
+| **`\w`**          | any alphanumeric<br> character and "_"  | <code>grep **-E** -o 'gene_id "\w+"'</code>
+| <code>&#124;</code> | logical or  | <code>grep **-E** "intron&#124;exon"</code> <br> <code>grep "intron\&#124;exon"</code>
+
+---
+
+## "Basic" versus "Extended" Regular Expressions
+
+- By default, `grep` and `sed` use Basic Regular Expressions (BRE) &mdash;  
+  to turn on Extended Regular Expressions (ERE), use **`grep -E`** or **`sed -E`**.
+  **`awk`** uses ERE by defaults.
+
+.content-box-info[
+Where this gets particularly confusing when googling around,
+is that there are both "*POSIX*" and "*GNU*" versions of each.
+We are using *GNU* tools, so the GNU regex are relevant to us.
+]
+
+--
+
+- **Differences between BRE and ERE for GNU tools:**
+
+| ERE | BRE   | Meaning|
+|-----|-------|--------|
+| `?` | `\?`  | Matches preceding character **at most once**
+| `+` | `\+`  | Matches preceding character **at least once**
+| `{m,n}`| `\{m,n\}`| Matches preceding character *m* to *n* times
+| <code>&#124;</code> | <code>\&#124;</code> | Logical or
+| `(ab)\1` | `\(ab` `\)\1` | Backreference *capture* with **`()`** and <br> *recall* with **`\1`**; matches "abab"
+
+---
+
+## Regular expressions versus shell wildcards
+
+| Wildcard  | Regex symbol(s) | Meaning
+|-----------|-----------------|--------------------------
+| **`?`**   | **`.`**         | Any single character
+| **`*`**   | **`.*`**        | Any number of any character
+| **`[]`** and **`[^]`**   | same!        | Match/negate match of *character class*
+
+<br>
+
+Furthermore, recall that:
+  
+  - Wildcards match *file names*; matches are expanded directly by the shell.
+
+  - Regular expressions match any input for the command.
+
+---
+class:inverse middle center
+name:grep
+
+# *grep*
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## `grep` partial & word matching
+
+- `grep` always allows partial matching (cf. file globbing):
+  ```sh
+  $ grep "Olfr" "$mus"_genes.txt | head
+  #> ENSMUSG00000067064      Olfr1416
+  #> ENSMUSG00000057464      Olfr1415
+  #> ...
+  ```
+
+--
+
+<br>
+
+- `-w` to match only entire "words" &ndash;  
+  consecutive alphanumeric characters *and* "_":
+  ```sh
+  $ cat example.txt
+  
+  $ grep "bioinfo" example.txt
+  #> bioinfo
+  #> bioinformatics
+  
+  $ grep -w "bioinfo" example.txt
+  #> bioinfo
+  ```
+
+---
+
+## `grep`: Search for multiple patterns
+
+- Match two different records using a character class:
+  ```sh
+  $ grep "Olfr141[13]" "$mus"_genes.txt
+  #> ENSMUSG00000058904      Olfr1413
+  #> ENSMUSG00000062497      Olfr1411
+  ```
+
+- More flexible &ndash; alternation with **`|`**:  
+  ```sh
+  $ grep -E "(Olfr1411|Olfr1413)" "$mus"_genes.txt
+  #> ENSMUSG00000058904      Olfr1413
+  #> ENSMUSG00000062497      Olfr1411
+  ```
+  *(Note that we need `-E` for extended regex for the **`|`** to work.)*
+  
+---
+
+## `grep`: Inverting matches
+
+- `-v` to invert matches:
+  ```sh
+  # All strings (gene names) with Olfr except Olfr1413:
+  $ grep "Olfr" "$mus"_genes.txt | grep -v "Olfr1413"
+  
+  # Don't print lines beginning with a "#":
+  $ grep -v "^#" "$mus".gtf
+  
+  # Don't print empty lines:
+  $ grep -v "$^" "$mus".gtf
+  ```
+
+---
+
+## `grep`: Counting matches
+
+- Count matching lines using `-c`:
+  ```sh
+  # Count snRNAs:
+  $ grep -c 'gene_biotype "snRNA"' "$mus".gtf
+  
+  # Count gene names starting with "Olfr":
+  $ grep -Pc "\tOlfr" "$mus"_genes.txt
+  ```
+
+<br>
+
+.content-box-info[
+In the second example, we use the `-P` flag to turn on "Perl-like regular
+expressions &ndash; yes, yet another type of regex...!  
+This is needed to successfully match a tab character with `\t`.
+]
+
+--
+
+.content-box-warning[
+The example in Buffalo (p. 144) does not use `-P` but this fails!
+
+]
+
+---
+
+## `grep`: Print lines surrounding matches
+
+- Print lines surrounding matches using:
+  
+  - `-A n` &ndash; print `n` lines **a**fter the match
+  - `-B n` &ndash; print `n` lines **b**efore the match
+  - `-C n` &ndash; print `n` lines before and after the match
+  
+
+- Use this to print the full 4-line FASTQ entry when the sequence matches:  
+  ```sh
+  $ grep -B 1 -A 2 "AGATCGG" contam.fastq | head -n 4
+  ```
+
+--
+
+<br>
+
+.content-box-warning[
+When only using `-A` or `-B`, records are separated by `--` lines.  
+To avoid this:
+```sh
+$ grep -B 1 --no-group-separator "string" file.txt
+```
+]
+
+---
+
+## `grep`: Only print the match itself
+
+**Print only the match itself and not full lines with `-o`**:
+  
+- Get all gene names starting with "Olfr":
+  ```sh
+  $ grep "Olfr.*" "$mus"_genes.txt | head -n 2
+  #> ENSMUSG00000067064      Olfr1416
+  #> ENSMUSG00000057464      Olfr1415
+  
+  $ grep -o "Olfr.*" "$mus"_genes.txt | head -n 2
+  #> Olfr1416
+  #> Olfr1415
+  ```
+
+---
+
+## `grep`: Only print the match itself (cont.)
+
+- Capture the quoted word following the "gene_id" column:
+  ```sh
+  $ grep -E 'gene_id "\w+"' "$mus".gtf | head -n 2
+  #> 1       pseudogene      gene    3054233 3054733 .       +       .       gene_id "ENSMUSG00000090025"; gene_name "Gm16088"; gene_source "havana"; gene_biotype "pseudogene";
+  #> 1       unprocessed_pseudogene  transcript      3054233 3054733 .       +       .       gene_id "ENSMUSG00000090025"; transcript_id "ENSMUST00000160944"; gene_name "Gm16088"; gene_source "havana"; gene_biotype "pseudogene"; transcript_name "Gm16088-001"; transcript_source "havana"; tag "cds_end_NF"; tag "cds_start_NF"; tag "mRNA_end_NF"; tag "mRNA_start_NF";
+
+  $ grep -E -o 'gene_id "\w+"' "$mus".gtf | head -n 2
+  #> gene_id "ENSMUSG00000090025"
+  #> gene_id "ENSMUSG00000090025"
+  ```
+
+--
+
+- Use a nice little pipeline to get a cleaned list of gene names,  
+  building on the previous command:
+
+  ```sh
+  $ grep -E -o 'gene_id "\w+"' "$mus".gtf | \
+      cut -f2 -d" " | \
+      sed 's/"//g' | \
+      sort | \
+      uniq > mm_gene_id.txt
+  #> ENSMUSG00000000544
+  #> ENSMUSG00000000817
+  #> ...
+  ```
+
+---
+
+## `r icon::fa("user-edit")` Your turn: `grep`
+
+1. **Count the number of genomic features in `Mus_musculus.GRCm38.75_chr1.gtf`
+   with a single `grep` command.**
+
+  *(Hint: this is the number of lines excluding the header.)*
+
+2. **Bonus: Count the number of "exon" features belonging to a "lincRNA"
+   by `grep`ping for both of these strings.**
+
+   *(You can either pipe together two grep commands,  
+   or use a single `grep` command &ndash;
+   "lincRNA" will occur before "exon" on a line.)*
+
+---
+
+## `r icon::fa("user-edit")` Solutions: `grep`
+
+1. Count the number of genomic features in `Mus_musculus.GRCm38.75_chr1.gtf`
+   with a single `grep` command.
+
+  ```sh
+  $ grep -cv "^#" $mus.gtf
+  #> 81226
+  ```
+
+2. Bonus: Count the number of "exon" features belonging to a "lincRNA"
+   by `grep`ping for both of these strings.
+  ```sh
+  $ grep "lincRNA" $mus.gtf | grep -c "exon"
+  #> 408
+  
+  $ grep -c "lincRNA.*exon" $mus.gtf
+  #> 408
+  ```
+   
+   
+---
+class:inverse middle center
+name:sort-uniq
+
+# sort and sort | uniq -c
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## Count tables with `sort | uniq -c`
+
+- Using `uniq -c` on sorted data, we get a count for each unique occurrence:
+  ```sh
+  $ cat letters.txt
+  #> A
+  #> A
+  #> B
+  #> C
+  #> B
+  #> C
+  #> C
+  #> C
+  
+  $ sort letters.txt | uniq -c
+  #> 2 A
+  #> 2 B
+  #> 4 C
+  ```
+
+---
+
+## Count tables with `sort | uniq -c` (cont.)
+
+- The `sort | uniq -c` combination is very useful &ndash;
+  e.g. the following will print counts for each type of annotated element
+  ("feature") in a genome:
+  ```sh
+  $ grep -v "^#" "$mus".gtf | cut -f3 | sort | uniq -c
+  #> 25901 CDS
+  #> 36128 exon
+  #> 2027 gene
+  #> ...
+  ```
+
+- Next, we can sort these counts in order from most frequent to least:
+  ```sh
+  $ grep -v "^#" "$mus".gtf | cut -f3 | sort | uniq -c | sort -rn
+  #> 36128 exon
+  #> 25901 CDS
+  #> 7588 UTR
+  ```
+
+---
+
+## Count tables with `sort | uniq -c` (cont.)
+
+- Or count combinations *across columns* &ndash; here, "features" by "strand":
+  ```sh
+  $ grep -v "^#" "$mus".gtf | cut -f3,7 | sort | uniq -c
+  #> 12891 CDS     +
+  #> 13010 CDS     -
+  #> 18134 exon    +
+  #> 17994 exon    -
+  ```
+
+--
+
+- Final example: count numbers of different features *for a particular gene*:
+  ```sh
+  $ grep "ENSMUSG00000033793" "$mus".gtf | \
+        cut -f3 | sort | uniq -c
+  #> 13 CDS
+  #> 14 exon
+  #> 1 gene
+  ```
+
+--
+
+.content-box-info[
+Another useful option is `-d` to check for duplicate lines:
+
+```sh
+$ uniq -d mm_gene_names.txt | wc -l  # 0 if no duplicates
+```
+]
+
+---
+
+## Miscellaneous `sort`
+
+- `-k` to select fields, `n` to turn on *numeric* sorting,
+  and `-r` for reverse sorting:
+  ```sh
+  # Sort a BED file by chromosome and (reversed) start position:
+  $ sort -k1,1 -k2,2nr example.bed
+  ```
+
+- `-V` to recognize numbers within strings, and sort accordingly:
+  ```sh
+  $ sort -k1,1 -k2,2n example2.bed
+  #> chr1
+  #> chr10
+  #> chr2
+  
+  $ sort -k1,1V -k2,2n example2.bed > example_sorted.bed
+  #> chr1
+  #> chr2
+  ```
+
+--
+
+  .content-box-info[
+  The `-g` flag will properly sort scientific number notation like 10e-2.
+  ]
+  
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+<br> <br> <br> <br>
+
+---
+class: inverse middle center
+
+# Bonus Materials
+
+----
+
+<br>
+
+.left[
+- ### [*column* for tabular file viewing](#exit-status)
+- ### [*join* to merge tabular data files](#join)
+- ### [Sort and the exit status of a command](#exit-status)
+]
+
+<br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+name: column
+
+## `column` for tabular file viewing (and `cut`)
+
+- Tab-delimited files can look messy in the terminal or text editors:
+  ```sh
+  $ grep -v "^#" "$mus".gtf | cut -f 1-8 | head -n3
+  ```
+
+--
+
+- With `column`, we can make this look better:
+  ```sh
+  $ grep -v "^#" "$mus".gtf | cut -f 1-8 | column -t | head -n 3
+  ```
+
+--
+
+- `column` can make even more of a difference for CSV files:
+  ```sh
+  $ column -s "," -t "$mus"_bed.csv | head -n 3
+  ```
+
+--
+
+<br>
+
+From Buffalo Chapter 7: 
+.large[
+> *`column` illustrates an important point about how we should treat data:*
+> *there’s no reason to make data formats attractive at the expense of readable *
+> *by programs.*
+]
+
+---
+background-color: #f2f5eb
+name: join
+
+## `join`
+
+- **`join` can merge files that share a certain column.**  
+  Say we need to add a column with chromosome lengths to a BED file:
+  ```sh
+  $ cat example.bed
+  $ cat example_lengths.txt
+  ```
+
+- `join` will only work for sorted data, so we sort / check sortedness:
+  ```sh
+  $ sort -k1,1 example.bed > example_sorted.bed
+  $ sort -c -k1,1 example_lengths.txt # verifies is already sorted
+  ```
+
+- Now, we can join the files:
+  ```sh
+  $ join -1 1 -2 1 example_sorted.bed example_lengths.txt
+  ```
+
+--
+
+.content-box-info[
+This type of join is an "inner join": only *rows* found in both files are
+returned. To return rows found in only in one of the two files,
+use the `-a` option.
+]
+
+---
+background-color: #f2f5eb
+name: exit-status
+
+## Checking whether a file is sorted
+
+- `-c` to check if a file is sorted &mdash; we get a message when the file is
+  *not* sorted, but no output when the file is sorted:
+  
+  ```sh
+  $ sort -k1,1 -k2,2n -c example.bed
+  #> sort: example.bed:4: disorder: chr1     40      49
+  
+  $ sort -k1,1 -k2,2n -c example_sorted.bed
+  $
+  ```
+
+---
+
+## Exit status of a command
+
+- If we need to check whether a file is sorted in a script before sorting it,  
+  we can make use of the *exit status* of the command:
+  - `0` = success
+  - `1` = fail (As well as other non-zero numbers)
+
+  ```sh
+  $ sort -k1,1V -k2,2n -c example_sorted.bed
+  $ echo $?
+  ```
+
+- You can make use of this as follows:
+
+  ```sh
+  $ if ! sort -k1,1V -k2,2n -c example.bed; then
+  >    echo "File is unsorted - sorting now..."
+  >    sort -k1,1V -k2,2n example.bed > example_sorted2.bed
+  > fi
+  ```
+
+---
+background-color: #f2f5eb
+
+## Exit status of a command
+
+This construct can also be used with `grep`,
+which will have exit status `0` (success) if it found a match:
+
+```sh
+$ if grep "AGATCGG" contimated.fasta > /dev/null; then
+>     echo "OH NO! File is contaminated!"
+>     exit 1
+> fi
+```
+
+<br>
+
+.content-box-info[
+An additional trick we used here is to redirect the standard
+output to `/dev/null`,
+which won't write anything and will simply avoid the output being printed.
+]
+
