@@ -30,6 +30,22 @@ knitr::opts_chunk$set(eval = FALSE)
 ### 2021/02/04 (updated: `r Sys.Date()`)
 
 ---
+
+## Setting up
+
+- Start VS Code in OSC OnDemand => open your workspace =>
+  open a terminal => type `bash` to break out of the Singularity shell. 
+
+- Move into the Chapter 7 directory in your copy of the Buffalo Git repository,
+  likely at:
+  ```sh
+  $ cd /fs/ess/PAS1855/users/$USER/bds-files/chapter-07-unix-data-tools
+  
+  # Lost the repo? Go to your directory and run:
+  # git clone https://github.com/vsbuffalo/bds-files.git
+  ```
+
+---
 class: inverse middle center
 name: awk
 
