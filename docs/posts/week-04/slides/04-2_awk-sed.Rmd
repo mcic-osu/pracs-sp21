@@ -27,7 +27,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/02/02 (updated: `r Sys.Date()`)
+### 2021/02/04 (updated: `r Sys.Date()`)
 
 ---
 class: inverse middle center
@@ -234,7 +234,7 @@ lines matching the pattern (condition) are printed in full.**
 
 ---
 
-## `r icon::fa("user-edit")` `awk` mini-practice
+## `r icon::fa("user-edit")` Your turn: `awk`
 
 The following exercises use `example.bed`.
 
@@ -247,7 +247,7 @@ The following exercises use `example.bed`.
 
 ---
 
-## `r icon::fa("user-edit")` `awk` mini-practice: solutions
+## `r icon::fa("user-edit")` Solutions: `awk`
 
 1. Use a pattern to only print features (= rows) which end at position 28.
   ```sh
@@ -355,7 +355,7 @@ When using multiple pattern-action pairs, separate them with "**`;`**".
 | keyword/<br>variable  | meaning    |
 |----------|------------|
 | `BEGIN`  | Used as a pattern that matches the start of the file
-| `END`    | Used as a pattern that matches the end of the file [cf. `EOF`]
+| `END`    | Used as a pattern that matches the end of the file
 | `NR`     | Number of Records (running count; in `END`: total nr. of lines)
 | `NF`     | Number of Fields (for each record)
 | `$0`     | Contains entire record (usually a line)
@@ -496,26 +496,8 @@ How does this functionality differ from the `tr` command?
   ```sh
   $ sed 's/chrom/chr/ig' chroms.txt > chroms.txt # NO!!
   ```
-  
-  .content-box-q[
-  Why does this fail?
-  ]
 
----
-
-## `sed` output options
-
-- Note that `sed` does not edit the file in place, and prints to standard out.
-  Usually, we'll redirect the output to a new file:
-  ```sh
-  $ sed 's/chrom/chr/ig' chroms.txt > chroms_renamed.txt
-  ```
-
-- When we want replacements in place, **don't redirect to the same file!**
-  
-  ```sh
-  $ sed 's/chrom/chr/ig' chroms.txt > chroms.txt # NO!!
-  ```
+--
 
 - We can instruct `sed` to perform the replacement **in place**
   with the **`-i`** flag, so that we edit the file:
