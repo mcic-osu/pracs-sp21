@@ -454,7 +454,7 @@ name:grep
   $ grep -v "^#" "$mus".gtf
   
   # Don't print empty lines:
-  $ grep -v "$^" "$mus".gtf
+  $ grep -v "^$" "$mus".gtf
   ```
 
 ---
@@ -730,7 +730,7 @@ class: inverse middle center
 ---
 class: inverse middle center
 
-# Bonus Materials
+# Bonus Material
 
 ----
 
