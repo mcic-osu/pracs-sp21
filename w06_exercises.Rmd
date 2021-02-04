@@ -1,0 +1,95 @@
+---
+title: "Week 1 Exercises"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+These exercises....
+
+### Getting set up
+
+<br>
+
+## Main exercises
+
+### Exercise 1:
+
+To be able to re-use this script for different sets of samples, it would be good to instead have it accept an argument: a list of files to process.
+
+Then, a second script does the pre-processing: - It writes a new file that just contains the file names (column 3 from `samples.txt`). - It submits the `fastq_stat_loop.sh` script with the filename of the new file as the argument.
+
+Save the second scripts as `fastq_stat_runner.sh`.
+
+### Exercise 2:
+
+Currently, the output directory is hardcoded as `stats` -- let's instead add the output directory as a second argument to the script.
+
+Also modify `fastq_stat_runner.sh` accordingly.
+
+### Exercise 3:
+
+Instead of using a list of filenames, we can also select the files by globbing.
+
+In this case, we want the first argument of the script to be an input directory that it will act on.
+
+Change both scripts accordingly.
+
+Hint: When globbing, it will be good to only act on fastq files using,\
+e.g., `*fastq *fastq.gz` (allowing for both gzipped and non-zipped files).
+
+<details>
+
+<summary>Show hints</summary>
+
+<p>
+
+</p>
+
+</details>
+
+### Exercise 4
+
+Adopt the second script to:
+
+\- Work with file globbing (taking an input directory as an argument)
+
+\- Take an output directory as an argument.
+
+\- Take the path to the reference genome as an argument.
+
+### Exercise X
+
+Dress you script up to include tests for robustness, and to report what the script is doing.
+
+## Bonus exercises
+
+### Exercise 5
+
+Write a shell script called `longest.sh` that takes the name of a directory and a filename extension as its arguments, and prints out the name of the file with the most lines in that directory with that extension. For example:
+
+``` {.bash}
+$ bash longest.sh /tmp/data pdb
+```
+
+would print the name of the `.pdb` file in `/tmp/data` that has the most lines.
+
+See <http://swcarpentry.github.io/shell-novice/05-loop/index.html>
+
+## Solutions
+
+### Exercise 1
+
+<details>
+
+<summary>Solution</summary>
+
+<p>
+
+</p>
+
+</details>
+
+### Exercise 2

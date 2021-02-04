@@ -1,11 +1,19 @@
+---
+title: "Week 06"
+description: |
+  Shell scripting
+date: 2021-02-15
+output:
+  distill::distill_article:
+    self_contained: false
+---
 
+### Slides
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
+- [Slides: Part I -- ...](slides/06-1_....html) -- Tuesday Zoom (Feb 16)
 
-Distill is a publication format for scientific and technical writing, native to the web.
+- [Slides: Part II -- ...](slides/06-2_....html) -- Thursday Zoom (Feb 18)
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+### Ungraded assignments
 
-
+- [Exercises for week 6](../../w06_exercises.html)

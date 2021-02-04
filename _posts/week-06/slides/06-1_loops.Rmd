@@ -1,0 +1,732 @@
+---
+title: "Week 6 - Shell scripting - I"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## *Week 6: Shell scripting*
+
+----
+
+# Part I: <br> Loops, arrays, and conditionals
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/02/15 (updated: `r Sys.Date()`)
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [For loops](#for)
+- ### [While loops and the read command](#while)
+- ### [Bash arrays and field splitting](#arrays)
+- ### [Conditionals](#conditionals)
+- ### [basename](#basename)
+]
+
+<br>
+
+---
+class: inverse middle center
+name: for
+
+# For loops
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## For loops
+
+```sh
+$ for mushroom in morel destroying_angel eyelash_cup; do
+      echo "$mushroom is an Ohio mushroom"
+  done
+#> morel is an Ohio mushroom
+#> destroying_angel is an Ohio mushroom
+#> eyelash_cup is an Ohio mushroom
+```
+
+```sh
+$ for fungus in morel destroying_angel eyelash_cup; do
+      echo "$fungus is an Ohio mushroom"
+  done
+#> morel is an Ohio mushroom
+#> destroying_angel is an Ohio mushroom
+#> eyelash_cup is an Ohio mushroom
+```
+
+.content-box-info[
+Alternative formatting:
+```sh
+$ for fungus in morel destroying_angel eyelash_cup
+  do
+      echo "$fungus is an Ohio mushroom"
+  done
+```
+]
+
+.content-box-info[
+A semicolon `;` can be used to separate two commands written on a single line.
+```sh
+cd data; ls
+```
+]
+
+---
+
+## For loops
+
+```sh
+loop_counter=0
+
+$ for mushroom in morel destroying_angel eyelash_cup; do
+      
+      loop_counter=$(expr "$loop_counter" + 1)
+      
+      echo "$mushroom is Ohio mushroom number $loop_counter"
+  done
+
+#> morel is Ohio mushroom number 1
+#> destroying_angel is Ohio mushroom number 2
+#> eyelash_cup is Ohio mushroom number 3
+```
+
+---
+
+## For loops (cont.)
+
+```sh
+$ for fastq_file in data/raw/*fastq.gz; do
+      
+      echo "Fastq file $fastq_file has $(wc -l < $fastq_file) lines"
+      
+      # Further processing...
+  done
+```
+
+```sh
+$ for i in $(seq 1 100); do
+      
+      echo "Run $i out of 100"
+      
+      # Further processing...
+  done
+```
+
+---
+
+## For loops (cont.)
+
+```sh
+sample_names=(zmaysA zmaysB zmaysC)
+
+$ for sample_name in "${sample_names[@]}"; do
+      
+      echo "Processing sample $sample_name"
+      input_file="$sample_name"_R1.fastq
+      
+      # Further processing...
+  done
+```
+
+---
+class: inverse middle center
+name: for
+
+# While loops and the read command
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## Our sample files
+
+```sh
+$ cat samples.txt
+#> zmaysA  R1      seq/zmaysA_R1.fastq
+#> zmaysA  R2      seq/zmaysA_R2.fastq
+#> zmaysB  R1      seq/zmaysB_R1.fastq
+#> zmaysB  R2      seq/zmaysB_R2.fastq
+#> zmaysC  R1      seq/zmaysC_R1.fastq
+#> zmaysC  R2      seq/zmaysC_R2.fastq
+```
+
+```sh
+$ cut -f 3 samples.txt > fastq_files.txt
+
+$ head -n 3 fastq_files.txt
+#> seq/zmaysA_R1.fastq
+#> seq/zmaysA_R2.fastq
+#> seq/zmaysB_R1.fastq
+```
+
+---
+
+## While loops
+
+- While loops are similar to for loops,
+  but instead of looping over a predefined array/list,
+  the loop will keep going as long as a condition is true.
+
+```sh
+$ i=1
+
+$ while [ $i -lt 10 ]; do
+      echo $i
+      i=$(expr $i + 1)
+  done
+#> 1
+#> 2
+#> 3
+#> 4
+#> 5
+#> 6
+#> 7
+#> 8
+#> 9
+```
+
+---
+
+## While loops (cont.)
+
+In bash, while loops are mostly useful to loop over each line in a file,
+together with the `read` command.
+
+`while read` will be true as long as there is a line to be read,
+and upon each iteration of the loop, one line will be saved in the variable:
+
+```sh
+$ cat fastq_files.txt | while read -r fastq_file; do
+      
+      echo "Processing file: $fastq_file"
+      
+      # Further processing...
+  done
+  
+#> Processing file: seq/zmaysA_R1.fastq
+#> Processing file: seq/zmaysA_R2.fastq
+#> Processing file: seq/zmaysB_R1.fastq
+```
+
+---
+
+## While loops (cont.)
+
+A more elegant but perhaps initially confusing syntax variant:
+
+```sh
+$ while read -r fastq_file; do
+  
+      echo "Processing file: $fastq_file"
+  
+      # Further processing...
+  done < fastq_files.txt
+
+#> Processing file: seq/zmaysA_R1.fastq
+#> Processing file: seq/zmaysA_R2.fastq
+#> Processing file: seq/zmaysB_R1.fastq
+```
+
+---
+
+## While loops (cont.)
+
+```sh
+$ head -n 2 samples.txt
+#> zmaysA  R1      seq/zmaysA_R1.fastq
+#> zmaysA  R2      seq/zmaysA_R2.fastq
+```
+
+```sh
+while read -r my_line; do
+  
+  echo "Have read line: $my_line"
+  
+  fastq_file=$(echo "$my_line" | cut -f 3)
+  echo -e "Processing file: $fastq_file \n"
+  
+  # Further processing...
+
+done < samples.txt
+
+#> Have read line: zmaysA  R1      seq/zmaysA_R1.fastq
+#> Processing file: seq/zmaysA_R1.fastq
+#>
+#> Have read line: zmaysA  R2      seq/zmaysA_R2.fastq
+#> Processing file: seq/zmaysA_R2.fastq
+#>
+```
+
+---
+
+## While loops (cont.)
+
+```sh
+$ head -n 2 samples.txt
+#> zmaysA  R1      seq/zmaysA_R1.fastq
+#> zmaysA  R2      seq/zmaysA_R2.fastq
+```
+
+- We can even extract columns directly!
+
+```sh
+$ while read -r sample_name readpair_member fastq_file; do
+      
+      echo "Processing file: $fastq_file"
+      
+      # Further processing...
+  done < metadata.txt
+
+#> Processing file: seq/zmaysA_R1.fastq
+#> Processing file: seq/zmaysA_R2.fastq
+#> Processing file: seq/zmaysB_R1.fastq
+```
+
+---
+class: inverse middle center
+name: arrays
+
+# Bash arrays and field splitting
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## Bash arrays
+
+Bash arrays are like lists in Python or vectors in R.
+
+- Create an array manually:
+
+  ```sh
+  $ sample_names=(zmaysA zmaysB zmaysC)
+  ```
+
+- Extract specific elements (note: Bash arrays are 0-indexed!):
+
+  ```sh
+  $ echo ${sample_names[0]}
+  #> zmaysA
+  $ echo ${sample_names[2]}
+  #> zmaysC
+  ```
+
+- Print all elements:
+
+  ```sh
+  $ echo ${sample_names[@]}
+  #> zmaysA zmaysB zmaysC
+  ```
+
+---
+
+## Bash arrays (cont.)
+
+- Get a count of the number of elements, and element indices:
+  ```sh
+  echo ${#sample_names[@]}
+  #> 3
+  
+  $ echo ${!sample_names[@]}
+  #> 0 1 2
+  ```
+
+<br>
+
+- Create an array using command substitution:
+
+  ```sh
+  $ sample_files=($(cut -f 3 samples.txt))
+  
+  $ sample_files=($(cat sample_names.txt))
+  ```
+
+---
+
+## Arrays and filenames with spaces
+
+```sh
+$ all_files=($(cat files.txt))
+
+$ for file in "${all_files[@]}"; do
+      echo $file
+  done
+#> file_A
+#> file_B
+#> file_C
+#> file
+#> D
+```
+
+---
+
+## Accounting for problematic filenames with `IFS`
+
+- Setting the Internal Field Separator (`IFS`), which is responsible for
+  how the splitting, like above, is done, can solve this...
+  ```sh
+  $ OFS="$IFS"  # Store original field separator to restore later
+  $ IFS="\n"    # Set new IFS to ONLY newlines
+  
+  $ all_files=($(cat files.txt))
+  
+  $ for file in "${all_files[@]}"; do
+        echo $file
+      done
+  #> file_A
+  #> file_B
+  #> file_C
+  #> file D
+  
+  $ IFS="$OFS"  # Restore original IFS
+  ```
+
+---
+
+## Other solutions to account for problematic filenames
+
+- Globbing over filenames will work:
+
+  ```sh
+  $ ls
+  #> file_A file_B file_C file D
+
+  $ for file in file_*; do
+        echo $file
+      done
+  #> file_A
+  #> file_B
+  #> file_C
+  #> file D
+  ```
+
+.content-box-warning[
+You may be tempted to use `ls` instead: `for file in $(ls file_*)`,
+but this will **not** work for filenames with spaces.  
+Looping over globbing output is a shorter syntax *and* safer.
+]
+
+---
+
+## Other solutions to account for problematic filenames
+
+- `while read` will also work:
+
+  ```sh
+  while read -r my_file; do
+      
+      echo "Processing file: $my_file"
+      
+      # Further processing...
+  done < files.txt
+  ```
+
+<br>
+
+.content-box-info[
+Moreover, if necessary, you can set the `IFS` more conveniently:
+
+```sh
+while IFS="\n" read -r my_file; do ...
+```
+
+With this syntax, the shell environment won't be affected elsewhere,
+so you don't have to reset the `IFS`.
+]
+
+---
+class: inverse middle center
+name: arrays
+
+# Conditionals
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## Conditionals
+
+```sh
+$ if <test>; then
+    # Command(s) if condition is true
+  else
+    # Commands(s) if condition is false
+  fi
+```
+
+---
+
+## Conditionals
+
+```sh
+$ filetype=$(filename | cut -d "." -f 1)
+```
+
+```sh
+$ if test "$filetype" = "fastq"; then
+    
+    echo "Processing fastq file..."
+    # Commands to process fastq file
+  
+  else
+    
+    echo "Unknown filetype!"
+  
+  fi
+```
+
+---
+
+## Conditionals
+
+```sh
+$ filetype=$(filename | cut -d "." -f 1)
+```
+
+
+```sh
+$ if [ "$filetype" = "fastq" ]; then
+    
+    echo "Processing fastq file..."
+    # Commands to process fastq file
+  
+  else
+    
+    echo "Unknown filetype!"
+  
+  fi
+```
+
+--
+
+.content-box-info[
+The square brackets represent a *test statement*.  
+The spaces around the inside the brackets are necessary:
+`["$filetype" = "fastq"]` would fail!
+]
+
+---
+
+## Comparison operators (Buffalo Table 12-1)
+
+| String            | Description
+|-------------------|----------------
+| `-z str`          | String `str` is null (empty)
+| `str1 = str2`     | Strings `str1` and `str2` are identical
+| `str1 != str2` &nbsp; &nbsp; &nbsp; &nbsp; | Strings `str1` and `str2` are different &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+| Integer           | Description
+|-------------------|----------------
+| `int1 -eq int2`   | Integers `int1` and `int2` are equal
+| `int1 -ne int2`   | Integers `int1` and `int2` are not equal
+| `int1 -lt int2`   | Integer `int1` is less than `int2`
+| `int1 -gt int2`   | Integer `int1` is greater than `int2`
+| `int1 -le int2`   | Integer `int1` is less than or equal to `int2`
+| `int1 -ge int2` &nbsp; &nbsp; &nbsp; | Integer `int1` is greater than or equal to `int2`
+
+--
+
+  .content-box-q[
+  Why can we not just use `int1 > int2`, and so on?
+  ]
+
+---
+
+## Another example with a comparison operator
+
+```sh
+$ n_samples=$(wc -l < samples.txt)
+
+$ if [ "$n_samples" -gt 5 ]; then
+    
+    # Commands to run if nr of samples >5:
+    echo "Processing fastq file..."
+  
+  else
+    
+    # Commands to run if nr of samples is not >5:
+    echo "Insufficient samples provided..."
+  
+  fi
+```
+
+---
+
+## File and directory test expressions <br> (Buffalo Table 12-2)
+
+| File/dir expression       | Description
+|---------------------------|------------
+| `-d dir`                  | Dir is a directory
+| `-f file`                 | File is a file
+| `-e file`                 | File exists
+| `-h link`                 | Link is a link
+| `-r file`                 | File is readable
+| `-w file`                 | File is writable
+| `-x file`                 | File is executable <br> (or accessible if argument is expression)
+
+---
+
+## File test example
+
+```sh
+$ if [ ! -f "$fastq_file" ]; then
+      
+      echo "Error: File not found!"
+      exit 1
+  
+  fi
+```
+
+---
+
+## Combining expressions (one of several ways)
+
+```sh
+if [ "$n_samples" -lt 100 ] && [ "$n_samples" -ge 50 ]
+
+if [ ! -f "$fastq_file" ] || [ ! -r "$1" ]
+```
+
+- The `&&` and `||` are shell operators and can generally be used to chain
+  commands together:
+
+```sh
+cd data && ls data
+
+git add --all && git commit -m "Add README" && git push
+
+test -d "$outdir" || mkdir "$outdir"
+
+cd "$outdir" || echo "Cannot change directory!"
+```
+  
+
+
+---
+
+
+## Using the *exit status* of a command as a test
+
+```sh
+$ if grep "AAACGT" "$fastq_file" > /dev/nulll; then
+    
+    # Commands to run if pattern is found:
+    echo "Warning: contaminant detected in $fastq_file"
+  
+  else
+  
+    # Commands to run if pattern is not found:
+    echo "Processing fastq file..."
+    
+  fi
+```
+
+```sh
+$ if ! grep "AAACGT" "$fastq_file" > /dev/null; then
+
+    # Commands to run if pattern is not found:
+    echo "Processing fastq file..."
+    
+  fi
+```
+
+---
+name: basename
+
+## Sidenote to set the stage for scripting: basename
+
+- Running `basename` on a filename will strip any directories in its name:
+  
+  ```sh
+  $ basename seqs/zmaysA_R1.fastq
+  #> zmaysA_R1.fastq
+  
+  $ basename seqs/raw/fastq/zmaysA_R1.fastq
+  #> zmaysA_R1.fastq
+  ```
+
+--
+
+- You can also provide a *suffix to strip* in either of these ways:
+
+  ```sh
+  $ basename seqs/zmaysA_R1.fastq ".fastq"
+  #> zmaysA_R1
+  
+  $ basename -s ".fastq" seqs/zmaysA_R1.fastq
+  #> zmaysA_R1
+  ```
+
+--
+
+- If you instead want the directory part of the path, use `dirname`:
+
+  ```sh
+  $ dirname seqs/zmaysA_R1.fastq
+  #> seqs
+  ```
+  
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+<br> <br> <br> <br>
+
+---
+class: inverse middle center
+
+# Bonus Materials
+
+----
+
+<br>
+
+.left[
+- ### [Extended test syntax](#extended-test)
+]
+
+<br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+name: extended-test
+
+## Extended test syntax
+
+```sh
+$ [[ ]]
+```
+

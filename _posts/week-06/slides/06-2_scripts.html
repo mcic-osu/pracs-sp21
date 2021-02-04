@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 6 - Shell scripting - I</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+## *Week 6: Shell scripting*
+
+----
+
+# Part II: &lt;br&gt; Shell scripting...
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/02/15 (updated: 2021-02-03)
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [Necessary header lines and zombie scripts](#header)
+- ### [Variables and quoting](#variables)
+- ### [Putting it all together](#scripts)
+- ### [Dressing up your script](#dress-up)
+]
+
+&lt;br&gt;
+
+---
+
+## Bash scripts
+
+&gt; *"Most Bash scripts in bioinformatics are simply commands organized into a
+&gt; rerunnable script with some added bells and whistles to check that files exist
+&gt; and ensuring any error causes the script to abort."* &amp;mdash; Buffalo Ch. 12
+
+&lt;br&gt;
+
+Therefore, relatively straightforward to write with what you already know!
+
+---
+name: header
+
+## First line of the script: *shebang* line
+
+- Use a so-called **"*shebang*" line** as the first line of a script.
+  
+  This line tells the computer which program to use to run the script:
+  in our case Bash, whose binary is located at `/bin/bash`.
+  
+  ```sh
+  #!/bin/bash
+  ```
+
+- **Without this line**, we would have to call a script as follows:
+
+  ```sh
+  $ bash script.sh   # "bash" needed to indicate the interpreter
+  ```
+
+--
+
+- **With this line**, we can submit the script to a job scheduler (next week),
+  and also call the script as follows:
+
+  ```sh
+  $ ./script.sh
+  ```
+
+--
+
+- But, for this to work, we also need to make the script executable:
+
+  ```sh
+  $ chmod u+x script.sh   # Executable for user/owner of file only
+  
+  $ chmod a+x script.sh   # Alt: executable for everyone (all)
+  ```
+
+---
+
+## Bash zombie scripts &amp;ndash; and worse!
+
+By default, Bash will just keep running a script after it has encountered errors.
+
+And if you try to reference a variable that hasn't been assigned,  
+it won't even complain:
+
+```sh
+$ echo $non_existent_variable
+```
+
+--
+
+.content-box-q[
+Why is such behavior a bad idea in scripts?
+]
+
+--
+
+- Let's accidentally delete the filesystem!
+  ```sh
+  TMPDIR=output/tmp/$sample/
+  # rest of script...
+  rm -rf $TMPPDIR/*   ## DONT TRY THIS!
+  ```
+
+- As for errors, you may never notice them if they're subtle and don't cause
+  everything else to error out &amp;ndash; but they could still make all the output
+  of the zombie script worthless!
+
+---
+
+## Three necessary options for robust scripts
+
+With these settings, the script terminates, with appropriate error message, if:
+
+- `set -u` &amp;mdash; An unset variable is referenced
+
+- `set -e` &amp;mdash; Almost any errors occurs
+
+- `set -o pipefail` &amp;mdash; An error occurs within a shell "pipeline"
+
+&lt;br&gt;
+
+```sh
+set -u
+set -e
+set -o pipefail
+```
+
+Or, in one line:
+
+```sh
+set -u -e -o pipefail
+```
+
+---
+
+## Our script &amp;ndash;*any* shell script&amp;ndash; so far 
+
+```sh
+#!/bin/bash
+
+set -u -e -o pipefail
+```
+
+&lt;br&gt;
+
+.content-box-info[
+Another useful setting, especially for debugging, is `set -x`,  
+which will print every line of the script as it is executed:
+
+```sh
+set -x 
+```
+]
+
+---
+class: inverse middle center
+name: variables
+
+# Variables and quoting
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Variables
+
+&gt; *"Processing pipelines having numerous settings that should be stored in variables
+(e.g., which directories to store results in, parameter values for commands,
+input files, etc.).
+Storing these settings in a variable defined at the top of the file makes adjusting
+settings and rerunning your pipelines much easier. Rather than having to change
+numerous hardcoded values in your scripts, using variables to store settings means
+you only have to change one value—the value you’ve assigned to the variable."*
+&amp;mdash; Buffalo ch. 12
+
+- Alternatively/additionally, can use a configuration file.
+
+---
+
+## Assigning and using shell variables
+
+A variable is nothing more than a pointer to the actual data.
+
+.pull-left[
+**Assign** a variable (no **`$`**):
+
+```sh
+# Any string:
+my_name=Jelmer
+```
+]
+
+.pull-right[
+**Recall** a variable (with **`$`**):
+
+```sh
+$ echo $my_name
+# Jelmer
+  ```
+]
+
+--
+
+.pull-left[
+```sh
+# A file name:
+my_file="README.txt"
+```
+]
+
+.pull-right[
+```sh
+$ ls -lh $my_file
+# -rw-r--r-- 1 jelmer PAS0471 568 Dec  7 09:58 README.txt
+```
+]
+
+--
+
+.pull-left[  
+```sh
+# Use "command substitution"
+# to assign a command's output
+today=$(date +%F)
+```
+]
+
+.pull-right[
+```sh
+$ touch README_$today.txt
+$ ls README_*
+# README_2020-12-10.txt
+```
+]
+
+--
+
+.pull-left[
+Pre-existing variables:
+("**Environment variables**")
+]
+
+.pull-right[
+```sh
+$ echo $USER
+# jelmer
+```
+]
+
+---
+
+## Sidenote: Quoting and embracing variables
+
+```sh
+$ today="Thu, Feb 8"
+$ echo $today
+
+$ touch README_$today.txt
+$ ls
+#&gt; .txt  Feb  README_Thu,
+
+$ touch README_"$today".txt
+$ ls
+#&gt; 'README_Thu, Feb 8.txt'
+```
+
+```sh
+$ touch README_$today_final.txt
+#&gt; README_.txt
+```
+
+```sh
+$ touch README_"$today"_final.txt
+#&gt; 'README_Thu, Feb 8_final.txt'
+```
+
+---
+
+## Sidenote: Quoting and embracing variables (cont.)
+
+```sh
+$ touch README_${today}_final.txt
+#&gt; 'README_Thu, Feb 8_final.txt'
+
+$ touch README_"${today}"_final.txt
+#&gt; 'README_Thu, Feb 8_final.txt'
+```
+
+---
+
+## Command-line arguments for scripts
+
+- When you call a script, you can give it command-line arguments,  
+  much like when you provide commands like `ls` with arguments:
+
+  ```sh
+  $ ./name-script.sh John Doe
+  ```
+
+- Inside the script, these arguments are *automatically* assigned to the variables
+  `$1` ("John" above), `$2` ("Doe" above), and so on:
+
+  ```sh
+  #!/bin/bash
+  
+  echo "First argument: $1"   # John
+  echo "Second argument: $2"  # Doe
+  echo "Full name: $1 $2"
+  ```
+
+  ```sh
+  $ ./name-script.sh John Doe
+  #&gt; First argument: John
+  #&gt; Second argument: Doe
+  #&gt; Full name: John Doe
+  ```
+
+---
+
+## Command-line arguments for scripts (cont.)
+
+- Inside the script, it is good practice to reassign these variables
+  to ones with more descriptive names:
+
+  ```sh
+  #!/bin/bash
+  
+  first_name=$1
+  last_name=$2
+  
+  echo "First argument: $first_name"
+  echo "Second argument: $last_name"
+  echo "Full name: $first_name $last_name"
+  ```
+
+&lt;br&gt;
+
+.content-box-info[
+- `$0` contains the filename of the script.
+
+- `$#` contains the number of command-line arguments that were provided.
+]
+
+---
+
+## A simple shell script example
+
+```sh
+head -n 2 "$1"
+echo "---"
+tail -n 2 "$1"
+```
+
+```sh
+$ bash headtail.sh samples.txt
+$ bash headtail.sh egfr_flank.fasta
+```
+
+```sh
+#!/bin/bash
+set -u -e -o pipefail
+
+head -n 2 "$1"
+echo "---"
+tail -n 2 "$1"
+```
+
+```sh
+$ chmod a+x headtail.sh
+
+$ ./headtail.sh samples.txt
+```
+
+---
+
+## <i class="fas  fa-user-edit "></i> Your turn: A simple script
+
+Write a script that prints a specific line, identified by its line number,
+from a file.
+
+- Make the line number argument 1 (`$1`), and the filename argument 2 (`$2`). 
+
+- If you don't remember how to print a specific line, click on the hint below.
+
+&lt;br&gt;
+
+&lt;details&gt;
+&lt;summary&gt;&lt;strong&gt;Hint!&lt;/strong&gt;&lt;/summary&gt;
+&lt;br&gt;
+To print a specific line number, say line 37 from &lt;code&gt;file.txt&lt;/code&gt;,
+you can use: &lt;br&gt; &lt;code&gt;head -n 37 file.txt | tail -n 1&lt;/code&gt;
+or &lt;code&gt;sed -n '37p' file.txt&lt;/code&gt;.
+&lt;br&gt;
+&lt;/details&gt;
+
+---
+
+## <i class="fas  fa-user-edit "></i> Solution: A simple script
+
+- Script `line.sh`:
+
+  ```sh
+  #!/bin/bash
+  set -u -e -o pipefail
+  
+  head -n "$1" "$2" | tail -n 1
+  ```
+
+- To execute:
+
+  ```sh
+  $ chmod a+x line.sh
+  $ ./line.sh 4 samples.txt
+  ```
+
+---
+class: inverse middle center
+name: scripts
+
+# Putting it all together: &lt;br&gt; Functional, nontrivial scripts
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Buffalo's first script
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+
+# Specify the input samples file (3rd column = path to FASTQ file):
+sample_info=samples.txt
+
+# Create a Bash array from the third column of "$sample_info":
+sample_files=($(cut -f 3 "$sample_info"))
+
+# Loop through the array:
+for fastq_file in ${sample_files[@]}; do
+    
+    # Strip .fastq from each FASTQ file, and add suffix:
+    results_file="$(basename $fastq_file .fastq)-stats.txt"
+    
+    # Run "fastq_stat" on a file:
+    fastq_stat "$fastq_file" &gt; stats/$results_file
+
+done
+```
+
+- Save this script as `fastq_stat_loop.sh`.
+
+---
+
+## Buffalo's second script
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+
+# Specify the input samples file (3rd column = path to FASTQ file):
+sample_info=samples.txt
+
+# Our reference genome:
+ref=zmays_AGPv3.20.fa
+
+# Create a Bash array from the first column (sample names).
+# Because there are duplicate sample names, we call uniq
+sample_names=($(cut -f 1 "$sample_info" | uniq))
+
+# Loop through the array:
+for sample in ${sample_names[@]}; do
+    
+    # Create an output file from the sample name:
+    results_file="${sample}.sam"
+    
+    # Run the sequence alignment with "bwa mem":
+    bwa mem $ref ${sample}_R1.fastq ${sample}_R2.fastq \
+        &gt; $results_file
+
+done
+```
+
+---
+class: inverse middle center
+name: arrays
+
+# Dressing up your scripts to &lt;br&gt; increase robustness and user-friendliness
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Dressing up your scripts to &lt;br&gt; increase robustness and user-friendliness
+
+- Let's go back to our `line.sh` script to keep things manageable,
+  and have arguments to work with:
+
+```sh
+  #!/bin/bash
+  set -u -e -o pipefail
+  
+  head -n "$1" "$2" | tail -n 1
+```
+
+&lt;br&gt;
+
+.content-box-q[
+What could we do to be make this more robust / foolproof?
+]
+
+---
+
+## Assign the arguments to named variables
+
+- Using named variables will make the rest of the script more readable:
+```sh
+line="$1"
+file="$2"
+```
+
+- Instead of:
+```sh
+head -n "$1" "$2" | tail -n 1
+```
+
+- We can now say:
+```sh
+head -n "$line" "$file" | tail -n 1
+```
+
+---
+
+## Report what's going on
+
+- While you probably don't want a small utility script like `line.sh` to be
+  chatty, this is often useful for longer-running or more complex scripts:
+  
+  ```sh
+  echo "Starting script $0"
+  date # Print date &amp; time to log &amp; time running duration
+  echo "Input file: $file"
+  echo "Requested line number: $line"
+  
+  head -n "$line" "$file" | tail -n 1
+  
+  echo "Done with script $0"
+  date
+  ```
+
+---
+
+## Conduct tests
+
+```sh
+$ if [ "$#" -lt 2 ] || [ "$#" -gt 2 ]; then
+    echo "Error: wrong number of arguments"
+    echo "You provided $# arguments, while 2 are required."
+    echo "Usage: line.sh &lt;line-number&gt; &lt;file&gt;"
+    exit 1
+  fi
+```
+
+--
+
+.content-box-info[
+With `exit 1`, the *exit status* of our script is 1.
+
+In bash, an exit status of **0 means success**,  
+and **any other integer, including 1, means failure**.
+
+This includes cases like whether `grep` found a match:
+```sh
+$ echo "sampleA.fastq.gz" | grep "fastq"; echo $?
+#&gt; sampleA.fastq.gz
+#&gt; 0
+```
+]
+
+---
+
+## Conduct tests
+
+```sh
+$ if [ "$#" -lt 2 ] || [ "$#" -gt 2 ]; then
+    echo "Error: wrong number of arguments"
+    echo "You provided $# arguments, while 2 are required."
+    echo "Usage: line.sh &lt;line-number&gt; &lt;file&gt;"
+    exit 1
+  fi
+```
+
+.content-box-info[
+With `exit 1`, the *exit status* of our script is 1.
+
+In bash, an exit status of **0 means success**,  
+and **any other integer, including 1, means failure**.
+
+This includes cases like whether `grep` found a match:
+```sh
+$ echo "sampleA.fastq.gz" | grep "fastx"; echo $?
+#&gt; 1
+```
+]
+
+---
+
+## Conduct tests (cont.)
+
+```sh
+if [ ! -f $file ] || [ ! -r $file ]; then
+  echo "Error: can't open file"
+  echo "Second argument should be a readable file"
+  echo "You provided: $2"
+  exit 1
+fi
+```
+
+---
+
+## Conduct tests (cont.)
+
+- Test whether the requested line number is valid
+  (will also implicitly test whether it's a number at all):
+  
+  ```sh
+  if [ $line -gt $(wc -l &lt; $file) ] || [ ! $line -gt 0 ]; then
+    echo "Error: Invalid line number"
+    echo "Number should be &gt;0 and at &lt;= the file's nr. of lines"
+    echo "The file contains $(wc -l &lt; $2) lines; you provided $1."
+    exit 1
+  fi
+  ```
+
+- Alternatively, you could decide to simply print the last line
+  when a too-high line number is requested:
+
+  ```sh
+  if [ $line -gt $(wc -l &lt; $file) ]; then
+    line=$(wc -l &lt; $file)
+    echo "Requested line exceeded line count; printing last line."
+  fi
+  ```
+
+---
+
+## Parameter expansion to provide default values
+
+```sh
+line=${1:-10}             # Set 10 as the default value for $1
+
+rm_unpaired=${3:-true}    # Set true as the default value for $3
+```
+
+This will also help you avoid that a script fails with `set -u` because the
+variable is not set:
+
+```sh
+fastq_forward=$1
+fastq_reverse=$2
+rm_unpaired=${3:-true}
+```
+
+```sh
+$ trim.sh sampleA_R1.fastq sampleA_R2.fastq false
+
+# Will error out if no default value provided due to `set -u`:
+$ trim.sh sampleA_R1.fastq sampleA_R2.fastq
+```
+
+.content-box-info[
+You can do a lot more with parameter expansion - see XXX.
+]
+
+
+---
+
+## Conduct tests (cont.)
+
+- This may start to seem silly &amp;mdash; but extensive testing can be pretty useful,
+  and a time-saver eventually.
+  Especially for long-running scripts,
+  or scripts that you reuse and perhaps share with others.
+
+
+---
+
+## A word of advice / caution
+
+While different strategies are certainly possible, as a general rule of thumb:
+
+.content-box-green[
+**Bash scripts are best kept relatively simple.**
+]
+
+&lt;br&gt;
+
+**If you find yourself writing very long and complicated shell scripts:**
+
+- Break up your scripts into smaller units!
+
+- If you're connecting many scripts in an intricate pipeline =&gt;  
+  switch this part to a workflow management system (Week 13!)
+
+- If neither of the above two options applies: switch to Python (or R).
+  
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class: inverse middle center
+
+# Bonus Materials
+
+----
+
+&lt;br&gt;
+
+.left[
+- ### [More on quoting in shell commands](#quote)
+- ### [Using a Help function](#help)
+- ### [Parsing non-positional arguments with getopts](#getops)
+]
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+background-color: #f2f5eb
+name: quote
+
+## More on quoting in shell commands
+
+Recall that we can use quoting to escape special characters:
+
+```sh
+$ cd XXX
+
+$ echo *
+# Should show a list of files
+
+$ echo "*"
+# *
+```
+
+But what about this?
+
+```sh
+$ echo "* and this is my shell: $SHELL"
+# * and this is my shell: /bin/bash
+```
+
+We can use *single quotes* to also escape the "**`$`**":
+```sh
+$ echo '* and this is my shell: $SHELL'
+# * and this is my shell: $SHELL
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
