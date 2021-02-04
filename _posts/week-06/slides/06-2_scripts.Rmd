@@ -47,6 +47,11 @@ class: inverse middle center
 
 ---
 
+## Why scripts?
+
+
+---
+
 ## Bash scripts
 
 > *"Most Bash scripts in bioinformatics are simply commands organized into a
