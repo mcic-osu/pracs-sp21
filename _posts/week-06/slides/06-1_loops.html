@@ -20,12 +20,28 @@ class:inverse middle center
 
 ----
 
-# Part I: &lt;br&gt; Loops, arrays, and conditionals
+# Part I: &lt;br&gt; Setting the stage for scripting: &lt;br&gt; Variables, loops, arrays, and conditionals
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/15 (updated: 2021-02-03)
+### 2021/02/15 (updated: 2021-02-05)
+
+---
+
+## Setting up
+
+- Start VS Code in OSC OnDemand =&gt; open your workspace =&gt;
+  open a terminal =&gt; type `bash` to break out of the Singularity shell. 
+
+- Move into the Chapter 12 directory in your copy of the Buffalo Git repository,
+  likely at:
+  ```sh
+  $ cd /fs/ess/PAS1855/users/$USER/bds-files/chapter-12-pipelines
+  
+  # Lost the repo? Go to your directory and run:
+  # git clone https://github.com/vsbuffalo/bds-files.git
+  ```
 
 ---
 class: inverse middle center
@@ -35,14 +51,202 @@ class: inverse middle center
 ----
 
 .left[
+- ### [Variables (and quoting)](#variables)
 - ### [For loops](#for)
-- ### [While loops and the read command](#while)
-- ### [Bash arrays and field splitting](#arrays)
+- ### [While loops (and the read command)](#while)
+- ### [Bash arrays (and field splitting)](#arrays)
 - ### [Conditionals](#conditionals)
 - ### [basename](#basename)
 ]
 
 &lt;br&gt;
+
+---
+class: inverse middle center
+name: variables
+
+# Variables (and quoting)
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Variables
+
+&gt; *"Processing pipelines having numerous settings that should be stored in variables
+(e.g., which directories to store results in, parameter values for commands,
+input files, etc.).
+Storing these settings in a variable defined at the top of the file makes adjusting
+settings and rerunning your pipelines much easier. Rather than having to change
+numerous hardcoded values in your scripts, using variables to store settings means
+you only have to change one value—the value you’ve assigned to the variable."*
+&amp;mdash; Buffalo ch. 12
+
+&lt;br&gt;
+
+--
+
+.content-box-info[
+Side note: An even better solution than variables at the top of a file
+is to put these in configuration files (=&gt; Snakemake week) &amp;mdash;  
+but you'll be using variables in any case.
+]
+
+- Similarly, variables are useful to be able to pass arguments to a
+  script, so you can easily rerun a script with a different input file.
+
+---
+
+## Assigning and using shell variables
+
+A variable is nothing more than a *pointer to the actual data*.
+
+.pull-left[
+**Assign** a variable (no **`$`**):
+
+```sh
+# Any string:
+my_name=Jelmer
+```
+]
+
+.pull-right[
+**Recall** a variable (with **`$`**):
+
+```sh
+$ echo $my_name
+# Jelmer
+  ```
+]
+
+--
+
+.pull-left[
+```sh
+# A file name:
+my_file="README.txt"
+```
+]
+
+.pull-right[
+```sh
+$ ls -lh $my_file
+# -rw-r--r-- 1 jelmer PAS0471 568 Dec  7 09:58 README.txt
+```
+]
+
+--
+
+.pull-left[  
+```sh
+# Use "command substitution"
+# to assign a command's output
+today=$(date +%F)
+```
+]
+
+.pull-right[
+```sh
+$ touch README_$today.txt
+$ ls README_*
+# README_2020-12-10.txt
+```
+]
+
+--
+
+.pull-left[
+Pre-existing variables:
+("**Environment variables**")
+]
+
+.pull-right[
+```sh
+$ echo $USER
+# jelmer
+```
+]
+
+---
+
+## Quoting variables
+
+- What happens if the value of our variable contains spaces?
+
+  ```sh
+  $ today="Thu, Feb 8"
+  $ echo $today
+  
+  $ touch README_$today.txt
+  $ ls
+  #&gt; .txt  Feb  README_Thu,
+  ```
+
+- Oops! The shell performed **field splitting** to split the value into three
+  separate units, and as a result, three non-sensical files were created.
+
+  This can be avoided by **quoting the variable**:
+  
+  ```sh
+  $ touch README_"$today".txt
+  $ ls
+  #&gt; 'README_Thu, Feb 8.txt'
+  ```
+
+---
+
+## Quoting variables (cont.)
+
+- Without quoting, we can't explicitly say where our variable name ends:
+
+  ```sh
+  $ touch README_$today_final.txt
+  #&gt; README_.txt
+  
+  $ day_partial=Thu
+  $ day_full=$day_partialrsday
+  $ echo $day_full
+  #&gt; 
+  ```
+
+- Quoting solves this, too:
+
+  ```sh
+  $ touch README_"$today"_final.txt
+  #&gt; 'README_Thu, Feb 8_final.txt'
+  
+  $ day_full="$day_partial"rsday
+  $ echo $day_full
+  #&gt; Thursday
+  ```
+
+.content-box-info[
+For these two reasons, it is good practice to always quote your variables
+&amp;ndash; certainly in scripts where you can't babysit your code.
+]
+
+---
+
+## Quoting variables (cont.)
+
+.content-box-info[
+
+Putting variable names between curly braces will also make it clear where the
+variable name begins and ends, but it does not prevent field splitting:
+
+```sh
+$ touch README_${today}_final.txt
+#&gt; 8_final.txt .txt  Feb  README_Thu,
+```
+
+Finally, you can combine curly braces and quoting:
+```sh
+$ touch README_"${today}"_final.txt
+#&gt; 'README_Thu, Feb 8_final.txt'
+```
+]
 
 ---
 class: inverse middle center
@@ -67,6 +271,8 @@ $ for mushroom in morel destroying_angel eyelash_cup; do
 #&gt; eyelash_cup is an Ohio mushroom
 ```
 
+--
+
 ```sh
 $ for fungus in morel destroying_angel eyelash_cup; do
       echo "$fungus is an Ohio mushroom"
@@ -76,8 +282,28 @@ $ for fungus in morel destroying_angel eyelash_cup; do
 #&gt; eyelash_cup is an Ohio mushroom
 ```
 
+---
+
+## For loops
+
+```sh
+$ for mushroom in morel destroying_angel eyelash_cup; do
+      echo "$mushroom is an Ohio mushroom"
+  done
+#&gt; morel is an Ohio mushroom
+#&gt; destroying_angel is an Ohio mushroom
+#&gt; eyelash_cup is an Ohio mushroom
+```
+
 .content-box-info[
-Alternative formatting:
+A semicolon `;` separates two commands written on a single line:
+```sh
+cd data; ls
+```
+]
+
+.content-box-info[
+Alternative formatting that puts `do` on its own line:
 ```sh
 $ for fungus in morel destroying_angel eyelash_cup
   do
@@ -90,64 +316,88 @@ $ for fungus in morel destroying_angel eyelash_cup
 
 ## For loops
 
-```sh
-loop_counter=0
-
-$ for mushroom in morel destroying_angel eyelash_cup; do
-      
-      loop_counter=$(expr "$loop_counter" + 1)
-      
-      echo "$mushroom is Ohio mushroom number $loop_counter"
-  done
-
-#&gt; morel is Ohio mushroom number 1
-#&gt; destroying_angel is Ohio mushroom number 2
-#&gt; eyelash_cup is Ohio mushroom number 3
-```
-
----
-
-## For loops (cont.)
-
-```sh
-$ for fastq_file in data/raw/*fastq.gz; do
-      
-      echo "Fastq file $fastq_file has $(wc -l &lt; $fastq_file) lines"
-      
-      # Further processing...
-  done
-```
-
-```sh
-$ for i in $(seq 1 100); do
-      
-      echo "Run $i out of 100"
-      
-      # Further processing...
-  done
-```
+- To bring home the point that each item is processed one-by-one:
+ 
+  ```sh
+  $ loop_counter=0
+  
+  $ for mushroom in morel destroying_angel eyelash_cup; do
+        
+        loop_counter=$(expr "$loop_counter" + 1)
+        
+        echo "$mushroom is Ohio mushroom number $loop_counter"
+    done
+  
+  #&gt; morel is Ohio mushroom number 1
+  #&gt; destroying_angel is Ohio mushroom number 2
+  #&gt; eyelash_cup is Ohio mushroom number 3
+  ```
 
 ---
 
 ## For loops (cont.)
 
-```sh
-sample_names=(zmaysA zmaysB zmaysC)
+- In practice, we rarely enumerate by hand the items we want to loop over.
+  
+- Instead, we commonly loop over files using globbing: 
 
-$ for sample_name in "${sample_names[@]}"; do
-      
-      echo "Processing sample $sample_name"
-      input_file="$sample_name"_R1.fastq
-      
-      # Further processing...
-  done
+  ```sh
+  $ for fastq_file in data/raw/*fastq.gz; do
+        
+        echo "File $fastq_file has $(wc -l &lt; $fastq_file) lines."
+        # Further processing...
+    done
+  ```
+
+- Or perhaps over some predefined sequence like so:
+
+  ```sh
+  $ seq 1 100
+  #&gt; 1
+  #&gt; 2
+  #&gt; ...
+  
+  $ for i in $(seq 1 100); do
+        
+        echo "Run $i out of 100"
+        # Further processing...
+    done
+  ```
+
+---
+
+## For loops (cont.)
+
+- We can also loop over items in an *array*:  
+  (like a vector in R, or a list in Python)
+
+  ```sh
+  $ for sample_name in "${sample_names[@]}"; do
+        
+        echo "Processing sample $sample_name"
+        input_file="$sample_name"_R1.fastq
+        
+        # Further processing...
+    done
+  ```
+
+.content-box-info[
+**Creating an array:**
+
+```sh
+# Manually define the array:
+$ sample_names=(zmaysA zmaysB zmaysC)
+
+# Save a column from a file in an array:
+$ sample_names($(cut -f 3 samples.txt))
 ```
+]
 
 ---
 class: inverse middle center
 name: for
 
-# While loops and the read command
+# While loops (and the read command)
 
 ----
 
@@ -155,52 +405,61 @@ name: for
 
 ---
 
-## Our sample files
+## First &amp;ndash; Our metadata files
 
-```sh
-$ cat samples.txt
-#&gt; zmaysA  R1      seq/zmaysA_R1.fastq
-#&gt; zmaysA  R2      seq/zmaysA_R2.fastq
-#&gt; zmaysB  R1      seq/zmaysB_R1.fastq
-#&gt; zmaysB  R2      seq/zmaysB_R2.fastq
-#&gt; zmaysC  R1      seq/zmaysC_R1.fastq
-#&gt; zmaysC  R2      seq/zmaysC_R2.fastq
-```
+- The file `samples.txt` is in the Buffalo repo:
 
-```sh
-$ cut -f 3 samples.txt &gt; fastq_files.txt
+  ```sh
+  $ cat samples.txt
+  #&gt; zmaysA  R1      seq/zmaysA_R1.fastq
+  #&gt; zmaysA  R2      seq/zmaysA_R2.fastq
+  #&gt; zmaysB  R1      seq/zmaysB_R1.fastq
+  #&gt; zmaysB  R2      seq/zmaysB_R2.fastq
+  #&gt; zmaysC  R1      seq/zmaysC_R1.fastq
+  #&gt; zmaysC  R2      seq/zmaysC_R2.fastq
+  ```
 
-$ head -n 3 fastq_files.txt
-#&gt; seq/zmaysA_R1.fastq
-#&gt; seq/zmaysA_R2.fastq
-#&gt; seq/zmaysB_R1.fastq
-```
+- We will also create a file with just the paths to the fastq files,
+  by selecting only the third column from `samples.txt`:
+  
+  ```sh
+  $ cut -f 3 samples.txt &gt; fastq_files.txt
+  
+  $ head -n 3 fastq_files.txt
+  #&gt; seq/zmaysA_R1.fastq
+  #&gt; seq/zmaysA_R2.fastq
+  #&gt; seq/zmaysB_R1.fastq
+  ```
 
 ---
 
 ## While loops
 
 - While loops are similar to for loops,
-  but instead of looping over a predefined array/list,
-  the loop will keep going as long as a condition is true.
+  but instead of looping over a predefined listing of items,
+  **the loop will keep going as long as a condition is true**
+  (Infinite loops possible...).
+  
+  For instance:
 
-```sh
-$ i=1
+  ```sh
+  $ i=1
+  
+  $ while [ $i -lt 10 ]; do  # =&gt; While i is less than 10 
+        echo $i
+        i=$(expr $i + 1)
+    done
+  #&gt; 1
+  #&gt; 2
+  #&gt; 3
+  #&gt; 4
+  #&gt; 5
+  #&gt; 6
+  #&gt; 7
+  #&gt; 8
+  #&gt; 9
+  ```
 
-$ while [ $i -lt 10 ]; do
-      echo $i
-      i=$(expr $i + 1)
-  done
-#&gt; 1
-#&gt; 2
-#&gt; 3
-#&gt; 4
-#&gt; 5
-#&gt; 6
-#&gt; 7
-#&gt; 8
-#&gt; 9
-```
 ---
 
 ## While loops (cont.)
@@ -297,6 +556,16 @@ $ while read -r sample_name readpair_member fastq_file; do
 #&gt; Processing file: seq/zmaysA_R2.fastq
 #&gt; Processing file: seq/zmaysB_R1.fastq
 ```
+
+---
+class: inverse middle center
+name: arrays
+
+# Bash arrays and field splitting
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -443,6 +712,16 @@ so you don't have to reset the `IFS`.
 ]
 
 ---
+class: inverse middle center
+name: arrays
+
+# Conditionals
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
 
 ## Conditionals
 
@@ -579,6 +858,29 @@ $ if [ ! -f "$fastq_file" ]; then
 
 ---
 
+## Combining expressions (one of several ways)
+
+```sh
+if [ "$n_samples" -lt 100 ] &amp;&amp; [ "$n_samples" -ge 50 ]
+
+if [ ! -f "$fastq_file" ] || [ ! -r "$1" ]
+```
+
+- The `&amp;&amp;` and `||` are shell operators and can generally be used to chain
+  commands together:
+
+```sh
+cd data &amp;&amp; ls data
+
+git add --all &amp;&amp; git commit -m "Add README" &amp;&amp; git push
+
+test -d "$outdir" || mkdir "$outdir"
+
+cd "$outdir" || echo "Cannot change directory!"
+```
+
+---
+
 ## Using the *exit status* of a command as a test
 
 ```sh
@@ -605,8 +907,9 @@ $ if ! grep "AAACGT" "$fastq_file" &gt; /dev/null; then
 ```
 
 ---
+name: basename
 
-## Side note to set the stage for scripting: basename
+## Sidenote to set the stage for scripting: basename
 
 - Running `basename` on a filename will strip any directories in its name:
   

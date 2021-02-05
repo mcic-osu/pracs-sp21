@@ -1,5 +1,5 @@
 ---
-title: "Week 6 - Shell scripting - I"
+title: "Week 6 - Shell scripting - II"
 output:
   xaringan::moon_reader:
     seal: false
@@ -96,9 +96,9 @@ name: header
 - But, for this to work, we also need to make the script executable:
 
   ```sh
-  $ chmod u+x script.sh   # Executable for user/owner of file only
+  $ chmod u+x script.sh   # Executable for user/owner of file only (u=user)
   
-  $ chmod a+x script.sh   # Alt: executable for everyone (all)
+  $ chmod a+x script.sh   # Alt: executable for everyone (a=all)
   ```
 
 ---
@@ -130,7 +130,7 @@ Why is such behavior a bad idea in scripts?
   ```
 
 - As for errors, you may never notice them if they're subtle and don't cause
-  everything else to error out &ndash; but they could still make all the output
+  everything else to error out &ndash; but they could still render the output
   of the zombie script worthless!
 
 ---
@@ -139,11 +139,11 @@ Why is such behavior a bad idea in scripts?
 
 With these settings, the script terminates, with appropriate error message, if:
 
-- `set -u` &mdash; An unset variable is referenced
+- `set -u` &mdash; An unset variable is referenced.
 
-- `set -e` &mdash; Almost any errors occurs
+- `set -e` &mdash; Almost any errors occurs.
 
-- `set -o pipefail` &mdash; An error occurs within a shell "pipeline"
+- `set -o pipefail` &mdash; An error occurs within a shell "pipeline".
 
 <br>
 
@@ -173,148 +173,8 @@ set -u -e -o pipefail
 
 .content-box-info[
 Another useful setting, especially for debugging, is `set -x`,  
-which will print every line of the script as it is executed:
-
-```sh
-set -x 
-```
+which will print every line of the script as it is executed.
 ]
-
----
-class: inverse middle center
-name: variables
-
-# Variables and quoting
-
-----
-
-<br> <br> <br> <br> <br>
-
----
-
-## Variables
-
-> *"Processing pipelines having numerous settings that should be stored in variables
-(e.g., which directories to store results in, parameter values for commands,
-input files, etc.).
-Storing these settings in a variable defined at the top of the file makes adjusting
-settings and rerunning your pipelines much easier. Rather than having to change
-numerous hardcoded values in your scripts, using variables to store settings means
-you only have to change one value—the value you’ve assigned to the variable."*
-&mdash; Buffalo ch. 12
-
-- Alternatively/additionally, can use a configuration file.
-
----
-
-## Assigning and using shell variables
-
-A variable is nothing more than a pointer to the actual data.
-
-.pull-left[
-**Assign** a variable (no **`$`**):
-
-```sh
-# Any string:
-my_name=Jelmer
-```
-]
-
-.pull-right[
-**Recall** a variable (with **`$`**):
-
-```sh
-$ echo $my_name
-# Jelmer
-  ```
-]
-
---
-
-.pull-left[
-```sh
-# A file name:
-my_file="README.txt"
-```
-]
-
-.pull-right[
-```sh
-$ ls -lh $my_file
-# -rw-r--r-- 1 jelmer PAS0471 568 Dec  7 09:58 README.txt
-```
-]
-
---
-
-.pull-left[  
-```sh
-# Use "command substitution"
-# to assign a command's output
-today=$(date +%F)
-```
-]
-
-.pull-right[
-```sh
-$ touch README_$today.txt
-$ ls README_*
-# README_2020-12-10.txt
-```
-]
-
---
-
-.pull-left[
-Pre-existing variables:
-("**Environment variables**")
-]
-
-.pull-right[
-```sh
-$ echo $USER
-# jelmer
-```
-]
-
----
-
-## Sidenote: Quoting and embracing variables
-
-```sh
-$ today="Thu, Feb 8"
-$ echo $today
-
-$ touch README_$today.txt
-$ ls
-#> .txt  Feb  README_Thu,
-
-$ touch README_"$today".txt
-$ ls
-#> 'README_Thu, Feb 8.txt'
-```
-
-```sh
-$ touch README_$today_final.txt
-#> README_.txt
-```
-
-```sh
-$ touch README_"$today"_final.txt
-#> 'README_Thu, Feb 8_final.txt'
-```
-
----
-
-## Sidenote: Quoting and embracing variables (cont.)
-
-```sh
-$ touch README_${today}_final.txt
-#> 'README_Thu, Feb 8_final.txt'
-
-$ touch README_"${today}"_final.txt
-#> 'README_Thu, Feb 8_final.txt'
-```
 
 ---
 
@@ -327,8 +187,8 @@ $ touch README_"${today}"_final.txt
   $ ./name-script.sh John Doe
   ```
 
-- Inside the script, these arguments are *automatically* assigned to the variables
-  `$1` ("John" above), `$2` ("Doe" above), and so on:
+- Inside the script, these arguments are *automatically* assigned to the
+  placeholder variables `$1` ("John" above), `$2` ("Doe" above), and so on:
 
   ```sh
   #!/bin/bash
@@ -349,8 +209,8 @@ $ touch README_"${today}"_final.txt
 
 ## Command-line arguments for scripts (cont.)
 
-- Inside the script, it is good practice to reassign these variables
-  to ones with more descriptive names:
+- Inside the script, it is good practice to reassign these to more descriptively
+  named variables:
 
   ```sh
   #!/bin/bash
@@ -375,31 +235,47 @@ $ touch README_"${today}"_final.txt
 
 ## A simple shell script example
 
-```sh
-head -n 2 "$1"
-echo "---"
-tail -n 2 "$1"
-```
+- Contents of the script, saved as `headtail.sh`:
 
-```sh
-$ bash headtail.sh samples.txt
-$ bash headtail.sh egfr_flank.fasta
-```
+  ```sh
+  head -n 2 "$1"
+  echo "---"
+  tail -n 2 "$1"
+  ```
 
-```sh
-#!/bin/bash
-set -u -e -o pipefail
+- Running the script:
 
-head -n 2 "$1"
-echo "---"
-tail -n 2 "$1"
-```
+  ```sh
+  $ bash headtail.sh samples.txt
+  $ bash headtail.sh egfr_flank.fasta
+  ```
 
-```sh
-$ chmod a+x headtail.sh
+---
 
-$ ./headtail.sh samples.txt
-```
+## A simple shell script example (cont.)
+
+- Good scripting citizens that we are,
+  we will also add the header lines,
+  and make the script executable:
+
+  ```sh
+  #!/bin/bash
+  set -u -e -o pipefail
+  
+  head -n 2 "$1"
+  echo "---"
+  tail -n 2 "$1"
+  ```
+
+  ```sh
+  $ chmod a+x headtail.sh
+  ```
+
+- Now we can run it as follows:
+
+  ```sh
+  $ ./headtail.sh samples.txt
+  ```
 
 ---
 
@@ -526,8 +402,8 @@ name: arrays
 
 ## Dressing up your scripts to <br> increase robustness and user-friendliness
 
-- Let's go back to our `line.sh` script to keep things manageable,
-  and have arguments to work with:
+- Let's go back to our smaller `line.sh` script to keep things manageable.
+  That script also has some arguments we can work with:
 
 ```sh
   #!/bin/bash
@@ -539,35 +415,39 @@ name: arrays
 <br>
 
 .content-box-q[
-What could we do to be make this more robust / foolproof?
+What could we do to be make this script more robust / foolproof?
 ]
 
 ---
 
-## Assign the arguments to named variables
+## Assigning the arguments to named variables
 
 - Using named variables will make the rest of the script more readable:
-```sh
-line="$1"
-file="$2"
-```
+  
+  ```sh
+  line="$1"
+  file="$2"
+  ```
 
 - Instead of:
-```sh
-head -n "$1" "$2" | tail -n 1
-```
+
+  ```sh
+  head -n "$1" "$2" | tail -n 1
+  ```
 
 - We can now say:
-```sh
-head -n "$line" "$file" | tail -n 1
-```
+
+  ```sh
+  head -n "$line" "$file" | tail -n 1
+  ```
 
 ---
 
-## Report what's going on
+## Reporting what's going on
 
 - While you probably don't want a small utility script like `line.sh` to be
-  chatty, this is often useful for longer-running or more complex scripts:
+  "chatty",
+  this behavior *is* often useful for longer-running or more complex scripts:
   
   ```sh
   echo "Starting script $0"
@@ -583,16 +463,26 @@ head -n "$line" "$file" | tail -n 1
 
 ---
 
-## Conduct tests
+## Conducting tests
 
-```sh
-$ if [ "$#" -lt 2 ] || [ "$#" -gt 2 ]; then
-    echo "Error: wrong number of arguments"
-    echo "You provided $# arguments, while 2 are required."
-    echo "Usage: line.sh <line-number> <file>"
-    exit 1
-  fi
-```
+- Before we start running the meat of the script,
+  we may want to conduct some basic tests / sanity checks.
+  
+  Rather than letting subsequent programs fail with possibly cryptic error messages,
+  have puzzling behavior or output, or submit jobs for nothing, we can stop
+  the script at an earlier stage.
+
+  For example, we can test whether the right number of arguments
+  were provided when the script was called:
+
+  ```sh
+  $ if [ "$#" -lt 2 ] || [ "$#" -gt 2 ]; then
+      echo "Error: wrong number of arguments"
+      echo "You provided $# arguments, while 2 are required."
+      echo "Usage: line.sh <line-number> <file>"
+      exit 1
+    fi
+  ```
 
 --
 
@@ -612,8 +502,11 @@ $ echo "sampleA.fastq.gz" | grep "fastq"; echo $?
 
 ---
 
-## Conduct tests
+## Conducting tests
 
+- We can test whether the right number of arguments
+  were provided when the script was called:
+  
 ```sh
 $ if [ "$#" -lt 2 ] || [ "$#" -gt 2 ]; then
     echo "Error: wrong number of arguments"
@@ -638,23 +531,25 @@ $ echo "sampleA.fastq.gz" | grep "fastx"; echo $?
 
 ---
 
-## Conduct tests (cont.)
+## Conducting tests (cont.)
 
-```sh
-if [ ! -f $file ] || [ ! -r $file ]; then
-  echo "Error: can't open file"
-  echo "Second argument should be a readable file"
-  echo "You provided: $2"
-  exit 1
-fi
-```
+- We may also want to test whether the input file exists and can be opened:
+
+  ```sh
+  if [ ! -f $file ] || [ ! -r $file ]; then
+    echo "Error: can't open file"
+    echo "Second argument should be a readable file"
+    echo "You provided: $2"
+    exit 1
+  fi
+  ```
 
 ---
 
-## Conduct tests (cont.)
+## Conducting tests (cont.)
 
-- Test whether the requested line number is valid
-  (will also implicitly test whether it's a number at all):
+- Similarly, we can test whether the requested line number is valid
+  (this will also implicitly test whether it's a number at all):
   
   ```sh
   if [ $line -gt $(wc -l < $file) ] || [ ! $line -gt 0 ]; then
@@ -665,8 +560,8 @@ fi
   fi
   ```
 
-- Alternatively, you could decide to simply print the last line
-  when a too-high line number is requested:
+- You could even decide to implement some useful default behavior
+  for some erroneous input, like a requested line number that is too high:
 
   ```sh
   if [ $line -gt $(wc -l < $file) ]; then
@@ -677,43 +572,13 @@ fi
 
 ---
 
-## Parameter expansion to provide default values
+## Dressing up your scripts to <br> increase robustness and user-friendliness
 
-```sh
-line=${1:-10}             # Set 10 as the default value for $1
-
-rm_unpaired=${3:-true}    # Set true as the default value for $3
-```
-
-This will also help you avoid that a script fails with `set -u` because the
-variable is not set:
-
-```sh
-fastq_forward=$1
-fastq_reverse=$2
-rm_unpaired=${3:-true}
-```
-
-```sh
-$ trim.sh sampleA_R1.fastq sampleA_R2.fastq false
-
-# Will error out if no default value provided due to `set -u`:
-$ trim.sh sampleA_R1.fastq sampleA_R2.fastq
-```
-
-.content-box-info[
-You can do a lot more with parameter expansion - see XXX.
-]
-
-
----
-
-## Conduct tests (cont.)
-
-- This may start to seem silly &mdash; but extensive testing can be pretty useful,
-  and a time-saver eventually.
-  Especially for long-running scripts,
-  or scripts that you reuse and perhaps share with others.
+- This may start to seem silly, but fairly extensive reporting and
+  testing can be useful &mdash and a time-saver eventually.
+  
+  This is especially true for long-running scripts,
+  or scripts that you often reuse and perhaps share with others.
 
 
 ---
@@ -759,6 +624,7 @@ class: inverse middle center
 - ### [More on quoting in shell commands](#quote)
 - ### [Using a Help function](#help)
 - ### [Parsing non-positional arguments with getopts](#getops)
+- ### [Parameter expansion](#par-exp)
 ]
 
 <br> <br> <br> <br>
@@ -793,3 +659,62 @@ We can use *single quotes* to also escape the "**`$`**":
 $ echo '* and this is my shell: $SHELL'
 # * and this is my shell: $SHELL
 ```
+
+---
+background-color: #f2f5eb
+name: help
+
+## Using a Help function
+
+
+
+---
+background-color: #f2f5eb
+name: getopts
+
+## Parsing non-positional arguments with getopts
+
+
+---
+background-color: #f2f5eb
+name: par-exp
+
+## Parameter expansion to provide default values
+
+- Finally, it may be useful to have *optional arguments* that have a default
+  value if they are not specified on the command line.
+  
+  With `set -u` set, this becomes a little more tricky, because the script
+  will fail if you reference an unset variable &ndash; but you can use the
+  following syntax:
+  
+  ```sh
+  line=${1:-10}             # Set 10 as the default value for $1
+  
+  rm_unpaired=${3:-true}    # Set true as the default value for $3
+  ```
+
+--
+
+- For example, say that your script takes an input dir and an output dir
+  as arguments, but if the output dir is not specified,
+  you want it to be the same as the input dir:
+  
+  ```sh
+  input_dir=$1
+  output_dir=${2:-$input_dir}
+  ```
+
+- Now you can call the script (say `sort_bam.sh`) with or without the output dir:
+
+  ```sh
+  $ sort_bam.sh results/bam results/bam
+  
+  $ sort_bam.sh results/bam
+  ```
+
+---
+background-color: #f2f5eb
+
+## More parameter expansion
+
