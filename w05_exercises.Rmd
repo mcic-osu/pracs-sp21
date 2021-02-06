@@ -1,0 +1,145 @@
+---
+title: "Week 1 Exercises"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+These exercises....
+
+## Main exercises
+
+### Exercise 1: Getting set up
+
+1.  Create a directory for this exercise and move into it.
+
+2.  In the first couple of exercises, you will be modifying Buffalo's first script, which is printed below. Save this script as `fastq_stat_loop.sh`.
+
+    ``` {.bash}
+    #!/bin/bash
+    set -e -u -o pipefail
+
+    # Specify the input samples file (3rd column = path to FASTQ file):
+    sample_info=samples.txt
+
+    # Create a Bash array from the third column of "$sample_info":
+    sample_files=($(cut -f 3 "$sample_info"))
+
+    # Loop through the array:
+    for fastq_file in ${sample_files[@]}; do
+
+      # Strip .fastq from each FASTQ file, and add suffix:
+      results_file="$(basename $fastq_file .fastq)-stats.txt"
+      
+      # Run "fastq_stat" on a file:
+      fastq_stat "$fastq_file" > stats/$results_file
+
+    done
+    ```
+
+3.  You'll work with some actual FASTQ files, which are located at **XXXX**. Copy these files into an appropriate directory inside your exercise dir, like `data/fastq`.
+
+<br>
+
+### Exercise 2
+
+Unfortunately, the `fastq_stat` referenced in Buffalo's script is an imaginary program... So let's create a script `fastqc_stat.sh` that actually produces a few descriptive statistics for a a FASTQC file!
+
+1.  Set up a script skeleton with the header lines we've been discussing: a *shebang* line and the various `set` setting for robust scripts.
+2.  The script should process one command-line argument, the input file. Assign the automatic placeholder variable for the first argument to a variable with a descriptive name, like `fastq_file`.\
+    \
+    *(I will assume that below, you print everything to standard out, i.e. simply `echo` with no redirection. If you want to redirect output to a file, you'll probably want to have the script process a second command-line argument with the path (dir + file name) to the file.)*
+3.  Have the script report its own name and the name of the FASTQ file that is being examined.
+4.  Compute and report the number of sequences in the FASTQ file, which can be assumed to be the total number of lines divided by four, or alternatively, the number of lines consisting only of a `+`.\
+    \
+    *As a general hint for the next exercises, while you develop your commands, test them on one the FASTQ files. You can also create a temporary file with very few reads (`head -n … > tmp.fastq`) to make this quicker and more manageable.*
+5.  Search for the adapter sequence `XXXXX` and report in how many sequences it was found (you can assume matches will only be made in the sequences themselves).
+6.  Bonus: Count the number of sequences with 1 or more Ns.
+7.  Bonus: Print a count table of sequence lengths.
+8.  Bonus: Print a count table for the total number of each base (A / C / G / T) among the sequences.
+
+### Exercise 3
+
+1.  Now, let's modify Buffalo's script `fastq_stat_arrayloop.sh` to run your `fastq_stat.sh` script: modify the line in the script that calls `fastq_stat` to call your script.
+
+2.  Currently, `samples.txt` is hard-coded inside the script as the metadata file that contains the list of files to process. Another quirky and fragile aspect is that the file names have to be extracted from a specific column.\
+    \
+    For ease of re-use across different sample sets, it would be good to **let the script directly accept a list of FASTQ filenames as an *argument* instead**. Change the script accordingly.
+
+3.  Currently, the output directory is also hard-coded, as `stats` -- let's instead **add the output directory as a second argument to the script**. Moreover, *add a line that creates this output directory if it doesn't already exists.*\
+    \
+    (You can write an explicit test to see if the output dir exists first, but simply using `mkdir -p` will also work: this doesn't complain when a dir already exists, and can also make multiple levels of directories at once.)
+
+4.  With the previous change made, we need a *second file or script* to do the pre-processing and to submit the script with the appropriate arguments:
+
+    -   Writing a new file that contains just the FASTQ file names (column 3 from `samples.txt`).
+
+    -   Submitting the `fastq_stat_loop.sh` script with the name of this new file (containing the list of FASTQ files) as the first argument, and the output directory as the second argument. As the actual path to the output dir, you can use whatever (relative!) path makes sense to you.
+
+    **Create this second file and write the code outlined above.** You can save this either as a `.sh` script (e.g. `fastqc_runner.sh`), or put these lines in a Markdown file inside a code block. This is because these lines would likely be run *interactively*, as opposed to the `fastq_stat_arrayloop.sh` script which will be run non-interactively.\
+    \
+    (But it's still key to save these interactive commands in a file so you know what you did and can easily repeat and reproduce it!)
+
+### Exercise 4: The glob is real
+
+Instead of using a list of filenames in the script that we loop over, we can also select the files by globbing. This is perhaps a bit less flexible (e.g., if you wanted to analyze only a subset of files), but it is convenient and less error-prone (no risk of working with an out-of-date or incomplete list), and is also more robust to poorly-behaved filenames.
+
+If we use globbing, we want the first argument of the script to be an input directory that it will act on. And in the `for` loop, we simply specify the globbing pattern as the thing to loop over, as shown in the slides.
+
+Copy `fastq_stat_arrayloop.sh` to `fastq_stat_globloop.sh` and make the necessary changes; and add lines to your Markdown / runner script to run the new script.
+
+Hint: When globbing, it will be good to only act on fastq files using,\
+e.g., `*fastq *fastq.gz` (allowing for both gzipped and non-zipped files).
+
+<details>
+
+<summary>Show hints</summary>
+
+<p>
+
+</p>
+
+</details>
+
+### Exercise 5
+
+Dress up your script to include tests for robustness, and to report what the script is doing. For instance:
+
+1.  Check whether the file is gzipped and if it is, unzip it using `gunzip <filename>` (e.g. `gunzip sampleA.fastq.gz`).
+2.  ...
+
+## Bonus exercises
+
+### Exercise 6
+
+Write a shell script called `longest.sh` that takes the name of a directory and a filename extension as its arguments, and prints out the name of the file with the most lines in that directory with that extension. For example:
+
+``` {.bash}
+$ bash longest.sh /tmp/data pdb
+```
+
+would print the name of the `.pdb` file in `/tmp/data` that has the most lines.
+
+See <http://swcarpentry.github.io/shell-novice/05-loop/index.html>
+
+### Exercise 7
+
+CSB Chapter 1 harder exercises?
+
+## Solutions
+
+### Exercise 1
+
+<details>
+
+<summary>Solution</summary>
+
+<p>
+
+</p>
+
+</details>
+
+### Exercise 2

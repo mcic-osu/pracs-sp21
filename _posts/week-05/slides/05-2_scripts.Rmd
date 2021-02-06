@@ -355,8 +355,6 @@ for fastq_file in ${sample_files[@]}; do
 done
 ```
 
-- Save this script as `fastq_stat_loop.sh`.
-
 ---
 
 ## Buffalo's second script
