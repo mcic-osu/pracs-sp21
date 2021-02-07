@@ -2513,7 +2513,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul></li>
 <li><a href="#bonus-exercises">Bonus exercises</a>
 <ul>
-<li><a href="#exercise-5-find-the-file-with-the-most-sequences1">Exercise 5: Find the file with the most sequences</a></li>
+<li><a href="#exercise-5-find-the-longest-file1">Exercise 5: Find the longest file</a></li>
 <li><a href="#exercise-6-plant-pollinator-networks">Exercise 6: Plant-pollinator networks</a></li>
 <li><a href="#exercise-7-data-explorer">Exercise 7: Data explorer</a></li>
 </ul></li>
@@ -2530,7 +2530,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul>
 </nav>
 </div>
-<p>The main exercises will work with some FASTQ files. If you don’t care much for DNA sequence files, and perhaps start to get lost in the technicalities, make sure to carry on to the three bonus exercises, which don’t use sequence data.</p>
+<p>The main exercises will work with some FASTQ files. If you don’t care much for DNA sequence files, and perhaps start to get lost in the technicalities, make sure to carry on to the three bonus exercises.</p>
 <h2 id="main-exercises">Main exercises</h2>
 <h3 id="background">Background</h3>
 <p>These exercises will work with 6 <a href="https://support.illumina.com/bulletins/2016/04/fastq-files-explained.html">FASTQ files</a> with sequences from the V4 region of 16S rRNA, generated in a metabarcoding experiment.</p>
@@ -2548,7 +2548,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h3 id="exercise-1-getting-set-up">Exercise 1: Getting set up</h3>
 <ol type="1">
 <li><p>Create a directory for this week’s exercises and move into it.</p></li>
-<li><p>In these exercises, you will be working with and modifying Buffalo’s first script, which is printed below. Save this script as <code>fastq_stat_loop.sh</code>.</p>
+<li><p>In these exercises, you will be working with and modifying one of the scripts in Buffalo’s Chapter 12, which is printed below. Save this script as <code>fastq_stat_loop.sh</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">set</span> <span class="ex">-e</span> -u -o pipefail</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
@@ -2568,22 +2568,31 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb1-17"><a href="#cb1-17"></a>  <span class="ex">fastq_stat</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="op">&gt;</span> stats/<span class="va">$results_file</span></span>
 <span id="cb1-18"><a href="#cb1-18"></a></span>
 <span id="cb1-19"><a href="#cb1-19"></a><span class="kw">done</span></span></code></pre></div></li>
-<li><p>You’ll work with some real FASTQ files, which are inside the directory <code>/fs/ess/PAS1855/data/week05/fastq</code>. Copy these files into an appropriate directory inside your own directory for these exercises, like <code>data/</code>.</p></li>
+<li><p>The FASTQ files you’ll work with are inside the directory <code>/fs/ess/PAS1855/data/week05/fastq</code>. Copy these files into an appropriate directory inside your own directory for these exercises, like <code>data/</code>.</p></li>
 </ol>
 <p><br></p>
 <h3 id="exercise-2-create-a-script-to-compute-stats-for-a-fastq-file">Exercise 2: Create a script to compute stats for a FASTQ file</h3>
 <p>Unfortunately, the <code>fastq_stat</code> program referenced in Buffalo’s script is an imaginary program… So, let’s create a script <code>fastqc_stat.sh</code> that actually produces a few descriptive statistics for a a FASTQC file.</p>
 <ol type="1">
 <li><p>Set up a script skeleton with the header lines we’ve been discussing: a <em>shebang</em> line and the various <code>set</code> settings for robust scripts.</p></li>
-<li><p>The script should process one command-line argument, the input file. Assign the automatic placeholder variable for the first argument to a variable with a descriptive name, like <code>fastq_file</code>.<br></p>
+<li><p>The script should process one command-line argument, the input file. Assign the automatic placeholder variable for the first argument to a variable with a descriptive name, like <code>fastq_file</code>.<br />
+</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+The automatic placeholder variable for the first argument is <code>$1</code>.<br />
+</p>
+</p>
+</details>
 <div class="content-box-info">
 <div>
-<p>In the sections below, you can print all the output to standard out, i.e. simply <code>echo</code> with no redirection.<br />
+<p>In the sections below, you can print all your output to standard out, i.e. simply use <code>echo</code> with no redirection.<br />
 <br />
 Also, just for the purpose of testing the commands while developing them below, it will be convenient to assign one of the FASTQ files to a variable <code>fastq_file</code>.</p>
 </div>
 </div></li>
-<li><p>Have the script report its own name and the name of the FASTQ file that is being processed.<br />
+<li><p>Have the script report its own name as well as the name of the FASTQ file that is being processed.<br />
 </p>
 <details>
 <p><summary>Hints</summary></p>
@@ -2602,13 +2611,13 @@ Recall that the name of the script is automatically stored in <code>$0</code>.<b
 To make the division, you can use syntax like <code>expr 12 / 4</code> – and you can use command substitution, <code>$(wc -l ...)</code>, to insert the number of lines in the division.</p>
 </p>
 </details></li>
-<li><p>As mentioned in the Background section, the primer sequences should be present in the FASTQ files. Prior to sequence analyses, these are usually removed with a specialized program like <code>cutadapt</code>, but for now, we can use our <code>grep</code> skills to search for them.<br />
+<li><p>As mentioned in the Background section, the primer sequences should be present in the FASTQ files. Prior to sequence analyses, these are usually removed with a specialized program like <code>cutadapt</code>, but we can use our <code>grep</code> skills to quickly search for them.<br />
 <br />
-We will search for the forward primers only in the forwards reads, and for the reverse primers only in the reverse reads. Therefore, start with an <code>if</code> statement that tests whether the filename contains forward (<code>_R1_</code>) or reverse (<code>_R2_</code>) reads.<br />
+We will search for the <em>forward primers only in the forwards reads</em>, and for the <em>reverse primers only in the reverse reads</em>. Therefore, start with an <code>if</code> statement that tests whether the file name contains forward (<code>_R1_</code>) or reverse (<code>_R2_</code>) reads.<br />
 <br />
 <em>If it contains forward reads</em>, you should be counting occurrences of the forward primer <strong><em>or</em></strong> its reverse complement. Similarly, <em>if it contains reverse reads</em> you should be counting occurrences of the reverse primer <em>or</em> its reverse complement.<br />
 <br />
-You’ll have to replace the ambiguity codes, like <code>R</code>, with <em>character classes</em> that enumerate the possible alternative bases.</p>
+You’ll also have to replace the ambiguity codes, like <code>R</code>, with <em>character classes</em> that enumerate the possible alternative bases.</p>
 <details>
 <p><summary>Hints</summary></p>
 <p>
@@ -2627,7 +2636,7 @@ You’ll need both the primer <em>and</em> its reverse complement in a single <c
 <p><summary>Hints</summary></p>
 <p>
 <p><br />
-You’ll have to select only the lines with the actual DNA sequences, and the best way of doing that is using <code>awk</code> like so (see the solution for an explanation of why this works):</p>
+You’ll have to select only the lines with the actual DNA sequences, and the best way of doing that is using <code>awk</code> like so (see the Solution for an explanation of why this works):</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 2) }&#39;</span></span></code></pre></div>
 <p>Next, you need to count the number of characters in each line, which is best done in the same <code>awk</code> command using <code>print length($0)</code>, which will print the number of characters in the line.<br />
 <br />
@@ -2651,9 +2660,9 @@ Use the <code>chmod</code> command.<br />
 <h3 id="exercise-3-modify-the-looping-script">Exercise 3: Modify the looping script</h3>
 <p>Now, let’s modify Buffalo’s script <code>fastq_stat_loop.sh</code>.</p>
 <ol type="1">
-<li><p>Currently, the metadata file that contains the list of files to process is hard-coded as <code>samples.txt</code>. Another somewhat fragile aspect of the script is that the file names have to be extracted from a specific column from the metadata file.<br />
+<li><p>Currently, the metadata file that contains the list of files to process is hard-coded as <code>samples.txt</code>. Also, the file names have to be extracted from a specific column from the metadata file. This is not a very flexible setup, and is sensitive to minor changes in a file like <code>samples.txt</code>.<br />
 <br />
-Change the script to <em>let it accept a list of FASTQ filenames as an argument</em>.</p>
+Change the script to <em>let it accept a list of FASTQ file names as an argument</em>.</p>
 <details>
 <p><summary>Hints</summary></p>
 <p>
@@ -2673,24 +2682,24 @@ You can write an explicit test to see if the output dir exists first, but simply
 </p>
 </p>
 </details></li>
-<li><p>Change the line that runs the imaginary program <code>fastq_stat</code> to let it run your <code>fastq_stat.sh</code> script instead. Make sure the path to your script is correct and the argument syntax in line with your script.</p></li>
+<li><p>Change the line that runs the imaginary program <code>fastq_stat</code> to let it run your <code>fastq_stat.sh</code> script instead. Make sure the path to your script and the path to the output file is correct.</p></li>
 <li><p>In each iteration of the loop, let the script report which FASTQ file will be analyzed.</p></li>
 <li><p>Now that the script takes arguments, we need <em>another file or script</em> to create the list of filenames and to submit the script with the appropriate arguments. Specifically, in this file, we need:</p>
 <ul>
-<li><p>A line that creates a new file just containing the FASTQ file names (akin to column 3 from <code>samples.txt</code> – but with the correct paths to our real FASTQ files).</p></li>
-<li><p>A line that runs the <code>fastq_stat_loop.sh</code> script. The file that contains the list of FASTQ files should be passed to the script as the first argument, and the output directory as the second argument.<br />
+<li><p>A line that creates a new file just containing the FASTQ file names (akin to column 3 from <code>samples.txt</code> – but with the paths to our actual FASTQ files).</p></li>
+<li><p>A line that runs the <code>fastq_stat_loop.sh</code> script. The file that contains the list of FASTQ files should be passed to the script as the <em>first argument</em>, and the output directory as the <em>second argument</em>.<br />
 <br />
 As for the actual path to the output dir, you can use whatever (relative!) path makes sense to you.</p></li>
 </ul>
 <p><strong>Create the file containing the code outlined above.</strong> You can save this file either as a <code>.sh</code> script (e.g. <code>fastqc_runner.sh</code>), or put these lines in a Markdown file inside a code block. Either option is reasonable because these lines would likely be run <em>interactively</em>, as opposed to the <code>fastq_stat_loop.sh</code> script which will be run non-interactively. It’s still important to save these interactive commands in a file, so you know what you did and can easily reproduce it.</p></li>
 <li><p>Make <code>fastq_stat_loop.sh</code> executable and run it.<br />
 <br />
-The loop script should run <code>fastq_stat.sh</code> on all your FASTQ files. Check the output, which should be in one file per FASTQ file in the dir you designated.</p></li>
+The loop script should run <code>fastq_stat.sh</code> on all your FASTQ files. Check the output, which should be in one file per FASTQ file in the output dir you designated. You should be seeing that the vast majority of reads contain the primer sequences. Be proud – with a quick script that only runs for a couple of seconds, and no specialized software, you have queried hundreds of thousands of sequences!</p></li>
 </ol>
 <p><br></p>
 <h3 id="exercise-4-bells-and-whistles">Exercise 4: Bells and whistles</h3>
-<p>In this exercise, you will dress up your <code>fastqc_stat.sh</code> script to include tests for robustness, and to report what the script is doing.</p>
-<p>For the tests, check whether they work…! For instance, to check the test for the number of arguments, try running the script with no arguments, and with two arguments, and see if the script produces the error messages you gave it.</p>
+<p>In this exercise, you will touch up your <code>fastqc_stat.sh</code> script to include tests for robustness, and to report what the script is doing.</p>
+<p>For the tests, check whether they work (…)! For instance, to check the test for the number of arguments, try running the script with no arguments, and also with two arguments, and see if the script produces the error messages you wrote.</p>
 <ol type="1">
 <li><p>Write an <code>if</code> statement to check whether the FASTQ file exists / is a regular file and whether it can be read. If not, give an error and exit the script with exit code 1.<br />
 <br />
@@ -2724,11 +2733,11 @@ You can test for equality using <code>&lt;integer&gt; -eq &lt;integer&gt;</code>
 </ol>
 <p><br></p>
 <h2 id="bonus-exercises">Bonus exercises</h2>
-<h3 id="exercise-5-find-the-file-with-the-most-sequences1">Exercise 5: Find the file with the most sequences<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></h3>
+<h3 id="exercise-5-find-the-longest-file1">Exercise 5: Find the longest file<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></h3>
 <p>Write a shell script called <code>longest.sh</code> that takes two arguments: the name of a directory and a file extension (like <code>txt</code>). The script should print the name of the file that has the most lines among all files with with that extension in that directory.</p>
 <p>Make sure the script has the <em>shebang</em> and <code>set</code> headers, and make the script executable.<br />
 <br />
-Then, run your script to learn which FASTQ file has the most sequences:</p>
+Then, run your script to learn which FASTQ file has the most lines (and sequences):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a>$ <span class="ex">./longest.sh</span> data/fastq fastq</span></code></pre></div>
 <p>… should print the name of the <code>.fastq</code> file in <code>data/fastq</code> with the highest number of lines and therefore sequences.</p>
 <details>
@@ -2742,7 +2751,7 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 <p>Saavedra and Stouffer (2013) studied several plant–pollinator networks. These can be represented as rectangular matrices where the rows are pollinators, the columns plants, a 0 indicates the absence and 1 the presence of an interaction between the plant and the pollinator.</p>
 <p>The data of Saavedra and Stouffer (2013) can be found in the directory <code>CSB/unix/data/Saavedra2013</code>.</p>
 <ol type="1">
-<li><p>Write a script that takes one of these files as an argument, and determines the number of rows (pollinators) and columns (plants). Note that columns are separated by spaces. Don’t forget to make your script executable and add the standard header lines. Your script should return:</p>
+<li><p>Write a script that takes one of these files as an argument, and determines the number of rows (pollinators) and columns (plants). Note that columns are separated by spaces. Don’t forget to make your script executable and to add the standard header lines. Your script should return:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a>$ <span class="ex">./netsize.sh</span> ../data/Saavedra2013/n1.txt</span>
 <span id="cb4-2"><a href="#cb4-2"></a></span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; Filename: ../data/Saavedra2013/n1.txt</span></span>
@@ -2760,8 +2769,8 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 <details>
 <p><summary>Hints</summary></p>
 <p>
-<p>To find the number of columns, use <code>awk</code> and recall <code>awk</code>’s <code>NF</code> keyword.</p>
-<p>To combine them in a script, you need to assign the result of a command to a variable. For example: <code>mytxtfiles=$(ls *.txt)</code> stores the list of <code>.txt</code> files in the variable <code>$mytxtfiles</code>.</p>
+<p>To find the number of columns, use <code>awk</code> and recall <code>awk</code>’s <code>NF</code> (number of fields =&gt; number of columns) keyword.</p>
+<p>To combine them in a script, use command substitution to assign the result of a command to a variable. (For example: <code>mytxtfiles=$(ls *.txt)</code> stores the list of <code>.txt</code> files in the variable <code>$mytxtfiles</code>.)</p>
 <p>Next, you need to write a <code>for</code> loop.</p>
 <p>You can now use the script you’ve just written in combination with <code>sort</code> to answer the questions (remember the option <code>-k</code> to choose a column and <code>-r</code> to reverse the sorting order).</p>
 <p>You can use <code>echo -e</code> to print tabs using <code>\t</code>: <code>echo -e "column1 \t column2"</code>.</p>
@@ -2836,44 +2845,53 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 </p>
 </details>
 <details>
+<p>For testing the code below, we first assign one of the FASTQ filenames to the variable <code>$fastq_file</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="va">fastq_file=</span>201-S4-V4-V5_S53_L001_R1_001.fastq</span></code></pre></div>
 <p><summary>3. Let the script report its name and the name of the FASTQ file.</summary></p>
 <p>
 <p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$0</span><span class="st">: A script to compute basic summary stats for a FASTQ file.&quot;</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="bu">echo</span> <span class="st">&quot;FASTQ file to be analyzed: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$0</span><span class="st">: A script to compute basic summary stats for a FASTQ file.&quot;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="bu">echo</span> <span class="st">&quot;FASTQ file to be analyzed: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span></code></pre></div>
 </p>
 </details>
 <details>
 <p><summary>4. Compute and report the number of sequences in the FASTQ file.</summary></p>
 <p>
 <p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="va">n_lines=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span>  <span class="co"># Use input redirection to avoid getting the filename in the output!</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="va">n_seqs=$(</span><span class="fu">expr</span> <span class="st">&quot;</span><span class="va">$n_lines</span><span class="st">&quot;</span> / 4<span class="va">)</span>     <span class="co"># Use expr for arithmetics. Alternatively: $((&quot;$_lines&quot;/4))</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="bu">echo</span> <span class="st">&quot;Number of sequences: </span><span class="va">$n_seqs</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># We save the output of our commands using command substitution, $().</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="co"># In the wc -l command, use input redirection so the filename is not in the output.</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="va">n_lines=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="va">n_seqs=$(</span><span class="fu">expr</span> <span class="st">&quot;</span><span class="va">$n_lines</span><span class="st">&quot;</span> / 4<span class="va">)</span>     <span class="co"># Use expr for arithmetics</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="bu">echo</span> <span class="st">&quot;Number of sequences: </span><span class="va">$n_seqs</span><span class="st">&quot;</span></span></code></pre></div>
+<ul>
+<li><p>Alternatively, you can use the <code>(( ))</code> syntax for arithmetics – just take care that in this case, there can be no spaces between the mathematical operator and the numbers:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1"></a><span class="va">n_seqs=$((</span><span class="st">&quot;</span><span class="va">$n_lines</span><span class="st">&quot;</span>/4<span class="va">))</span></span></code></pre></div></li>
+<li><p>To get the number of sequences, you can also count the number of lines that only have a <code>+</code> symbol:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1"></a><span class="va">n_seqs=$(</span><span class="fu">grep</span> -c <span class="st">&quot;^+$&quot;</span> <span class="va">$fastq_file)</span></span></code></pre></div>
+<p>Recall that <code>+</code> is also a regular expression symbol, but only so in the extended regex set. Therefore, without the <code>-E</code> flag to <code>grep</code>, we are matching a literal <code>+</code> when we use one in our expression.</p></li>
+</ul>
 </p>
 </details>
-<p>For testing the code below by itself, we first assign one of the FASTQ filenames to the variable <code>$fastq_file</code>:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="va">fastq_file=</span>201-S4-V4-V5_S53_L001_R1_001.fastq</span></code></pre></div>
 <details>
 <p><summary>5. Search for adapter sequences.</summary></p>
 <p>
 <p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R1_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a></span>
-<span id="cb15-3"><a href="#cb15-3"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R1) reads, checking for primer 1...&quot;</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a></span>
-<span id="cb15-5"><a href="#cb15-5"></a>  <span class="va">n_primerF=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;GAGTG[CT]CAGC[AC]GCCGCGGTAA|TTACCGCGGC[GT]GCTG[AG]CACTC&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of forward primer sequences found: </span><span class="va">$n_primerF</span><span class="st">&quot;</span></span>
-<span id="cb15-7"><a href="#cb15-7"></a></span>
-<span id="cb15-8"><a href="#cb15-8"></a><span class="kw">else</span></span>
-<span id="cb15-9"><a href="#cb15-9"></a></span>
-<span id="cb15-10"><a href="#cb15-10"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R2) reads, checking for primer 2...&quot;</span></span>
-<span id="cb15-11"><a href="#cb15-11"></a></span>
-<span id="cb15-12"><a href="#cb15-12"></a>  <span class="va">n_primerR=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;ACGGACTAC[ACTG][ACG]GGGT[AT]TCTAAT|ATTAGA[AT]ACCCB[ACTG]GTAGTCCGT&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb15-13"><a href="#cb15-13"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of reverse primer sequences found: </span><span class="va">$n_primerR</span><span class="st">&quot;</span></span>
-<span id="cb15-14"><a href="#cb15-14"></a></span>
-<span id="cb15-15"><a href="#cb15-15"></a><span class="kw">fi</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R1_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R1) reads, checking for primer 1...&quot;</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a></span>
+<span id="cb17-5"><a href="#cb17-5"></a>  <span class="va">n_primerF=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;GAGTG[CT]CAGC[AC]GCCGCGGTAA|TTACCGCGGC[GT]GCTG[AG]CACTC&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb17-6"><a href="#cb17-6"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of forward primer sequences found: </span><span class="va">$n_primerF</span><span class="st">&quot;</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="kw">else</span></span>
+<span id="cb17-9"><a href="#cb17-9"></a></span>
+<span id="cb17-10"><a href="#cb17-10"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R2) reads, checking for primer 2...&quot;</span></span>
+<span id="cb17-11"><a href="#cb17-11"></a></span>
+<span id="cb17-12"><a href="#cb17-12"></a>  <span class="va">n_primerR=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;ACGGACTAC[ACTG][ACG]GGGT[AT]TCTAAT|ATTAGA[AT]ACCCB[ACTG]GTAGTCCGT&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb17-13"><a href="#cb17-13"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of reverse primer sequences found: </span><span class="va">$n_primerR</span><span class="st">&quot;</span></span>
+<span id="cb17-14"><a href="#cb17-14"></a></span>
+<span id="cb17-15"><a href="#cb17-15"></a><span class="kw">fi</span></span></code></pre></div>
 <p>To initiate the <code>if</code> statement:</p>
 <ul>
 <li>We redirect <code>grep</code>’s output to <code>/dev/null</code>, since we’re only interested in the exit status.</li>
@@ -2886,24 +2904,24 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 <li>We use <code>grep</code>’s <code>-c</code> option to count the matches.</li>
 </ul>
 <p>Or, to explicitly check the file contains <code>_R2</code> in its name, rather than assuming this must be the case if it doesn’t contain <code>_R1</code>, you can use <code>elif</code> (short for “else-if”) to add another test:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R1_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a></span>
-<span id="cb16-3"><a href="#cb16-3"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R1) reads, checking for primer 1...&quot;</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a></span>
-<span id="cb16-5"><a href="#cb16-5"></a>  <span class="va">n_primerF=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;GAGTG[CT]CAGC[AC]GCCGCGGTAA|TTACCGCGGC[GT]GCTG[AG]CACTC&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of forward primer sequences found: </span><span class="va">$n_primerF</span><span class="st">&quot;</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="kw">elif</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R2_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a></span>
-<span id="cb16-10"><a href="#cb16-10"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R2) reads, checking for primer 2...&quot;</span></span>
-<span id="cb16-11"><a href="#cb16-11"></a></span>
-<span id="cb16-12"><a href="#cb16-12"></a>  <span class="va">n_primerR=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;ACGGACTAC[ACTG][ACG]GGGT[AT]TCTAAT|ATTAGA[AT]ACCCB[ACTG]GTAGTCCGT&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb16-13"><a href="#cb16-13"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of reverse primer sequences found: </span><span class="va">$n_primerR</span><span class="st">&quot;</span></span>
-<span id="cb16-14"><a href="#cb16-14"></a></span>
-<span id="cb16-15"><a href="#cb16-15"></a><span class="kw">fi</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R1_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R1) reads, checking for primer 1...&quot;</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a></span>
+<span id="cb18-5"><a href="#cb18-5"></a>  <span class="va">n_primerF=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;GAGTG[CT]CAGC[AC]GCCGCGGTAA|TTACCGCGGC[GT]GCTG[AG]CACTC&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of forward primer sequences found: </span><span class="va">$n_primerF</span><span class="st">&quot;</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a></span>
+<span id="cb18-8"><a href="#cb18-8"></a><span class="kw">elif</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R2_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a></span>
+<span id="cb18-10"><a href="#cb18-10"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R2) reads, checking for primer 2...&quot;</span></span>
+<span id="cb18-11"><a href="#cb18-11"></a></span>
+<span id="cb18-12"><a href="#cb18-12"></a>  <span class="va">n_primerR=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;ACGGACTAC[ACTG][ACG]GGGT[AT]TCTAAT|ATTAGA[AT]ACCCB[ACTG]GTAGTCCGT&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb18-13"><a href="#cb18-13"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of reverse primer sequences found: </span><span class="va">$n_primerR</span><span class="st">&quot;</span></span>
+<span id="cb18-14"><a href="#cb18-14"></a></span>
+<span id="cb18-15"><a href="#cb18-15"></a><span class="kw">fi</span></span></code></pre></div>
 <p>When we test this code by itself, we get:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">#&gt; FASTQ file contains forward (R1) reads, checking for primer 1...</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co">#&gt; Number of forward primer sequences found: 44687</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">#&gt; FASTQ file contains forward (R1) reads, checking for primer 1...</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="co">#&gt; Number of forward primer sequences found: 44687</span></span></code></pre></div>
 <p>This looks good!</p>
 </p>
 </details>
@@ -2911,8 +2929,8 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 <p><summary>6. Bonus: Print a count table of sequence lengths.</summary></p>
 <p>
 <p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1"></a><span class="bu">echo</span> <span class="st">&quot;Count table of sequence lengths:&quot;</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 2) print length($0) }&#39;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> -c</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a><span class="bu">echo</span> <span class="st">&quot;Count table of sequence lengths:&quot;</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 2) print length($0) }&#39;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> -c</span></code></pre></div>
 <ul>
 <li>To select only actual sequences, and not other lines, from the FASTQ file, we use the following trick. We know that in the FASTQ file, every fourth line, starting from line number 2, contains the actual sequence (i.e.: line 2, line 6, line 10, etc). To select these lines we can use the “modulo” operator to select only line numbers (<code>NR</code> in <code>awk</code>) for which, after dividing the line number by 4, we have 2 left: <code>NR%4 == 2</code>.</li>
 <li>Next we print the number of characters on the entire line using <code>awk</code>’s <code>length</code> function: <code>print length($0)</code>.</li>
@@ -2924,60 +2942,62 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 <p><summary>7. Make the script executable.</summary></p>
 <p>
 <p>Assuming it is in the working dir:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1"></a>$ <span class="fu">chmod</span> u+x fastq_stat.sh </span>
-<span id="cb19-2"><a href="#cb19-2"></a></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="co"># Or for all scripts at once:</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a>$ <span class="fu">chmod</span> u+x *sh</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1"></a>$ <span class="fu">chmod</span> u+x fastq_stat.sh </span>
+<span id="cb21-2"><a href="#cb21-2"></a></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="co"># Or for all scripts at once:</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a>$ <span class="fu">chmod</span> u+x *sh</span></code></pre></div>
 </p>
 </details>
 <details>
 <p><summary>8. Run the script for a single FASTQ file by calling it from the command line.</summary></p>
 <p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># Assuming you have assigned a FASTQ file to $fastq_file for testing:</span></span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="ex">./fastq_stat.sh</span> <span class="va">$fastq_file</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># Assuming you have assigned a FASTQ file to $fastq_file for testing:</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="ex">./fastq_stat.sh</span> <span class="va">$fastq_file</span></span></code></pre></div>
 </p>
 </details>
 <h3 id="exercise-3">Exercise 3</h3>
 <details>
-<p><summary>Change the script to let it accept a list of FASTQ filenames as an argument.</summary></p>
+<p><summary>Change the script to let it accept a list of FASTQ file names as an argument.</summary></p>
 <p>
 <p>Add this line to the script:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1"></a><span class="va">file_list=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1"></a><span class="va">file_list=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span></code></pre></div>
 <p>Now, replace the following line:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># Old line:</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="co"># sample_files=($(cut -f 3 &quot;$sample_info&quot;))</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a></span>
-<span id="cb22-4"><a href="#cb22-4"></a><span class="co"># New line:</span></span>
-<span id="cb22-5"><a href="#cb22-5"></a><span class="va">sample_files=($(</span><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span><span class="va">))</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># Old line:</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="co"># sample_files=($(cut -f 3 &quot;$sample_info&quot;))</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="co"># New line:</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a><span class="va">sample_files=($(</span><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span><span class="va">))</span></span></code></pre></div>
 </p>
 </details>
 <details>
 <p><summary>Add the output directory as a second argument to the script, and create the output dir if necessary.</summary></p>
 <p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1"></a><span class="va">output_dir=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="co"># Create the output dir, if necessary:</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="fu">mkdir</span> -p <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1"></a><span class="va">output_dir=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="co"># Create the output dir, if necessary:</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="fu">mkdir</span> -p <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
 <ul>
 <li><code>mkdir -p</code> will not complain if the directory already exists, and it can make multiple levels of directories at once.</li>
 </ul>
 </p>
 </details>
 <details>
-<p><summary>3. Modify the line in the script that calls fastq_stat to call your script.</summary></p>
+<p><summary>3. Modify the line in the script that calls <code>fastq_stat</code> to call your script.</summary></p>
 <p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># Old line:</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="co"># fastq_stat &quot;$fastq_file&quot; &gt; stats/$results_file</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a></span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="co"># New line:</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="ex">scripts/fastq_stat.sh</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span>/<span class="st">&quot;</span><span class="va">$results_file</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Old line:</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="co"># fastq_stat &quot;$fastq_file&quot; &gt; stats/$results_file</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="co"># New line:</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="ex">scripts/fastq_stat.sh</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span>/<span class="st">&quot;</span><span class="va">$results_file</span><span class="st">&quot;</span></span></code></pre></div>
+<p>The <code>results_file</code> line can remain the same:</p>
+<pre><code>results_file=&quot;$(basename $fastq_file .fastq)-stats.txt&quot;</code></pre>
 </p>
 </details>
 <details>
-<p><summary>4. In each iteration of the loop, let the script report the FASTQ file that will be analyzed.</summary></p>
+<p><summary>4. In each iteration of the loop, let the script report which FASTQ will be analyzed.</summary></p>
 <p>
 <p>Add the following line <em>inside the loop</em>:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1"></a><span class="bu">echo</span> <span class="st">&quot;Running fastq_stat for FASTQ file </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1"></a><span class="bu">echo</span> <span class="st">&quot;Running fastq_stat for FASTQ file </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span></code></pre></div>
 </p>
 </details>
 <details>
@@ -2986,67 +3006,67 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 <ul>
 <li>To create a list of FASTQ files:</li>
 </ul>
-<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1"></a><span class="va">file_list=</span>fastq_file_list.txt</span>
-<span id="cb26-2"><a href="#cb26-2"></a></span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="fu">ls</span> data/*fastq <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1"></a><span class="va">file_list=</span>fastq_file_list.txt</span>
+<span id="cb29-2"><a href="#cb29-2"></a></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="fu">ls</span> data/*fastq <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span></span></code></pre></div>
 <ul>
 <li>To run the loop script:</li>
 </ul>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1"></a><span class="va">output_dir=</span>results/fastq_stats</span>
-<span id="cb27-2"><a href="#cb27-2"></a></span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="ex">./fastq_stat_loop.sh</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1"></a><span class="va">output_dir=</span>results/fastq_stats</span>
+<span id="cb30-2"><a href="#cb30-2"></a></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="ex">./fastq_stat_loop.sh</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
 </p>
 </details>
 <details>
 <p><summary>6. Make <code>fastq_stat_loop.sh</code> executable and run it.</summary></p>
 <p>
 <p>Run these lines:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1"></a>$ <span class="fu">chmod</span> u+x ./fastq_stat_loop.sh</span>
-<span id="cb28-2"><a href="#cb28-2"></a></span>
-<span id="cb28-3"><a href="#cb28-3"></a>$ <span class="ex">./fastq_stat_loop.sh</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1"></a>$ <span class="fu">chmod</span> u+x ./fastq_stat_loop.sh</span>
+<span id="cb31-2"><a href="#cb31-2"></a></span>
+<span id="cb31-3"><a href="#cb31-3"></a>$ <span class="ex">./fastq_stat_loop.sh</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
 </p>
 </details>
 <details>
 <p><summary><strong>The final <code>fastq_stat_loop.sh</code> script.</strong></summary></p>
 <p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb29-2"><a href="#cb29-2"></a><span class="kw">set</span> <span class="ex">-e</span> -u -o pipefail</span>
-<span id="cb29-3"><a href="#cb29-3"></a></span>
-<span id="cb29-4"><a href="#cb29-4"></a><span class="va">file_list=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
-<span id="cb29-5"><a href="#cb29-5"></a><span class="va">output_dir=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
-<span id="cb29-6"><a href="#cb29-6"></a></span>
-<span id="cb29-7"><a href="#cb29-7"></a><span class="co"># Create the output dir, if necessary:</span></span>
-<span id="cb29-8"><a href="#cb29-8"></a><span class="fu">mkdir</span> -p <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span>
-<span id="cb29-9"><a href="#cb29-9"></a></span>
-<span id="cb29-10"><a href="#cb29-10"></a><span class="co"># Create an array with FASTQ files</span></span>
-<span id="cb29-11"><a href="#cb29-11"></a><span class="va">fastq_files=($(</span><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span><span class="va">))</span></span>
-<span id="cb29-12"><a href="#cb29-12"></a></span>
-<span id="cb29-13"><a href="#cb29-13"></a><span class="co"># Report:</span></span>
-<span id="cb29-14"><a href="#cb29-14"></a><span class="bu">echo</span> <span class="st">&quot;Number of fastq files: </span><span class="va">${#fastq_files[@]}</span><span class="st">&quot;</span></span>
-<span id="cb29-15"><a href="#cb29-15"></a></span>
-<span id="cb29-16"><a href="#cb29-16"></a><span class="co"># Loop through the array:</span></span>
-<span id="cb29-17"><a href="#cb29-17"></a><span class="kw">for</span> <span class="ex">fastq_file</span> in <span class="st">&quot;</span><span class="va">${fastq_files[@]}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb29-18"><a href="#cb29-18"></a></span>
-<span id="cb29-19"><a href="#cb29-19"></a>  <span class="bu">echo</span> <span class="st">&quot;Running fastq_stat for FASTQ file </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
-<span id="cb29-20"><a href="#cb29-20"></a></span>
-<span id="cb29-21"><a href="#cb29-21"></a>  <span class="co"># Strip .fastq from each FASTQ file, and add suffix:</span></span>
-<span id="cb29-22"><a href="#cb29-22"></a>  <span class="va">results_file=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> .fastq<span class="va">)</span><span class="st">-stats.txt&quot;</span></span>
-<span id="cb29-23"><a href="#cb29-23"></a></span>
-<span id="cb29-24"><a href="#cb29-24"></a>  <span class="co"># Run &quot;fastq_stat&quot; on a file:</span></span>
-<span id="cb29-25"><a href="#cb29-25"></a>  <span class="ex">scripts/fastq_stat.sh</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span>/<span class="st">&quot;</span><span class="va">$results_file</span><span class="st">&quot;</span></span>
-<span id="cb29-26"><a href="#cb29-26"></a></span>
-<span id="cb29-27"><a href="#cb29-27"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a><span class="kw">set</span> <span class="ex">-e</span> -u -o pipefail</span>
+<span id="cb32-3"><a href="#cb32-3"></a></span>
+<span id="cb32-4"><a href="#cb32-4"></a><span class="va">file_list=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb32-5"><a href="#cb32-5"></a><span class="va">output_dir=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
+<span id="cb32-6"><a href="#cb32-6"></a></span>
+<span id="cb32-7"><a href="#cb32-7"></a><span class="co"># Create the output dir, if necessary:</span></span>
+<span id="cb32-8"><a href="#cb32-8"></a><span class="fu">mkdir</span> -p <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span>
+<span id="cb32-9"><a href="#cb32-9"></a></span>
+<span id="cb32-10"><a href="#cb32-10"></a><span class="co"># Create an array with FASTQ files</span></span>
+<span id="cb32-11"><a href="#cb32-11"></a><span class="va">fastq_files=($(</span><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span><span class="va">))</span></span>
+<span id="cb32-12"><a href="#cb32-12"></a></span>
+<span id="cb32-13"><a href="#cb32-13"></a><span class="co"># Report:</span></span>
+<span id="cb32-14"><a href="#cb32-14"></a><span class="bu">echo</span> <span class="st">&quot;Number of fastq files: </span><span class="va">${#fastq_files[@]}</span><span class="st">&quot;</span></span>
+<span id="cb32-15"><a href="#cb32-15"></a></span>
+<span id="cb32-16"><a href="#cb32-16"></a><span class="co"># Loop through the array:</span></span>
+<span id="cb32-17"><a href="#cb32-17"></a><span class="kw">for</span> <span class="ex">fastq_file</span> in <span class="st">&quot;</span><span class="va">${fastq_files[@]}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb32-18"><a href="#cb32-18"></a></span>
+<span id="cb32-19"><a href="#cb32-19"></a>  <span class="bu">echo</span> <span class="st">&quot;Running fastq_stat for FASTQ file </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
+<span id="cb32-20"><a href="#cb32-20"></a></span>
+<span id="cb32-21"><a href="#cb32-21"></a>  <span class="co"># Strip .fastq from each FASTQ file, and add suffix:</span></span>
+<span id="cb32-22"><a href="#cb32-22"></a>  <span class="va">results_file=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> .fastq<span class="va">)</span><span class="st">-stats.txt&quot;</span></span>
+<span id="cb32-23"><a href="#cb32-23"></a></span>
+<span id="cb32-24"><a href="#cb32-24"></a>  <span class="co"># Run &quot;fastq_stat&quot; on a file:</span></span>
+<span id="cb32-25"><a href="#cb32-25"></a>  <span class="ex">scripts/fastq_stat.sh</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span>/<span class="st">&quot;</span><span class="va">$results_file</span><span class="st">&quot;</span></span>
+<span id="cb32-26"><a href="#cb32-26"></a></span>
+<span id="cb32-27"><a href="#cb32-27"></a><span class="kw">done</span></span></code></pre></div>
 </p>
 </details>
 <details>
 <p><summary><strong>The final lines in the runner script / Markdown code block.</strong></summary></p>
 <p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1"></a><span class="va">file_list=</span>fastq_file_list.txt</span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="va">output_dir=</span>results/fastq_stats</span>
-<span id="cb30-3"><a href="#cb30-3"></a></span>
-<span id="cb30-4"><a href="#cb30-4"></a><span class="fu">ls</span> data/*fastq <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span></span>
-<span id="cb30-5"><a href="#cb30-5"></a></span>
-<span id="cb30-6"><a href="#cb30-6"></a><span class="ex">./fastq_stat_loop.sh</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1"></a><span class="va">file_list=</span>fastq_file_list.txt</span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="va">output_dir=</span>results/fastq_stats</span>
+<span id="cb33-3"><a href="#cb33-3"></a></span>
+<span id="cb33-4"><a href="#cb33-4"></a><span class="fu">ls</span> data/*fastq <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a></span>
+<span id="cb33-6"><a href="#cb33-6"></a><span class="ex">./fastq_stat_loop.sh</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
 </p>
 </details>
 <h3 id="exercise-4">Exercise 4</h3>
@@ -3062,16 +3082,16 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 <li><p>With <code>exit 1</code>, we terminate the script with an exit code that indicates failure.</p></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span> <span class="kw">||</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-r</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: can&#39;t open file&quot;</span></span>
-<span id="cb31-3"><a href="#cb31-3"></a>  <span class="bu">echo</span> <span class="st">&quot;Second argument should be a readable file&quot;</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
-<span id="cb31-5"><a href="#cb31-5"></a>  <span class="bu">exit</span> 1</span>
-<span id="cb31-6"><a href="#cb31-6"></a><span class="kw">fi</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span> <span class="kw">||</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-r</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: can&#39;t open file&quot;</span></span>
+<span id="cb34-3"><a href="#cb34-3"></a>  <span class="bu">echo</span> <span class="st">&quot;Second argument should be a readable file&quot;</span></span>
+<span id="cb34-4"><a href="#cb34-4"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
+<span id="cb34-5"><a href="#cb34-5"></a>  <span class="bu">exit</span> 1</span>
+<span id="cb34-6"><a href="#cb34-6"></a><span class="kw">fi</span></span></code></pre></div>
 <ul>
 <li>To test your test:</li>
 </ul>
-<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1"></a>$ <span class="ex">./fastq_stat.sh</span> blabla </span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1"></a>$ <span class="ex">./fastq_stat.sh</span> blabla </span></code></pre></div>
 </p>
 </details>
 <details>
@@ -3086,92 +3106,92 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 <li><p><code>exit 1</code> will exit with exit code 1, which signifies an error / failure.</p></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="st">&quot;</span><span class="va">$#</span><span class="st">&quot;</span> <span class="ot">-eq</span> 1<span class="bu"> ]</span>; <span class="kw">then</span>       <span class="co"># If the number of args does NOT equal 1, then</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: wrong number of arguments&quot;</span></span>
-<span id="cb33-3"><a href="#cb33-3"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided </span><span class="va">$#</span><span class="st"> arguments, while 1 is required.&quot;</span></span>
-<span id="cb33-4"><a href="#cb33-4"></a>  <span class="bu">echo</span> <span class="st">&quot;Usage: fastq_stat.sh &lt;file-name&gt;&quot;</span></span>
-<span id="cb33-5"><a href="#cb33-5"></a>  <span class="bu">exit</span> 1</span>
-<span id="cb33-6"><a href="#cb33-6"></a><span class="kw">fi</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="st">&quot;</span><span class="va">$#</span><span class="st">&quot;</span> <span class="ot">-eq</span> 1<span class="bu"> ]</span>; <span class="kw">then</span>   <span class="co"># If the number of args does NOT equal 1, then</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: wrong number of arguments&quot;</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided </span><span class="va">$#</span><span class="st"> arguments, while 1 is required.&quot;</span></span>
+<span id="cb36-4"><a href="#cb36-4"></a>  <span class="bu">echo</span> <span class="st">&quot;Usage: fastq_stat.sh &lt;file-name&gt;&quot;</span></span>
+<span id="cb36-5"><a href="#cb36-5"></a>  <span class="bu">exit</span> 1</span>
+<span id="cb36-6"><a href="#cb36-6"></a><span class="kw">fi</span></span></code></pre></div>
 <ul>
 <li>To test your test:</li>
 </ul>
-<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1"></a>$ <span class="ex">./fastq_stat.sh</span>                      <span class="co"># No args</span></span>
-<span id="cb34-2"><a href="#cb34-2"></a>$ <span class="ex">./fastq_stat.sh</span> <span class="va">$fastq_file</span> blabla   <span class="co"># Two args</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1"></a>$ <span class="ex">./fastq_stat.sh</span>                      <span class="co"># No args</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a>$ <span class="ex">./fastq_stat.sh</span> <span class="va">$fastq_file</span> blabla   <span class="co"># Two args</span></span></code></pre></div>
 </p>
 </details>
 <details>
 <p><summary>3. Add <code>date</code> commands.</summary></p>
 <p>
 <p>Simply include two lines with:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">date</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1"></a><span class="fu">date</span></span></code></pre></div>
 <p>… in the script, one before file processing, and one after.</p>
 </p>
 </details>
 <details>
 <p><summary><strong>The final <code>fastq_stat.sh</code> script.</strong></summary></p>
 <p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb36-2"><a href="#cb36-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
-<span id="cb36-3"><a href="#cb36-3"></a></span>
-<span id="cb36-4"><a href="#cb36-4"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$0</span><span class="st">: A script to compute basic summary stats for a FASTQ file.&quot;</span></span>
-<span id="cb36-5"><a href="#cb36-5"></a><span class="fu">date</span></span>
-<span id="cb36-6"><a href="#cb36-6"></a><span class="bu">echo</span></span>
-<span id="cb36-7"><a href="#cb36-7"></a></span>
-<span id="cb36-8"><a href="#cb36-8"></a><span class="co"># Test number of args -------------------------------------------------</span></span>
-<span id="cb36-9"><a href="#cb36-9"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="st">&quot;</span><span class="va">$#</span><span class="st">&quot;</span> <span class="ot">-eq</span> 1<span class="bu"> ]</span>; <span class="kw">then</span></span>
-<span id="cb36-10"><a href="#cb36-10"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: wrong number of arguments&quot;</span></span>
-<span id="cb36-11"><a href="#cb36-11"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided </span><span class="va">$#</span><span class="st"> arguments, while 1 is required.&quot;</span></span>
-<span id="cb36-12"><a href="#cb36-12"></a>  <span class="bu">echo</span> <span class="st">&quot;Usage: fastq_stat.sh &lt;file-name&gt;&quot;</span></span>
-<span id="cb36-13"><a href="#cb36-13"></a>  <span class="bu">exit</span> 1</span>
-<span id="cb36-14"><a href="#cb36-14"></a><span class="kw">fi</span></span>
-<span id="cb36-15"><a href="#cb36-15"></a></span>
-<span id="cb36-16"><a href="#cb36-16"></a><span class="co"># Process command-line args and report ------------------------------------</span></span>
-<span id="cb36-17"><a href="#cb36-17"></a></span>
-<span id="cb36-18"><a href="#cb36-18"></a><span class="va">fastq_file=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
-<span id="cb36-19"><a href="#cb36-19"></a></span>
-<span id="cb36-20"><a href="#cb36-20"></a><span class="bu">echo</span> <span class="st">&quot;FASTQ file to be analyzed: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
-<span id="cb36-21"><a href="#cb36-21"></a><span class="bu">echo</span></span>
-<span id="cb36-22"><a href="#cb36-22"></a></span>
-<span id="cb36-23"><a href="#cb36-23"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span> <span class="kw">||</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-r</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
-<span id="cb36-24"><a href="#cb36-24"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: can&#39;t open file&quot;</span></span>
-<span id="cb36-25"><a href="#cb36-25"></a>  <span class="bu">echo</span> <span class="st">&quot;Second argument should be a readable file&quot;</span></span>
-<span id="cb36-26"><a href="#cb36-26"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
-<span id="cb36-27"><a href="#cb36-27"></a>  <span class="bu">exit</span> 1</span>
-<span id="cb36-28"><a href="#cb36-28"></a><span class="kw">fi</span></span>
-<span id="cb36-29"><a href="#cb36-29"></a></span>
-<span id="cb36-30"><a href="#cb36-30"></a><span class="co"># Count primer sequences ------------------------------------------------</span></span>
-<span id="cb36-31"><a href="#cb36-31"></a></span>
-<span id="cb36-32"><a href="#cb36-32"></a><span class="va">n_lines=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span><span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb36-33"><a href="#cb36-33"></a><span class="va">n_seqs=$(</span><span class="fu">expr</span> <span class="st">&quot;</span><span class="va">$n_lines</span><span class="st">&quot;</span> / 4<span class="va">)</span></span>
-<span id="cb36-34"><a href="#cb36-34"></a></span>
-<span id="cb36-35"><a href="#cb36-35"></a><span class="bu">echo</span> <span class="st">&quot;Number of sequences: </span><span class="va">$n_seqs</span><span class="st">&quot;</span></span>
-<span id="cb36-36"><a href="#cb36-36"></a></span>
-<span id="cb36-37"><a href="#cb36-37"></a><span class="co"># Count primer sequences ------------------------------------------------</span></span>
-<span id="cb36-38"><a href="#cb36-38"></a></span>
-<span id="cb36-39"><a href="#cb36-39"></a><span class="kw">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R1_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
-<span id="cb36-40"><a href="#cb36-40"></a></span>
-<span id="cb36-41"><a href="#cb36-41"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R1) reads, checking for primer 1...&quot;</span></span>
-<span id="cb36-42"><a href="#cb36-42"></a></span>
-<span id="cb36-43"><a href="#cb36-43"></a>  <span class="va">n_primerF=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;GAGTG[CT]CAGC[AC]GCCGCGGTAA|TTACCGCGGC[GT]GCTG[AG]CACTC&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb36-44"><a href="#cb36-44"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of forward primer sequences found: </span><span class="va">$n_primerF</span><span class="st">&quot;</span></span>
-<span id="cb36-45"><a href="#cb36-45"></a></span>
-<span id="cb36-46"><a href="#cb36-46"></a><span class="kw">elif</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R2_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
-<span id="cb36-47"><a href="#cb36-47"></a></span>
-<span id="cb36-48"><a href="#cb36-48"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R2) reads, checking for primer 2...&quot;</span></span>
-<span id="cb36-49"><a href="#cb36-49"></a></span>
-<span id="cb36-50"><a href="#cb36-50"></a>  <span class="va">n_primerR=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;ACGGACTAC[ACTG][ACG]GGGT[AT]TCTAAT|ATTAGA[AT]ACCCB[ACTG]GTAGTCCGT&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb36-51"><a href="#cb36-51"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of reverse primer sequences found: </span><span class="va">$n_primerR</span><span class="st">&quot;</span></span>
-<span id="cb36-52"><a href="#cb36-52"></a></span>
-<span id="cb36-53"><a href="#cb36-53"></a><span class="kw">fi</span></span>
-<span id="cb36-54"><a href="#cb36-54"></a></span>
-<span id="cb36-55"><a href="#cb36-55"></a><span class="co"># Bonus: Count table of sequence lengths ---------------------------------</span></span>
-<span id="cb36-56"><a href="#cb36-56"></a><span class="bu">echo</span> <span class="st">&quot;Count table of sequence lengths:&quot;</span></span>
-<span id="cb36-57"><a href="#cb36-57"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 2) print length($0) }&#39;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> -c</span>
-<span id="cb36-58"><a href="#cb36-58"></a></span>
-<span id="cb36-59"><a href="#cb36-59"></a><span class="co"># Report ----------------------------------------------------------------</span></span>
-<span id="cb36-60"><a href="#cb36-60"></a><span class="bu">echo</span></span>
-<span id="cb36-61"><a href="#cb36-61"></a><span class="bu">echo</span> <span class="st">&quot;Done with </span><span class="va">$0</span><span class="st"> for </span><span class="va">$fastq_file</span><span class="st">.&quot;</span></span>
-<span id="cb36-62"><a href="#cb36-62"></a><span class="fu">date</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
+<span id="cb39-3"><a href="#cb39-3"></a></span>
+<span id="cb39-4"><a href="#cb39-4"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$0</span><span class="st">: A script to compute basic summary stats for a FASTQ file.&quot;</span></span>
+<span id="cb39-5"><a href="#cb39-5"></a><span class="fu">date</span></span>
+<span id="cb39-6"><a href="#cb39-6"></a><span class="bu">echo</span></span>
+<span id="cb39-7"><a href="#cb39-7"></a></span>
+<span id="cb39-8"><a href="#cb39-8"></a><span class="co"># Test number of args -------------------------------------------------</span></span>
+<span id="cb39-9"><a href="#cb39-9"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="st">&quot;</span><span class="va">$#</span><span class="st">&quot;</span> <span class="ot">-eq</span> 1<span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb39-10"><a href="#cb39-10"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: wrong number of arguments&quot;</span></span>
+<span id="cb39-11"><a href="#cb39-11"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided </span><span class="va">$#</span><span class="st"> arguments, while 1 is required.&quot;</span></span>
+<span id="cb39-12"><a href="#cb39-12"></a>  <span class="bu">echo</span> <span class="st">&quot;Usage: fastq_stat.sh &lt;file-name&gt;&quot;</span></span>
+<span id="cb39-13"><a href="#cb39-13"></a>  <span class="bu">exit</span> 1</span>
+<span id="cb39-14"><a href="#cb39-14"></a><span class="kw">fi</span></span>
+<span id="cb39-15"><a href="#cb39-15"></a></span>
+<span id="cb39-16"><a href="#cb39-16"></a><span class="co"># Process command-line args and report ------------------------------------</span></span>
+<span id="cb39-17"><a href="#cb39-17"></a></span>
+<span id="cb39-18"><a href="#cb39-18"></a><span class="va">fastq_file=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb39-19"><a href="#cb39-19"></a></span>
+<span id="cb39-20"><a href="#cb39-20"></a><span class="bu">echo</span> <span class="st">&quot;FASTQ file to be analyzed: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
+<span id="cb39-21"><a href="#cb39-21"></a><span class="bu">echo</span></span>
+<span id="cb39-22"><a href="#cb39-22"></a></span>
+<span id="cb39-23"><a href="#cb39-23"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span> <span class="kw">||</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-r</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb39-24"><a href="#cb39-24"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: can&#39;t open file&quot;</span></span>
+<span id="cb39-25"><a href="#cb39-25"></a>  <span class="bu">echo</span> <span class="st">&quot;Second argument should be a readable file&quot;</span></span>
+<span id="cb39-26"><a href="#cb39-26"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
+<span id="cb39-27"><a href="#cb39-27"></a>  <span class="bu">exit</span> 1</span>
+<span id="cb39-28"><a href="#cb39-28"></a><span class="kw">fi</span></span>
+<span id="cb39-29"><a href="#cb39-29"></a></span>
+<span id="cb39-30"><a href="#cb39-30"></a><span class="co"># Count primer sequences ------------------------------------------------</span></span>
+<span id="cb39-31"><a href="#cb39-31"></a></span>
+<span id="cb39-32"><a href="#cb39-32"></a><span class="va">n_lines=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span><span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb39-33"><a href="#cb39-33"></a><span class="va">n_seqs=$(</span><span class="fu">expr</span> <span class="st">&quot;</span><span class="va">$n_lines</span><span class="st">&quot;</span> / 4<span class="va">)</span></span>
+<span id="cb39-34"><a href="#cb39-34"></a></span>
+<span id="cb39-35"><a href="#cb39-35"></a><span class="bu">echo</span> <span class="st">&quot;Number of sequences: </span><span class="va">$n_seqs</span><span class="st">&quot;</span></span>
+<span id="cb39-36"><a href="#cb39-36"></a></span>
+<span id="cb39-37"><a href="#cb39-37"></a><span class="co"># Count primer sequences ------------------------------------------------</span></span>
+<span id="cb39-38"><a href="#cb39-38"></a></span>
+<span id="cb39-39"><a href="#cb39-39"></a><span class="kw">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R1_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb39-40"><a href="#cb39-40"></a></span>
+<span id="cb39-41"><a href="#cb39-41"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R1) reads, checking for primer 1...&quot;</span></span>
+<span id="cb39-42"><a href="#cb39-42"></a></span>
+<span id="cb39-43"><a href="#cb39-43"></a>  <span class="va">n_primerF=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;GAGTG[CT]CAGC[AC]GCCGCGGTAA|TTACCGCGGC[GT]GCTG[AG]CACTC&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb39-44"><a href="#cb39-44"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of forward primer sequences found: </span><span class="va">$n_primerF</span><span class="st">&quot;</span></span>
+<span id="cb39-45"><a href="#cb39-45"></a></span>
+<span id="cb39-46"><a href="#cb39-46"></a><span class="kw">elif</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R2_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb39-47"><a href="#cb39-47"></a></span>
+<span id="cb39-48"><a href="#cb39-48"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R2) reads, checking for primer 2...&quot;</span></span>
+<span id="cb39-49"><a href="#cb39-49"></a></span>
+<span id="cb39-50"><a href="#cb39-50"></a>  <span class="va">n_primerR=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;ACGGACTAC[ACTG][ACG]GGGT[AT]TCTAAT|ATTAGA[AT]ACCCB[ACTG]GTAGTCCGT&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb39-51"><a href="#cb39-51"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of reverse primer sequences found: </span><span class="va">$n_primerR</span><span class="st">&quot;</span></span>
+<span id="cb39-52"><a href="#cb39-52"></a></span>
+<span id="cb39-53"><a href="#cb39-53"></a><span class="kw">fi</span></span>
+<span id="cb39-54"><a href="#cb39-54"></a></span>
+<span id="cb39-55"><a href="#cb39-55"></a><span class="co"># Bonus: Count table of sequence lengths ---------------------------------</span></span>
+<span id="cb39-56"><a href="#cb39-56"></a><span class="bu">echo</span> <span class="st">&quot;Count table of sequence lengths:&quot;</span></span>
+<span id="cb39-57"><a href="#cb39-57"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 2) print length($0) }&#39;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> -c</span>
+<span id="cb39-58"><a href="#cb39-58"></a></span>
+<span id="cb39-59"><a href="#cb39-59"></a><span class="co"># Report ----------------------------------------------------------------</span></span>
+<span id="cb39-60"><a href="#cb39-60"></a><span class="bu">echo</span></span>
+<span id="cb39-61"><a href="#cb39-61"></a><span class="bu">echo</span> <span class="st">&quot;Done with </span><span class="va">$0</span><span class="st"> for </span><span class="va">$fastq_file</span><span class="st">.&quot;</span></span>
+<span id="cb39-62"><a href="#cb39-62"></a><span class="fu">date</span></span></code></pre></div>
 </p>
 </details>
 <h3 id="exercise-5">Exercise 5</h3>
@@ -3179,16 +3199,16 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 <p><summary>Solution</summary></p>
 <p>
 <p>There are several ways to do this, here’s one example:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb37-2"><a href="#cb37-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
-<span id="cb37-3"><a href="#cb37-3"></a></span>
-<span id="cb37-4"><a href="#cb37-4"></a><span class="va">dir=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
-<span id="cb37-5"><a href="#cb37-5"></a><span class="va">extension=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
-<span id="cb37-6"><a href="#cb37-6"></a></span>
-<span id="cb37-7"><a href="#cb37-7"></a><span class="fu">wc</span> -l <span class="st">&quot;</span><span class="va">$dir</span><span class="st">&quot;</span>/*.<span class="st">&quot;</span><span class="va">$extension</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> -rn <span class="kw">|</span> <span class="fu">sed</span> -n <span class="st">&#39;2p&#39;</span></span></code></pre></div>
-<p>You have to print the <em>second</em> rather than the the first line: the first line will be a total line number across all files, which <code>wc</code> automatically computes.</p>
-<p>You could also use <code>head -n 2 | tail -n 1</code> to print the second line:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1"></a><span class="fu">wc</span> -l <span class="st">&quot;</span><span class="va">$dir</span><span class="st">&quot;</span>/*.<span class="st">&quot;</span><span class="va">$extension</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> -rn <span class="kw">|</span> <span class="fu">head</span> -n 2 <span class="kw">|</span> <span class="fu">tail</span> -n 1</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
+<span id="cb40-3"><a href="#cb40-3"></a></span>
+<span id="cb40-4"><a href="#cb40-4"></a><span class="va">dir=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb40-5"><a href="#cb40-5"></a><span class="va">extension=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
+<span id="cb40-6"><a href="#cb40-6"></a></span>
+<span id="cb40-7"><a href="#cb40-7"></a><span class="fu">wc</span> -l <span class="st">&quot;</span><span class="va">$dir</span><span class="st">&quot;</span>/*.<span class="st">&quot;</span><span class="va">$extension</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> -rn <span class="kw">|</span> <span class="fu">sed</span> -n <span class="st">&#39;2p&#39;</span></span></code></pre></div>
+<p>You have to print the <em>second</em> rather than the the first line: the first line will be a <em>total</em> line number count across all files, which <code>wc</code> automatically computes.</p>
+<p>Instead of using <code>sed</code>, you could also use <code>head -n 2 | tail -n 1</code> to print the second line:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1"></a><span class="fu">wc</span> -l <span class="st">&quot;</span><span class="va">$dir</span><span class="st">&quot;</span>/*.<span class="st">&quot;</span><span class="va">$extension</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> -rn <span class="kw">|</span> <span class="fu">head</span> -n 2 <span class="kw">|</span> <span class="fu">tail</span> -n 1</span></code></pre></div>
 <p><em>(Note also that there are two files with the same number of lines: <code>R1</code> and <code>R2</code> files for the same sample always have the same number of reads.)</em></p>
 </p>
 </details>
@@ -3196,119 +3216,118 @@ Then, run your script to learn which FASTQ file has the most sequences:</p>
 <details>
 <p><summary>1. Write a script that takes one file and determines the number of rows and columns.</summary></p>
 <p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
-<span id="cb39-3"><a href="#cb39-3"></a></span>
-<span id="cb39-4"><a href="#cb39-4"></a><span class="va">file=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
-<span id="cb39-5"><a href="#cb39-5"></a></span>
-<span id="cb39-6"><a href="#cb39-6"></a><span class="bu">echo</span> <span class="st">&quot;Filename:&quot;</span></span>
-<span id="cb39-7"><a href="#cb39-7"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
-<span id="cb39-8"><a href="#cb39-8"></a></span>
-<span id="cb39-9"><a href="#cb39-9"></a><span class="co"># We can get the number of rows simply by counting the number of lines:</span></span>
-<span id="cb39-10"><a href="#cb39-10"></a><span class="co"># To avoid printing the filename we redirect the input like below</span></span>
-<span id="cb39-11"><a href="#cb39-11"></a><span class="co"># (Or we could have done: &quot;cat ../data/Saavedra2013/n10.txt | wc -l&quot;)</span></span>
-<span id="cb39-12"><a href="#cb39-12"></a><span class="bu">echo</span> <span class="st">&quot;Number of rows:&quot;</span></span>
-<span id="cb39-13"><a href="#cb39-13"></a><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
-<span id="cb39-14"><a href="#cb39-14"></a></span>
-<span id="cb39-15"><a href="#cb39-15"></a><span class="co"># To count the number of columns, we use awk - recall that NF is the number</span></span>
-<span id="cb39-16"><a href="#cb39-16"></a><span class="co"># of fields (columns), and to print that number only for a single line, we exit:</span></span>
-<span id="cb39-17"><a href="#cb39-17"></a><span class="bu">echo</span> <span class="st">&quot;Number of columns:&quot;</span></span>
-<span id="cb39-18"><a href="#cb39-18"></a><span class="fu">awk</span> <span class="st">&#39;{ print NF; exit }&#39;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
-<span id="cb39-19"><a href="#cb39-19"></a></span>
-<span id="cb39-20"><a href="#cb39-20"></a><span class="co"># head -n 1 &quot;$file&quot; | awk &#39;{ print NF }&#39; # Also works</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb42-2"><a href="#cb42-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
+<span id="cb42-3"><a href="#cb42-3"></a></span>
+<span id="cb42-4"><a href="#cb42-4"></a><span class="va">file=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb42-5"><a href="#cb42-5"></a></span>
+<span id="cb42-6"><a href="#cb42-6"></a><span class="bu">echo</span> <span class="st">&quot;Filename:&quot;</span></span>
+<span id="cb42-7"><a href="#cb42-7"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb42-8"><a href="#cb42-8"></a></span>
+<span id="cb42-9"><a href="#cb42-9"></a><span class="co"># We can get the number of rows simply by counting the number of lines:</span></span>
+<span id="cb42-10"><a href="#cb42-10"></a><span class="co"># To avoid printing the filename we redirect the input like below</span></span>
+<span id="cb42-11"><a href="#cb42-11"></a><span class="co"># (Or we could have done: &quot;cat ../data/Saavedra2013/n10.txt | wc -l&quot;)</span></span>
+<span id="cb42-12"><a href="#cb42-12"></a><span class="bu">echo</span> <span class="st">&quot;Number of rows:&quot;</span></span>
+<span id="cb42-13"><a href="#cb42-13"></a><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb42-14"><a href="#cb42-14"></a></span>
+<span id="cb42-15"><a href="#cb42-15"></a><span class="co"># To count the number of columns, we use awk - recall that NF is the number</span></span>
+<span id="cb42-16"><a href="#cb42-16"></a><span class="co"># of fields (columns), and to print that number only for a single line, we exit:</span></span>
+<span id="cb42-17"><a href="#cb42-17"></a><span class="bu">echo</span> <span class="st">&quot;Number of columns:&quot;</span></span>
+<span id="cb42-18"><a href="#cb42-18"></a><span class="fu">awk</span> <span class="st">&#39;{ print NF; exit }&#39;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb42-19"><a href="#cb42-19"></a></span>
+<span id="cb42-20"><a href="#cb42-20"></a><span class="co"># head -n 1 &quot;$file&quot; | awk &#39;{ print NF }&#39; # Also works</span></span></code></pre></div>
 <p>We can save this script as <code>netsize.sh</code> and make it executable using <code>chmod u+x netsize.sh</code>.</p>
 </p>
 </details>
 <details>
 <p><summary>2. Write a script that prints the number of rows and columns for each network.</summary></p>
 <p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb40-2"><a href="#cb40-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
-<span id="cb40-3"><a href="#cb40-3"></a></span>
-<span id="cb40-4"><a href="#cb40-4"></a><span class="va">dir=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
-<span id="cb40-5"><a href="#cb40-5"></a></span>
-<span id="cb40-6"><a href="#cb40-6"></a><span class="co"># We can loop over the files using globbing:</span></span>
-<span id="cb40-7"><a href="#cb40-7"></a><span class="kw">for</span> <span class="fu">file</span> in <span class="st">&quot;</span><span class="va">$dir</span><span class="st">&quot;</span>/*.txt<span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb40-8"><a href="#cb40-8"></a></span>
-<span id="cb40-9"><a href="#cb40-9"></a>    <span class="co"># Next, we can save the number of rows and columns in variables:</span></span>
-<span id="cb40-10"><a href="#cb40-10"></a>    <span class="va">n_row=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb40-11"><a href="#cb40-11"></a>    <span class="va">n_col=$(</span><span class="fu">awk</span> <span class="st">&#39;{ print NF; exit }&#39;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span><span class="va">)</span></span>
-<span id="cb40-12"><a href="#cb40-12"></a>    </span>
-<span id="cb40-13"><a href="#cb40-13"></a>    <span class="co"># And print them all on one line:</span></span>
-<span id="cb40-14"><a href="#cb40-14"></a>    <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">$file</span><span class="st"> \t </span><span class="va">$n_row</span><span class="st"> \t </span><span class="va">$n_col</span><span class="st">&quot;</span></span>
-<span id="cb40-15"><a href="#cb40-15"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb43-2"><a href="#cb43-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
+<span id="cb43-3"><a href="#cb43-3"></a></span>
+<span id="cb43-4"><a href="#cb43-4"></a><span class="va">dir=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb43-5"><a href="#cb43-5"></a></span>
+<span id="cb43-6"><a href="#cb43-6"></a><span class="co"># We can loop over the files using globbing:</span></span>
+<span id="cb43-7"><a href="#cb43-7"></a><span class="kw">for</span> <span class="fu">file</span> in <span class="st">&quot;</span><span class="va">$dir</span><span class="st">&quot;</span>/*.txt<span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb43-8"><a href="#cb43-8"></a></span>
+<span id="cb43-9"><a href="#cb43-9"></a>    <span class="co"># Next, we can save the number of rows and columns in variables:</span></span>
+<span id="cb43-10"><a href="#cb43-10"></a>    <span class="va">n_row=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb43-11"><a href="#cb43-11"></a>    <span class="va">n_col=$(</span><span class="fu">awk</span> <span class="st">&#39;{ print NF; exit }&#39;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb43-12"><a href="#cb43-12"></a>    </span>
+<span id="cb43-13"><a href="#cb43-13"></a>    <span class="co"># And print them all on one line:</span></span>
+<span id="cb43-14"><a href="#cb43-14"></a>    <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">$file</span><span class="st"> \t </span><span class="va">$n_row</span><span class="st"> \t </span><span class="va">$n_col</span><span class="st">&quot;</span></span>
+<span id="cb43-15"><a href="#cb43-15"></a><span class="kw">done</span></span></code></pre></div>
 <p>We can save this script as <code>netsize_all.sh</code> and run it as follows:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1"></a><span class="va">dir=</span>../data/Saavedra2013</span>
-<span id="cb41-2"><a href="#cb41-2"></a><span class="ex">./netsize_all.sh</span> <span class="st">&quot;</span><span class="va">$dir</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1"></a><span class="ex">./netsize_all.sh</span> ../data/Saavedra2013</span></code></pre></div>
 </p>
 </details>
 <details>
 <p><summary>3. Which network has the largest number of rows and which the largest number of columns?</summary></p>
 <p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1"></a><span class="co"># Having written the script netsize_all.sh, you can  take its output and order</span></span>
-<span id="cb42-2"><a href="#cb42-2"></a><span class="co"># it according to rows or columns.</span></span>
-<span id="cb42-3"><a href="#cb42-3"></a></span>
-<span id="cb42-4"><a href="#cb42-4"></a><span class="co"># Sorting by column 2 gives you the file name with the largest number of rows:</span></span>
-<span id="cb42-5"><a href="#cb42-5"></a>$ <span class="ex">./netsize_all.sh</span> <span class="kw">|</span> <span class="fu">sort</span> -n -r -k 2 <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
-<span id="cb42-6"><a href="#cb42-6"></a><span class="co">#&gt; ../data/Saavedra2013/n58.txt 678 90</span></span>
-<span id="cb42-7"><a href="#cb42-7"></a></span>
-<span id="cb42-8"><a href="#cb42-8"></a><span class="co"># Sorting by column 3 gives you the file with the largest number of columns:</span></span>
-<span id="cb42-9"><a href="#cb42-9"></a></span>
-<span id="cb42-10"><a href="#cb42-10"></a>$ <span class="ex">./netsize_all.sh</span> <span class="kw">|</span> <span class="fu">sort</span> -n -r -k 3 <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
-<span id="cb42-11"><a href="#cb42-11"></a><span class="co">#&gt;  ../data/Saavedra2013/n56.txt 110 207</span></span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># Having written the script netsize_all.sh,</span></span>
+<span id="cb45-2"><a href="#cb45-2"></a><span class="co"># you can take its output and order it according to rows or columns.</span></span>
+<span id="cb45-3"><a href="#cb45-3"></a></span>
+<span id="cb45-4"><a href="#cb45-4"></a><span class="co"># Sorting by column 2 gives you the file with the largest number of rows:</span></span>
+<span id="cb45-5"><a href="#cb45-5"></a>$ <span class="ex">./netsize_all.sh</span> <span class="kw">|</span> <span class="fu">sort</span> -n -r -k 2 <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
+<span id="cb45-6"><a href="#cb45-6"></a><span class="co">#&gt; ../data/Saavedra2013/n58.txt 678 90</span></span>
+<span id="cb45-7"><a href="#cb45-7"></a></span>
+<span id="cb45-8"><a href="#cb45-8"></a><span class="co"># Sorting by column 3 gives you the file with the largest number of columns:</span></span>
+<span id="cb45-9"><a href="#cb45-9"></a></span>
+<span id="cb45-10"><a href="#cb45-10"></a>$ <span class="ex">./netsize_all.sh</span> <span class="kw">|</span> <span class="fu">sort</span> -n -r -k 3 <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
+<span id="cb45-11"><a href="#cb45-11"></a><span class="co">#&gt;  ../data/Saavedra2013/n56.txt 110 207</span></span></code></pre></div>
 </p>
 </details>
 <h3 id="exercise-7">Exercise 7</h3>
 <details>
 <p><summary>Solution</summary></p>
 <p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb43-2"><a href="#cb43-2"></a></span>
-<span id="cb43-3"><a href="#cb43-3"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
-<span id="cb43-4"><a href="#cb43-4"></a></span>
-<span id="cb43-5"><a href="#cb43-5"></a><span class="va">file=$1</span>    <span class="co"># $1 is the file name</span></span>
-<span id="cb43-6"><a href="#cb43-6"></a><span class="va">column=$2</span>  <span class="co"># $2 is the column of interest</span></span>
-<span id="cb43-7"><a href="#cb43-7"></a></span>
-<span id="cb43-8"><a href="#cb43-8"></a><span class="bu">echo</span> <span class="st">&quot;Column name:&quot;</span></span>
-<span id="cb43-9"><a href="#cb43-9"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
-<span id="cb43-10"><a href="#cb43-10"></a></span>
-<span id="cb43-11"><a href="#cb43-11"></a><span class="co"># In the next lines, we need to skip the header, which we can do using</span></span>
-<span id="cb43-12"><a href="#cb43-12"></a><span class="co"># tail -n +2</span></span>
-<span id="cb43-13"><a href="#cb43-13"></a><span class="bu">echo</span> <span class="st">&quot;Number of distinct values:&quot;</span></span>
-<span id="cb43-14"><a href="#cb43-14"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="kw">|</span> <span class="fu">wc</span> -l</span>
-<span id="cb43-15"><a href="#cb43-15"></a></span>
-<span id="cb43-16"><a href="#cb43-16"></a><span class="bu">echo</span> <span class="st">&quot;Minimum value:&quot;</span></span>
-<span id="cb43-17"><a href="#cb43-17"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">sort</span> -n <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
-<span id="cb43-18"><a href="#cb43-18"></a></span>
-<span id="cb43-19"><a href="#cb43-19"></a><span class="bu">echo</span> <span class="st">&quot;Maximum value:&quot;</span></span>
-<span id="cb43-20"><a href="#cb43-20"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">sort</span> -n <span class="kw">|</span> <span class="fu">tail</span> -n 1</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb46-2"><a href="#cb46-2"></a></span>
+<span id="cb46-3"><a href="#cb46-3"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
+<span id="cb46-4"><a href="#cb46-4"></a></span>
+<span id="cb46-5"><a href="#cb46-5"></a><span class="va">file=$1</span>    <span class="co"># $1 is the file name</span></span>
+<span id="cb46-6"><a href="#cb46-6"></a><span class="va">column=$2</span>  <span class="co"># $2 is the column of interest</span></span>
+<span id="cb46-7"><a href="#cb46-7"></a></span>
+<span id="cb46-8"><a href="#cb46-8"></a><span class="bu">echo</span> <span class="st">&quot;Column name:&quot;</span></span>
+<span id="cb46-9"><a href="#cb46-9"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
+<span id="cb46-10"><a href="#cb46-10"></a></span>
+<span id="cb46-11"><a href="#cb46-11"></a><span class="co"># In the next lines, we need to skip the header, which we can do using</span></span>
+<span id="cb46-12"><a href="#cb46-12"></a><span class="co"># tail -n +2</span></span>
+<span id="cb46-13"><a href="#cb46-13"></a><span class="bu">echo</span> <span class="st">&quot;Number of distinct values:&quot;</span></span>
+<span id="cb46-14"><a href="#cb46-14"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="kw">|</span> <span class="fu">wc</span> -l</span>
+<span id="cb46-15"><a href="#cb46-15"></a></span>
+<span id="cb46-16"><a href="#cb46-16"></a><span class="bu">echo</span> <span class="st">&quot;Minimum value:&quot;</span></span>
+<span id="cb46-17"><a href="#cb46-17"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">sort</span> -n <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
+<span id="cb46-18"><a href="#cb46-18"></a></span>
+<span id="cb46-19"><a href="#cb46-19"></a><span class="bu">echo</span> <span class="st">&quot;Maximum value:&quot;</span></span>
+<span id="cb46-20"><a href="#cb46-20"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">sort</span> -n <span class="kw">|</span> <span class="fu">tail</span> -n 1</span></code></pre></div>
 <ul>
-<li>If we save the script as <code>explore.sh</code>, we can run it using:</li>
+<li>If we save the script as <code>explore.sh</code>, and make it executable, we can run it using:</li>
 </ul>
-<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1"></a><span class="fu">bash</span> explore.sh ../data/Buzzard2015_data.csv 6</span>
-<span id="cb44-2"><a href="#cb44-2"></a></span>
-<span id="cb44-3"><a href="#cb44-3"></a><span class="co"># Column name</span></span>
-<span id="cb44-4"><a href="#cb44-4"></a><span class="co"># Abund.n</span></span>
-<span id="cb44-5"><a href="#cb44-5"></a><span class="co"># Number of distinct values:</span></span>
-<span id="cb44-6"><a href="#cb44-6"></a><span class="co"># 46</span></span>
-<span id="cb44-7"><a href="#cb44-7"></a><span class="co"># Minimum value:</span></span>
-<span id="cb44-8"><a href="#cb44-8"></a><span class="co"># 1</span></span>
-<span id="cb44-9"><a href="#cb44-9"></a><span class="co"># Maximum value:</span></span>
-<span id="cb44-10"><a href="#cb44-10"></a><span class="co"># 157</span></span>
-<span id="cb44-11"><a href="#cb44-11"></a></span>
-<span id="cb44-12"><a href="#cb44-12"></a><span class="co"># This works well also for alphabetical order:</span></span>
-<span id="cb44-13"><a href="#cb44-13"></a></span>
-<span id="cb44-14"><a href="#cb44-14"></a><span class="fu">bash</span> explore.sh ../data/Buzzard2015_data.csv 3</span>
-<span id="cb44-15"><a href="#cb44-15"></a></span>
-<span id="cb44-16"><a href="#cb44-16"></a><span class="co"># Column name</span></span>
-<span id="cb44-17"><a href="#cb44-17"></a><span class="co"># genus</span></span>
-<span id="cb44-18"><a href="#cb44-18"></a><span class="co"># Number of distinct values:</span></span>
-<span id="cb44-19"><a href="#cb44-19"></a><span class="co"># 85</span></span>
-<span id="cb44-20"><a href="#cb44-20"></a><span class="co"># Minimum value:</span></span>
-<span id="cb44-21"><a href="#cb44-21"></a><span class="co"># Acacia</span></span>
-<span id="cb44-22"><a href="#cb44-22"></a><span class="co"># Maximum value:</span></span>
-<span id="cb44-23"><a href="#cb44-23"></a><span class="co"># Zanthoxylum</span></span></code></pre></div>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1"></a><span class="ex">./explore.sh</span> ../data/Buzzard2015_data.csv 6</span>
+<span id="cb47-2"><a href="#cb47-2"></a></span>
+<span id="cb47-3"><a href="#cb47-3"></a><span class="co"># Column name</span></span>
+<span id="cb47-4"><a href="#cb47-4"></a><span class="co"># Abund.n</span></span>
+<span id="cb47-5"><a href="#cb47-5"></a><span class="co"># Number of distinct values:</span></span>
+<span id="cb47-6"><a href="#cb47-6"></a><span class="co"># 46</span></span>
+<span id="cb47-7"><a href="#cb47-7"></a><span class="co"># Minimum value:</span></span>
+<span id="cb47-8"><a href="#cb47-8"></a><span class="co"># 1</span></span>
+<span id="cb47-9"><a href="#cb47-9"></a><span class="co"># Maximum value:</span></span>
+<span id="cb47-10"><a href="#cb47-10"></a><span class="co"># 157</span></span>
+<span id="cb47-11"><a href="#cb47-11"></a></span>
+<span id="cb47-12"><a href="#cb47-12"></a><span class="co"># This works well also for alphabetical order:</span></span>
+<span id="cb47-13"><a href="#cb47-13"></a></span>
+<span id="cb47-14"><a href="#cb47-14"></a><span class="ex">./explore.sh</span> ../data/Buzzard2015_data.csv 3</span>
+<span id="cb47-15"><a href="#cb47-15"></a></span>
+<span id="cb47-16"><a href="#cb47-16"></a><span class="co"># Column name</span></span>
+<span id="cb47-17"><a href="#cb47-17"></a><span class="co"># genus</span></span>
+<span id="cb47-18"><a href="#cb47-18"></a><span class="co"># Number of distinct values:</span></span>
+<span id="cb47-19"><a href="#cb47-19"></a><span class="co"># 85</span></span>
+<span id="cb47-20"><a href="#cb47-20"></a><span class="co"># Minimum value:</span></span>
+<span id="cb47-21"><a href="#cb47-21"></a><span class="co"># Acacia</span></span>
+<span id="cb47-22"><a href="#cb47-22"></a><span class="co"># Maximum value:</span></span>
+<span id="cb47-23"><a href="#cb47-23"></a><span class="co"># Zanthoxylum</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
