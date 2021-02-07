@@ -21,12 +21,12 @@ class:inverse middle center
 
 ----
 
-# Part II: &lt;br&gt; Shell scripting...
+# Part II: &lt;br&gt; Shell scripting
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/15 (updated: 2021-02-07)
+### 2021/02/11 (updated: 2021-02-07)
 
 ---
 class: inverse middle center
@@ -40,7 +40,7 @@ class: inverse middle center
 - ### [Script header lines and zombie scripts](#header)
 - ### [Command-line arguments for scripts](#args)
 - ### [Putting it all together](#scripts)
-- ### [Dressing up your script](#dress-up)
+- ### [Touching up your script](#touch-up)
 ]
 
 &lt;br&gt;
@@ -86,7 +86,7 @@ name: header
   #!/bin/bash
   ```
 
-- **Without this line**, we would have to call a script as follows:
+- *Without this line*, we would have to call a script as follows:
 
   ```sh
   $ bash script.sh   # "bash" needed to indicate the interpreter
@@ -94,7 +94,7 @@ name: header
 
 --
 
-- **With this line**, we can submit the script to a job scheduler (next week),
+- *With this line*, we can submit the script to a job scheduler (next week),
   and also call the script as follows:
 
   ```sh
@@ -107,7 +107,6 @@ name: header
 
   ```sh
   $ chmod u+x script.sh   # Executable for user/owner of file only (u=user)
-  
   $ chmod a+x script.sh   # Alt: executable for everyone (a=all)
   ```
 
@@ -139,7 +138,8 @@ Why is such behavior a bad idea in scripts?
   rm -rf $TMPPDIR/*   ## DONT TRY THIS!
   ```
 
-- As for errors, you may never notice them if they're subtle and don't cause
+- As for why we want the script to stop after errors:
+  you may never notice them if they're subtle and don't cause
   everything else to error out &amp;ndash; but they could still render the output
   of the zombie script worthless!
 
@@ -408,9 +408,9 @@ done
 
 ---
 class: inverse middle center
-name: arrays
+name: touch-up
 
-# Dressing up your scripts to &lt;br&gt; increase robustness and user-friendliness
+# Touching up your scripts to &lt;br&gt; increase robustness and user-friendliness
 
 ----
 
@@ -418,7 +418,7 @@ name: arrays
 
 ---
 
-## Dressing up your scripts to &lt;br&gt; increase robustness and user-friendliness
+## Touching up your scripts to &lt;br&gt; increase robustness and user-friendliness
 
 - Let's go back to our smaller `line.sh` script to keep things manageable.
   That script also has some arguments we can work with:
@@ -580,13 +580,13 @@ $ if ! echo "$file_name" | grep "fastq" &gt; /dev/null; then
   ```sh
   $ if [ $line -gt $(wc -l &lt; $file) ]; then
         line=$(wc -l &lt; $file)
-        echo "Requested line exceeded line count; printing last line."
+        echo "Requested line exceeds line count; printing last line"
       fi
   ```
 
 ---
 
-## Dressing up your scripts to &lt;br&gt; increase robustness and user-friendliness
+## Touching up your scripts to &lt;br&gt; increase robustness and user-friendliness
 
 This may start to seem silly, but fairly extensive reporting and
 testing can be useful &amp;mdash; and a time-saver eventually.
@@ -719,7 +719,7 @@ name: par-exp
   output_dir=${2:-$input_dir}
   ```
 
-- Now you can call the script (say `sort_bam.sh`) with or without the output dir:
+- Now you can call the script with or without the output dir:
 
   ```sh
   $ sort_bam.sh results/bam results/bam

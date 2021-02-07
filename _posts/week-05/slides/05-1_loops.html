@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/15 (updated: 2021-02-07)
+### 2021/02/09 (updated: 2021-02-07)
 
 ---
 
@@ -43,60 +43,6 @@ class:inverse middle center
   # Lost the repo? Go to your directory and run:
   # git clone https://github.com/vsbuffalo/bds-files.git
   ```
-
----
-background-color: #f2f5eb
-
-## Some quick information about your Final Project
-
-**The project should:**
-
-- Be well-organized, and well-documented using Markdown READMEs.
-
-- Be version-controlled throughout, and repeatedly "pushed" to Github.
-
---
-
-- Be re-runnable using a single Snakemake control script ("Snakefile").
-
-- Should have (most) analysis or data processing done using scripts  
-  in bash and/or Python.
-
-- Optionally run jobs at OSC.
-
----
-background-color: #f2f5eb
-
-## Some quick information about your Final Project
-
-- So, lots of "infrastructure" requirements &amp;mdash;
-  therefore, no need to devise a complicated project with many scripts.
-
-&lt;br&gt;
-
---
-
-- We encourage you to *use your own data or find a dataset yourself*,  
-  but Zach will also provide a dataset with accompanying project ideas if
-  you prefer to do that. (And we can dig up other datasets if needed.)
-
-&lt;br&gt;
-
---
-
-- You are quite free regarding the **topic** of the project:
-  
-  - From answering an actual or contrived research question...
-  
-  - ...to automating something "boring" that you until now always did manually. 
-
----
-background-color: #f2f5eb
-
-## Some quick information about your Final Project
-
-Your project proposal is not due until the week of March 23rd,
-but you may want to slowly start thinking about this.
 
 ---
 class: inverse middle center
@@ -770,8 +716,8 @@ name: arrays
 
 ## Conditionals
 
-- With conditionals, we can run one or more commands only if some condition is true,
-  and we can also run alternative commands if the condition is not true.
+- With conditionals, we can **run one or more commands only if some condition is
+  true**. Also, we can run a different set of commands if the condition is _not_ true.
   
   For instance, we may want to process a file differently depending
   on its file type.
@@ -1111,7 +1057,7 @@ class: inverse middle center
 ---
 class: inverse middle center
 
-# Bonus Materials
+# Bonus material
 
 ----
 
@@ -1119,7 +1065,7 @@ class: inverse middle center
 
 .left[
 - ### [While loops (and the read command)](#while)
-- ### [The `IFS` and working with problematic file names]
+- ### [The IFS and working with problematic file names](#ifs)
 ]
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
@@ -1271,10 +1217,19 @@ $ while read -r sample_name readpair_member fastq_file; do
 ```
 
 ---
-background-color: #f2f5eb
+class: inverse middle center
 name: ifs
 
-## Setting `IFS` to work with arrays with problematic filenames
+# The IFS and working with problematic file names
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+background-color: #f2f5eb
+
+## Setting `IFS` to work with arrays &lt;br&gt; with problematic filenames
 
 The problematic splitting behavior can be circumvented by setting the
 Internal Field Separator (`IFS`), which guides the splitting behavior:
