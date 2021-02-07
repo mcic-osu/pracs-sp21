@@ -1,5 +1,5 @@
 ---
-title: "Week 1 Exercises"
+title: "Week 5 Exercises"
 output:
   distill::distill_article:
     self_contained: false
@@ -423,7 +423,7 @@ You can select a given column from a `csv` file using the command `cut`. Then,
 
 ## Solutions
 
-### Exercise 1: Getting set up
+### Exercise 1
 
 <details>
 
@@ -454,7 +454,7 @@ cp /fs/ess/PAS1855/data/week05/fastq/* data/fastq/
 
 </details>
 
-### Exercise 2: Create a script to compute stats for a FASTQ file
+### Exercise 2
 
 <details>
 
@@ -658,7 +658,7 @@ $ chmod u+x *sh
 
 </details>
 
-### Exercise 3: Modify the looping script
+### Exercise 3
 
 <details>
 
@@ -842,7 +842,7 @@ ls data/*fastq >"$file_list"
 
 </details>
 
-### Exercise 4: Bells and whistles
+### Exercise 4
 
 <details>
 
@@ -1008,7 +1008,7 @@ date
 
 </details>
 
-### Exercise 5: Find the file with the most sequences
+### Exercise 5
 
 <details>
 
@@ -1042,7 +1042,7 @@ wc -l "$dir"/*."$extension" | sort -rn | head -n 2 | tail -n 1
 
 </details>
 
-### Exercise 6: Plant-pollinator networks
+### Exercise 6
 
 <details>
 
@@ -1138,7 +1138,7 @@ $ ./netsize_all.sh | sort -n -r -k 3 | head -n 1
 
 </details>
 
-### Exercise 7: Data explorer
+### Exercise 7
 
 <details>
 
