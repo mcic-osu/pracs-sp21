@@ -47,6 +47,60 @@ name: overview
 ]
 
 ---
+background-color: #f2f5eb
+
+## Some quick information about your Final Project
+
+**The project should:**
+
+- Be well-organized, and well-documented using Markdown READMEs.
+
+- Be version-controlled throughout, and repeatedly "pushed" to Github.
+
+--
+
+- Be re-runnable using a single Snakemake control script ("Snakefile").
+
+- Should have (most) analysis or data processing done using scripts  
+  in bash and/or Python.
+
+- Optionally run jobs at OSC.
+
+---
+background-color: #f2f5eb
+
+## Some quick information about your Final Project
+
+- So, lots of "infrastructure" requirements &mdash;
+  therefore, no need to devise a complicated project with many scripts.
+
+<br>
+
+--
+
+- We encourage you to *use your own data or find a dataset yourself*,  
+  but Zach will also provide a dataset with accompanying project ideas if
+  you prefer to do that. (And we can dig up other datasets if needed.)
+
+<br>
+
+--
+
+- You are quite free regarding the **topic** of the project:
+  
+  - From answering an actual or contrived research question...
+  
+  - ...to automating something "boring" that you until now always did manually. 
+
+---
+background-color: #f2f5eb
+
+## Some quick information about your Final Project
+
+Your project proposal is not due until the week of March 23rd,
+but you may want to slowly start thinking about this.
+
+---
 class: inverse middle center
 name: introduction
 
