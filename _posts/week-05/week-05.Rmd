@@ -1,0 +1,19 @@
+---
+title: "Week 05"
+description: |
+  Shell scripting
+date: 2021-02-08
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+### Slides
+
+- [Slides: Part I -- Variables, loops, arrays, and conditionals](slides/05-1_loops.html) -- Tuesday Zoom (Feb 9)
+
+- [Slides: Part II -- Shell scripting](slides/05-2_scripts.html) -- Thursday Zoom (Feb 11)
+
+### Ungraded assignments
+
+- [Exercises for week 5](../../w05_exercises.html)

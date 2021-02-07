@@ -183,14 +183,24 @@ name: shell-intro
 ## 1.4.1 &ndash; Command structure
 
 <p align = "center">
-<img src=img/command-structure.png width="90%">
+<img src=img/command-structure-1.svg width="90%">
 </p>
 
-.content-box-info[
-- At least one space between a command and its options/arguments is required.
+---
 
-- `[]` indicates that an option or argument is *optional*.
-]
+## 1.4.1 &ndash; Command structure
+
+<p align = "center">
+<img src=img/command-structure-2.svg width="90%">
+</p>
+
+---
+
+## 1.4.1 &ndash; Command structure
+
+<p align = "center">
+<img src=img/command-structure-3.svg width="90%">
+</p>
 
 ---
 
@@ -426,7 +436,7 @@ name: basic
 
 - The `-r` option is needed for recursive copying:
   ```sh
-  $ cp -r ../data . 
+  $ cp -r ../data/ . 
   ```
 
 ---
@@ -508,7 +518,6 @@ $ cd ../data   # Move to the data dir for the next commands
     here to skip the header:
     ```sh
     $ tail -n +2 Gesquiere2011_data.csv
-    $ tail -n +2 Gesquiere2011_data.csv | head # Easier to check
     ```
 
 ---
@@ -617,6 +626,8 @@ Unfortunately, we can't *reorder* columns using `cut`.
 Let's say we want an alphabetically sorted list of animal *orders* from
 the `Pacifici2013_data.csv` file...
 
+--
+
 - First, we select our column of interest, and get rid of the header line:
   ```sh
   $ cut -d ";" -f 2 Pacifici2013_data.csv | \
@@ -633,7 +644,7 @@ the `Pacifici2013_data.csv` file...
   ```
 
 .content-box-info[
-`uniq` only works (as you intend it to) on sorted data.
+`uniq` only removes all duplicates for *sorted* data.
 ]
 
 ---
@@ -708,6 +719,8 @@ We'll talk more about regular expressions later.
   $ grep -v "Vombatidae" Pacifici2013_data.csv  # v for inVert
   ```
 
+--
+
 .content-box-info[
 - It is best to always use quotes around the pattern
 - Incomplete matches work: "`Vombat`" matches `Vombatidae`
@@ -719,7 +732,7 @@ We'll talk more about regular expressions later.
   
   - `-c` to count matches
   - `-i` to ignore case
-  - `-r` to search file recursively -- **very useful**
+  - `-r` to search file recursively &ndash; **very useful**
   - `-B` and `-A` to print lines surrounding matches
   - `-w` to match "words"
   

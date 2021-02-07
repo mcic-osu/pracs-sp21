@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 2 - Part II - Markdown and VS Code</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+## *Week 2: &lt;br&gt; Project Organization and Markdown*
+
+----
+
+# Part II: VS Code and Markdown
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021-01-19 (updated: 2021-01-21)
+
+---
+class: center middle inverse
+
+# Overview
+
+----
+
+### [Getting started with VS Code](#osc-vscode)
+### [An introduction to Markdown](#markdown)
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+name:osc-vscode
+
+## Starting VS Code at OSC
+
+1. Go to &lt;https://ondemand.osc.edu&gt; in your browser, and log in.
+
+2. Click on `Interactive Apps` in the blue top bar.
+
+3. Near the bottom, click `Code Server`.
+
+4. In the form:
+   - Under `Number of hours`, select 1 or 2 hours.
+   - Under `Working directory`, type `/fs/ess/PAS1855`.
+
+5. Click the blue `Launch` button, and you'll move to a different page.
+
+5. Once the top bar of the box is green, and click `Connect to VS Code`.
+
+&lt;p align="center"&gt;
+&lt;img src=img/osc-code-launch.png width="55%"&gt;
+&lt;/p&gt;
+
+---
+
+## Why VS Code?
+
+- Works with all operating systems, is free, and open source.
+
+- IDE-like features such as an integrated terminal.
+
+- Very popular nowadays &amp;ndash; lots of development going on including by users
+  (*extensions*).
+
+- Available at OSC OnDemand (and also allows you to SSH-tunnel-in with 
+  your local installation). 
+
+&lt;br&gt;
+
+.content-box-info[
+**More resources to get started with VS Code:**
+
+- [A useful VS Code intro Video ](https://www.youtube.com/watch?v=S320N3sxinE&amp;list=PLj6YeMhvp2S5UgiQnBfvD7XgOMKs3O_G6) (+ more in the playlist.)
+
+- The `Welcome` tab that automatically opened
+  (which you can also pull up again by clicking: <i class="fas  fa-bars "></i> &gt;
+  `Help` &gt; `Welcome`).
+
+- Some handy keyboard shortcuts are in the
+  [bonus slides](#vscode-kbd).
+]
+
+---
+
+## VS Code: Getting started
+
+- **Color themes**: Press the gear icon <i class="fas  fa-cog "></i> and then
+  `Color Theme` to try out different color themes. (I like "*Quiet Light*".)
+
+--
+
+- **Workspaces**: To save which files you have open in a project,
+  and designate the top-level dir as the working dir.
+  
+.content-box-diy[
+**Save a workspace.**
+
+- Click `File` &gt; `Open Folder` and open your personal dir
+  (`/fs/PAS1855/users/&lt;username&gt;`.)
+
+- Click `File` &gt; `Save Workspace As` and pick a name like `PLNTPTH8300-SP21`,
+  `pracs-sp21`, etc.
+]
+
+--
+
+- **Split** the editor window vertically (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;\&lt;/kbd&gt;).
+
+- **Command Palette**: To access all VS Code commands
+  (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;P&lt;/kbd&gt;).
+
+---
+
+## VS Code: Side bars
+
+- Click `View` &gt; `Appearance` &gt; `Activity Bar` to toggle the narrow side bar.
+
+  This bar mainly serves to switch between different options for the wide
+  side bar (see below).
+
+&lt;br&gt;
+
+- &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt; to toggle the wide **side bar**,
+  which can show:
+    
+  - ***Explorer***: File browser &amp; outline for the active file.
+    
+  - ***Search***: To search recursively across all files in the active folder.
+    
+  - ***Extensions***: To install extensions (*up soon*).
+    
+  - ***Source Control***: To work with Git (*next week*).
+      
+  - Debugger
+
+---
+
+## VS Code: Open a terminal
+
+- To open a terminal, press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; (or
+  &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;C&lt;/kbd&gt;).
+  
+- In the terminal, the prompt says `Singularity&gt;`.
+  This is because in OSC OnDemand, VS Code runs inside a Singularity container.
+  
+  To break out of the Singularity shell, Type `bash` and press &lt;kbd&gt;Enter&lt;/kbd&gt;. 
+
+--
+
+.content-box-info[
+Now we have a working bash shell.
+If you type `pwd`, you'll notice that you're in the dir you opened earlier
+in VS Code.
+  
+If you also open a folder / use a workspace for the top-level dir of
+your actual projects, you should very rarely need to `cd`,
+and can stick to relative paths.
+]
+
+--
+
+.content-box-diy[
+**Create a directory** for this week, e.g.:
+```sh
+mkdir week02  # inside /fs/ess/PAS1855/users/$USER
+```
+]
+
+---
+
+## <i class="fas  fa-user-edit "></i> VS Code: Extensions
+
+.content-box-diy[
+**Install a couple of useful extensions:**
+
+- Click the gear icon <i class="fas  fa-cog "></i> and then `Extensions`,
+  and search for:
+  
+  - **shellcheck** (by *simonwong*)
+  
+  - **Python** (by *Microsoft*)
+  
+  - **Rainbow CSV** (by *mechatroner*)
+]
+
+&lt;br&gt;
+
+.content-box-diy[
+*If you have VS Code installed locally, install this extension pack
+later:*
+
+  - **Remote Development** (*Microsoft*)
+]
+
+---
+class: inverse middle center
+name: markdown
+
+# An introduction to Markdown
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## About Markdown
+
+- **Markdown is a very lightweight text markup language:**
+  
+  - *Easy to write* &amp;ndash; a dozen syntax constructs is nearly all you use.
+  
+  - *Easy to read* &amp;ndash; also in its raw (non-*rendered*) form.
+
+&lt;br&gt;
+
+--
+
+- For instance: surrounding one or more characters by single or double asterisks
+  (**`*`**) will make those characters italic or bold, respectively:
+  
+  - Writing `*italic example*` &amp;mdash; rendered as: *italic example*.
+  
+  - Writing `**bold example**` &amp;mdash; rendered as: **bold example**.
+
+&lt;br&gt;
+
+.content-box-info[
+Learn more about Markdown and its syntax in this excellent documentation:
+&lt;https://www.markdownguide.org/&gt;
+]
+
+---
+
+## Getting VS Code ready to try Markdown
+
+1. **Hide the *Side Bar*** to gain screen space:
+   press &lt;kbd&gt;Ctrl/⌘&lt;/kbd&gt;+&lt;kbd&gt;B&lt;/kbd&gt;.
+
+2. **Open a new file:**
+   Click the hamburger menu <i class="fas  fa-bars "></i>, 
+   then `File` &gt; `New File`.
+   
+3. Markdown files have the extension `.md`.
+
+  **Save the file** (&lt;kbd&gt;Ctrl/⌘&lt;/kbd&gt;+&lt;kbd&gt;S&lt;/kbd&gt;),
+  inside the dir you just created,  
+  as a Markdown file, e.g. `markdown-intro.md`.
+  
+--
+
+&lt;br&gt;
+
+- When you save a file in VS Code with an `.md` extension:
+  
+  - Some formatting will be automatically applied *in the editor*.
+  
+  - You can open a live preview of the *rendered version* by pressing the icon to
+    "*Open Preview to the Side*" (top-right corner):
+
+&lt;p align="center"&gt;
+&lt;img src=img/markdown-preview-vscode.png width=8%&gt;
+&lt;/p&gt;
+
+
+---
+
+## VS Code setup &amp;ndash; Thursday
+
+- **Launch VS Code**: Go to &lt;https://ondemand.osc.edu&gt; =&gt; `Interactive Apps` =&gt;
+  `Code Server` =&gt; 1 or 2 hours =&gt; `Launch` ... =&gt; `Connect to VS Code`.
+  
+- **Open your workspace**: On the *Welcome* page, under the heading `Recent`,
+  your workspace should be listed ("`&lt;workspace-name&gt; (Workspace)`").
+  
+  *If you didn't save a workspace yet:*
+    - <i class="fas  fa-bars "></i> =&gt; `File` =&gt; `Open Folder` =&gt;
+      `/fs/ess/PAS1855/users/&lt;name&gt;`.
+    - <i class="fas  fa-bars "></i> =&gt; `File` =&gt; `Save Workspace as`.
+
+- **Open your Markdown file** from Tuesday using the *Explorer* side bar.
+
+- **Open the Preview:** "*Open Preview to the Side*" icon in top-right corner.
+
+.content-box-diy[
+**Add keyboard shortcut to run shell commands from the editor:**
+
+- Click the <i class="fas  fa-cog "></i> (bottom-left) =&gt; `Keyboard Shortcuts`.
+
+- Find `Terminal: Run Selected Text in Active Terminal`, click on it,
+  then add a shortcut, e.g. &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt;.
+]
+
+---
+
+## Most commonly used Markdown syntax
+
+| Syntax            | Result
+|-------------------|-------|
+| \*italic\*        | *italic* (alternative: single `_`)
+| \*\*bold\*\*      | **bold** (alternative: double `_`)
+| \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
+| \!\[\](path/to/figure.png)   | Figure
+
+&lt;br&gt; &lt;br&gt;
+
+.content-box-info[
+In VS Code, when you **select some text and then press `*`**,  
+the selected text will be *surrounded* by asterisks.  
+
+Depending on the file type, this also works when typing the *opening character*
+for open-close characters like **`()`**, **`&lt;&gt;`**, ***`{}`** and **`[]`**.
+]
+
+---
+
+## Most commonly used Markdown syntax
+
+| Syntax            | Result
+|-------------------|-------|
+| \*italic\*        | *italic* (alternative: single `_`)
+| \*\*bold\*\*      | **bold** (alternative: double `_`)
+| \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
+| \!\[\](path/to/figure.png)   | Figure
+| # My Title        | Header level 1 (largest)
+| ## My Section     | Header level 2
+| ### My Subsection | Header level 3 &amp;ndash; and so forth
+| - List item       | Unordered (bulleted) list
+| 1. List item      | Ordered (numbered) list
+
+---
+
+## Most commonly used Markdown syntax
+
+| Syntax            | Result
+|-------------------|-------|
+| \*italic\*        | *italic* (alternative: single `_`)
+| \*\*bold\*\*      | **bold** (alternative: double `_`)
+| \[link text\]\(website.com\)   | Link with custom text: [link text](https://website.com)
+| \!\[\](path/to/figure.png)   | Figure
+| # My Title        | Header level 1 (largest)
+| ## My Section     | Header level 2
+| ### My Subsection | Header level 3 &amp;ndash; and so forth
+| - List item       | Unordered (bulleted) list
+| 1. List item      | Ordered (numbered) list
+| `` `inline code` `` | `inline code`
+| ```` ``` ```` or 4 leading spaces     | Start/end of generic code block
+| ```` ```bash ```` | Start of `bash` code block (end with ```` ``` ````)
+| `---`             | Horizontal rule (line)
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+```sh
+```
+
+---
+
+## Whitespace in Markdown
+
+- It's recommended (in some cases necessary) to leave a  
+  *blank line between different sections*: lists, headers, etc.:
+
+.content-box-purple[
+```
+## Section 2: List of ...
+
+- Item 1
+- Item 2
+
+For example, ....
+```
+]
+
+---
+
+## Whitespace in Markdown (cont.)
+
+- *A blank line between regular text* will start a **new paragraph**,  
+  with some whitespace between the two:
+ 
+.pull-left[ 
+**This:**  
+.content-box-purple[
+```
+Paragraph 1.
+  
+Paragraph 2.
+```
+]
+]
+
+.pull-right[
+**Will be rendered as:**  
+.content-box-green[
+Paragraph 1.
+
+Paragraph 2.
+]
+]
+
+---
+
+## Whitespace in Markdown (cont.)
+
+- **Ignored whitespace**:
+
+  - A *single newline in text*.
+
+.pull-left[
+**This:**  
+.content-box-purple[
+```
+Writing  
+one  
+word  
+per  
+line.
+```
+]
+
+&lt;br&gt;
+
+.content-box-purple[
+```
+Empty             space
+```
+]
+]
+
+.pull-right[
+**Will be rendered as:**  
+.content-box-green[
+Writing one word per line.
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+]
+.content-box-green[
+Empty space
+]
+]
+
+---
+
+## Whitespace in Markdown (cont.)
+
+- **Ignored whitespace**:
+
+  - A *single newline in text*
+
+  - Multiple consecutive spaces / blank lines are treated like a single space
+    or blank line
+  
+.pull-left[
+**This:**  
+.content-box-purple[
+```
+Many
+
+
+
+
+
+
+
+
+blank lines
+```
+]
+]
+
+.pull-right[
+**Will be rendered as:**  
+.content-box-green[
+Many
+
+blank lines
+]
+]
+
+---
+
+## Whitespace in Markdown (cont.)
+
+- A **linebreak** can be forced using *two or more spaces*
+  (i.e., press the spacebar twice) after the last character on a line.
+
+--
+
+- If you want **more vertical whitespace** than what is provided between
+  paragraphs, you'll have to resort to HTML:
+  each **`&lt;br&gt;`** item forces a visible linebreak.
+
+.pull-left[
+**This:**  
+.content-box-purple[
+```
+One &lt;br&gt; word &lt;br&gt; per line
+and &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+several blank lines.
+```
+]
+]
+
+.pull-right[
+**Will be rendered as:**  
+.content-box-green[
+One &lt;br&gt; word &lt;br&gt; per line
+and &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+several blank lines.
+]
+]
+
+---
+
+## Sidenote: HTML in Markdown
+
+.content-box-info[
+**You can use any *HTML* syntax in Markdown!**
+
+- I often use it for figures (sizing, alignment, legends):
+
+  ```HTML
+  &lt;p align="center"&gt;
+  &lt;img src=my.png width=50%&gt;
+  &lt;/p&gt;
+  ```
+  
+- If you need "inline &lt;span style="color:red"&gt;colored&lt;/span&gt; text",
+  you can also use HTML:  
+  `inline &lt;span style="color:red"&gt;colored&lt;/span&gt; text`.
+
+- For systematic styling of existing or custom elements,
+  you need to use **_CSS_**. For example, including the following anywhere
+  in a Markdown document will turn all level 1 headers (`#`) red:
+  ```sh
+  &lt;style&gt;
+  h1 {color: red}
+  &lt;/style&gt;
+  ```
+]
+
+---
+
+## *Pandoc* to render Markdown files
+
+&lt;br&gt;
+
+Use *Pandoc* to ***render* a Markdown file** to, for example, HTML or PDF:
+
+```sh
+$ pandoc README.md &gt; README.html
+$ pandoc -o README.pdf README.md
+```
+
+&lt;br&gt;
+
+.content-box-diy[
+For installation (all OS's): see &lt;https://pandoc.org/installing.html&gt;.
+]
+
+---
+
+## Markdown extensions &amp;ndash; Markdown for everything?!
+
+- Several Markdown *extensions* allow Markdown documents to **contain code
+  that *runs***, and whose output can be included in rendered documents:
+  
+  - R Markdown (`.Rmd`)
+  
+  - Jupyter Notebooks
+
+--
+
+&lt;br&gt;
+
+- **Many possibilities with Markdown!** For instance, consider that:  
+  
+  - These **slides** are written using R Markdown
+  
+  - Our Github course **website** is written using R Markdown
+  
+  - R Markdown also has support for **citations**,
+    **journal-specific formatting**, etc.
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+.left[
+### Bonus slides:
+- ### [VS Code keyboard shortcuts](#vscode-kbd)
+- ### [Some additional Markdown syntax](#md-bonus)
+]
+
+---
+name: vscode-kbd
+background-color: #f2f5eb
+
+## VS Code keyboard shortcuts
+
+- &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; and &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;1&lt;/kbd&gt; to
+  toggle between terminal and editor.  
+
+- *Line actions*:
+  
+  - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;K&lt;/kbd&gt; to **delete a line**
+  ("Delete Line" &amp;ndash; change to &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;D&lt;/kbd&gt;?)
+  
+  - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;X&lt;/kbd&gt; / &lt;kbd&gt;C&lt;/kbd&gt; will **cut/copy the entire line**
+    with nothing selected.
+  
+  - &lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;⬆&lt;/kbd&gt;/&lt;kbd&gt;⬇&lt;/kbd&gt; will **move lines** up or down.
+
+- *Multiple cursors*: Press &amp; hold &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;,
+  then &lt;kbd&gt;⬆&lt;/kbd&gt;/&lt;kbd&gt;⬇&lt;/kbd&gt; arrows to expand.
+
+.content-box-info[
+For a single-page overview of keyboard shortcuts:  
+`Help` &gt; `Keyboard Shortcut Reference`.
+]
+
+.content-box-info[
+You can also import keyboard shortcuts from different editors,  
+in case you're attached one.
+]
+
+---
+background-color: #f2f5eb
+
+## VS Code keyboard shortcuts (cont.)
+
+| Shortcut           | Function
+|--------------------|----------
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;/&lt;/kbd&gt; | Toggle line(s) comment (any language)
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;[&lt;/kbd&gt; / &lt;kbd&gt;]&lt;/kbd&gt; | Fold / unfold code sections
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;I&lt;/kbd&gt; | Format code in active file  
+
+
+&lt;br&gt;
+
+- **Some browser-like shortcuts:**
+  
+  .content-box-info[
+  *These don't work in an actual browser like at OSC OnDemand,  
+  but are handy when working locally.*
+  ]
+  
+| Shortcut           | Function
+|--------------------|----------
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;PgDn&lt;/kbd&gt; / &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;PgUp&lt;/kbd&gt; | Move between editor tabs (or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Tab&lt;/kbd&gt;).
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;W&lt;/kbd&gt; | Close an editor tab.
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;T&lt;/kbd&gt; | Reopen the last editor tab.
+
+---
+background-color: #f2f5eb
+
+## VS Code keyboard shortcuts (cont.)
+
+.content-box-info[
+In *VS Code*, there are default existing keybindings for the
+&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;K&lt;/kbd&gt; (*cut to end of line*) and 
+&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;E&lt;/kbd&gt; (*move cursor to end of line*) combinations,
+so they won't be properly interpreted by the shell.
+
+If you have an &lt;kbd&gt;end&lt;/kbd&gt; key, that will also work to move the cursor
+to the end of the line. Alternatively, you can reconfigure these
+keyboard shortcuts.
+]
+
+---
+name: md-bonus
+background-color: #f2f5eb
+
+## Some additional Markdown syntax
+
+- **Basic syntax**:
+
+| Syntax | Result
+|---------------------------|
+| `&lt;https://website.com&gt;`   | Clickable link: &lt;https://website.com&gt;
+| &gt; Text                    | Blockquote (think quoted text in email)
+
+- **Extended syntax** &amp;ndash; not supported by all interpreters:
+
+| Syntax | Result
+|----------------------------|
+| \~\~strikethrough\~\~      | ~~strikethrough~~
+| Footnote ref[^1]           | Footnote ref&lt;sup&gt;1&lt;/sup&gt;
+| [^1]: Text                 | The actual footnote
+
+  - **Tables**:
+  
+.pull-left[
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; \| syntax \| result  
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; \|------------\|----------\|  
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; \| \*italic\* \| *italic* \|  
+&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; \| \*\*bold\*\* \| **bold** \|  
+]
+
+.pull-right[
+| syntax | result
+|---|
+| \*italic\* | *italic*
+| \*\*bold\*\* | **bold**
+]
+
+---
+background-color: #f2f5eb
+
+## Some handy HTML to use in Markdown
+
+| Syntax | Result |
+|---------------------------|
+| `superscript&lt;sup&gt;2&lt;/sup&gt;` | superscript&lt;sup&gt;2&lt;/sup&gt;
+| `superscript&lt;sub&gt;2&lt;/sub&gt;` | subscript&lt;sub&gt;2&lt;/sub&gt;
+| `&lt;br&gt;`                    | linebreak / empty line
+| `&lt;!-- text --&gt;`           | comment
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

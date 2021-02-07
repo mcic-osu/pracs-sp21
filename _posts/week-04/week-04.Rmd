@@ -1,0 +1,19 @@
+---
+title: "Week 04"
+description: |
+  Unix data tools
+date: 2021-02-01
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+### Slides
+
+- [Slides: Part I -- Unix data tools](slides/04-1_data-tools.html) -- Tuesday Zoom (Feb 2)
+
+- [Slides: Part II -- `awk` and `sed`](slides/04-2_awk-sed.html) -- Thursday Zoom (Feb 4)
+
+### Ungraded assignments
+
+- [Exercises for week 4](../../w04_exercises.html)

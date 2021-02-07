@@ -1,0 +1,29 @@
+---
+title: "Week 03"
+description: |
+  Git & GitHub
+date: 2021-01-25
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+### Slides
+
+- [Slides: Part I -- Getting started with Git](slides/03-1_git.html) -- Tuesday Zoom (Jan 26)
+
+- [Slides: Part II -- Remotes on GitHub, and branching & merging](slides/03-2_git.html) -- Thursday Zoom (Jan 28)
+
+- [Slides: Part III -- Undoing changes and viewing the past](slides/03-3_git.html) -- Thursday / bonus
+
+### Ungraded assignments
+
+- [Git setup & GitHub authentication](../../w03_UA_git-setup.html)
+
+### Graded assignments
+
+- [Graded assignment I: Shell, Markdown and Git](../../w03_GA_git.html)

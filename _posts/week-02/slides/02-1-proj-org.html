@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 2 - Lecture 1 - Project Organization</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+## *Week 2: &lt;br&gt; Project Organization and Markdown*
+----
+# Part I: Project Organization
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021-01-19 (updated: 2021-01-19)
+
+---
+
+## Goals for this week
+
+
+- This presentation:  
+  
+  - Learn some best practices for project organization, documentation,  
+  and management.
+
+&lt;br&gt;
+
+- [Second slide deck (today)]((https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-2-shfiles.html):
+  
+  - Get to know our text editor, *VS Code*, a bit better.
+  
+  - Learn how to use *Markdown* for documentation (and beyond).
+
+&lt;br&gt;
+
+- [Third slide deck (Thursday)]((https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-md.html):  
+
+  - Learn how to manage files in the Unix shell.
+
+---
+
+## Importance of good project organization
+
+&lt;br&gt;
+
+**Good project organization and documentation facilitates:**
+
+- Collaborating with others (and yourself in the future...)
+
+- Reproducibility
+
+- Automation
+
+- Version control
+
+&lt;br&gt;
+
+In short, it is a necessary foundation to use this course's tools and  
+to reach some of its goals.
+
+---
+
+## Project organization &amp;ndash; some underlying principles
+
+- **One dir hierarchy for one project** &amp;mdash; in other words:
+
+  - Don't keep multiple distinct projects inside one dir.
+
+  - Don't keep files for one project in multiple places.
+
+&lt;br&gt;
+
+--
+
+- Within the dir hierarchy:
+
+  - **Separate code from data**
+
+  - **Separate raw data from processed data**
+
+&lt;br&gt;
+
+--
+
+- **Treat raw data as read-only** (and treat generated output as disposable).
+
+- **Use good dir and file naming**.
+
+- **Slow down and document.**
+
+---
+
+## One dir hierarchy for one project
+
+When you have a single directory hierarchy for each project, it is:
+
+- Easier to: find files, share your project,
+  not throw away stuff in error, ...
+
+- Possible to use *relative paths* within a project's scripts =&gt; more portable.
+
+&lt;br&gt;
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-dirs-1.svg width=65%&gt;
+&lt;/p&gt;
+
+---
+
+## One dir hierarchy for one project (cont.)
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-dirs-2.svg width=100%&gt;
+&lt;/p&gt;
+
+---
+
+## One dir hierarchy for one project (cont.)
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-dirs-3.svg width=100%&gt;
+&lt;/p&gt;
+
+---
+
+## One dir hierarchy for one project (cont.)
+
+
+### Absolute versus relative path recap:
+
+- **Absolute paths** start from the root directory,
+  break when moving a project, and don't generally work across computers.
+
+
+- **Relative paths** start from a *working dir*: when you always use the root of
+  the *project* as the working dir, paths work when moving the project within
+  and between computers.
+
+---
+
+## One dir hierarchy for one project (cont.)
+
+### But how to define and separate projects?
+
+From [Wilson et al 2017 - Good Enough Practices in Scientific Computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510):
+
+&gt; *As a rule of thumb, divide work into projects based on the overlap in data and*
+&gt; *code files.*
+&gt;
+&gt; *If 2 research efforts share no data or code,*
+&gt; *they will probably be easiest to manage independently.*  
+&gt;
+&gt; *If they share more than half of their data and code, they are probably best*
+&gt; *managed together.*
+
+&gt; *If you are building tools that are used in several projects,*
+&gt; *the common code should probably be in a project of its own.*
+
+---
+
+## Projects with shared data or code
+
+- To access files outside of the project (e.g., shared across projects),  
+  it is easiest to create **links** to these files:
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-dirs-4.svg width=60%&gt;
+&lt;/p&gt;
+
+
+---
+
+## Projects with shared data or code (cont.)
+
+- But shared data or scripts are generally better stored in separate dirs,  
+  and then linked to by each project using them:
+  
+&lt;p align="center"&gt;
+&lt;img src=img/proj-dirs-5.svg width=60%&gt;
+&lt;/p&gt;
+
+--
+
+.content-box-warning[
+These strategies do decrease the portability of your project,  
+and moving the shared files even within your own computer  
+will cause links to break.
+]
+
+---
+
+## Projects with shared data or code (cont.)
+
+A more portable method is to *keep shared (multi-project) files online* &amp;ndash;  
+this is especially feasible for **scripts** under version control:  
+
+&lt;p align="center"&gt;
+&lt;img src=img/proj-dirs-6.svg width=70%&gt;
+&lt;/p&gt;
+
+--
+
+.content-box-info[
+For **data**, this is also possible but often not practical due to file sizes. It's easier after data has been deposited in a public repository.
+]
+
+---
+
+## Example project dir structures 
+
+.pull-left[
+
+&lt;p align="left"&gt;
+&lt;img src=img/proj-ex1.png width=100%&gt;
+&lt;/p&gt;
+
+]
+
+---
+
+## Example project dir structures
+
+.pull-left[
+
+&lt;p align="left"&gt;
+&lt;img src=img/proj-ex-comb.png width=100%&gt;
+&lt;/p&gt;
+
+]
+
+.pull-right[
+**Several things depend on preferences and project specifics:**
+- `data` as single top-level dir?  
+
+- `results` vs `analysis` (Buffalo)
+
+- `src` (source) vs `scripts` vs `workflow`
+
+- Where to put figures &amp;ndash; `results/plots/qc` or `results/qc/plots/`?
+]
+
+--
+
+.content-box-info[
+**Other best practices:**
+
+- Use subdirectories liberally (e.g. within `analysis`, `scripts`).
+  
+- Also add *READMEs* within dirs.
+]
+
+---
+
+## File naming
+
+**Three principles for good file names**
+([Jenny Bryan](https://speakerdeck.com/jennybc/how-to-name-files)):
+
+- Machine-readable
+
+- Human-readable
+
+- Playing well with default ordering
+
+---
+
+## File naming: Machine-readable
+
+Consistent and informative naming helps to *programmatically find  
+and process files.*
+
+- In file names, provide **metadata** like Sample ID, date, and treatment:
+  
+  - `sample032_2016-05-03_low.txt`  
+  
+  - `samples_soil_treatmentA_2019-01.txt`
+
+- Now, you can use **globbing** to select samples from a certain month or
+  treatment (*more about this on Thursday*):
+  ```sh
+  $ ls *2016-05*
+  
+  $ ls *treatmentA*
+  ```
+
+--
+
+.content-box-info[
+*Suffices*, like `.txt`, `.md`, and `.csv` are generally not necessary
+in Unix, but are still useful to distinguish file types easily and programmatically.
+]
+
+---
+
+## File naming: Machine-readable (cont.)
+
+- Spaces in file names lead to inconvenience or trouble:
+  
+  ```sh
+  $ mkdir "raw sequences"
+  $ mkdir sequences
+  
+  $ rm -rf raw sequences
+  ```
+
+- More generally, only use the following in file names:
+  - Alphanumeric characters &lt;kbd&gt;A-Za-z0-9&lt;/kbd&gt;
+  - Underscores &lt;kbd&gt;_&lt;/kbd&gt;
+  - Hyphens (dashes) &lt;kbd&gt;-&lt;/kbd&gt;
+  - Periods (dots) &lt;kbd&gt;.&lt;/kbd&gt;
+  
+---
+
+## File naming: Human-readable
+
+&gt; *"Name all files to reflect their content or function.*
+&gt; *For example, use names such as bird_count_table.csv, manuscript.md,*
+&gt; *or sightings_analysis.py.*"  
+&gt; [Wilson et al. 2017](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
+  
+---
+
+## File naming: Combining machine- and human-readable
+
+- *One* good way (opinionated recommendations):
+  
+  - Use **underscores &lt;kbd&gt;_&lt;/kbd&gt; to delimit units** you may later want to
+    separate on (extract with `cut`, etc.): sampleID, batch, treatment, date.
+  
+  - Within such units, use **dashes &lt;kbd&gt;-&lt;/kbd&gt; to delimit words**:
+    `grass-samples`.
+  
+  - Limit the use of **periods &lt;kbd&gt;.&lt;/kbd&gt; to indicate file extensions**.
+  
+  - (Generally *avoid capitals*.)
+
+&lt;br&gt;
+
+- For example:
+  ```sh
+  mmus001_treatmentA_filtered-mq30-only_sorted_dedupped.bam
+  mmus002_treatmentA_filtered-mq30-only_sorted_dedupped.bam
+  .
+  .
+  .
+  mmus086_treatmentG_filtered-mq30-only_sorted_dedupped.bam
+  ```
+
+  
+---
+
+## File naming: Ordering
+
+- Use **leading zeros** for lexicographic sorting: `sample005`.
+
+- **Dates** should always be written as `YYYY-MM-DD`: `2020-10-11`.
+
+- Can **group similar files together** by starting with same phrase,  
+  and **number scripts** according to their execution order:
+  ```sh
+  DE-01_normalize.R
+  DE-02_test.R
+  DE-03_process-significant.R
+  ```
+
+---
+
+## Slow down and document
+
+**Use README files to document:**
+  
+- Your methods
+  
+- Where/when/how each data and metadata file originated
+  
+- Versions of software, databases, reference genomes
+  
+- *...Everything needed to rerun whole project*
+
+&lt;br&gt;
+
+.content-box-info[
+See this week's Buffalo chapter (Ch. 2) for further details.
+]  
+
+---
+
+## Slow down and document &amp;ndash; Use plain text files
+
+**Plain text files offer several benefits over proprietary &amp; binary formats**
+(like `.docx` and `.xlsx`):
+
+- Can be accessed on any computer, including over remote connections
+
+- Are future-proof
+
+- Allow to be version-controlled
+
+&lt;br&gt;
+
+--
+
+.content-box-answer[
+These considerations apply not just to files for documentation,  
+but also to data files, etc!
+]
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+background-color: #f2f5eb
+name: software
+
+## Bonus: Managing software
+
+- Keep track of the versions of software that you use!
+
+- At OSC, load modules *with* a version specification --
+  otherwise, you may not know what you used,
+  and default versions changes can go unnoticed.
+  
+  ```sh
+  # Load default -- you can bet this will be a different one in a year or two
+  module load R 
+  
+  # Preferred:
+  module load R/4.0.2
+  ```
+  
+- `conda` environments can be useful too,
+  e.g. for maintaining multiple versions of the same software,
+  or being able to run mutually incompatible software.
+
+.content-box-info[
+We'll talk more about this in the OSC (Week 6) and Snakemake (Week 12) modules.
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

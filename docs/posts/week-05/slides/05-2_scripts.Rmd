@@ -1,0 +1,735 @@
+---
+title: "Week 6 - Shell scripting - II"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## *Week 6: Shell scripting*
+
+----
+
+# Part II: <br> Shell scripting...
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/02/15 (updated: `r Sys.Date()`)
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### Introduction
+- ### [Script header lines and zombie scripts](#header)
+- ### [Command-line arguments for scripts](#args)
+- ### [Putting it all together](#scripts)
+- ### [Dressing up your script](#dress-up)
+]
+
+<br>
+
+---
+
+## Why scripts?
+
+
+---
+
+## Bash scripts
+
+> *"Most Bash scripts in bioinformatics are simply commands organized into a
+> rerunnable script with some added bells and whistles to check that files exist
+> and ensuring any error causes the script to abort."* &mdash; Buffalo Ch. 12
+
+<br>
+
+Therefore, relatively straightforward to write with what you already know!
+
+---
+class: inverse middle center
+name: header
+
+
+# Script header lines and zombie scripts
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## First line of the script: *shebang* line
+
+- Use a so-called **"*shebang*" line** as the first line of a script.
+  
+  This line tells the computer which program to use to run the script:
+  in our case Bash, whose binary is located at `/bin/bash`.
+  
+  ```sh
+  #!/bin/bash
+  ```
+
+- **Without this line**, we would have to call a script as follows:
+
+  ```sh
+  $ bash script.sh   # "bash" needed to indicate the interpreter
+  ```
+
+--
+
+- **With this line**, we can submit the script to a job scheduler (next week),
+  and also call the script as follows:
+
+  ```sh
+  $ ./script.sh
+  ```
+
+--
+
+- But, for this to work, we also need to make the script executable:
+
+  ```sh
+  $ chmod u+x script.sh   # Executable for user/owner of file only (u=user)
+  
+  $ chmod a+x script.sh   # Alt: executable for everyone (a=all)
+  ```
+
+---
+
+## Bash zombie scripts &ndash; and worse!
+
+By default, Bash will just keep running a script after it has encountered errors.
+
+And if you try to reference a variable that hasn't been assigned,  
+it won't even complain:
+
+```sh
+$ echo $non_existent_variable
+```
+
+--
+
+.content-box-q[
+Why is such behavior a bad idea in scripts?
+]
+
+--
+
+- Let's accidentally delete the filesystem!
+  ```sh
+  TMPDIR=output/tmp/$sample/
+  # rest of script...
+  rm -rf $TMPPDIR/*   ## DONT TRY THIS!
+  ```
+
+- As for errors, you may never notice them if they're subtle and don't cause
+  everything else to error out &ndash; but they could still render the output
+  of the zombie script worthless!
+
+---
+
+## Three necessary options for robust scripts
+
+With these settings, the script terminates, with appropriate error message, if:
+
+- `set -u` &mdash; An unset variable is referenced.
+
+- `set -e` &mdash; Almost any errors occurs.
+
+- `set -o pipefail` &mdash; An error occurs within a shell "pipeline".
+
+<br>
+
+```sh
+set -u
+set -e
+set -o pipefail
+```
+
+Or, in one line:
+
+```sh
+set -u -e -o pipefail
+```
+
+---
+
+## Our script &ndash;*any* shell script&ndash; so far 
+
+```sh
+#!/bin/bash
+
+set -u -e -o pipefail
+```
+
+<br>
+
+.content-box-info[
+Another useful setting, especially for debugging, is `set -x`,  
+which will print every line of the script as it is executed.
+]
+
+---
+class: inverse middle center
+name: arrays
+
+# Command-line arguments for scripts
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## Command-line arguments for scripts
+
+- When you call a script, you can give it command-line arguments,  
+  much like when you provide commands like `ls` with arguments:
+
+  ```sh
+  $ ./name-script.sh John Doe
+  ```
+
+- Inside the script, these arguments are *automatically* assigned to the
+  placeholder variables `$1` ("John" above), `$2` ("Doe" above), and so on:
+
+  ```sh
+  #!/bin/bash
+  
+  echo "First argument: $1"   # John
+  echo "Second argument: $2"  # Doe
+  echo "Full name: $1 $2"
+  ```
+
+  ```sh
+  $ ./name-script.sh John Doe
+  #> First argument: John
+  #> Second argument: Doe
+  #> Full name: John Doe
+  ```
+
+---
+
+## Command-line arguments for scripts (cont.)
+
+- Inside the script, it is good practice to reassign these to more descriptively
+  named variables:
+
+  ```sh
+  #!/bin/bash
+  
+  first_name=$1
+  last_name=$2
+  
+  echo "First argument: $first_name"
+  echo "Second argument: $last_name"
+  echo "Full name: $first_name $last_name"
+  ```
+
+<br>
+
+.content-box-info[
+- `$0` contains the filename of the script.
+
+- `$#` contains the number of command-line arguments that were provided.
+]
+
+---
+
+## A simple shell script example
+
+- Contents of the script, saved as `headtail.sh`:
+
+  ```sh
+  head -n 2 "$1"
+  echo "---"
+  tail -n 2 "$1"
+  ```
+
+- Running the script:
+
+  ```sh
+  $ bash headtail.sh samples.txt
+  $ bash headtail.sh egfr_flank.fasta
+  ```
+
+---
+
+## A simple shell script example (cont.)
+
+- Good scripting citizens that we are,
+  we will also add the header lines,
+  and make the script executable:
+
+  ```sh
+  #!/bin/bash
+  set -u -e -o pipefail
+  
+  head -n 2 "$1"
+  echo "---"
+  tail -n 2 "$1"
+  ```
+
+  ```sh
+  $ chmod a+x headtail.sh
+  ```
+
+- Now we can run it as follows:
+
+  ```sh
+  $ ./headtail.sh samples.txt
+  ```
+
+---
+
+## `r icon::fa("user-edit")` Your turn: A simple script
+
+Write a script that prints a specific line, identified by its line number,
+from a file.
+
+- Make the line number argument 1 (`$1`), and the filename argument 2 (`$2`). 
+
+- If you don't remember how to print a specific line, click on the hint below.
+
+<br>
+
+<details>
+<summary><strong>Hint!</strong></summary>
+<br>
+To print a specific line number, say line 37 from <code>file.txt</code>,
+you can use: <br> <code>head -n 37 file.txt | tail -n 1</code>
+or <code>sed -n '37p' file.txt</code>.
+<br>
+</details>
+
+---
+
+## `r icon::fa("user-edit")` Solution: A simple script
+
+- Script `line.sh`:
+
+  ```sh
+  #!/bin/bash
+  set -u -e -o pipefail
+  
+  head -n "$1" "$2" | tail -n 1
+  ```
+
+- To execute:
+
+  ```sh
+  $ chmod a+x line.sh
+  $ ./line.sh 4 samples.txt
+  ```
+
+---
+class: inverse middle center
+name: scripts
+
+# Putting it all together: <br> Functional, nontrivial scripts
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## Buffalo's first script
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+
+# Specify the input samples file (3rd column = path to FASTQ file):
+sample_info=samples.txt
+
+# Create a Bash array from the third column of "$sample_info":
+sample_files=($(cut -f 3 "$sample_info"))
+
+# Loop through the array:
+for fastq_file in ${sample_files[@]}; do
+    
+    # Strip .fastq from each FASTQ file, and add suffix:
+    results_file="$(basename $fastq_file .fastq)-stats.txt"
+    
+    # Run "fastq_stat" on a file:
+    fastq_stat "$fastq_file" > stats/$results_file
+
+done
+```
+
+---
+
+## Buffalo's second script
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+
+# Specify the input samples file (3rd column = path to FASTQ file):
+sample_info=samples.txt
+
+# Our reference genome:
+ref=zmays_AGPv3.20.fa
+
+# Create a Bash array from the first column (sample names).
+# Because there are duplicate sample names, we call uniq
+sample_names=($(cut -f 1 "$sample_info" | uniq))
+
+# Loop through the array:
+for sample in ${sample_names[@]}; do
+    
+    # Create an output file from the sample name:
+    results_file="${sample}.sam"
+    
+    # Run the sequence alignment with "bwa mem":
+    bwa mem $ref ${sample}_R1.fastq ${sample}_R2.fastq \
+        > $results_file
+
+done
+```
+
+---
+class: inverse middle center
+name: arrays
+
+# Dressing up your scripts to <br> increase robustness and user-friendliness
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+
+## Dressing up your scripts to <br> increase robustness and user-friendliness
+
+- Let's go back to our smaller `line.sh` script to keep things manageable.
+  That script also has some arguments we can work with:
+
+```sh
+  #!/bin/bash
+  set -u -e -o pipefail
+  
+  head -n "$1" "$2" | tail -n 1
+```
+
+<br>
+
+.content-box-q[
+What could we do to be make this script more robust / foolproof?
+]
+
+---
+
+## Assigning the arguments to named variables
+
+- Using named variables will make the rest of the script more readable:
+  
+  ```sh
+  line="$1"
+  file="$2"
+  ```
+
+- Instead of:
+
+  ```sh
+  head -n "$1" "$2" | tail -n 1
+  ```
+
+- We can now say:
+
+  ```sh
+  head -n "$line" "$file" | tail -n 1
+  ```
+
+---
+
+## Reporting what's going on
+
+- While you probably don't want a small utility script like `line.sh` to be
+  "chatty",
+  this behavior *is* often useful for longer-running or more complex scripts:
+  
+  ```sh
+  echo "Starting script $0"
+  date # Print date & time to log & time running duration
+  echo "Input file: $file"
+  echo "Requested line number: $line"
+  
+  head -n "$line" "$file" | tail -n 1
+  
+  echo "Done with script $0"
+  date
+  ```
+
+---
+
+## Conducting tests
+
+- Before we start running the meat of the script,
+  we may want to conduct some basic tests / sanity checks.
+  
+  Rather than letting subsequent programs fail with possibly cryptic error messages,
+  have puzzling behavior or output, or submit jobs for nothing, we can stop
+  the script at an earlier stage.
+
+--
+
+<br>
+
+-  For example, we can test whether the right number of arguments
+   were provided when the script was called:
+
+  ```sh
+  $ if [ ! "$#" -eq 2 ]; then
+      echo "Error: wrong number of arguments"
+      echo "You provided $# arguments, while 2 are required."
+      echo "Usage: line.sh <line-number> <file>"
+      exit 1
+    fi
+  ```
+
+---
+
+## Side note: exit status
+
+.content-box-info[
+With `exit 1`, the *exit status* of our script is 1.
+In bash, an exit status of **0 means success** &mdash; 
+any other integer, including 1, means failure.
+
+This includes cases like whether `grep` found a match:
+```sh
+$ echo "sampleA.fastq.gz" | grep "fastq"; echo $?
+#> sampleA.fastq.gz
+#> 0
+```
+
+```sh
+$ echo "sampleA.fastq.gz" | grep "fastx"; echo $?
+#> 1
+```
+
+This underlies why we can use `grep` in `if` statements:
+
+```sh
+$ if ! echo "$file_name" | grep "fastq" > /dev/null; then
+     echo "File is not a FASTQ file!"
+     exit 1
+  fi
+```  
+
+]
+
+---
+
+## Conducting tests (cont.)
+
+- We may also want to test whether the input file is a regular file and can be
+  opened:
+
+  ```sh
+  $ if [ ! -f $file ] || [ ! -r $file ]; then
+        echo "Error: can't open file"
+        echo "Second argument should be a readable file"
+        echo "You provided: $file"
+        exit 1
+      fi
+  ```
+
+---
+
+## Conducting tests (cont.)
+
+- Similarly, we can test whether the requested line number is valid  
+  (which will also implicitly test whether it's a number at all):
+  
+  ```sh
+  $ if [ $line -gt $(wc -l < $file) ] || [ ! $line -gt 0 ]; then
+        echo "Error: Invalid line number"
+        echo "Number should be >0 and <= the file's nr. of lines"
+        echo "File contains $(wc -l < $2) lines; you provided $1."
+        exit 1
+      fi
+  ```
+
+--
+
+<br>
+
+- You could even decide to implement some useful default behavior
+  for some erroneous input, like a requested line number that is too high:
+
+  ```sh
+  $ if [ $line -gt $(wc -l < $file) ]; then
+        line=$(wc -l < $file)
+        echo "Requested line exceeded line count; printing last line."
+      fi
+  ```
+
+---
+
+## Dressing up your scripts to <br> increase robustness and user-friendliness
+
+This may start to seem silly, but fairly extensive reporting and
+testing can be useful &mdash; and a time-saver eventually.
+  
+This is especially true for long-running scripts,
+or scripts that you often reuse and perhaps share with others.
+
+
+---
+
+## A word of advice / caution
+
+While different strategies are certainly possible, as a general rule of thumb:
+
+.content-box-green[
+**Bash scripts are best kept relatively simple.**
+]
+
+<br>
+
+**If you find yourself writing very long and complicated shell scripts:**
+
+- Break up your scripts into smaller units!
+
+- If you're connecting many scripts in an intricate pipeline =>  
+  switch this part to a workflow management system (Week 13!)
+
+- If neither of the above two options applies: switch to Python (or R).
+  
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+<br> <br> <br> <br>
+
+---
+class: inverse middle center
+
+# Bonus Materials
+
+----
+
+<br>
+
+.left[
+- ### [More on quoting in shell commands](#quote)
+- ### [Using a Help function](#help)
+- ### [Parsing non-positional arguments with getopts](#getops)
+- ### [Parameter expansion](#par-exp)
+]
+
+<br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+name: quote
+
+## More on quoting in shell commands
+
+Recall that we can use quoting to escape special characters:
+
+```sh
+$ cd XXX
+
+$ echo *
+# Should show a list of files
+
+$ echo "*"
+# *
+```
+
+But what about this?
+
+```sh
+$ echo "* and this is my shell: $SHELL"
+# * and this is my shell: /bin/bash
+```
+
+We can use *single quotes* to also escape the "**`$`**":
+```sh
+$ echo '* and this is my shell: $SHELL'
+# * and this is my shell: $SHELL
+```
+
+---
+background-color: #f2f5eb
+name: help
+
+## Using a Help function
+
+
+
+---
+background-color: #f2f5eb
+name: getopts
+
+## Parsing non-positional arguments with getopts
+
+
+---
+background-color: #f2f5eb
+name: par-exp
+
+## Parameter expansion to provide default values
+
+- Finally, it may be useful to have *optional arguments* that have a default
+  value if they are not specified on the command line.
+  
+  With `set -u` set, this becomes a little more tricky, because the script
+  will fail if you reference an unset variable &ndash; but you can use the
+  following syntax:
+  
+  ```sh
+  line=${1:-10}             # Set 10 as the default value for $1
+  
+  rm_unpaired=${3:-true}    # Set true as the default value for $3
+  ```
+
+--
+
+- For example, say that your script takes an input dir and an output dir
+  as arguments, but if the output dir is not specified,
+  you want it to be the same as the input dir:
+  
+  ```sh
+  input_dir=$1
+  output_dir=${2:-$input_dir}
+  ```
+
+- Now you can call the script (say `sort_bam.sh`) with or without the output dir:
+
+  ```sh
+  $ sort_bam.sh results/bam results/bam
+  
+  $ sort_bam.sh results/bam
+  ```
+
+---
+background-color: #f2f5eb
+
+## More parameter expansion
+

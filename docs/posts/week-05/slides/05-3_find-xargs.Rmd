@@ -1,0 +1,81 @@
+---
+title: "Week 6 - Shell scripting - I"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## *Week 6: Shell scripting*
+
+----
+
+# Part III: <br> find and xargs
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/02/15 (updated: `r Sys.Date()`)
+
+---
+
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [Intro to sequence file formats](#seqfiles)
+- ### [Viewing data files](#view)
+- ### [Regular expressions](#regex)
+- ### [grep](#grep)
+- ### [sort and sort | uniq -c](#sort-uniq)
+]
+
+<br>
+
+---
+
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+
+<br> <br> <br> <br>
+
+---
+class: inverse middle center
+
+# Bonus Materials
+
+----
+
+<br>
+
+.left[
+- ### [*column* for tabular file viewing](#exit-status)
+- ### [*join* to merge tabular data files](#join)
+- ### [Sort and the exit status of a command](#exit-status)
+]
+
+<br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+name: column

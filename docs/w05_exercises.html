@@ -1,0 +1,3362 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>pracs-sp21: Week 5 Exercises</title>
+
+
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
+
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="pracs-sp21: Week 5 Exercises"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:site_name" content="pracs-sp21"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="pracs-sp21: Week 5 Exercises"/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 5 Exercises"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  <!--radix_placeholder_navigation_in_header-->
+  <meta name="distill:offset" content=""/>
+
+  <script type="application/javascript">
+
+    window.headroom_prevent_pin = false;
+
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+
+      // initialize headroom for banner
+      var header = $('header').get(0);
+      var headerHeight = header.offsetHeight;
+      var headroom = new Headroom(header, {
+        tolerance: 5,
+        onPin : function() {
+          if (window.headroom_prevent_pin) {
+            window.headroom_prevent_pin = false;
+            headroom.unpin();
+          }
+        }
+      });
+      headroom.init();
+      if(window.location.hash)
+        headroom.unpin();
+      $(header).addClass('headroom--transition');
+
+      // offset scroll location for banner on hash change
+      // (see: https://github.com/WickyNilliams/headroom.js/issues/38)
+      window.addEventListener("hashchange", function(event) {
+        window.scrollTo(0, window.pageYOffset - (headerHeight + 25));
+      });
+
+      // responsive menu
+      $('.distill-site-header').each(function(i, val) {
+        var topnav = $(this);
+        var toggle = topnav.find('.nav-toggle');
+        toggle.on('click', function() {
+          topnav.toggleClass('responsive');
+        });
+      });
+
+      // nav dropdowns
+      $('.nav-dropbtn').click(function(e) {
+        $(this).next('.nav-dropdown-content').toggleClass('nav-dropdown-active');
+        $(this).parent().siblings('.nav-dropdown')
+           .children('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $("body").click(function(e){
+        $('.nav-dropdown-content').removeClass('nav-dropdown-active');
+      });
+      $(".nav-dropdown").click(function(e){
+        e.stopPropagation();
+      });
+    });
+  </script>
+
+  <style type="text/css">
+
+  /* Theme (user-documented overrideables for nav appearance) */
+
+  .distill-site-nav {
+    color: rgba(255, 255, 255, 0.8);
+    background-color: #0F2E3D;
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  .distill-site-nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .distill-site-nav a:hover {
+    color: white;
+  }
+
+  @media print {
+    .distill-site-nav {
+      display: none;
+    }
+  }
+
+  .distill-site-header {
+
+  }
+
+  .distill-site-footer {
+
+  }
+
+
+  /* Site Header */
+
+  .distill-site-header {
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+
+  .distill-site-header .nav-left {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header .nav-left {
+      margin-left: 0;
+    }
+  }
+
+
+  .distill-site-header .nav-right {
+    float: right;
+    margin-right: 8px;
+  }
+
+  .distill-site-header a,
+  .distill-site-header .title {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 10px 14px 10px;
+  }
+
+  .distill-site-header .title {
+    font-size: 18px;
+    min-width: 150px;
+  }
+
+  .distill-site-header .logo {
+    padding: 0;
+  }
+
+  .distill-site-header .logo img {
+    display: none;
+    max-height: 20px;
+    width: auto;
+    margin-bottom: -4px;
+  }
+
+  .distill-site-header .nav-image img {
+    max-height: 18px;
+    width: auto;
+    display: inline-block;
+    margin-bottom: -3px;
+  }
+
+
+
+  @media screen and (min-width: 1000px) {
+    .distill-site-header .logo img {
+      display: inline-block;
+    }
+    .distill-site-header .nav-left {
+      margin-left: 20px;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 20px;
+    }
+    .distill-site-header .title {
+      padding-left: 12px;
+    }
+  }
+
+
+  .distill-site-header .nav-toggle {
+    display: none;
+  }
+
+  .nav-dropdown {
+    display: inline-block;
+    position: relative;
+  }
+
+  .nav-dropdown .nav-dropbtn {
+    border: none;
+    outline: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 16px 10px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    margin-top: 1px;
+    z-index: 2;
+  }
+
+  .nav-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .nav-dropdown-content hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-dropdown-active {
+    display: block;
+  }
+
+  .nav-dropdown-content a, .nav-dropdown-content .nav-dropdown-header {
+    color: black;
+    padding: 6px 24px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .nav-dropdown-content .nav-dropdown-header {
+    display: block;
+    padding: 5px 24px;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #999999;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown:hover .nav-dropbtn {
+    color: white;
+  }
+
+  .nav-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .nav-right .nav-dropdown-content {
+    margin-left: -45%;
+    right: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header a, .distill-site-header .nav-dropdown  {display: none;}
+    .distill-site-header a.nav-toggle {
+      float: right;
+      display: block;
+    }
+    .distill-site-header .title {
+      margin-left: 0;
+    }
+    .distill-site-header .nav-right {
+      margin-right: 0;
+    }
+    .distill-site-header {
+      overflow: hidden;
+    }
+    .nav-right .nav-dropdown-content {
+      margin-left: 0;
+    }
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .distill-site-header.responsive {position: relative; min-height: 500px; }
+    .distill-site-header.responsive a.nav-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .distill-site-header.responsive a,
+    .distill-site-header.responsive .nav-dropdown {
+      display: block;
+      text-align: left;
+    }
+    .distill-site-header.responsive .nav-left,
+    .distill-site-header.responsive .nav-right {
+      width: 100%;
+    }
+    .distill-site-header.responsive .nav-dropdown {float: none;}
+    .distill-site-header.responsive .nav-dropdown-content {position: relative;}
+    .distill-site-header.responsive .nav-dropdown .nav-dropbtn {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+
+  /* Site Footer */
+
+  .distill-site-footer {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 3;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+
+  /* Headroom */
+
+  d-title {
+    padding-top: 6rem;
+  }
+
+  @media print {
+    d-title {
+      padding-top: 4rem;
+    }
+  }
+
+  .headroom {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .headroom--transition {
+    transition: all .4s ease-in-out;
+  }
+
+  .headroom--unpinned {
+    top: -100px;
+  }
+
+  .headroom--pinned {
+    top: 0;
+  }
+
+  </style>
+
+  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
+  <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
+  <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
+  <script src="site_libs/autocomplete-0.37.1/autocomplete.min.js"></script>
+  <script src="site_libs/fuse-6.4.1/fuse.min.js"></script>
+
+  <script type="application/javascript">
+
+  function getMeta(metaName) {
+    var metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+
+  function offsetURL(url) {
+    var offset = getMeta('distill:offset');
+    return offset ? offset + '/' + url : url;
+  }
+
+  function createFuseIndex() {
+
+    // create fuse index
+    var options = {
+      keys: [
+        { name: 'title', weight: 20 },
+        { name: 'categories', weight: 15 },
+        { name: 'description', weight: 10 },
+        { name: 'contents', weight: 5 },
+      ],
+      ignoreLocation: true,
+      threshold: 0
+    };
+    var fuse = new window.Fuse([], options);
+
+    // fetch the main search.json
+    return fetch(offsetURL('search.json'))
+      .then(function(response) {
+        if (response.status == 200) {
+          return response.json().then(function(json) {
+            // index main articles
+            json.articles.forEach(function(article) {
+              fuse.add(article);
+            });
+            // download collections and index their articles
+            return Promise.all(json.collections.map(function(collection) {
+              return fetch(offsetURL(collection)).then(function(response) {
+                if (response.status === 200) {
+                  return response.json().then(function(articles) {
+                    articles.forEach(function(article) {
+                      fuse.add(article);
+                    });
+                  })
+                } else {
+                  return Promise.reject(
+                    new Error('Unexpected status from search index request: ' +
+                              response.status)
+                  );
+                }
+              });
+            })).then(function() {
+              return fuse;
+            });
+          });
+
+        } else {
+          return Promise.reject(
+            new Error('Unexpected status from search index request: ' +
+                        response.status)
+          );
+        }
+      });
+  }
+
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+
+    // get search element (bail if we don't have one)
+    var searchEl = window.document.getElementById('distill-search');
+    if (!searchEl)
+      return;
+
+    createFuseIndex()
+      .then(function(fuse) {
+
+        // make search box visible
+        searchEl.classList.remove('hidden');
+
+        // initialize autocomplete
+        var options = {
+          autoselect: true,
+          hint: false,
+          minLength: 2,
+        };
+        window.autocomplete(searchEl, options, [{
+          source: function(query, callback) {
+            const searchOptions = {
+              isCaseSensitive: false,
+              shouldSort: true,
+              minMatchCharLength: 2,
+              limit: 10,
+            };
+            var results = fuse.search(query, searchOptions);
+            callback(results
+              .map(function(result) { return result.item; })
+              .filter(function(item) { return !!item.description; })
+            );
+          },
+          templates: {
+            suggestion: function(suggestion) {
+              var img = Object.keys(suggestion.preview).length > 0
+                ? `<img src="${offsetURL(suggestion.preview)}"</img>`
+                : '';
+              var html = `
+                <div class="search-item">
+                  <h3>${suggestion.title}</h3>
+                  <div class="search-item-description">
+                    ${suggestion.description}
+                  </div>
+                  <div class="search-item-preview">
+                    ${img}
+                  </div>
+                </div>
+              `;
+              return html;
+            }
+          }
+        }]).on('autocomplete:selected', function(event, suggestion) {
+          window.location.href = offsetURL(suggestion.path);
+        });
+        // remove inline display style on autocompleter (we want to
+        // manage responsive display via css)
+        $('.algolia-autocomplete').css("display", "");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+  });
+
+  </script>
+
+  <style type="text/css">
+
+  .nav-search {
+    font-size: x-small;
+  }
+
+  /* Algolioa Autocomplete */
+
+  .algolia-autocomplete {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    background-color: white;
+    color: black;
+    padding: 6px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    border-radius: 6px;
+    border: 1px #0F2E3D solid;
+    width: 180px;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    .distill-site-nav .algolia-autocomplete {
+      display: none;
+      visibility: hidden;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete {
+      display: inline-block;
+      visibility: visible;
+    }
+    .distill-site-nav.responsive .algolia-autocomplete .aa-dropdown-menu {
+      margin-left: 0;
+      width: 400px;
+      max-height: 400px;
+    }
+  }
+
+  .algolia-autocomplete .aa-input, .algolia-autocomplete .aa-hint {
+    width: 90%;
+    outline: none;
+    border: none;
+  }
+
+  .algolia-autocomplete .aa-hint {
+    color: #999;
+  }
+  .algolia-autocomplete .aa-dropdown-menu {
+    width: 550px;
+    max-height: 70vh;
+    overflow-x: visible;
+    overflow-y: scroll;
+    padding: 5px;
+    margin-top: 3px;
+    margin-left: -150px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #999;
+    border-top: none;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+    cursor: pointer;
+    padding: 5px 4px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion:last-of-type {
+    border-bottom: none;
+    margin-bottom: 2px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item {
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 1.4em;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item h3 {
+    margin-block-start: 0;
+    margin-block-end: 5px;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-description {
+    display: inline-block;
+    overflow: hidden;
+    height: 2.8em;
+    width: 80%;
+    margin-right: 4%;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview {
+    display: inline-block;
+    width: 15%;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img {
+    height: 3em;
+    width: auto;
+    display: none;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion .search-item-preview img[src] {
+    display: initial;
+  }
+
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+    background-color: #eee;
+  }
+  .algolia-autocomplete .aa-dropdown-menu .aa-suggestion em {
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  </style>
+
+
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure img {
+    width: 100%;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <style type="text/css">
+  /* base variables */
+
+  /* Edit the CSS properties in this file to create a custom
+     Distill theme. Only edit values in the right column
+     for each row; values shown are the CSS defaults.
+     To return any property to the default,
+     you may set its value to: unset
+     All rows must end with a semi-colon.                      */
+
+  /* Optional: embed custom fonts here with `@import`          */
+  /* This must remain at the top of this file.                 */
+
+
+
+  html {
+    /*-- Main font sizes --*/
+    --title-size:      50px;
+    --body-size:       1.06rem;
+    --code-size:       14px;
+    --aside-size:      12px;
+    --fig-cap-size:    13px;
+    /*-- Main font colors --*/
+    --title-color:     #000000;
+    --header-color:    rgba(0, 0, 0, 0.8);
+    --body-color:      rgba(0, 0, 0, 0.8);
+    --aside-color:     rgba(0, 0, 0, 0.6);
+    --fig-cap-color:   rgba(0, 0, 0, 0.6);
+    /*-- Specify custom fonts ~~~ must be imported above   --*/
+    --heading-font:    sans-serif;
+    --mono-font:       monospace;
+    --body-font:       sans-serif;
+    --navbar-font:     sans-serif;  /* websites + blogs only */
+  }
+
+  /*-- ARTICLE METADATA --*/
+  d-byline {
+    --heading-size:    0.6rem;
+    --heading-color:   rgba(0, 0, 0, 0.5);
+    --body-size:       0.8rem;
+    --body-color:      rgba(0, 0, 0, 0.8);
+  }
+
+  /*-- ARTICLE TABLE OF CONTENTS --*/
+  .d-contents {
+    --heading-size:    18px;
+    --contents-size:   13px;
+  }
+
+  /*-- ARTICLE APPENDIX --*/
+  d-appendix {
+    --heading-size:    15px;
+    --heading-color:   rgba(0, 0, 0, 0.65);
+    --text-size:       0.8em;
+    --text-color:      rgba(0, 0, 0, 0.5);
+  }
+
+  /*-- WEBSITE HEADER + FOOTER --*/
+  /* These properties only apply to Distill sites and blogs  */
+
+  .distill-site-header {
+    --title-size:       18px;
+    --text-color:       rgba(255, 255, 255, 0.8);
+    --text-size:        15px;
+    --hover-color:      white;
+    --bkgd-color:       #0F2E3D;
+  }
+
+  .distill-site-footer {
+    --text-color:       rgba(255, 255, 255, 0.8);
+    --text-size:        15px;
+    --hover-color:      white;
+    --bkgd-color:       #0F2E3D;
+  }
+
+  /*-- Additional custom styles --*/
+  /* Add any additional CSS rules below                      */
+  </style>
+  <style type="text/css">
+  /* base variables */
+
+  /* Edit the CSS properties in this file to create a custom
+     Distill theme. Only edit values in the right column
+     for each row; values shown are the CSS defaults.
+     To return any property to the default,
+     you may set its value to: unset
+     All rows must end with a semi-colon.                      */
+
+  /* Optional: embed custom fonts here with `@import`          */
+  /* This must remain at the top of this file.                 */
+
+
+
+  html {
+    /*-- Main font sizes --*/
+    --title-size:      36px;
+    --body-size:       1.06rem;
+    --code-size:       14px;
+    --aside-size:      12px;
+    --fig-cap-size:    13px;
+    /*-- Main font colors --*/
+    --title-color:     #000000;
+    --header-color:    rgba(0, 0, 0, 0.8);
+    --body-color:      rgba(0, 0, 0, 0.8);
+    --aside-color:     rgba(0, 0, 0, 0.6);
+    --fig-cap-color:   rgba(0, 0, 0, 0.6);
+    /*-- Specify custom fonts ~~~ must be imported above   --*/
+    --heading-font:    sans-serif;
+    --mono-font:       monospace;
+    --body-font:       sans-serif;
+    --navbar-font:     sans-serif;  /* websites + blogs only */
+  }
+
+  /*-- ARTICLE METADATA --*/
+  d-byline {
+    --heading-size:    0.6rem;
+    --heading-color:   rgba(0, 0, 0, 0.5);
+    --body-size:       0.8rem;
+    --body-color:      rgba(0, 0, 0, 0.8);
+  }
+
+  /*-- ARTICLE TABLE OF CONTENTS --*/
+  .d-contents {
+    --heading-size:    18px;
+    --contents-size:   13px;
+  }
+
+  /*-- ARTICLE APPENDIX --*/
+  d-appendix {
+    --heading-size:    15px;
+    --heading-color:   rgba(0, 0, 0, 0.65);
+    --text-size:       0.8em;
+    --text-color:      rgba(0, 0, 0, 0.5);
+  }
+
+  /*-- WEBSITE HEADER + FOOTER --*/
+  /* These properties only apply to Distill sites and blogs  */
+
+  .distill-site-header {
+    --title-size:       18px;
+    --text-color:       rgba(255, 255, 255, 0.8);
+    --text-size:        15px;
+    --hover-color:      white;
+    --bkgd-color:       #0F2E3D;
+  }
+
+  .distill-site-footer {
+    --text-color:       rgba(255, 255, 255, 0.8);
+    --text-size:        15px;
+    --hover-color:      white;
+    --bkgd-color:       #0F2E3D;
+  }
+
+  /* --------------------------------------------------------------------------/*
+  /* --------------------------------------------------------------------------/*
+  /*-- Additional custom styles --*/
+  /* Add any additional CSS rules below                      */
+
+  code {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+  }
+
+  pre code {
+    background-color: white;
+  }
+
+  .sourceCode {
+    background-color: #f0f0f0;
+    /*padding: 10px 15px;*/
+    /*border-left-width: 5px;
+    border-left-style: solid;
+    border-left-color: #b3dbff;*/
+  }
+
+  /*
+  d-article pre {
+
+  }*/
+
+  d-article h3 {
+    color: #bb0000;
+  }
+
+  /* --------------------------------------------------------------------------/*
+  /* details sections */
+
+  details > summary {
+    color: black;
+    padding: 2px 6px;
+    background-color: #f0f8ff;
+    border: none;
+    box-shadow: 3px 3px 4px black;
+    margin-bottom: 20px;
+  }
+
+  details > p:first-of-type {
+    margin-top: -5px;
+  }
+
+  details {
+    color: #707070;
+    margin-left: 10px;
+    padding: 10px 15px;
+    /*background-color: #f0f8ff;
+    border-left-width: 5px;
+    border-left-style: solid;
+    border-left-color: #b3dbff;
+    border-radius: 0;*/
+  }
+
+  /******************
+   * Coloured content boxes
+   ****************/
+
+  .content-box {
+    box-sizing: border-box;
+    background-color: #e2e2e2;
+  }
+
+  .content-box-q,
+  .content-box-answer,
+  .content-box-diy,
+  .content-box-warning,
+  .content-box-info {
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin: 0 0 15px;
+    overflow: hidden;
+    padding: 15px 20px 0px 70px;
+    width: 100%;
+    position: relative;
+  }
+
+  .content-box-info {
+    background-color: #dfedff;
+    border: solid 5px #c0dffa;
+  }
+
+  .content-box-warning {
+    background-color: #ffcccc;
+    border: solid 5px #ed8080;
+  }
+
+  .content-box-diy {
+    background-color: #e4ede4;
+    border: solid 5px #50ab50;
+  }
+
+  .content-box-q {
+    background-color: #f4e9f5;
+    border: solid 5px #ce84d1;
+  }
+
+  .content-box-answer {
+    background-color: #e4ede4;
+    border: solid 5px #50ab50;
+  }
+
+  .content-box-info:before,
+  .content-box-warning:before,
+  .content-box-diy:before,
+  .content-box-q:before,
+  .content-box-answer:before {
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+      color: #000;
+      font-size: 25px;
+      padding-right: 0.5em;
+      position: absolute;
+      top: 15px;
+      left: 20px;
+  }
+
+  .content-box-info:before {
+      content: "\f05a";
+  }
+
+  .content-box-warning:before {
+      content: "\f071";
+  }
+
+  .content-box-diy:before {
+      content: "\f044";
+  }
+
+  .content-box-q:before {
+      content: "\f128";
+  }
+
+  .content-box-answer:before {
+      content: "\f00c";
+  }</style>
+  <style type="text/css">
+  /* base style */
+
+  /* FONT FAMILIES */
+
+  :root {
+    --heading-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono-default: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    --body-default: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  body,
+  .posts-list .post-preview p,
+  .posts-list .description p {
+    font-family: var(--body-font), var(--body-default);
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .posts-list .post-preview h2,
+  .posts-list .description h2 {
+    font-family: var(--heading-font), var(--heading-default);
+  }
+
+  d-article div.sourceCode code,
+  d-article pre code {
+  	font-family: var(--mono-font), var(--mono-default);
+  }
+
+
+  /*-- TITLE --*/
+  d-title h1,
+  .posts-list > h1 {
+    color: var(--title-color, black);
+  }
+
+  d-title h1 {
+    font-size: var(--title-size, 50px);
+  }
+
+  /*-- HEADERS --*/
+  d-article h1,
+  d-article h2,
+  d-article h3,
+  d-article h4,
+  d-article h5,
+  d-article h6 {
+    color: var(--header-color, rgba(0, 0, 0, 0.8));
+  }
+
+  /*-- BODY --*/
+  /* only text inside of <p> tags */
+  d-article > p {
+    color: var(--body-color, rgba(0, 0, 0, 0.8));
+    font-size: var(--body-size, 1.06rem);
+  }
+
+  /*-- CODE --*/
+  d-article div.sourceCode code,
+  d-article pre code {
+  	font-size: var(--code-size, 14px);
+  }
+
+  /*-- ASIDE --*/
+  d-article aside {
+  	font-size: var(--aside-size, 12px);
+  	color: var(--aside-color, rgba(0, 0, 0, 0.6));
+  }
+
+  /*-- FIGURE CAPTIONS --*/
+  figure .caption,
+  figure figcaption,
+  .figure .caption {
+  	font-size: var(--fig-cap-size, 13px);
+  	color: var(--fig-cap-color, rgba(0, 0, 0, 0.6));
+  }
+
+  /*-- METADATA --*/
+  d-byline h3 {
+  	font-size: var(--heading-size, 0.6rem);
+  	color: var(--heading-color, rgba(0, 0, 0, 0.5));
+  }
+
+  d-byline {
+  	font-size: var(--body-size, 0.8rem);
+  	color: var(--body-color, rgba(0, 0, 0, 0.8));
+  }
+
+  d-byline a,
+  d-article d-byline a {
+  	color: var(--body-color, rgba(0, 0, 0, 0.8));
+  }
+
+  /*-- TABLE OF CONTENTS --*/
+  .d-contents nav h3 {
+  	font-size: var(--heading-size, 18px);
+  }
+
+  .d-contents nav a {
+  	font-size: var(--contents-size, 13px);
+  }
+
+  /*-- APPENDIX --*/
+  d-appendix h3 {
+    font-size: var(--heading-size, 15px);
+  	color: var(--heading-color, rgba(0, 0, 0, 0.65));
+  }
+
+  d-appendix {
+    font-size: var(--text-size, 0.8em);
+  	color: var(--text-color, rgba(0, 0, 0, 0.5));
+  }
+
+  d-appendix d-footnote-list a.footnote-backlink {
+  	color: var(--text-color, rgba(0, 0, 0, 0.5));
+  }
+
+  /*-- WEBSITE HEADER + FOOTER --*/
+  .distill-site-header .title {
+  	font-size: var(--title-size, 18px);
+  	font-family: var(--navbar-font), var(--heading-default);
+  }
+
+  .distill-site-header a,
+  .nav-dropdown .nav-dropbtn {
+    font-family: var(--navbar-font), var(--heading-default);
+  }
+
+  .distill-site-header a:hover {
+  	color: var(--hover-color, white);
+  }
+
+  .distill-site-header {
+  	font-size: var(--text-size, 15px);
+  	color: var(--text-color, rgba(255, 255, 255, 0.8));
+  	background-color: var(--bkgd-color, #0F2E3D);
+  }
+
+  .distill-site-footer {
+  	font-size: var(--text-size, 15px);
+  	color: var(--text-color, rgba(255, 255, 255, 0.8));
+  	background-color: var(--bkgd-color, #0F2E3D);
+  }
+
+  .distill-site-footer a:hover {
+  	color: var(--hover-color, white);
+  }</style>
+  <!--/radix_placeholder_distill-->
+  <script src="site_libs/header-attrs-2.6.3/header-attrs.js"></script>
+  <script src="site_libs/anchor-4.2.2/anchor.min.js"></script>
+  <script src="site_libs/bowser-1.9.3/bowser.min.js"></script>
+  <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="site_libs/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Week 5 Exercises","authors":[]}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<header class="header header--fixed" role="banner">
+<nav class="distill-site-nav distill-site-header">
+<div class="nav-left">
+<a href="index.html" class="title">pracs-sp21</a>
+<a href="index.html">
+<i class="fas fa-home" aria-hidden="true"></i>
+</a>
+<input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
+</div>
+<div class="nav-right">
+<a href="about.html">About</a>
+<a href="https://library.ohio-state.edu/record=b8624007~S7">
+<i class="fas fa-book-open" aria-hidden="true"></i>
+</a>
+<a href="https://library.ohio-state.edu/record=b8538907~S7">
+<i class="fas fa-book" aria-hidden="true"></i>
+</a>
+<a href="https://ondemand.osc.edu">
+<i class="fas fa-desktop" aria-hidden="true"></i>
+</a>
+<a href="https://osu.instructure.com/courses/94975">
+<i class="fas fa-large fa-graduation-cap" aria-hidden="true"></i>
+</a>
+<a href="https://github.com/mcic-osu/pracs-sp21" aria-label="Link to source">
+<i class="fab fa-github" aria-hidden="true"></i>
+</a>
+<a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
+</div>
+</nav>
+</header>
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Week 5 Exercises</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+
+</div>
+
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#main-exercises">Main exercises</a>
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#exercise-1-getting-set-up">Exercise 1: Getting set up</a></li>
+<li><a href="#exercise-2-create-a-script-to-compute-stats-for-a-fastq-file">Exercise 2: Create a script to compute stats for a FASTQ file</a></li>
+<li><a href="#exercise-3-modify-the-looping-script">Exercise 3: Modify the looping script</a></li>
+<li><a href="#exercise-4-bells-and-whistles">Exercise 4: Bells and whistles</a></li>
+</ul></li>
+<li><a href="#bonus-exercises">Bonus exercises</a>
+<ul>
+<li><a href="#exercise-5-find-the-longest-file1">Exercise 5: Find the longest file</a></li>
+<li><a href="#exercise-6-plant-pollinator-networks">Exercise 6: Plant-pollinator networks</a></li>
+<li><a href="#exercise-7-data-explorer">Exercise 7: Data explorer</a></li>
+</ul></li>
+<li><a href="#solutions">Solutions</a>
+<ul>
+<li><a href="#exercise-1">Exercise 1</a></li>
+<li><a href="#exercise-2">Exercise 2</a></li>
+<li><a href="#exercise-3">Exercise 3</a></li>
+<li><a href="#exercise-4">Exercise 4</a></li>
+<li><a href="#exercise-5">Exercise 5</a></li>
+<li><a href="#exercise-6">Exercise 6</a></li>
+<li><a href="#exercise-7">Exercise 7</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<p>The main exercises will work with some FASTQ files. If you don’t care much for DNA sequence files, and perhaps start to get lost in the technicalities, make sure to carry on to the three bonus exercises.</p>
+<h2 id="main-exercises">Main exercises</h2>
+<h3 id="background">Background</h3>
+<p>These exercises will work with 6 <a href="https://support.illumina.com/bulletins/2016/04/fastq-files-explained.html">FASTQ files</a> with sequences from the V4 region of 16S rRNA, generated in a metabarcoding experiment.</p>
+<p>The FASTQ files come in pairs: for every sample, there is a FASTQ file with <em>forward reads</em> (or “read 1” reads) that contains <code>_R1_</code> in its filename, and a FASTQ file with corresponding <em>reverse</em> reads (or “read 2” reads) that contain <code>_R2_</code> in its filename. So, our 6 FASTQ files consist of 3 pairs of files with forward and reverse reads for 3 different biological samples.</p>
+<p>The sequences were generated by first amplifying environmental samples with a pair of universal 16S primers, and these primer sequences are expected to be present in the FASTQ sequences. You will search for these primer sequences below, and there are two things to be aware of:</p>
+<ul>
+<li>A primer can also be present in the FASTQ sequence as its <em>reverse complement</em>, so we will search for reverse complements too.</li>
+<li>The primers contain a few variable sites, which are indicated using <em>ambiguity codes</em>. For instance, an <code>R</code> means that the site can be either an <code>A</code> or a <code>G</code>, and an <code>N</code> means that the site can be any of the four bases. See <a href="https://droog.gs.washington.edu/parc/images/iupac.html">here</a> for a complete overview of these ambiguity codes.</li>
+</ul>
+<p>Here are the primer sequences and their reverse complements:</p>
+<ul>
+<li>Forward primer (“515F”): <code>GAGTGYCAGCMGCCGCGGTAA</code> / <code>TTACCGCGGCKGCTGRCACTC</code>.</li>
+<li>Reverse primer (“806R”): <code>TTACCGCGGCKGCTGRCACTC</code> / <code>ATTAGAWACCCBNGTAGTCCGT</code>.</li>
+</ul>
+<h3 id="exercise-1-getting-set-up">Exercise 1: Getting set up</h3>
+<ol type="1">
+<li><p>Create a directory for this week’s exercises and move into it.</p></li>
+<li><p>In these exercises, you will be working with and modifying one of the scripts in Buffalo’s Chapter 12, which is printed below. Save this script as <code>fastq_stat_loop.sh</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">set</span> <span class="ex">-e</span> -u -o pipefail</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># Specify the input samples file (3rd column = path to FASTQ file):</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="va">sample_info=</span>samples.txt</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># Create a Bash array from the third column of &quot;$sample_info&quot;:</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="va">sample_files=($(</span><span class="fu">cut</span> -f 3 <span class="st">&quot;</span><span class="va">$sample_info</span><span class="st">&quot;</span><span class="va">))</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># Loop through the array:</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="kw">for</span> <span class="ex">fastq_file</span> in <span class="va">${sample_files[@]}</span><span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a>  <span class="co"># Strip .fastq from each FASTQ file, and add suffix:</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>  <span class="va">results_file=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$fastq_file</span> .fastq<span class="va">)</span><span class="st">-stats.txt&quot;</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a>  <span class="co"># Run &quot;fastq_stat&quot; on a file:</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a>  <span class="ex">fastq_stat</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="op">&gt;</span> stats/<span class="va">$results_file</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="kw">done</span></span></code></pre></div></li>
+<li><p>The FASTQ files you’ll work with are inside the directory <code>/fs/ess/PAS1855/data/week05/fastq</code>. Copy these files into an appropriate directory inside your own directory for these exercises, like <code>data/</code>.</p></li>
+</ol>
+<p><br></p>
+<h3 id="exercise-2-create-a-script-to-compute-stats-for-a-fastq-file">Exercise 2: Create a script to compute stats for a FASTQ file</h3>
+<p>Unfortunately, the <code>fastq_stat</code> program referenced in Buffalo’s script is an imaginary program… So, let’s create a script <code>fastqc_stat.sh</code> that actually produces a few descriptive statistics for a a FASTQC file.</p>
+<ol type="1">
+<li><p>Set up a script skeleton with the header lines we’ve been discussing: a <em>shebang</em> line and the various <code>set</code> settings for robust scripts.</p></li>
+<li><p>The script should process one command-line argument, the input file. Assign the automatic placeholder variable for the first argument to a variable with a descriptive name, like <code>fastq_file</code>.<br />
+</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+The automatic placeholder variable for the first argument is <code>$1</code>.<br />
+</p>
+</p>
+</details>
+<div class="content-box-info">
+<div>
+<p>In the sections below, you can print all your output to standard out, i.e. simply use <code>echo</code> with no redirection.<br />
+<br />
+Also, just for the purpose of testing the commands while developing them below, it will be convenient to assign one of the FASTQ files to a variable <code>fastq_file</code>.</p>
+</div>
+</div></li>
+<li><p>Have the script report its own name as well as the name of the FASTQ file that is being processed.<br />
+</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+Recall that the name of the script is automatically stored in <code>$0</code>.<br />
+</p>
+</p>
+</details></li>
+<li><p>Compute and report the number of sequences in the FASTQ file.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>The number of sequences can be assumed to be the total number of lines divided by 4 (or alternatively, the number of lines consisting only of a <code>+</code>). Recall that FASTQ files have 4 lines per sequence: a header, the sequence, a <code>+</code> divider, and the quality scores.<br />
+<br />
+To make the division, you can use syntax like <code>expr 12 / 4</code> – and you can use command substitution, <code>$(wc -l ...)</code>, to insert the number of lines in the division.</p>
+</p>
+</details></li>
+<li><p>As mentioned in the Background section, the primer sequences should be present in the FASTQ files. Prior to sequence analyses, these are usually removed with a specialized program like <code>cutadapt</code>, but we can use our <code>grep</code> skills to quickly search for them.<br />
+<br />
+We will search for the <em>forward primers only in the forwards reads</em>, and for the <em>reverse primers only in the reverse reads</em>. Therefore, start with an <code>if</code> statement that tests whether the file name contains forward (<code>_R1_</code>) or reverse (<code>_R2_</code>) reads.<br />
+<br />
+<em>If it contains forward reads</em>, you should be counting occurrences of the forward primer <strong><em>or</em></strong> its reverse complement. Similarly, <em>if it contains reverse reads</em> you should be counting occurrences of the reverse primer <em>or</em> its reverse complement.<br />
+<br />
+You’ll also have to replace the ambiguity codes, like <code>R</code>, with <em>character classes</em> that enumerate the possible alternative bases.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+The test in the <code>if</code> statement should be a <code>grep</code> command that examines whether the filename contains <code>_R1_</code> (pipe <code>echo</code> output into <code>grep</code>). The <code>grep</code> standard output should be redirected to <code>/dev/null</code>, since we’re only interested in the <em>exit status</em>: If <code>grep</code> finds a match, the commands following <code>then</code> will be executed; if it doesn’t, the commands following <code>else</code> will be executed.<br />
+<br />
+You can assume that matches will only be made in the sequences themselves (and not the headers or quality scores), so you can <code>grep</code> the file as is: you don’t need to first select the lines with sequences.<em><br />
+<br />
+</em>To replace ambiguity codes with character classes in the <code>grep</code> regular expression: an <code>R</code> in the primers becomes <code>[AG]</code> in the <code>grep</code> expression, e.g. the partial sequence <code>ATRG</code> would become <code>AT[AG]G</code> in your regular expression.<br />
+<br />
+You’ll need both the primer <em>and</em> its reverse complement in a single <code>grep</code> regular expression: separate them with an logical “or” (<code>|</code>) and to enable this, use <code>grep -E</code> for extended regular expressions.</p>
+</p>
+</details></li>
+<li><p>Bonus: Print a count table of sequence lengths.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+You’ll have to select only the lines with the actual DNA sequences, and the best way of doing that is using <code>awk</code> like so (see the Solution for an explanation of why this works):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 2) }&#39;</span></span></code></pre></div>
+<p>Next, you need to count the number of characters in each line, which is best done in the same <code>awk</code> command using <code>print length($0)</code>, which will print the number of characters in the line.<br />
+<br />
+After that, it’s the familiar <code>sort | uniq -c</code> idiom to create a count table.<br />
+</p>
+</p>
+</details></li>
+<li><p>Make the script executable.<br />
+</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+Use the <code>chmod</code> command.<br />
+</p>
+</p>
+</details></li>
+<li><p>Run the script for a single FASTQ file by calling it from the command line.</p></li>
+</ol>
+<p><br></p>
+<h3 id="exercise-3-modify-the-looping-script">Exercise 3: Modify the looping script</h3>
+<p>Now, let’s modify Buffalo’s script <code>fastq_stat_loop.sh</code>.</p>
+<ol type="1">
+<li><p>Currently, the metadata file that contains the list of files to process is hard-coded as <code>samples.txt</code>. Also, the file names have to be extracted from a specific column from the metadata file. This is not a very flexible setup, and is sensitive to minor changes in a file like <code>samples.txt</code>.<br />
+<br />
+Change the script to <em>let it accept a list of FASTQ file names as an argument</em>.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+Recall that the placeholder variable for the first argument that is passed to a script on the command line is <code>$1</code>.<br />
+<br />
+Inside the command substitution (<code>$()</code>) that populates the array, you can simply use <code>cat</code> instead of <code>cut</code> on the file that contains the list of file names, since this file will no longer have multiple columns.<br />
+</p>
+</p>
+</details></li>
+<li><p>Currently, the output directory is also hard-coded, as <code>stats</code> – let’s instead <em>add the output directory as a second argument to the script</em>. Moreover, add code that creates this output directory if it doesn’t already exist.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+You can write an explicit test to see if the output dir exists first, but simply using <code>mkdir -p</code> will also work: with the <code>-p</code> option, <code>mkdir</code> doesn’t complain when a dir already exists (and can also make multiple levels of directories at once).<br />
+</p>
+</p>
+</details></li>
+<li><p>Change the line that runs the imaginary program <code>fastq_stat</code> to let it run your <code>fastq_stat.sh</code> script instead. Make sure the path to your script and the path to the output file is correct.</p></li>
+<li><p>In each iteration of the loop, let the script report which FASTQ file will be analyzed.</p></li>
+<li><p>Now that the script takes arguments, we need <em>another file or script</em> to create the list of filenames and to submit the script with the appropriate arguments. Specifically, in this file, we need:</p>
+<ul>
+<li><p>A line that creates a new file just containing the FASTQ file names (akin to column 3 from <code>samples.txt</code> – but with the paths to our actual FASTQ files).</p></li>
+<li><p>A line that runs the <code>fastq_stat_loop.sh</code> script. The file that contains the list of FASTQ files should be passed to the script as the <em>first argument</em>, and the output directory as the <em>second argument</em>.<br />
+<br />
+As for the actual path to the output dir, you can use whatever (relative!) path makes sense to you.</p></li>
+</ul>
+<p><strong>Create the file containing the code outlined above.</strong> You can save this file either as a <code>.sh</code> script (e.g. <code>fastqc_runner.sh</code>), or put these lines in a Markdown file inside a code block. Either option is reasonable because these lines would likely be run <em>interactively</em>, as opposed to the <code>fastq_stat_loop.sh</code> script which will be run non-interactively. It’s still important to save these interactive commands in a file, so you know what you did and can easily reproduce it.</p></li>
+<li><p>Make <code>fastq_stat_loop.sh</code> executable and run it.<br />
+<br />
+The loop script should run <code>fastq_stat.sh</code> on all your FASTQ files. Check the output, which should be in one file per FASTQ file in the output dir you designated. You should be seeing that the vast majority of reads contain the primer sequences. Be proud – with a quick script that only runs for a couple of seconds, and no specialized software, you have queried hundreds of thousands of sequences!</p></li>
+</ol>
+<p><br></p>
+<h3 id="exercise-4-bells-and-whistles">Exercise 4: Bells and whistles</h3>
+<p>In this exercise, you will touch up your <code>fastqc_stat.sh</code> script to include tests for robustness, and to report what the script is doing.</p>
+<p>For the tests, check whether they work (…)! For instance, to check the test for the number of arguments, try running the script with no arguments, and also with two arguments, and see if the script produces the error messages you wrote.</p>
+<ol type="1">
+<li><p>Write an <code>if</code> statement to check whether the FASTQ file exists / is a regular file and whether it can be read. If not, give an error and exit the script with exit code 1.<br />
+<br />
+</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+Go back to this week’s slides for an example of testing whether a file is a regular file (<code>-f</code>) and whether it can be read (<code>-r</code>).<br />
+<br />
+To exit with exit code 1, simply use: <code>exit 1</code>. This should be done <em>after</em> printing any error messages you, or those won’t actually be printed.<br />
+</p>
+</p>
+</details></li>
+<li><p>Check whether exactly 1 argument was passed to the script on the command line. If not, return an error, succinctly report how to use the script (“usage: …”), and exit with exit code 1.<br />
+<br />
+</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+Go back to this week’s slides for an example of a very similar test.<br />
+<br />
+The number of arguments that were passed to a script are automatically available in <code>$#</code>.<br />
+<br />
+You can test for equality using <code>&lt;integer&gt; -eq &lt;integer&gt;</code> (e.g. <code>10 -eq 10</code> which will evaluate to <code>true</code>) and you can <em>negate</em> a test ("number of argument is <em>not</em> equal to 1) using a <code>!</code> before the comparison expression.<br />
+</p>
+</p>
+</details></li>
+<li><p>Add <code>date</code> commands at the start and the end of the script, so you’ll be able to tell how long it took the script to complete.</p></li>
+</ol>
+<p><br></p>
+<h2 id="bonus-exercises">Bonus exercises</h2>
+<h3 id="exercise-5-find-the-longest-file1">Exercise 5: Find the longest file<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></h3>
+<p>Write a shell script called <code>longest.sh</code> that takes two arguments: the name of a directory and a file extension (like <code>txt</code>). The script should print the name of the file that has the most lines among all files with with that extension in that directory.</p>
+<p>Make sure the script has the <em>shebang</em> and <code>set</code> headers, and make the script executable.<br />
+<br />
+Then, run your script to learn which FASTQ file has the most lines (and sequences):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a>$ <span class="ex">./longest.sh</span> data/fastq fastq</span></code></pre></div>
+<p>… should print the name of the <code>.fastq</code> file in <code>data/fastq</code> with the highest number of lines and therefore sequences.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>You can count lines for many files at once using <code>wc -l</code>: simply provide it with a globbing pattern.</p>
+</p>
+</details>
+<h3 id="exercise-6-plant-pollinator-networks">Exercise 6: Plant-pollinator networks</h3>
+<p><em>This exercise is slightly modified after 1.10.3 from the CSB book. The</em> <code>Saavedra2013</code> <em>directory can be found inside the CSB repository at <code>CSB/unix/data/Saavedra2013</code>, and the following code assumes you are in the directory <code>CSB/unix/sandbox</code>. (If you no longer have the repository, download it again using</em> <code>git clone https://github.com/CSB-book/CSB.git</code>.)</p>
+<p>Saavedra and Stouffer (2013) studied several plant–pollinator networks. These can be represented as rectangular matrices where the rows are pollinators, the columns plants, a 0 indicates the absence and 1 the presence of an interaction between the plant and the pollinator.</p>
+<p>The data of Saavedra and Stouffer (2013) can be found in the directory <code>CSB/unix/data/Saavedra2013</code>.</p>
+<ol type="1">
+<li><p>Write a script that takes one of these files as an argument, and determines the number of rows (pollinators) and columns (plants). Note that columns are separated by spaces. Don’t forget to make your script executable and to add the standard header lines. Your script should return:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a>$ <span class="ex">./netsize.sh</span> ../data/Saavedra2013/n1.txt</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; Filename: ../data/Saavedra2013/n1.txt</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; Number of rows: 97</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; Number of columns: 80</span></span></code></pre></div></li>
+<li><p>Write a script that prints the numbers of rows and columns for each network, taking the directory containing all the files as an argument:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a>$ <span class="ex">./netsize_all.sh</span> ../data/Saavedra2013</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt; ../data/Saavedra2013/n10.txt     14      20</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; ../data/Saavedra2013/n11.txt     270     91</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; ../data/Saavedra2013/n12.txt     7       72</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt; ../data/Saavedra2013/n13.txt     61      17</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; …</span></span></code></pre></div></li>
+</ol>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>To find the number of columns, use <code>awk</code> and recall <code>awk</code>’s <code>NF</code> (number of fields =&gt; number of columns) keyword.</p>
+<p>To combine them in a script, use command substitution to assign the result of a command to a variable. (For example: <code>mytxtfiles=$(ls *.txt)</code> stores the list of <code>.txt</code> files in the variable <code>$mytxtfiles</code>.)</p>
+<p>Next, you need to write a <code>for</code> loop.</p>
+<p>You can now use the script you’ve just written in combination with <code>sort</code> to answer the questions (remember the option <code>-k</code> to choose a column and <code>-r</code> to reverse the sorting order).</p>
+<p>You can use <code>echo -e</code> to print tabs using <code>\t</code>: <code>echo -e "column1 \t column2"</code>.</p>
+</p>
+</details>
+<h3 id="exercise-7-data-explorer">Exercise 7: Data explorer</h3>
+<p><em>This is slightly modified after exercise 1.10.4 from the CSB book. The</em> <code>Buzzard2015_data.csv</code> <em>file can be found inside the CSB repository at <code>CSB/unix/data/Buzzard2015_data.csv</code>.</em></p>
+<p>Buzzard et al. (2016) collected data on the growth of a forest in Costa Rica. In the file <code>Buzzard2015_data.csv</code> you will find a subset of their data, including taxonomic information, abundance, and biomass of trees.</p>
+<p>1. Write a script that, for a given CSV file and column number, prints:</p>
+<ul>
+<li>The corresponding column name;</li>
+<li>The number of distinct values in the column;</li>
+<li>The minimum value;</li>
+<li>The maximum value.</li>
+</ul>
+<p>Don’t forget to make your script executable and add the standard header lines.</p>
+<p>For example, running the script with:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a>$ <span class="ex">./explore.sh</span> ../data/Buzzard2015_data.csv 7</span></code></pre></div>
+<p>…should return:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">Column</span> name:</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="ex">biomass</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="ex">Number</span> of distinct values:</span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="ex">285</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="ex">Minimum</span> value:</span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="ex">1.048466198</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="ex">Maximum</span> value:</span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="ex">14897.29471</span></span></code></pre></div>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>You can select a given column from a <code>csv</code> file using the command <code>cut</code>. Then,</p>
+<ul>
+<li><p>The column name is going to be in the first line (<em>header</em>); access it with <code>head</code>.</p></li>
+<li><p>For the next few commands, you’ll need to remove the header line – the <code>tail</code> trick to do so is <code>tail -n +2</code>.</p></li>
+<li><p>The number of distinct values can be found by counting the number of lines when you have sorted them and removed duplicates (using a combination of <code>tail</code>, <code>sort</code> and <code>uniq</code>).</p></li>
+<li><p>The minimum and maximum values can be found by combining <code>sort</code> and <code>head</code> (or <code>tail</code>).</p></li>
+<li><p>Rename the placeholders <code>$1</code> and <code>$2</code> for the command-line arguments to named variables for the file name and column number, respectively.</p></li>
+</ul>
+</p>
+</details>
+<p><br></p>
+<h2 id="solutions">Solutions</h2>
+<h3 id="exercise-1">Exercise 1</h3>
+<details>
+<p><summary>1. Create a directory for these exercises.</summary></p>
+<p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">mkdir</span> /fs/ess/PAS1855/users/<span class="va">$USER</span>/week05/exercises/</span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary>3. Copy the FASTQ files into your own dir.</summary></p>
+<p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">mkdir</span> -p data/fastq/</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">cp</span> /fs/ess/PAS1855/data/week05/fastq/* data/fastq/</span></code></pre></div>
+</p>
+</details>
+<h3 id="exercise-2">Exercise 2</h3>
+<details>
+<p><summary>1. Create a new script with header lines.</summary></p>
+<p>
+<p>The first two lines of the script:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span></code></pre></div>
+<p>Save the file as <code>fastq_stat.sh</code>.</p>
+</p>
+</details>
+<details>
+<p><summary>2. Assign the first argument to a named variable.</summary></p>
+<p>
+<p>Add a line like this to your <code>fastq_stat.sh</code> script:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="va">fastq_file=$1</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<p>For testing the code below, we first assign one of the FASTQ filenames to the variable <code>$fastq_file</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="va">fastq_file=</span>201-S4-V4-V5_S53_L001_R1_001.fastq</span></code></pre></div>
+<p><summary>3. Let the script report its name and the name of the FASTQ file.</summary></p>
+<p>
+<p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$0</span><span class="st">: A script to compute basic summary stats for a FASTQ file.&quot;</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="bu">echo</span> <span class="st">&quot;FASTQ file to be analyzed: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary>4. Compute and report the number of sequences in the FASTQ file.</summary></p>
+<p>
+<p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># We save the output of our commands using command substitution, $().</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="co"># In the wc -l command, use input redirection so the filename is not in the output.</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="va">n_lines=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="va">n_seqs=$(</span><span class="fu">expr</span> <span class="st">&quot;</span><span class="va">$n_lines</span><span class="st">&quot;</span> / 4<span class="va">)</span>     <span class="co"># Use expr for arithmetics</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="bu">echo</span> <span class="st">&quot;Number of sequences: </span><span class="va">$n_seqs</span><span class="st">&quot;</span></span></code></pre></div>
+<ul>
+<li><p>Alternatively, you can use the <code>(( ))</code> syntax for arithmetics – just take care that in this case, there can be no spaces between the mathematical operator and the numbers:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1"></a><span class="va">n_seqs=$((</span><span class="st">&quot;</span><span class="va">$n_lines</span><span class="st">&quot;</span>/4<span class="va">))</span></span></code></pre></div></li>
+<li><p>To get the number of sequences, you can also count the number of lines that only have a <code>+</code> symbol:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1"></a><span class="va">n_seqs=$(</span><span class="fu">grep</span> -c <span class="st">&quot;^+$&quot;</span> <span class="va">$fastq_file)</span></span></code></pre></div>
+<p>Recall that <code>+</code> is also a regular expression symbol, but only so in the extended regex set. Therefore, without the <code>-E</code> flag to <code>grep</code>, we are matching a literal <code>+</code> when we use one in our expression.</p></li>
+</ul>
+</p>
+</details>
+<details>
+<p><summary>5. Search for adapter sequences.</summary></p>
+<p>
+<p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R1_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a></span>
+<span id="cb17-3"><a href="#cb17-3"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R1) reads, checking for primer 1...&quot;</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a></span>
+<span id="cb17-5"><a href="#cb17-5"></a>  <span class="va">n_primerF=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;GAGTG[CT]CAGC[AC]GCCGCGGTAA|TTACCGCGGC[GT]GCTG[AG]CACTC&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb17-6"><a href="#cb17-6"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of forward primer sequences found: </span><span class="va">$n_primerF</span><span class="st">&quot;</span></span>
+<span id="cb17-7"><a href="#cb17-7"></a></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="kw">else</span></span>
+<span id="cb17-9"><a href="#cb17-9"></a></span>
+<span id="cb17-10"><a href="#cb17-10"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R2) reads, checking for primer 2...&quot;</span></span>
+<span id="cb17-11"><a href="#cb17-11"></a></span>
+<span id="cb17-12"><a href="#cb17-12"></a>  <span class="va">n_primerR=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;ACGGACTAC[ACTG][ACG]GGGT[AT]TCTAAT|ATTAGA[AT]ACCCB[ACTG]GTAGTCCGT&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb17-13"><a href="#cb17-13"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of reverse primer sequences found: </span><span class="va">$n_primerR</span><span class="st">&quot;</span></span>
+<span id="cb17-14"><a href="#cb17-14"></a></span>
+<span id="cb17-15"><a href="#cb17-15"></a><span class="kw">fi</span></span></code></pre></div>
+<p>To initiate the <code>if</code> statement:</p>
+<ul>
+<li>We redirect <code>grep</code>’s output to <code>/dev/null</code>, since we’re only interested in the exit status.</li>
+<li>If <code>grep</code> finds a match, this evaluates to “true”, and the next code block will be executed. If no match is found, the block after <code>else</code> will be executed.</li>
+</ul>
+<p>Inside the <code>if</code> statement:</p>
+<ul>
+<li>We use the <code>grep</code>’s <code>-E</code> option to search for either of the two primer sequences at once with <code>|</code>.</li>
+<li>We use character classes like <code>[CT]</code> in place of each ambiguity code.</li>
+<li>We use <code>grep</code>’s <code>-c</code> option to count the matches.</li>
+</ul>
+<p>Or, to explicitly check the file contains <code>_R2</code> in its name, rather than assuming this must be the case if it doesn’t contain <code>_R1</code>, you can use <code>elif</code> (short for “else-if”) to add another test:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R1_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R1) reads, checking for primer 1...&quot;</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a></span>
+<span id="cb18-5"><a href="#cb18-5"></a>  <span class="va">n_primerF=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;GAGTG[CT]CAGC[AC]GCCGCGGTAA|TTACCGCGGC[GT]GCTG[AG]CACTC&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of forward primer sequences found: </span><span class="va">$n_primerF</span><span class="st">&quot;</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a></span>
+<span id="cb18-8"><a href="#cb18-8"></a><span class="kw">elif</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R2_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a></span>
+<span id="cb18-10"><a href="#cb18-10"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R2) reads, checking for primer 2...&quot;</span></span>
+<span id="cb18-11"><a href="#cb18-11"></a></span>
+<span id="cb18-12"><a href="#cb18-12"></a>  <span class="va">n_primerR=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;ACGGACTAC[ACTG][ACG]GGGT[AT]TCTAAT|ATTAGA[AT]ACCCB[ACTG]GTAGTCCGT&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb18-13"><a href="#cb18-13"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of reverse primer sequences found: </span><span class="va">$n_primerR</span><span class="st">&quot;</span></span>
+<span id="cb18-14"><a href="#cb18-14"></a></span>
+<span id="cb18-15"><a href="#cb18-15"></a><span class="kw">fi</span></span></code></pre></div>
+<p>When we test this code by itself, we get:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">#&gt; FASTQ file contains forward (R1) reads, checking for primer 1...</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="co">#&gt; Number of forward primer sequences found: 44687</span></span></code></pre></div>
+<p>This looks good!</p>
+</p>
+</details>
+<details>
+<p><summary>6. Bonus: Print a count table of sequence lengths.</summary></p>
+<p>
+<p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a><span class="bu">echo</span> <span class="st">&quot;Count table of sequence lengths:&quot;</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 2) print length($0) }&#39;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> -c</span></code></pre></div>
+<ul>
+<li>To select only actual sequences, and not other lines, from the FASTQ file, we use the following trick. We know that in the FASTQ file, every fourth line, starting from line number 2, contains the actual sequence (i.e.: line 2, line 6, line 10, etc). To select these lines we can use the “modulo” operator to select only line numbers (<code>NR</code> in <code>awk</code>) for which, after dividing the line number by 4, we have 2 left: <code>NR%4 == 2</code>.</li>
+<li>Next we print the number of characters on the entire line using <code>awk</code>’s <code>length</code> function: <code>print length($0)</code>.</li>
+<li>Finally, we pass the sequence lengths on to the <code>sort | uniq -c</code> idiom, which will give us a count table.</li>
+</ul>
+</p>
+</details>
+<details>
+<p><summary>7. Make the script executable.</summary></p>
+<p>
+<p>Assuming it is in the working dir:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1"></a>$ <span class="fu">chmod</span> u+x fastq_stat.sh </span>
+<span id="cb21-2"><a href="#cb21-2"></a></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="co"># Or for all scripts at once:</span></span>
+<span id="cb21-4"><a href="#cb21-4"></a>$ <span class="fu">chmod</span> u+x *sh</span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary>8. Run the script for a single FASTQ file by calling it from the command line.</summary></p>
+<p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># Assuming you have assigned a FASTQ file to $fastq_file for testing:</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="ex">./fastq_stat.sh</span> <span class="va">$fastq_file</span></span></code></pre></div>
+</p>
+</details>
+<h3 id="exercise-3">Exercise 3</h3>
+<details>
+<p><summary>Change the script to let it accept a list of FASTQ file names as an argument.</summary></p>
+<p>
+<p>Add this line to the script:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1"></a><span class="va">file_list=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Now, replace the following line:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># Old line:</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="co"># sample_files=($(cut -f 3 &quot;$sample_info&quot;))</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a></span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="co"># New line:</span></span>
+<span id="cb24-5"><a href="#cb24-5"></a><span class="va">sample_files=($(</span><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span><span class="va">))</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary>Add the output directory as a second argument to the script, and create the output dir if necessary.</summary></p>
+<p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1"></a><span class="va">output_dir=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="co"># Create the output dir, if necessary:</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="fu">mkdir</span> -p <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
+<ul>
+<li><code>mkdir -p</code> will not complain if the directory already exists, and it can make multiple levels of directories at once.</li>
+</ul>
+</p>
+</details>
+<details>
+<p><summary>3. Modify the line in the script that calls <code>fastq_stat</code> to call your script.</summary></p>
+<p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Old line:</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="co"># fastq_stat &quot;$fastq_file&quot; &gt; stats/$results_file</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="co"># New line:</span></span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="ex">scripts/fastq_stat.sh</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span>/<span class="st">&quot;</span><span class="va">$results_file</span><span class="st">&quot;</span></span></code></pre></div>
+<p>The <code>results_file</code> line can remain the same:</p>
+<pre><code>results_file=&quot;$(basename $fastq_file .fastq)-stats.txt&quot;</code></pre>
+</p>
+</details>
+<details>
+<p><summary>4. In each iteration of the loop, let the script report which FASTQ will be analyzed.</summary></p>
+<p>
+<p>Add the following line <em>inside the loop</em>:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1"></a><span class="bu">echo</span> <span class="st">&quot;Running fastq_stat for FASTQ file </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary>5. Create a second file/script to create a list of FASTQ files and to run the loop script.</summary></p>
+<p>
+<ul>
+<li>To create a list of FASTQ files:</li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1"></a><span class="va">file_list=</span>fastq_file_list.txt</span>
+<span id="cb29-2"><a href="#cb29-2"></a></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="fu">ls</span> data/*fastq <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span></span></code></pre></div>
+<ul>
+<li>To run the loop script:</li>
+</ul>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1"></a><span class="va">output_dir=</span>results/fastq_stats</span>
+<span id="cb30-2"><a href="#cb30-2"></a></span>
+<span id="cb30-3"><a href="#cb30-3"></a><span class="ex">./fastq_stat_loop.sh</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary>6. Make <code>fastq_stat_loop.sh</code> executable and run it.</summary></p>
+<p>
+<p>Run these lines:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1"></a>$ <span class="fu">chmod</span> u+x ./fastq_stat_loop.sh</span>
+<span id="cb31-2"><a href="#cb31-2"></a></span>
+<span id="cb31-3"><a href="#cb31-3"></a>$ <span class="ex">./fastq_stat_loop.sh</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary><strong>The final <code>fastq_stat_loop.sh</code> script.</strong></summary></p>
+<p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a><span class="kw">set</span> <span class="ex">-e</span> -u -o pipefail</span>
+<span id="cb32-3"><a href="#cb32-3"></a></span>
+<span id="cb32-4"><a href="#cb32-4"></a><span class="va">file_list=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb32-5"><a href="#cb32-5"></a><span class="va">output_dir=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
+<span id="cb32-6"><a href="#cb32-6"></a></span>
+<span id="cb32-7"><a href="#cb32-7"></a><span class="co"># Create the output dir, if necessary:</span></span>
+<span id="cb32-8"><a href="#cb32-8"></a><span class="fu">mkdir</span> -p <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span>
+<span id="cb32-9"><a href="#cb32-9"></a></span>
+<span id="cb32-10"><a href="#cb32-10"></a><span class="co"># Create an array with FASTQ files</span></span>
+<span id="cb32-11"><a href="#cb32-11"></a><span class="va">fastq_files=($(</span><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span><span class="va">))</span></span>
+<span id="cb32-12"><a href="#cb32-12"></a></span>
+<span id="cb32-13"><a href="#cb32-13"></a><span class="co"># Report:</span></span>
+<span id="cb32-14"><a href="#cb32-14"></a><span class="bu">echo</span> <span class="st">&quot;Number of fastq files: </span><span class="va">${#fastq_files[@]}</span><span class="st">&quot;</span></span>
+<span id="cb32-15"><a href="#cb32-15"></a></span>
+<span id="cb32-16"><a href="#cb32-16"></a><span class="co"># Loop through the array:</span></span>
+<span id="cb32-17"><a href="#cb32-17"></a><span class="kw">for</span> <span class="ex">fastq_file</span> in <span class="st">&quot;</span><span class="va">${fastq_files[@]}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb32-18"><a href="#cb32-18"></a></span>
+<span id="cb32-19"><a href="#cb32-19"></a>  <span class="bu">echo</span> <span class="st">&quot;Running fastq_stat for FASTQ file </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
+<span id="cb32-20"><a href="#cb32-20"></a></span>
+<span id="cb32-21"><a href="#cb32-21"></a>  <span class="co"># Strip .fastq from each FASTQ file, and add suffix:</span></span>
+<span id="cb32-22"><a href="#cb32-22"></a>  <span class="va">results_file=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> .fastq<span class="va">)</span><span class="st">-stats.txt&quot;</span></span>
+<span id="cb32-23"><a href="#cb32-23"></a></span>
+<span id="cb32-24"><a href="#cb32-24"></a>  <span class="co"># Run &quot;fastq_stat&quot; on a file:</span></span>
+<span id="cb32-25"><a href="#cb32-25"></a>  <span class="ex">scripts/fastq_stat.sh</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span>/<span class="st">&quot;</span><span class="va">$results_file</span><span class="st">&quot;</span></span>
+<span id="cb32-26"><a href="#cb32-26"></a></span>
+<span id="cb32-27"><a href="#cb32-27"></a><span class="kw">done</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary><strong>The final lines in the runner script / Markdown code block.</strong></summary></p>
+<p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1"></a><span class="va">file_list=</span>fastq_file_list.txt</span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="va">output_dir=</span>results/fastq_stats</span>
+<span id="cb33-3"><a href="#cb33-3"></a></span>
+<span id="cb33-4"><a href="#cb33-4"></a><span class="fu">ls</span> data/*fastq <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a></span>
+<span id="cb33-6"><a href="#cb33-6"></a><span class="ex">./fastq_stat_loop.sh</span> <span class="st">&quot;</span><span class="va">$file_list</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$output_dir</span><span class="st">&quot;</span></span></code></pre></div>
+</p>
+</details>
+<h3 id="exercise-4">Exercise 4</h3>
+<details>
+<p><summary>1. Check whether the FASTQ file is a regular file than can be read.</summary></p>
+<p>
+<ul>
+<li><p>Add these lines to your script:</p>
+<ul>
+<li><p><code>! -f</code> will be true if the file is not a regular/existing file</p></li>
+<li><p><code>! -r</code> will be true if the file is not readable</p></li>
+<li><p>We use <code>||</code> to separate the two conditions with a logical or.</p></li>
+<li><p>With <code>exit 1</code>, we terminate the script with an exit code that indicates failure.</p></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span> <span class="kw">||</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-r</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: can&#39;t open file&quot;</span></span>
+<span id="cb34-3"><a href="#cb34-3"></a>  <span class="bu">echo</span> <span class="st">&quot;Second argument should be a readable file&quot;</span></span>
+<span id="cb34-4"><a href="#cb34-4"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
+<span id="cb34-5"><a href="#cb34-5"></a>  <span class="bu">exit</span> 1</span>
+<span id="cb34-6"><a href="#cb34-6"></a><span class="kw">fi</span></span></code></pre></div>
+<ul>
+<li>To test your test:</li>
+</ul>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1"></a>$ <span class="ex">./fastq_stat.sh</span> blabla </span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary>2. Check whether only one argument was provided.</summary></p>
+<p>
+<ul>
+<li><p>Add these lines to your script:</p>
+<ul>
+<li><p><code>$#</code> is the number of command-line arguments passed to the script</p></li>
+<li><p><code>-eq</code> will test whether the numbers to the left and right of it are the same, and will return <code>true</code> if they are.</p></li>
+<li><p>We negate this with <code>!</code>: if the number of arguments is NOT 1, then error out.</p></li>
+<li><p><code>exit 1</code> will exit with exit code 1, which signifies an error / failure.</p></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="st">&quot;</span><span class="va">$#</span><span class="st">&quot;</span> <span class="ot">-eq</span> 1<span class="bu"> ]</span>; <span class="kw">then</span>   <span class="co"># If the number of args does NOT equal 1, then</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: wrong number of arguments&quot;</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided </span><span class="va">$#</span><span class="st"> arguments, while 1 is required.&quot;</span></span>
+<span id="cb36-4"><a href="#cb36-4"></a>  <span class="bu">echo</span> <span class="st">&quot;Usage: fastq_stat.sh &lt;file-name&gt;&quot;</span></span>
+<span id="cb36-5"><a href="#cb36-5"></a>  <span class="bu">exit</span> 1</span>
+<span id="cb36-6"><a href="#cb36-6"></a><span class="kw">fi</span></span></code></pre></div>
+<ul>
+<li>To test your test:</li>
+</ul>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1"></a>$ <span class="ex">./fastq_stat.sh</span>                      <span class="co"># No args</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a>$ <span class="ex">./fastq_stat.sh</span> <span class="va">$fastq_file</span> blabla   <span class="co"># Two args</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary>3. Add <code>date</code> commands.</summary></p>
+<p>
+<p>Simply include two lines with:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1"></a><span class="fu">date</span></span></code></pre></div>
+<p>… in the script, one before file processing, and one after.</p>
+</p>
+</details>
+<details>
+<p><summary><strong>The final <code>fastq_stat.sh</code> script.</strong></summary></p>
+<p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
+<span id="cb39-3"><a href="#cb39-3"></a></span>
+<span id="cb39-4"><a href="#cb39-4"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$0</span><span class="st">: A script to compute basic summary stats for a FASTQ file.&quot;</span></span>
+<span id="cb39-5"><a href="#cb39-5"></a><span class="fu">date</span></span>
+<span id="cb39-6"><a href="#cb39-6"></a><span class="bu">echo</span></span>
+<span id="cb39-7"><a href="#cb39-7"></a></span>
+<span id="cb39-8"><a href="#cb39-8"></a><span class="co"># Test number of args -------------------------------------------------</span></span>
+<span id="cb39-9"><a href="#cb39-9"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="st">&quot;</span><span class="va">$#</span><span class="st">&quot;</span> <span class="ot">-eq</span> 1<span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb39-10"><a href="#cb39-10"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: wrong number of arguments&quot;</span></span>
+<span id="cb39-11"><a href="#cb39-11"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided </span><span class="va">$#</span><span class="st"> arguments, while 1 is required.&quot;</span></span>
+<span id="cb39-12"><a href="#cb39-12"></a>  <span class="bu">echo</span> <span class="st">&quot;Usage: fastq_stat.sh &lt;file-name&gt;&quot;</span></span>
+<span id="cb39-13"><a href="#cb39-13"></a>  <span class="bu">exit</span> 1</span>
+<span id="cb39-14"><a href="#cb39-14"></a><span class="kw">fi</span></span>
+<span id="cb39-15"><a href="#cb39-15"></a></span>
+<span id="cb39-16"><a href="#cb39-16"></a><span class="co"># Process command-line args and report ------------------------------------</span></span>
+<span id="cb39-17"><a href="#cb39-17"></a></span>
+<span id="cb39-18"><a href="#cb39-18"></a><span class="va">fastq_file=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb39-19"><a href="#cb39-19"></a></span>
+<span id="cb39-20"><a href="#cb39-20"></a><span class="bu">echo</span> <span class="st">&quot;FASTQ file to be analyzed: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
+<span id="cb39-21"><a href="#cb39-21"></a><span class="bu">echo</span></span>
+<span id="cb39-22"><a href="#cb39-22"></a></span>
+<span id="cb39-23"><a href="#cb39-23"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span> <span class="kw">||</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-r</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb39-24"><a href="#cb39-24"></a>  <span class="bu">echo</span> <span class="st">&quot;Error: can&#39;t open file&quot;</span></span>
+<span id="cb39-25"><a href="#cb39-25"></a>  <span class="bu">echo</span> <span class="st">&quot;Second argument should be a readable file&quot;</span></span>
+<span id="cb39-26"><a href="#cb39-26"></a>  <span class="bu">echo</span> <span class="st">&quot;You provided: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span>
+<span id="cb39-27"><a href="#cb39-27"></a>  <span class="bu">exit</span> 1</span>
+<span id="cb39-28"><a href="#cb39-28"></a><span class="kw">fi</span></span>
+<span id="cb39-29"><a href="#cb39-29"></a></span>
+<span id="cb39-30"><a href="#cb39-30"></a><span class="co"># Count primer sequences ------------------------------------------------</span></span>
+<span id="cb39-31"><a href="#cb39-31"></a></span>
+<span id="cb39-32"><a href="#cb39-32"></a><span class="va">n_lines=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span><span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb39-33"><a href="#cb39-33"></a><span class="va">n_seqs=$(</span><span class="fu">expr</span> <span class="st">&quot;</span><span class="va">$n_lines</span><span class="st">&quot;</span> / 4<span class="va">)</span></span>
+<span id="cb39-34"><a href="#cb39-34"></a></span>
+<span id="cb39-35"><a href="#cb39-35"></a><span class="bu">echo</span> <span class="st">&quot;Number of sequences: </span><span class="va">$n_seqs</span><span class="st">&quot;</span></span>
+<span id="cb39-36"><a href="#cb39-36"></a></span>
+<span id="cb39-37"><a href="#cb39-37"></a><span class="co"># Count primer sequences ------------------------------------------------</span></span>
+<span id="cb39-38"><a href="#cb39-38"></a></span>
+<span id="cb39-39"><a href="#cb39-39"></a><span class="kw">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R1_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb39-40"><a href="#cb39-40"></a></span>
+<span id="cb39-41"><a href="#cb39-41"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R1) reads, checking for primer 1...&quot;</span></span>
+<span id="cb39-42"><a href="#cb39-42"></a></span>
+<span id="cb39-43"><a href="#cb39-43"></a>  <span class="va">n_primerF=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;GAGTG[CT]CAGC[AC]GCCGCGGTAA|TTACCGCGGC[GT]GCTG[AG]CACTC&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb39-44"><a href="#cb39-44"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of forward primer sequences found: </span><span class="va">$n_primerF</span><span class="st">&quot;</span></span>
+<span id="cb39-45"><a href="#cb39-45"></a></span>
+<span id="cb39-46"><a href="#cb39-46"></a><span class="kw">elif</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R2_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb39-47"><a href="#cb39-47"></a></span>
+<span id="cb39-48"><a href="#cb39-48"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQ file contains forward (R2) reads, checking for primer 2...&quot;</span></span>
+<span id="cb39-49"><a href="#cb39-49"></a></span>
+<span id="cb39-50"><a href="#cb39-50"></a>  <span class="va">n_primerR=$(</span><span class="fu">grep</span> -Ec <span class="st">&quot;ACGGACTAC[ACTG][ACG]GGGT[AT]TCTAAT|ATTAGA[AT]ACCCB[ACTG]GTAGTCCGT&quot;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb39-51"><a href="#cb39-51"></a>  <span class="bu">echo</span> <span class="st">&quot;Number of reverse primer sequences found: </span><span class="va">$n_primerR</span><span class="st">&quot;</span></span>
+<span id="cb39-52"><a href="#cb39-52"></a></span>
+<span id="cb39-53"><a href="#cb39-53"></a><span class="kw">fi</span></span>
+<span id="cb39-54"><a href="#cb39-54"></a></span>
+<span id="cb39-55"><a href="#cb39-55"></a><span class="co"># Bonus: Count table of sequence lengths ---------------------------------</span></span>
+<span id="cb39-56"><a href="#cb39-56"></a><span class="bu">echo</span> <span class="st">&quot;Count table of sequence lengths:&quot;</span></span>
+<span id="cb39-57"><a href="#cb39-57"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 2) print length($0) }&#39;</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> -c</span>
+<span id="cb39-58"><a href="#cb39-58"></a></span>
+<span id="cb39-59"><a href="#cb39-59"></a><span class="co"># Report ----------------------------------------------------------------</span></span>
+<span id="cb39-60"><a href="#cb39-60"></a><span class="bu">echo</span></span>
+<span id="cb39-61"><a href="#cb39-61"></a><span class="bu">echo</span> <span class="st">&quot;Done with </span><span class="va">$0</span><span class="st"> for </span><span class="va">$fastq_file</span><span class="st">.&quot;</span></span>
+<span id="cb39-62"><a href="#cb39-62"></a><span class="fu">date</span></span></code></pre></div>
+</p>
+</details>
+<h3 id="exercise-5">Exercise 5</h3>
+<details>
+<p><summary>Solution</summary></p>
+<p>
+<p>There are several ways to do this, here’s one example:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
+<span id="cb40-3"><a href="#cb40-3"></a></span>
+<span id="cb40-4"><a href="#cb40-4"></a><span class="va">dir=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb40-5"><a href="#cb40-5"></a><span class="va">extension=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
+<span id="cb40-6"><a href="#cb40-6"></a></span>
+<span id="cb40-7"><a href="#cb40-7"></a><span class="fu">wc</span> -l <span class="st">&quot;</span><span class="va">$dir</span><span class="st">&quot;</span>/*.<span class="st">&quot;</span><span class="va">$extension</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> -rn <span class="kw">|</span> <span class="fu">sed</span> -n <span class="st">&#39;2p&#39;</span></span></code></pre></div>
+<p>You have to print the <em>second</em> rather than the the first line: the first line will be a <em>total</em> line number count across all files, which <code>wc</code> automatically computes.</p>
+<p>Instead of using <code>sed</code>, you could also use <code>head -n 2 | tail -n 1</code> to print the second line:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1"></a><span class="fu">wc</span> -l <span class="st">&quot;</span><span class="va">$dir</span><span class="st">&quot;</span>/*.<span class="st">&quot;</span><span class="va">$extension</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> -rn <span class="kw">|</span> <span class="fu">head</span> -n 2 <span class="kw">|</span> <span class="fu">tail</span> -n 1</span></code></pre></div>
+<p><em>(Note also that there are two files with the same number of lines: <code>R1</code> and <code>R2</code> files for the same sample always have the same number of reads.)</em></p>
+</p>
+</details>
+<h3 id="exercise-6">Exercise 6</h3>
+<details>
+<p><summary>1. Write a script that takes one file and determines the number of rows and columns.</summary></p>
+<p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb42-2"><a href="#cb42-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
+<span id="cb42-3"><a href="#cb42-3"></a></span>
+<span id="cb42-4"><a href="#cb42-4"></a><span class="va">file=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb42-5"><a href="#cb42-5"></a></span>
+<span id="cb42-6"><a href="#cb42-6"></a><span class="bu">echo</span> <span class="st">&quot;Filename:&quot;</span></span>
+<span id="cb42-7"><a href="#cb42-7"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb42-8"><a href="#cb42-8"></a></span>
+<span id="cb42-9"><a href="#cb42-9"></a><span class="co"># We can get the number of rows simply by counting the number of lines:</span></span>
+<span id="cb42-10"><a href="#cb42-10"></a><span class="co"># To avoid printing the filename we redirect the input like below</span></span>
+<span id="cb42-11"><a href="#cb42-11"></a><span class="co"># (Or we could have done: &quot;cat ../data/Saavedra2013/n10.txt | wc -l&quot;)</span></span>
+<span id="cb42-12"><a href="#cb42-12"></a><span class="bu">echo</span> <span class="st">&quot;Number of rows:&quot;</span></span>
+<span id="cb42-13"><a href="#cb42-13"></a><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb42-14"><a href="#cb42-14"></a></span>
+<span id="cb42-15"><a href="#cb42-15"></a><span class="co"># To count the number of columns, we use awk - recall that NF is the number</span></span>
+<span id="cb42-16"><a href="#cb42-16"></a><span class="co"># of fields (columns), and to print that number only for a single line, we exit:</span></span>
+<span id="cb42-17"><a href="#cb42-17"></a><span class="bu">echo</span> <span class="st">&quot;Number of columns:&quot;</span></span>
+<span id="cb42-18"><a href="#cb42-18"></a><span class="fu">awk</span> <span class="st">&#39;{ print NF; exit }&#39;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb42-19"><a href="#cb42-19"></a></span>
+<span id="cb42-20"><a href="#cb42-20"></a><span class="co"># head -n 1 &quot;$file&quot; | awk &#39;{ print NF }&#39; # Also works</span></span></code></pre></div>
+<p>We can save this script as <code>netsize.sh</code> and make it executable using <code>chmod u+x netsize.sh</code>.</p>
+</p>
+</details>
+<details>
+<p><summary>2. Write a script that prints the number of rows and columns for each network.</summary></p>
+<p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb43-2"><a href="#cb43-2"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
+<span id="cb43-3"><a href="#cb43-3"></a></span>
+<span id="cb43-4"><a href="#cb43-4"></a><span class="va">dir=</span><span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb43-5"><a href="#cb43-5"></a></span>
+<span id="cb43-6"><a href="#cb43-6"></a><span class="co"># We can loop over the files using globbing:</span></span>
+<span id="cb43-7"><a href="#cb43-7"></a><span class="kw">for</span> <span class="fu">file</span> in <span class="st">&quot;</span><span class="va">$dir</span><span class="st">&quot;</span>/*.txt<span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb43-8"><a href="#cb43-8"></a></span>
+<span id="cb43-9"><a href="#cb43-9"></a>    <span class="co"># Next, we can save the number of rows and columns in variables:</span></span>
+<span id="cb43-10"><a href="#cb43-10"></a>    <span class="va">n_row=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb43-11"><a href="#cb43-11"></a>    <span class="va">n_col=$(</span><span class="fu">awk</span> <span class="st">&#39;{ print NF; exit }&#39;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span><span class="va">)</span></span>
+<span id="cb43-12"><a href="#cb43-12"></a>    </span>
+<span id="cb43-13"><a href="#cb43-13"></a>    <span class="co"># And print them all on one line:</span></span>
+<span id="cb43-14"><a href="#cb43-14"></a>    <span class="bu">echo</span> -e <span class="st">&quot;</span><span class="va">$file</span><span class="st"> \t </span><span class="va">$n_row</span><span class="st"> \t </span><span class="va">$n_col</span><span class="st">&quot;</span></span>
+<span id="cb43-15"><a href="#cb43-15"></a><span class="kw">done</span></span></code></pre></div>
+<p>We can save this script as <code>netsize_all.sh</code> and run it as follows:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1"></a><span class="ex">./netsize_all.sh</span> ../data/Saavedra2013</span></code></pre></div>
+</p>
+</details>
+<details>
+<p><summary>3. Which network has the largest number of rows and which the largest number of columns?</summary></p>
+<p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># Having written the script netsize_all.sh,</span></span>
+<span id="cb45-2"><a href="#cb45-2"></a><span class="co"># you can take its output and order it according to rows or columns.</span></span>
+<span id="cb45-3"><a href="#cb45-3"></a></span>
+<span id="cb45-4"><a href="#cb45-4"></a><span class="co"># Sorting by column 2 gives you the file with the largest number of rows:</span></span>
+<span id="cb45-5"><a href="#cb45-5"></a>$ <span class="ex">./netsize_all.sh</span> <span class="kw">|</span> <span class="fu">sort</span> -n -r -k 2 <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
+<span id="cb45-6"><a href="#cb45-6"></a><span class="co">#&gt; ../data/Saavedra2013/n58.txt 678 90</span></span>
+<span id="cb45-7"><a href="#cb45-7"></a></span>
+<span id="cb45-8"><a href="#cb45-8"></a><span class="co"># Sorting by column 3 gives you the file with the largest number of columns:</span></span>
+<span id="cb45-9"><a href="#cb45-9"></a></span>
+<span id="cb45-10"><a href="#cb45-10"></a>$ <span class="ex">./netsize_all.sh</span> <span class="kw">|</span> <span class="fu">sort</span> -n -r -k 3 <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
+<span id="cb45-11"><a href="#cb45-11"></a><span class="co">#&gt;  ../data/Saavedra2013/n56.txt 110 207</span></span></code></pre></div>
+</p>
+</details>
+<h3 id="exercise-7">Exercise 7</h3>
+<details>
+<p><summary>Solution</summary></p>
+<p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb46-2"><a href="#cb46-2"></a></span>
+<span id="cb46-3"><a href="#cb46-3"></a><span class="kw">set</span> <span class="ex">-u</span> -e -o pipefail</span>
+<span id="cb46-4"><a href="#cb46-4"></a></span>
+<span id="cb46-5"><a href="#cb46-5"></a><span class="va">file=$1</span>    <span class="co"># $1 is the file name</span></span>
+<span id="cb46-6"><a href="#cb46-6"></a><span class="va">column=$2</span>  <span class="co"># $2 is the column of interest</span></span>
+<span id="cb46-7"><a href="#cb46-7"></a></span>
+<span id="cb46-8"><a href="#cb46-8"></a><span class="bu">echo</span> <span class="st">&quot;Column name:&quot;</span></span>
+<span id="cb46-9"><a href="#cb46-9"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
+<span id="cb46-10"><a href="#cb46-10"></a></span>
+<span id="cb46-11"><a href="#cb46-11"></a><span class="co"># In the next lines, we need to skip the header, which we can do using</span></span>
+<span id="cb46-12"><a href="#cb46-12"></a><span class="co"># tail -n +2</span></span>
+<span id="cb46-13"><a href="#cb46-13"></a><span class="bu">echo</span> <span class="st">&quot;Number of distinct values:&quot;</span></span>
+<span id="cb46-14"><a href="#cb46-14"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="kw">|</span> <span class="fu">wc</span> -l</span>
+<span id="cb46-15"><a href="#cb46-15"></a></span>
+<span id="cb46-16"><a href="#cb46-16"></a><span class="bu">echo</span> <span class="st">&quot;Minimum value:&quot;</span></span>
+<span id="cb46-17"><a href="#cb46-17"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">sort</span> -n <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
+<span id="cb46-18"><a href="#cb46-18"></a></span>
+<span id="cb46-19"><a href="#cb46-19"></a><span class="bu">echo</span> <span class="st">&quot;Maximum value:&quot;</span></span>
+<span id="cb46-20"><a href="#cb46-20"></a><span class="fu">cut</span> -d <span class="st">&#39;,&#39;</span> -f <span class="st">&quot;</span><span class="va">$column</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">sort</span> -n <span class="kw">|</span> <span class="fu">tail</span> -n 1</span></code></pre></div>
+<ul>
+<li>If we save the script as <code>explore.sh</code>, and make it executable, we can run it using:</li>
+</ul>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1"></a><span class="ex">./explore.sh</span> ../data/Buzzard2015_data.csv 6</span>
+<span id="cb47-2"><a href="#cb47-2"></a></span>
+<span id="cb47-3"><a href="#cb47-3"></a><span class="co"># Column name</span></span>
+<span id="cb47-4"><a href="#cb47-4"></a><span class="co"># Abund.n</span></span>
+<span id="cb47-5"><a href="#cb47-5"></a><span class="co"># Number of distinct values:</span></span>
+<span id="cb47-6"><a href="#cb47-6"></a><span class="co"># 46</span></span>
+<span id="cb47-7"><a href="#cb47-7"></a><span class="co"># Minimum value:</span></span>
+<span id="cb47-8"><a href="#cb47-8"></a><span class="co"># 1</span></span>
+<span id="cb47-9"><a href="#cb47-9"></a><span class="co"># Maximum value:</span></span>
+<span id="cb47-10"><a href="#cb47-10"></a><span class="co"># 157</span></span>
+<span id="cb47-11"><a href="#cb47-11"></a></span>
+<span id="cb47-12"><a href="#cb47-12"></a><span class="co"># This works well also for alphabetical order:</span></span>
+<span id="cb47-13"><a href="#cb47-13"></a></span>
+<span id="cb47-14"><a href="#cb47-14"></a><span class="ex">./explore.sh</span> ../data/Buzzard2015_data.csv 3</span>
+<span id="cb47-15"><a href="#cb47-15"></a></span>
+<span id="cb47-16"><a href="#cb47-16"></a><span class="co"># Column name</span></span>
+<span id="cb47-17"><a href="#cb47-17"></a><span class="co"># genus</span></span>
+<span id="cb47-18"><a href="#cb47-18"></a><span class="co"># Number of distinct values:</span></span>
+<span id="cb47-19"><a href="#cb47-19"></a><span class="co"># 85</span></span>
+<span id="cb47-20"><a href="#cb47-20"></a><span class="co"># Minimum value:</span></span>
+<span id="cb47-21"><a href="#cb47-21"></a><span class="co"># Acacia</span></span>
+<span id="cb47-22"><a href="#cb47-22"></a><span class="co"># Maximum value:</span></span>
+<span id="cb47-23"><a href="#cb47-23"></a><span class="co"># Zanthoxylum</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>This exercise was slightly modified from Software Carpentry’s <a href="http://swcarpentry.github.io/shell-novice/06-script/index.html">Shell Novice tutorial</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<div class="distill-site-nav distill-site-footer">
+<p>Jelmer Poelstra, 2020-2021</p>
+</div>
+<!--/radix_placeholder_navigation_after_body-->
+
+
+</body>
+
+</html>
