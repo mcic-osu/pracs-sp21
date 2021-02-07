@@ -1,8 +1,8 @@
 ---
-title: "Week 06"
+title: "Week 05"
 description: |
   Shell scripting
-date: 2021-02-15
+date: 2021-02-08
 output:
   distill::distill_article:
     self_contained: false
@@ -10,10 +10,10 @@ output:
 
 ### Slides
 
-- [Slides: Part I -- ...](slides/06-1_....html) -- Tuesday Zoom (Feb 16)
+- [Slides: Part I -- Variables, loops, arrays, and conditionals](slides/05-1_loops.html) -- Tuesday Zoom (Feb 9)
 
-- [Slides: Part II -- ...](slides/06-2_....html) -- Thursday Zoom (Feb 18)
+- [Slides: Part II -- Shell scripting](slides/05-2_scripts.html) -- Thursday Zoom (Feb 11)
 
 ### Ungraded assignments
 
-- [Exercises for week 6](../../w06_exercises.html)
+- [Exercises for week 5](../../w05_exercises.html)

@@ -1,5 +1,17 @@
 [
   {
+    "path": "posts/week-05/",
+    "title": "Week 05",
+    "description": "Shell scripting",
+    "author": [],
+    "date": "2021-02-08",
+    "categories": [],
+    "contents": "\nSlides\nSlides: Part I – Variables, loops, arrays, and conditionals – Tuesday Zoom (Feb 9)\nSlides: Part II – Shell scripting – Thursday Zoom (Feb 11)\nUngraded assignments\nExercises for week 5\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-02-07T10:59:00-05:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/week-04/",
     "title": "Week 04",
     "description": "Unix data tools",
