@@ -1,5 +1,5 @@
 ---
-title: "Week 6 - Shell scripting - II"
+title: "Week 5 - Shell scripting - II"
 output:
   xaringan::moon_reader:
     seal: false
@@ -18,7 +18,7 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-## *Week 6: Shell scripting*
+## *Week 5: Shell scripting*
 
 ----
 
