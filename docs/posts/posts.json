@@ -8,7 +8,7 @@
     "categories": [],
     "contents": "\nSlides\nSlides: Part I – Variables, loops, arrays, and conditionals – Tuesday Zoom (Feb 9)\nSlides: Part II – Shell scripting – Thursday Zoom (Feb 11)\nUngraded assignments\nExercises for week 5\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-07T10:59:57-05:00",
+    "last_modified": "2021-02-07T12:18:33-05:00",
     "input_file": {}
   },
   {
@@ -32,7 +32,7 @@
     "categories": [],
     "contents": "\nSlides\nSlides: Part I – Unix data tools – Tuesday Zoom (Feb 2)\nSlides: Part II – awk and sed – Thursday Zoom (Feb 4)\nUngraded assignments\nExercises for week 4\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-02T19:20:37-05:00",
+    "last_modified": "2021-02-07T12:18:33-05:00",
     "input_file": {}
   },
   {
@@ -44,7 +44,7 @@
     "categories": [],
     "contents": "\nSlides\nSlides: Part I – Getting started with Git – Tuesday Zoom (Jan 26)\nSlides: Part II – Remotes on GitHub, and branching & merging – Thursday Zoom (Jan 28)\nSlides: Part III – Undoing changes and viewing the past – Thursday / bonus\nUngraded assignments\nGit setup & GitHub authentication\nGraded assignments\nGraded assignment I: Shell, Markdown and Git\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-02T19:20:37-05:00",
+    "last_modified": "2021-02-07T12:18:33-05:00",
     "input_file": {}
   },
   {
@@ -56,7 +56,7 @@
     "categories": [],
     "contents": "\nSlides\nSlides: Part I – Some best practices for project organization – Tuesday Zoom (Jan 19)\nSlides: Part II - Markdown and VS Code – Tue/Thu Zoom\nSlides: Part III - Managing files in the shell – Thursday Zoom (Jan 21)\nUngraded assignments\nExercises for week 2\nSign up for a Github account (CarmenCanvas site)\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-02T19:20:37-05:00",
+    "last_modified": "2021-02-07T12:18:33-05:00",
     "input_file": {}
   },
   {
@@ -68,7 +68,7 @@
     "categories": [],
     "contents": "\nSlides\nSlides: Course intro – Tuesday Zoom (Jan 12)\nSlides: Shell basics – Thursday Zoom (Jan 14)\nUngraded assignments\nExercises for week 1\nOptional: Local software installation (CarmenCanvas site)\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-02T19:20:36-05:00",
+    "last_modified": "2021-02-07T12:18:33-05:00",
     "input_file": {}
   }
 ]
