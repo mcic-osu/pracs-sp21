@@ -1,0 +1,70 @@
+---
+title: "Optional Ungraded Assignment: `ssh` setup"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+<br>
+
+## Introduction
+
+---
+background-color: #f2f5eb
+
+## `ssh` set-up: avoid being prompted for password
+
+1. On your own computer, generate a key:
+```bash
+$ ssh-keygen -t rsa
+```
+
+1. On your own computer, transfer the key to the remote computer:
+```bash
+$ cat ~/.ssh/id_rsa.pub | ssh <user>@owens.osc.edu 'mkdir -p .ssh && cat >> .ssh/authorized_keys'
+```
+
+1. On remote computer (OSC), set permissions:
+```bash
+$ chmod 700 .ssh; chmod 640 .ssh/authorized_keys
+```
+
+1. Tell `ssh-agent` about the keys:
+```bash
+ssh-add
+```
+
+<br>
+
+- For more details, see this
+  [Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/).
+
+---
+background-color: #f2f5eb
+
+## `ssh` set-up: use shortcuts
+
+1. Create a file called `~/.ssh/config`:
+```bash
+$ touch `~/.ssh/config`
+```
+
+1. Open the file and add your alias(es):
+```bash
+> Host <arbitrary-alias-name>    
+>     HostName <remote-name>
+>     User <user-name>
+```
+
+--
+
+<br>
+
+- This is what it looks like on my machine, so I can login using "`ssh jo`":
+<br/>
+
+<p align="center">
+<img src=img/ssh.png width="400">
+</p>
