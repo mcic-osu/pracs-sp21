@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/11 (updated: 2021-02-07)
+### 2021/02/11 (updated: 2021-02-09)
 
 ---
 class: inverse middle center
@@ -49,6 +49,25 @@ class: inverse middle center
 
 ## Why scripts?
 
+- Scripts enable us to **run sets of commands non-interactively**,  
+  which is beneficial or even necessary when this set of commands:
+  
+  - Takes a long time to run and/or
+  
+  - Should be run many times, e.g. for different samples.
+
+&lt;br&gt;
+
+--
+
+- Scripts form the basis for *analysis pipelines* and if we code things cleverly,
+  it should be straightforward to rerun much of our project workflow:
+  
+  - After removing or adding a sample.
+  
+  - For different parameter settings.
+  
+  - And possibly even for an entirely different dataset. 
 
 ---
 
@@ -79,7 +98,7 @@ name: header
 
 - Use a so-called **"*shebang*" line** as the first line of a script.
   
-  This line tells the computer which program to use to run the script:
+  This line tells the computer which program to use to run the script:  
   in our case Bash, whose binary is located at `/bin/bash`.
   
   ```sh
@@ -98,7 +117,7 @@ name: header
   and also call the script as follows:
 
   ```sh
-  $ ./script.sh
+  $ ./script.sh      # Indicating the dir is needed; here the wd
   ```
 
 --
@@ -107,7 +126,7 @@ name: header
 
   ```sh
   $ chmod u+x script.sh   # Executable for user/owner of file only (u=user)
-  $ chmod a+x script.sh   # Alt: executable for everyone (a=all)
+  $ chmod u+x script.sh   # Alt: executable for everyone (a=all)
   ```
 
 ---
@@ -116,8 +135,7 @@ name: header
 
 By default, Bash will just keep running a script after it has encountered errors.
 
-And if you try to reference a variable that hasn't been assigned,  
-it won't even complain:
+And if you reference a variable that hasn't been assigned, it won't complain:
 
 ```sh
 $ echo $non_existent_variable
@@ -125,23 +143,25 @@ $ echo $non_existent_variable
 
 --
 
+&lt;br&gt;
+
 .content-box-q[
 Why is such behavior a bad idea in scripts?
 ]
 
 --
 
-- Let's accidentally delete the filesystem!
+- Let's accidentally delete the entire filesystem...!
+  
   ```sh
   TMPDIR=output/tmp/$sample/
   # rest of script...
   rm -rf $TMPPDIR/*   ## DONT TRY THIS!
   ```
 
-- As for why we want the script to stop after errors:
-  you may never notice them if they're subtle and don't cause
-  everything else to error out &amp;ndash; but they could still render the output
-  of the zombie script worthless!
+- And as for why we want a script to stop after errors:
+  these may otherwise go unnoticed but could well render the output
+  of the script worthless!
 
 ---
 
@@ -153,7 +173,8 @@ With these settings, the script terminates, with appropriate error message, if:
 
 - `set -e` &amp;mdash; Almost any errors occurs.
 
-- `set -o pipefail` &amp;mdash; An error occurs within a shell "pipeline".
+- `set -o pipefail` &amp;mdash; An error occurs in a shell "pipeline"
+  (`sort | uniq`).
 
 &lt;br&gt;
 
@@ -171,7 +192,7 @@ set -u -e -o pipefail
 
 ---
 
-## Our script &amp;ndash;*any* shell script&amp;ndash; so far 
+## Our script template so far 
 
 ```sh
 #!/bin/bash
@@ -204,7 +225,7 @@ name: arrays
   much like when you provide commands like `ls` with arguments:
 
   ```sh
-  $ ./name-script.sh John Doe
+  $ ./printname.sh John Doe
   ```
 
 - Inside the script, these arguments are *automatically* assigned to the
@@ -219,7 +240,7 @@ name: arrays
   ```
 
   ```sh
-  $ ./name-script.sh John Doe
+  $ ./printname.sh John Doe
   #&gt; First argument: John
   #&gt; Second argument: Doe
   #&gt; Full name: John Doe
@@ -229,8 +250,8 @@ name: arrays
 
 ## Command-line arguments for scripts (cont.)
 
-- Inside the script, it is good practice to reassign these to more descriptively
-  named variables:
+- It is good practice to reassign the `$1`-style placeholders to more
+  descriptively named variables:
 
   ```sh
   #!/bin/bash
@@ -246,9 +267,10 @@ name: arrays
 &lt;br&gt;
 
 .content-box-info[
+**Other variables that are automatically available inside scripts:**
 - `$0` contains the filename of the script.
 
-- `$#` contains the number of command-line arguments that were provided.
+- `$#` contains the number of command-line arguments provided.
 ]
 
 ---
@@ -288,7 +310,7 @@ name: arrays
   ```
 
   ```sh
-  $ chmod a+x headtail.sh
+  $ chmod u+x headtail.sh
   ```
 
 - Now we can run it as follows:
@@ -314,8 +336,14 @@ from a file.
 &lt;summary&gt;&lt;strong&gt;Hint!&lt;/strong&gt;&lt;/summary&gt;
 &lt;br&gt;
 To print a specific line number, say line 37 from &lt;code&gt;file.txt&lt;/code&gt;,
-you can use: &lt;br&gt; &lt;code&gt;head -n 37 file.txt | tail -n 1&lt;/code&gt;
-or &lt;code&gt;sed -n '37p' file.txt&lt;/code&gt;.
+you can use: &lt;br&gt;
+
+&lt;ul&gt;
+&lt;li&gt; &lt;code&gt;head -n 37 file.txt | tail -n 1&lt;/code&gt; or &lt;/li&gt;
+
+&lt;li&gt; &lt;code&gt;sed -n '37p' file.txt&lt;/code&gt; &lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;br&gt;
 &lt;/details&gt;
 
@@ -335,7 +363,7 @@ or &lt;code&gt;sed -n '37p' file.txt&lt;/code&gt;.
 - To execute:
 
   ```sh
-  $ chmod a+x line.sh
+  $ chmod u+x line.sh
   $ ./line.sh 4 samples.txt
   ```
 
@@ -470,6 +498,10 @@ What could we do to be make this script more robust / foolproof?
   ```sh
   echo "Starting script $0"
   date # Print date &amp; time to log &amp; time running duration
+  
+  line="$1"
+  file="$2"
+  
   echo "Input file: $file"
   echo "Requested line number: $line"
   
@@ -478,6 +510,29 @@ What could we do to be make this script more robust / foolproof?
   echo "Done with script $0"
   date
   ```
+
+---
+
+## Reporting what's going on
+
+- Now our script would return the following:
+
+  ```sh
+  $ ./line.sh 2 samples.txt
+  #&gt; Starting script ./line.sh
+  #&gt; Tue 09 Feb 2021 09:35:08 AM EST
+  #&gt; Input file: metadata.txt
+  #&gt; Requested line number: 2
+  #&gt; sample_B        2021-01-16      high
+  #&gt; Done with script ./line.sh
+  #&gt; Tue 09 Feb 2021 09:35:08 AM EST
+  ```
+
+&lt;br&gt;
+
+- This type of behavior is useful when you're writing the data to file,
+  as you usually will, and you can see a bit of a log printed to screen
+  or to a log file.
 
 ---
 
@@ -499,11 +554,11 @@ What could we do to be make this script more robust / foolproof?
 
   ```sh
   $ if [ ! "$#" -eq 2 ]; then
-      echo "Error: wrong number of arguments"
-      echo "You provided $# arguments, while 2 are required."
-      echo "Usage: line.sh &lt;line-number&gt; &lt;file&gt;"
-      exit 1
-    fi
+          echo "Error: wrong number of arguments"
+          echo "You provided $# arguments, while 2 are required."
+          echo "Usage: line.sh &lt;line-number&gt; &lt;file&gt;"
+          exit 1
+      fi
   ```
 
 ---
@@ -542,15 +597,17 @@ $ if ! echo "$file_name" | grep "fastq" &gt; /dev/null; then
 
 ## Conducting tests (cont.)
 
-- We may also want to test whether the input file is a regular file and can be
-  opened:
+- We may also want to test whether the input file is a regular file (`-f`)
+  and can be read (`-r`):
 
   ```sh
   $ if [ ! -f $file ] || [ ! -r $file ]; then
+        
         echo "Error: can't open file"
         echo "Second argument should be a readable file"
         echo "You provided: $file"
         exit 1
+      
       fi
   ```
 
@@ -563,10 +620,12 @@ $ if ! echo "$file_name" | grep "fastq" &gt; /dev/null; then
   
   ```sh
   $ if [ $line -gt $(wc -l &lt; $file) ] || [ ! $line -gt 0 ]; then
+        
         echo "Error: Invalid line number"
         echo "Number should be &gt;0 and &lt;= the file's nr. of lines"
         echo "File contains $(wc -l &lt; $2) lines; you provided $1."
         exit 1
+      
       fi
   ```
 
@@ -579,8 +638,10 @@ $ if ! echo "$file_name" | grep "fastq" &gt; /dev/null; then
 
   ```sh
   $ if [ $line -gt $(wc -l &lt; $file) ]; then
+        
         line=$(wc -l &lt; $file)
         echo "Requested line exceeds line count; printing last line"
+      
       fi
   ```
 
@@ -676,21 +737,6 @@ $ echo '* and this is my shell: $SHELL'
 
 ---
 background-color: #f2f5eb
-name: help
-
-## Using a Help function
-
-
-
----
-background-color: #f2f5eb
-name: getopts
-
-## Parsing non-positional arguments with getopts
-
-
----
-background-color: #f2f5eb
 name: par-exp
 
 ## Parameter expansion to provide default values
@@ -708,7 +754,10 @@ name: par-exp
   rm_unpaired=${3:-true}    # Set true as the default value for $3
   ```
 
---
+---
+background-color: #f2f5eb
+
+## Parameter expansion to provide default values
 
 - For example, say that your script takes an input dir and an output dir
   as arguments, but if the output dir is not specified,

@@ -50,6 +50,25 @@ class: inverse middle center
 
 ## Why scripts?
 
+- Scripts enable us to **run sets of commands non-interactively**,  
+  which is beneficial or even necessary when this set of commands:
+  
+  - Takes a long time to run and/or
+  
+  - Should be run many times, e.g. for different samples.
+
+<br>
+
+--
+
+- Scripts form the basis for *analysis pipelines* and if we code things cleverly,
+  it should be straightforward to rerun much of our project workflow:
+  
+  - After removing or adding a sample.
+  
+  - For different parameter settings.
+  
+  - And possibly even for an entirely different dataset. 
 
 ---
 
@@ -80,7 +99,7 @@ name: header
 
 - Use a so-called **"*shebang*" line** as the first line of a script.
   
-  This line tells the computer which program to use to run the script:
+  This line tells the computer which program to use to run the script:  
   in our case Bash, whose binary is located at `/bin/bash`.
   
   ```sh
@@ -99,7 +118,7 @@ name: header
   and also call the script as follows:
 
   ```sh
-  $ ./script.sh
+  $ ./script.sh      # Indicating the dir is needed; here the wd
   ```
 
 --
@@ -108,7 +127,7 @@ name: header
 
   ```sh
   $ chmod u+x script.sh   # Executable for user/owner of file only (u=user)
-  $ chmod a+x script.sh   # Alt: executable for everyone (a=all)
+  $ chmod u+x script.sh   # Alt: executable for everyone (a=all)
   ```
 
 ---
@@ -117,8 +136,7 @@ name: header
 
 By default, Bash will just keep running a script after it has encountered errors.
 
-And if you try to reference a variable that hasn't been assigned,  
-it won't even complain:
+And if you reference a variable that hasn't been assigned, it won't complain:
 
 ```sh
 $ echo $non_existent_variable
@@ -126,23 +144,25 @@ $ echo $non_existent_variable
 
 --
 
+<br>
+
 .content-box-q[
 Why is such behavior a bad idea in scripts?
 ]
 
 --
 
-- Let's accidentally delete the filesystem!
+- Let's accidentally delete the entire filesystem...!
+  
   ```sh
   TMPDIR=output/tmp/$sample/
   # rest of script...
   rm -rf $TMPPDIR/*   ## DONT TRY THIS!
   ```
 
-- As for why we want the script to stop after errors:
-  you may never notice them if they're subtle and don't cause
-  everything else to error out &ndash; but they could still render the output
-  of the zombie script worthless!
+- And as for why we want a script to stop after errors:
+  these may otherwise go unnoticed but could well render the output
+  of the script worthless!
 
 ---
 
@@ -154,7 +174,8 @@ With these settings, the script terminates, with appropriate error message, if:
 
 - `set -e` &mdash; Almost any errors occurs.
 
-- `set -o pipefail` &mdash; An error occurs within a shell "pipeline".
+- `set -o pipefail` &mdash; An error occurs in a shell "pipeline"
+  (`sort | uniq`).
 
 <br>
 
@@ -172,7 +193,7 @@ set -u -e -o pipefail
 
 ---
 
-## Our script &ndash;*any* shell script&ndash; so far 
+## Our script template so far 
 
 ```sh
 #!/bin/bash
@@ -205,7 +226,7 @@ name: arrays
   much like when you provide commands like `ls` with arguments:
 
   ```sh
-  $ ./name-script.sh John Doe
+  $ ./printname.sh John Doe
   ```
 
 - Inside the script, these arguments are *automatically* assigned to the
@@ -220,7 +241,7 @@ name: arrays
   ```
 
   ```sh
-  $ ./name-script.sh John Doe
+  $ ./printname.sh John Doe
   #> First argument: John
   #> Second argument: Doe
   #> Full name: John Doe
@@ -230,8 +251,8 @@ name: arrays
 
 ## Command-line arguments for scripts (cont.)
 
-- Inside the script, it is good practice to reassign these to more descriptively
-  named variables:
+- It is good practice to reassign the `$1`-style placeholders to more
+  descriptively named variables:
 
   ```sh
   #!/bin/bash
@@ -247,9 +268,10 @@ name: arrays
 <br>
 
 .content-box-info[
+**Other variables that are automatically available inside scripts:**
 - `$0` contains the filename of the script.
 
-- `$#` contains the number of command-line arguments that were provided.
+- `$#` contains the number of command-line arguments provided.
 ]
 
 ---
@@ -289,7 +311,7 @@ name: arrays
   ```
 
   ```sh
-  $ chmod a+x headtail.sh
+  $ chmod u+x headtail.sh
   ```
 
 - Now we can run it as follows:
@@ -315,8 +337,14 @@ from a file.
 <summary><strong>Hint!</strong></summary>
 <br>
 To print a specific line number, say line 37 from <code>file.txt</code>,
-you can use: <br> <code>head -n 37 file.txt | tail -n 1</code>
-or <code>sed -n '37p' file.txt</code>.
+you can use: <br>
+
+<ul>
+<li> <code>head -n 37 file.txt | tail -n 1</code> or </li>
+
+<li> <code>sed -n '37p' file.txt</code> </li>
+</ul>
+
 <br>
 </details>
 
@@ -336,7 +364,7 @@ or <code>sed -n '37p' file.txt</code>.
 - To execute:
 
   ```sh
-  $ chmod a+x line.sh
+  $ chmod u+x line.sh
   $ ./line.sh 4 samples.txt
   ```
 
@@ -471,6 +499,10 @@ What could we do to be make this script more robust / foolproof?
   ```sh
   echo "Starting script $0"
   date # Print date & time to log & time running duration
+  
+  line="$1"
+  file="$2"
+  
   echo "Input file: $file"
   echo "Requested line number: $line"
   
@@ -479,6 +511,29 @@ What could we do to be make this script more robust / foolproof?
   echo "Done with script $0"
   date
   ```
+
+---
+
+## Reporting what's going on
+
+- Now our script would return the following:
+
+  ```sh
+  $ ./line.sh 2 samples.txt
+  #> Starting script ./line.sh
+  #> Tue 09 Feb 2021 09:35:08 AM EST
+  #> Input file: metadata.txt
+  #> Requested line number: 2
+  #> sample_B        2021-01-16      high
+  #> Done with script ./line.sh
+  #> Tue 09 Feb 2021 09:35:08 AM EST
+  ```
+
+<br>
+
+- This type of behavior is useful when you're writing the data to file,
+  as you usually will, and you can see a bit of a log printed to screen
+  or to a log file.
 
 ---
 
@@ -500,11 +555,11 @@ What could we do to be make this script more robust / foolproof?
 
   ```sh
   $ if [ ! "$#" -eq 2 ]; then
-      echo "Error: wrong number of arguments"
-      echo "You provided $# arguments, while 2 are required."
-      echo "Usage: line.sh <line-number> <file>"
-      exit 1
-    fi
+          echo "Error: wrong number of arguments"
+          echo "You provided $# arguments, while 2 are required."
+          echo "Usage: line.sh <line-number> <file>"
+          exit 1
+      fi
   ```
 
 ---
@@ -543,15 +598,17 @@ $ if ! echo "$file_name" | grep "fastq" > /dev/null; then
 
 ## Conducting tests (cont.)
 
-- We may also want to test whether the input file is a regular file and can be
-  opened:
+- We may also want to test whether the input file is a regular file (`-f`)
+  and can be read (`-r`):
 
   ```sh
   $ if [ ! -f $file ] || [ ! -r $file ]; then
+        
         echo "Error: can't open file"
         echo "Second argument should be a readable file"
         echo "You provided: $file"
         exit 1
+      
       fi
   ```
 
@@ -564,10 +621,12 @@ $ if ! echo "$file_name" | grep "fastq" > /dev/null; then
   
   ```sh
   $ if [ $line -gt $(wc -l < $file) ] || [ ! $line -gt 0 ]; then
+        
         echo "Error: Invalid line number"
         echo "Number should be >0 and <= the file's nr. of lines"
         echo "File contains $(wc -l < $2) lines; you provided $1."
         exit 1
+      
       fi
   ```
 
@@ -580,8 +639,10 @@ $ if ! echo "$file_name" | grep "fastq" > /dev/null; then
 
   ```sh
   $ if [ $line -gt $(wc -l < $file) ]; then
+        
         line=$(wc -l < $file)
         echo "Requested line exceeds line count; printing last line"
+      
       fi
   ```
 
@@ -677,21 +738,6 @@ $ echo '* and this is my shell: $SHELL'
 
 ---
 background-color: #f2f5eb
-name: help
-
-## Using a Help function
-
-
-
----
-background-color: #f2f5eb
-name: getopts
-
-## Parsing non-positional arguments with getopts
-
-
----
-background-color: #f2f5eb
 name: par-exp
 
 ## Parameter expansion to provide default values
@@ -709,7 +755,10 @@ name: par-exp
   rm_unpaired=${3:-true}    # Set true as the default value for $3
   ```
 
---
+---
+background-color: #f2f5eb
+
+## Parameter expansion to provide default values
 
 - For example, say that your script takes an input dir and an output dir
   as arguments, but if the output dir is not specified,
