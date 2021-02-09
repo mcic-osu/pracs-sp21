@@ -903,7 +903,7 @@ which we can do by redirecting it to non-existent file `/dev/null`.
 
 ## `r icon::fa("user-edit")` Conditionals: Your turn
 
-1. Set up and `if` statement that tests whether `template.sh` is executable.
+1. Set up an `if` statement that tests whether `template.sh` is executable.
 
 2. If it is (`then` block), report the outcome with `echo`  
    (e.g. "The file is executable".)

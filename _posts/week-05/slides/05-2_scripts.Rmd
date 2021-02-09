@@ -127,7 +127,7 @@ name: header
 
   ```sh
   $ chmod u+x script.sh   # Executable for user/owner of file only (u=user)
-  $ chmod u+x script.sh   # Alt: executable for everyone (a=all)
+  $ chmod a+x script.sh   # Alt: executable for everyone (a=all)
   ```
 
 ---
@@ -698,9 +698,7 @@ class: inverse middle center
 
 .left[
 - ### [More on quoting in shell commands](#quote)
-- ### [Using a Help function](#help)
-- ### [Parsing non-positional arguments with getopts](#getops)
-- ### [Parameter expansion](#par-exp)
+- ### [Parameter expansion to provide default options](#par-exp)
 ]
 
 <br> <br> <br> <br>
@@ -776,9 +774,3 @@ background-color: #f2f5eb
   
   $ sort_bam.sh results/bam
   ```
-
----
-background-color: #f2f5eb
-
-## More parameter expansion
-
