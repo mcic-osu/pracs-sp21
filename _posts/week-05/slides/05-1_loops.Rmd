@@ -89,10 +89,15 @@ you only have to change one value—the value you’ve assigned to the variable.
 
 <br>
 
+In brief, use variables for things that:
+
+  - You refer to repeatedly.
+  - Are subject to change.
+
 --
 
-- Similarly, variables are useful to be able to **pass arguments to a script**,  
-  so you can easily rerun a script with a different input file.
+Similarly, variables are useful to be able to **pass arguments to a script**,  
+so you can easily rerun a script with a different input file / settings / etc.
   
 ---
 
@@ -110,6 +115,8 @@ treatment=low
 nlines=200
 
 options="-lh"
+
+# (No spaces around "="!)
 ```
 ]
 
@@ -573,16 +580,16 @@ $ for file in "${all_files[@]}"; do
 ```
 
 .content-box-info[
-For this reason, it's best not to use arrays to loop over filenames with spaces,
-though see [these bonus slides](#IFS) for a solution.
+For this reason, it's best not to use arrays to loop over filenames with spaces
+&mdash; though see [these bonus slides](#IFS) for a workaround.
 
-**Direct globbing** and `while` loops with the `read` function  
-(**`while read ...`**) are easier
+*Direct globbing* and `while` loops with the `read` function  
+(`while read ...`) are easier
 choices for problematic file names &ndash;
 again, see [these bonus slides](#IFS) for details.
 
-Most of all, this once again shows you should not have spaces in your
-file names!
+**Most of all, this once again shows you should not have spaces in your
+file names!**
 ]
 
 ---
@@ -896,7 +903,7 @@ which we can do by redirecting it to non-existent file `/dev/null`.
 
 ## `r icon::fa("user-edit")` Conditionals: Your turn
 
-1. Set up and `if` statement that tests whether `template.sh` is executable.
+1. Set up an `if` statement that tests whether `template.sh` is executable.
 
 2. If it is (`then` block), report the outcome with `echo`  
    (e.g. "The file is executable".)
