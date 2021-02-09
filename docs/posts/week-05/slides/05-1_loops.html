@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/09 (updated: 2021-02-07)
+### 2021/02/09 (updated: 2021-02-09)
 
 ---
 
@@ -224,12 +224,12 @@ $ echo $HOME
 
   ```sh
   $ touch README_$today_final.txt
-  #&gt; README_.txt
+  #&gt; README_.txt       # Intended was "README_thu, Feb 8_final.txt
   
   $ day_partial=Thu
   $ day_full=$day_partialrsday
   $ echo $day_full
-  #&gt; 
+  #&gt;                   # Intended was "Thursday"
   ```
 
 --
@@ -246,7 +246,7 @@ $ echo $HOME
   ```
 
 .content-box-info[
-For these two reasons, it is good practice to always quote your variables
+It is good practice to quote your variables
 &amp;ndash; certainly in scripts.
 ]
 
@@ -274,49 +274,6 @@ $ touch README_"${today}"_final.txt
 array notation &amp;ndash;treated soon&amp;ndash; seem a little less mystifying.)
 ]
 
----
-
-## <i class="fas  fa-user-edit "></i> Quoting variables: Your turn
-
-1. Create a variable whose value has spaces in it.  
-   `echo` the variable to make sure it worked.
-
-2. Do `touch &lt;variable&gt;` (e.g. `touch $myvar`) and then `ls` to see what happened.
-
-3. Now *quote the variable name* in a new `touch` command,
-   and then `ls` to see what happened.
-   
-4. Optional: clean up &amp;ndash; `rm` the files you just created.
-
----
-
-## <i class="fas  fa-user-edit "></i> Quoting variables: Solutions
-
-1. Create a variable whose value has spaces in it and `echo`.
-   
-   ```sh
-   $ goose="Greater White-fronted Goose"
-   $ echo $goose
-   #&gt; Greater White-fronted Goose
-   ```
-
-2. Do `touch &lt;variable&gt;` and then `ls` to see what happened.
-
-   ```sh
-   $ touch $goose
-   $ ls
-   #&gt; Goose  Greater  White-fronted
-   ```
-
-3. Now *quote the variable name* in a new `touch` command,
-   and then `ls` to see what happened.
-   
-   ```sh
-   $ touch "$goose"
-   $ ls
-   #&gt; 'Greater White-fronted Goose'
-   ```
-   
 ---
 class: inverse middle center
 name: for
@@ -412,27 +369,6 @@ $ for fungus in morel destroying_angel eyelash_cup
 
 ---
 
-## For loops
-
-- To bring home the point that each item is processed one-by-one:
- 
-  ```sh
-  $ loop_counter=0
-  
-  $ for mushroom in morel destroying_angel eyelash_cup; do
-        
-        loop_counter=$(expr "$loop_counter" + 1)
-        
-        echo "$mushroom is Ohio mushroom number $loop_counter"
-    done
-  
-  #&gt; morel is Ohio mushroom number 1
-  #&gt; destroying_angel is Ohio mushroom number 2
-  #&gt; eyelash_cup is Ohio mushroom number 3
-  ```
-
----
-
 ## For loops (cont.)
 
 - In practice, we rarely enumerate by hand the items we want to loop over.
@@ -442,8 +378,8 @@ $ for fungus in morel destroying_angel eyelash_cup
   ```sh
   $ for fastq_file in data/raw/*fastq.gz; do
         
-        echo "File $fastq_file has $(wc -l &lt; $fastq_file) lines."
-        # More processing...
+          echo "File $fastq_file has $(wc -l &lt; $fastq_file) lines."
+          # More processing...
       done
   ```
 
@@ -457,8 +393,8 @@ $ for fungus in morel destroying_angel eyelash_cup
   
   $ for i in $(seq 1 100); do
         
-        echo "Run $i out of 100"
-        # More processing...
+          echo "Run $i out of 100"
+          # More processing...
       done
   ```
 
@@ -524,10 +460,10 @@ name: arrays
 
 ---
 
-
 ## Bash arrays
 
-Bash arrays are like lists in Python or vectors in R.
+Bash arrays are like lists in Python or vectors in R,
+and can be created using parentheses `()`.
 
 - Create an array manually:
 
@@ -543,15 +479,20 @@ Bash arrays are like lists in Python or vectors in R.
   $ sample_files=($(cat fastq_files.txt))
   ```
 
---
+---
 
-- Arrays are mostly useful to loop over:
+## Bash arrays (cont.)
+
+- Using `[@]`, we can access all elements in the array:
 
   ```sh
   $ echo ${sample_names[@]}  # Print all elements in the array
   #&gt; zmaysA zmaysB zmaysC
   ```
-  
+
+- Arrays are mostly useful to loop over,
+  and we can also use the `[@]` notation to loop over the elements:
+
   ```sh
   $ for sample_name in "${sample_names[@]}"; do
         echo "$sample_name"
@@ -706,10 +647,10 @@ name: arrays
 
   ```sh
   $ if &lt;test&gt;; then
-      # Command(s) if condition is true
-    else
-      # Commands(s) if condition is false
-    fi
+          # Command(s) if condition is true
+      else
+          # Commands(s) if condition is false
+      fi
   ```
 
 ---
@@ -726,9 +667,9 @@ name: arrays
 
   ```sh
   $ if &lt;file is a text file&gt;; then
-        &lt;count the number of lines and columns&gt;
+          &lt;count the number of lines and columns&gt;
       else
-        &lt;print the file type and file size&gt;
+          &lt;print the file type and file size&gt;
       fi
   ```
   
@@ -738,7 +679,7 @@ name: arrays
   
   ```sh
   $ if &lt;test&gt;; then
-      # Command(s) if condition is true
+          # Command(s) if condition is true
       fi
   ```
 
@@ -746,22 +687,22 @@ name: arrays
 
 ## Conditionals
 
-An `if` statement that depends on the file type of the input file:
+Example &amp;ndash; an `if` statement that depends on the file type of the input file:
 
 ```sh
 $ if test "$filetype" = "fastq"; then
     
-    echo "Processing fastq file..."
-    # Commands to process fastq file
+      echo "Processing fastq file..."
+      # Commands to process fastq file
   
   else
     
-    echo "Unknown filetype!"
+      echo "Unknown filetype!"
   
   fi
 ```
 
-Above, using the `test` command.
+Above, we use the `test` command to perform the test.
 
 ---
 
@@ -772,17 +713,17 @@ An `if` statement that depends on the file type of the input file:
 ```sh
 $ if [ "$filetype" = "fastq" ]; then
     
-    echo "Processing fastq file..."
-    # Commands to process fastq file
+      echo "Processing fastq file..."
+      # Commands to process fastq file
   
   else
     
-    echo "Unknown filetype!"
+      echo "Unknown filetype!"
   
   fi
 ```
 
-Above, using the `[ ]` syntax:
+Above, we use the `[ ]` syntax to perform the test:
 
 - The square brackets represent a *test statement*.
 
@@ -836,13 +777,13 @@ $ n_samples=$(wc -l &lt; samples.txt)
 
 $ if [ "$n_samples" -gt 9 ]; then  # If the nr of samples is &gt;9
     
-    # Commands to run if nr of samples &gt;9:
-    echo "Processing files with algorithm A"
+      # Commands to run if nr of samples &gt;9:
+      echo "Processing files with algorithm A"
   
   else
     
-    # Commands to run if nr of samples is &lt;=9:
-    echo "Processing files with algorithm B..."
+      # Commands to run if nr of samples is &lt;=9:
+      echo "Processing files with algorithm B..."
   
   fi
 ```
@@ -851,7 +792,7 @@ $ if [ "$n_samples" -gt 9 ]; then  # If the nr of samples is &gt;9
 
 ## File and directory test expressions &lt;br&gt; (Buffalo Table 12-2)
 
-It can be useful to perform tests regarding file types and permissions,
+It can be useful to perform tests regarding file types and permissions,  
 for which the following expressions are available:
 
 | File/dir expression       | Description
@@ -868,8 +809,8 @@ for which the following expressions are available:
 
 ## File test example
 
-- For instance, we can test whether an input file exists before trying to do
-  anything with it:
+- For instance, we can test whether an input file exists and is a regular file
+  before trying to do anything with it:
 
   ```sh
   $ if [ ! -f "$fastq_file" ]; then
@@ -885,28 +826,19 @@ for which the following expressions are available:
 ## Combining expressions
 
 - We can use the `&amp;&amp;` and `||` shell operators to test for multiple
-  conditions like so:
+  conditions:
 
-```sh
-# If the file is not a regular file OR the file can't be read:
-$ if [ ! -f "$fastq_file" ] || [ ! -r "$fastq_file" ]; then
+- If the file is not a regular file **or** the file can't be read:
 
-# If the number of samples is &lt;100 AND &gt;=50:
-$ if [ "$n_samples" -lt 100 ] &amp;&amp; [ "$n_samples" -ge 50 ]; then
-```
+  ```sh
+  $ if [ ! -f "$fastq_file" ] || [ ! -r "$fastq_file" ]; then
+  ```
 
-&lt;br&gt;
+- If the number of samples is more than 100 **and** at least 50:
 
-.content-box-info[
-One can also use the *extended test syntax* with double brackets.
-
-With those, you *can* use operators `&amp;&amp;` and `||` inside the test construct:
-
-```sh
-$ [[ "$n_samples" -lt 100 &amp;&amp; "$n_samples" -ge 50 ]]
-```
-
-]
+  ```sh
+  $ if [ "$n_samples" -lt 100 ] &amp;&amp; [ "$n_samples" -ge 50 ]; then
+  ```
 
 ---
 
@@ -952,33 +884,7 @@ together.
       fi
   ```
 
-- We can also *negate* such a test:
-
-  ```sh
-  $ if ! grep "AAACGT" "$fastq_file" &gt; /dev/null; then
-        # Commands to run if pattern is not found:
-        echo "Processing fastq file..."
-      fi
-  ```
-
----
-
-## Using the *exit status* of a command as a test
-
-- If `grep` finds a match, its **exit status** is 0 which evaluates to "true",
-  whereas if it doesn't, its exit status is 1 which evaluates to "false".
-  
-  We can use this to plug the `grep` command in as the test statement:
-  
-  ```sh
-  $ if grep "AAACGT" "$fastq_file" &gt; /dev/null; then
-        # Commands to run if pattern is found:
-        echo "Warning: contaminant detected in $fastq_file"
-      else
-        # Commands to run if pattern is not found:
-        echo "Processing fastq file..."
-      fi
-  ```
+&lt;br&gt;
 
 .content-box-info[
 We need to disregard `grep`'s standard output (any matches),
@@ -994,8 +900,7 @@ which we can do by redirecting it to non-existent file `/dev/null`.
 2. If it is (`then` block), report the outcome with `echo`  
    (e.g. "The file is executable".)
 
-3. If it is not (`else` block), also report the outcome with `echo`.
-
+3. If it is not (`else` block), also report that outcome with `echo`.
 
 ---
 
@@ -1066,6 +971,7 @@ class: inverse middle center
 .left[
 - ### [While loops (and the read command)](#while)
 - ### [The IFS and working with problematic file names](#ifs)
+- ### [Extended test syntax with [[ ]]](#extended-test)
 ]
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
@@ -1305,6 +1211,19 @@ while IFS="\n" read -r my_file; do ...
 With this syntax, the shell environment won't be affected elsewhere,
 so you don't have to reset the `IFS`.
 ]
+
+---
+background-color: #f2f5eb
+
+## Extended test syntax
+
+One can also use the *extended test syntax* with double brackets.
+
+With those, you *can* use operators `&amp;&amp;` and `||` inside the test construct:
+
+```sh
+$ [[ "$n_samples" -lt 100 &amp;&amp; "$n_samples" -ge 50 ]]
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
