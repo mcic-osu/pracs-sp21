@@ -40,7 +40,6 @@ class: inverse middle center
 - ### [Introduction](#introduction)
 - ### [Connecting to OSC](#connect)
 - ### [OSC file systems](#filesystems)
-- ### [Transferring files](#transfer)
 - ### [Using software at OSC](#software)
 - ### [Compute job options](#jobs)
 ]
@@ -141,13 +140,14 @@ name: introduction
 
 --
 
-### When do we need a supercomputer?
+### When do we benefit from using a supercomputer?
 
-- Our dataset is too large to be handled (efficiently) by our computer.
+- Our dataset is too large to be handled efficiently, or even at all,
+  by our computer.
 
 - Long-running analyses can be sped up by using more computing power.
   
-- We need to repeat a computation (or have many datasets).
+- We need to repeat a computation many times.
   
 ---
 
@@ -259,11 +259,11 @@ but also through the web browser: from https://ondemand.osc.edu.
 
 - At OnDemand, you can, for example:
 
-  - Access a terminal directly in your browser
+  - Access a terminal directly in your browser.
   
   - Run "Interactive Apps" like RStudio, Jupyter Notebooks, and VS Code.
   
-  - Browse and upload files
+  - Browse and upload files.
 
   .content-box-diy[
   **Interface Demo**
@@ -283,7 +283,7 @@ but also through the web browser: from https://ondemand.osc.edu.
   $ ssh <username>@owens.osc.edu   # e.g. jelmer@ownes.osc.edu     
   ```
   
-  - You will be prompted for your OSC password.
+  You will be prompted for your OSC password.
 
 ---
 
@@ -305,25 +305,58 @@ For more info, see OSC's page [Login environment at OSC](https://www.osc.edu/sup
 ]
 
 ---
+
+## Transferring files to and from OSC
+
+#### For small transfers (<1 GB): use OnDemand
+
+<p align="center">
+<img src=img/ondemand2_circle.png width="95%">
+</p>
+
+----
+
+<p align="center">
+<img src=img/ondemand3_circle.png width="95%">
+</p>
+
+--
+
+-----
+
+#### For large transfers (>1 GB): use Globus
+
+- Especially useful for very large and/or complex transfers.
+- Does need a
+  [local installation](https://www.osc.edu/resources/getting_started/howto/howto_transfer_files_using_globus_connect)    and some set-up.
+
+.content-box-info[
+See [these bonus slides](#shell-transfer) for small and large transfers in the shell.
+]
+
+
+---
 class: inverse center middle
 name: filesystems
 
-# OSC File Systems
+# File systems at OSC
+
+----
 
 <br><br><br><br>
 
 ---
 
-## OSC file systems
+## File systems at OSC
 
-- OSC has several file systems with different typical use cases:
-  we'll discuss in terms of short-term versus long-terms storage. 
+OSC has several file systems with different typical use cases:
+we'll discuss in terms of short-term versus long-terms storage. 
 
-<br> <br> <br> <br>
+<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
 
 .content-box-info[
-See [here](https://www.osc.edu/supercomputing/storage-environment-at-osc/available-file-systems)
-for more info about the OSC file systems.
+See [this OSC documentation page](https://www.osc.edu/supercomputing/storage-environment-at-osc/available-file-systems)
+for more info about file systems at OSC.
 ]
 
 ---
@@ -349,8 +382,8 @@ for more info about the OSC file systems.
 
 - `/fs/ess/<project-ID>` (Course project: `/fs/ess/PAS1855`)
   
-- The total storage limit is whatever a PI sets this too.   
-  Charges are for the reserved space, not actual usage.
+- The total storage limit is whatever a PI sets this too and pays for.   
+  Note that charges are for the reserved space, not actual usage.
   
 ---
 
@@ -370,109 +403,13 @@ for more info about the OSC file systems.
 
 **`$TMPDIR`**
 
-- Represents storage space *on your compute node*. 1 TB max.
+- Represents temporary storage space *on your compute node*. 1 TB max.
 
 - Available in the job script through the environment variable `$TMPDIR`.
 
 - **Deleted after job ends** &ndash; so copy to/from in job scripts!
 
 - See [this bonus slide](#tmpdir) for some example code for working with `$TMPDIR`.
-
----
-class: inverse middle center
-name: transfer
-
-# Transferring files to and from OSC
-
------
-
-<br><br><br><br>
-
----
-
-## Transferring files: OnDemand and Globus
-
-#### For small transfers (<1 GB): use OnDemand
-
-<p align="center">
-<img src=img/ondemand2_circle.png width="95%">
-</p>
-
-----
-
-<p align="center">
-<img src=img/ondemand3_circle.png width="95%">
-</p>
-
---
-
------
-
-<br>
-
-#### For large transfers (>1 GB): use Globus
-
-- Especially useful for very large and/or complex transfers.
-
-- Does need a [local installation](https://www.osc.edu/resources/getting_started/howto/howto_transfer_files_using_globus_connect) and some set-up.
-
----
-name: shell_transfer
-
-## Transferring files in the shell: small transfers (<1 GB)
-
-**Transfers in either direction should be done from your local shell.**
-
-- With `scp` (secure copy), which works much like the regular `cp`:
-
-  ```bash
-  # Local to remote:
-  $ scp <local-path> <user>@pitzer.osc.edu:<remote-path>
-  
-  # Remote to local is simply the reverse:
-  $ scp <user>@pitzer.osc.edu:<remote-path> <local-path>
-  
-  # For instance:
-  $ scp -r scripts/ jelmer@pitzer.osc.edu:~/scripts
-  $ scp -r scripts/ jelmer@pitzer.osc.edu:/fs/ess/PAS1855/users/jelmer/scripts
-  
-  $ scp -r jelmer@pitzer.osc.edu:~/scripts scripts/
-  ```
-
----
-
-## Transferring files in the shell: small transfers (<1 GB)
-
-**Transfers in either direction should be done from your local shell.**
-
-- With `rsync`, which is recommended, especially when you want to keep folder
-  synced:
-
-  ```bash
-  $ rsync -avrz --progress /path/in/local/dir \
-      <user>@owens.osc.edu:/path/in/remote/
-  ```
-
-## Finish rsync
-
----
-
-## Transferring files in the shell: any transfer size
-
-You can also use `sftp`, which doesn't run on a login node,
-so large transfers are permitted.
-
-```bash
-$ sftp sftp.osc.edu
-
-sftp> put /path/in/local/file.txt /path/in/remote
-
-sftp> put file.txt    # From local working dir to $HOME in remote
-
-sftp> get /path/in/remote/file.txt /path/in/local/
-```
-
-## Finish sftp
 
 ---
 class: inverse middle center
@@ -502,16 +439,16 @@ name: software
 
 - You can also search for available software ("modules") in the shell:
   
-  - `module avail` lists all/ mtaching modules that *can be directly loaded*,
+  - `module spider` list all/matching modules that are installed.
+    
+  - `module avail` lists all/matching modules that *can be directly loaded*,
     given the current environment.
   
-  - `module spider` list all / matching modules that *could potentially be loaded*.
-  
   ```sh
-  $ module avail
+  $ module spider
   $ module spider python
   
-  $ module spider
+  $ module avail
   $ module spider python
   ```
 
@@ -519,7 +456,7 @@ name: software
 
 ## Using software at OSC
 
-- *Loading* installed software is also done with `module` commands:
+- *Loading* and unloading installed software is also done with `module` commands:
   
   ```bash
   # Load a module:
@@ -528,8 +465,11 @@ name: software
   
   # Unload a module:
   $ module unload R
+  ```
   
-  # Check which modules have been loaded:
+- To check which modules have been loaded:
+  
+  ```sh
   $ module list
   ```
 
@@ -551,7 +491,7 @@ name: software
 
 **Alternative approaches (recommended):**
 
-- The **`conda`** software management system (next slides)
+- The **Conda** software management system (next slides)
 
 - `Singularity` **containers**
   
@@ -565,11 +505,11 @@ name: software
 
 ---
 
-## `conda`: a software environment manager
+## Conda: a software environment manager
 
 - Creates *environments* with one (best-practice) or more software packages.
 
-- Lots of bioinformatics software is available as a `conda` package.
+- Lots of bioinformatics software is available as a Conda package.
 
 - Handles dependencies but does not require admin rights.
 
@@ -577,7 +517,7 @@ name: software
 
 ---
 
-## `conda`: a software environment manager
+## Conda: a software environment manager
 
 **Benefits:**
 
@@ -592,7 +532,7 @@ name: software
 
 --
 
-**Limits &ndash; `conda` does not:**
+**Limits &ndash; Conda does not:**
 
 - Create an isolated environment that can be exported and used anywhere.
 
@@ -606,9 +546,9 @@ name: software
 
 ---
 
-## `conda` in practice
+## Conda in practice, briefly (more on Thursday)
 
-- Load the `conda` module at OSC (comes with the Python module): 
+- Load the Conda module at OSC (comes with the Python module): 
 
   ```bash
   $ module load python/3.6-conda5.2
@@ -625,16 +565,19 @@ name: software
 - **Activate** the `multiqc` environment and see if we can run MultiQC:
 
   ```bash
-  [<user>@pitzer-login01 ~]$ conda activate multiqc-env
+  [<user>@pitzer-login01 ~]$ source activate multiqc-env
+  
   (multiqc) [<user>@pitzer-login01 ~]$ multiqc --help
   #> Usage: multiqc [OPTIONS] <analysis directory>
   ```
 
-  *(Note above that `conda` will indicate the active environment in the prompt!)*
+  *(Note above that Conda will indicate the active environment in the prompt!)*
+
+--
 
 .content-box-info[
-There is also a bit of one-time `conda` setup that needs to be done,
-which we will do on Thursday.
+Here, we use `source activate` instead of the more standard
+`conda activate` because we otherwise need to run a setup script.
 ]
 
 ---
@@ -672,9 +615,17 @@ Three main options:
 
 - Provide *SLURM* directives in or along with **scripts**.
 
---
+<br> <br>
 
 .content-box-info[
+Both interactive and non-interactive jobs start in (i.e., have as the working
+directory) the directory that they were submitted from.
+]
+
+---
+
+## Passing on requests/instructions to SLURM
+
 You can provide instructions to the *SLURM* scheduler to specify the resources
 (cores/memory/time/etc) that you need.
 
@@ -690,6 +641,12 @@ As well as **at the start of** scripts in lines with the `#SBATCH` keyword:
 #SBATCH --account=PAS1855
 #SBATCH --time=60
 ```
+
+--
+
+.content-box-info[
+Many sbatch options have a long format (`--account=PAS1855`) and a short
+format (`-A PAS1855`), which can generally be used interchangeably.
 ]
 
 ---
@@ -698,8 +655,9 @@ As well as **at the start of** scripts in lines with the `#SBATCH` keyword:
 
 Interactive shell jobs will get you interactive shell access on a compute node.
 
-- For short interactive shell jobs, you can use the
-  [`sinteractive`](https://www.osc.edu/supercomputing/knowledge-base/slurm_migration/how_to_monitor_and_manage_jobs) wrapper:
+- For short interactive shell jobs, use OSC's custom
+  [`sinteractive`](https://www.osc.edu/supercomputing/knowledge-base/slurm_migration/how_to_monitor_and_manage_jobs)
+  wrapper:
 
   ```sh
   $ sinteractive -A PAS1855 # Default: 30-mins, 1-core, 1-node
@@ -707,18 +665,29 @@ Interactive shell jobs will get you interactive shell access on a compute node.
   $ sinteractive -A PAS1855 -t 60 # 60 mins - max for sinteractive
   ```
 
-## srun
+  .content-box-info[
+  `sinteractive` only accepts a selection of `sbatch` options and they have to be
+  specified in short format.
+  ]
 
-.content-box-info[
-Jobs (interactive and non-interactive) start in the directory that they
-were submitted from.
-]
+--
+
+<br>
+
+- You can also use `srun` / `salloc` which support all options:
+
+  ```sh
+  $ srun -A PAS0471 -t 60 --pty /bin/bash
+  
+  # Equivalent -- syntax that OSC uses in their docs:
+  $ salloc -A PAS0471 -t 60 srun --pty /bin/bash
+  ```
 
 ---
 
 ## Starting compute jobs: Shell scripts
 
-- To submit a job:
+- To submit a job, we preface the call to script with `sbatch`:
 
   ```sh
   $ sbatch [sbatch-options] script.sh [script-arguments]
@@ -732,6 +701,8 @@ were submitted from.
   $ sbatch -t 60 -A PAS1855 --mem=20G fastq.sh sampleA.fastq.gz
   # Submitted batch job 2526085 
   ```
+
+--
 
 .content-box-info[
 Any `sbatch` options provided on the command-line will override the equivalent
@@ -755,7 +726,7 @@ options provided in the script itself:
 
 | Resource/use                 | short    | long      | default
 |------------------------------|----------|-----------|:--------:|
-| Project to be billed &ndash; **required** | -A PAS1855 | --account=PAS1855 | N/A
+| Project to be billed         | -A PAS1855 | --account=PAS1855 | N/A
 
 ```sh
 #!/bin/bash
@@ -766,7 +737,7 @@ options provided in the script itself:
 
 ## Compute job options: Nodes and cores
 
-- Only ask for >1 **node** when you have explicit parallelization.
+- Only ask for **>1 node** when you have explicit parallelization.
 
 | Resource/use                  | short    | long                    | default
 |-------------------------------|----------|-------------------------|:--------:| 
@@ -778,6 +749,8 @@ options provided in the script itself:
 ```sh
 $ sbatch -N 1 -c 2 myscript.sh
 ```
+
+--
 
 ```sh
 #!/bin/bash
@@ -812,7 +785,19 @@ If that's not enough, you can request access to the `longserial` queue for jobs
 of up to 336 hours (14 days).
 ]
 
---
+---
+
+## Compute job options: Time (cont.)
+
+Acceptable time formats include:
+  - `minutes`
+  - `minutes:seconds`
+  - `hours:minutes:seconds`
+  - `days-hours`
+  - `days-hours:minutes`
+  - `days-hours:minutes:seconds`
+
+<br> <br>
 
 | Resource/use                 | short    | long               | default
 |------------------------------|----------|--------------------|:-----:
@@ -826,12 +811,6 @@ $ sbatch -t 30 myscript.sh   # 30 minutes
 #!/bin/bash
 #SBATCH --time=60            # 1 hour
 ```
-
-.content-box-info[
-Acceptable time formats include `minutes`, `minutes:seconds`,
-`hours:minutes:seconds`,`days-hours`, `days-hours:minutes` and
-`days-hours:minutes:seconds`.  
-]
 
 ---
 
@@ -847,7 +826,13 @@ says:
 > There is no need to specify a memory limit unless your memory requirements
 > are disproportionate to the number of cores you are requesting or you need a large-memory node.
 
-<br>
+---
+
+## Compute job options: Memory (cont.)
+
+- The default unit is MB (MegaBytes) &ndash; use "G" for GB.
+
+<br> <br> <br> <br> <br> <br> <br> <br>
 
 | Resource/use                 | short    | long      | default |
 |------------------------------|----------|-----------|:-----|
@@ -861,10 +846,6 @@ $ sbatch --mem=20G myscript.sh   # 20 GB
 #!/bin/bash
 #SBATCH --mem=20G
 ```
-
-.content-box-info[
-Default unit is MB (MegaBytes); use "G" for GB
-]
 
 ---
 class: center middle inverse
@@ -886,71 +867,115 @@ name:bonus
 <br>
 
 .left[
+- ### [Transferring files in the shell](#shell-transfer)
 - ### [ssh setup for quicker access](#shell)
+- ### Working with $TMPDIR in SLURM scripts
+- ### Working with Singularity contaners
 ]
 
 <br><br>
 
 ---
-background-color: #ededed
+name: shell-transfer
+background-color: #f2f5eb
 
-## `ssh` set-up: avoid being prompted for password
+## Transferring files in the shell: small transfers (<1 GB)
 
-1. On your own computer, generate a key:
-```bash
-$ ssh-keygen -t rsa
-```
+With **`scp`** (secure copy), which works much like the regular `cp`:
 
-1. On your own computer, transfer the key to the remote computer:
-```bash
-$ cat ~/.ssh/id_rsa.pub | ssh <user>@owens.osc.edu 'mkdir -p .ssh && cat >> .ssh/authorized_keys'
-```
-
-1. On remote computer (OSC), set permissions:
-```bash
-$ chmod 700 .ssh; chmod 640 .ssh/authorized_keys
-```
-
-1. Tell `ssh-agent` about the keys:
-```bash
-ssh-add
-```
-
-<br>
-
-- For more details, see this
-  [Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/).
-
----
-background-color: #ededed
-
-## `ssh` set-up: use shortcuts
-
-1. Create a file called `~/.ssh/config`:
-```bash
-$ touch `~/.ssh/config`
-```
-
-1. Open the file and add your alias(es):
-```bash
-> Host <arbitrary-alias-name>    
->     HostName <remote-name>
->     User <user-name>
-```
-
---
-
-<br>
-
-- This is what it looks like on my machine, so I can login using "`ssh jo`":
-<br/>
-
-<p align="center">
-<img src=img/ssh.png width="400">
-</p>
+- Local to remote:
   
+  ```bash
+  $ scp <local-path> <user>@pitzer.osc.edu:<remote-path>
+  ```
+  
+- Remote to local is simply the reverse:
+  
+  ```sh
+  $ scp <user>@pitzer.osc.edu:<remote-path> <local-path>
+  ```
+  
+- For instance:
+  
+  ```sh
+  $ scp -r scripts/ jelmer@pitzer.osc.edu:~/scripts
+  $ scp -r scripts/ jelmer@pitzer.osc.edu:/fs/ess/PAS1855/users/jelmer/scripts
+  
+  $ scp -r jelmer@pitzer.osc.edu:~/scripts scripts/
+  ```
+
+.content-box-info[
+Transfers in either direction should be done from your *local* shell.
+]
+
 ---
-background-color: #ededed
+background-color: #f2f5eb
+
+## Transferring files in the shell: small transfers (<1 GB)
+
+Another option is the **`rsync`** command, which I recommend,
+especially when you want to keep certain folders synced: `rsync` won't copy
+any files that are present & identical in source and destination.
+
+The basic from-to syntax is the same as with `scp`.
+
+- A useful combination of options is `-avz`:
+  - `-a` enables archival mode (also makes `-r` unnecessary);
+  - `-v` increases verbosity &ndash; tells you what is being copied.
+  - `-z` enables compressed file transfer (=> faster).
+
+  ```bash
+  $ rsync -avrz ~/scripts jelmer@pitzer.osc.edu:~/scripts
+  
+  # If the files are large, "--progress" will help you keep track:
+  $ rsync -avrz --progress ~/scipts jelmer@pitzer.osc.edu:~/scripts
+  ```
+
+---
+background-color: #f2f5eb
+
+## More `rsync`
+
+.content-box-info[
+Presence/absence of a trailing slash for source dirs in `rsync` makes a
+difference: `rsync scripts bk/scripts` will sync these two dirs,
+but `rsync scripts/ bk/scripts` will copy the **contents** of script:
+you end up with `bk/scripts/scripts/` in the destination. 
+]
+
+---
+background-color: #f2f5eb
+
+## Transferring files in the shell: any transfer size
+
+You can also use `sftp`, which doesn't run on a login node,
+so large transfers are permitted.
+
+  - To log in:
+  ```bash
+  $ sftp sftp.osc.edu
+  ```
+
+  Now, you have an `sftp` prompt instead of a regular bash prompt.
+
+- To upload files to remote, use the `put` command &ndash; and note that you
+  don't need the `user@pitzer.osc.edu:` to designate remote:
+
+  ```sh
+  sftp> put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
+  
+  # If you don't specify a remote location, it be put in $HOME:
+  sftp> put file.txt
+  ```
+
+- To download files from remote, use the `get` command:
+
+  ```sh
+  sftp> get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
+  ```
+
+---
+background-color: #f2f5eb
 name: tmpdir
 
 ## Working with `$TMPDIR` in scripts
@@ -972,7 +997,7 @@ trap "cd $PBS_O_WORKDIR;mkdir $PBS_JOBID;cp -R $TMPDIR/* $PBS_JOBID;exit" TERM
 ```
 
 ---
-background-color: #ededed
+background-color: #f2f5eb
 name: containers
 
 ## Containers versus Virtual Machines (VMs)
@@ -992,7 +1017,7 @@ name: containers
 ]
 
 ---
-background-color: #ededed
+background-color: #f2f5eb
 
 ## Docker versus Singularity containers
 
@@ -1014,7 +1039,7 @@ However, Singularity:
   - Is open-source
 
 ---
-background-color: #ededed
+background-color: #f2f5ebd
 
 ## Getting a container
 
@@ -1044,7 +1069,7 @@ If no suitable image is available, you can build your own!
 
 
 ---
-background-color: #ededed
+background-color: #f2f5eb
 
 ## Downloading a container image
 
@@ -1076,7 +1101,7 @@ singularity pull shub://singularityhub/hello-world
 ]
 
 ---
-background-color: #ededed
+background-color: #f2f5eb
 
 ## Interacting with a container image
 
@@ -1105,7 +1130,7 @@ background-color: #ededed
   ```
 
 ---
-background-color: #ededed
+background-color: #f2f5eb
 
 ## "Containerizing" an analysis or script
 
@@ -1121,3 +1146,62 @@ background-color: #ededed
   $ singularity exec multiqc_1.9--py_1.sif \
       multiqc --help
   ```
+  
+---
+background-color: #f2f5eb
+
+## `ssh` set-up: avoid being prompted for password
+
+1. On your own computer, generate a key:
+```bash
+$ ssh-keygen -t rsa
+```
+
+1. On your own computer, transfer the key to the remote computer:
+```bash
+$ cat ~/.ssh/id_rsa.pub | ssh <user>@owens.osc.edu 'mkdir -p .ssh && cat >> .ssh/authorized_keys'
+```
+
+1. On remote computer (OSC), set permissions:
+```bash
+$ chmod 700 .ssh; chmod 640 .ssh/authorized_keys
+```
+
+1. Tell `ssh-agent` about the keys:
+```bash
+ssh-add
+```
+
+<br>
+
+- For more details, see this
+  [Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/).
+
+---
+background-color: #f2f5eb
+
+## `ssh` set-up: use shortcuts
+
+1. Create a file called `~/.ssh/config`:
+```bash
+$ touch `~/.ssh/config`
+```
+
+1. Open the file and add your alias(es):
+```bash
+> Host <arbitrary-alias-name>    
+>     HostName <remote-name>
+>     User <user-name>
+```
+
+--
+
+<br>
+
+- This is what it looks like on my machine, so I can login using "`ssh jo`":
+<br/>
+
+<p align="center">
+<img src=img/ssh.png width="400">
+</p>
+
