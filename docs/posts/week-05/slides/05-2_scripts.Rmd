@@ -42,6 +42,7 @@ class: inverse middle center
 - ### [Command-line arguments for scripts](#args)
 - ### [Putting it all together](#scripts)
 - ### [Touching up your script](#touch-up)
+- ### [Side note: Standard out and standard error](#stderr)
 ]
 
 <br>
@@ -127,7 +128,7 @@ name: header
 
   ```sh
   $ chmod u+x script.sh   # Executable for user/owner of file only (u=user)
-  $ chmod u+x script.sh   # Alt: executable for everyone (a=all)
+  $ chmod a+x script.sh   # Alt: executable for everyone (a=all)
   ```
 
 ---
@@ -679,6 +680,67 @@ While different strategies are certainly possible, as a general rule of thumb:
 - If neither of the above two options applies: switch to Python (or R).
   
 ---
+name: stderr
+
+## Side note: Standard out and standard error
+
+- When commands run into errors, they will print error messages.  
+  
+  Error messages are **not** part of standard out,   
+  and instead represent a separate output stream: **"standard error"**.
+
+--
+
+- We can see this when we try to list a non-existing directory,
+  redirect to a file, but the error is instead printed to screen: 
+  ```sh
+  $ ls -lhr solutions/ > solution_files.txt 
+  #> ls: cannot access solutions.txt: No such file or directory
+  ```
+
+--
+
+- What about the file we tried to write to, does it contain anything?
+
+  ```sh
+  $ ls
+  #> solution_files.txt
+  $ cat solution_files.txt
+  $                # We just get our prompt back - file is empty
+  ```
+
+--
+
+.content-box-info[
+Standard output is often abbreviated as *stdout* and standard error is often
+abbreviated as *stderr*.
+]
+
+---
+
+## Standard out and standard error (cont.)
+
+- So, without redirection **(a)** versus with **`>`** redirection **(b)**:
+<p align="left">
+<img src=img/std-streams.png width="550">
+</p>
+
+--
+
+- But we *can* also redirect the standard error using `2>`:
+
+  ```sh
+  # Redirect stdout (>) and stderr (2>) to separate files:
+  ls -lhr solutions/ > solution_files.txt 2> errors.txt
+  ```
+
+- Or combine *stdout* and *stderr* streams into a single output file with `&>`:
+
+  ```sh
+  $ ls -lhr solutions/ &> out.txt
+  ```
+
+---
 class: inverse middle center
 
 # Questions?
@@ -698,8 +760,6 @@ class: inverse middle center
 
 .left[
 - ### [More on quoting in shell commands](#quote)
-- ### [Using a Help function](#help)
-- ### [Parsing non-positional arguments with getopts](#getops)
 - ### [Parameter expansion](#par-exp)
 ]
 
