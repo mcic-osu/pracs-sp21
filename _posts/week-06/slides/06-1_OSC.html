@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 6 - OSC - I</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+## *Week 6: OSC jobs with SLURM*
+
+----
+
+# Part I: &lt;br&gt; An introduction to OSC
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/02/16 (updated: 2021-02-08)
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [Introduction](#introduction)
+- ### [Connecting to OSC](#connect)
+- ### [OSC file systems](#filesystems)
+- ### [Transferring files](#transfer)
+- ### [Using software at OSC](#software)
+- ### [Compute job options](#jobs)
+]
+
+---
+background-color: #f2f5eb
+
+## Some quick information about your Final Project
+
+**The project should:**
+
+- Be well-organized, and well-documented using Markdown READMEs.
+
+- Be version-controlled throughout, and repeatedly "pushed" to Github.
+
+--
+
+- Be re-runnable using a single Snakemake control script ("Snakefile").
+
+- Should have (most) analysis or data processing done using scripts  
+  in bash and/or Python.
+
+- Optionally run jobs at OSC.
+
+---
+background-color: #f2f5eb
+
+## Some quick information about your Final Project
+
+- So, lots of "infrastructure" requirements &amp;mdash;
+  therefore, no need to devise a complicated project with many scripts.
+
+&lt;br&gt;
+
+--
+
+- We encourage you to *use your own data or find a dataset yourself*,  
+  but Zach will also provide a dataset with accompanying project ideas if
+  you prefer to do that. (And we can dig up other datasets if needed.)
+
+&lt;br&gt;
+
+--
+
+- You are quite free regarding the **topic** of the project:
+  
+  - From answering an actual or contrived research question...
+  
+  - ...to automating something "boring" that you until now always did manually. 
+
+---
+background-color: #f2f5eb
+
+## Some quick information about your Final Project
+
+Your project proposal is not due until the week of March 23rd,
+but you may want to slowly start thinking about this.
+
+---
+class: inverse middle center
+name: introduction
+
+# Introduction
+
+-----
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## What is the OSC?
+
+- The **Ohio Supercomputer Center (OSC)** provides computing
+  resources across the state of Ohio (it is not a part of OSU).
+
+- OSC has two supercomputers and lots of infrastructure for their usage.
+
+--
+
+&lt;br&gt;
+
+- Research usage is charged but via institutions
+  at [heavily subsidized rates](https://www.osc.edu/content/academic_fee_model_faq).
+  
+- Educational usage, like our `PAS1855` project, is free!
+
+---
+
+## Supercomputer?
+
+- A highly interconnected set of many processors and storage units.
+
+- Also known as:
+  - A **cluster**
+  - A High-Performance Computing cluster (**HPC cluster**)
+
+&lt;br&gt;
+
+--
+
+### When do we need a supercomputer?
+
+- Our dataset is too large to be handled (efficiently) by our computer.
+
+- Long-running analyses can be sped up by using more computing power.
+  
+- We need to repeat a computation (or have many datasets).
+  
+---
+
+## Learning about OSC
+
+- OSC regularly has online introductory sessions,   
+  both overviews and more hands-on sessions &amp;ndash;
+  see the [OSC Events page](https://www.osc.edu/events).
+
+--
+
+- OSC provides excellent introductory material at their   
+  [Getting Started Page](https://www.osc.edu/resources/getting_started).
+**Do read these!**
+
+&lt;p align="center"&gt;
+&lt;img src=img/gettingstarted.png width="560"&gt;
+&lt;/p&gt;
+
+---
+
+## Learning about OSC (cont.)
+
+- Also have a look at all the
+  ["HOWTO" pages](https://www.osc.edu/resources/getting_started/howto) &amp;ndash;  
+  very specific and includes more advanced material.
+
+&lt;br&gt;
+
+&lt;p align="center"&gt;
+&lt;img src=img/HOWTOs.png width="500"&gt;
+&lt;/p&gt;
+
+---
+
+## Terminology: cluster and node
+
+#### Cluster
+
+- Many processors and storage units tied together.
+
+- OSC currently has two clusters: **_Pitzer_** and **_Owens_**.   
+  (Largely separate, but same long-term storage space is accessed by both.)
+
+&lt;br&gt;
+
+--
+
+#### Node
+
+- Essentially a powerful computer &amp;ndash; one of many in a cluster.
+
+  - **Login node**: A node you end up on after logging in, which is not meant
+  for computing. *(A few per cluster.)*
+  
+  - **Compute node**: A node for compute jobs. *(Hundreds per cluster.)*
+
+---
+
+## Terminology: core
+
+#### Core
+
+- One of often many *processors* in a node &amp;ndash;  
+  e.g. standard *Pitzer* nodes have 40-48 cores.
+
+--
+
+- Each core can run and be reserved independently.
+
+- But, using multiple cores for a job is also common, to:
+  - Parallelize computations across cores.
+  - Access more memory.
+
+
+---
+
+## Terminology: cluster &gt; node &gt; core
+
+&lt;br&gt;
+
+&lt;p align="center"&gt;
+&lt;img src=img/cluster-node-core.png width="100%"&gt;
+&lt;/p&gt;
+
+
+---
+class:inverse middle center
+name:connect
+
+# Connecting to OSC
+
+-----
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## Connecting to OSC with "OnDemand"
+
+- You can make use of OSC not only through `ssh` at the command line,   
+but also through the web browser: from https://ondemand.osc.edu.
+
+&lt;p align="center"&gt;
+&lt;img src=img/ondemand1.png width="900"&gt;
+&lt;/p&gt;
+
+--
+
+- At OnDemand, you can, for example:
+
+  - Access a terminal directly in your browser
+  
+  - Run "Interactive Apps" like RStudio, Jupyter Notebooks, and VS Code.
+  
+  - Browse and upload files
+
+  .content-box-diy[
+  **Interface Demo**
+  ]
+
+---
+
+## Connecting to OSC with `ssh`
+
+- If you want to log in from your local terminal,   
+  you need to **connect through `ssh`.**
+  
+- Basic `ssh` usage:
+  
+  ```sh
+  $ ssh &lt;username&gt;@pitzer.osc.edu  # e.g. jelmer@pitzer.osc.edu     
+  $ ssh &lt;username&gt;@owens.osc.edu   # e.g. jelmer@ownes.osc.edu     
+  ```
+  
+  - You will be prompted for your OSC password.
+
+---
+
+## Login nodes: best practices
+
+After logging in to OSC, you're on a **login node**.
+  
+- Use login nodes for *navigation*, *housekeeping*, and *job submission*.
+
+- Any process that is active for &gt;20 minutes or uses &gt;1GB **will be killed**.
+
+- It is good practice to avoid even getting close to these limits:   
+  login nodes are shared by everyone, and can get clogged.   
+
+&lt;br&gt;
+
+.content-box-info[
+For more info, see OSC's page [Login environment at OSC](https://www.osc.edu/supercomputing/login-environment-at-osc).
+]
+
+---
+class: inverse center middle
+name: filesystems
+
+# OSC File Systems
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## OSC file systems
+
+- OSC has several file systems with different typical use cases:
+  we'll discuss in terms of short-term versus long-terms storage. 
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+.content-box-info[
+See [here](https://www.osc.edu/supercomputing/storage-environment-at-osc/available-file-systems)
+for more info about the OSC file systems.
+]
+
+---
+
+## File systems: long-term storage with daily back-ups
+
+**Home dir**
+
+- Can always be accessed with shortcuts **`$HOME`** and **`~`**.
+
+- 500 GB limit per user.
+
+- Your home dir will include your first project ID, e.g. `/users/PAS0471/jelmer`.
+  (However, this is not the project dir!)
+
+--
+
+&lt;br&gt;
+
+**Project dir**
+  
+- `/fs/project/&lt;project-ID&gt;` (MCIC project: `/fs/project/PAS0471`) **OR**  
+
+- `/fs/ess/&lt;project-ID&gt;` (Course project: `/fs/ess/PAS1855`)
+  
+- The total storage limit is whatever a PI sets this too.   
+  Charges are for the reserved space, not actual usage.
+  
+---
+
+## File systems: short-term storage locations
+
+**scratch**
+
+- `/fs/scratch/&lt;projectID&gt;` or `/fs/ess/scratch/&lt;projectID&gt;`.
+
+- Fast I/O &amp;ndash; good when working with large input and output files.
+
+- **Temporary**: deleted after 120 days, and not backed up.
+
+--
+
+&lt;br&gt;
+
+**`$TMPDIR`**
+
+- Represents storage space *on your compute node*. 1 TB max.
+
+- Available in the job script through the environment variable `$TMPDIR`.
+
+- **Deleted after job ends** &amp;ndash; so copy to/from in job scripts!
+
+- See [this bonus slide](#tmpdir) for some example code for working with `$TMPDIR`.
+
+---
+class: inverse middle center
+name: transfer
+
+# Transferring files to and from OSC
+
+-----
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## Transferring files: OnDemand and Globus
+
+#### For small transfers (&lt;1 GB): use OnDemand
+
+&lt;p align="center"&gt;
+&lt;img src=img/ondemand2_circle.png width="95%"&gt;
+&lt;/p&gt;
+
+----
+
+&lt;p align="center"&gt;
+&lt;img src=img/ondemand3_circle.png width="95%"&gt;
+&lt;/p&gt;
+
+--
+
+-----
+
+&lt;br&gt;
+
+#### For large transfers (&gt;1 GB): use Globus
+
+- Especially useful for very large and/or complex transfers.
+
+- Does need a [local installation](https://www.osc.edu/resources/getting_started/howto/howto_transfer_files_using_globus_connect) and some set-up.
+
+---
+name: shell_transfer
+
+## Transferring files in the shell: small transfers (&lt;1 GB)
+
+**Transfers in either direction should be done from your local shell.**
+
+- With `scp` (secure copy), which works much like the regular `cp`:
+
+  ```bash
+  # Local to remote:
+  $ scp &lt;local-path&gt; &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt;
+  
+  # Remote to local is simply the reverse:
+  $ scp &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt; &lt;local-path&gt;
+  
+  # For instance:
+  $ scp -r scripts/ jelmer@pitzer.osc.edu:~/scripts
+  $ scp -r scripts/ jelmer@pitzer.osc.edu:/fs/ess/PAS1855/users/jelmer/scripts
+  
+  $ scp -r jelmer@pitzer.osc.edu:~/scripts scripts/
+  ```
+
+---
+
+## Transferring files in the shell: small transfers (&lt;1 GB)
+
+**Transfers in either direction should be done from your local shell.**
+
+- With `rsync`, which is recommended, especially when you want to keep folder
+  synced:
+
+  ```bash
+  $ rsync -avrz --progress /path/in/local/dir \
+      &lt;user&gt;@owens.osc.edu:/path/in/remote/
+  ```
+
+## Finish rsync
+
+---
+
+## Transferring files in the shell: any transfer size
+
+You can also use `sftp`, which doesn't run on a login node,
+so large transfers are permitted.
+
+```bash
+$ sftp sftp.osc.edu
+
+sftp&gt; put /path/in/local/file.txt /path/in/remote
+
+sftp&gt; put file.txt    # From local working dir to $HOME in remote
+
+sftp&gt; get /path/in/remote/file.txt /path/in/local/
+```
+
+## Finish sftp
+
+---
+class: inverse middle center
+name: software
+
+# Using software at OSC
+
+-----
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## Using software at OSC
+ 
+- At OSC, software is managed with the `Lmod` system.
+  While a lot of software is installed, **much is only available to use after
+  we explicitly load it.**
+  
+  This enables the use of different versions of the same software,
+  as well as mutually incompatible software, one one system. 
+
+- For a list of software that has been installed at OSC, see:      
+  &lt;https://www.osc.edu/resources/available_software&gt;.
+  
+--
+
+- You can also search for available software ("modules") in the shell:
+  
+  - `module avail` lists all modules that *can be directly loaded*,
+    given the current environment.
+  
+  - `module spider` list all modules that *could potentially be loaded*,
+    and you can also add a search term to narrow down the results.
+  
+  ```sh
+  $ module avail
+  
+  $ module spider
+  
+  $ module spider python
+  ```
+
+---
+
+## Using software at OSC
+
+- *Loading* installed software is also done with `module` commands:
+  
+  ```bash
+  # Load a module:
+  $ module load R               # Load default version
+  $ module load R/4.0.2-gnu9.1  # Load a specific version
+  
+  # Unload a module:
+  $ module unload R
+  
+  # Check which modules have been loaded:
+  $ module list
+  ```
+
+---
+
+## What if software isn't installed at OSC?
+
+**Install it yourself or get others to install it.**
+
+- Installing yourself is possible but can be tricky (no admin rights...).
+
+- For commonly used software, send an email to &lt;oschelp@osc.edu&gt;.
+
+- People like me can help with (more niche) bioinformatics software.
+
+--
+
+&lt;br&gt;
+
+**Alternative approaches (recommended):**
+
+- The **`conda`** software management system (next slides)
+
+- `Singularity` **containers**
+  
+- These alternatives are useful not only at OSC – but more generally, for:
+  
+  - Reproducible environments
+  
+  - Portable environments (especially containers)
+  
+  - Avoidance of dependency hell
+
+---
+
+## `conda`: a software environment manager
+
+- Creates *environments* with one (best-practice) or more software packages.
+
+- Lots of bioinformatics software is available as a `conda` package.
+
+- Handles dependencies but does not require admin rights.
+
+- Environments are activated and deactivated like with the `module` system.
+
+---
+
+## `conda`: a software environment manager
+
+**Benefits:**
+
+- Can easily maintain distinct "environments" each with a different
+  version of the same software, or with mutually incompatible software.
+
+- Not much of a learning curve.
+
+- Can save and share environment instructions as very simple text files.
+
+&lt;br&gt;
+
+--
+
+**Limits &amp;ndash; `conda` does not:**
+
+- Create an isolated environment that can be exported and used anywhere.
+
+- Allow running software requiring a different OS / OS version.
+
+
+.content-box-info[
+**Containers** address these limitations &amp;ndash; see
+[these bonus slides](#containers).
+]
+
+---
+
+## `conda` in practice
+
+- Load the `conda` module at OSC (comes with the Python module): 
+
+  ```bash
+  $ module load python/3.6-conda5.2
+  ```
+
+- Example: **create** a new environment with "`multiqc`" installed:
+
+  ```bash
+  $ conda create -y -n multiqc-env -c bioconda multiqc
+  ```
+
+--
+
+- **Activate** the `multiqc` environment and see if we can run MultiQC:
+
+  ```bash
+  [&lt;user&gt;@pitzer-login01 ~]$ conda activate multiqc-env
+  (multiqc) [&lt;user&gt;@pitzer-login01 ~]$ multiqc --help
+  #&gt; Usage: multiqc [OPTIONS] &lt;analysis directory&gt;
+  ```
+
+  *(Note above that `conda` will indicate the active environment in the prompt!)*
+
+.content-box-info[
+There is also a bit of one-time `conda` setup that needs to be done,
+see ...
+]
+  
+---
+class: inverse middle center
+name: jobs
+
+# Compute jobs
+
+-----
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
+---
+
+## Starting a compute job: background
+
+To do analyses at OSC, you need access to a **compute node**.
+  
+- **Automated scheduling software** allows 100s of people with different
+  requirements to access compute nodes effectively and fairly.
+
+- Since December 2020, both Pitzer and Owens use the **_SLURM_ scheduler**   
+  (see [here](https://www.osc.edu/supercomputing/knowledge-base/slurm_migration)
+  for OSC SLURM info).
+
+---
+
+## Starting a compute job: how?
+
+Three main options:
+
+- In OnDemand, start an "**Interactive App**" like RStudio Server.   
+
+- Run an **interactive shell job**.
+
+- Provide *SLURM* directives in or along with **scripts**.
+
+--
+
+.content-box-info[
+You can provide instructions to the *SLURM* scheduler to specify the resources
+(cores/memory/time/etc) that you need.
+
+These can be provided at the command-line:
+```sh
+$ sinteractive -A PAS1855 -t 60
+$ sbatch myscript.sh -A PAS1855 -t 60
+```
+
+As well as at the start of scripts in lines with the `#SBATCH` keyword:
+```sh
+#!/bin/bash
+#SBATCH --account=PAS1855
+#SBATCH --time=60
+```
+]
+
+---
+
+## Starting compute jobs: Interactive shell jobs
+
+Interactive shell jobs will get you interactive shell access on a compute node.
+
+- For short interactive shell jobs, you can use the
+  [`sinteractive`](https://www.osc.edu/supercomputing/knowledge-base/slurm_migration/how_to_monitor_and_manage_jobs) wrapper:
+
+  ```sh
+  $ sinteractive -A PAS1855 # Default: 30-mins, 1-core, 1-node
+  
+  $ sinteractive -A PAS1855 -t 60 # 60 mins - max for sinteractive
+  ```
+
+## srun
+
+---
+
+## Starting compute jobs: Shell scripts
+
+- To submit a job:
+
+  ```sh
+  $ sbatch [sbatch-options] script.sh [script-arguments]
+  
+  $ sbatch fastq.sh
+  # Submitted batch job 2526085 
+  
+  $ sbatch fastq.sh sampleA.fastq.gz
+  # Submitted batch job 2526086
+  
+  $ sbatch -t 60 -A PAS1855 --mem=20G fastq.sh sampleA.fastq.gz
+  # Submitted batch job 2526085 
+  ```
+
+.content-box-info[
+Any `sbatch` options provided on the command-line will override the equivalent
+options provided in the script itself:
+
+```sh
+#!/bin/bash
+#SBATCH --account=PAS0471
+#SBATCH --time=00:45:00
+#SBATCH --mem=8G
+```
+]
+
+---
+
+## Compute job options: Project
+
+- Your jobs need to be billed to a project, and you *always* need to specify one.  
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+| Resource/use                 | short    | long
+|------------------------------|----------|-------
+| Project to be billed &amp;ndash; **required** | -A PAS1855 | --account=PAS1855
+
+```sh
+#!/bin/bash
+#SBATCH --account=PAS0471
+```
+
+---
+
+## Compute job options: Nodes and cores
+
+- Only ask for &gt;1 **node** when you have explicit parallelization.
+
+| Resource/use                  | short    | long                    | default
+|-------------------------------|----------|-------------------------|:--------:| 
+| Number of nodes               | -N 1     | --nodes=1               | 1
+| Number of cores               | -c 1     | --cpus-per-task=1       | 1
+| Number of "tasks" (processes) | -n 1     | --ntasks=1              | 1
+| Number of tasks per node      | -        | --ntasks-per-node=1     | 1
+
+```sh
+$ sbatch -N 1 -c 2 myscript.sh
+```
+
+```sh
+#!/bin/bash
+#SBATCH --cpus-per-task=2       # Preferred for multi-threading
+```
+
+```sh
+#!/bin/bash
+#SBATCH --ntasks=2              # Preferred for multi-process
+```
+
+```sh
+#!/bin/bash
+#SBATCH --ntasks-per-node=2     # (Equivalent for single-node jobs)
+```
+
+---
+
+## Compute job options: Time
+
+You need to specify a **time limit** for your job (= "wall time"),
+and your job gets killed as soon as it hits the time limit!
+
+If you are uncertain about the time your job will take,
+ask for (much) more time than you think you will need:
+your project will be charged for the time *actually used*.
+(But slight trade-off: shorter jobs are likely to start sooner.)
+
+--
+
+| Resource/use                 | short    | long               | default
+|------------------------------|----------|--------------------|:-----:
+| Time limit (4 h)             | -t 4:00:00 | --time=4:00:00   | ?
+
+```sh
+$ sbatch -t 30 myscript.sh   # 30 minutes
+```
+
+```sh
+#!/bin/bash
+#SBATCH --time=60            # 1 hour
+```
+
+.content-box-info[
+Acceptable time formats include `minutes`, `minutes:seconds`,
+`hours:minutes:seconds`,`days-hours`, `days-hours:minutes` and
+`days-hours:minutes:seconds`.  
+]
+
+---
+
+## Compute job options: Memory
+
+Specify a maximum amount of RAM (Random Access Memory;
+not to be confused with disk storage).
+
+Like with time, your job **gets killed** when it hits the memory limit!
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+| Resource/use                 | short    | long      | default |
+|------------------------------|----------|-----------|:-----|
+| Memory limit per node (8 GB) | -        | --mem=8G  | single-core value
+
+```sh
+$ sbatch --mem=20G myscript.sh   # 20 GB
+```
+
+```sh
+#!/bin/bash
+#SBATCH --mem=20G
+```
+
+.content-box-info[
+Default unit is MB (MegaBytes); use "G" for GB
+]
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class: inverse center middle
+name:bonus
+
+# Bonus material
+
+-----
+
+&lt;br&gt;
+
+.left[
+- ### [ssh setup for quicker access](#shell)
+]
+
+&lt;br&gt;&lt;br&gt;
+
+---
+background-color: #ededed
+
+## `ssh` set-up: avoid being prompted for password
+
+1. On your own computer, generate a key:
+```bash
+$ ssh-keygen -t rsa
+```
+
+1. On your own computer, transfer the key to the remote computer:
+```bash
+$ cat ~/.ssh/id_rsa.pub | ssh &lt;user&gt;@owens.osc.edu 'mkdir -p .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys'
+```
+
+1. On remote computer (OSC), set permissions:
+```bash
+$ chmod 700 .ssh; chmod 640 .ssh/authorized_keys
+```
+
+1. Tell `ssh-agent` about the keys:
+```bash
+ssh-add
+```
+
+&lt;br&gt;
+
+- For more details, see this
+  [Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/).
+
+---
+background-color: #ededed
+
+## `ssh` set-up: use shortcuts
+
+1. Create a file called `~/.ssh/config`:
+```bash
+$ touch `~/.ssh/config`
+```
+
+1. Open the file and add your alias(es):
+```bash
+&gt; Host &lt;arbitrary-alias-name&gt;    
+&gt;     HostName &lt;remote-name&gt;
+&gt;     User &lt;user-name&gt;
+```
+
+--
+
+&lt;br&gt;
+
+- This is what it looks like on my machine, so I can login using "`ssh jo`":
+&lt;br/&gt;
+
+&lt;p align="center"&gt;
+&lt;img src=img/ssh.png width="400"&gt;
+&lt;/p&gt;
+
+
+---
+background-color: #ededed
+
+## `$PATH`
+
+- `$PATH` is another environment variable like `$HOME` and `$USER`.
+
+- It lists the directories that will be searched when you type a program’s name.
+  This allows you to run programs without specifying the full path to the executable.
+  
+  ```sh
+  $ vcftools
+  #&gt; VCFtools (0.1.16)
+  #&gt; (c) Adam Auton and Anthony Marcketta 2009
+  
+  # To check where the program's binary is located:
+  $ which vcftools
+  #&gt; /usr/bin/vcftools
+  ```
+
+---
+background-color: #ededed
+
+## `$PATH`
+
+- To check which directories are in your `$PATH`:
+
+  ```sh
+  $ echo $PATH
+  #&gt; /usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/jelmer/.local/bin:/home/jelmer/bin:
+  
+  $ echo $PATH | tr ":" "\n" | nl   # More intelligible output!
+  ```
+
+- To add a directory to your `$PATH` in the current session:
+
+  ```sh
+  $ PATH=$PATH:~/new-dir-with-software/
+  ```
+
+- **For lasting changes**, edit your bash configuration files (like `~/.bashrc`),
+  from which `$PATH` is loaded whenever you open a terminal:
+  
+  ```sh
+  $ echo "PATH=$PATH:~/new-dir-with-software/" &gt;&gt; ~/.bashrc
+  ```
+  
+---
+background-color: #ededed
+name: tmpdir
+
+## Working with `$TMPDIR` in scripts
+
+**Copy input to `$TMPDIR`, copy output to home:**
+
+```bash
+cp -R $HOME/my/data/ $TMPDIR/
+#[...analyze data with I/O happening in $TMPDIR....]
+cp -R $TMPDIR/* $HOME/my/data/
+```
+
+&lt;br&gt;
+
+This trick will copy the data even if the job is killed:
+
+```bash
+trap "cd $PBS_O_WORKDIR;mkdir $PBS_JOBID;cp -R $TMPDIR/* $PBS_JOBID;exit" TERM
+```
+
+---
+background-color: #ededed
+name: containers
+
+## Containers versus Virtual Machines (VMs)
+
+- Containers don't virtualize entire Operating Systems:
+  - Containers are smaller.
+  - Containers are more lightweight to run.
+  
+&lt;p align="center"&gt;
+&lt;img src=img/containers.png width="65%"&gt;
+&lt;/p&gt;
+
+.content-box-info[
+- Use a VM for long interactive sessions with multiple programs.
+
+- Use a container to run one or a few programs non-interactively.
+]
+
+---
+background-color: #ededed
+
+## Docker versus Singularity containers
+
+Docker and Singularity are two different container platforms;
+Docker is by far the most widely used.
+  
+However, Singularity:
+  
+  - Was specifically designed for HPCs &amp; is available at OSC
+  
+  - Needs no admin rights to run containers
+  
+  - Can work with Docker images but not vice versa
+  
+  - Integration with several host directories by default
+  
+  - Has single-file container images
+  
+  - Is open-source
+
+---
+background-color: #ededed
+
+## Getting a container
+
+Container images for most software can be found at these registries:
+
+- Docker Hub: &lt;https://hub.docker.com/&gt;
+
+- Sylabs Cloud Library: &lt;https://cloud.sylabs.io/&gt;
+
+- Biocontainers (for bioinformatics software): &lt;https://biocontainers.pro/&gt;
+
+If no suitable image is available, you can build your own!
+
+&lt;br&gt;
+
+--
+
+.center[
+**Container terminology**
+]
+
+| Term          | Meaning
+|---------------|---------
+| Image         | File(s) containing container application
+| Container     | A *running* container image
+| Definition file (Singularity) &lt;br&gt; / Dockerfile (Docker) | Recipe to build a container image
+
+
+---
+background-color: #ededed
+
+## Downloading a container image
+
+- Download (`pull`) a container with MultiQC:
+
+  ```sh
+  $ singularity pull &lt;registry&gt;://&lt;user&gt;/&lt;project&gt;/&lt;name&gt;:&lt;tag&gt;
+  
+  $ singularity pull docker://quay.io/biocontainers/multiqc:1.9--py_1
+  #&gt; INFO:      Converting OCI blobs to SIF format
+  ```
+  
+  (Note that it pulls a *Docker* image and converts it automatically.)
+
+- Now we have `.sif` container image:
+
+  ```sh
+  $ ls multiqc*
+  #&gt; multiqc_1.9--py_1.sif
+  ```
+
+.content-box-info[
+An example of downloading a container from Singularity hub ("shub"):
+
+```sh
+singularity pull shub://singularityhub/hello-world
+#&gt; INFO:      Downloading shub image
+```
+]
+
+---
+background-color: #ededed
+
+## Interacting with a container image
+
+- To "run" the container, i.e. run whatever is defined as the default action:
+
+  ```sh
+  $ singularity run multiqc_1.9--py_1.sif
+  Singularity&gt; # In this case, opens terminal inside container 
+  
+  Singularity&gt; multiqc --help # In which we can run multiqc
+  #&gt; Usage: multiqc [OPTIONS] &lt;analysis directory&gt;
+  ```
+
+- The `shell` sub-command *always* opens a terminal inside the container:
+
+  ```sh
+  $ singularity shell multiqc_1.9--py_1.sif
+  Singularity&gt;
+  ```
+  
+- **Most useful is the the `exec` sub-command**,
+  which lets you directly execute a shell command – and then exits:
+  
+  ```sh
+  $ singularity exec multiqc_1.9--py_1.sif multiqc --help
+  ```
+
+---
+background-color: #ededed
+
+## "Containerizing" an analysis or script
+
+- Running a locally installed program:
+
+  ```sh
+  $ multiqc --help
+  ```
+  
+- Run the same command inside a container:
+
+  ```sh
+  $ singularity exec multiqc_1.9--py_1.sif \
+      multiqc --help
+  ```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

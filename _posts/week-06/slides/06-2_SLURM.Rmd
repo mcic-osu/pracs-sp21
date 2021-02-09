@@ -1,0 +1,1023 @@
+---
+title: "Week 6 - OSC - II"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## *Week 6: OSC jobs with SLURM*
+
+----
+
+# Part II: <br> SLURM jobs in practice
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/02/18 (updated: `r Sys.Date()`)
+
+---
+class: inverse middle center
+
+# Setting the stage
+
+----
+
+### stdout/stderr, $PATH, and bash configuration files
+
+<br> <br> <br> <br>
+
+---
+
+## Standard out and standard error
+
+- When commands run into errors, they will print error messages.  
+  
+  Error messages are **not** part of standard out,   
+  and instead represent a separate output stream: **"standard error"**.
+
+--
+
+- We can see this when we try to list a non-existing directory,
+  redirect to a file, but the error is instead printed to screen: 
+  ```sh
+  $ ls -lhr solutions/ > solution_files.txt 
+  #> ls: cannot access solutions.txt: No such file or directory
+  ```
+
+--
+
+- What about the file we tried to write to, does it contain anything?
+
+  ```sh
+  $ ls
+  #> solution_files.txt
+  $ cat solution_files.txt
+  $                # We just get our prompt back - file is empty
+  ```
+
+--
+
+.content-box-info[
+Standard output is often abbreviated as *stdout* and standard error is often
+abbreviated as *stderr*.
+]
+
+---
+
+## Standard out and standard error (cont.)
+
+- So, without redirection **(a)** versus with **`>`** redirection **(b)**:
+<p align="left">
+<img src=img/std-streams.png width="550">
+</p>
+
+--
+
+- But we *can* also redirect the standard error using `2>`:
+
+  ```sh
+  # Redirect stdout (>) and stderr (2>) to separate files:
+  ls -lhr solutions/ > solution_files.txt 2> errors.txt
+  ```
+
+- Or combine *stdout* and *stderr* streams into a single output file with `&>`:
+
+  ```sh
+  $ ls -lhr solutions/ &> out.txt
+  ```
+
+---
+
+## Bash configuration files
+
+Your bash shell is configured using simple (hidden) text files in your `$HOME`:
+
+- `~/.bashrc`
+
+- `~/.bash_profile`
+
+## FINISH
+
+---
+
+## `$PATH`: A list of directories with binaries
+
+- `$PATH` is another environment variable like `$HOME` and `$USER`.
+
+- It lists the directories that will be searched when you type a program’s name.
+  This allows you to run programs without specifying the full path to the executable.
+  For example:
+  
+  ```sh
+  $ vcftools
+  #> VCFtools (0.1.16)
+  #> (c) Adam Auton and Anthony Marcketta 2009
+  
+  # To check where the program's binary is located:
+  $ which vcftools
+  #> /usr/bin/vcftools
+  ```
+
+---
+
+## `$PATH`: A list of directories with binaries (cont.)
+
+- To check which directories are in your `$PATH`, you can simply `echo` it:
+
+  ```sh
+  $ echo $PATH
+  #> /apps/xalt/xalt/bin:/opt/mvapich2/intel/19.0/2.3.3/bin:/apps/gnu/8.4.0/bin:/opt/intel/19.0.5/itac_latest/bin:/opt/intel/19.0.5/advisor/bin64:/opt/intel/19.0.5/vtune_amplifier/bin64:/opt/intel/19.0.5/inspector_2019/bin64:/opt/intel/19.0.5/compilers_and_libraries_2019/linux/bin/intel64:/apps/software_usage:/usr/lib64/qt-3.3/bin:/opt/osc/bin:/opt/moab/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/opt/ddn/ime/bin:/opt/puppetlabs/bin:/users/PAS0471/jelmer/software/bin
+  ```
+  
+- The output looks strange and is hard to read because the different directories
+  in your `$PATH` are separated by colons `:`.
+  Let's make that a bit more readable:
+  
+  ```sh
+  $ echo $PATH | tr ":" "\n" | nl
+  #> 1  /apps/xalt/xalt/bin
+  #> 2  /opt/mvapich2/intel/19.0/2.3.3/bin
+  #> 3  /apps/gnu/8.4.0/bin
+  #> 4  /opt/intel/19.0.5/itac_latest/bin
+  #> 5  /opt/intel/19.0.5/advisor/bin64
+  #> ...
+  ```
+
+---
+
+## `$PATH`: A list of directories with binaries (cont.)
+
+- You can easily modify your `$PATH`.
+  To add a directory to your `$PATH` in the current session,
+  you simply *append* a new dir after a colon:
+
+  ```sh
+  $ PATH=$PATH:~/new-dir-with-software/
+  ```
+
+<br>
+
+- However, this change will not have any effects outside of your current bash sessions.
+  **For lasting changes**,
+  you should edit your bash configuration files (like `~/.bashrc`),
+  from which `$PATH` is loaded whenever you open a terminal:
+  
+  ```sh
+  $ echo "PATH=$PATH:~/new-dir-with-software/" >> ~/.bashrc
+  ```
+
+---
+
+## More on SLURM directives
+
+**We saw the following directives earlier:**  
+  
+| Resource/use                  | short      | long                 | default
+|-------------------------------|------------|----------------------|:---------:|
+| Project to be billed          | -A PAS0471 | --account=PAS0471    | _N/A_
+| Time limit                    | -t 4:00:00 | --time=4:00:00       | ?
+| Nr of nodes                   | -N 1       | --nodes=1            | 1
+| Nr of cores                   | -c 1       | --cpus-per-task=1    | 1
+| Nr of "tasks" (processes)     | -n 1       | --ntasks=1           | 1
+| Nr of tasks per node          | -          | --ntasks-per-node    | 1
+| Memory limit per node         | -          | --mem=4G             | *(single-core value)*
+
+---
+
+## More on SLURM directives (cont.)
+
+**Some other options (for more, see the [SLURM documentation](https://slurm.schedmd.com/sbatch.html)):**
+
+| Resource/use                         | short    | long
+|--------------------------------------|----------|-------
+| Log output file (%j = job number)    | -o       |  --output=slurm-fastqc-%j.out
+| Error output (*stderr*)              | -e       | --error=slurm-fastqc-%j.err
+| Job name (displayed in the queue)    | -        | --job-name=fastqc
+| Partition/queue                      | -        | --partition=longserial
+| Get email when job starts/ends/fails | -        | --mail-type=ALL/START/END/FAIL
+| Let job begin at/after specific time | -        | --begin=2021-02-01T12:00:00
+| Let job begin after other jobs is done | -      | --dependency=afterany:123456
+
+.content-box-info[
+By default, standard output **and** standard error are sent to the
+same output file (`-o` / `--output`).
+To send standard error to its own output file, use the `-e` / `--error` option.
+]
+
+---
+
+## More on SLURM directives (cont.)
+
+In scripts, SLURM directives must be provided before any executable lines:
+
+.pull-left[
+**Good:**
+
+```sh
+#!/bin/bash
+
+#SBATCH --account=PAS18655
+
+set -e -u -o pipefail
+```
+]
+
+.pull-left[
+**Bad:**
+
+```sh
+#!/bin/bash
+
+set -e -u -o pipefail
+
+#SBATCH --account=PAS18655
+```
+]
+
+---
+
+## SLURM environment variables
+
+| Variable            | Description
+|---------------------|------------
+| `$SLURM_SUBMIT_DIR` | Path to dir from which job was started
+| `$TMPDIR`           | Path to dir for job (fast I/O)
+| `$SLURM_JOB_ID`     | Job ID assigned by SLURM
+| `$SLURM_JOB_NAME`   | Job name supplied by the user
+
+- A list of the nodes and cores assigned to your job is obtained using
+  `srun hostname | sort -n`
+  
+---
+class: inverse middle center
+
+# An example: <br> Submitting a script to run FastQC to SLURM
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## FastQC: A program for quality control of fastq files 
+
+FastQC produces visualizations and assessments of fastq files for statistics
+such as per-base quality (below) and adapter content.
+
+.pull-left[
+<p align="center">
+<img src=img/fastqc_good.png width="80%">
+</p>
+]
+
+.pull-right[
+<p align="center">
+<img src=img/fastqc_bad.png width="80%">
+</p>
+]
+
+--
+
+- FastQC analyzes **one fastq file at a time**
+  (which can be gzipped: `fastq.gz`),
+  and outputs a nice HTML file with its results.
+  
+  Running it is straightforward:
+  ```sh
+  $ fastqc --outdir=<output-dir> <fastq-file>
+  ```
+
+---
+
+## Our basic FastQC script
+
+Here is what a script to run FastQC non-interactively could look like:
+  
+  ```sh
+  #!/bin/bash
+  set -e -u -o pipefail
+  
+  fastq_file="$1"
+  output_dir="$2" 
+  
+  mkdir -p "$output_dir"
+  
+  echo "Running fastqc for file: $fastq_file"
+  echo "Output dir: $output_dir"
+  
+  fastqc --outdir="$output_dir" "$fastq_file"
+  ```
+
+--
+
+<br>
+
+**To run this at OSC, we need to do two additional things:**
+
+1. Add SLURM directives to request the appropriate cluster resources.
+
+1.  Load OSC's module for FastqQC.
+  
+---
+
+## Adding SLURM directives to our FastQC script
+
+In this case, we're happy with most of the defaults, which include 1 node
+and 1 core, so we only specify the following options:
+
+- The job should be billed to the `PAS1855` project
+  (recall that we always need to provide the project number):
+  ```sh
+  #SBATCH --account=PAS1855
+  ```
+
+--
+
+- FastQC does not take long to run, so we can use a time limit of 15 minutes:
+  ```sh
+  #SBATCH --time=15
+  ```
+
+---
+
+## Adding SLURM directives to our FastQC script
+
+- We add "*fastqc*" to the default output file name for the log,
+  which would be `slurm-<job-number>.out`.
+  This is useful to keep track of what your different log files are about.
+  
+  `%j` is the job number which is printed by default, but not if we specify
+  out output as, say `slurm-fastqc.out`. By including this, we will avoid
+  have multiple jobs that produce the same log file.
+  
+  ```sh
+  #SBATCH --output=slurm-fastqc-%j.out
+  ```
+
+--
+
+  .content-box-info[
+  Other useful patterns include `%u` (user name) and `%x` (job name).
+  ]
+
+---
+
+## Loading the module
+
+To be able to run FastQC at OSC, we need to load the module, which we can
+simply do by adding the following line in the script:
+
+```sh
+module load fastqc/0.11.8
+```
+
+Obviously, the lines needs to occur before we call FastQC,
+and it's best placed at the start of the script.
+
+---
+
+## The full script
+
+```sh
+#!/bin/bash
+#SBATCH --account=PAS0471
+#SBATCH --time=60
+#SBATCH --output=slurm-fastqc-%j.out
+set -e -u -o pipefail
+
+module load fastqc/0.11.8
+
+fastq_file="$1"
+output_dir="$2" 
+
+mkdir -p "$output_dir"
+
+echo "Running fastqc for file: $fastq_file"
+echo "Output dir: $output_dir"
+
+fastqc --outdir="$output_dir" "$fastq_file"
+```
+
+---
+
+## The full script &ndash; touched up a bit more
+
+```sh
+#!/bin/bash
+#SBATCH --account=PAS0471
+#SBATCH --time=15
+#SBATCH --output=slurm-fastqc-%j.out
+set -e -u -o pipefail
+
+module load fastqc/0.11.8
+
+fastq_file="$1"
+output_dir="$2" 
+
+mkdir -p "$output_dir"
+
+date                              # Report date+time to time script
+echo "Starting FastQC script..."  # Report what script is being run
+echo "Running fastqc for file: $fastq_file"
+echo "Output dir: $output_dir"
+echo -e "---------\n\n"           # Separate from program output
+
+fastqc --outdir="$output_dir" "$fastq_file"
+
+echo -e "\n---------\nAll done!"  # Separate from program output
+date                              # Report date+time to time script
+```
+
+---
+
+## Submit the job
+
+- Before submitting to SLURM, we need to make the script executable:
+
+  ```sh
+  chmod u+x scripts/fastqc_single.sh
+  ```
+
+<br>
+
+--
+
+- We need to provide the script with an output dir and a FASTQ file,   
+  whose names we will store in variables:
+  
+  ```sh
+  output_dir=analysis/QC_fastq
+  fastq_file=fastq/XXXX.fastq.gz # EDIT
+  ```
+
+- Now we can submit the job:
+
+  ```sh
+  sbatch scripts/fastqc_single.sh "$fastq_file" "$output_dir"
+  # Submitted batch job 2451088
+  ```
+
+---
+
+## Monitoring the SLURM job
+
+- We can check what's happening with the job using the SLURM command `squeue`:
+
+- Initially the job may be queued &ndash; `PD` in the `ST` (**st**atus) column:
+
+  ```sh
+  squeue -u $USER
+  # JOBID   PARTITION     NAME       USER    ST      TIME  NODES NODELIST(REASON)
+  # 2526085 serial-40     fastqc_s   jelmer  PD       0:00      1 (None) 
+  ```
+
+- Then the job should be running &ndash; `R` in the `ST` column:
+
+  ```sh
+  squeue -u $USER
+  # JOBID   PARTITION     NAME       USER    ST      TIME  NODES NODELIST(REASON) 
+  # 2526085 serial-40     fastqc_s   jelmer  R       0:02      1 p0002 
+  ```
+
+- When the job has finished, `squeue` will return nothing (!):
+
+  ```sh
+  squeue -u $USER
+  # JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
+  ```
+
+---
+
+## Check the log and the output files
+
+- Let's look for *SLURM* log files: 
+
+  ```sh
+  $ ls
+  # slurm-fastqc-2451088.out
+  ```
+
+--
+
+- Let's look at the contents of the log file:
+
+  ```sh
+  $ less slurm-fastqc-2451088.out
+  ```
+.content-box-info[
+**`less` keyboard shortcuts** 
+
+| key | function |
+|--|--|
+| `q` | Exit `less` | 
+| `d` / `u` | Go down / up half a page.
+| `g` / `G` | Go to the first / last line (`home` / `end` also work)
+| **`:n`** | **Next file (if you open multiple files with a wildcard)**
+
+]
+
+---
+
+## Check the log and the output files
+
+- Let's look for *SLURM* log files: 
+
+  ```sh
+  $ ls
+  # slurm-fastqc-2851832.out
+  ```
+
+- Let's look at the contents of the log file:
+
+  ```sh
+  $ less slurm-2451088.out
+  ```
+
+- Let's check the output dir:
+
+  ```sh
+  $ ls -lh $output_dir
+  ```
+
+---
+
+## Example job: Housekeeping
+
+- Finally, let's keep things organized and move the log file to a log dir:
+
+  ```sh
+  $ mkdir -p logs/
+  $ mv slurm* logs
+  ```
+
+---
+
+## Now loop over all files...
+
+The script that we wrote above will run FastQC for a single FASTQ file.  
+
+**Next, we can write a second script that loops over many files and submits the
+script for each of them.**
+
+In this case, we will do so by simply looping over all FASTQ files in a
+specified directory:
+
+```sh
+$ for fastq_file in "$fastqc_dir"/*fastq; do
+      scripts/qc/fastqc_single.sh "$fastq_file" "$output_dir" 
+  done
+```
+
+---
+
+## The full script to loop over a directory
+
+Script `fastqc_dir.sh`:
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+
+fastq_dir="$1"
+output_dir="$2" 
+
+echo "Submitting FastQC jobs..."
+echo "Input dir: $fastq_dir"
+echo "Output dir: $output_dir"
+echo "Number of files: $(ls $fastq_dir/*fastq | wc -l)"
+
+for fastq_file in "$fastqc_dir"/*fastq.gz; do
+    scripts/qc/fastqc_single.sh "$fastq_file" "$output_dir" 
+done
+
+echo -e "\n---------\nAll done!" 
+```
+
+---
+
+## Run the loop script
+
+- Make sure the script is executable:
+  ```sh
+  $ chmod u+x scripts/*
+  ```
+
+- Run the script:
+  ```sh
+  $ fastq_dir=fastq/
+  $ output_dir=analysis/QC_fastq/
+  $ scripts/fastqc_dir.sh "$fastq_dir" "$output_dir"
+  #> echo "Submitting FastQC jobs..."
+  #> echo "Input dir: fastq/"
+  #> echo "Output dir: analysis/QC_fastq/"
+  #> echo "Number of files: 8"
+  #> Submitted batch job 2452187
+  #> Submitted batch job 2452188
+  #> Submitted batch job 2452189
+  #> ...
+  ```
+
+.content-box-info[
+We didn't need to submit *this* script to the queue:
+all it does is submit jobs, which can be done just fine on a login node.
+]
+
+---
+
+## Monitor the loop script
+
+- Check the queue:
+  ```sh
+  $ squeue -u $USER
+  ```
+
+- Peak at all the log files:
+  ```sh
+  $ tail slurm-fastqc*
+  
+  $ less slurm-fastqc*  # Press ":n" to go the next file
+  ```
+
+<br>
+
+.content-box-info[
+We could also "follow" the output in a log file as it's being added to the file:
+
+```sh
+tail -f <file>
+```
+]
+
+---
+class: inverse middle center
+
+# Example II: Running MultiQC with conda
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## MultiQC
+
+MultiQC is a program that *summarizes multiple FastQC results*  
+into a single nicely formatted HTML page:
+
+<br>
+
+----
+
+<p align="center">
+<img src=img/multiqc_front.png width="100%">
+</p>
+
+---
+
+## MultiQC
+
+- For instance, this figure shows mean quality scores across 132 samples:
+
+<p align="center">
+<img src=img/multiqc_qual.png width="100%">
+</p>
+
+---
+
+## MultiQC and `conda` at OSC
+
+- Like FastQC, running MultiQC is straightforward:
+
+  ```sh
+  # This will put the MultiQC report in the working dir:
+  $ multiqc <dir-with-fastqc-reports>
+  
+  # You can also specify the output dir for the MultiQC report: 
+  $ multiqc <dir-with-fastqc-reports> -o <output-dir>
+  ```
+
+--
+
+<br>
+
+- But, MultiQC is *not* available as a module at OSC (i.e., no `module load`).
+  Therefore, we will install it for ourselves with `conda`.
+
+- To use `conda` at OSC, we first need to load the module:
+
+  ```sh
+  $ module load python/3.6-conda5.2
+  ```
+  
+  .content-box-info[
+  Like with other software, this module needs to be loaded every time you
+  want to use `conda`.
+  ]
+
+---
+
+## One-time `conda` setup
+
+- `conda` can only be used after a setup script is run.
+
+  This script needs to run in every session, but we can *add code to our bash
+  configuration file* that will make sure the the setup script is run whenever
+  we log in at OSC.
+  
+  This is unfortunately made more complicated because the two OSC cluster,
+  Owens and Pitzer, have `conda` installed in different locations.
+
+--
+
+- The following lines should be added to your `~/.bashrc`:
+
+  ```sh
+  if [ -f /apps/python/3.6-conda5.2/etc/profile.d/conda.sh ]; then
+        source /apps/python/3.6-conda5.2/etc/profile.d/conda.sh
+  elif [ -f /usr/local/python/3.6-conda5.2/etc/profile.d/conda.sh ]; then
+        source /usr/local/python/3.6-conda5.2/etc/profile.d/conda.sh
+  fi
+  ```
+
+.content-box-diy[
+Open your `~/.bashrc` file (with VS Code or nano) and add these lines to the
+bottom.
+]
+
+---
+
+## One-time `conda` setup (cont.)
+
+- The `~/.bashrc` config file is run whenever we open a new shell,
+  but we also need to run the setup script now.
+  
+  To do so, we will *source* the edited bash config file:
+
+  ```sh
+  $ source ~/.bashrc
+  ```
+
+  .content-box-info[
+  The above  `~/.bashrc` setup only needs to be run once &ndash;
+  it does not need to be repeated every session.
+  ]
+  
+---
+
+## One-time installation of MultiQC <br> into a `conda` environment
+
+- Now, we are ready to create a new `conda` environment,  
+  and install MultiQC into it:
+ 
+  ```sh
+  $ conda create -y -n multiqc-env -c bioconda multiqc
+  ```
+
+  - `create` is the `conda` sub-command to create a new environment.
+  
+  - `-y` avoids a confirmation prompt.
+  
+  - `-n multiqc-env` is an arbitrary name for the new environment.
+  
+  - `-c bioconda` is the `conda` "channel" we download from.
+  
+  - `multiqc` is the name of the package.
+
+---
+
+## Running MultiQC
+
+- Whenever you want to use a `conda` environment at OSC,
+  you need to first load the module, and then *activate* the `conda` environment
+  that you want:
+
+  ```sh
+  $ module load python/3.6-conda5.2
+  $ conda activate multiqc-env
+  ```
+
+- Having done that, you should be able to run MultiQC:
+
+  ```sh
+  $ multiqc --help
+  ```
+
+<br>
+
+.content-box-info[
+If you didn't manage to create your own conda environment,  
+you can also use mine:
+
+```sh
+conda activate /users/PAS0471/jelmer/.conda/envs/multiqc
+```
+]
+
+---
+
+## Running MultiQC in an interactive job
+
+Because MultiQC also runs quickly and only needs to be run once for all of
+our files, we will run it in an interactive job.
+
+To start an interactive job and run MultiQC there:
+
+```sh
+# Start an interactive job at OSC:
+$ sinteractive -A PAS0471 # No time specified: will be 30 minutes
+
+$ module load python/3.6-conda5.2
+$ conda activate multiqc-env
+
+$ multiqc results/QC_fastq/ -o results/QC_fastq/
+```
+
+---
+
+## More options to monitor and manage SLURM jobs
+
+- Check using job ID:
+
+  ```sh
+  $ squeue -j 123456
+  $ squeue -j 123456 -l # TEST THIS
+  ```
+
+- Filter by status:
+
+  ```sh
+  $ squeue -u usr1234 -t RUNNING
+  ```
+
+- Update SLURM directives for a submitted job:
+
+  ```sh
+  $ scontrol update job=123456 timeLimit=5:00:00 mailType=End # TEST
+  #https://slurm.schedmd.com/scontrol.html
+  ```
+
+- To see script #CHECK
+
+```sh
+jobscript 14177
+```
+
+---
+
+## More options to monitor and manage SLURM jobs
+
+- Hold and release a job, e.g. when needing to update input file:
+
+  ```sh
+  $ scontrol hold 123456
+  $ scontrol release 123456
+  ```
+
+- You can *cancel* jobs using `scancel`:
+  
+  ```sh
+  $ scancel <jobID>
+  $ scancel -u $USER
+  ```
+
+- Also stats: #CHECK
+
+  ```sh
+  $ sstat -j <jobid>
+  ```
+  
+---
+
+## More options to monitor and manage SLURM jobs
+
+- You can see more details about any job, including finished jobs,
+  using `scontrol show job`:
+  
+  ```sh
+  scontrol show job 2526085   # Replace the number with your JOBID
+
+  # UserId=jelmer(33227) GroupId=PAS0471(3773) MCS_label=N/A
+  # Priority=200005206 Nice=0 Account=pas0471 QOS=pitzer-default
+  # JobState=RUNNING Reason=None Dependency=(null)
+  # Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+  # RunTime=00:02:00 TimeLimit=01:00:00 TimeMin=N/A
+  # SubmitTime=2020-12-14T14:32:44 EligibleTime=2020-12-14T14:32:44
+  # AccrueTime=2020-12-14T14:32:44
+  # StartTime=2020-12-14T14:32:47 EndTime=2020-12-14T15:32:47 Deadline=N/A
+  # SuspendTime=None SecsPreSuspend=0 LastSchedEval=2020-12-14T14:32:47
+  # Partition=serial-40core AllocNode:Sid=pitzer-login01:57954
+  # [...]
+  ```
+
+- To get this information for every job you run, you can include this at
+  the end of your script:
+  
+  ```sh
+  scontrol show job $SLURM_JOB_ID
+  ```
+
+---
+
+## Side note: Using a module
+
+.content-box-info[
+Because the SLURM directives are special comments (`#SBATCH`),
+they will not interfere with running the script elsewhere, e.g. locally.
+]
+
+- Here, we have loaded OSC's `fastqc` module:
+  ```sh
+  module load fastqc
+  ```
+
+- But ...
+
+---
+
+## More `conda`
+
+.content-box-info[
+You can also install (additional) software after activating the environment &ndash;
+we could have also done what we did above in one line as follows:
+
+```sh
+# Create a new environment with python version 3.7
+$ conda create -y -n multiqc python=3.7
+# Activate the environment:
+$ conda activate multiqc
+# Now install multiqc into it:
+$ conda install -y -c bioconda -c conda-forge multiqc
+```
+]
+
+---
+
+## More `conda`
+
+- Export a text file with the environment description:
+
+```sh
+# Active environment:
+$ conda env export > environment.yml
+
+# Any environment:
+$ conda env export -n multiqc > environment.yml
+```
+
+.content-box-info[
+Some other `conda` commands:
+
+## TODO
+]
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>
+
+
+---
+background-color: #ededed
+
+## time
+
+The `time` utility is used to measure the performance of a single command.
+
+It can be used for serial or parallel processes.
+Add `/usr/bin/time` to the beginning of a command in the batch script:
+
+```sh
+/usr/bin/time myprog arg1 arg2
+```
+
+The result is provided in the following format:
+
+1. user time (CPU time spent running your program)
+1. system time (CPU time spent by your program in system calls)
+1. elapsed time (wallclock)
+1. % CPU used
+1. memory, pagefault and swap statistics
+1. I/O statistics
+
+These results are appended to the job's error log file.
+Note: Use the full path `/usr/bin/time` to get all the information shown.
+
+
