@@ -2504,33 +2504,70 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h3>Contents</h3>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#ssh-set-up-use-shortcuts"><code>ssh</code> set-up: use shortcuts</a></li>
+<li><a href="#avoid-being-prompted-for-password">1. Avoid being prompted for password</a></li>
+<li><a href="#use-a-shortcut-for-your-ssh-connection">2. Use a shortcut for your SSH connection</a></li>
 </ul>
 </nav>
 </div>
 <p><br></p>
 <h2 id="introduction">Introduction</h2>
-<p>background-color: #f2f5eb</p>
-<h2 id="ssh-set-up-use-shortcuts"><code>ssh</code> set-up: use shortcuts</h2>
+<p>You can connect to OSC with <code>ssh</code> if you have a bash shell on your machine, either natively with a Mac or Linux machine, or via Git Bash or WSL on Windows.</p>
+<p>The regular way to do this is typing <code>ssh &lt;username&gt;@pitzer.osc.edu</code> and then providing your password, which can get tedious. There are two setup steps you can take to make this quicker:</p>
+<ol type="1">
+<li><p>Avoid being prompted for your password.</p></li>
+<li><p>Set up a shortcut for your ssh connection name.</p></li>
+</ol>
+<h2 id="avoid-being-prompted-for-password">1. Avoid being prompted for password</h2>
+<p>These steps are similar to what you did for your <code>SSH</code> Github authentication.</p>
+<ol type="1">
+<li><em>On your own computer</em>, generate a public-private SSH key-pair:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a>$ <span class="fu">ssh-keygen</span> -t rsa</span></code></pre></div>
+<p>When you’re prompted for a passphrase, you can just press enter if you’re okay with having no passphrase.</p>
+<div class="content-box-info">
+<p>If you do want a passphrase, you have to take an extra step to not be prompted, <em>after</em> step 3 below:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a>$ <span class="fu">ssh-add</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co"># Now, you don&#39;t enter a passphrase!</span></span></code></pre></div>
+</div>
+<ol start="2" type="1">
+<li><em>From your own computer</em>, transfer the public key to the remote computer:</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Replace &lt;user&gt; by your username, e.g. jelmer@owens.osc.edu</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>$ <span class="fu">cat</span> ~/.ssh/id_rsa.pub <span class="kw">|</span> <span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@owens.osc.edu <span class="st">&#39;mkdir -p .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys&#39;</span></span></code></pre></div>
+<ol start="3" type="1">
+<li><em>Log in to the remote computer (OSC) and once there</em>, set appropriate permissions:</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a>$ <span class="fu">chmod</span> 700 .ssh<span class="kw">;</span> <span class="fu">chmod</span> 640 .ssh/authorized_keys</span></code></pre></div>
+<div class="content-box-info">
+<p>See also this <a href="https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/">Tecmint post</a> in case you’re struggling.</p>
+</div>
+<p><br></p>
+<h2 id="use-a-shortcut-for-your-ssh-connection">2. Use a shortcut for your SSH connection</h2>
+<p>These two steps should both be done on your local machine.</p>
 <ol type="1">
 <li>Create a file called <code>~/.ssh/config</code>:</li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a>$ <span class="fu">touch</span> <span class="kw">`</span><span class="ex">~/.ssh/config</span><span class="kw">`</span></span></code></pre></div>
-<ol type="1">
-<li>Open the file and add your alias(es):</li>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a>$ <span class="fu">touch</span> ~/.ssh/config</span></code></pre></div>
+<ol start="2" type="1">
+<li>Open the file in a text editor and add your alias(es) in the following format:</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">&gt;</span> <span class="ex">Host</span> <span class="op">&lt;</span>arbitrary-alias-name<span class="op">&gt;</span>    </span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="op">&gt;</span>     <span class="ex">HostName</span> <span class="op">&lt;</span>remote-name<span class="op">&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="op">&gt;</span>     <span class="ex">User</span> <span class="op">&lt;</span>user-name<span class="op">&gt;</span></span></code></pre></div>
-<p>–</p>
-<p><br></p>
-<ul>
-<li>This is what it looks like on my machine, so I can login using “<code>ssh jo</code>”: <br/></li>
-</ul>
-<p align="center">
-<img src=img/ssh.png width="400">
-</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="ex">Host</span> <span class="op">&lt;</span>arbitrary-alias-name<span class="op">&gt;</span>    </span>
+<span id="cb6-2"><a href="#cb6-2"></a>     <span class="ex">HostName</span> <span class="op">&lt;</span>remote-name<span class="op">&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>     <span class="ex">User</span> <span class="op">&lt;</span>user-name<span class="op">&gt;</span></span></code></pre></div>
+<p>For instance, this is what I have for Pitzer and Owens:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">Host</span> op</span>
+<span id="cb7-2"><a href="#cb7-2"></a>    <span class="ex">HostName</span> pitzer.osc.edu</span>
+<span id="cb7-3"><a href="#cb7-3"></a>    <span class="ex">User</span> jelmer</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="ex">Host</span> oo</span>
+<span id="cb7-6"><a href="#cb7-6"></a>    <span class="ex">HostName</span> owens.osc.edu</span>
+<span id="cb7-7"><a href="#cb7-7"></a>    <span class="ex">User</span> jelmer</span></code></pre></div>
+<p>Now, you just need to use your, preferably very short, alias to log in:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a>$ <span class="fu">ssh</span> op</span></code></pre></div>
+<p>Moreover, this will also work with <code>scp</code> and <code>rsync</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a>$ <span class="fu">rsync</span> ~/scripts op:/fs/ess/PAS1855/scripts</span></code></pre></div>
+<p><br> <br></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

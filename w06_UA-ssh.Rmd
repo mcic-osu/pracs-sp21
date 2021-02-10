@@ -11,60 +11,105 @@ output:
 
 ## Introduction
 
----
-background-color: #f2f5eb
+You can connect to OSC with `ssh` if you have a bash shell on your machine,
+either natively with a Mac or Linux machine, or via Git Bash or WSL on Windows.
 
-## `ssh` set-up: avoid being prompted for password
+The regular way to do this is typing `ssh <username>@pitzer.osc.edu` and then
+providing your password, which can get tedious. There are two setup steps
+you can take to make this quicker:
 
-1. On your own computer, generate a key:
-```bash
-$ ssh-keygen -t rsa
+1. Avoid being prompted for your password.
+
+2. Set up a shortcut for your ssh connection name. 
+
+## 1. Avoid being prompted for password
+
+These steps are similar to what you did for your `SSH` Github authentication.
+
+1. *On your own computer*, generate a public-private SSH key-pair:
+
+  ```bash
+  $ ssh-keygen -t rsa
+  ```
+  
+  When you're prompted for a passphrase, you can just press enter if you're
+  okay with having no passphrase.
+  
+::: {.content-box-info}
+  
+If you do want a passphrase, you have to take an extra step to not be prompted,
+*after* step 3 below:
+  
+```sh
+$ ssh-add
+# Now, you don't enter a passphrase!
 ```
+  
+:::
 
-1. On your own computer, transfer the key to the remote computer:
-```bash
-$ cat ~/.ssh/id_rsa.pub | ssh <user>@owens.osc.edu 'mkdir -p .ssh && cat >> .ssh/authorized_keys'
-```
+2. *From your own computer*, transfer the public key to the remote computer:
 
-1. On remote computer (OSC), set permissions:
-```bash
-$ chmod 700 .ssh; chmod 640 .ssh/authorized_keys
-```
+  ```bash
+  # Replace <user> by your username, e.g. jelmer@owens.osc.edu
+  $ cat ~/.ssh/id_rsa.pub | ssh <user>@owens.osc.edu 'mkdir -p .ssh && cat >> .ssh/authorized_keys'
+  ```
 
-1. Tell `ssh-agent` about the keys:
-```bash
-ssh-add
-```
+3. *Log in to the remote computer (OSC) and once there*,
+   set appropriate permissions:
+
+  ```bash
+  $ chmod 700 .ssh; chmod 640 .ssh/authorized_keys
+  ```
+
+::: {.content-box-info}
+
+See also this [Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/)
+in case you're struggling.
+
+:::
 
 <br>
 
-- For more details, see this
-  [Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/).
+## 2. Use a shortcut for your SSH connection
 
----
-background-color: #f2f5eb
-
-## `ssh` set-up: use shortcuts
+These two steps should both be done on your local machine.
 
 1. Create a file called `~/.ssh/config`:
-```bash
-$ touch `~/.ssh/config`
+
+  ```bash
+  $ touch ~/.ssh/config
+  ```
+
+2. Open the file in a text editor and add your alias(es) in the following format:
+
+  ```bash
+  Host <arbitrary-alias-name>    
+       HostName <remote-name>
+       User <user-name>
+  ```
+
+  For instance, this is what I have for Pitzer and Owens:
+  
+  ```bash
+  Host op
+      HostName pitzer.osc.edu
+      User jelmer
+  
+  Host oo
+      HostName owens.osc.edu
+      User jelmer
+  ```
+
+Now, you just need to use your, preferably very short, alias to log in:
+
+```sh
+$ ssh op
 ```
 
-1. Open the file and add your alias(es):
-```bash
-> Host <arbitrary-alias-name>    
->     HostName <remote-name>
->     User <user-name>
+Moreover, this will also work with `scp` and `rsync`:
+
+```sh
+$ rsync ~/scripts op:/fs/ess/PAS1855/scripts
 ```
 
---
-
-<br>
-
-- This is what it looks like on my machine, so I can login using "`ssh jo`":
-<br/>
-
-<p align="center">
-<img src=img/ssh.png width="400">
-</p>
+<br> <br>
