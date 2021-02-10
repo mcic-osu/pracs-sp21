@@ -1,5 +1,5 @@
 ---
-title: "Week 6 - Shell scripting - I"
+title: "Week 6 - Shell scripting - III"
 output:
   xaringan::moon_reader:
     seal: false
@@ -31,23 +31,119 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ---
 
-class: inverse middle center
+## Two common problems
 
-# Overview
+Say you try to pipe `ls` output into the imaginary program `process_qc`:
 
-----
+```sh
+ls *.fq | process_fq
+```
 
-.left[
-- ### [Intro to sequence file formats](#seqfiles)
-- ### [Viewing data files](#view)
-- ### [Regular expressions](#regex)
-- ### [grep](#grep)
-- ### [sort and sort | uniq -c](#sort-uniq)
-]
+Like we've seen before, any spaces in file names would lead to trouble,
+since those file names would be erroneously split into separate arguments.
 
-<br>
+This problem wouldn't occur with direct globbing
+
+```sh
+process_fq *.fq
+```
+
+However, another problem could potentially occur here: if the number of files,
+i.e. arguments to `process_fq` is too high, you could get an error like
+`cannot execute [Argument list too long]`.
+
+Using `find` and `xargs` can deal with both of these problems.
 
 ---
+
+## Creating some files to use with `find`
+
+```sh
+mkdir -p zmays-snps/{data/seqs,scripts,analysis}
+touch zmays-snps/data/seqs/zmays{A,B,C}_R{1,2}.fastq
+```
+
+---
+
+## Find
+
+- The basic syntax for `find` is `find [path] [expression-1] [expression-2] ...`.
+
+- Find is recursive by default, so if you run it without any argument,
+  the output will be like that of `ls`, but then also showing files in
+  underlying directories:
+  
+  ```sh
+  find zmays-snps
+  ```
+
+- We can do similar globbing to what we'd do with `ls` using the `-name` option:
+
+```sh
+find zmays-snps/data/seqs -name "zmaysB*fastq"
+```
+
+- We could also easily limit results by file type:
+
+```sh
+find zmays-snps/data/seqs -name "zmaysB*fastq" -type f 
+```
+
+---
+
+## Find
+
+- In the previous command, the two expressions were implicitly connected with
+  a logical *and*: find regular files with "zmaysB*fastq" in the name.
+  We could also do this explicitly using `-and`:
+
+  ```sh
+  find zmays-snps/data/seqs -name "zmaysB*fastq" -and -type f 
+  ```
+
+- Or we could connect expression with a logical or using `-or`:
+
+  ```sh
+  find zmays-snps/data/seqs -name "zmaysA*fastq" -or -name "zmaysC*fastq" -type f 
+  ```
+
+- We can also negate expressions:
+
+  ```sh
+  find zmays-snps/data/seqs -type f "!" -name "zmaysB*fastq"
+  ```
+  
+  Note that we need to quote the `!` so it doesn't get evaluated by the shell.
+
+---
+
+## Find
+
+Let’s see another example. Suppose a file named zmaysB_R1-temp.fastq was created by your colleague in zmays-snps/data/seqs but you want to ignore it in your file querying:
+
+```sh
+touch zmays-snps/data/seqs/zmaysB_R1-temp.fastq
+find zmays-snps/data/seqs -type f "!" -name "zmaysC*fastq" -and "!" -name "*-temp*"
+```
+
+---
+
+## `find -exec`: running commands on `find`'s results
+
+```sh
+touch zmays-snps/data/seqs/zmays{A,C}_R{1,2}-temp.fastq
+ls zmays-snps/data/seqs
+```
+
+```sh
+find zmays-snps/data/seqs -name "*-temp.fastq" -exec rm -i {} \;
+
+find zmays-snps/data/seqs -name "*-temp.fastq" -delete
+```
+
+---
+
+## `xargs`
 
 
 ---
@@ -59,23 +155,3 @@ class: inverse middle center
 
 <br> <br> <br> <br>
 
----
-class: inverse middle center
-
-# Bonus Materials
-
-----
-
-<br>
-
-.left[
-- ### [*column* for tabular file viewing](#exit-status)
-- ### [*join* to merge tabular data files](#join)
-- ### [Sort and the exit status of a command](#exit-status)
-]
-
-<br> <br> <br> <br>
-
----
-background-color: #f2f5eb
-name: column
