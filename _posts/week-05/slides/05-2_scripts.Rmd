@@ -241,7 +241,7 @@ name: arrays
   ```
 
   ```sh
-  $ ./printname.sh John Doe
+  $ bash printname.sh John Doe
   #> First argument: John
   #> Second argument: Doe
   #> Full name: John Doe
@@ -276,11 +276,13 @@ name: arrays
 
 ---
 
-## A simple shell script example
+## Another simple shell script example
 
 - Contents of the script, saved as `headtail.sh`:
 
   ```sh
+  #!/bin/bash
+  
   head -n 2 "$1"
   echo "---"
   tail -n 2 "$1"
@@ -290,16 +292,26 @@ name: arrays
 
   ```sh
   $ bash headtail.sh samples.txt
+  #> zmaysA  R1      seq/zmaysA_R1.fastq
+  #> zmaysA  R2      seq/zmaysA_R2.fastq
+  #> ---
+  #> zmaysC  R1      seq/zmaysC_R1.fastq
+  #> zmaysC  R2      seq/zmaysC_R2.fastq
+
   $ bash headtail.sh egfr_flank.fasta
+  #> >ENSMUSG00000020122|ENSMUST00000138518
+  #> CCCTCCTATCATGCTGTCAGTGTATCTCTAAATAGCACTCTCAACCCCCGTGAACTTGGT
+  #> ---
+  #> TTCGCTCCTCTGGATCCCTCCTCCTTCTTTAGTCCCTCCTCCTCCCGCCCAGCCTCCCCC
+  #> AGTCCCGACCCGAGCTAACT
   ```
 
 ---
 
-## A simple shell script example (cont.)
+## Another simple shell script example (cont.)
 
 - Good scripting citizens that we are,
-  we will also add the header lines,
-  and make the script executable:
+  we will also add the `set` header, and make the script executable:
 
   ```sh
   #!/bin/bash
@@ -324,14 +336,16 @@ name: arrays
 
 ## `r icon::fa("user-edit")` Your turn: A simple script
 
-Write a script that prints a specific line, identified by its line number,
+Write a script that prints a specific line (identified by line number)
 from a file.
 
-- Make the line number argument 1 (`$1`), and the filename argument 2 (`$2`). 
+Make the line number argument 1 (`$1`), and the filename argument 2 (`$2`). 
 
-- If you don't remember how to print a specific line, click on the hint below.
+Test the script by printing line 4 from `samples.txt`.
 
 <br>
+
+*If you don't remember how to print a specific line, click on the hint below.*
 
 <details>
 <summary><strong>Hint!</strong></summary>
@@ -359,6 +373,18 @@ you can use: <br>
   set -u -e -o pipefail
   
   head -n "$1" "$2" | tail -n 1
+  ```
+  
+  Or with named variables:
+  
+  ```sh
+  #!/bin/bash
+  set -u -e -o pipefail
+  
+  line="$1"
+  file="$2"
+  
+  head -n "$line" "$file" | tail -n 1
   ```
 
 - To execute:
@@ -531,9 +557,8 @@ What could we do to be make this script more robust / foolproof?
 
 <br>
 
-- This type of behavior is useful when you're writing the data to file,
-  as you usually will, and you can see a bit of a log printed to screen
-  or to a log file.
+- This type of behavior is useful when *the actual data is written to file*,
+  and the standard out functions as a log.
 
 ---
 
@@ -564,7 +589,7 @@ What could we do to be make this script more robust / foolproof?
 
 ---
 
-## Side note: exit status
+## Exit status
 
 .content-box-info[
 With `exit 1`, the *exit status* of our script is 1.
@@ -678,6 +703,56 @@ While different strategies are certainly possible, as a general rule of thumb:
 
 - If neither of the above two options applies: switch to Python (or R).
   
+
+---
+name: stderr
+
+## Side note: Standard output and standard error
+
+- When commands run into errors, they will print error messages.  
+  
+  Error messages are **not** part of standard out,   
+  and instead represent a separate output stream: **"standard error"**.
+
+--
+
+- We can see this when we try to list a non-existing directory:
+  ```sh
+  ls -lhr solutions/ > solution_files.txt 
+  # ls: cannot access solutions.txt: No such file or directory
+  ```
+
+- The error was printed to screen. What was printed to the file?
+
+--
+
+  ```sh
+  $ ls
+  # solution_files.txt
+  $ cat solution_files.txt
+  $                # We just get our prompt back - file is empty
+  ```
+
+---
+
+## Standard error (cont.)
+
+- So, without redirection **(a)** versus with **`>`** redirection **(b)**:
+
+<p align="left">
+<img src="img/std-streams.png" width="100%">
+</p>
+
+<br>
+
+--
+
+- But we *can* also redirect the standard error:
+  ```sh
+  ls -lhr solutions/ > solution_files.txt 2> errors.txt
+  ls -lhr solutions/ &> out.txt # `&>`: combine stdout and stderr (bash only)
+  ```
+
 ---
 class: inverse middle center
 
