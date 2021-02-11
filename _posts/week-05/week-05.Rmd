@@ -14,6 +14,8 @@ output:
 
 - [Slides: Part II -- Shell scripting](slides/05-2_scripts.html) -- Thursday Zoom (Feb 11)
 
+- [Bonus Slides: `find` and `xargs`](slides/05-3_find-xargs.html)
+
 ### Ungraded assignments
 
 - [Exercises for week 5](../../w05_exercises.html)

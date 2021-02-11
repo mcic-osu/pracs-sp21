@@ -31,7 +31,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ---
 
-## Two problems
+## Two common (?) problems
 
 - Say you try to pipe `ls` output into the imaginary program `process_qc`:
 
@@ -51,7 +51,7 @@ knitr::opts_chunk$set(eval = FALSE)
   ```
 
   However, a different problem could occur here: if the number of globbed files
-  is very high, you can get an error that the "argument list is too long".
+  is very high, you can get an error that the "*argument list is too long*".
 
 ---
 
@@ -61,13 +61,14 @@ knitr::opts_chunk$set(eval = FALSE)
 
 More generally:
 
-- `find` is useful for more advanced file searching (and processing) than `ls`.
+- `find` is useful for file searching (and processing) when you need more
+  than what `ls` can do and/or are worried about spaces.
 
 - `xargs` is useful for multi-file and parallel processing without loops.
 
 <br> <br>
 
-**Let's create some files to test these commands:**
+**Let's create some files to try these commands:**
 
 ```sh
 $ mkdir -p zmays-snps/{data/seqs,scripts,analysis}
@@ -87,19 +88,39 @@ $ touch zmays-snps/data/seqs/zmays{A,B,C}_R{1,2}.fastq
   
   ```sh
   $ find zmays-snps # zmays-snps is the path we are operating on
+  #> zmays-snps/
+  #> zmays-snps/data
+  #> zmays-snps/data/seqs
+  #> zmays-snps/data/seqs/zmaysC_R1.fastq
+  #> zmays-snps/data/seqs/zmaysA_R1.fastq
+  #> zmays-snps/data/seqs/zmaysB_R1.fastq
+  #> zmays-snps/data/seqs/zmaysB_R2.fastq
+  #> zmays-snps/data/seqs/zmaysC_R2.fastq
+  #> zmays-snps/data/seqs/zmaysA_R2.fastq
+  #> zmays-snps/scripts
+  #> zmays-snps/analysis
   
   $ ls zmays-snps
+  #> analysis  data  scripts
   ```
+
+---
+
+## `find` basics
 
   ```sh
   # Let's move into the zmays-snps dir:
   $ cd zmays-snps
   ```
 
+<br>
+
 - Using the `-name` option, we can also *glob* like we would do with `ls`:
 
   ```sh
-  find data/seqs -name "zmaysB*fastq"
+  $ find data/seqs -name "zmaysB*fastq"
+  #> data/seqs/zmaysB_R1.fastq
+  #> data/seqs/zmaysB_R2.fastq
   ```
 
 ---
@@ -114,6 +135,8 @@ $ touch zmays-snps/data/seqs/zmays{A,B,C}_R{1,2}.fastq
   ```
 
 --
+
+<br>
 
 - In the previous command, the two expressions were implicitly connected with
   a logical *and*: find regular files with "_zmaysB*fastq_" in the name.  
@@ -150,6 +173,18 @@ $ touch zmays-snps/data/seqs/zmays{A,B,C}_R{1,2}.fastq
         -and "!" -name "*-temp*"
   ```
 
+<br>
+
+--
+
+.content-box-info[
+But what does a `!` mean to the shell? It accesses past commands:
+```sh
+# To re-execute your most recent command:
+$ !!
+```
+]
+
 ---
 
 ## Running commands on `find`'s results
@@ -165,16 +200,16 @@ $ touch zmays-snps/data/seqs/zmays{A,B,C}_R{1,2}.fastq
   Here, `{}` is the placeholder for the file names we are passing on,
   and we have to indicate the end of our command with an escaped semicolon: `\;`.
 
-- **`-exec` can be very useful to process file queries that are more
-  complicated than what a simple globbing pattern allows for.**
+- `-exec` can be very useful to *process file queries* that are more
+  complicated than what a simple globbing pattern allows for.
 
 --
 
 .content-box-info[
 With `-exec`, you can use any command to operate on the files that you found. 
 
-But as it happens, because removing files you have found with `find` is so common,
-there is a special shortcut for this:
+But as it happens, because it is such a common operation to remove files found
+with `find`, there is a `-delete` shortcut for this:
 
 ```sh
 find zmays-snps/data/seqs -name "*-temp.fastq" -delete
@@ -185,15 +220,16 @@ find zmays-snps/data/seqs -name "*-temp.fastq" -delete
 
 ## `xargs`
 
-- `xargs`, to be read/pronounced as `x-args`, where "*args*" means "*arguments*",
-  passes arguments, supplied via standard in, on to another command.
+- `xargs` is to be read/pronounced as `x-args`, where "*args*" means "*arguments*".
+
+  This function passes arguments, supplied via standard in, on to another command.
   For example:
   
   ```sh
   $ find data/seqs -name "*-temp.fastq" | xargs rm
   ```
 
-- This is equivalent to the following, where `rm` also receives the same list
+- This is equivalent to the following, where `rm` receives the very same list
   of files as its arguments:
 
   ```sh
@@ -202,9 +238,7 @@ find zmays-snps/data/seqs -name "*-temp.fastq" -delete
 
 --
 
-<br>
-
-- However, now, we can bypass the maximum number of arguments to `rm`,
+- However, now, we can bypass the *maximum number of arguments* to `rm`,
   because we can easily pass one argument at a time with `-n 1`:
 
   ```sh
@@ -218,18 +252,24 @@ find zmays-snps/data/seqs -name "*-temp.fastq" -delete
 
 ## `xargs`
 
-By using `xargs` instead of find's -exec, we separate the process that finds
+By using `xargs` instead of `find -exec`, we separate the process that finds
 the files we want to operate on, from the actual operations.
 
-This can be beneficial, for instance if we want to carefully inspect the list
+This can be beneficial, for instance if we want to carefully inspect a list
 of files before we do anything:
 
 ```sh
 $ touch data/seqs/zmays{A,C}_R{1,2}-temp.fastq
 
+# We save the find results in a text file
 $ find data/seqs -name "*-temp.fastq" > files-to-delete.txt
 $ cat files-to-delete.txt
+#> data/seqs/zmaysC_R1-temp.fastq
+#> data/seqs/zmaysA_R1-temp.fastq
+#> data/seqs/zmaysA_R2-temp.fastq
+#> data/seqs/zmaysC_R2-temp.fastq
 
+# Now we pass that list of files to rm:
 $ cat files-to-delete.txt | xargs rm
 ```
 
@@ -248,8 +288,11 @@ $ cat files-to-delete.txt | xargs rm
 
   Above, we use `-I{}` to specify that the arguments will be passed on with the
   placeholder `{}`. As you can see, we are also able to use `{}` multiple times. 
-  
-- The above is equivalent to:
+
+--
+
+- This functionality is similar to what you may be inclined to do in a loop
+  instead &ndash; the above is equivalent to:
 
   ```sh
   $ for $fastq_file in data/seqs/*fastq; do
@@ -278,6 +321,8 @@ over parallelization.
   However, this would spawn exactly as many processes as there are input files,
   which could be way more than what we want.
 
+--
+
 - With `xargs`, we can control the number of simultaneous processes that
   are spawned using `-P` (here set to 6):
 
@@ -291,7 +336,30 @@ over parallelization.
 
 ## `xargs` and spaces in file names
 
+As always, spaces in file names can trip you, but you were promised a solution
+with `find` and `xargs`.
 
+- But out of the box, this does in fact fail:
+
+  ```sh
+  $ touch "samples A.txt"  "samples B.txt" 
+  
+  $ find . -name "samples [AB].txt" | xargs rm
+  #> rm: cannot remove './samples': No such file or directory
+  #> rm: cannot remove 'A.txt': No such file or directory
+  #> rm: cannot remove './samples': No such file or directory
+  #> rm: cannot remove 'B.txt': No such file or directory
+  ```
+
+- The solution is to use `-print0` with `find`, so it prints files with a
+  "null byte" as the delimiter.
+  Then, we also need to tell `xargs` about this, using `-0`:
+
+  ```sh
+  $ find . -name "samples [AB].txt" -print0 | xargs -0 rm -v
+  #> removed './samples A.txt'
+  #> removed './samples B.txt'
+  ```
 
 
 ---
