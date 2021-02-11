@@ -42,6 +42,7 @@ class: inverse middle center
 - ### [Command-line arguments for scripts](#args)
 - ### [Putting it all together](#scripts)
 - ### [Touching up your script](#touch-up)
+- ### [Conducting tests, exit status, and standard error](#test)
 ]
 
 <br>
@@ -561,6 +562,17 @@ What could we do to be make this script more robust / foolproof?
   and the standard out functions as a log.
 
 ---
+class: inverse middle center
+name: tests
+
+# Conducting tests, exit status, and standard error
+
+----
+
+<br> <br> <br> <br> <br>
+
+
+---
 
 ## Conducting tests
 
@@ -589,7 +601,7 @@ What could we do to be make this script more robust / foolproof?
 
 ---
 
-## Exit status
+## Side note: Exit status
 
 .content-box-info[
 With `exit 1`, the *exit status* of our script is 1.
@@ -673,41 +685,7 @@ $ if ! echo "$file_name" | grep "fastq" > /dev/null; then
 
 ---
 
-## Touching up your scripts to <br> increase robustness and user-friendliness
-
-This may start to seem silly, but fairly extensive reporting and
-testing can be useful &mdash; and a time-saver eventually.
-  
-This is especially true for long-running scripts,
-or scripts that you often reuse and perhaps share with others.
-
-
----
-
-## A word of advice / caution
-
-While different strategies are certainly possible, as a general rule of thumb:
-
-.content-box-green[
-**Bash scripts are best kept relatively simple.**
-]
-
-<br>
-
-**If you find yourself writing very long and complicated shell scripts:**
-
-- Break up your scripts into smaller units!
-
-- If you're connecting many scripts in an intricate pipeline =>  
-  switch this part to a workflow management system (Week 13!)
-
-- If neither of the above two options applies: switch to Python (or R).
-  
-
----
-name: stderr
-
-## Side note: Standard output and standard error
+## Standard output and standard error
 
 - When commands run into errors, they will print error messages.  
   
@@ -735,24 +713,74 @@ name: stderr
 
 ---
 
-## Standard error (cont.)
+## Standard output and standard error (cont.)
 
 - So, without redirection **(a)** versus with **`>`** redirection **(b)**:
 
-<p align="left">
-<img src="img/std-streams.png" width="100%">
+<p align="center">
+<img src="img/std-streams.png" width="80%">
 </p>
+
+
+---
+
+## Standard output and standard error (cont.)
+
+- To *redirect* the standard error, we use `2>`:  
+  (`1>` is standard out and `>` is a shortcut for that.)
+  
+  ```sh
+  ls -lhr solutions/ > solution_files.txt 2> errors.txt
+  ```
+
+- To *combine* standard out and standard error, we use `&>`:
+
+  ```sh
+  ls -lhr solutions/ &> out.txt # &> is a bash shortcut for 2>&1
+  ```
+
+- Finally, uf you want to "manually" designate an `echo` statement to represent
+  standard error instead of standard out in a script, use `>&2`:
+  
+  ```sh
+          echo "Error: Invalid line number"
+        echo "Number should be >0 and <= the file's nr. of lines"
+        echo "File contains $(wc -l < $2) lines; you provided $1."
+        exit 1
+  ```
+
+---
+
+## In closing
+
+The reporting (`echo`-ing) and testing may have started to seem silly for our
+litle script, but fairly extensive reporting and
+testing can be very useful &mdash; and will be eventually a time-saver.
+  
+This is especially true for long-running scripts,
+or scripts that you often reuse and perhaps share with others.
+
+---
+
+## In closing (cont.)
+
+While different strategies are certainly possible, as a general rule of thumb:
+
+.content-box-green[
+**Bash scripts are best kept relatively simple.**
+]
 
 <br>
 
---
+**If you find yourself writing very long and complicated shell scripts:**
 
-- But we *can* also redirect the standard error:
-  ```sh
-  ls -lhr solutions/ > solution_files.txt 2> errors.txt
-  ls -lhr solutions/ &> out.txt # `&>`: combine stdout and stderr (bash only)
-  ```
+- Break up your scripts into smaller units!
 
+- If you're connecting many scripts in an intricate pipeline =>  
+  switch this part to a workflow management system (Week 13!)
+
+- If neither of the above two options applies: switch to Python (or R).
+  
 ---
 class: inverse middle center
 
@@ -777,6 +805,62 @@ class: inverse middle center
 ]
 
 <br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+
+## Some quick information about your Final Project
+
+Requirements for your project focus on **appropriate usage of many of the
+tools we covered during the course** &mdash; the project should:
+
+- Be well-organized, and well-documented using Markdown READMEs.
+
+- Be version-controlled throughout, and repeatedly "pushed" to Github.
+
+--
+
+- Should have (most) analysis or data processing done using scripts  
+  in bash and/or Python.
+
+- Run one or more of the scripts as SLURM jobs at OSC.
+
+- Be re-runnable using a single Snakemake control script ("Snakefile").
+
+
+---
+background-color: #f2f5eb
+
+## Some quick information about your Final Project
+
+- So, lots of "infrastructure" requirements &mdash;
+  therefore, no need to devise a complicated project with many scripts.
+
+<br>
+
+--
+
+- We encourage you to *use your own data or find a dataset yourself*,  
+  but Zach will also provide a dataset with accompanying project ideas if
+  you prefer to do that. (And we can dig up other datasets if needed.)
+
+<br>
+
+--
+
+- Otherwise, you are quite free regarding the **topic** of the project:
+  
+  - From answering an actual or contrived research question...
+  
+  - ...to automating something "boring" that you so far did manually. 
+
+
+--
+
+<br>
+
+- Your project proposal is not due until the week of March 23rd,
+  but you may want to slowly start thinking about this.
 
 ---
 background-color: #f2f5eb
