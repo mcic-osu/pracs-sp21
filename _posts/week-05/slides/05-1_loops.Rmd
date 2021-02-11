@@ -210,7 +210,7 @@ $ echo $HOME
   
   $ touch README_$today.txt
   $ ls
-  #> .txt  Feb  README_Thu,
+  #> 8.txt  Feb  README_Thu,
   ```
 
 - Oops! The shell performed **field splitting** to split the value into three
