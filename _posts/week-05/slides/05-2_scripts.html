@@ -226,7 +226,7 @@ name: arrays
   much like when you provide commands like `ls` with arguments:
 
   ```sh
-  $ ./printname.sh John Doe
+  $ bash printname.sh John Doe
   ```
 
 - Inside the script, these arguments are *automatically* assigned to the
@@ -564,7 +564,7 @@ What could we do to be make this script more robust / foolproof?
 class: inverse middle center
 name: tests
 
-# Conducting tests, exit status, and standard error
+# Conducting tests, &lt;br&gt; exit status, and standard error
 
 ----
 
@@ -602,19 +602,29 @@ name: tests
 
 ## Side note: Exit status
 
-.content-box-info[
 With `exit 1`, the *exit status* of our script is 1.
 In bash, an exit status of **0 means success** &amp;mdash; 
-any other integer, including 1, means failure.
+any other integer, including 1, means failure.  
 
-This includes cases like whether `grep` found a match:
+Commands also return an exit status, and you can see the exit status of the
+last command with `$?`:
+
+```sh
+$ ls dfkjslkjg
+#&gt; ls: cannot access 'dfkjslkjg': No such file or directory
+$ echo $?
+#&gt; 2
+```
+
+---
+
+## Side note: Exit status (cont.)
+
+`grep`'s exit status depends on whether it found a match:
 ```sh
 $ echo "sampleA.fastq.gz" | grep "fastq"; echo $?
 #&gt; sampleA.fastq.gz
 #&gt; 0
-```
-
-```sh
 $ echo "sampleA.fastq.gz" | grep "fastx"; echo $?
 #&gt; 1
 ```
@@ -624,11 +634,8 @@ This underlies why we can use `grep` in `if` statements:
 ```sh
 $ if ! echo "$file_name" | grep "fastq" &gt; /dev/null; then
      echo "File is not a FASTQ file!"
-     exit 1
   fi
 ```  
-
-]
 
 ---
 
@@ -732,20 +739,24 @@ $ if ! echo "$file_name" | grep "fastq" &gt; /dev/null; then
   ls -lhr solutions/ &gt; solution_files.txt 2&gt; errors.txt
   ```
 
+--
+
 - To *combine* standard out and standard error, we use `&amp;&gt;`:
 
   ```sh
   ls -lhr solutions/ &amp;&gt; out.txt # &amp;&gt; is a bash shortcut for 2&gt;&amp;1
   ```
 
-- Finally, uf you want to "manually" designate an `echo` statement to represent
+--
+
+- Finally, if you want to "manually" designate an `echo` statement to represent
   standard error instead of standard out in a script, use `&gt;&amp;2`:
   
   ```sh
-          echo "Error: Invalid line number"
-        echo "Number should be &gt;0 and &lt;= the file's nr. of lines"
-        echo "File contains $(wc -l &lt; $2) lines; you provided $1."
-        exit 1
+  echo "Error: Invalid line number" &gt;&amp;2
+  echo "Number should be &gt;0 and &lt;= the file's nr. of lines" &gt;&amp;2
+  echo "File contains $(wc -l &lt; $2) lines; you provided $1." &gt;&amp;2
+  exit 1
   ```
 
 ---
