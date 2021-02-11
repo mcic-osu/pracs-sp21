@@ -743,10 +743,10 @@ $ if ! echo "$file_name" | grep "fastq" > /dev/null; then
   standard error instead of standard out in a script, use `>&2`:
   
   ```sh
-          echo "Error: Invalid line number"
-        echo "Number should be >0 and <= the file's nr. of lines"
-        echo "File contains $(wc -l < $2) lines; you provided $1."
-        exit 1
+  echo "Error: Invalid line number" >&2
+  echo "Number should be >0 and <= the file's nr. of lines" >&2
+  echo "File contains $(wc -l < $2) lines; you provided $1." >&2
+  exit 1
   ```
 
 ---
