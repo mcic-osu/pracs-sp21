@@ -227,10 +227,8 @@ name: arrays
   much like when you provide commands like `ls` with arguments:
 
   ```sh
-  $ bash printname.sh John Doe
+  $ ./printname.sh John Doe
   ```
-
---
 
 - Inside the script, these arguments are *automatically* assigned to the
   placeholder variables `$1` ("John" above), `$2` ("Doe" above), and so on:
@@ -329,18 +327,11 @@ name: arrays
   $ chmod u+x headtail.sh
   ```
 
-<br>
-
---
-
-- Now we can run it without prepending `bash`:  
+- Now we can run it as follows:
 
   ```sh
   $ ./headtail.sh samples.txt
   ```
-  
-  (We do need to indicate dir explicitly, or the script will be assumed to
-  be in your `$PATH`, which it is not &ndash; more on that next week.)
 
 ---
 
@@ -385,6 +376,18 @@ you can use: <br>
   head -n "$1" "$2" | tail -n 1
   ```
   
+  Or with named variables:
+  
+  ```sh
+  #!/bin/bash
+  set -u -e -o pipefail
+  
+  line="$1"
+  file="$2"
+  
+  head -n "$line" "$file" | tail -n 1
+  ```
+
 - To execute:
 
   ```sh
@@ -421,7 +424,6 @@ for fastq_file in ${sample_files[@]}; do
     
     # Strip .fastq from each FASTQ file, and add suffix:
     results_file="$(basename $fastq_file .fastq)-stats.txt"
-    # e.g. "seq/zmaysA_R1.fastq" => "zmaysA_R1-stats.txt"
     
     # Run "fastq_stat" on a file:
     fastq_stat "$fastq_file" > stats/$results_file
@@ -475,15 +477,14 @@ name: touch-up
 ## Touching up your scripts to <br> increase robustness and user-friendliness
 
 - Let's go back to our smaller `line.sh` script to keep things manageable.
-  
   That script also has some arguments we can work with:
+
+```sh
+  #!/bin/bash
+  set -u -e -o pipefail
   
-  ```sh
-    #!/bin/bash
-    set -u -e -o pipefail
-    
-    head -n "$1" "$2" | tail -n 1
-  ```
+  head -n "$1" "$2" | tail -n 1
+```
 
 <br>
 
@@ -530,11 +531,11 @@ What could we do to be make this script more robust / foolproof?
   file="$2"
   
   echo "Input file: $file"
-  echo -e "Requested line number: $line\n"
+  echo "Requested line number: $line"
   
   head -n "$line" "$file" | tail -n 1
   
-  echo -e "\nDone with script $0"
+  echo "Done with script $0"
   date
   ```
 
@@ -550,23 +551,21 @@ What could we do to be make this script more robust / foolproof?
   #> Tue 09 Feb 2021 09:35:08 AM EST
   #> Input file: metadata.txt
   #> Requested line number: 2
-  #>
   #> sample_B        2021-01-16      high
-  #>
   #> Done with script ./line.sh
   #> Tue 09 Feb 2021 09:35:08 AM EST
   ```
 
 <br>
 
-- This type of behavior is useful when *the actual data is written to file*,  
-  and you let the standard out function as a log.
+- This type of behavior is useful when *the actual data is written to file*,
+  and the standard out functions as a log.
 
 ---
 class: inverse middle center
 name: tests
 
-# Conducting tests, <br> exit status, and standard error
+# Conducting tests, exit status, and standard error
 
 ----
 
@@ -581,15 +580,15 @@ name: tests
   we may want to conduct some basic tests / sanity checks.
   
   Rather than letting subsequent programs fail with possibly cryptic error messages,
-  have puzzling behavior or output, or submit jobs for nothing,
-  we can stop the script at an earlier stage with error messages of our choosing.
+  have puzzling behavior or output, or submit jobs for nothing, we can stop
+  the script at an earlier stage.
 
 --
 
 <br>
 
--  For example, we can test whether the *correct number of arguments*
-   was provided when the script was called:
+-  For example, we can test whether the right number of arguments
+   were provided when the script was called:
 
   ```sh
   $ if [ ! "$#" -eq 2 ]; then
@@ -604,25 +603,19 @@ name: tests
 
 ## Side note: Exit status
 
+.content-box-info[
 With `exit 1`, the *exit status* of our script is 1.
 In bash, an exit status of **0 means success** &mdash; 
-any other integer, including 1, means failure.  
-We can query the exit status of the most recent command using `echo $?`.
+any other integer, including 1, means failure.
 
-```sh
-$ ls jhsgkjshgkj
-#> ls: cannot access 'jhsgkjshgkj': No such file or directory
-$ echo $?
-#> 2
-```
-
---
-
-The exit status of `grep` depends on whether it found a match:
+This includes cases like whether `grep` found a match:
 ```sh
 $ echo "sampleA.fastq.gz" | grep "fastq"; echo $?
 #> sampleA.fastq.gz
 #> 0
+```
+
+```sh
 $ echo "sampleA.fastq.gz" | grep "fastx"; echo $?
 #> 1
 ```
@@ -632,8 +625,11 @@ This underlies why we can use `grep` in `if` statements:
 ```sh
 $ if ! echo "$file_name" | grep "fastq" > /dev/null; then
      echo "File is not a FASTQ file!"
+     exit 1
   fi
 ```  
+
+]
 
 ---
 
@@ -691,7 +687,7 @@ $ if ! echo "$file_name" | grep "fastq" > /dev/null; then
 
 ## Standard output and standard error
 
-- When commands run into errors, they will (also) print error messages.  
+- When commands run into errors, they will print error messages.  
   
   Error messages are **not** part of standard out,   
   and instead represent a separate output stream: **"standard error"**.
@@ -737,27 +733,19 @@ $ if ! echo "$file_name" | grep "fastq" > /dev/null; then
   ls -lhr solutions/ > solution_files.txt 2> errors.txt
   ```
 
---
-
-<br>
-
 - To *combine* standard out and standard error, we use `&>`:
 
   ```sh
   ls -lhr solutions/ &> out.txt # &> is a bash shortcut for 2>&1
   ```
 
---
-
-<br>
-
-- Finally, if you want to "manually" designate an `echo` statement to represent
+- Finally, uf you want to "manually" designate an `echo` statement to represent
   standard error instead of standard out in a script, use `>&2`:
   
   ```sh
-  echo "Error: Invalid line number"
-  echo "Number should be >0 and <= the file's nr. of lines"
-  echo "File contains $(wc -l < $2) lines; you provided $1."
+  echo "Error: Invalid line number" >&2
+  echo "Number should be >0 and <= the file's nr. of lines" >&2
+  echo "File contains $(wc -l < $2) lines; you provided $1." >&2
   exit 1
   ```
 
@@ -812,9 +800,8 @@ class: inverse middle center
 <br>
 
 .left[
-- ### Some quick information about your Final Project
-- ### [Parameter expansion to provide default options](#par-exp)
 - ### [More on quoting in shell commands](#quote)
+- ### [Parameter expansion to provide default options](#par-exp)
 ]
 
 <br> <br> <br> <br>
@@ -877,11 +864,42 @@ background-color: #f2f5eb
 
 ---
 background-color: #f2f5eb
+name: quote
+
+## More on quoting in shell commands
+
+Recall that we can use quoting to escape special characters:
+
+```sh
+$ cd XXX
+
+$ echo *
+# Should show a list of files
+
+$ echo "*"
+# *
+```
+
+But what about this?
+
+```sh
+$ echo "* and this is my shell: $SHELL"
+# * and this is my shell: /bin/bash
+```
+
+We can use *single quotes* to also escape the "**`$`**":
+```sh
+$ echo '* and this is my shell: $SHELL'
+# * and this is my shell: $SHELL
+```
+
+---
+background-color: #f2f5eb
 name: par-exp
 
 ## Parameter expansion to provide default values
 
-- It may be useful to have *optional arguments* that have a default
+- Finally, it may be useful to have *optional arguments* that have a default
   value if they are not specified on the command line.
   
   With `set -u` set, this becomes a little more tricky, because the script
@@ -915,36 +933,3 @@ background-color: #f2f5eb
   
   $ sort_bam.sh results/bam
   ```
-
----
-background-color: #f2f5eb
-name: quote
-
-## More on quoting in shell commands
-
-Recall that we can use quoting to escape special characters:
-
-```sh
-# A "*" will be interpreted as a wildcard, so this should show a list of files:
-$ echo *
-# But if we want to print a literal "*", we can quote it:
-$ echo "*"
-#> *
-```
-
-But hold on, variables are still expanded inside double quotes:
-
-```sh
-$ echo "* and this is my shell: $SHELL"
-#> * and this is my shell: /bin/bash
-```
-
-To also escape the "**`$`**", we can use *single quotes*:
-```sh
-$ echo '* and this is my shell: $SHELL'
-#> * and this is my shell: $SHELL
-```
-
-.content-box-info[
-As a rule, single quotes escape more characters than double quotes.
-]
