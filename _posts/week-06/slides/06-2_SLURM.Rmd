@@ -721,15 +721,23 @@ $ multiqc results/QC_fastq/ -o results/QC_fastq/
 
 ## More Conda
 
-- Export a text file with the environment description:
+- Export a YAML file with the environment description:
 
 ```sh
-# Active environment:
+# Export active environment:
 $ conda env export > environment.yml
 
-# Any environment:
+# Export any environment:
 $ conda env export -n multiqc > environment.yml
 ```
+
+- Now, anyone with access to your environment YAML can easily reproduce your
+  environment:
+  
+```sh
+$ conda env create --file environment.yml
+```
+
 
 <br>
 
@@ -741,6 +749,8 @@ $ conda install multiqc # Install into active environment
 $ conda env list     # List your conda environments
 $ conda deactivate   # Deactivate active conda environment
 $ conda env remove -n mynewenv # Remove an env. entirely
+$ conda create --name live_env --clone test_env # Clone an environment
+conda list -n test_env # List all packages in an environment
 ```
 ]
 

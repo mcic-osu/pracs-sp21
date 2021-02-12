@@ -631,23 +631,42 @@ into a single nicely formatted HTML page:
 
 ## One-time installation of MultiQC <br> into a Conda environment
 
-- Now, we are ready to create a new Conda environment,  
-  and install MultiQC into it:
+- Now, we are ready to create a new `conda` environment with Python: 
  
   ```sh
-  $ conda create -y -n multiqc-env -c bioconda multiqc
+  $ conda create -y -n multiqc-env python=3.7
   ```
 
-  - `create` is the Conda sub-command to create a new environment.
+  - `create` is the `conda` command to create a new environment.
   
   - `-y` avoids a confirmation prompt.
   
-  - `-n multiqc-env` is an arbitrary name for the new environment.
+  - `-n multiqc-env` is the name for the new environment, which is arbitrary.
   
-  - `-c bioconda` is the Conda "channel" we download from (overriding our
-    defaults which seems necessary in this case).
+  - `python=3.7` is how specify that we want to install Python and specifically,
+     Python 3.7.
+
+---
+
+## One-time installation of MultiQC <br> into a Conda environment
+
+- Next, we *activate* the environment and install MultiQC into it:
+
+  ```sh
+  $ source activate multiqc
   
-  - `multiqc` is the name of the package.
+  $ conda install -y -c bioconda -c conda-forge multiqc
+  ```
+
+  - `-c conda-forge multiqc` is how we indicate which so-called
+    channels (repositories) we want to use.
+    (These sorts of detailed are provided in software installation instructions.)
+
+
+.content[
+In many other instances, you can create the Conda environment in one 
+`conda create` step, but ...
+]
 
 ---
 
@@ -702,15 +721,23 @@ $ multiqc results/QC_fastq/ -o results/QC_fastq/
 
 ## More Conda
 
-- Export a text file with the environment description:
+- Export a YAML file with the environment description:
 
 ```sh
-# Active environment:
+# Export active environment:
 $ conda env export > environment.yml
 
-# Any environment:
+# Export any environment:
 $ conda env export -n multiqc > environment.yml
 ```
+
+- Now, anyone with access to your environment YAML can easily reproduce your
+  environment:
+  
+```sh
+$ conda env create --file environment.yml
+```
+
 
 <br>
 
@@ -722,6 +749,8 @@ $ conda install multiqc # Install into active environment
 $ conda env list     # List your conda environments
 $ conda deactivate   # Deactivate active conda environment
 $ conda env remove -n mynewenv # Remove an env. entirely
+$ conda create --name live_env --clone test_env # Clone an environment
+conda list -n test_env # List all packages in an environment
 ```
 ]
 
