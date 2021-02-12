@@ -85,27 +85,43 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
+<<<<<<< HEAD:docs/w06_UA-ssh.html
   <title>pracs-sp21: Optional Ungraded Assignment: `ssh` setup</title>
+=======
+  <title>pracs-sp21: Graded Assignment II: Shell scripts at OSC</title>
+>>>>>>> main:docs/w06_GA-scripts.html
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+<<<<<<< HEAD:docs/w06_UA-ssh.html
   <meta property="og:title" content="pracs-sp21: Optional Ungraded Assignment: `ssh` setup"/>
+=======
+  <meta property="og:title" content="pracs-sp21: Graded Assignment II: Shell scripts at OSC"/>
+>>>>>>> main:docs/w06_GA-scripts.html
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
+<<<<<<< HEAD:docs/w06_UA-ssh.html
   <meta property="twitter:title" content="pracs-sp21: Optional Ungraded Assignment: `ssh` setup"/>
+=======
+  <meta property="twitter:title" content="pracs-sp21: Graded Assignment II: Shell scripts at OSC"/>
+>>>>>>> main:docs/w06_GA-scripts.html
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
+<<<<<<< HEAD:docs/w06_UA-ssh.html
   {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Optional Ungraded Assignment: `ssh` setup"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+=======
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Graded Assignment II: Shell scripts at OSC"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+>>>>>>> main:docs/w06_GA-scripts.html
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2451,7 +2467,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
+<<<<<<< HEAD:docs/w06_UA-ssh.html
 {"title":"Optional Ungraded Assignment: `ssh` setup","authors":[]}
+=======
+{"title":"Graded Assignment II: Shell scripts at OSC","authors":[]}
+>>>>>>> main:docs/w06_GA-scripts.html
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2491,7 +2511,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
+<<<<<<< HEAD:docs/w06_UA-ssh.html
 <h1>Optional Ungraded Assignment: ssh setup</h1>
+=======
+<h1>Graded Assignment II: Shell scripts at OSC</h1>
+>>>>>>> main:docs/w06_GA-scripts.html
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2503,14 +2527,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<<<<<<< HEAD:docs/w06_UA-ssh.html
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#avoid-being-prompted-for-password">1. Avoid being prompted for password</a></li>
 <li><a href="#use-a-shortcut-for-your-ssh-connection">2. Use a shortcut for your SSH connection</a></li>
+=======
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#grading-information">Grading information</a></li>
+<li><a href="#general-information">General information</a></li>
+</ul></li>
+<li><a href="#getting-set-up">Getting set up</a></li>
+<li><a href="#a-script-to-run-cutadapt-on-one-pair-of-fastq-files">A script to run Cutadapt on one pair of FASTQ files</a></li>
+<li><a href="#running-the-scrip-and-finishing-up">Running the scrip and finishing up</a></li>
+<li><a href="#optional-ungraded---a-script-to-loop-over-all-samples"><em>Optional (ungraded) - A script to loop over all samples</em></a></li>
+>>>>>>> main:docs/w06_GA-scripts.html
 </ul>
 </nav>
 </div>
 <p><br></p>
 <h2 id="introduction">Introduction</h2>
+<<<<<<< HEAD:docs/w06_UA-ssh.html
 <p>You can connect to OSC with <code>ssh</code> if you have a bash shell on your machine, either natively with a Mac or Linux machine, or via Git Bash or WSL on Windows.</p>
 <p>The regular way to do this is typing <code>ssh &lt;username&gt;@pitzer.osc.edu</code> and then providing your password, which can get tedious. There are two setup steps you can take to make this quicker:</p>
 <ol type="1">
@@ -2568,6 +2605,104 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a>$ <span class="fu">rsync</span> ~/scripts op:/fs/ess/PAS1855/scripts</span></code></pre></div>
 <p><br> <br></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+=======
+<p><em>If you did last week’s exercises, much of the following introduction will be familiar to you, as we are working with the same FASTQ files and looking at the same primers – but this time around, you will remove the primer sequences using the software Cutadapt, whereas in last week’s exercises, you just looked for their presence.</em></p>
+<p>This assignment will work with 6 <a href="https://support.illumina.com/bulletins/2016/04/fastq-files-explained.html">FASTQ files</a> with sequences from the V4 region of 16S rRNA, generated in a metabarcoding experiment.</p>
+<p>The FASTQ files come in pairs: for every sample, there is a FASTQ file with <em>forward reads</em> (or “read 1” reads) that contains <code>_R1_</code> in its file name, and a FASTQ file with corresponding <em>reverse</em> reads (or “read 2” reads) that contain <code>_R2_</code> in its file name. So, our 6 FASTQ files consist of 3 pairs of files with forward and reverse reads for 3 different biological samples.</p>
+<p>The sequences were generated by first amplifying environmental samples with a pair of universal 16S primers, and these primer sequences are expected to be present in the FASTQ sequences. <strong>You will remove these primer sequences with the program Cutadapt</strong>, and there are two things to be aware of:</p>
+<ul>
+<li>A primer can also be present in the FASTQ sequence as its <em>reverse complement</em>, so we will search for reverse complements too.</li>
+<li>The primers contain a few variable sites, which are indicated using <em>ambiguity codes</em>. For instance, an <code>R</code> means that the site can be either an <code>A</code> or a <code>G</code>, and an <code>N</code> means that the site can be any of the four bases. See <a href="https://droog.gs.washington.edu/parc/images/iupac.html">here</a> for a complete overview of these ambiguity codes.</li>
+</ul>
+<p>These are the primer sequences:</p>
+<ul>
+<li>Forward primer (“515F”): <code>GAGTGYCAGCMGCCGCGGTAA</code>.</li>
+<li>Reverse primer (“806R”): <code>TTACCGCGGCKGCTGRCACTC</code>.</li>
+</ul>
+<h3 id="grading-information">Grading information</h3>
+<ul>
+<li>….</li>
+</ul>
+<h3 id="general-information">General information</h3>
+<ul>
+<li>For each numbered step below, you should create <em>at least</em> one Git commit.</li>
+</ul>
+<p><br></p>
+<h2 id="getting-set-up">Getting set up</h2>
+<ol type="1">
+<li><p>Create a new dir for this assignment, and inside it, initialize a Git repository.</p></li>
+<li><p>Copy the FASTQ files from <code>/fs/ess/PAS1855/data/week05/fastq</code> into a directory <code>data/fastq/</code> inside your assignment’s directory.</p></li>
+<li><p>Create a <code>.gitignore</code> file and add a line to make Git ignore all <code>.fastq</code> files.</p></li>
+<li><p>Create a <code>conda</code> environment for Cutadapt following <a href="https://cutadapt.readthedocs.io/en/stable/installation.html#installation-with-conda">these instructions</a> (i.e. just the section “Installation with <code>conda</code>”).</p></li>
+<li><p>Export the environment description for your Cutadapt environment to a <code>.yml</code> file.</p></li>
+</ol>
+<p><br></p>
+<h2 id="a-script-to-run-cutadapt-on-one-pair-of-fastq-files">A script to run Cutadapt on one pair of FASTQ files</h2>
+<p>Now, you will write a script called <code>cutadapt_single.sh</code> that runs Cutadapt for one sample, i.e. one pair of FASTQ files: a file with forward (<code>R1</code>) reads and a file with reverse (<code>R2</code>) reads for that sample.</p>
+<p>The following instructions all refer to what you should write <strong>inside the script</strong>:</p>
+<ol start="6" type="1">
+<li><p>Start with the <em>shebang</em> line followed by SLURM directives. Specify at least the following SLURM directives:</p>
+<ul>
+<li>The class’s OSC project number, <code>PAS1855</code>.</li>
+<li>A 20-minute wall-time limit.</li>
+<li>Explicitly ask for one node, one process (task), and one core (these are three separate directives).</li>
+</ul></li>
+<li><p>Next, include the familiar <code>set</code> settings for robust bash scripts, load OSC’s <code>conda</code> module and then activate your own Cutadapt <code>conda</code> environment (use <code>source activate</code> and not <code>conda activate</code>!).</p></li>
+<li><p>Let the script take 4 arguments that can be passed to it on the command-line:</p>
+<ul>
+<li>The path to a FASTQ file with forward reads (whose value when passed from the command-line will e.g. be <code>data/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq</code>).</li>
+<li>The name of the output directory for trimmed FASTQ files (whose value will be whatever you pick, e.g. <code>results/trim</code>).</li>
+<li>The sequence of the forward primer to be removed (whose value will be <code>GAGTGYCAGCMGCCGCGGTAA</code> in this case).</li>
+<li>The sequence of the reverse primer to be removed (whose value will be <code>TTACCGCGGCKGCTGRCACTC</code> in this case).</li>
+</ul>
+<p>Give each of these variables a descriptive name rather than directly using the placeholder variables (<code>$1</code>, etc) – that will make your life easier when writing the rest of the script.</p></li>
+<li><p>Compute the <em>reverse complement</em> for each primer. Use <code>tr</code> to compute the complement and then pipe this into <code>rev</code> (a command we haven’t seen yet; but you can simply use <code>rev</code> with no options).<br />
+<br />
+Make sure you don’t just translate <code>ACTG</code> but also take all the possible IUPAC ambiguity codes into account! See <a href="https://droog.gs.washington.edu/parc/images/iupac.html">here</a> for a complete overview of these ambiguity codes.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>Use command substitution to save the reverse complement primer sequences.</p>
+<p>Do some testing of your commands to see if the reverse complements come out correctly!</p>
+</p>
+</details></li>
+<li><p>From the file name of the input FASTQ file with forward reads (which is one of the arguments to the script), infer the name of the corresponding FASTQ file with reverse reads, which will have an identical name except that <code>_R1_</code> is replaced by <code>_R2_</code>.</p></li>
+<li><p>Assign output file paths (output dir + file name) for the <code>R1</code> and <code>R2</code> output file, inserting <code>_trimmed</code> before the file extension, which you can assume to be <code>.fastq</code>. (i.e., the output file paths should be along the lines of <code>&lt;output-dir&gt;/&lt;old-file-name&gt;_trimmed.fastq</code>).</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p><br />
+You’ll do yourself a favor by having the script <code>echo</code> the file names that you have assigned, so you can easily check if you’re doing this right.<br />
+<br />
+Moreover, I recommend that you test whether you’re getting all the file names right interactively: assign one of the paths to the actual FASTQ files to the variable name you’re using for that, and ditto with an output dir. Just take care that these assignments don’t end up in your (final) script.</p>
+</p>
+</details></li>
+<li><p>Create the output directory if it doesn’t already exist.</p></li>
+<li><p>The actual call to the Cutadapt program should be as follows – just change any variable names as needed:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a>$ <span class="ex">cutadapt</span> -a <span class="st">&quot;</span><span class="va">$primer_f</span><span class="st">&quot;</span>...<span class="st">&quot;</span><span class="va">$primer_r_revcomp</span><span class="st">&quot;</span> \</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    -A <span class="st">&quot;</span><span class="va">$primer_r</span><span class="st">&quot;</span>...<span class="st">&quot;</span><span class="va">$primer_f_revcomp</span><span class="st">&quot;</span> \</span>
+<span id="cb1-3"><a href="#cb1-3"></a>    --discard-untrimmed --pair-filter=any \</span>
+<span id="cb1-4"><a href="#cb1-4"></a>    -o <span class="st">&quot;</span><span class="va">$R1_out</span><span class="st">&quot;</span> -p <span class="st">&quot;</span><span class="va">$R2_out</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$R1_in</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$R2_in</span><span class="st">&quot;</span></span></code></pre></div></li>
+</ol>
+<p><em>Optional (ungraded): Touch up the scripts with additional <code>echo</code> statements, <code>date</code> commands, and tests such as whether 4 arguments were provided.</em></p>
+<p><br></p>
+<h2 id="running-the-scrip-and-finishing-up">Running the scrip and finishing up</h2>
+<ol start="14" type="1">
+<li>Make the script executable and submit the script as a SLURM job. Check the SLURM log file and the output files. If it didn’t work, troubleshoot until you get it working.</li>
+<li>Do any necessary cleaning up of files, e.g. move your SLURM log file to an appropriate place, and make sure everything is committed to the Git repository.</li>
+<li>Create a GitHub repository and push your local Git repository to GitHub. Like last time, start an issue and inside it, tag <code>@jelmerp</code>.</li>
+</ol>
+<p><br></p>
+<h2 id="optional-ungraded---a-script-to-loop-over-all-samples"><em>Optional (ungraded) - A script to loop over all samples</em></h2>
+<p><em>Creating a script like we did above mostly makes sense if we plan to run it for multiple/many samples. Now, you will create a second script <code>cutadapt_submit.sh</code> that loops over all FASTQ files in a specified directory. It doesn’t need to be a “proper” script with a robust header and so on, and shouldn’t contain any SLURM directives: this script merely functions to</em> submit <em>SLURM jobs and can be run interactively.</em></p>
+<ol start="14" type="1">
+<li><em>Loop over a globbing pattern that accepts all <code>.fastq</code> files with <code>R1</code> in the name in the input directory (recall: we don’t want the <code>R2</code> files included as they will be automatically added in our previous script).</em></li>
+<li><em>Inside the loop, the <code>cutadapt_single.sh</code> script should be submitted as a SLURM job, similar to your single submission of the script above.</em></li>
+<li><em>Run the loop.</em></li>
+<li><em>Check the SLURM log files and the output directory. If it didn’t work, remove all these files, troubleshoot, and try again until it is working.</em></li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+>>>>>>> main:docs/w06_GA-scripts.html
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -42,6 +42,7 @@ class: inverse middle center
 - ### [Command-line arguments for scripts](#args)
 - ### [Putting it all together](#scripts)
 - ### [Touching up your script](#touch-up)
+- ### [Conducting tests, exit status, and standard error](#test)
 ]
 
 <br>
@@ -226,7 +227,7 @@ name: arrays
   much like when you provide commands like `ls` with arguments:
 
   ```sh
-  $ ./printname.sh John Doe
+  $ bash printname.sh John Doe
   ```
 
 - Inside the script, these arguments are *automatically* assigned to the
@@ -241,7 +242,7 @@ name: arrays
   ```
 
   ```sh
-  $ ./printname.sh John Doe
+  $ bash printname.sh John Doe
   #> First argument: John
   #> Second argument: Doe
   #> Full name: John Doe
@@ -276,11 +277,13 @@ name: arrays
 
 ---
 
-## A simple shell script example
+## Another simple shell script example
 
 - Contents of the script, saved as `headtail.sh`:
 
   ```sh
+  #!/bin/bash
+  
   head -n 2 "$1"
   echo "---"
   tail -n 2 "$1"
@@ -290,16 +293,26 @@ name: arrays
 
   ```sh
   $ bash headtail.sh samples.txt
+  #> zmaysA  R1      seq/zmaysA_R1.fastq
+  #> zmaysA  R2      seq/zmaysA_R2.fastq
+  #> ---
+  #> zmaysC  R1      seq/zmaysC_R1.fastq
+  #> zmaysC  R2      seq/zmaysC_R2.fastq
+
   $ bash headtail.sh egfr_flank.fasta
+  #> >ENSMUSG00000020122|ENSMUST00000138518
+  #> CCCTCCTATCATGCTGTCAGTGTATCTCTAAATAGCACTCTCAACCCCCGTGAACTTGGT
+  #> ---
+  #> TTCGCTCCTCTGGATCCCTCCTCCTTCTTTAGTCCCTCCTCCTCCCGCCCAGCCTCCCCC
+  #> AGTCCCGACCCGAGCTAACT
   ```
 
 ---
 
-## A simple shell script example (cont.)
+## Another simple shell script example (cont.)
 
 - Good scripting citizens that we are,
-  we will also add the header lines,
-  and make the script executable:
+  we will also add the `set` header, and make the script executable:
 
   ```sh
   #!/bin/bash
@@ -324,14 +337,16 @@ name: arrays
 
 ## `r icon::fa("user-edit")` Your turn: A simple script
 
-Write a script that prints a specific line, identified by its line number,
+Write a script that prints a specific line (identified by line number)
 from a file.
 
-- Make the line number argument 1 (`$1`), and the filename argument 2 (`$2`). 
+Make the line number argument 1 (`$1`), and the filename argument 2 (`$2`). 
 
-- If you don't remember how to print a specific line, click on the hint below.
+Test the script by printing line 4 from `samples.txt`.
 
 <br>
+
+*If you don't remember how to print a specific line, click on the hint below.*
 
 <details>
 <summary><strong>Hint!</strong></summary>
@@ -359,6 +374,18 @@ you can use: <br>
   set -u -e -o pipefail
   
   head -n "$1" "$2" | tail -n 1
+  ```
+  
+  Or with named variables:
+  
+  ```sh
+  #!/bin/bash
+  set -u -e -o pipefail
+  
+  line="$1"
+  file="$2"
+  
+  head -n "$line" "$file" | tail -n 1
   ```
 
 - To execute:
@@ -531,9 +558,19 @@ What could we do to be make this script more robust / foolproof?
 
 <br>
 
-- This type of behavior is useful when you're writing the data to file,
-  as you usually will, and you can see a bit of a log printed to screen
-  or to a log file.
+- This type of behavior is useful when *the actual data is written to file*,
+  and the standard out functions as a log.
+
+---
+class: inverse middle center
+name: tests
+
+# Conducting tests, <br> exit status, and standard error
+
+----
+
+<br> <br> <br> <br> <br>
+
 
 ---
 
@@ -564,21 +601,31 @@ What could we do to be make this script more robust / foolproof?
 
 ---
 
-## Side note: exit status
+## Side note: Exit status
 
-.content-box-info[
 With `exit 1`, the *exit status* of our script is 1.
 In bash, an exit status of **0 means success** &mdash; 
-any other integer, including 1, means failure.
+any other integer, including 1, means failure.  
 
-This includes cases like whether `grep` found a match:
+Commands also return an exit status, and you can see the exit status of the
+last command with `$?`:
+
+```sh
+$ ls dfkjslkjg
+#> ls: cannot access 'dfkjslkjg': No such file or directory
+$ echo $?
+#> 2
+```
+
+---
+
+## Side note: Exit status (cont.)
+
+`grep`'s exit status depends on whether it found a match:
 ```sh
 $ echo "sampleA.fastq.gz" | grep "fastq"; echo $?
 #> sampleA.fastq.gz
 #> 0
-```
-
-```sh
 $ echo "sampleA.fastq.gz" | grep "fastx"; echo $?
 #> 1
 ```
@@ -588,11 +635,8 @@ This underlies why we can use `grep` in `if` statements:
 ```sh
 $ if ! echo "$file_name" | grep "fastq" > /dev/null; then
      echo "File is not a FASTQ file!"
-     exit 1
   fi
 ```  
-
-]
 
 ---
 
@@ -648,18 +692,88 @@ $ if ! echo "$file_name" | grep "fastq" > /dev/null; then
 
 ---
 
-## Touching up your scripts to <br> increase robustness and user-friendliness
+## Standard output and standard error
 
-This may start to seem silly, but fairly extensive reporting and
-testing can be useful &mdash; and a time-saver eventually.
+- When commands run into errors, they will print error messages.  
   
-This is especially true for long-running scripts,
-or scripts that you often reuse and perhaps share with others.
+  Error messages are **not** part of standard out,   
+  and instead represent a separate output stream: **"standard error"**.
+
+--
+
+- We can see this when we try to list a non-existing directory:
+  ```sh
+  ls -lhr solutions/ > solution_files.txt 
+  # ls: cannot access solutions.txt: No such file or directory
+  ```
+
+- The error was printed to screen. What was printed to the file?
+
+--
+
+  ```sh
+  $ ls
+  # solution_files.txt
+  $ cat solution_files.txt
+  $                # We just get our prompt back - file is empty
+  ```
+
+---
+
+## Standard output and standard error (cont.)
+
+- So, without redirection **(a)** versus with **`>`** redirection **(b)**:
+
+<p align="center">
+<img src="img/std-streams.png" width="80%">
+</p>
 
 
 ---
 
-## A word of advice / caution
+## Standard output and standard error (cont.)
+
+- To *redirect* the standard error, we use `2>`:  
+  (`1>` is standard out and `>` is a shortcut for that.)
+  
+  ```sh
+  ls -lhr solutions/ > solution_files.txt 2> errors.txt
+  ```
+
+--
+
+- To *combine* standard out and standard error, we use `&>`:
+
+  ```sh
+  ls -lhr solutions/ &> out.txt # &> is a bash shortcut for 2>&1
+  ```
+
+--
+
+- Finally, if you want to "manually" designate an `echo` statement to represent
+  standard error instead of standard out in a script, use `>&2`:
+  
+  ```sh
+  echo "Error: Invalid line number" >&2
+  echo "Number should be >0 and <= the file's nr. of lines" >&2
+  echo "File contains $(wc -l < $2) lines; you provided $1." >&2
+  exit 1
+  ```
+
+---
+
+## In closing
+
+The reporting (`echo`-ing) and testing may have started to seem silly for our
+litle script, but fairly extensive reporting and
+testing can be very useful &mdash; and will be eventually a time-saver.
+  
+This is especially true for long-running scripts,
+or scripts that you often reuse and perhaps share with others.
+
+---
+
+## In closing (cont.)
 
 While different strategies are certainly possible, as a general rule of thumb:
 
@@ -702,6 +816,62 @@ class: inverse middle center
 ]
 
 <br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+
+## Some quick information about your Final Project
+
+Requirements for your project focus on **appropriate usage of many of the
+tools we covered during the course** &mdash; the project should:
+
+- Be well-organized, and well-documented using Markdown READMEs.
+
+- Be version-controlled throughout, and repeatedly "pushed" to Github.
+
+--
+
+- Should have (most) analysis or data processing done using scripts  
+  in bash and/or Python.
+
+- Run one or more of the scripts as SLURM jobs at OSC.
+
+- Be re-runnable using a single Snakemake control script ("Snakefile").
+
+
+---
+background-color: #f2f5eb
+
+## Some quick information about your Final Project
+
+- So, lots of "infrastructure" requirements &mdash;
+  therefore, no need to devise a complicated project with many scripts.
+
+<br>
+
+--
+
+- We encourage you to *use your own data or find a dataset yourself*,  
+  but Zach will also provide a dataset with accompanying project ideas if
+  you prefer to do that. (And we can dig up other datasets if needed.)
+
+<br>
+
+--
+
+- Otherwise, you are quite free regarding the **topic** of the project:
+  
+  - From answering an actual or contrived research question...
+  
+  - ...to automating something "boring" that you so far did manually. 
+
+
+--
+
+<br>
+
+- Your project proposal is not due until the week of March 23rd,
+  but you may want to slowly start thinking about this.
 
 ---
 background-color: #f2f5eb
