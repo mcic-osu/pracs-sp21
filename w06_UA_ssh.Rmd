@@ -11,8 +11,9 @@ output:
 
 ## Introduction
 
-You can connect to OSC with `ssh` if you have a bash shell on your machine,
-either natively with a Mac or Linux machine, or via Git Bash or WSL on Windows.
+You can connect to OSC with `SSH` if you have a bash shell on your machine,
+either natively with a Mac or Linux machine, or via WSL, Git Bash, or another
+application on Windows.
 
 The regular way to do this is typing `ssh <username>@pitzer.osc.edu` and then
 providing your password, which can get tedious. There are two setup steps
@@ -20,7 +21,7 @@ you can take to make this quicker:
 
 1. Avoid being prompted for your password.
 
-2. Set up a shortcut for your ssh connection name. 
+2. Set up a shortcut for your `SSH` connection name. 
 
 ## 1. Avoid being prompted for password
 
@@ -32,17 +33,17 @@ These steps are similar to what you did for your `SSH` Github authentication.
   $ ssh-keygen -t rsa
   ```
   
-  When you're prompted for a passphrase, you can just press enter if you're
-  okay with having no passphrase.
+  When you're prompted for a passphrase, you can just press enter if you are
+  okay with not having a passphrase.
   
 ::: {.content-box-info}
   
-If you do want a passphrase, you have to take an extra step to not be prompted,
+If you *do* want a passphrase, you have to take an extra step to not be prompted,
 *after* step 3 below:
   
 ```sh
 $ ssh-add
-# Now, you don't enter a passphrase!
+# (Then here, don't enter a passphrase in any case!)
 ```
   
 :::
@@ -50,7 +51,7 @@ $ ssh-add
 2. *From your own computer*, transfer the public key to the remote computer:
 
   ```bash
-  # Replace <user> by your username, e.g. jelmer@owens.osc.edu
+  # Replace <user> by your username, e.g. "jelmer@owens.osc.edu"
   $ cat ~/.ssh/id_rsa.pub | ssh <user>@owens.osc.edu 'mkdir -p .ssh && cat >> .ssh/authorized_keys'
   ```
 
@@ -72,7 +73,7 @@ in case you're struggling.
 
 ## 2. Use a shortcut for your SSH connection
 
-These two steps should both be done on your local machine.
+These two steps should both be done *on your local machine*.
 
 1. Create a file called `~/.ssh/config`:
 
@@ -88,7 +89,7 @@ These two steps should both be done on your local machine.
        User <user-name>
   ```
 
-  For instance, this is what I have for Pitzer and Owens:
+  For instance, I have something along these lines for Pitzer and Owens:
   
   ```bash
   Host op
@@ -106,7 +107,7 @@ Now, you just need to use your, preferably very short, alias to log in:
 $ ssh op
 ```
 
-Moreover, this will also work with `scp` and `rsync`:
+This shortcut will also work with `scp` and `rsync`!
 
 ```sh
 $ rsync ~/scripts op:/fs/ess/PAS1855/scripts
