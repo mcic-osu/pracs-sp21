@@ -10,9 +10,9 @@ output:
 
 ### Slides
 
-- [Slides: Part I -- Introduction to OSC](slides/06-1_OSC.html) -- Tuesday Zoom (Feb 16)
+- Slides: Part I -- Introduction to OSC -- Tuesday Zoom (Feb 16)
 
-- [Slides: Part II -- OSC jobs with SLURM](slides/06-2_SLURM.html) -- Thursday Zoom (Feb 18)
+- Slides: Part II -- OSC jobs with SLURM -- Thursday Zoom (Feb 18)
 
 ### Graded assignments
 
@@ -20,6 +20,6 @@ output:
 
 ### Ungraded assignments
 
-- [Mid-course survey](link)
+- [Mid-course survey](https://forms.gle/QBRKeLb9jN7xiGYw6)
 
-- [Optional: `ssh` setup](../../w06_UA_ssh-setup.html)
+- [Optional: `ssh` setup](../../w06_UA_ssh.html)
