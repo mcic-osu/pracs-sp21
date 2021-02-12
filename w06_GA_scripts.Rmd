@@ -73,7 +73,7 @@ These are the primer sequences[^1]:
 
 <br>
 
-## A script to run Cutadapt on one pair of FASTQ files
+## Cutadapt script for one sample
 
 Now, you will write a script called `cutadapt_single.sh` that runs Cutadapt for one sample, i.e. one pair of FASTQ files: a file with forward (`R1`) reads and a file with reverse (`R2`) reads for that sample.
 
@@ -150,7 +150,7 @@ The following instructions all refer to what you should write **inside the scrip
 
 <br>
 
-## Running the scrip and finishing up
+## Running the script and finishing up
 
 14. Submit the script as a SLURM job for one pair of FASTQ files -- don't forget to provide it with the appropriate arguments. Check the SLURM log file and the output files. If it didn't work, troubleshoot until you get it working. <span style="color:coral"><i>[2]</i></span>
 
@@ -160,7 +160,7 @@ The following instructions all refer to what you should write **inside the scrip
 
 <br>
 
-## *Optional (ungraded) - A script to loop over all samples*
+## *Optional (ungraded) - Loop over all samples*
 
 *Creating a script like we did above is worth the trouble mostly if we plan to run it for multiple/many samples. Now, you will create a second script `cutadapt_submit.sh` that loops over all FASTQ files in a specified directory. It doesn't need to be a "proper" script with a robust header and so on, and shouldn't contain any SLURM directives: this script merely functions to* submit *SLURM jobs and can be run interactively.*
 

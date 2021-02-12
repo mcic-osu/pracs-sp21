@@ -2509,9 +2509,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><a href="#grading-information">Grading information</a></li>
 </ul></li>
 <li><a href="#getting-set-up">Getting set up</a></li>
-<li><a href="#a-script-to-run-cutadapt-on-one-pair-of-fastq-files">A script to run Cutadapt on one pair of FASTQ files</a></li>
-<li><a href="#running-the-scrip-and-finishing-up">Running the scrip and finishing up</a></li>
-<li><a href="#optional-ungraded---a-script-to-loop-over-all-samples"><em>Optional (ungraded) - A script to loop over all samples</em></a></li>
+<li><a href="#cutadapt-script-for-one-sample">Cutadapt script for one sample</a></li>
+<li><a href="#running-the-script-and-finishing-up">Running the script and finishing up</a></li>
+<li><a href="#optional-ungraded---loop-over-all-samples"><em>Optional (ungraded) - Loop over all samples</em></a></li>
 </ul>
 </nav>
 </div>
@@ -2557,7 +2557,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><p>Export the environment description for your Cutadapt environment to a YAML (<code>.yml</code>) file. <span style="color:coral"><i>[0.5]</i></span></p></li>
 </ol>
 <p><br></p>
-<h2 id="a-script-to-run-cutadapt-on-one-pair-of-fastq-files">A script to run Cutadapt on one pair of FASTQ files</h2>
+<h2 id="cutadapt-script-for-one-sample">Cutadapt script for one sample</h2>
 <p>Now, you will write a script called <code>cutadapt_single.sh</code> that runs Cutadapt for one sample, i.e. one pair of FASTQ files: a file with forward (<code>R1</code>) reads and a file with reverse (<code>R2</code>) reads for that sample.</p>
 <p>The following instructions all refer to what you should write <strong>inside the script</strong>:</p>
 <ol start="6" type="1">
@@ -2605,14 +2605,14 @@ Moreover, I recommend that you test interactively whether you’re getting all t
 </ol>
 <p><em>Optional (ungraded): Touch up the scripts with additional <code>echo</code> statements, <code>date</code> commands, and tests such as whether 4 arguments were provided.</em></p>
 <p><br></p>
-<h2 id="running-the-scrip-and-finishing-up">Running the scrip and finishing up</h2>
+<h2 id="running-the-script-and-finishing-up">Running the script and finishing up</h2>
 <ol start="14" type="1">
 <li><p>Submit the script as a SLURM job for one pair of FASTQ files – don’t forget to provide it with the appropriate arguments. Check the SLURM log file and the output files. If it didn’t work, troubleshoot until you get it working. <span style="color:coral"><i>[2]</i></span></p></li>
 <li><p>Do any necessary cleaning up of files, e.g. move your SLURM log file to an appropriate place, and make sure everything is committed to the Git repository. (I’ll need to see the SLURM log file in your repository to see if the script worked.) <span style="color:coral"><i>[0.5]</i></span></p></li>
 <li><p>Create a GitHub repository and push your local Git repository to GitHub. Like last time, start an issue and in the issue, tag <code>@jelmerp</code>. <span style="color:coral"><i>[0.5]</i></span></p></li>
 </ol>
 <p><br></p>
-<h2 id="optional-ungraded---a-script-to-loop-over-all-samples"><em>Optional (ungraded) - A script to loop over all samples</em></h2>
+<h2 id="optional-ungraded---loop-over-all-samples"><em>Optional (ungraded) - Loop over all samples</em></h2>
 <p><em>Creating a script like we did above is worth the trouble mostly if we plan to run it for multiple/many samples. Now, you will create a second script <code>cutadapt_submit.sh</code> that loops over all FASTQ files in a specified directory. It doesn’t need to be a “proper” script with a robust header and so on, and shouldn’t contain any SLURM directives: this script merely functions to</em> submit <em>SLURM jobs and can be run interactively.</em></p>
 <ol start="14" type="1">
 <li><em>Loop over a globbing pattern that accepts all <code>.fastq</code> files with <code>R1</code> in the name in the input directory (recall: we don’t want to loop over the <code>R2</code> files explicitly, because they will be automatically included in our previous script).</em></li>
