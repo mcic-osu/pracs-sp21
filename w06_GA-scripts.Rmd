@@ -79,7 +79,7 @@ Now, you will write a script called `cutadapt_single.sh` that runs Cutadapt for 
 
 The following instructions all refer to what you should write **inside the script**:
 
-6.  Start with the *shebang* line followed by SLURM directives. Specify at least the following SLURM directives: <span style="color:coral"><i>[0.5]</i></span>
+6.  Start with the *shebang* line followed by SLURM directives. Specify at least the following SLURM directives <span style="color:coral"><i>[0.5]</i></span>
 
     -   The class's OSC project number, `PAS1855`.
     -   A 20-minute wall-time limit.
