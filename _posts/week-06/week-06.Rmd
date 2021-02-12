@@ -16,7 +16,7 @@ output:
 
 ### Graded assignments
 
-- [Graded assignment for week 6](../../w06_GA-scripts.html) (Due Tuesday, Feb 23)
+- [Graded assignment for week 6](../../w06_GA_scripts.html) (Due Tuesday, Feb 23)
 
 ### Ungraded assignments
 
