@@ -2513,7 +2513,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul></li>
 <li><a href="#bonus-exercises">Bonus exercises</a>
 <ul>
-<li><a href="#exercise-5-find-the-longest-file1">Exercise 5: Find the longest file</a></li>
+<li><a href="#exercise-5-find-the-longest-file2">Exercise 5: Find the longest file</a></li>
 <li><a href="#exercise-6-plant-pollinator-networks">Exercise 6: Plant-pollinator networks</a></li>
 <li><a href="#exercise-7-data-explorer">Exercise 7: Data explorer</a></li>
 </ul></li>
@@ -2540,10 +2540,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>A primer can also be present in the FASTQ sequence as its <em>reverse complement</em>, so we will search for reverse complements too.</li>
 <li>The primers contain a few variable sites, which are indicated using <em>ambiguity codes</em>. For instance, an <code>R</code> means that the site can be either an <code>A</code> or a <code>G</code>, and an <code>N</code> means that the site can be any of the four bases. See <a href="https://droog.gs.washington.edu/parc/images/iupac.html">here</a> for a complete overview of these ambiguity codes.</li>
 </ul>
-<p>Here are the primer sequences and their reverse complements:</p>
+<p>Here are the primer sequences and their reverse complements<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
 <ul>
 <li>Forward primer (“515F”): <code>GAGTGYCAGCMGCCGCGGTAA</code> / <code>TTACCGCGGCKGCTGRCACTC</code>.</li>
-<li>Reverse primer (“806R”): <code>TTACCGCGGCKGCTGRCACTC</code> / <code>ATTAGAWACCCBNGTAGTCCGT</code>.</li>
+<li>Reverse primer (“806R”): <code>ACGGACTACNVGGGTWTCTAAT</code> / <code>ATTAGAWACCCBNGTAGTCCGT</code>.</li>
 </ul>
 <h3 id="exercise-1-getting-set-up">Exercise 1: Getting set up</h3>
 <ol type="1">
@@ -2733,7 +2733,7 @@ You can test for equality using <code>&lt;integer&gt; -eq &lt;integer&gt;</code>
 </ol>
 <p><br></p>
 <h2 id="bonus-exercises">Bonus exercises</h2>
-<h3 id="exercise-5-find-the-longest-file1">Exercise 5: Find the longest file<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></h3>
+<h3 id="exercise-5-find-the-longest-file2">Exercise 5: Find the longest file<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></h3>
 <p>Write a shell script called <code>longest.sh</code> that takes two arguments: the name of a directory and a file extension (like <code>txt</code>). The script should print the name of the file that has the most lines among all files with with that extension in that directory.</p>
 <p>Make sure the script has the <em>shebang</em> and <code>set</code> headers, and make the script executable.<br />
 <br />
@@ -3331,7 +3331,8 @@ Then, run your script to learn which FASTQ file has the most lines (and sequence
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>This exercise was slightly modified from Software Carpentry’s <a href="http://swcarpentry.github.io/shell-novice/06-script/index.html">Shell Novice tutorial</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1" role="doc-endnote"><p>There initially was an error in these primer sequences (one sequence repeated twice), which has been corrected on Friday, Feb 12.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>This exercise was slightly modified from Software Carpentry’s <a href="http://swcarpentry.github.io/shell-novice/06-script/index.html">Shell Novice tutorial</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 <!--radix_placeholder_article_footer-->
