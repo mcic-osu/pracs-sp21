@@ -22,4 +22,4 @@ output:
 
 - [Mid-course survey](https://forms.gle/QBRKeLb9jN7xiGYw6)
 
-- [Optional: `ssh` setup](../../w06_UA_ssh.html)
+- [Optional: SSH setup](../../w06_UA_ssh.html)

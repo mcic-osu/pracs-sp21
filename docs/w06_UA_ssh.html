@@ -85,27 +85,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Optional Ungraded Assignment: `ssh` setup</title>
+  <title>pracs-sp21: Optional Ungraded Assignment: SSH setup</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Optional Ungraded Assignment: `ssh` setup"/>
+  <meta property="og:title" content="pracs-sp21: Optional Ungraded Assignment: SSH setup"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Optional Ungraded Assignment: `ssh` setup"/>
+  <meta property="twitter:title" content="pracs-sp21: Optional Ungraded Assignment: SSH setup"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Optional Ungraded Assignment: `ssh` setup"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Optional Ungraded Assignment: SSH setup"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2451,7 +2451,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Optional Ungraded Assignment: `ssh` setup","authors":[]}
+{"title":"Optional Ungraded Assignment: SSH setup","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2491,7 +2491,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Optional Ungraded Assignment: ssh setup</h1>
+<h1>Optional Ungraded Assignment: SSH setup</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2511,14 +2511,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p><br></p>
 <h2 id="introduction">Introduction</h2>
-<p>You can connect to OSC with <code>SSH</code> if you have a bash shell on your machine, either natively with a Mac or Linux machine, or via WSL, Git Bash, or another application on Windows.</p>
+<p>You can connect to OSC with SSH if you have a bash shell on your machine, either natively with a Mac or Linux machine, or via WSL, Git Bash, or another application on Windows.</p>
 <p>The regular way to do this is typing <code>ssh &lt;username&gt;@pitzer.osc.edu</code> and then providing your password, which can get tedious. There are two setup steps you can take to make this quicker:</p>
 <ol type="1">
 <li><p>Avoid being prompted for your password.</p></li>
-<li><p>Set up a shortcut for your <code>SSH</code> connection name.</p></li>
+<li><p>Set up a shortcut for your SSH connection name.</p></li>
 </ol>
 <h2 id="avoid-being-prompted-for-password">1. Avoid being prompted for password</h2>
-<p>These steps are similar to what you did for your <code>SSH</code> Github authentication.</p>
+<p>These steps are similar to what you did for your SSH Github authentication.</p>
 <ol type="1">
 <li><em>On your own computer</em>, generate a public-private SSH key-pair:</li>
 </ol>
@@ -2539,7 +2539,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ol>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a>$ <span class="fu">chmod</span> 700 .ssh<span class="kw">;</span> <span class="fu">chmod</span> 640 .ssh/authorized_keys</span></code></pre></div>
 <div class="content-box-info">
-<p>See also this <a href="https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/">Tecmint post</a> in case you’re struggling.</p>
+<p>See also this <a href="https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/">Tecmint post</a> in case you’re struggling, and Buffalo Chapter 4 page 59-60.</p>
 </div>
 <p><br></p>
 <h2 id="use-a-shortcut-for-your-ssh-connection">2. Use a shortcut for your SSH connection</h2>

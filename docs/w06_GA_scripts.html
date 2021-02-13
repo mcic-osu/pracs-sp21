@@ -2537,7 +2537,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul>
 <h3 id="grading-information">Grading information</h3>
 <ul>
-<li>The number of points (if any) that you can earn for each step are denoted between square brackets (e.g. <span style="color:coral"><i>[0.5]</i></span>. In total, you can earn 10 points with this assignment, which is 10% of your grade for the class.</li>
+<li>The number of points (if any) that you can earn for each step are denoted between square brackets (e.g. <span style="color:coral"><i>[0.5]</i></span>). In total, you can earn 10 points with this assignment, which is 10% of your grade for the class.</li>
 </ul>
 <p><br></p>
 <h2 id="getting-set-up">Getting set up</h2>
@@ -2545,12 +2545,17 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><p>Create a new directory for this assignment, and inside it, initialize a Git repository. Add a very brief <code>README.md</code> describing that this is a repository for such-and-such assignment. (You can also use this README to further document your workflow, but you don’t have to.) <span style="color:coral"><i>[0.5]</i></span></p></li>
 <li><p>Copy the FASTQ files from <code>/fs/ess/PAS1855/data/week05/fastq</code> into a directory <code>data/fastq/</code> inside your assignment’s directory. <span style="color:coral"><i>[0.5]</i></span></p></li>
 <li><p>Create a <code>.gitignore</code> file and add a line to make Git ignore all <code>.fastq</code> files. <span style="color:coral"><i>[0.5]</i></span></p></li>
-<li><p>Create a Conda environment for Cutadapt following <a href="https://cutadapt.readthedocs.io/en/stable/installation.html#installation-with-conda">these instructions</a> (i.e. just the section “Installation with Conda”). <span style="color:coral"><i>[1]</i></span></p>
+<li><p>Load the Conda module at OSC and create a Conda environment for Cutadapt following <a href="https://cutadapt.readthedocs.io/en/stable/installation.html#installation-with-conda">these instructions</a> (i.e. just the section “Installation with Conda”). <span style="color:coral"><i>[1]</i></span></p>
 <details>
 <p><summary>Hints</summary></p>
 <p>
+<p>To be able to install Cutadapt with the command provided in that link, you first need to do the following general Conda setup steps, which we will (have) do(ne) together in class:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a>$ <span class="ex">conda</span> config --add channels defaults</span>
+<span id="cb1-2"><a href="#cb1-2"></a>$ <span class="ex">conda</span> config --add channels bioconda</span>
+<span id="cb1-3"><a href="#cb1-3"></a>$ <span class="ex">conda</span> config --add channels conda-forge </span></code></pre></div>
+<p>(Adding the above lines <em>in that order</em> will result in the different channels having the proper priority, with <code>conda-forge</code> having the highest priority.)</p>
 <p>If you run into installation problems that you can’t seem to solve, you can can also use my Conda environment in Step 7, below, as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a>$ <span class="bu">source</span> activate users/PAS0471/jelmer/.conda/envs/cutadaptenv</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a>$ <span class="bu">source</span> activate users/PAS0471/jelmer/.conda/envs/cutadaptenv</span></code></pre></div>
 <p>But do this only if needed, and if you do, include a description of your errors in your README file.</p>
 </p>
 </details></li>
@@ -2558,7 +2563,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ol>
 <p><br></p>
 <h2 id="cutadapt-script-for-one-sample">Cutadapt script for one sample</h2>
-<p>Now, you will write a script called <code>cutadapt_single.sh</code> that runs Cutadapt for one sample, i.e. one pair of FASTQ files: a file with forward (<code>R1</code>) reads and a file with reverse (<code>R2</code>) reads for that sample.</p>
+<p>Now, you will write a script called <code>cutadapt_single.sh</code> that runs Cutadapt for one pair of FASTQ files: a file with forward (<code>R1</code>) reads and a file with reverse (<code>R2</code>) reads for the same sample.</p>
 <p>The following instructions all refer to what you should write <strong>inside the script</strong>:</p>
 <ol start="6" type="1">
 <li><p>Start with the <em>shebang</em> line followed by SLURM directives. Specify at least the following SLURM directives <span style="color:coral"><i>[0.5]</i></span></p>
@@ -2567,13 +2572,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>A 20-minute wall-time limit.</li>
 <li>Explicitly ask for one node, one process (task), and one core (these are three separate directives).</li>
 </ul></li>
-<li><p>Next, include the familiar <code>set</code> settings for robust bash scripts, load OSC’s Conda module and then activate your own Cutadapt Conda environment (use <code>source activate</code> and not <code>conda activate</code>!). <span style="color:coral"><i>[0.5]</i></span></p></li>
+<li><p>Next, include the familiar <code>set</code> settings for robust bash scripts, load OSC’s Conda module and then activate your own Cutadapt Conda environment. <span style="color:coral"><i>[0.5]</i></span></p>
+<details>
+<p><summary>Hints</summary> Use <code>source activate</code> and not <code>conda activate</code> to activate the Conda environment, otherwise Conda will complain about your shell not being properly set up.</p>
+</details></li>
 <li><p>Let the script take 4 arguments that can be passed to it on the command-line: <span style="color:coral"><i>[1]</i></span></p>
 <ul>
 <li>The path to a FASTQ file with forward reads (whose value, when passed to the script from the shell will e.g. be <code>data/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq</code>).</li>
 <li>The name of the output directory for trimmed FASTQ files (whose value, when passed to the script from the shell will be whatever you pick, e.g. <code>results/trim</code>).</li>
-<li>The sequence of the forward primer to be removed (whose value when passed to the script from the shell, will be <code>GAGTGYCAGCMGCCGCGGTAA</code> in this case).</li>
-<li>The sequence of the reverse primer to be removed (whose value when passed to the script from the shell, will be <code>TTACCGCGGCKGCTGRCACTC</code> in this case).</li>
+<li>The sequence of the forward primer (whose value when passed to the script from the shell, will be <code>GAGTGYCAGCMGCCGCGGTAA</code> in this case).</li>
+<li>The sequence of the reverse primer (whose value when passed to the script from the shell, will be <code>TTACCGCGGCKGCTGRCACTC</code> in this case).</li>
 </ul>
 <p>Give each of these variables a descriptive name rather than directly using the placeholder variables (<code>$1</code>, etc) – that will make your life easier when writing the rest of the script.</p></li>
 <li><p>Compute the <em>reverse complement</em> for each primer. The hint below in fact has the answer, but please take a moment to think how you might do this with <code>tr</code> and a new command called <code>rev</code> that simply reverses a string.</p>
@@ -2581,8 +2589,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p><summary>Hints</summary></p>
 <p>
 <p>Adjust your variable names as necessary!</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="va">primer_f_rc=$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$primer_f</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> ATCGYRKMBVDH TAGCRYMKVBHD <span class="kw">|</span> <span class="fu">rev</span><span class="va">)</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="va">primer_r_rc=$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$primer_r</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> ATCGYRKMBVDH TAGCRYMKVBHD <span class="kw">|</span> <span class="fu">rev</span><span class="va">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="va">primer_f_rc=$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$primer_f</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> ATCGYRKMBVDH TAGCRYMKVBHD <span class="kw">|</span> <span class="fu">rev</span><span class="va">)</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="va">primer_r_rc=$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$primer_r</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> ATCGYRKMBVDH TAGCRYMKVBHD <span class="kw">|</span> <span class="fu">rev</span><span class="va">)</span></span></code></pre></div>
 <p>Note that we needed to not only translate <code>ACTG</code> but also all <a href="https://droog.gs.washington.edu/parc/images/iupac.html">IUPAC ambiguity codes</a>.</p>
 </p>
 </details></li>
@@ -2598,10 +2606,10 @@ Moreover, I recommend that you test interactively whether you’re getting all t
 </details></li>
 <li><p>Create the output directory if it doesn’t already exist. <span style="color:coral"><i>[0.5]</i></span></p></li>
 <li><p>The actual call to the Cutadapt program should be as follows – just change any variable names as needed:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a>$ <span class="ex">cutadapt</span> -a <span class="st">&quot;</span><span class="va">$primer_f</span><span class="st">&quot;</span>...<span class="st">&quot;</span><span class="va">$primer_r_revcomp</span><span class="st">&quot;</span> \</span>
-<span id="cb3-2"><a href="#cb3-2"></a>    -A <span class="st">&quot;</span><span class="va">$primer_r</span><span class="st">&quot;</span>...<span class="st">&quot;</span><span class="va">$primer_f_revcomp</span><span class="st">&quot;</span> \</span>
-<span id="cb3-3"><a href="#cb3-3"></a>    --discard-untrimmed --pair-filter=any \</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    -o <span class="st">&quot;</span><span class="va">$R1_out</span><span class="st">&quot;</span> -p <span class="st">&quot;</span><span class="va">$R2_out</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$R1_in</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$R2_in</span><span class="st">&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a>$ <span class="ex">cutadapt</span> -a <span class="st">&quot;</span><span class="va">$primer_f</span><span class="st">&quot;</span>...<span class="st">&quot;</span><span class="va">$primer_r_revcomp</span><span class="st">&quot;</span> \</span>
+<span id="cb4-2"><a href="#cb4-2"></a>    -A <span class="st">&quot;</span><span class="va">$primer_r</span><span class="st">&quot;</span>...<span class="st">&quot;</span><span class="va">$primer_f_revcomp</span><span class="st">&quot;</span> \</span>
+<span id="cb4-3"><a href="#cb4-3"></a>    --discard-untrimmed --pair-filter=any \</span>
+<span id="cb4-4"><a href="#cb4-4"></a>    -o <span class="st">&quot;</span><span class="va">$R1_out</span><span class="st">&quot;</span> -p <span class="st">&quot;</span><span class="va">$R2_out</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$R1_in</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$R2_in</span><span class="st">&quot;</span></span></code></pre></div></li>
 </ol>
 <p><em>Optional (ungraded): Touch up the scripts with additional <code>echo</code> statements, <code>date</code> commands, and tests such as whether 4 arguments were provided.</em></p>
 <p><br></p>
@@ -2620,7 +2628,7 @@ Moreover, I recommend that you test interactively whether you’re getting all t
 <li><em>Run the loop.</em></li>
 <li><em>Check the SLURM log files and the output directory. If it didn’t work, remove all these files, troubleshoot, and try again until it is working.</em></li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>

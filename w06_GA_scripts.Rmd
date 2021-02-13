@@ -37,7 +37,7 @@ These are the primer sequences[^1]:
 
 ### Grading information
 
--   The number of points (if any) that you can earn for each step are denoted between square brackets (e.g. <span style="color:coral"><i>[0.5]</i></span>. In total, you can earn 10 points with this assignment, which is 10% of your grade for the class.
+-   The number of points (if any) that you can earn for each step are denoted between square brackets (e.g. <span style="color:coral"><i>[0.5]</i></span>). In total, you can earn 10 points with this assignment, which is 10% of your grade for the class.
 
 <br>
 
@@ -49,14 +49,24 @@ These are the primer sequences[^1]:
 
 3.  Create a `.gitignore` file and add a line to make Git ignore all `.fastq` files. <span style="color:coral"><i>[0.5]</i></span>
 
-4.  Create a Conda environment for Cutadapt following [these instructions](https://cutadapt.readthedocs.io/en/stable/installation.html#installation-with-conda) (i.e. just the section "Installation with Conda"). <span style="color:coral"><i>[1]</i></span>
+4.  Load the Conda module at OSC and create a Conda environment for Cutadapt following [these instructions](https://cutadapt.readthedocs.io/en/stable/installation.html#installation-with-conda) (i.e. just the section "Installation with Conda"). <span style="color:coral"><i>[1]</i></span>
 
     <details>
 
     <summary>Hints</summary>
 
     <p>
-
+    To be able to install Cutadapt with the command provided in that link,
+    you first need to do the following general Conda setup steps,
+    which we will (have) do(ne) together in class:
+    ```sh
+    $ conda config --add channels defaults
+    $ conda config --add channels bioconda
+    $ conda config --add channels conda-forge 
+    ```
+    (Adding the above lines *in that order* will result in the different channels
+    having the proper priority, with `conda-forge` having the highest priority.)
+    
     If you run into installation problems that you can't seem to solve, you can can also use my Conda environment in Step 7, below, as follows:
 
     ``` {.sh}
@@ -75,7 +85,7 @@ These are the primer sequences[^1]:
 
 ## Cutadapt script for one sample
 
-Now, you will write a script called `cutadapt_single.sh` that runs Cutadapt for one sample, i.e. one pair of FASTQ files: a file with forward (`R1`) reads and a file with reverse (`R2`) reads for that sample.
+Now, you will write a script called `cutadapt_single.sh` that runs Cutadapt for one pair of FASTQ files: a file with forward (`R1`) reads and a file with reverse (`R2`) reads for the same sample.
 
 The following instructions all refer to what you should write **inside the script**:
 
@@ -85,14 +95,20 @@ The following instructions all refer to what you should write **inside the scrip
     -   A 20-minute wall-time limit.
     -   Explicitly ask for one node, one process (task), and one core (these are three separate directives).
 
-7.  Next, include the familiar `set` settings for robust bash scripts, load OSC's Conda module and then activate your own Cutadapt Conda environment (use `source activate` and not `conda activate`!). <span style="color:coral"><i>[0.5]</i></span>
+7.  Next, include the familiar `set` settings for robust bash scripts, load OSC's Conda module and then activate your own Cutadapt Conda environment. <span style="color:coral"><i>[0.5]</i></span>
+    
+    <details>
+    <summary>Hints</summary>
+    Use `source activate` and not `conda activate` to activate the Conda environment,
+    otherwise Conda will complain about your shell not being properly set up.
+    </details>
 
 8.  Let the script take 4 arguments that can be passed to it on the command-line: <span style="color:coral"><i>[1]</i></span>
 
     -   The path to a FASTQ file with forward reads (whose value, when passed to the script from the shell will e.g. be `data/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq`).
     -   The name of the output directory for trimmed FASTQ files (whose value, when passed to the script from the shell will be whatever you pick, e.g. `results/trim`).
-    -   The sequence of the forward primer to be removed (whose value when passed to the script from the shell, will be `GAGTGYCAGCMGCCGCGGTAA` in this case).
-    -   The sequence of the reverse primer to be removed (whose value when passed to the script from the shell, will be `TTACCGCGGCKGCTGRCACTC` in this case).
+    -   The sequence of the forward primer (whose value when passed to the script from the shell, will be `GAGTGYCAGCMGCCGCGGTAA` in this case).
+    -   The sequence of the reverse primer (whose value when passed to the script from the shell, will be `TTACCGCGGCKGCTGRCACTC` in this case).
 
     Give each of these variables a descriptive name rather than directly using the placeholder variables (`$1`, etc) -- that will make your life easier when writing the rest of the script.
 
