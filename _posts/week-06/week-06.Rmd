@@ -10,9 +10,9 @@ output:
 
 ### Slides
 
-- Slides: Part I -- An introduction to using OSC -- Tuesday Zoom (Feb 16)
+- [Slides: Part I -- An introduction to using OSC](slides/06-1_OSC.html) -- Tuesday Zoom (Feb 16)
 
-- Slides: Part II -- OSC jobs with SLURM -- Thursday Zoom (Feb 18)
+- [Slides: Part II -- SLURM jobs in practice](slides/06-2_SLURM.html) -- Thursday Zoom (Feb 18)
 
 ### Graded assignments
 
