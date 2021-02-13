@@ -1,5 +1,5 @@
 ---
-title: "Week 6 - OSC - II"
+title: "Week 6 - Computing at OSC - II"
 output:
   xaringan::moon_reader:
     seal: false
