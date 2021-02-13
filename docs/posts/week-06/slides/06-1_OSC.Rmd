@@ -1,5 +1,5 @@
 ---
-title: "Week 6 - OSC - I"
+title: "Week 6 - Computing at OSC - I"
 output:
   xaringan::moon_reader:
     seal: false
@@ -22,7 +22,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ----
 
-# Part I: <br> An introduction to OSC
+# Part I: <br> An introduction to using OSC
 
 <br> <br> <br> <br> <br>
 
@@ -43,60 +43,6 @@ class: inverse middle center
 - ### [Using software at OSC](#software)
 - ### [Compute job options](#jobs)
 ]
-
----
-background-color: #f2f5eb
-
-## Some quick information about your Final Project
-
-**The project should:**
-
-- Be well-organized, and well-documented using Markdown READMEs.
-
-- Be version-controlled throughout, and repeatedly "pushed" to Github.
-
---
-
-- Be re-runnable using a single Snakemake control script ("Snakefile").
-
-- Should have (most) analysis or data processing done using scripts  
-  in bash and/or Python.
-
-- Optionally run jobs at OSC.
-
----
-background-color: #f2f5eb
-
-## Some quick information about your Final Project
-
-- So, lots of "infrastructure" requirements &mdash;
-  therefore, no need to devise a complicated project with many scripts.
-
-<br>
-
---
-
-- We encourage you to *use your own data or find a dataset yourself*,  
-  but Zach will also provide a dataset with accompanying project ideas if
-  you prefer to do that. (And we can dig up other datasets if needed.)
-
-<br>
-
---
-
-- You are quite free regarding the **topic** of the project:
-  
-  - From answering an actual or contrived research question...
-  
-  - ...to automating something "boring" that you until now always did manually. 
-
----
-background-color: #f2f5eb
-
-## Some quick information about your Final Project
-
-Your project proposal is not due until the week of March 23rd,
-but you may want to slowly start thinking about this.
 
 ---
 class: inverse middle center
@@ -161,7 +107,6 @@ name: introduction
 
 - OSC provides excellent introductory material at their   
   [Getting Started Page](https://www.osc.edu/resources/getting_started).
-**Do read these!**
 
 <p align="center">
 <img src=img/gettingstarted.png width="560">
@@ -257,6 +202,8 @@ but also through the web browser: from https://ondemand.osc.edu.
 
 --
 
+<br>
+
 - At OnDemand, you can, for example:
 
   - Access a terminal directly in your browser.
@@ -271,19 +218,31 @@ but also through the web browser: from https://ondemand.osc.edu.
 
 ---
 
-## Connecting to OSC with `ssh`
+## Connecting to OSC with SSH (Secure Shell)
 
 - If you want to log in from your local terminal,   
-  you need to **connect through `ssh`.**
+  you need to **connect through SSH.**
   
 - Basic `ssh` usage:
   
   ```sh
   $ ssh <username>@pitzer.osc.edu  # e.g. jelmer@pitzer.osc.edu     
-  $ ssh <username>@owens.osc.edu   # e.g. jelmer@ownes.osc.edu     
+  $ ssh <username>@owens.osc.edu   # e.g. jelmer@owens.osc.edu     
   ```
   
   You will be prompted for your OSC password.
+
+
+<br> <br>
+
+.content-box-info[
+See [this optional ungraded assignment](https://mcic-osu.github.io/pracs-sp21/)
+for some SSH setup you can do to make this quicker:
+
+- Avoid being prompted for your password.
+
+- Use a *shortcut* for `<username>@<cluster>.osc.edu`.
+]
 
 ---
 
@@ -298,7 +257,7 @@ After logging in to OSC, you're on a **login node**.
 - It is good practice to avoid even getting close to these limits:   
   login nodes are shared by everyone, and can get clogged.   
 
-<br>
+<br> <br> <br> <br> <br> <br> <br> <br>
 
 .content-box-info[
 For more info, see OSC's page [Login environment at OSC](https://www.osc.edu/supercomputing/login-environment-at-osc).
@@ -306,23 +265,23 @@ For more info, see OSC's page [Login environment at OSC](https://www.osc.edu/sup
 
 ---
 
-## Transferring files to and from OSC
+## Transferring files to and from OSC with GUIs
 
 #### For small transfers (<1 GB): use OnDemand
 
 <p align="center">
-<img src=img/ondemand2_circle.png width="95%">
+<img src=img/ondemand2_circle.png width="85%">
 </p>
 
 ----
 
 <p align="center">
-<img src=img/ondemand3_circle.png width="95%">
+<img src=img/ondemand3_circle.png width="85%">
 </p>
 
 --
 
------
+<br>
 
 #### For large transfers (>1 GB): use Globus
 
@@ -350,7 +309,7 @@ name: filesystems
 ## File systems at OSC
 
 OSC has several file systems with different typical use cases:
-we'll discuss in terms of short-term versus long-terms storage. 
+we'll discuss this in terms of short-term versus long-terms storage. 
 
 <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
 
@@ -382,8 +341,9 @@ for more info about file systems at OSC.
 
 - `/fs/ess/<project-ID>` (Course project: `/fs/ess/PAS1855`)
   
-- The total storage limit is whatever a PI sets this too and pays for.   
-  Note that charges are for the reserved space, not actual usage.
+- The total storage limit is whatever the project's PI sets this to
+  (and pays for...).
+  Note that *charges are for the reserved space*, not the actual usage.
   
 ---
 
@@ -425,17 +385,19 @@ name: software
 
 ## Using software at OSC
  
-- At OSC, software is managed with the `Lmod` system.
+- At OSC, software is managed with the Lmod system.
   While a lot of software is installed, **much is only available to use after
   we explicitly load it.**
   
-  This enables the use of different versions of the same software,
-  as well as mutually incompatible software, one one system. 
+  This enables the use of different versions of the same software
+  and of mutually incompatible software one a single system. 
 
 - For a list of software that has been installed at OSC, see:      
   <https://www.osc.edu/resources/available_software>.
   
---
+---
+
+## Using software at OSC (cont.)
 
 - You can also search for available software ("modules") in the shell:
   
@@ -446,25 +408,32 @@ name: software
   
   ```sh
   $ module spider
+  #> [long list ...]
   $ module spider python
+  #>    Versions:
+  #>      python/2.7-conda5.2
+  #>      python/3.6-conda5.2
+  #>      python/3.7-2019.10
   
   $ module avail
-  $ module spider python
+  #> [long list ...]
+  $ module avail python
+  #> python/2.7-conda5.2  python/3.6-conda5.2 (D)  python/3.7-2019.10
   ```
 
 ---
 
-## Using software at OSC
+## Using software at OSC (cont.)
 
 - *Loading* and unloading installed software is also done with `module` commands:
   
   ```bash
   # Load a module:
-  $ module load R               # Load default version
-  $ module load R/4.0.2-gnu9.1  # Load a specific version
+  $ module load python              # Load default version
+  $ module load python/3.7-2019.10  # Load a specific version
   
   # Unload a module:
-  $ module unload R
+  $ module unload python
   ```
   
 - To check which modules have been loaded:
@@ -472,12 +441,14 @@ name: software
   ```sh
   $ module list
   ```
-
+  
+  (The list will include some modules that have been loaded automatically.)
+  
 ---
 
 ## What if software isn't installed at OSC?
 
-**Install it yourself or get others to install it.**
+**Install it yourself or get others to install it:**
 
 - Installing yourself is possible but can be tricky (no admin rights...).
 
@@ -491,17 +462,17 @@ name: software
 
 **Alternative approaches (recommended):**
 
-- The **Conda** software management system (next slides)
+- The **Conda** software management system (next slides).
 
-- `Singularity` **containers**
+- `Singularity` **containers**.
   
 - These alternatives are useful not only at OSC – but more generally, for:
   
-  - Reproducible environments
+  - Reproducible environments.
   
-  - Portable environments (especially containers)
+  - Portable environments (especially containers).
   
-  - Avoidance of dependency hell
+  - Avoidance of dependency hell.
 
 ---
 
@@ -536,7 +507,7 @@ name: software
 
 - Create an isolated environment that can be exported and used anywhere.
 
-- Allow running software requiring a different OS / OS version.
+- Allow you to run software that requires a different OS / OS version.
 
 
 .content-box-info[
@@ -554,21 +525,21 @@ name: software
   $ module load python/3.6-conda5.2
   ```
 
-- Example: **create** a new environment with "`multiqc`" installed:
+- Example: **create** a new environment with "`cutadapt`" installed:
 
   ```bash
-  $ conda create -y -n multiqc-env -c bioconda multiqc
+  $ conda create -y -n cutadapt-env cutadapt
   ```
 
 --
 
-- **Activate** the `multiqc` environment and see if we can run MultiQC:
+- **Activate** the `cutadapt-env` environment and see if we can run Cutadapt:
 
   ```bash
-  [<user>@pitzer-login01 ~]$ source activate multiqc-env
+  [<user>@pitzer-login01 ~]$ source activate cutadapt-env
   
-  (multiqc) [<user>@pitzer-login01 ~]$ multiqc --help
-  #> Usage: multiqc [OPTIONS] <analysis directory>
+  (cutadapt-env) [<user>@pitzer-login01 ~]$ cutadapt --version
+  #> 3.2
   ```
 
   *(Note above that Conda will indicate the active environment in the prompt!)*
@@ -596,12 +567,20 @@ name: jobs
 
 To do analyses at OSC, you need access to a **compute node**.
   
-- **Automated scheduling software** allows 100s of people with different
+- Automated scheduling software allows 100s of people with different
   requirements to access compute nodes effectively and fairly.
 
-- Since December 2020, both Pitzer and Owens use the **_SLURM_ scheduler**   
-  (see [here](https://www.osc.edu/supercomputing/knowledge-base/slurm_migration)
-  for OSC SLURM info).
+- Since recently, both Pitzer and Owens use the **_SLURM_ scheduler**  
+  (**S**imple **L**inux **U**tility for **R**esource **M**anagement).
+
+<br>
+
+.content-box-info[
+Until summer 2020, OSC only used PBS &ndash; see
+[here](https://www.osc.edu/supercomputing/knowledge-base/slurm_migration)
+for migration info and a comparison of commands and options between the two
+systems.
+]
 
 ---
 
@@ -609,7 +588,7 @@ To do analyses at OSC, you need access to a **compute node**.
 
 Three main options:
 
-- In OnDemand, start an "**Interactive App**" like RStudio Server.   
+- In OnDemand, start an "**Interactive App**" like Jupyter Notebook or RStudio.   
 
 - Run an **interactive shell job**.
 
@@ -645,7 +624,7 @@ As well as **at the start of** scripts in lines with the `#SBATCH` keyword:
 --
 
 .content-box-info[
-Many sbatch options have a long format (`--account=PAS1855`) and a short
+Many `sbatch` options have a long format (`--account=PAS1855`) and a short
 format (`-A PAS1855`), which can generally be used interchangeably.
 ]
 
@@ -674,7 +653,7 @@ Interactive shell jobs will get you interactive shell access on a compute node.
 
 <br>
 
-- You can also use `srun` / `salloc` which support all options:
+- You can also use `srun` / `salloc`, which support all options:
 
   ```sh
   $ srun -A PAS0471 -t 60 --pty /bin/bash
@@ -687,26 +666,38 @@ Interactive shell jobs will get you interactive shell access on a compute node.
 
 ## Starting compute jobs: Shell scripts
 
-- To submit a job, we preface the call to script with `sbatch`:
+- To submit a job, we simply preface the call to our script with `sbatch`:
 
   ```sh
-  $ sbatch [sbatch-options] script.sh [script-arguments]
+  # Run a script on whatever node we are on:
+  $ ./fastqc.sh
   
-  $ sbatch fastq.sh
-  # Submitted batch job 2526085 
+  # Same, but now submit it to the queue:
+  $ sbatch fastqc.sh
+  # Submitted batch job 2526085
+  ```
   
-  $ sbatch fastq.sh sampleA.fastq.gz
+- We can also provide `sbatch` options and/or script arguments:
+  
+  ```sh
+  $ sbatch [sbatch-options] <script> [script-arguments]
+  
+  $ sbatch fastqc.sh sampleA.fastq.gz
   # Submitted batch job 2526086
   
-  $ sbatch -t 60 -A PAS1855 --mem=20G fastq.sh sampleA.fastq.gz
+  $ sbatch -t 60 -A PAS1855 --mem=20G fastqc.sh
   # Submitted batch job 2526085 
   ```
 
---
+---
+
+## Starting compute jobs: Shell scripts (cont.)
 
 .content-box-info[
 Any `sbatch` options provided on the command-line will override the equivalent
-options provided in the script itself:
+options provided in the script itself.
+
+Our script, `fastqc.sh`:
 
 ```sh
 #!/bin/bash
@@ -714,6 +705,14 @@ options provided in the script itself:
 #SBATCH --time=00:45:00
 #SBATCH --mem=8G
 ```
+
+Submitting the script:
+
+```sh
+$ sbatch --mem=20G fastqc.sh
+```
+
+In this case, the memory request will be `20G` and not `8G`.
 ]
 
 ---
@@ -737,18 +736,12 @@ options provided in the script itself:
 
 ## Compute job options: Nodes and cores
 
-- Only ask for **>1 node** when you have explicit parallelization.
-
 | Resource/use                  | short    | long                    | default
 |-------------------------------|----------|-------------------------|:--------:| 
 | Number of nodes               | -N 1     | --nodes=1               | 1
 | Number of cores               | -c 1     | --cpus-per-task=1       | 1
 | Number of "tasks" (processes) | -n 1     | --ntasks=1              | 1
 | Number of tasks per node      | -        | --ntasks-per-node=1     | 1
-
-```sh
-$ sbatch -N 1 -c 2 myscript.sh
-```
 
 --
 
@@ -760,12 +753,14 @@ $ sbatch -N 1 -c 2 myscript.sh
 ```sh
 #!/bin/bash
 #SBATCH --ntasks=2              # Preferred for multi-process
-```
-
-```sh
-#!/bin/bash
 #SBATCH --ntasks-per-node=2     # (Equivalent for single-node jobs)
 ```
+
+.content-box-info[
+- Only ask for **>1 node** when you have explicit parallelization.
+
+- Multi-threading is much more common than having multiple processes.
+]
 
 ---
 
@@ -774,10 +769,16 @@ $ sbatch -N 1 -c 2 myscript.sh
 You need to specify a **time limit** for your job (= "wall time"),
 and your job gets killed as soon as it hits the time limit!
 
-If you are uncertain about the time your job will take,
-ask for (much) more time than you think you will need:
-your project will be charged for the time *actually used*.
-(But slight trade-off: shorter jobs are likely to start sooner.)
+- You will only be charged for the time your job *actually used*.
+
+- Shorter jobs are likely to start sooner.
+
+**If you are uncertain about the time your job will take,
+ask for (much) more time than you think you will need.**
+
+--
+
+<br>
 
 .content-box-info[
 For single-node jobs, up to 168 hours (7 days) can be requested.
@@ -817,10 +818,10 @@ $ sbatch -t 30 myscript.sh   # 30 minutes
 ## Compute job options: Memory
 
 Specify a maximum amount of RAM (Random Access Memory;
-not to be confused with disk storage).
+not to be confused with disk storage space).
 
-Like with time, your job **gets killed** when it hits the memory limit!
-But, as the [OSC documentation](https://www.osc.edu/supercomputing/batch-processing-at-osc/job-scripts)
+Like with time, your job **gets killed** when it hits the memory limit.  
+But this is not that common &ndash; as the [OSC documentation](https://www.osc.edu/supercomputing/batch-processing-at-osc/job-scripts)
 says:
 
 > There is no need to specify a memory limit unless your memory requirements
@@ -868,9 +869,8 @@ name:bonus
 
 .left[
 - ### [Transferring files in the shell](#shell-transfer)
-- ### [ssh setup for quicker access](#shell)
-- ### Working with $TMPDIR in SLURM scripts
-- ### Working with Singularity contaners
+- ### [Working with $TMPDIR in SLURM scripts](#tmpdir)
+- ### [Working with Singularity containers](#containers)
 ]
 
 <br><br>
@@ -936,12 +936,32 @@ background-color: #f2f5eb
 
 ## More `rsync`
 
-.content-box-info[
-Presence/absence of a trailing slash for source dirs in `rsync` makes a
-difference: `rsync scripts bk/scripts` will sync these two dirs,
-but `rsync scripts/ bk/scripts` will copy the **contents** of script:
-you end up with `bk/scripts/scripts/` in the destination. 
+.content-box-warning[
+Presence/absence of a trailing slash for source directories makes a
+difference to `rsync`.
 ]
+
+This will sync the two dirs below, so the content of each 
+"scripts" dir will end up being identical:
+
+```sh
+$ rsync -avz scripts backup/scripts
+$ ls scripts
+#> fastq.sh
+$ ls backup/scripts
+#> fastq.sh
+```
+
+This will copy the *contents* of the source dir "scripts"
+into the target dir "scripts":
+
+```sh
+$ rsync -avz scripts/ backup/scripts
+$ ls scripts
+#> fastq.sh
+$ ls backup/scripts
+#> scripts
+```
 
 ---
 background-color: #f2f5eb
@@ -980,21 +1000,36 @@ name: tmpdir
 
 ## Working with `$TMPDIR` in scripts
 
-**Copy input to `$TMPDIR`, copy output to home:**
+Copy input to `$TMPDIR`, copy output to home:
 
 ```bash
 cp -R $HOME/my/data/ $TMPDIR/
+
 #[...analyze data with I/O happening in $TMPDIR....]
+
 cp -R $TMPDIR/* $HOME/my/data/
 ```
 
 <br>
 
-This trick will copy the data even if the job is killed:
+One potential problem with this approach is that your script may not reach
+the final line, where the data is copied back: perhaps it encountered an error
+or was killed. But you may still be interesting in getting the output data.
+
+The following trick with `trap` will copy the data even if the job is killed:
 
 ```bash
 trap "cd $PBS_O_WORKDIR;mkdir $PBS_JOBID;cp -R $TMPDIR/* $PBS_JOBID;exit" TERM
 ```
+
+---
+class: inverse middle center
+
+# Working with Singularity containers
+
+----
+
+<br> <br> <br> <br>
 
 ---
 background-color: #f2f5eb
@@ -1146,62 +1181,3 @@ background-color: #f2f5eb
   $ singularity exec multiqc_1.9--py_1.sif \
       multiqc --help
   ```
-  
----
-background-color: #f2f5eb
-
-## `ssh` set-up: avoid being prompted for password
-
-1. On your own computer, generate a key:
-```bash
-$ ssh-keygen -t rsa
-```
-
-1. On your own computer, transfer the key to the remote computer:
-```bash
-$ cat ~/.ssh/id_rsa.pub | ssh <user>@owens.osc.edu 'mkdir -p .ssh && cat >> .ssh/authorized_keys'
-```
-
-1. On remote computer (OSC), set permissions:
-```bash
-$ chmod 700 .ssh; chmod 640 .ssh/authorized_keys
-```
-
-1. Tell `ssh-agent` about the keys:
-```bash
-ssh-add
-```
-
-<br>
-
-- For more details, see this
-  [Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/).
-
----
-background-color: #f2f5eb
-
-## `ssh` set-up: use shortcuts
-
-1. Create a file called `~/.ssh/config`:
-```bash
-$ touch `~/.ssh/config`
-```
-
-1. Open the file and add your alias(es):
-```bash
-> Host <arbitrary-alias-name>    
->     HostName <remote-name>
->     User <user-name>
-```
-
---
-
-<br>
-
-- This is what it looks like on my machine, so I can login using "`ssh jo`":
-<br/>
-
-<p align="center">
-<img src=img/ssh.png width="400">
-</p>
-

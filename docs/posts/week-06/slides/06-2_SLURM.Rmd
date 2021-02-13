@@ -1,5 +1,5 @@
 ---
-title: "Week 6 - OSC - II"
+title: "Week 6 - Computing at OSC - II"
 output:
   xaringan::moon_reader:
     seal: false
@@ -37,70 +37,12 @@ class: inverse middle center
 ----
 
 .left[
-- ### [..](#..)
+- ### [More on SLURM directives](#slurm)
+- ### [Submitting a script running FASTQC to SLURM](#fastqc)
 ]
 
 ---
-
-## Side note: Standard out and standard error
-
-- When commands run into errors, they will print error messages.  
-  
-  Error messages are **not** part of standard out,   
-  and instead represent a separate output stream: **"standard error"**.
-
---
-
-- We can see this when we try to list a non-existing directory,
-  redirect to a file, but the error is instead printed to screen: 
-  ```sh
-  $ ls -lhr solutions/ > solution_files.txt 
-  #> ls: cannot access solutions.txt: No such file or directory
-  ```
-
---
-
-- What about the file we tried to write to, does it contain anything?
-
-  ```sh
-  $ ls
-  #> solution_files.txt
-  $ cat solution_files.txt
-  $                # We just get our prompt back - file is empty
-  ```
-
---
-
-.content-box-info[
-Standard output is often abbreviated as *stdout* and standard error is often
-abbreviated as *stderr*.
-]
-
----
-
-## Standard out and standard error (cont.)
-
-- So, without redirection **(a)** versus with **`>`** redirection **(b)**:
-<p align="left">
-<img src=img/std-streams.png width="550">
-</p>
-
---
-
-- But we *can* also redirect the standard error using `2>`:
-
-  ```sh
-  # Redirect stdout (>) and stderr (2>) to separate files:
-  ls -lhr solutions/ > solution_files.txt 2> errors.txt
-  ```
-
-- Or combine *stdout* and *stderr* streams into a single output file with `&>`:
-
-  ```sh
-  $ ls -lhr solutions/ &> out.txt
-  ```
-
----
+name: slurm
 
 ## More on SLURM directives
 
@@ -124,6 +66,25 @@ abbreviated as *stderr*.
 
 | Resource/use                         | short    | long
 |--------------------------------------|----------|-------
+| Log output file (%j = job number) &nbsp; &nbsp;    | -o       |  --output=slurm-fastqc-%j.out &nbsp; &nbsp; &nbsp; &nbsp;
+| Error output (*stderr*)              | -e       | --error=slurm-fastqc-%j.err
+
+<br> <br> <br> <br> <br> <br> <br> <br>
+
+.content-box-info[
+By default, standard output **and** standard error are sent to the
+same output file (`-o` / `--output`).
+To send standard error to its own output file, use the `-e` / `--error` option.
+]
+
+---
+
+## More on SLURM directives (cont.)
+
+**Some other options (for more, see the [SLURM documentation](https://slurm.schedmd.com/sbatch.html)):**
+
+| Resource/use                         | short    | long
+|--------------------------------------|----------|-------
 | Log output file (%j = job number)    | -o       |  --output=slurm-fastqc-%j.out
 | Error output (*stderr*)              | -e       | --error=slurm-fastqc-%j.err
 | Job name (displayed in the queue)    | -        | --job-name=fastqc
@@ -131,12 +92,6 @@ abbreviated as *stderr*.
 | Get email when job starts/ends/fails | -        | --mail-type=ALL/START/END/FAIL
 | Let job begin at/after specific time | -        | --begin=2021-02-01T12:00:00
 | Let job begin after other jobs is done | -      | --dependency=afterany:123456
-
-.content-box-info[
-By default, standard output **and** standard error are sent to the
-same output file (`-o` / `--output`).
-To send standard error to its own output file, use the `-e` / `--error` option.
-]
 
 ---
 
@@ -172,17 +127,37 @@ set -e -u -o pipefail
 
 ## SLURM environment variables
 
+- Inside the script, SLURM environment variables will be available,
+  such as:
+
 | Variable            | Description
 |---------------------|------------
 | `$SLURM_SUBMIT_DIR` | Path to dir from which job was started
 | `$TMPDIR`           | Path to dir for job (fast I/O)
 | `$SLURM_JOB_ID`     | Job ID assigned by SLURM
 | `$SLURM_JOB_NAME`   | Job name supplied by the user
+| `$SLURM_CPUS_ON_NODE` | Number of CPUs (cores) available on 1 node
+
+--
+
+- For example, you may want to use `$SLURM_CPUS_ON_NODE` in the call to
+  a program inside the script. This way, you only have to specify this once
+  and don't run the risk of using more cores than you have available.
+  
+  Additionally, if you specify the memory in the `sbatch` call, you don't need
+  to hard-code the number of cores at all.
+
+  ```sh
+  module load star
+  
+  STAR --runThreadN "$SLURM_CPUS_ON_NODE" --genomeDir ...
+  ```
 
 ---
 class: inverse middle center
+name: fastqc
 
-# An example: <br> Submitting a script to run FastQC to SLURM
+# An example: <br> Submitting a script running FASTQC to SLURM
 
 ----
 
@@ -190,9 +165,9 @@ class: inverse middle center
 
 ---
 
-## FastQC: A program for quality control of fastq files 
+## FastQC: A program for quality control of FASTQ files 
 
-FastQC produces visualizations and assessments of fastq files for statistics
+FastQC produces visualizations and assessments of FASTQ files for statistics
 such as per-base quality (below) and adapter content.
 
 .pull-left[
@@ -287,6 +262,8 @@ and 1 core, so we only specify the following options:
 
 --
 
+<br>
+
   .content-box-info[
   Other useful patterns include `%u` (user name) and `%x` (job name).
   ]
@@ -363,16 +340,6 @@ date                              # Report date+time to time script
 
 ## Submit the job
 
-- Before submitting to SLURM, we need to make the script executable:
-
-  ```sh
-  $ chmod u+x scripts/fastqc_single.sh
-  ```
-
-<br>
-
---
-
 - We need to provide the script with an output dir and a FASTQ file,   
   whose names we will store in variables:
   
@@ -434,7 +401,7 @@ We can check what's happening with the job using the SLURM command `squeue`:
 
 --
 
-- Let's look at the contents of the log file:
+- Look at the contents of the log file:
 
   ```sh
   $ less slurm-fastqc-2451088.out
@@ -442,7 +409,7 @@ We can check what's happening with the job using the SLURM command `squeue`:
 
 --
 
-- Let's check the output dir:
+- Check the output dir:
 
   ```sh
   $ ls -lh $output_dir
@@ -658,14 +625,18 @@ into a single nicely formatted HTML page:
   $ conda install -y -c bioconda -c conda-forge multiqc
   ```
 
-  - `-c conda-forge multiqc` is how we indicate which so-called
-    channels (repositories) we want to use.
-    (These sorts of detailed are provided in software installation instructions.)
+  `-c conda-forge multiqc` is how we indicate which so-called
+  channels (repositories) we want to use.
+  (These sorts of detailed are provided in software installation instructions.)
 
+--
 
-.content[
-In many other instances, you can create the Conda environment in one 
-`conda create` step, but ...
+<br>
+
+.content-box-info[
+Usually, you can create the Conda environment in one 
+`conda create` step, rather than having to activate it and then using 
+`conda install`, but this two-step procedure seems necessary in this case.
 ]
 
 ---
@@ -721,38 +692,50 @@ $ multiqc results/QC_fastq/ -o results/QC_fastq/
 
 ## More Conda
 
+One very nice aspect of Conda with respect to reprocucibility is that its
+software environments can be
+fully specified in simple YAML text files that specify key:value combinations.
+
+
 - Export a YAML file with the environment description:
 
-```sh
-# Export active environment:
-$ conda env export > environment.yml
-
-# Export any environment:
-$ conda env export -n multiqc > environment.yml
-```
-
-- Now, anyone with access to your environment YAML can easily reproduce your
-  environment:
+  ```sh
+  # Export the active environment:
+  $ conda env export > environment.yml
   
-```sh
-$ conda env create --file environment.yml
-```
+  # Export any environment:
+  $ conda env export -n multiqc-env > multiqc-env.yml
+  ```
 
+- Now, anyone with access to your environment YAML file
+  can easily recreate your environment for themselves!
+    
+  ```sh
+  $ conda env create --file environment.yml
+  ```
 
-<br>
+---
 
-.content-box-info[
+## More Conda (cont.)
+
 Some other Conda commands:
 
 ```sh
-$ conda install multiqc # Install into active environment
-$ conda env list     # List your conda environments
-$ conda deactivate   # Deactivate active conda environment
-$ conda env remove -n mynewenv # Remove an env. entirely
-$ conda create --name live_env --clone test_env # Clone an environment
-conda list -n test_env # List all packages in an environment
+# Deactivate active conda environment:
+$ conda deactivate   
+
+# Remove an environment entirely:
+$ conda env remove -n multiqc-env
+
+# List all packages in an environment:
+$ conda list -n multiqc-env
+
+# List all your Conda environments:
+$ conda env list
+
+# Clone an environment:
+$ conda create --name multiqc-env --clone multiqc-env-copy
 ```
-]
 
 ---
 class: center middle inverse
@@ -773,7 +756,7 @@ class: center middle inverse
 .left[
 - ### [More options to monitor and manage SLURM jobs](#more-slurm)
 - ### [Bash configuration files and $PATH](#bashrc-path)
-- ### [More conda setup: run the setup script](#conda-setup)
+- ### [Conda setup to enable "conda activate"](#conda-setup)
 ]
 
 <br> <br> <br> <br>
@@ -890,9 +873,9 @@ background-color: #f2f5eb
   ```
 
 ---
-background-color: #ededed
+background-color: #f2f5eb
 
-## time
+## `time`
 
 The `time` utility is used to measure the performance of a single command.
 
@@ -1063,8 +1046,9 @@ background-color: #f2f5eb
 
 ---
 class: inverse middle center
+name: conda-setup
 
-# conda setup to enable conda activate
+# Conda setup to enable "conda activate"
 
 ----
 
@@ -1072,7 +1056,6 @@ class: inverse middle center
 
 ---
 background-color: #f2f5eb
-name: conda-setup
 
 ## One-time Conda setup <br> to enable `conda activate`
 
