@@ -30,9 +30,15 @@ knitr::opts_chunk$set(eval = FALSE)
 ### 2021/02/16 (updated: `r Sys.Date()`)
 
 ---
+
+## Overview of this week
+
+#TODO
+
+---
 class: inverse middle center
 
-# Overview
+# Overview of this presentation
 
 ----
 
@@ -161,7 +167,7 @@ name: introduction
 
 --
 
-- Each core can run and be reserved independently.
+- Each core can run and be reserved independently for jobs.
 
 - But, using multiple cores for a job is also common, to:
   - Parallelize computations across cores.
@@ -308,15 +314,8 @@ name: filesystems
 
 ## File systems at OSC
 
-OSC has several file systems with different typical use cases:
+OSC has [several file systems]((https://www.osc.edu/supercomputing/storage-environment-at-osc/available-file-systems) with different typical use cases:
 we'll discuss this in terms of short-term versus long-terms storage. 
-
-<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-
-.content-box-info[
-See [this OSC documentation page](https://www.osc.edu/supercomputing/storage-environment-at-osc/available-file-systems)
-for more info about file systems at OSC.
-]
 
 ---
 
@@ -442,7 +441,7 @@ name: software
   $ module list
   ```
   
-  (The list will include some modules that have been loaded automatically.)
+  *(The list will include some modules that have been loaded automatically.)*
   
 ---
 
@@ -480,11 +479,11 @@ name: software
 
 - Creates *environments* with one (best-practice) or more software packages.
 
-- Lots of bioinformatics software is available as a Conda package.
-
 - Handles dependencies but does not require admin rights.
 
 - Environments are activated and deactivated like with the `module` system.
+
+- Lots of bioinformatics software is available as a Conda package.
 
 ---
 
@@ -536,20 +535,13 @@ name: software
 - **Activate** the `cutadapt-env` environment and see if we can run Cutadapt:
 
   ```bash
-  [<user>@pitzer-login01 ~]$ source activate cutadapt-env
+  $ source activate cutadapt-env
   
-  (cutadapt-env) [<user>@pitzer-login01 ~]$ cutadapt --version
+  (cutadapt-env) $ cutadapt --version
   #> 3.2
   ```
 
   *(Note above that Conda will indicate the active environment in the prompt!)*
-
---
-
-.content-box-info[
-Here, we use `source activate` instead of the more standard
-`conda activate` because we otherwise need to run a setup script.
-]
 
 ---
 class: inverse middle center
@@ -570,13 +562,13 @@ To do analyses at OSC, you need access to a **compute node**.
 - Automated scheduling software allows 100s of people with different
   requirements to access compute nodes effectively and fairly.
 
-- Since recently, both Pitzer and Owens use the **_SLURM_ scheduler**  
+- OSC uses the **SLURM** scheduler  
   (**S**imple **L**inux **U**tility for **R**esource **M**anagement).
 
 <br>
 
 .content-box-info[
-Until summer 2020, OSC only used PBS &ndash; see
+Last year, OSC switched from PBS to SLURM &ndash; see
 [here](https://www.osc.edu/supercomputing/knowledge-base/slurm_migration)
 for migration info and a comparison of commands and options between the two
 systems.
@@ -597,8 +589,7 @@ Three main options:
 <br> <br>
 
 .content-box-info[
-Both interactive and non-interactive jobs start in (i.e., have as the working
-directory) the directory that they were submitted from.
+Both interactive and non-interactive jobs start in the directory that they were submitted from: i.e., your working directory will remain the same.
 ]
 
 ---
@@ -676,7 +667,11 @@ Interactive shell jobs will get you interactive shell access on a compute node.
   $ sbatch fastqc.sh
   # Submitted batch job 2526085
   ```
-  
+
+--
+
+<br>
+
 - We can also provide `sbatch` options and/or script arguments:
   
   ```sh
@@ -802,7 +797,7 @@ Acceptable time formats include:
 
 | Resource/use                 | short    | long               | default
 |------------------------------|----------|--------------------|:-----:
-| Time limit (4 h)             | -t 4:00:00 | --time=4:00:00   | ?
+| Time limit (4 h)             | -t 4:00:00 | --time=4:00:00   | 1:00:00
 
 ```sh
 $ sbatch -t 30 myscript.sh   # 30 minutes

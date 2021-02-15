@@ -137,19 +137,41 @@ set -e -u -o pipefail
 | `$SLURM_JOB_ID`     | Job ID assigned by SLURM
 | `$SLURM_JOB_NAME`   | Job name supplied by the user
 | `$SLURM_CPUS_ON_NODE` | Number of CPUs (cores) available on 1 node
+| `$SLURM_MEM_PER_NODE` | Memory per node (as specified by `--mem`)
+| `SLURMD_NODENAME`     | Name of the node running the job
+
+---
+
+## Using SLURM environment variables
+
+- For example, you may want to use `$SLURM_CPUS_ON_NODE` in the call to
+  a program inside the script.
+  
+  This way, you only have to specify this once
+  and don't run the risk of using more cores than you have available &ndash; from:
+  
+  ```sh
+  #SBATCH --cpus-per-task=6
+  STAR --runThreadN 6 --genomeDir ...
+  ```
+  
+  ...to:
+  
+  ```sh
+  #SBATCH --cpus-per-task=6
+  STAR --runThreadN "$SLURM_CPUS_ON_NODE" --genomeDir ...
+  ```
 
 --
 
-- For example, you may want to use `$SLURM_CPUS_ON_NODE` in the call to
-  a program inside the script. This way, you only have to specify this once
-  and don't run the risk of using more cores than you have available.
-  
-  Additionally, if you specify the memory in the `sbatch` call, you don't need
-  to hard-code the number of cores at all.
+- Alternatively, if you specify the number of cores in the `sbatch` call on the
+  command-line, you don't need to hard-code this at all inside the script:
 
   ```sh
-  module load star
+  $ sbatch --cpus-per-task=6 star.sh
+  ```
   
+  ```sh
   STAR --runThreadN "$SLURM_CPUS_ON_NODE" --genomeDir ...
   ```
 
@@ -359,9 +381,9 @@ date                              # Report date+time to time script
 
 ## Monitoring the SLURM job
 
-We can check what's happening with the job using the SLURM command `squeue`:
+We can check in on the job using the SLURM command `squeue`:
 
-- Initially the job may be queued &ndash; `PD` in the `ST` (**st**atus) column:
+- Initially the job may be queued ("pending") &ndash; `PD` in the `ST` (**st**atus) column:
 
   ```sh
   squeue -u $USER
@@ -380,6 +402,18 @@ We can check what's happening with the job using the SLURM command `squeue`:
   ```
 
 --
+
+- You can also use the `-l` option for more info:
+  
+  ```sh
+  squeue -u $USER -l
+  # JOBID PARTITION     NAME     USER    STATE       TIME TIME_LIMI  NODES NODELIST(REASON) 
+  # 2979968 serial-40 fastqc_s   jelmer  RUNNING       0:05     15:00      1 p0002 
+  ```
+  
+---
+
+## Monitoring the SLURM job
 
 - When the job has finished, `squeue` will return nothing (!):
 
@@ -429,7 +463,6 @@ We can check what's happening with the job using the SLURM command `squeue`:
 ## Now loop over all files...
 
 The script that we wrote above will run FastQC for a single FASTQ file.  
-
 **Next, we can write a second script that loops over many files and submits the
 script for each of them.**
 
@@ -461,7 +494,7 @@ echo "Output dir: $output_dir"
 echo "Number of files: $(ls $fastq_dir/*fastq | wc -l)"
 
 for fastq_file in "$fastqc_dir"/*fastq.gz; do
-    scripts/qc/fastqc_single.sh "$fastq_file" "$output_dir" 
+    sbatch scripts/qc/fastqc_single.sh "$fastq_file" "$output_dir" 
 done
 
 echo -e "\n---------\nAll done!" 
@@ -514,6 +547,8 @@ all it does is submit jobs, which can be done just fine on a login node.
 
 <br>
 
+--
+
 .content-box-info[
 We could also "follow" the output in a log file as it's being added to the file:
 
@@ -521,6 +556,22 @@ We could also "follow" the output in a log file as it's being added to the file:
 tail -f <file>
 ```
 ]
+
+---
+
+## More options to monitor and manage SLURM jobs
+
+- Log into a compute node that is running a job,
+  and use `top`, `htop`, or `ps` to see CPU and memory usage in real time.
+
+- Several commands, such as `sstat` (for running jobs), `sacct` (for finished     jobs),  and `scontrol` can show useful statistics for jobs
+  ([bonus slides](#more-monitor)).
+  
+- You can use the `time` utility to track and print statistics for individual
+  commands, e.g. `/usr/bin/time fastqc ...` ([bonus slides](#time)).
+
+- We've already used `date` at the beginning and end of scripts
+- **XDMoD on OnDemand** &ndash; demo?
 
 ---
 class: inverse middle center
@@ -592,8 +643,21 @@ into a single nicely formatted HTML page:
   $ conda config --add channels defaults
   $ conda config --add channels bioconda
   $ conda config --add channels conda-forge  # Highest priority
-  ```
   
+  $ conda config --set channel_priority strict
+  ```
+
+--
+
+- Let's also checked if that worked:
+
+  ```sh
+  $ conda config --get channels
+  # --add channels 'defaults'   # lowest priority
+  # --add channels 'bioconda'
+  # --add channels 'conda-forge'   # highest priority
+  ```
+
 ---
 
 ## One-time installation of MultiQC <br> into a Conda environment
@@ -631,7 +695,10 @@ into a single nicely formatted HTML page:
 
 --
 
-<br>
+.content-box-info[
+Here, we use `source activate` instead of the more standard
+`conda activate` because we otherwise need to run a setup script.
+]
 
 .content-box-info[
 Usually, you can create the Conda environment in one 
@@ -660,7 +727,7 @@ Usually, you can create the Conda environment in one
 
 <br>
 
-.content-box-info[
+.content-box-diy[
 If you didn't manage to create your own conda environment,  
 you can also use mine:
 
@@ -735,7 +802,31 @@ $ conda env list
 
 # Clone an environment:
 $ conda create --name multiqc-env --clone multiqc-env-copy
+
+# Search for a package (can use wildcards):
+$ conda search 'bwa*'
+
+# Activate multiple environments (stack a 2nd env):
+$ conda activate --stack <second-env-name>
 ```
+
+---
+
+## More Conda (cont.)
+
+It's worth considering using Conda (and/or containers) for external
+software whenever possible, i.e. even when there is an OSC module available.
+
+This will increase the portability of your project (e.g., providing Conda
+environment YAML files for all software), and will also allow you to use
+whichever version you want.
+
+For example, OSC rarely has the most recent version of software.
+
+.content-box-info[
+Because the SLURM directives are special comments (`#SBATCH`),
+they will not interfere with running the script elsewhere, e.g. locally.
+]
 
 ---
 class: center middle inverse
@@ -755,6 +846,7 @@ class: center middle inverse
 
 .left[
 - ### [More options to monitor and manage SLURM jobs](#more-slurm)
+- ### [SLURM job arrays](#slurm-arrays)
 - ### [Bash configuration files and $PATH](#bashrc-path)
 - ### [Conda setup to enable "conda activate"](#conda-setup)
 ]
@@ -762,91 +854,65 @@ class: center middle inverse
 <br> <br> <br> <br>
 
 ---
-background-color: #f2f5eb
+class: inverse middle center
 
-## Side note: Modules and portability
+# More options to monitor <br> and manage SLURM jobs
 
-- Here, we have loaded OSC's `fastqc` module:
-  ```sh
-  module load fastqc
-  ```
+----
 
-- But ...
-
-.content-box-info[
-Because the SLURM directives are special comments (`#SBATCH`),
-they will not interfere with running the script elsewhere, e.g. locally.
-]
+<br> <br> <br> <br>
 
 ---
 background-color: #f2f5eb
-name: more-slurm
+name: more-monitor
 
-## More options to monitor and manage SLURM jobs
+## Additional `squeue` options
 
-- Check using job ID:
+- Check only a specific job by specifying the job ID:
 
   ```sh
-  $ squeue -j 123456
-  $ squeue -j 123456 -l # TEST THIS
+  $ squeue -j <job-ID>
   ```
 
-- Filter by status:
+- You can also filter your jobs status:
 
   ```sh
-  $ squeue -u usr1234 -t RUNNING
-  ```
-
-- Update SLURM directives for a submitted job:
-
-  ```sh
-  $ scontrol update job=123456 timeLimit=5:00:00 mailType=End # TEST
-  #https://slurm.schedmd.com/scontrol.html
-  ```
-
-- To see script #CHECK
-
-  ```sh
-  jobscript 14177
+  $ squeue -u $USER -t RUNNING
   ```
 
 ---
 background-color: #f2f5eb
 
-## More options to monitor and manage SLURM jobs
+## "Modifying" SLURM jobs
 
-- Hold and release a job, e.g. when needing to update input file:
+- Update SLURM directives for a job that has already been submitted:
 
   ```sh
-  $ scontrol hold 123456
-  $ scontrol release 123456
+  $ scontrol update job=<jobID> timeLimit=5:00:00
+  ```
+  
+- Hold and release a pending (queued) job,
+  e.g. when needing to update input file before it starts running
+
+  ```sh
+  $ scontrol hold <jobID> # Job won't start running until released
+  $ scontrol release <jobID> # Job is free to start
   ```
 
-- You can *cancel* jobs using `scancel`:
+- You can *cancel* pending or running jobs using `scancel`:
   
   ```sh
   $ scancel <jobID>
   $ scancel -u $USER
   ```
 
-- Also stats: #CHECK
-
-  ```sh
-  $ sstat -j <jobid>
-  ```
-
-- You can get a list of the nodes and cores assigned to your job using:
-
-  ```sh
-  srun hostname | sort -n
-  ```
-
 ---
 background-color: #f2f5eb
 
-## More options to monitor and manage SLURM jobs
+## Print job statistics using `scontrol show`
 
-- You can see more details about any job, including finished jobs,
+- You can see more details about any running or finished jobs,
+  *including the amount of time it ran for*,
   using `scontrol show job`:
   
   ```sh
@@ -875,28 +941,205 @@ background-color: #f2f5eb
 ---
 background-color: #f2f5eb
 
-## `time`
+## SSH into a compute node <br> for information about a running job
 
-The `time` utility is used to measure the performance of a single command.
+- When you run `squeue`, you can see which node(s) you job is using:
 
-It can be used for serial or parallel processes.
-Add `/usr/bin/time` to the beginning of a command in the batch script:
+  ```sh
+  # JOBID   PARTITION     NAME       USER    ST      TIME  NODES NODELIST(REASON) 
+  # 2526085 serial-40     fastqc_s   jelmer  R       0:02      1 p0002 
+  ```
+
+- You can then SSH into this node:
+
+  ```sh
+  ssh p0002
+  ```
+
+- Once on the node, you can use commands like `ps`, `top`, and `htop` to see
+  memory and CPU usage, and the like.
+  
+  Just be aware that you may not be the
+  only person running jobs on this node, so not all of the processes are yours.
+
+---
+background-color: #f2f5eb
+
+## SSH into a compute node <br> for information about a running job (cont.)
+
+- For instance, to see current memory (`RSS`, in KB) and CPU usage, you can run:
+
+  ```sh
+  $ ps -u $USER -o %cpu,rss,args
+  ```
+
+<br>
+
+- For live (constantly updated) usage statistics, you can use `top` or `htop`,
+  which are also interactive.
+  
+  For `top`, for instance, simply type `top` to start.
+  Then, press <kbd>u</kbd> and enter your user name to only see your processes.
+  For memory usage, pay attention to the `RES` column.
+  Like with `less`, press <kbd>q</kbd> to quit.
+
+<br>
+
+- To exit the compute node and go back to where you were, type `exit` or press
+  <kbd>Ctrl</kbd>+<kbd>D</kbd>.
+  
+---
+background-color: #f2f5eb
+
+## `sstat` for information about running jobs
+
+To get information about things like memory usage, the `sstat`
+(for running jobs) and `sacct` (for finished jobs) commands are useful.
+
+The output of these commands is tabular and by default, too many columns are
+printed, so very verbose calls are necessary.
+
+You may want to use an `sstat` call like the following **at the end of your
+script**:
 
 ```sh
-/usr/bin/time myprog arg1 arg2
+sstat -j 2978505 --format=jobid,avecpu,averss,maxrss,ntasks
 ```
 
-The result is provided in the following format:
+Which will get you output like:
 
-1. user time (CPU time spent running your program)
-1. system time (CPU time spent by your program in system calls)
-1. elapsed time (wallclock)
+```sh
+       JobID     AveCPU     MaxRSS   NTasks 
+------------ ---------- ---------- -------- 
+2979576.bat+  01:59.000    244368K        1 
+```
+
+.content-box-info[
+`MaxRSS` is the maximum amount of memory used by the job.
+]
+
+---
+background-color: #f2f5eb
+
+## `sacct` for info (mostly) about finished jobs
+
+- Get information about a specific job:
+  
+```sh
+$ sacct -j 2978487 --format=JobID,JobName,NodeList,Elapsed,State,ExitCode,MaxRSS,AllocTRES%32 | grep -v ".extern"
+  
+#         JobID    JobName        NodeList    Elapsed      State ExitCode     MaxRSS                        AllocTRES 
+#------------ ---------- --------------- ---------- ---------- -------- ---------- -------------------------------- 
+#2978487       fqtest.sh           p0224   00:01:54  COMPLETED      0:0            billing=1,cpu=1,gres/gpfs:proje+ 
+#2978487.bat+      batch           p0224   00:01:54  COMPLETED      0:0    203332K           cpu=1,mem=4556M,node=1
+```
+
+- Get information about all jobs &ndash; by default those run in the past day:
+
+```sh
+$ sacct -u jelmer --format=JobID,JobName,NodeList,Elapsed,State,ExitCode,MaxRSS,AllocTRES%32 | grep -v ".extern"
+
+#               JobID    JobName        NodeList    Elapsed      State ExitCode     MaxRSS                        AllocTRES 
+#-------------------- ---------- --------------- ---------- ---------- -------- ---------- -------------------------------- 
+#             2978362 fastqc_si+           p0224   00:01:51  COMPLETED      0:0            billing=1,cpu=1,gres/gpfs:proje+ 
+#       2978362.batch      batch           p0224   00:01:51  COMPLETED      0:0    200004K           cpu=1,mem=4556M,node=1 
+#             2978487  fqtest.sh           p0224   00:01:54  COMPLETED      0:0            billing=1,cpu=1,gres/gpfs:proje+ 
+#       2978487.batch      batch           p0224   00:01:54  COMPLETED      0:0    203332K           cpu=1,mem=4556M,node=1 
+#             2978503  fqtest.sh           p0224   00:01:55  COMPLETED      0:0            billing=1,cpu=1,gres/gpfs:proje+
+```
+
+---
+background-color: #f2f5eb
+
+## Aliases for unwieldy `sstat` and <br> `sacct` commands
+
+## TODO
+
+---
+background-color: #f2f5eb
+name: time
+
+## `time`
+
+To get statistics on a single command, like a memory-intensive program
+you may be running, use the `time` utility. To use it, prepend `/usr/bin/time` to the beginning of a command:
+
+```sh
+/usr/bin/time fastq "$fastq_file"
+```
+
+If you use this in a script, the result will be printed to the SLURM log file, e.g:
+
+```sh
+106.79user 4.10system 1:52.34elapsed 98%CPU (0avgtext+0avgdata 246444maxresident)k
+0inputs+1760outputs (0major+35697minor)pagefaults 0swaps
+```
+
+1. User time (CPU time spent running your program)
+1. System time (CPU time spent by your program in system calls)
+1. Elapsed time (wallclock)
 1. % CPU used
-1. memory, pagefault and swap statistics
+1. Memory, pagefault and swap statistics
 1. I/O statistics
 
-These results are appended to the job's error log file.
-Note: Use the full path `/usr/bin/time` to get all the information shown.
+.content-box-info[
+Use the full path `/usr/bin/time` to get all the information shown.
+]
+
+---
+class: inverse middle center
+name: bashrc-path
+
+# SLURM job arrays
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+name: slurm-arrays
+
+## SLURM Job arrays
+
+- As an alternative to writing a loop script, you can also make your original
+  (say, `fastqc_single.sh`) script submit a job "array", i.e. a series of jobs: 
+
+```sh
+#SBATCH --array=1-25
+
+fastq_file=$(sed -n "${SLURM_ARRAY_TASK_ID}q" fastq_files.txt)
+
+fastqc "$fastq_file"
+```
+
+---
+
+## SLURM Job arrays (cont.)
+
+## FINISH
+
+```sh
+#!/bin/bash
+#SBATCH --account=PAS0471
+#SBATCH --time=60
+#SBATCH --output=slurm-fastqc-%j.out
+#SBATCH --array=1-25
+
+set -e -u -o pipefail
+
+module load fastqc/0.11.8
+
+fastq_file="$1"
+output_dir="$2" 
+
+mkdir -p "$output_dir"
+
+echo "Running fastqc for file: $fastq_file"
+echo "Output dir: $output_dir"
+
+fastqc --outdir="$output_dir" "$fastq_file"
+```
 
 ---
 class: inverse middle center
@@ -930,7 +1173,7 @@ $ nano ~/.bashrc    # Or open in VS Code
 --
 
 .content-box-info[
-**Some of the settings that are / can be stored in these config files:**
+**Some settings that are / can be stored in these config files:**
 
 - The look of your prompt.
 
