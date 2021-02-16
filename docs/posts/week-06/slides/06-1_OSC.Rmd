@@ -610,7 +610,7 @@ You can provide instructions to the *SLURM* scheduler to specify the resources
 These can be provided at the command-line:
 ```sh
 $ sinteractive -A PAS1855 -t 60
-$ sbatch myscript.sh -A PAS1855 -t 60
+$ sbatch -A PAS1855 -t 60 myscript.sh
 ```
 
 As well as **at the start of** scripts in lines with the `#SBATCH` keyword:
