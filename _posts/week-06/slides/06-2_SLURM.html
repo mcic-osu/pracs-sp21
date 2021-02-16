@@ -25,7 +25,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/18 (updated: 2021-02-15)
+### 2021/02/18 (updated: 2021-02-16)
 
 ---
 class: inverse middle center
@@ -1049,9 +1049,31 @@ $ sacct -u jelmer --format=JobID,JobName,NodeList,Elapsed,State,ExitCode,MaxRSS,
 ---
 background-color: #f2f5eb
 
-## Aliases for unwieldy `sstat` and &lt;br&gt; `sacct` commands
+## Aliases for long job monitoring commands
 
-## TODO
+Because you won't remember all of these formatting options, and even if you
+do, you don't want to type them out, this is a case where aliases are really
+handy. For instance:
+```sh
+alias sact='sacct --format=JobID,JobName,NodeList,Elapsed,State,ExitCode,MaxRSS,AllocTRES%32'
+
+alias stat='sstat --format=jobid,avecpu,averss,maxrss,ntasks'
+```
+
+You can then add other options when you use an alias, for example:
+
+```sh
+$ sact -j 123456
+```
+
+&lt;br&gt;
+
+.content-box-info[
+To make these aliases always available in interactive sessions,
+add lines such as these to your Bash configuration file `~/.bashrc`.
+(Note that this file won't be read by job scripts, so make sure to use the
+full specification in scripts.)
+]
 
 ---
 background-color: #f2f5eb
@@ -1063,7 +1085,7 @@ To get statistics on a single command, like a memory-intensive program
 you may be running, use the `time` utility. To use it, prepend `/usr/bin/time` to the beginning of a command:
 
 ```sh
-/usr/bin/time fastq "$fastq_file"
+/usr/bin/time fastqc "$fastq_file"
 ```
 
 If you use this in a script, the result will be printed to the SLURM log file, e.g:
@@ -1081,7 +1103,7 @@ If you use this in a script, the result will be printed to the SLURM log file, e
 1. I/O statistics
 
 .content-box-info[
-Use the full path `/usr/bin/time` to get all the information shown.
+You should use the full path `/usr/bin/time` rather than just `time`.
 ]
 
 ---
@@ -1100,44 +1122,90 @@ name: slurm-arrays
 
 ## SLURM Job arrays
 
-- As an alternative to writing a loop script, you can also make your original
-  (say, `fastqc_single.sh`) script submit a job "array", i.e. a series of jobs: 
+As an alternative to writing a loop script, you can also turn a script
+processing a single file into a job "array", i.e. a series of jobs.
+  
+Each job in the array gets an ID that you can then use in your script
+for each job to run with a different value of a certain parameter.
+  
+Most commonly, you may have a file with sample names and then use the
+array IDs to subset lines from that file &amp;ndash; for instance, for our FastQC
+script:
 
 ```sh
 #SBATCH --array=1-25
-
+#SBATCH --output=slurm-fastqc-%A-%a.out
 fastq_file=$(sed -n "${SLURM_ARRAY_TASK_ID}q" fastq_files.txt)
-
 fastqc "$fastq_file"
 ```
 
 ---
+background-color: #f2f5eb
+
+## SLURM Job arrays
+
+```sh
+#SBATCH --array=1-25
+#SBATCH --output=slurm-fastqc-%A-%a.out
+fastq_file=$(sed -n "${SLURM_ARRAY_TASK_ID}q" fastq_files.txt)
+fastqc "$fastq_file"
+```
+
+- Above, the array was configured using the `--array` option,
+  simply creating 25 jobs with array IDs from 1 to 25 (assuming 25 FASTQ files).
+  
+- Then, the SLURM environment variable `$SLURM_ARRAY_TASK_ID` will contain
+  the task ID for each job in the array, and we use that to pull out a line
+  from a file with FASTQ file names with `sed`.
+  
+- We also use `%A` (master job ID) and `%a`
+  (ID that differs for each job in the array) for the log file name.
+  
+---
 
 ## SLURM Job arrays (cont.)
 
-## FINISH
+A full script example is below:
 
 ```sh
 #!/bin/bash
 #SBATCH --account=PAS0471
 #SBATCH --time=60
-#SBATCH --output=slurm-fastqc-%j.out
+#SBATCH --output=slurm-fastqc-%A-%a.out
 #SBATCH --array=1-25
 
 set -e -u -o pipefail
 
 module load fastqc/0.11.8
 
-fastq_file="$1"
+fastq_files_list="$1"
 output_dir="$2" 
 
-mkdir -p "$output_dir"
+fastq_file=$(sed -n "${SLURM_ARRAY_TASK_ID}q" $fastq_files_list)
 
 echo "Running fastqc for file: $fastq_file"
 echo "Output dir: $output_dir"
 
 fastqc --outdir="$output_dir" "$fastq_file"
 ```
+
+---
+
+## SLURM Job arrays (cont.)
+
+- The array values can also be a comma separated list like 
+  `SBATCH --array=8,10,15` and can even have a *stride*,
+   with `SBATCH --array=1-7:2` producing array tasks 1, 3, 5, and 7.
+
+- You can also throttle an array of jobs: only run a subset of jobs at a time.
+  This can be done as follows:
+  
+  ```sh
+  $ sbatch --array [1-100]%10 fastq.sh
+  ```
+
+  The above command would only submit 10 jobs at a time.
+  (This can also be specified inside the script.)
 
 ---
 class: inverse middle center
