@@ -245,8 +245,7 @@ but also through the web browser: from https://ondemand.osc.edu.
   
   You will be prompted for your OSC password.
 
-
-<br> <br>
+--
 
 .content-box-info[
 See [this optional ungraded assignment](https://mcic-osu.github.io/pracs-sp21/)
@@ -255,6 +254,9 @@ for some SSH setup you can do to make this quicker:
 - Avoid being prompted for your password.
 
 - Use a *shortcut* for `<username>@<cluster>.osc.edu`.
+
+There are also a few steps you can take to SSH tunnel to OSC with you local
+VS Code installation.
 ]
 
 ---
