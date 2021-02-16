@@ -1,0 +1,504 @@
+---
+title: "Week 7 - Bioinformatics Data"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# *Week 7 - Bioinformatics Data*
+
+----
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/02/25 (updated: `r Sys.Date()`)
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [Downloading and transferring data](#download)
+- ### [Ensuring data integrity with checksums](#checksums)
+- ### [Compressed data](#compress)
+- ### [Process management](#processes)
+- ### [Shell productivity tips](#prod)
+]
+
+---
+name: download
+
+## Downloading data with `wget`
+
+- `wget`
+
+```sh
+$ wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr22.fa.gz
+#> --2013-06-30 00:15:45-- http://[...]/goldenPath/hg19/chromosomes/chr22.fa.gz
+#> Resolving hgdownload.soe.ucsc.edu... 128.114.119.163
+#> Connecting to hgdownload.soe.ucsc.edu|128.114.119.163|:80... connected.
+#> HTTP request sent, awaiting response... 200 OK
+#> Length: 11327826 (11M) [application/x-gzip]
+#> Saving to: ‘chr22.fa.gz’
+#> 17% [======>                             ] 1,989,172 234KB/s eta 66s
+```
+
+```sh
+wget --accept "*.gtf" --no-directories --recursive --no-parent \
+    http://genomics.someuniversity.edu/labsite/annotation.html
+```
+
+---
+
+## Downloading data with `curl`
+
+```sh
+$ curl http://[...]/goldenPath/hg19/chromosomes/chr22.fa.gz > chr22.fa.gz
+```
+
+---
+
+## Transferring files in the shell: small transfers (<1 GB)
+
+With **`scp`** (secure copy), which works much like the regular `cp`:
+
+- Local to remote:
+  
+  ```bash
+  $ scp <local-path> <user>@pitzer.osc.edu:<remote-path>
+  ```
+  
+- Remote to local is simply the reverse:
+  
+  ```sh
+  $ scp <user>@pitzer.osc.edu:<remote-path> <local-path>
+  ```
+  
+- For instance:
+  
+  ```sh
+  $ scp -r scripts/ jelmer@pitzer.osc.edu:~/scripts
+  $ scp -r scripts/ jelmer@pitzer.osc.edu:/fs/ess/PAS1855/users/jelmer/scripts
+  
+  $ scp -r jelmer@pitzer.osc.edu:~/scripts scripts/
+  ```
+
+.content-box-info[
+Transfers in either direction should be done from your *local* shell.
+]
+
+---
+background-color: #f2f5eb
+
+## Transferring files in the shell: small transfers (<1 GB)
+
+Another option is the **`rsync`** command, which I recommend,
+especially when you want to keep certain folders synced: `rsync` won't copy
+any files that are present & identical in source and destination.
+
+The basic from-to syntax is the same as with `scp`.
+
+- A useful combination of options is `-avz`:
+  - `-a` enables archival mode (also makes `-r` unnecessary);
+  - `-v` increases verbosity &ndash; tells you what is being copied.
+  - `-z` enables compressed file transfer (=> faster).
+
+  ```bash
+  $ rsync -avrz ~/scripts jelmer@pitzer.osc.edu:~/scripts
+  
+  # If the files are large, "--progress" will help you keep track:
+  $ rsync -avrz --progress ~/scipts jelmer@pitzer.osc.edu:~/scripts
+  ```
+
+---
+background-color: #f2f5eb
+
+## More `rsync`
+
+.content-box-warning[
+Presence/absence of a trailing slash for source directories makes a
+difference to `rsync`.
+]
+
+This will sync the two dirs below, so the content of each 
+"scripts" dir will end up being identical:
+
+```sh
+$ rsync -avz scripts backup/scripts
+$ ls scripts
+#> fastq.sh
+$ ls backup/scripts
+#> fastq.sh
+```
+
+This will copy the *contents* of the source dir "scripts"
+into the target dir "scripts":
+
+```sh
+$ rsync -avz scripts/ backup/scripts
+$ ls scripts
+#> fastq.sh
+$ ls backup/scripts
+#> scripts
+```
+
+---
+background-color: #f2f5eb
+
+## Transferring files in the shell: any transfer size
+
+You can also use `sftp`, which doesn't run on a login node,
+so large transfers are permitted.
+
+  - To log in:
+  ```bash
+  $ sftp sftp.osc.edu
+  ```
+
+  Now, you have an `sftp` prompt instead of a regular bash prompt.
+
+- To upload files to remote, use the `put` command &ndash; and note that you
+  don't need the `user@pitzer.osc.edu:` to designate remote:
+
+  ```sh
+  sftp> put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
+  
+  # If you don't specify a remote location, it be put in $HOME:
+  sftp> put file.txt
+  ```
+
+- To download files from remote, use the `get` command:
+
+  ```sh
+  sftp> get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
+  ```
+
+---
+
+## Ensuring data integrity with checksums
+
+```sh
+$ echo "bioinformatics is fun" | shasum
+#> f9b70d0d1b0a55263f1b012adab6abf572e3030b    -
+
+$ echo "bioinformatic is fun" | shasum
+#> e7f33eedcfdc9aef8a9b4fec07e58f0cf292aa67    -
+```
+
+```sh
+$ shasum Csyrichta_TAGGACT_L008_R1_001.fastq
+fea7d7a582cdfb64915d486ca39da9ebf7ef1d83 Csyrichta_TAGGACT_L008_R1_001.fastq
+```
+
+---
+
+## Ensuring data integrity with checksums (cont.)
+
+```sh
+$ shasum data/*fastq > fastq_checksums.sha
+$ cat fastq_checksums.sha
+#> 524d9a057c51b1[...]d8b1cbe2eaf92c96a9
+#> data/Csyrichta_TAGGACT_L008_R1_001.fastq
+#> d2940f444f00c7[...]4f9c9314ab7e1a1b16
+#> data/Csyrichta_TAGGACT_L008_R1_002.fastq
+#> 623a4ca571d572[...]1ec51b9ecd53d3aef6
+#> data/Csyrichta_TAGGACT_L008_R1_003.fastq
+#> f0b3a4302daf7a[...]7bf1628dfcb07535bb
+#> data/Csyrichta_TAGGACT_L008_R1_004.fastq
+#> 53e2410863c36a[...]4c4c219966dd9a2fe5
+#> data/Csyrichta_TAGGACT_L008_R1_005.fastq
+#> e4d0ccf541e90c[...]5db75a3bef8c88ede7
+#> data/Csyrichta_TAGGACT_L008_R1_006.fastq
+```
+
+- Next, check with `-c`:
+
+```sh
+$ shasum -c fastq_checksums.sha
+```
+
+---
+
+## Buffalo case study: reproducibly downloading data
+
+```sh
+$ wget ftp://ftp.ensembl.org/[...]/Mus_musculus.GRCm38.74.dna.toplevel.fa.gz
+```
+
+In the README:
+
+```sh
+Mouse (*Mus musculus*) reference genome version GRCm38 (Ensembl
+release 74) was downloaded on Sat Feb 22 21:24:42 PST 2014, using:
+      wget ftp://ftp.ensembl.org/[...]/Mus_musculus.GRCm38.74.dna.toplevel.fa.gz
+```
+
+```sh
+$ zgrep "^>" Mus_musculus.GRCm38.74.dna.toplevel.fa.gz | less
+```
+
+---
+
+## Buffalo case study: reproducibly downloading data (cont.)
+
+- Check the sum:
+
+  ```sh
+  $ wget ftp://ftp.ensembl.org/pub/release-74/fasta/mus_musculus/dna/CHECKSUMS
+  $ sum Mus_musculus.GRCm38.74.dna.toplevel.fa.gz
+  53504 793314
+  ```
+
+- Get the SHA checksum:
+
+  ```sh
+  $ shasum Mus_musculus.GRCm38.74.dna.toplevel.fa.gz
+  01c868e22a981[...]c2154c20ae7899c5f Mus_musculus.GRCm38.74.dna.toplevel.fa.gz
+  ```
+
+- Add the SHA checksum to the README:
+
+  ```sh
+  ## SHA-1 Sums
+  - `Mus_musculus.GRCm38.74.dna.toplevel.fa.gz`: 01c868e22a9815c[...]c2154c20ae7899c5f
+  ```
+
+---
+
+## Side note: Differences between files with `diff`
+
+```sh
+diff -u gene-1.bed gene-2.bed
+```
+
+---
+class: inverse middle center
+name: compress
+
+# Compressed data
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Compressed data: `gzip`
+
+```sh
+trimmer in.fastq.gz | gzip > out.fastq.gz
+```
+
+```sh
+$ ls
+in.fastq
+$ gzip in.fastq
+$ ls
+in.fastq.gz
+```
+
+```sh
+$ gunzip in.fastq.gz
+$ ls
+in.fastq
+```
+
+```sh
+$ gzip -c in.fastq > in.fastq.gz
+$ gunzip -c in.fastq.gz > duplicate_in.fastq
+```
+
+---
+
+## Compressed data: `gzip`
+
+```sh
+$ ls
+in.fastq.gz in2.fastq
+$ gzip -c in2.fastq >> in.fastq.gz
+```
+
+```sh
+cat fastq_L001.fastq.gz fastq_L001.fastq.gz > fastq.gz
+```
+
+```sh
+$ zgrep --color -i -n "AGATAGAT" Csyrichta_TAGGACT_L008_R1_001.fastq.gz
+2706: ACTTCGGAGAGCCCATATATACACACTAAGATAGATAGCGTTAGCTAATGTAGATAGATT
+```
+
+---
+
+## Compressed data: `tar` archives
+
+---
+class:inverse middle center
+name:processes
+
+# Process management
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Process management: background processes
+
+- To run a process in the background, put an `&` after the command:
+
+  ```sh
+  # du -sh example?
+  $ program1 input.txt > results.txt &
+  ```
+
+- To check which processes are running in the background:
+
+  ```sh
+  $ jobs
+  #> [1]+ Running        program1 input.txt > results.txt
+  ```
+
+- You can bring processes back to the foreground with `fg` and optionally
+  using the ID provided (`[1]` above).
+  
+  The default is to bring the most recent process back to the foreground,
+  so in this case, the following two would be equivalent:
+  
+  ```sh
+  $ fg
+  
+  $ fg %1
+  ```
+
+---
+
+## Process management: background processes (cont.)
+
+- To bring a process that is *already running* to the background,
+  we need to first suspend (i.e., pause) the process:
+  
+  ```sh
+  $ program1 input.txt > results.txt # forgot to append ampersand
+  $ # enter control-z
+  #> [1]+ Stopped
+  program1 input.txt > results.txt
+  $ bg
+  #> [1]+ program1 input.txt > results.txt
+  ```
+
+.content-box-info[
+Recall that Ctrl+C is used to kill a foreground process.
+]
+
+---
+
+## Process management: background processes (cont.)
+
+- Even when a process is running in the background (after using `&`),
+  closing the terminal would kill the process.
+  
+  To avoid this, you can use `nohup`:
+  
+  ```sh
+  $ nohup du -sh ... &
+  #> [1] 10900
+  ```
+
+- We can't bring a processing running with `nohup` back to the foreground,
+  but to kill it, we can use the process ID printed above and the `kill` command:
+  
+  ```sh
+  $ kill 10900
+  ```
+
+.content-box-info[
+Alternatively, you can use a so-called "terminal multiplier" like `tmux`,
+see Buffalo Chapter 4 details.
+]
+
+---
+
+## Process management: background processes (cont.)
+
+- Using background processes can be useful in `for` loops,
+  so that we simultaneously start a process for every iteration of the loop:
+  
+  ```sh
+  $ for filename in *.fastq; do
+        program "$filename" &
+    done
+  ```
+
+- However, this launches as many processes as there are FASTQ files,
+  which could be a problem and is still not very efficient if you have many
+  more files than cores.
+  
+  To control this better, you can submit a separate SLURM job for each iteration
+  instead, or use `xargs` or `parallel` for a non-loop solution
+  (last week's bonus slides, and Buffalo Chapter 12).
+
+---
+
+## Shell productivity tips
+
+- Use keyboard shortcuts, especially:
+  - Alt + . (multiple times possible!)
+  - Move cursor word-to-word with Ctrl held
+  - (Don't forget you can press enter regardless of where your cursor is!)
+  - Whenever cutting to beginning/end of line or last word, remember you can
+    paste with Ctrl + Y!
+  - Cut word with Ctrl + W or Alt+Backspace (=Option+Delete)
+
+- History:
+
+  - `Ctrl` + `R`
+  - `!!` and `sudo !!`
+  - `!ls:p`
+  - `history | grep module | head` => `!35`
+  
+- Shellcheck
+
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>
+
+---
+class: center middle inverse
+
+# Bonus material 
+
+----
+
+.left[
+- ### [...](#...)
+]
+
+<br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+name: ...
