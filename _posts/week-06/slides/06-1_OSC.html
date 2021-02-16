@@ -28,9 +28,22 @@ class:inverse middle center
 ### 2021/02/16 (updated: 2021-02-15)
 
 ---
+
+## Overview of this week
+
+Now that you have a solid basis in working in the shell and in shell scripting,
+it's time to learn about OSC (beyond OnDemand) so you are able to run more
+demanding data processing analyses on the cluster.
+
+- Today: An introduction to using OSC,
+  including software usage and the SLURM resource manager.
+
+- Thursday: SLURM jobs in practice.
+
+---
 class: inverse middle center
 
-# Overview
+# Overview of this presentation
 
 ----
 
@@ -789,7 +802,7 @@ Acceptable time formats include:
 
 | Resource/use                 | short    | long               | default
 |------------------------------|----------|--------------------|:-----:
-| Time limit (4 h)             | -t 4:00:00 | --time=4:00:00   | ?
+| Time limit (4 h)             | -t 4:00:00 | --time=4:00:00   | 1:00:00
 
 ```sh
 $ sbatch -t 30 myscript.sh   # 30 minutes
