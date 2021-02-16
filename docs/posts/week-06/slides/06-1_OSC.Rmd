@@ -34,8 +34,8 @@ knitr::opts_chunk$set(eval = FALSE)
 ## Overview of this week
 
 Now that you have a solid basis in working in the shell and in shell scripting,
-it's time to learn about OSC (beyond OnDemand) so you are able to run more
-demanding data processing analyses on the cluster.
+it's time to learn about OSC (beyond OnDemand) to enable you to run
+analyses on the cluster.
 
 - Today: An introduction to using OSC,
   including software usage and the SLURM resource manager.
@@ -268,13 +268,10 @@ After logging in to OSC, you're on a **login node**.
 - Any process that is active for >20 minutes or uses >1GB **will be killed**.
 
 - It is good practice to avoid even getting close to these limits:   
-  login nodes are shared by everyone, and can get clogged.   
-
-<br> <br> <br> <br> <br> <br> <br> <br>
-
-.content-box-info[
-For more info, see OSC's page [Login environment at OSC](https://www.osc.edu/supercomputing/login-environment-at-osc).
-]
+  login nodes are shared by everyone, and can get clogged.  
+  (See
+  [this OSC page]((https://www.osc.edu/supercomputing/login-environment-at-osc))
+  for more info.)
 
 ---
 
@@ -389,7 +386,7 @@ name: software
 
 ---
 
-## Using software at OSC
+## Software at OSC with Lmod (modules) 
  
 - At OSC, software is managed with the Lmod system.
   While a lot of software is installed, **much is only available to use after
@@ -403,7 +400,7 @@ name: software
   
 ---
 
-## Using software at OSC (cont.)
+## Software at OSC with Lmod (modules) (cont.)
 
 - You can also search for available software ("modules") in the shell:
   
@@ -429,7 +426,7 @@ name: software
 
 ---
 
-## Using software at OSC (cont.)
+## Software at OSC with Lmod (modules) (cont.)
 
 - *Loading* and unloading installed software is also done with `module` commands:
   
@@ -484,13 +481,11 @@ name: software
 
 ## Conda: a software environment manager
 
-- Creates *environments* with one (best-practice) or more software packages.
+Conda creates *environments* with one (best-practice) or more software packages,
+which are activated and deactivated like with the `module` system.
 
-- Handles dependencies but does not require admin rights.
-
-- Environments are activated and deactivated like with the `module` system.
-
-- Lots of bioinformatics software is available as a Conda package.
+When creating environments, Conda handles dependencies yet it does not require
+admin rights.
 
 ---
 
@@ -504,6 +499,8 @@ name: software
 - Not much of a learning curve.
 
 - Can save and share environment instructions as very simple text files.
+
+- Lots of bioinformatics software is available as a Conda package.
 
 <br>
 
@@ -622,7 +619,7 @@ As well as **at the start of** scripts in lines with the `#SBATCH` keyword:
 --
 
 .content-box-info[
-Many `sbatch` options have a long format (`--account=PAS1855`) and a short
+Many SLURM options have a long format (`--account=PAS1855`) and a short
 format (`-A PAS1855`), which can generally be used interchangeably.
 ]
 
@@ -643,7 +640,7 @@ Interactive shell jobs will get you interactive shell access on a compute node.
   ```
 
   .content-box-info[
-  `sinteractive` only accepts a selection of `sbatch` options and they have to be
+  `sinteractive` only accepts a selection of SLURM options and they have to be
   specified in short format.
   ]
 
@@ -651,7 +648,7 @@ Interactive shell jobs will get you interactive shell access on a compute node.
 
 <br>
 
-- You can also use `srun` / `salloc`, which support all options:
+- You can also use `srun` / `salloc`, which support all SLURM options:
 
   ```sh
   $ srun -A PAS0471 -t 60 --pty /bin/bash
@@ -721,7 +718,8 @@ In this case, the memory request will be `20G` and not `8G`.
 
 ## Compute job options: Project
 
-- Your jobs need to be billed to a project, and you *always* need to specify one.  
+- Your jobs need to be billed to a project ("account"),
+  and you *always* need to specify one.  
 
 <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
 
@@ -733,36 +731,6 @@ In this case, the memory request will be `20G` and not `8G`.
 #!/bin/bash
 #SBATCH --account=PAS0471
 ```
-
----
-
-## Compute job options: Nodes and cores
-
-| Resource/use                  | short    | long                    | default
-|-------------------------------|----------|-------------------------|:--------:| 
-| Number of nodes               | -N 1     | --nodes=1               | 1
-| Number of cores               | -c 1     | --cpus-per-task=1       | 1
-| Number of "tasks" (processes) | -n 1     | --ntasks=1              | 1
-| Number of tasks per node      | -        | --ntasks-per-node=1     | 1
-
---
-
-```sh
-#!/bin/bash
-#SBATCH --cpus-per-task=2       # Preferred for multi-threading
-```
-
-```sh
-#!/bin/bash
-#SBATCH --ntasks=2              # Preferred for multi-process
-#SBATCH --ntasks-per-node=2     # (Equivalent for single-node jobs)
-```
-
-.content-box-info[
-- Only ask for **>1 node** when you have explicit parallelization.
-
-- Multi-threading is much more common than having multiple processes.
-]
 
 ---
 
@@ -819,10 +787,9 @@ $ sbatch -t 30 myscript.sh   # 30 minutes
 
 ## Compute job options: Memory
 
-Specify a maximum amount of RAM (Random Access Memory;
-not to be confused with disk storage space).
+Specify a maximum amount of RAM (Random Access Memory) that your job can use.
 
-Like with time, your job **gets killed** when it hits the memory limit.  
+Like with the time limit, your job **gets killed** when it hits the memory limit.  
 But this is not that common &ndash; as the [OSC documentation](https://www.osc.edu/supercomputing/batch-processing-at-osc/job-scripts)
 says:
 
@@ -839,7 +806,7 @@ says:
 
 | Resource/use                 | short    | long      | default |
 |------------------------------|----------|-----------|:-----|
-| Memory limit per node (8 GB) | -        | --mem=8G  | single-core value
+| Memory limit per node (8 GB) | -        | --mem=8G  | *(usually 4G)*
 
 ```sh
 $ sbatch --mem=20G myscript.sh   # 20 GB
@@ -848,6 +815,81 @@ $ sbatch --mem=20G myscript.sh   # 20 GB
 ```sh
 #!/bin/bash
 #SBATCH --mem=20G
+```
+
+---
+
+## Compute job options: Nodes, cores, and tasks
+
+| Resource/use                  | short    | long                    | default
+|-------------------------------|----------|-------------------------|:--------:| 
+| Number of nodes               | -N 1     | --nodes=1               | 1
+| Number of cores               | -c 1     | --cpus-per-task=1       | 1
+| Number of "tasks" (processes) | -n 1     | --ntasks=1              | 1
+| Number of tasks per node      | -        | --ntasks-per-node=1     | 1
+
+<br>
+
+--
+
+.content-box-warning[
+- SLURM for the most part uses "**core**" and "**CPU**"
+  (= processor, often technically contains multiple cores) interchangeably.
+
+- In this context, "**thread**" (a single core may contain multiple threads)
+  is *also* used in the same way, so when we talk
+  about *multi-threading*, think about using multiple cores.
+  
+  Similarly, when a program asks for `nThreads` or similar,
+  this should be equal to the number of *cores* you have asked for (`-c`).
+]
+
+---
+
+## Compute job options: Nodes, cores, and tasks
+
+| Resource/use                  | short    | long                    | default
+|-------------------------------|----------|-------------------------|:--------:| 
+| Number of nodes               | -N 1     | --nodes=1               | 1
+| Number of cores               | -c 1     | --cpus-per-task=1       | 1
+| Number of "tasks" (processes) | -n 1     | --ntasks=1              | 1
+| Number of tasks per node      | -        | --ntasks-per-node=1     | 1
+
+.content-box-info[
+- Only ask for **>1 node** when you have explicit parallelization with
+  something like MPI (uncommon in bioinformatics).
+
+- Multi-threading, i.e. a single program run using multiple threads/cores,
+  is much more common than having multiple processes in a single job.
+  
+- For jobs with multi-threading, use `--cpus-per-task=n`  
+  (and keep `--nodes` and `ntasks` at their defaults of 1).
+  
+- For jobs with multiple processes (tasks), use `--ntasks=n` or
+  `--ntasks-per-node=n` (but keep `--nodes=1` unless you use MPI or similar).
+]
+
+---
+
+## Compute job options: Nodes, cores, and tasks
+
+| Resource/use                  | short    | long                    | default
+|-------------------------------|----------|-------------------------|:--------:| 
+| Number of nodes               | -N 1     | --nodes=1               | 1
+| Number of cores               | -c 1     | --cpus-per-task=1       | 1
+| Number of "tasks" (processes) | -n 1     | --ntasks=1              | 1
+| Number of tasks per node      | -        | --ntasks-per-node=1     | 1
+
+```sh
+#!/bin/bash
+#SBATCH --cpus-per-task=2       # Preferred for multi-threading
+```
+
+```sh
+#!/bin/bash
+#SBATCH --ntasks=2              # Preferred for multi-process
+                                # Or --ntasks-per-node=2, which is
+                                # equivalent for single-node jobs
 ```
 
 ---
