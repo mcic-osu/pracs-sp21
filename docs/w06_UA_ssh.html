@@ -2506,6 +2506,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#avoid-being-prompted-for-password">1. Avoid being prompted for password</a></li>
 <li><a href="#use-a-shortcut-for-your-ssh-connection">2. Use a shortcut for your SSH connection</a></li>
+<li><a href="#set-up-your-local-vs-code-to-ssh-tunnel-into-osc">3. Set up your local VS Code to SSH tunnel into OSC</a></li>
 </ul>
 </nav>
 </div>
@@ -2517,6 +2518,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><p>Avoid being prompted for your password.</p></li>
 <li><p>Set up a shortcut for your SSH connection name.</p></li>
 </ol>
+<p>A third thing you can do below, assuming you have VS Code installed locally, is to get it to SSH tunnel to OSC: this will be as if you have VS Code open in OnDemand, but then not in your browser!</p>
 <h2 id="avoid-being-prompted-for-password">1. Avoid being prompted for password</h2>
 <p>These steps are similar to what you did for your SSH Github authentication.</p>
 <ol type="1">
@@ -2566,6 +2568,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a>$ <span class="fu">ssh</span> op</span></code></pre></div>
 <p>This shortcut will also work with <code>scp</code> and <code>rsync</code>!</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a>$ <span class="fu">rsync</span> ~/scripts op:/fs/ess/PAS1855/scripts</span></code></pre></div>
+<p><br></p>
+<h2 id="set-up-your-local-vs-code-to-ssh-tunnel-into-osc">3. Set up your local VS Code to SSH tunnel into OSC</h2>
+<p>If you want to use VS Code to write code, have a shell, and interact with files at OSC directly, you don’t need to use the VS Code Server from OSC OnDemand. You can also “SSH tunnel” in with your local installation. This is a more convenient way of working because it’s quicker to start up and you are not working inside a browser (which, among other things, takes away screen space and interferes with some keyboard shortcuts).</p>
+<p>The set up is pretty simple (see also <a href="https://code.visualstudio.com/docs/remote/ssh">these instructions</a> if you get stuck), just recall to do this in your <em>local installation of VS Code</em>, assuming you have one.</p>
+<ol type="1">
+<li>Install the VS Code <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">“Remote Development extension pack”</a>, for instance by opening up the Extensions side bar, searching for it there, and clicking “Install”.</li>
+<li>Open up the Command Palette (<kbd>F1</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd><kbd>P</kbd>) and start typing “Remote SSH” – select <code>Remote-SSH: Connect to Host…</code> and then specify your SSH connection. If I remember correctly, you can use whatever SSH shortcut you just set up above, otherwise, type it in full (e.g. <code>jelmer@pitzer.osc.edu</code>).</li>
+<li>With the above setup, you shouldn’t be prompted for a password and VS Code will connect to OSC! Now, if you open a shell or try to open a file, you are interacting with OSC and not you local computer.</li>
+</ol>
 <p><br> <br></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->

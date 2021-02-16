@@ -11,62 +11,52 @@ output:
 
 ## Introduction
 
-You can connect to OSC with SSH if you have a bash shell on your machine,
-either natively with a Mac or Linux machine, or via WSL, Git Bash, or another
-application on Windows.
+You can connect to OSC with SSH if you have a bash shell on your machine, either natively with a Mac or Linux machine, or via WSL, Git Bash, or another application on Windows.
 
-The regular way to do this is typing `ssh <username>@pitzer.osc.edu` and then
-providing your password, which can get tedious. There are two setup steps
-you can take to make this quicker:
+The regular way to do this is typing `ssh <username>@pitzer.osc.edu` and then providing your password, which can get tedious. There are two setup steps you can take to make this quicker:
 
-1. Avoid being prompted for your password.
+1.  Avoid being prompted for your password.
 
-2. Set up a shortcut for your SSH connection name. 
+2.  Set up a shortcut for your SSH connection name.
+
+A third thing you can do below, assuming you have VS Code installed locally, is to get it to SSH tunnel to OSC: this will be as if you have VS Code open in OnDemand, but then not in your browser!
 
 ## 1. Avoid being prompted for password
 
 These steps are similar to what you did for your SSH Github authentication.
 
-1. *On your own computer*, generate a public-private SSH key-pair:
+1.  *On your own computer*, generate a public-private SSH key-pair:
 
-  ```bash
-  $ ssh-keygen -t rsa
-  ```
-  
-  When you're prompted for a passphrase, you can just press enter if you are
-  okay with not having a passphrase.
-  
+``` {.bash}
+$ ssh-keygen -t rsa
+```
+
+When you're prompted for a passphrase, you can just press enter if you are okay with not having a passphrase.
+
 ::: {.content-box-info}
-  
-If you *do* want a passphrase, you have to take an extra step to not be prompted,
-*after* step 3 below:
-  
-```sh
+If you *do* want a passphrase, you have to take an extra step to not be prompted, *after* step 3 below:
+
+``` {.sh}
 $ ssh-add
 # (Then here, don't enter a passphrase in any case!)
 ```
-  
 :::
 
-2. *From your own computer*, transfer the public key to the remote computer:
+2.  *From your own computer*, transfer the public key to the remote computer:
 
-  ```bash
-  # Replace <user> by your username, e.g. "jelmer@owens.osc.edu"
-  $ cat ~/.ssh/id_rsa.pub | ssh <user>@owens.osc.edu 'mkdir -p .ssh && cat >> .ssh/authorized_keys'
-  ```
+``` {.bash}
+# Replace <user> by your username, e.g. "jelmer@owens.osc.edu"
+$ cat ~/.ssh/id_rsa.pub | ssh <user>@owens.osc.edu 'mkdir -p .ssh && cat >> .ssh/authorized_keys'
+```
 
-3. *Log in to the remote computer (OSC) and once there*,
-   set appropriate permissions:
+3.  *Log in to the remote computer (OSC) and once there*, set appropriate permissions:
 
-  ```bash
-  $ chmod 700 .ssh; chmod 640 .ssh/authorized_keys
-  ```
+``` {.bash}
+$ chmod 700 .ssh; chmod 640 .ssh/authorized_keys
+```
 
 ::: {.content-box-info}
-
-See also this [Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/)
-in case you're struggling, and Buffalo Chapter 4 page 59-60.
-
+See also this [Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/) in case you're struggling, and Buffalo Chapter 4 page 59-60.
 :::
 
 <br>
@@ -75,42 +65,54 @@ in case you're struggling, and Buffalo Chapter 4 page 59-60.
 
 These two steps should both be done *on your local machine*.
 
-1. Create a file called `~/.ssh/config`:
+1.  Create a file called `~/.ssh/config`:
 
-  ```bash
-  $ touch ~/.ssh/config
-  ```
+``` {.bash}
+$ touch ~/.ssh/config
+```
 
-2. Open the file in a text editor and add your alias(es) in the following format:
+2.  Open the file in a text editor and add your alias(es) in the following format:
 
-  ```bash
-  Host <arbitrary-alias-name>    
-       HostName <remote-name>
-       User <user-name>
-  ```
+``` {.bash}
+Host <arbitrary-alias-name>    
+     HostName <remote-name>
+     User <user-name>
+```
 
-  For instance, I have something along these lines for Pitzer and Owens:
-  
-  ```bash
-  Host op
-      HostName pitzer.osc.edu
-      User jelmer
-  
-  Host oo
-      HostName owens.osc.edu
-      User jelmer
-  ```
+For instance, I have something along these lines for Pitzer and Owens:
+
+``` {.bash}
+Host op
+    HostName pitzer.osc.edu
+    User jelmer
+
+Host oo
+    HostName owens.osc.edu
+    User jelmer
+```
 
 Now, you just need to use your, preferably very short, alias to log in:
 
-```sh
+``` {.sh}
 $ ssh op
 ```
 
 This shortcut will also work with `scp` and `rsync`!
 
-```sh
+``` {.sh}
 $ rsync ~/scripts op:/fs/ess/PAS1855/scripts
 ```
+
+<br>
+
+## 3. Set up your local VS Code to SSH tunnel into OSC
+
+If you want to use VS Code to write code, have a shell, and interact with files at OSC directly, you don't need to use the VS Code Server from OSC OnDemand. You can also "SSH tunnel" in with your local installation. This is a more convenient way of working because it's quicker to start up and you are not working inside a browser (which, among other things, takes away screen space and interferes with some keyboard shortcuts).
+
+The set up is pretty simple (see also [these instructions](https://code.visualstudio.com/docs/remote/ssh) if you get stuck), just recall to do this in your *local installation of VS Code*, assuming you have one.
+
+1.  Install the VS Code ["Remote Development extension pack"](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack), for instance by opening up the Extensions side bar, searching for it there, and clicking "Install".
+2.  Open up the Command Palette (<kbd>F1</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd><kbd>P</kbd>) and start typing "Remote SSH" -- select `Remote-SSH: Connect to Host…` and then specify your SSH connection. If I remember correctly, you can use whatever SSH shortcut you just set up above, otherwise, type it in full (e.g. `jelmer@pitzer.osc.edu`).
+3.  With the above setup, you shouldn't be prompted for a password and VS Code will connect to OSC! Now, if you open a shell or try to open a file, you are interacting with OSC and not you local computer.
 
 <br> <br>
