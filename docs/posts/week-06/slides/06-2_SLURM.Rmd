@@ -38,7 +38,10 @@ class: inverse middle center
 
 .left[
 - ### [More on SLURM directives](#slurm)
-- ### [Submitting a script running FASTQC to SLURM](#fastqc)
+- ### [Example I: Submitting a script running FastQC](#fastqc)
+- ### [Example II: Running MultiQC with conda](#multiqc)
+- ### [More Conda](#more-conda)
+- ### [SLURM Environment variables](#slurm-env)
 ]
 
 ---
@@ -124,62 +127,10 @@ set -e -u -o pipefail
 ]
 
 ---
-
-## SLURM environment variables
-
-- Inside the script, SLURM environment variables will be available,
-  such as:
-
-| Variable            | Description
-|---------------------|------------
-| `$SLURM_SUBMIT_DIR` | Path to dir from which job was started
-| `$TMPDIR`           | Path to dir for job (fast I/O)
-| `$SLURM_JOB_ID`     | Job ID assigned by SLURM
-| `$SLURM_JOB_NAME`   | Job name supplied by the user
-| `$SLURM_CPUS_ON_NODE` | Number of CPUs (cores) available on 1 node
-| `$SLURM_MEM_PER_NODE` | Memory per node (as specified by `--mem`)
-| `SLURMD_NODENAME`     | Name of the node running the job
-
----
-
-## Using SLURM environment variables
-
-- For example, you may want to use `$SLURM_CPUS_ON_NODE` in the call to
-  a program inside the script.
-  
-  This way, you only have to specify this once
-  and don't run the risk of using more cores than you have available &ndash; from:
-  
-  ```sh
-  #SBATCH --cpus-per-task=6
-  STAR --runThreadN 6 --genomeDir ...
-  ```
-  
-  ...to:
-  
-  ```sh
-  #SBATCH --cpus-per-task=6
-  STAR --runThreadN "$SLURM_CPUS_ON_NODE" --genomeDir ...
-  ```
-
---
-
-- Alternatively, if you specify the number of cores in the `sbatch` call on the
-  command-line, you don't need to hard-code this at all inside the script:
-
-  ```sh
-  $ sbatch --cpus-per-task=6 star.sh
-  ```
-  
-  ```sh
-  STAR --runThreadN "$SLURM_CPUS_ON_NODE" --genomeDir ...
-  ```
-
----
 class: inverse middle center
 name: fastqc
 
-# An example: <br> Submitting a script running FASTQC to SLURM
+# Example I: <br> Submitting a script running FastQC
 
 ----
 
@@ -244,7 +195,7 @@ fastqc --outdir="$output_dir" "$fastq_file"
 
 1. Add SLURM directives to request the appropriate cluster resources.
 
-1.  Load OSC's module for FastqQC.
+1. Load OSC's module for FastqQC.
   
 ---
 
@@ -458,123 +409,13 @@ We can check in on the job using the SLURM command `squeue`:
   $ mv slurm* logs
   ```
 
----
-
-## Now loop over all files...
-
-The script that we wrote above will run FastQC for a single FASTQ file.  
-**Next, we can write a second script that loops over many files and submits the
-script for each of them.**
-
-In this case, we will do so by simply looping over all FASTQ files in a
-specified directory:
-
-```sh
-$ for fastq_file in "$fastqc_dir"/*fastq; do
-      scripts/qc/fastqc_single.sh "$fastq_file" "$output_dir" 
-  done
-```
-
----
-
-## The full script to loop over a directory
-
-Script `fastqc_dir.sh`:
-
-```sh
-#!/bin/bash
-set -e -u -o pipefail
-
-fastq_dir="$1"
-output_dir="$2" 
-
-echo "Submitting FastQC jobs..."
-echo "Input dir: $fastq_dir"
-echo "Output dir: $output_dir"
-echo "Number of files: $(ls $fastq_dir/*fastq | wc -l)"
-
-for fastq_file in "$fastqc_dir"/*fastq.gz; do
-    sbatch scripts/qc/fastqc_single.sh "$fastq_file" "$output_dir" 
-done
-
-echo -e "\n---------\nAll done!" 
-```
-
----
-
-## Run the loop script
-
-- Make sure the script is executable:
-  ```sh
-  $ chmod u+x scripts/*
-  ```
-
-- Run the script:
-  ```sh
-  $ fastq_dir=fastq/
-  $ output_dir=analysis/QC_fastq/
-  $ scripts/fastqc_dir.sh "$fastq_dir" "$output_dir"
-  #> echo "Submitting FastQC jobs..."
-  #> echo "Input dir: fastq/"
-  #> echo "Output dir: analysis/QC_fastq/"
-  #> echo "Number of files: 8"
-  #> Submitted batch job 2452187
-  #> Submitted batch job 2452188
-  #> Submitted batch job 2452189
-  #> ...
-  ```
-
 .content-box-info[
-We didn't need to submit *this* script to the queue:
-all it does is submit jobs, which can be done just fine on a login node.
+[Bonus slides](#loop): a second script that loops over many FASTQ files.
 ]
-
----
-
-## Monitor the loop script
-
-- Check the queue:
-  ```sh
-  $ squeue -u $USER
-  ```
-
-- Peak at all the log files:
-  ```sh
-  $ tail slurm-fastqc*
-  
-  $ less slurm-fastqc*  # Press ":n" to go the next file
-  ```
-
-<br>
-
---
-
-.content-box-info[
-We could also "follow" the output in a log file as it's being added to the file:
-
-```sh
-tail -f <file>
-```
-]
-
----
-
-## More options to monitor and manage SLURM jobs
-
-- Log into a compute node that is running a job,
-  and use `top`, `htop`, or `ps` to see CPU and memory usage in real time.
-
-- Several commands, such as `sstat` (for running jobs), `sacct` (for finished     jobs),  and `scontrol` can show useful statistics for jobs
-  ([bonus slides](#more-monitor)).
-  
-- You can use the `time` utility to track and print statistics for individual
-  commands, e.g. `/usr/bin/time fastqc ...` ([bonus slides](#time)).
-
-- We've already used `date` at the beginning and end of scripts
-- **XDMoD on OnDemand** &ndash; demo?
 
 ---
 class: inverse middle center
+name: multiqc
 
 # Example II: Running MultiQC with conda
 
@@ -628,7 +469,7 @@ into a single nicely formatted HTML page:
 
 ---
 
-## Conda at OSC
+## Setting up Conda
 
 - To use Conda at OSC, we first need to load the module (every session!):
 
@@ -756,6 +597,17 @@ $ multiqc results/QC_fastq/ -o results/QC_fastq/
 ```
 
 ---
+class: inverse middle center
+name: more-conda
+
+# More Conda
+
+----
+
+<br> <br> <br> <br>
+
+
+---
 
 ## More Conda
 
@@ -829,6 +681,68 @@ they will not interfere with running the script elsewhere, e.g. locally.
 ]
 
 ---
+class: inverse middle center
+name: slurm-env
+
+# SLURM environment variables
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## SLURM environment variables
+
+- Inside the script, SLURM environment variables will be available,
+  such as:
+
+| Variable            | Description
+|---------------------|------------
+| `$SLURM_SUBMIT_DIR` | Path to dir from which job was started
+| `$TMPDIR`           | Path to dir for job (fast I/O)
+| `$SLURM_JOB_ID`     | Job ID assigned by SLURM
+| `$SLURM_JOB_NAME`   | Job name supplied by the user
+| `$SLURM_CPUS_ON_NODE` | Number of CPUs (cores) available on 1 node
+| `$SLURM_MEM_PER_NODE` | Memory per node (as specified by `--mem`)
+| `$SLURMD_NODENAME`     | Name of the node running the job
+
+---
+
+## Using SLURM environment variables
+
+- For example, you may want to use `$SLURM_CPUS_ON_NODE` in the call to
+  a program inside the script.
+  
+  This way, you only have to specify this once
+  and don't run the risk of using more cores than you have available &ndash; from:
+  
+  ```sh
+  #SBATCH --cpus-per-task=6
+  STAR --runThreadN 6 --genomeDir ...
+  ```
+  
+  ...to:
+  
+  ```sh
+  #SBATCH --cpus-per-task=6
+  STAR --runThreadN "$SLURM_CPUS_ON_NODE" --genomeDir ...
+  ```
+
+--
+
+- Alternatively, if you specify the number of cores in the `sbatch` call on the
+  command-line, you don't need to hard-code this at all inside the script:
+
+  ```sh
+  $ sbatch --cpus-per-task=6 star.sh
+  ```
+  
+  ```sh
+  STAR --runThreadN "$SLURM_CPUS_ON_NODE" --genomeDir ...
+  ```
+
+---
 class: center middle inverse
 
 # Questions?
@@ -845,7 +759,8 @@ class: center middle inverse
 ----
 
 .left[
-- ### [More options to monitor and manage SLURM jobs](#more-slurm)
+- ### [A script to loop over FASTQC files](#loop)
+- ### [More options to monitor and manage SLURM jobs](#monitor)
 - ### [SLURM job arrays](#slurm-arrays)
 - ### [Bash configuration files and $PATH](#bashrc-path)
 - ### [Conda setup to enable "conda activate"](#conda-setup)
@@ -855,12 +770,139 @@ class: center middle inverse
 
 ---
 class: inverse middle center
+name: loop
+
+# A script to loop over FASTQC files
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Now loop over all files...
+
+The script that we wrote above will run FastQC for a single FASTQ file.  
+**Next, we can write a second script that loops over many files and submits the
+script for each of them.**
+
+In this case, we will do so by simply looping over all FASTQ files in a
+specified directory:
+
+```sh
+$ for fastq_file in "$fastqc_dir"/*fastq; do
+      scripts/qc/fastqc_single.sh "$fastq_file" "$output_dir" 
+  done
+```
+
+---
+
+## The full script to loop over a directory
+
+Script `fastqc_dir.sh`:
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+
+fastq_dir="$1"
+output_dir="$2" 
+
+echo "Submitting FastQC jobs..."
+echo "Input dir: $fastq_dir"
+echo "Output dir: $output_dir"
+echo "Number of files: $(ls $fastq_dir/*fastq | wc -l)"
+
+for fastq_file in "$fastqc_dir"/*fastq.gz; do
+    sbatch scripts/qc/fastqc_single.sh "$fastq_file" "$output_dir" 
+done
+
+echo -e "\n---------\nAll done!" 
+```
+
+---
+
+## Run the loop script
+
+- Make sure the script is executable:
+  ```sh
+  $ chmod u+x scripts/*
+  ```
+
+- Run the script:
+  ```sh
+  $ fastq_dir=fastq/
+  $ output_dir=analysis/QC_fastq/
+  $ scripts/fastqc_dir.sh "$fastq_dir" "$output_dir"
+  #> echo "Submitting FastQC jobs..."
+  #> echo "Input dir: fastq/"
+  #> echo "Output dir: analysis/QC_fastq/"
+  #> echo "Number of files: 8"
+  #> Submitted batch job 2452187
+  #> Submitted batch job 2452188
+  #> Submitted batch job 2452189
+  #> ...
+  ```
+
+.content-box-info[
+We didn't need to submit *this* script to the queue:
+all it does is submit jobs, which can be done just fine on a login node.
+]
+
+---
+
+## Monitor the loop script
+
+- Check the queue:
+  ```sh
+  $ squeue -u $USER
+  ```
+
+- Peak at all the log files:
+  ```sh
+  $ tail slurm-fastqc*
+  
+  $ less slurm-fastqc*  # Press ":n" to go the next file
+  ```
+
+<br>
+
+--
+
+.content-box-info[
+We could also "follow" the output in a log file as it's being added to the file:
+
+```sh
+tail -f <file>
+```
+]
+
+
+---
+class: inverse middle center
+name: monitor
 
 # More options to monitor <br> and manage SLURM jobs
 
 ----
 
 <br> <br> <br> <br>
+
+---
+
+## More options to monitor and manage SLURM jobs: overview
+
+- Log into a compute node that is running a job,
+  and use `top`, `htop`, or `ps` to see CPU and memory usage in real time.
+
+- Several commands, such as `sstat` (for running jobs),
+  `sacct` (for finished jobs),
+  and `scontrol` can show useful statistics for jobs.
+  
+- You can use the `time` utility to track and print statistics for individual
+  commands, e.g. `/usr/bin/time fastqc ...` ([bonus slides](#time)).
+
+- **XDMoD on OnDemand** &ndash; demo?
 
 ---
 background-color: #f2f5eb

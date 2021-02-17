@@ -298,11 +298,13 @@ After logging in to OSC, you're on a **login node**.
 #### For large transfers (>1 GB): use Globus
 
 - Especially useful for very large and/or complex transfers.
+
 - Does need a
-  [local installation](https://www.osc.edu/resources/getting_started/howto/howto_transfer_files_using_globus_connect)    and some set-up.
+  [local installation](https://www.osc.edu/resources/getting_started/howto/howto_transfer_files_using_globus_connect)
+  and some set-up.
 
 .content-box-info[
-See [these bonus slides](#shell-transfer) for small and large transfers in the shell.
+Next week, we'll talk about transferring data from the shell.
 ]
 
 
@@ -608,7 +610,7 @@ You can provide instructions to the *SLURM* scheduler to specify the resources
 These can be provided at the command-line:
 ```sh
 $ sinteractive -A PAS1855 -t 60
-$ sbatch myscript.sh -A PAS1855 -t 60
+$ sbatch -A PAS1855 -t 60 myscript.sh
 ```
 
 As well as **at the start of** scripts in lines with the `#SBATCH` keyword:
@@ -914,131 +916,11 @@ name:bonus
 <br>
 
 .left[
-- ### [Transferring files in the shell](#shell-transfer)
 - ### [Working with $TMPDIR in SLURM scripts](#tmpdir)
 - ### [Working with Singularity containers](#containers)
 ]
 
 <br><br>
-
----
-name: shell-transfer
-background-color: #f2f5eb
-
-## Transferring files in the shell: small transfers (<1 GB)
-
-With **`scp`** (secure copy), which works much like the regular `cp`:
-
-- Local to remote:
-  
-  ```bash
-  $ scp <local-path> <user>@pitzer.osc.edu:<remote-path>
-  ```
-  
-- Remote to local is simply the reverse:
-  
-  ```sh
-  $ scp <user>@pitzer.osc.edu:<remote-path> <local-path>
-  ```
-  
-- For instance:
-  
-  ```sh
-  $ scp -r scripts/ jelmer@pitzer.osc.edu:~/scripts
-  $ scp -r scripts/ jelmer@pitzer.osc.edu:/fs/ess/PAS1855/users/jelmer/scripts
-  
-  $ scp -r jelmer@pitzer.osc.edu:~/scripts scripts/
-  ```
-
-.content-box-info[
-Transfers in either direction should be done from your *local* shell.
-]
-
----
-background-color: #f2f5eb
-
-## Transferring files in the shell: small transfers (<1 GB)
-
-Another option is the **`rsync`** command, which I recommend,
-especially when you want to keep certain folders synced: `rsync` won't copy
-any files that are present & identical in source and destination.
-
-The basic from-to syntax is the same as with `scp`.
-
-- A useful combination of options is `-avz`:
-  - `-a` enables archival mode (also makes `-r` unnecessary);
-  - `-v` increases verbosity &ndash; tells you what is being copied.
-  - `-z` enables compressed file transfer (=> faster).
-
-  ```bash
-  $ rsync -avrz ~/scripts jelmer@pitzer.osc.edu:~/scripts
-  
-  # If the files are large, "--progress" will help you keep track:
-  $ rsync -avrz --progress ~/scipts jelmer@pitzer.osc.edu:~/scripts
-  ```
-
----
-background-color: #f2f5eb
-
-## More `rsync`
-
-.content-box-warning[
-Presence/absence of a trailing slash for source directories makes a
-difference to `rsync`.
-]
-
-This will sync the two dirs below, so the content of each 
-"scripts" dir will end up being identical:
-
-```sh
-$ rsync -avz scripts backup/scripts
-$ ls scripts
-#> fastq.sh
-$ ls backup/scripts
-#> fastq.sh
-```
-
-This will copy the *contents* of the source dir "scripts"
-into the target dir "scripts":
-
-```sh
-$ rsync -avz scripts/ backup/scripts
-$ ls scripts
-#> fastq.sh
-$ ls backup/scripts
-#> scripts
-```
-
----
-background-color: #f2f5eb
-
-## Transferring files in the shell: any transfer size
-
-You can also use `sftp`, which doesn't run on a login node,
-so large transfers are permitted.
-
-  - To log in:
-  ```bash
-  $ sftp sftp.osc.edu
-  ```
-
-  Now, you have an `sftp` prompt instead of a regular bash prompt.
-
-- To upload files to remote, use the `put` command &ndash; and note that you
-  don't need the `user@pitzer.osc.edu:` to designate remote:
-
-  ```sh
-  sftp> put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
-  
-  # If you don't specify a remote location, it be put in $HOME:
-  sftp> put file.txt
-  ```
-
-- To download files from remote, use the `get` command:
-
-  ```sh
-  sftp> get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
-  ```
 
 ---
 background-color: #f2f5eb

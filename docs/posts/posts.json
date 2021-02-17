@@ -8,7 +8,7 @@
     "categories": [],
     "contents": "\nSlides\nSlides: Part I – An introduction to using OSC – Tuesday Zoom (Feb 16)\nSlides: Part II – SLURM jobs in practice – Thursday Zoom (Feb 18)\nGraded assignments\nGraded assignment for week 6 (Due Tuesday, Feb 23)\nUngraded assignments\nMid-course survey\nOptional: SSH setup\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-13T14:19:21-05:00",
+    "last_modified": "2021-02-16T12:07:45-05:00",
     "input_file": {}
   },
   {
@@ -20,7 +20,7 @@
     "categories": [],
     "contents": "\nSlides\nSlides: Part I – Variables, loops, arrays, and conditionals – Tuesday Zoom (Feb 9)\nSlides: Part II – Shell scripting – Thursday Zoom (Feb 11)\nBonus Slides: find and xargs\nUngraded assignments\nExercises for week 5\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-12T07:27:24-05:00",
+    "last_modified": "2021-02-16T12:07:45-05:00",
     "input_file": {}
   },
   {
@@ -44,7 +44,7 @@
     "categories": [],
     "contents": "\nSlides\nSlides: Part I – Getting started with Git – Tuesday Zoom (Jan 26)\nSlides: Part II – Remotes on GitHub, and branching & merging – Thursday Zoom (Jan 28)\nSlides: Part III – Undoing changes and viewing the past – Thursday / bonus\nUngraded assignments\nGit setup & GitHub authentication\nGraded assignments\nGraded assignment I: Shell, Markdown and Git\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-07T12:18:33-05:00",
+    "last_modified": "2021-02-16T12:07:45-05:00",
     "input_file": {}
   },
   {
