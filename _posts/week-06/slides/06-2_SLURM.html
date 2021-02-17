@@ -52,18 +52,18 @@ name: slurm
 | Resource/use                  | short      | long                 | default
 |-------------------------------|------------|----------------------|:---------:|
 | Project to be billed          | -A PAS0471 | --account=PAS0471    | _N/A_
-| Time limit                    | -t 4:00:00 | --time=4:00:00       | ?
+| Time limit                    | -t 4:00:00 | --time=4:00:00       | 1:00:00
 | Nr of nodes                   | -N 1       | --nodes=1            | 1
 | Nr of cores                   | -c 1       | --cpus-per-task=1    | 1
 | Nr of "tasks" (processes)     | -n 1       | --ntasks=1           | 1
 | Nr of tasks per node          | -          | --ntasks-per-node    | 1
-| Memory limit per node         | -          | --mem=4G             | *(single-core value)*
+| Memory limit per node         | -          | --mem=4G             | *(4G)*
 
 ---
 
 ## More on SLURM directives (cont.)
 
-**Some other options (for more, see the [SLURM documentation](https://slurm.schedmd.com/sbatch.html)):**
+**Some other options** (for more, see the [SLURM documentation](https://slurm.schedmd.com/sbatch.html)):
 
 | Resource/use                         | short    | long
 |--------------------------------------|----------|-------
@@ -89,7 +89,7 @@ To send standard error to its own output file, use the `-e` / `--error` option.
 | Log output file (%j = job number)    | -o       |  --output=slurm-fastqc-%j.out
 | Error output (*stderr*)              | -e       | --error=slurm-fastqc-%j.err
 | Job name (displayed in the queue)    | -        | --job-name=fastqc
-| Partition/queue                      | -        | --partition=longserial
+| Partition (=queue type)              | -        | --partition=longserial
 | Get email when job starts/ends/fails | -        | --mail-type=ALL/START/END/FAIL
 | Let job begin at/after specific time | -        | --begin=2021-02-01T12:00:00
 | Let job begin after other jobs is done | -      | --dependency=afterany:123456
@@ -155,11 +155,10 @@ such as per-base quality (below) and adapter content.
 
 --
 
-- FastQC analyzes **one fastq file at a time**
-  (which can be gzipped: `fastq.gz`),
-  and outputs a nice HTML file with its results.
+&lt;br&gt;
+
+- FastQC analyzes one (optionally gzipped) FASTQ file at a time:
   
-  Running it is straightforward:
   ```sh
   $ fastqc --outdir=&lt;output-dir&gt; &lt;fastq-file&gt;
   ```
@@ -362,7 +361,7 @@ We can check in on the job using the SLURM command `squeue`:
   
 ---
 
-## Monitoring the SLURM job
+## Check the log and the output files
 
 - When the job has finished, `squeue` will return nothing (!):
 
@@ -371,26 +370,16 @@ We can check in on the job using the SLURM command `squeue`:
   # JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
   ```
 
----
+--
 
-## Check the log and the output files
-
-- Let's look for *SLURM* log files: 
+- Let's look for *SLURM* log files and look at the contents:
 
   ```sh
   $ ls
   # slurm-fastqc-2451088.out
-  ```
-
---
-
-- Look at the contents of the log file:
-
-  ```sh
+  
   $ less slurm-fastqc-2451088.out
   ```
-
---
 
 - Check the output dir:
 
@@ -400,12 +389,7 @@ We can check in on the job using the SLURM command `squeue`:
 
 --
 
-- Finally, we keep things organized and move the log file to a log dir:
-
-  ```sh
-  $ mkdir -p logs/
-  $ mv slurm* logs
-  ```
+&lt;br&gt;
 
 .content-box-info[
 [Bonus slides](#loop): a second script that loops over many FASTQ files.
@@ -523,16 +507,43 @@ into a single nicely formatted HTML page:
 - Next, we *activate* the environment and install MultiQC into it:
 
   ```sh
-  $ source activate multiqc
+  $ source activate multiqc-env
   
   $ conda install -y -c bioconda -c conda-forge multiqc
   ```
 
-  `-c conda-forge multiqc` is how we indicate which so-called
-  channels (repositories) we want to use.
+  `-c bioconda -c conda-forge` is how we indicate which channels we want
+  to use and prioritize for this particular installation.
   (These sorts of detailed are provided in software installation instructions.)
 
---
+- Having done that, we should be able to run MultiQC:
+
+  ```sh
+  $ multiqc --help
+  ```
+
+.content-box-diy[
+If you didn't manage to create your own conda environment,  
+you can also use mine:
+
+```sh
+$ source activate /users/PAS0471/jelmer/.conda/envs/multiqc
+```
+]
+
+---
+
+## Side notes
+
+.content-box-info[
+Every time you want to run MultiQC (and equivalent for other software
+in Conda environments), you need to include these two lines:
+
+```sh
+$ module load python/3.6-conda5.2
+$ source activate multiqc-env
+```
+]
 
 .content-box-info[
 Here, we use `source activate` instead of the more standard
@@ -543,36 +554,6 @@ Here, we use `source activate` instead of the more standard
 Usually, you can create the Conda environment in one 
 `conda create` step, rather than having to activate it and then using 
 `conda install`, but this two-step procedure seems necessary in this case.
-]
-
----
-
-## Running MultiQC from now on
-
-- Whenever you want to use a Conda environment at OSC,
-  you need to first load the module, and then *activate* the Conda environment
-  that you want:
-
-  ```sh
-  $ module load python/3.6-conda5.2
-  $ source activate multiqc-env
-  ```
-
-- Having done that, you should be able to run MultiQC:
-
-  ```sh
-  $ multiqc --help
-  ```
-
-&lt;br&gt;
-
-.content-box-diy[
-If you didn't manage to create your own conda environment,  
-you can also use mine:
-
-```sh
-$ source activate /users/PAS0471/jelmer/.conda/envs/multiqc
-```
 ]
 
 ---
@@ -760,7 +741,6 @@ class: center middle inverse
 - ### [A script to loop over FASTQC files](#loop)
 - ### [More options to monitor and manage SLURM jobs](#monitor)
 - ### [SLURM job arrays](#slurm-arrays)
-- ### [Bash configuration files and $PATH](#bashrc-path)
 - ### [Conda setup to enable "conda activate"](#conda-setup)
 ]
 
@@ -1248,152 +1228,6 @@ fastqc --outdir="$output_dir" "$fastq_file"
 
   The above command would only submit 10 jobs at a time.
   (This can also be specified inside the script.)
-
----
-class: inverse middle center
-name: bashrc-path
-
-# Bash configuration files and $PATH
-
-----
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-background-color: #f2f5eb
-
-## Bash configuration files
-
-Your bash shell is configured using simple (hidden) text files in your `$HOME`:
-
-- `~/.bashrc` &amp;ndash; for non-login shells
-
-- `~/.bash_profile` &amp;ndash; for non-login shells
-
-These can be viewed and edited like normal text files:
-
-```sh
-$ cat ~/.bashrc
-
-$ nano ~/.bashrc    # Or open in VS Code
-```
-
---
-
-.content-box-info[
-**Some settings that are / can be stored in these config files:**
-
-- The look of your prompt.
-
-- `alias`es &amp;ndash; personal, custom shortcuts for (complex) commands.
-
-- The `$PATH`, a list of directories with binaries (next slide).
-
-- Other custom settings like running setup scripts.
-]
-
----
-background-color: #f2f5eb
-
-## Bash configuration files
-
-Your bash shell is configured using simple (hidden) text files in your `$HOME`:
-
-- `~/.bashrc` &amp;ndash; for non-login shells
-
-- `~/.bash_profile` &amp;ndash; for non-login shells
-
-These can be viewed and edited like normal text files:
-
-```sh
-$ cat ~/.bashrc
-
-$ nano ~/.bashrc    # Or open in VS Code
-```
-
-&lt;br&gt;
-
-.content-box-info[
-To not have to deal with the login/non-login shell distinction, it is common
-to put all settings in one of these files (often `.bashrc`) and let the second
-file (often `.bash_profile`) run the first file whenever it itself is being run.
-]
-
----
-background-color: #f2f5eb
-
-## `$PATH`: A list of directories with binaries
-
-- `$PATH` is another environment variable like `$HOME` and `$USER`.
-
-- It lists the directories that will be searched when you type a program’s name.
-  This allows you to run programs without specifying the full path to the executable.
-  For example:
-  
-  ```sh
-  $ vcftools
-  #&gt; VCFtools (0.1.16)
-  #&gt; (c) Adam Auton and Anthony Marcketta 2009
-  
-  # To check where the program's binary is located:
-  $ which vcftools
-  #&gt; /usr/bin/vcftools
-  ```
-
----
-background-color: #f2f5eb
-
-## `$PATH`: A list of directories with binaries (cont.)
-
-- To check which directories are in your `$PATH`, you can simply `echo` it:
-
-  ```sh
-  $ echo $PATH
-  #&gt; /apps/xalt/xalt/bin:/opt/mvapich2/intel/19.0/2.3.3/bin:/apps/gnu/8.4.0/bin:/opt/intel/19.0.5/itac_latest/bin:/opt/intel/19.0.5/advisor/bin64:/opt/intel/19.0.5/vtune_amplifier/bin64:/opt/intel/19.0.5/inspector_2019/bin64:/opt/intel/19.0.5/compilers_and_libraries_2019/linux/bin/intel64:/apps/software_usage:/usr/lib64/qt-3.3/bin:/opt/osc/bin:/opt/moab/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/opt/ddn/ime/bin:/opt/puppetlabs/bin:/users/PAS0471/jelmer/software/bin
-  ```
-
-&lt;br&gt;
-
-- The output looks strange and is hard to read because the different directories
-  in your `$PATH` are separated by colons `:`.
-  Let's make that a bit more readable:
-  
-  ```sh
-  $ echo $PATH | tr ":" "\n" | nl
-  #&gt; 1  /apps/xalt/xalt/bin
-  #&gt; 2  /opt/mvapich2/intel/19.0/2.3.3/bin
-  #&gt; 3  /apps/gnu/8.4.0/bin
-  #&gt; 4  /opt/intel/19.0.5/itac_latest/bin
-  #&gt; 5  /opt/intel/19.0.5/advisor/bin64
-  #&gt; ...
-  ```
-
----
-background-color: #f2f5eb
-
-## `$PATH`: A list of directories with binaries (cont.)
-
-- You can easily modify your `$PATH`.
-  To add a directory to your `$PATH` in the current session,
-  you simply *append* a new dir after a colon:
-
-  ```sh
-  $ PATH=$PATH:~/new-dir-with-software/
-  ```
-
-&lt;br&gt;
-
---
-
-- However, this change will not have any effects outside of your current bash sessions.
-  
-  **For lasting changes**,
-  you should edit your bash configuration files (like `~/.bashrc`),
-  from which `$PATH` is loaded whenever you open a terminal:
-  
-  ```sh
-  $ echo "PATH=$PATH:~/new-dir-with-software/" &gt;&gt; ~/.bashrc
-  ```
 
 ---
 class: inverse middle center
