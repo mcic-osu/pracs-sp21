@@ -700,7 +700,7 @@ Interactive shell jobs will get you interactive shell access on a compute node.
 Any `sbatch` options provided on the command-line will override the equivalent
 options provided in the script itself.
 
-Our script, `fastqc.sh`:
+Our script, `myscript.sh`:
 
 ```sh
 #!/bin/bash
