@@ -1,31 +1,29 @@
----
-title: "Week 7 - Bioinformatics Data"
-output:
-  xaringan::moon_reader:
-    seal: false
-    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
-    lib_dir: libs
-    nature:
-      highlightStyle: rainbow
-      highlightLines: true
-      countIncrementalSlides: false
----
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 7 - Bioinformatics Data</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
 class:inverse middle center
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
 
-knitr::opts_chunk$set(eval = FALSE)
-```
 
 # *Week 7 - Bioinformatics Data*
 
 ----
 
-<br> <br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/25 (updated: `r Sys.Date()`)
+### 2021/02/25 (updated: 2021-02-18)
 
 ---
 class: inverse middle center
@@ -51,16 +49,16 @@ the file name from the source:
 
 ```sh
 $ wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr22.fa.gz
-#> --2013-06-30 00:15:45-- http://[...]/goldenPath/hg19/chromosomes/chr22.fa.gz
-#> Resolving hgdownload.soe.ucsc.edu... 128.114.119.163
-#> Connecting to hgdownload.soe.ucsc.edu|128.114.119.163|:80... connected.
-#> HTTP request sent, awaiting response... 200 OK
-#> Length: 11327826 (11M) [application/x-gzip]
-#> Saving to: ‘chr22.fa.gz’
-#> 17% [======>                             ] 1,989,172 234KB/s eta 66s
+#&gt; --2013-06-30 00:15:45-- http://[...]/goldenPath/hg19/chromosomes/chr22.fa.gz
+#&gt; Resolving hgdownload.soe.ucsc.edu... 128.114.119.163
+#&gt; Connecting to hgdownload.soe.ucsc.edu|128.114.119.163|:80... connected.
+#&gt; HTTP request sent, awaiting response... 200 OK
+#&gt; Length: 11327826 (11M) [application/x-gzip]
+#&gt; Saving to: ‘chr22.fa.gz’
+#&gt; 17% [======&gt;                             ] 1,989,172 234KB/s eta 66s
 
 $ ls -lh
-#> -rw-rw-r-- 1 jelmer jelmer  11M Mar 20  2009 chr22.fa.gz
+#&gt; -rw-rw-r-- 1 jelmer jelmer  11M Mar 20  2009 chr22.fa.gz
 ```
 
 ---
@@ -79,8 +77,8 @@ name: download
 - With `--recursive` set, downloads can get out of hand, so we use the following
   additional options:
   
-  - `--no-parent` &mdash; Don't follow links to parent directories,
-  - `--accept "*.gtf"` &mdash; Only download matching (here: GTF) files.
+  - `--no-parent` &amp;mdash; Don't follow links to parent directories,
+  - `--accept "*.gtf"` &amp;mdash; Only download matching (here: GTF) files.
 
 - We also use `--no-directories` to not place the downloaded files in the same
   dir structure as the source: we just want all GTF files in a single dir.
@@ -106,25 +104,25 @@ downloads to file:
 
 ```sh
 $ curl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr21.fa.gz \
-      > chr21.fa.gz
+      &gt; chr21.fa.gz
 ```
 
 ---
 
-## Transferring files: <br> small transfers (<1 GB) to/from OSC
+## Transferring files: &lt;br&gt; small transfers (&lt;1 GB) to/from OSC
 
 With **`scp`** (secure copy), which works much like the regular `cp`:
 
 - Local to remote:
   
   ```bash
-  $ scp <local-path> <user>@pitzer.osc.edu:<remote-path>
+  $ scp &lt;local-path&gt; &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt;
   ```
   
 - Remote to local is simply the reverse:
   
   ```sh
-  $ scp <user>@pitzer.osc.edu:<remote-path> <local-path>
+  $ scp &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt; &lt;local-path&gt;
   ```
 
 --
@@ -145,11 +143,11 @@ With **`scp`** (secure copy), which works much like the regular `cp`:
 
 ---
 
-## Transferring files: <br> small transfers (<1 GB) to/from OSC
+## Transferring files: &lt;br&gt; small transfers (&lt;1 GB) to/from OSC
 
 Another option is the **`rsync`** command, which I recommend,
 especially when you want to keep certain folders **synced**: `rsync` won't copy
-any files that are present & identical in source and destination.
+any files that are present &amp; identical in source and destination.
 
 - The basic from-to syntax is the same as for `scp`.
 
@@ -157,8 +155,8 @@ any files that are present & identical in source and destination.
 
 - A useful combination of options is `-avz`:
   - `-a` enables archival mode (also makes `-r` unnecessary);
-  - `-v` increases verbosity &ndash; tells you what is being copied.
-  - `-z` enables compressed file transfer (=> faster).
+  - `-v` increases verbosity &amp;ndash; tells you what is being copied.
+  - `-z` enables compressed file transfer (=&gt; faster).
 
   ```bash
   $ rsync -avz ~/scripts jelmer@owens.osc.edu:~/scripts
@@ -189,9 +187,9 @@ difference to `rsync`.
   ```sh
   $ rsync -avz scripts backup/scripts
   $ ls scripts
-  #> fastq.sh
+  #&gt; fastq.sh
   $ ls backup/scripts
-  #> fastq.sh
+  #&gt; fastq.sh
   ```
 
 - This will copy the *contents* of source dir "scripts" into target dir "scripts":
@@ -199,9 +197,9 @@ difference to `rsync`.
   ```sh
   $ rsync -avz scripts/ backup/scripts
   $ ls scripts
-  #> fastq.sh
+  #&gt; fastq.sh
   $ ls backup/scripts
-  #> scripts
+  #&gt; scripts
   ```
 
 ---
@@ -221,14 +219,14 @@ so large transfers are permitted.
 
 --
 
-- To upload files to remote, use the `put` command &ndash; and note that you
+- To upload files to remote, use the `put` command &amp;ndash; and note that you
   don't need to designate remote with `:` syntax like for `scp`/`rsync`:
 
   ```sh
-  sftp> put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
+  sftp&gt; put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
   
   # If you don't specify a remote location, it be put in $HOME:
-  sftp> put file.txt
+  sftp&gt; put file.txt
   ```
 
 --
@@ -236,7 +234,7 @@ so large transfers are permitted.
 - To download files from remote, use the `get` command:
 
   ```sh
-  sftp> get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
+  sftp&gt; get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
   ```
 
 ---
@@ -246,7 +244,7 @@ name: checksums
 # Ensuring data integrity with checksums
 
 ----
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -255,13 +253,13 @@ name: checksums
 Remember the hexadecimal IDs we saw for Git commits?
 These are *checksums*:
 
-> *Checksums are very compressed summaries of data,
-> computed in a way that even if jst one bit of the data is changed,
-> the checksum will be different.* &mdash; Buffalo Chapter 6
+&gt; *Checksums are very compressed summaries of data,
+&gt; computed in a way that even if jst one bit of the data is changed,
+&gt; the checksum will be different.* &amp;mdash; Buffalo Chapter 6
 
 --
 
-Several algorithms (& associated Unix commands) can compute checksums.
+Several algorithms (&amp; associated Unix commands) can compute checksums.
 
 `SHA-1` checksums are the ones we've seen with Git and are preferred nowadays.
 We use the `shasum` command to compute them, typically for a file or set of files
@@ -269,10 +267,10 @@ We use the `shasum` command to compute them, typically for a file or set of file
 
 ```sh
 $ echo "bioinformatics is fun" | shasum
-#> f9b70d0d1b0a55263f1b012adab6abf572e3030b    -
+#&gt; f9b70d0d1b0a55263f1b012adab6abf572e3030b    -
 
 $ echo "bioinformatic is fun" | shasum
-#> e7f33eedcfdc9aef8a9b4fec07e58f0cf292aa67    -
+#&gt; e7f33eedcfdc9aef8a9b4fec07e58f0cf292aa67    -
 ```
 
 Even though the string only differed very slightly, the checksum is entirely
@@ -292,11 +290,11 @@ d012edd46f50d674380460d3b4e91f450688e756  chr22.fa.gz
 Let's compute the checksums for both FASTA files, and save them in a file:
 
 ```sh
-$ shasum chr*.fa.gz > shasums.txt
+$ shasum chr*.fa.gz &gt; shasums.txt
 
 $ cat shasums.txt
-#> 4f418c07dc24d2bf23744df6c3394447707df97d  chr21.fa.gz
-#> d012edd46f50d674380460d3b4e91f450688e756  chr22.fa.gz
+#&gt; 4f418c07dc24d2bf23744df6c3394447707df97d  chr21.fa.gz
+#&gt; d012edd46f50d674380460d3b4e91f450688e756  chr22.fa.gz
 ```
 
 Now, if we transfer these files elsewhere, we can use the checksums in the file
@@ -305,8 +303,8 @@ using the `-c` option:
 
 ```sh
 $ shasum -c shasums.txt
-#> chr21.fa.gz: OK
-#> chr22.fa.gz: OK
+#&gt; chr21.fa.gz: OK
+#&gt; chr22.fa.gz: OK
 ```
 
 ---
@@ -323,15 +321,15 @@ text files, use `diff`, optionally with the `-u` option:
 
 ```sh
 $ diff -u gene-1.bed gene-2.bed
-#> --- gene-1.bed  2020-11-28 16:54:27.098085903 -0500
-#> +++ gene-2.bed  2020-11-28 16:54:27.102085904 -0500
-#> @@ -1,22 +1,19 @@
-#>  1      6206197 6206270 GENE00000025907
-#>  1      6223599 6223745 GENE00000025907
-#>  1      6227940 6228049 GENE00000025907
-#> +1      6222341 6228319 GENE00000025907
-#>  1      6229959 6230073 GENE00000025907
-#> -1      6230003 6230005 GENE00000025907
+#&gt; --- gene-1.bed  2020-11-28 16:54:27.098085903 -0500
+#&gt; +++ gene-2.bed  2020-11-28 16:54:27.102085904 -0500
+#&gt; @@ -1,22 +1,19 @@
+#&gt;  1      6206197 6206270 GENE00000025907
+#&gt;  1      6223599 6223745 GENE00000025907
+#&gt;  1      6227940 6228049 GENE00000025907
+#&gt; +1      6222341 6228319 GENE00000025907
+#&gt;  1      6229959 6230073 GENE00000025907
+#&gt; -1      6230003 6230005 GENE00000025907
 ```
 
 ---
@@ -342,7 +340,7 @@ name: compress
 
 ----
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -361,12 +359,12 @@ to unzip them, which can be done with `gunzip`:
 # gunzip unzips in place - the original zipped file disappears:
 $ gunzip chr21.fa.gz
 $ ls chr21*
-#> chr21.fa
+#&gt; chr21.fa
 
 # To keep the original, output to stdout with "-c" and redirect:
-$ gunzip -c chr22.fa.gz > chr22.fa
+$ gunzip -c chr22.fa.gz &gt; chr22.fa
 $ ls chr22*
-#> chr22.fa  chr22.fa.gz
+#&gt; chr22.fa  chr22.fa.gz
 ```
 
 ---
@@ -378,12 +376,12 @@ $ ls chr22*
   ```sh
   $ gzip chr21.fastq
   $ ls chr21*
-  #> chr21.fastq.gz
+  #&gt; chr21.fastq.gz
   
   # As with unzipping, use -c and redirect to keep the original:
-  $ gzip -c chr22.fa > chr22_copy.fa.gz
+  $ gzip -c chr22.fa &gt; chr22_copy.fa.gz
   $ ls chr22*
-  #> chr22_copy.fa.gz  chr22.fa  chr22.fa.gz
+  #&gt; chr22_copy.fa.gz  chr22.fa  chr22.fa.gz
   ```
 
 - Often, a program will output unzipped data to standard out,
@@ -391,7 +389,7 @@ $ ls chr22*
   file to disk (beneficial because reading/writing to files is time-consuming):
 
   ```sh
-  trimmer in.fastq.gz | gzip > out.fastq.gz
+  trimmer in.fastq.gz | gzip &gt; out.fastq.gz
   ```
   
   *(Note that because the input to `gzip` comes from standard in, the output
@@ -404,11 +402,11 @@ $ ls chr22*
 ```sh
 $ ls
 in.fastq.gz in2.fastq
-$ gzip -c in2.fastq >> in.fastq.gz
+$ gzip -c in2.fastq &gt;&gt; in.fastq.gz
 ```
 
 ```sh
-cat fastq_L001.fastq.gz fastq_L001.fastq.gz > fastq.gz
+cat fastq_L001.fastq.gz fastq_L001.fastq.gz &gt; fastq.gz
 ```
 
 ---
@@ -432,7 +430,7 @@ name:prod
 # Shell productivity tips
 
 ----
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -451,7 +449,7 @@ name:prod
   - `Ctrl` + `R`
   - `!!` and `sudo !!`
   - `!ls:p`
-  - `history | grep module | head` => `!35`
+  - `history | grep module | head` =&gt; `!35`
   
 - Shellcheck
 
@@ -463,7 +461,7 @@ class: center middle inverse
 
 -----
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 class: center middle inverse
@@ -477,7 +475,7 @@ class: center middle inverse
 - ### [Process management](#processes)
 ]
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 class:inverse middle center
@@ -486,24 +484,24 @@ name:processes
 # Process management
 
 ----
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
 ## Process management: background processes
 
-- To run a process in the background, put an `&` after the command:
+- To run a process in the background, put an `&amp;` after the command:
 
   ```sh
   # du -sh example?
-  $ program1 input.txt > results.txt &
+  $ program1 input.txt &gt; results.txt &amp;
   ```
 
 - To check which processes are running in the background:
 
   ```sh
   $ jobs
-  #> [1]+ Running        program1 input.txt > results.txt
+  #&gt; [1]+ Running        program1 input.txt &gt; results.txt
   ```
 
 - You can bring processes back to the foreground with `fg` and optionally
@@ -526,12 +524,12 @@ name:processes
   we need to first suspend (i.e., pause) the process:
   
   ```sh
-  $ program1 input.txt > results.txt # forgot to append ampersand
+  $ program1 input.txt &gt; results.txt # forgot to append ampersand
   $ # enter control-z
-  #> [1]+ Stopped
-  program1 input.txt > results.txt
+  #&gt; [1]+ Stopped
+  program1 input.txt &gt; results.txt
   $ bg
-  #> [1]+ program1 input.txt > results.txt
+  #&gt; [1]+ program1 input.txt &gt; results.txt
   ```
 
 .content-box-info[
@@ -542,14 +540,14 @@ Recall that Ctrl+C is used to kill a foreground process.
 
 ## Process management: background processes (cont.)
 
-- Even when a process is running in the background (after using `&`),
+- Even when a process is running in the background (after using `&amp;`),
   closing the terminal would kill the process.
   
   To avoid this, you can use `nohup`:
   
   ```sh
-  $ nohup du -sh ... &
-  #> [1] 10900
+  $ nohup du -sh ... &amp;
+  #&gt; [1] 10900
   ```
 
 - We can't bring a processing running with `nohup` back to the foreground,
@@ -573,7 +571,7 @@ see Buffalo Chapter 4 details.
   
   ```sh
   $ for filename in *.fastq; do
-        program "$filename" &
+        program "$filename" &amp;
     done
   ```
 
@@ -593,7 +591,7 @@ name: bashrc-path
 
 ----
 
-<br> <br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 background-color: #f2f5eb
@@ -602,9 +600,9 @@ background-color: #f2f5eb
 
 Your bash shell is configured using simple (hidden) text files in your `$HOME`:
 
-- `~/.bashrc` &ndash; for non-login shells
+- `~/.bashrc` &amp;ndash; for non-login shells
 
-- `~/.bash_profile` &ndash; for non-login shells
+- `~/.bash_profile` &amp;ndash; for non-login shells
 
 These can be viewed and edited like normal text files:
 
@@ -621,7 +619,7 @@ $ nano ~/.bashrc    # Or open in VS Code
 
 - The look of your prompt.
 
-- `alias`es &ndash; personal, custom shortcuts for (complex) commands.
+- `alias`es &amp;ndash; personal, custom shortcuts for (complex) commands.
 
 - The `$PATH`, a list of directories with binaries (next slide).
 
@@ -635,9 +633,9 @@ background-color: #f2f5eb
 
 Your bash shell is configured using simple (hidden) text files in your `$HOME`:
 
-- `~/.bashrc` &ndash; for non-login shells
+- `~/.bashrc` &amp;ndash; for non-login shells
 
-- `~/.bash_profile` &ndash; for non-login shells
+- `~/.bash_profile` &amp;ndash; for non-login shells
 
 These can be viewed and edited like normal text files:
 
@@ -647,7 +645,7 @@ $ cat ~/.bashrc
 $ nano ~/.bashrc    # Or open in VS Code
 ```
 
-<br>
+&lt;br&gt;
 
 .content-box-info[
 To not have to deal with the login/non-login shell distinction, it is common
@@ -668,12 +666,12 @@ background-color: #f2f5eb
   
   ```sh
   $ vcftools
-  #> VCFtools (0.1.16)
-  #> (c) Adam Auton and Anthony Marcketta 2009
+  #&gt; VCFtools (0.1.16)
+  #&gt; (c) Adam Auton and Anthony Marcketta 2009
   
   # To check where the program's binary is located:
   $ which vcftools
-  #> /usr/bin/vcftools
+  #&gt; /usr/bin/vcftools
   ```
 
 ---
@@ -685,10 +683,10 @@ background-color: #f2f5eb
 
   ```sh
   $ echo $PATH
-  #> /apps/xalt/xalt/bin:/opt/mvapich2/intel/19.0/2.3.3/bin:/apps/gnu/8.4.0/bin:/opt/intel/19.0.5/itac_latest/bin:/opt/intel/19.0.5/advisor/bin64:/opt/intel/19.0.5/vtune_amplifier/bin64:/opt/intel/19.0.5/inspector_2019/bin64:/opt/intel/19.0.5/compilers_and_libraries_2019/linux/bin/intel64:/apps/software_usage:/usr/lib64/qt-3.3/bin:/opt/osc/bin:/opt/moab/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/opt/ddn/ime/bin:/opt/puppetlabs/bin:/users/PAS0471/jelmer/software/bin
+  #&gt; /apps/xalt/xalt/bin:/opt/mvapich2/intel/19.0/2.3.3/bin:/apps/gnu/8.4.0/bin:/opt/intel/19.0.5/itac_latest/bin:/opt/intel/19.0.5/advisor/bin64:/opt/intel/19.0.5/vtune_amplifier/bin64:/opt/intel/19.0.5/inspector_2019/bin64:/opt/intel/19.0.5/compilers_and_libraries_2019/linux/bin/intel64:/apps/software_usage:/usr/lib64/qt-3.3/bin:/opt/osc/bin:/opt/moab/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/opt/ddn/ime/bin:/opt/puppetlabs/bin:/users/PAS0471/jelmer/software/bin
   ```
 
-<br>
+&lt;br&gt;
 
 - The output looks strange and is hard to read because the different directories
   in your `$PATH` are separated by colons `:`.
@@ -696,12 +694,12 @@ background-color: #f2f5eb
   
   ```sh
   $ echo $PATH | tr ":" "\n" | nl
-  #> 1  /apps/xalt/xalt/bin
-  #> 2  /opt/mvapich2/intel/19.0/2.3.3/bin
-  #> 3  /apps/gnu/8.4.0/bin
-  #> 4  /opt/intel/19.0.5/itac_latest/bin
-  #> 5  /opt/intel/19.0.5/advisor/bin64
-  #> ...
+  #&gt; 1  /apps/xalt/xalt/bin
+  #&gt; 2  /opt/mvapich2/intel/19.0/2.3.3/bin
+  #&gt; 3  /apps/gnu/8.4.0/bin
+  #&gt; 4  /opt/intel/19.0.5/itac_latest/bin
+  #&gt; 5  /opt/intel/19.0.5/advisor/bin64
+  #&gt; ...
   ```
 
 ---
@@ -717,7 +715,7 @@ background-color: #f2f5eb
   $ PATH=$PATH:~/new-dir-with-software/
   ```
 
-<br>
+&lt;br&gt;
 
 --
 
@@ -728,6 +726,129 @@ background-color: #f2f5eb
   from which `$PATH` is loaded whenever you open a terminal:
   
   ```sh
-  $ echo "PATH=$PATH:~/new-dir-with-software/" >> ~/.bashrc
+  $ echo "PATH=$PATH:~/new-dir-with-software/" &gt;&gt; ~/.bashrc
   ```
 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
