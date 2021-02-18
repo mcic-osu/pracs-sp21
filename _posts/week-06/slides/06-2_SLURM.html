@@ -25,7 +25,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/18 (updated: 2021-02-16)
+### 2021/02/18 (updated: 2021-02-18)
 
 ---
 class: inverse middle center
@@ -310,18 +310,30 @@ date                              # Report date+time to time script
 
 ## Submit the job
 
+.content-box-diy[
+Go to your personal dir and create a dir for this week:
+
+```sh
+$ cd /fs/ess/PAS1855/users/$USER
+$ mkdir week06
+```
+
+Now create a new file, paste in the code from the previous slide,
+and save it as `fastqc_single.sh`.
+]
+
 - We need to provide the script with an output dir and a FASTQ file,   
   whose names we will store in variables:
   
   ```sh
-  $ output_dir=analysis/QC_fastq
+  $ output_dir=QC_fastq
   $ fastq_file=/fs/ess/PAS1855/data/fastq_16S/201-S4-V4-V5_S53_L001_R1_001.fastq
   ```
 
 - Now we can submit the job:
 
   ```sh
-  $ sbatch scripts/fastqc_single.sh "$fastq_file" "$output_dir"
+  $ sbatch fastqc_single.sh "$fastq_file" "$output_dir"
   # Submitted batch job 2451088
   ```
 
@@ -331,7 +343,8 @@ date                              # Report date+time to time script
 
 We can check in on the job using the SLURM command `squeue`:
 
-- Initially the job may be queued ("pending") &amp;ndash; `PD` in the `ST` (**st**atus) column:
+- Initially the job may be queued ("pending") &amp;ndash;
+  `PD` in the `ST` (**st**atus) column:
 
   ```sh
   squeue -u $USER
@@ -466,8 +479,6 @@ into a single nicely formatted HTML page:
   $ conda config --add channels defaults
   $ conda config --add channels bioconda
   $ conda config --add channels conda-forge  # Highest priority
-  
-  $ conda config --set channel_priority strict
   ```
 
 --
@@ -572,7 +583,7 @@ $ sinteractive -A PAS0471 # No time specified: will be 30 minutes
 $ module load python/3.6-conda5.2
 $ source activate multiqc-env
 
-$ multiqc results/QC_fastq/ -o results/QC_fastq/
+$ multiqc QC_fastq/ -o QC_fastq/
 ```
 
 ---

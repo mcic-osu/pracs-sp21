@@ -25,7 +25,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/16 (updated: 2021-02-16)
+### 2021/02/16 (updated: 2021-02-18)
 
 ---
 
@@ -608,7 +608,7 @@ You can provide instructions to the *SLURM* scheduler to specify the resources
 These can be provided at the command-line:
 ```sh
 $ sinteractive -A PAS1855 -t 60
-$ sbatch myscript.sh -A PAS1855 -t 60
+$ sbatch -A PAS1855 -t 60 myscript.sh
 ```
 
 As well as **at the start of** scripts in lines with the `#SBATCH` keyword:
@@ -653,10 +653,10 @@ Interactive shell jobs will get you interactive shell access on a compute node.
 - You can also use `srun` / `salloc`, which support all SLURM options:
 
   ```sh
-  $ srun -A PAS0471 -t 60 --pty /bin/bash
+  $ srun -A PAS1855 -t 60 --pty /bin/bash
   
   # Equivalent -- syntax that OSC uses in their docs:
-  $ salloc -A PAS0471 -t 60 srun --pty /bin/bash
+  $ salloc -A PAS1855 -t 60 srun --pty /bin/bash
   ```
 
 ---
@@ -667,10 +667,10 @@ Interactive shell jobs will get you interactive shell access on a compute node.
 
   ```sh
   # Run a script on whatever node we are on:
-  $ ./fastqc.sh
+  $ ./myscript.sh
   
   # Same, but now submit it to the queue:
-  $ sbatch fastqc.sh
+  $ sbatch myscript.sh
   # Submitted batch job 2526085
   ```
 
@@ -683,11 +683,11 @@ Interactive shell jobs will get you interactive shell access on a compute node.
   ```sh
   $ sbatch [sbatch-options] &lt;script&gt; [script-arguments]
   
-  $ sbatch fastqc.sh sampleA.fastq.gz
+  $ sbatch myscript.sh sampleA.fastq.gz
   # Submitted batch job 2526086
   
-  $ sbatch -t 60 -A PAS1855 --mem=20G fastqc.sh
-  # Submitted batch job 2526085 
+  $ sbatch -t 60 -A PAS1855 --mem=20G myscript.sh
+  # Submitted batch job 2526087
   ```
 
 ---
@@ -702,7 +702,7 @@ Our script, `fastqc.sh`:
 
 ```sh
 #!/bin/bash
-#SBATCH --account=PAS0471
+#SBATCH --account=PAS1855
 #SBATCH --time=00:45:00
 #SBATCH --mem=8G
 ```
@@ -710,7 +710,7 @@ Our script, `fastqc.sh`:
 Submitting the script:
 
 ```sh
-$ sbatch --mem=20G fastqc.sh
+$ sbatch --mem=20G myscript.sh
 ```
 
 In this case, the memory request will be `20G` and not `8G`.
@@ -723,15 +723,19 @@ In this case, the memory request will be `20G` and not `8G`.
 - Your jobs need to be billed to a project ("account"),
   and you *always* need to specify one.  
 
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 | Resource/use                 | short    | long      | default
 |------------------------------|----------|-----------|:--------:|
 | Project to be billed         | -A PAS1855 | --account=PAS1855 | N/A
 
 ```sh
+$ sbatch -A PAS1855 myscript.sh 
+```
+
+```sh
 #!/bin/bash
-#SBATCH --account=PAS0471
+#SBATCH --account=PAS1855
 ```
 
 ---
@@ -782,7 +786,7 @@ $ sbatch -t 30 myscript.sh   # 30 minutes
 
 ```sh
 #!/bin/bash
-#SBATCH --time=60            # 1 hour
+#SBATCH --time=1:00:00       # 1 hour
 ```
 
 ---
@@ -791,20 +795,19 @@ $ sbatch -t 30 myscript.sh   # 30 minutes
 
 Specify a maximum amount of RAM (Random Access Memory) that your job can use.
 
-Like with the time limit, your job **gets killed** when it hits the memory limit.  
-But this is not that common &amp;ndash; as the [OSC documentation](https://www.osc.edu/supercomputing/batch-processing-at-osc/job-scripts)
-says:
+- Like with the time limit, your job **gets killed** when it hits the memory limit.
+  But this is not that common &amp;ndash; as the
+  [OSC documentation](https://www.osc.edu/supercomputing/batch-processing-at-osc/job-scripts)
+  says:
 
 &gt; There is no need to specify a memory limit unless your memory requirements
 &gt; are disproportionate to the number of cores you are requesting or you need a large-memory node.
 
----
-
-## Compute job options: Memory (cont.)
-
 - The default unit is MB (MegaBytes) &amp;ndash; use "G" for GB.
 
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+&lt;br&gt;
+
+--
 
 | Resource/use                 | short    | long      | default |
 |------------------------------|----------|-----------|:-----|
@@ -826,7 +829,7 @@ $ sbatch --mem=20G myscript.sh   # 20 GB
 | Resource/use                  | short    | long                    | default
 |-------------------------------|----------|-------------------------|:--------:| 
 | Number of nodes               | -N 1     | --nodes=1               | 1
-| Number of cores               | -c 1     | --cpus-per-task=1       | 1
+| Number of cores (per task)    | -c 1     | --cpus-per-task=1       | 1
 | Number of "tasks" (processes) | -n 1     | --ntasks=1              | 1
 | Number of tasks per node      | -        | --ntasks-per-node=1     | 1
 
@@ -836,7 +839,7 @@ $ sbatch --mem=20G myscript.sh   # 20 GB
 
 .content-box-warning[
 - SLURM for the most part uses "**core**" and "**CPU**"
-  (= processor, often technically contains multiple cores) interchangeably.
+  (which often technically contains multiple cores) interchangeably.
 
 - In this context, "**thread**" (a single core may contain multiple threads)
   is *also* used in the same way, so when we talk
@@ -864,8 +867,8 @@ $ sbatch --mem=20G myscript.sh   # 20 GB
 - Multi-threading, i.e. a single program run using multiple threads/cores,
   is much more common than having multiple processes in a single job.
   
-- For jobs with multi-threading, use `--cpus-per-task=n`  
-  (and keep `--nodes` and `ntasks` at their defaults of 1).
+- **For jobs with multi-threading, use `--cpus-per-task=n`  
+  (and keep `--nodes` and `ntasks` at their defaults of 1).**
   
 - For jobs with multiple processes (tasks), use `--ntasks=n` or
   `--ntasks-per-node=n` (but keep `--nodes=1` unless you use MPI or similar).
