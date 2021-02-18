@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 7 - Bioinformatics Data</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+# *Week 7 - Bioinformatics Data*
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/02/25 (updated: 2021-02-18)
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [Downloading and transferring data](#download)
+- ### [Ensuring data integrity with checksums](#checksums)
+- ### [Compressed data](#compress)
+- ### [Shell productivity tips](#prod)
+]
+
+---
+name: download
+
+## Downloading data with `wget`
+
+`wget` will download files from a specified address, by default saving it using
+the file name from the source:
+
+```sh
+$ wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr22.fa.gz
+#&gt; --2013-06-30 00:15:45-- http://[...]/goldenPath/hg19/chromosomes/chr22.fa.gz
+#&gt; Resolving hgdownload.soe.ucsc.edu... 128.114.119.163
+#&gt; Connecting to hgdownload.soe.ucsc.edu|128.114.119.163|:80... connected.
+#&gt; HTTP request sent, awaiting response... 200 OK
+#&gt; Length: 11327826 (11M) [application/x-gzip]
+#&gt; Saving to: ‘chr22.fa.gz’
+#&gt; 17% [======&gt;                             ] 1,989,172 234KB/s eta 66s
+
+$ ls -lh
+#&gt; -rw-rw-r-- 1 jelmer jelmer  11M Mar 20  2009 chr22.fa.gz
+```
+
+---
+name: download
+
+## Downloading data with `wget` (cont.)
+
+- `wget` can also download multiple files at once with `--recursive`:
+
+  ```sh
+  $ wget --recursive --no-parent \
+        --no-directories --accept "*.gtf" \
+        http://genomics.someuniversity.edu/labsite/annotation.html
+  ```
+
+- With `--recursive` set, downloads can get out of hand, so we use the following
+  additional options:
+  
+  - `--no-parent` &amp;mdash; Don't follow links to parent directories,
+  - `--accept "*.gtf"` &amp;mdash; Only download matching (here: GTF) files.
+
+- We also use `--no-directories` to not place the downloaded files in the same
+  dir structure as the source: we just want all GTF files in a single dir.
+
+--
+
+.content-box-info[
+Other useful options include `--level` to specify the number of directory levels
+that should be recursively downloaded,
+and `--reject`, which does the opposite of `--accept`. There are *many* others!
+]
+
+---
+
+## Downloading data with `curl`
+
+`curl` is similar to `wget`, but can also download data using some additional
+protocols such as SFTP (secure FTP).
+
+If you use it, you should also be aware that it prints downloads to standard
+out by default, so you should redirect (or use the `-O` option) to save
+downloads to file:
+
+```sh
+$ curl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr21.fa.gz \
+      &gt; chr21.fa.gz
+```
+
+---
+
+## Transferring files: &lt;br&gt; small transfers (&lt;1 GB) to/from OSC
+
+With **`scp`** (secure copy), which works much like the regular `cp`:
+
+- Local to remote:
+  
+  ```bash
+  $ scp &lt;local-path&gt; &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt;
+  ```
+  
+- Remote to local is simply the reverse:
+  
+  ```sh
+  $ scp &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt; &lt;local-path&gt;
+  ```
+
+--
+
+- For instance:
+  
+  ```sh
+  $ scp -r scripts/ jelmer@pitzer.osc.edu:~/scripts
+  $ scp -r jelmer@pitzer.osc.edu:~/scripts scripts/
+  ```
+
+--
+
+.content-box-info[
+- Do transfers in either direction from your *local* shell.
+- If you created SSH shortcuts, these will work here too!
+]
+
+---
+
+## Transferring files: &lt;br&gt; small transfers (&lt;1 GB) to/from OSC
+
+Another option is the **`rsync`** command, which I recommend,
+especially when you want to keep certain folders **synced**: `rsync` won't copy
+any files that are present &amp; identical in source and destination.
+
+- The basic from-to syntax is the same as for `scp`.
+
+--
+
+- A useful combination of options is `-avz`:
+  - `-a` enables archival mode (also makes `-r` unnecessary);
+  - `-v` increases verbosity &amp;ndash; tells you what is being copied.
+  - `-z` enables compressed file transfer (=&gt; faster).
+
+  ```bash
+  $ rsync -avz ~/scripts jelmer@owens.osc.edu:~/scripts
+  
+  # If the files are large, "--progress" will help you keep track:
+  $ rsync -avz --progress ~/scripts jelmer@owens.osc.edu:~/scripts
+  ```
+
+--
+
+.content-box-info[
+Buffalo also uses the `-e ssh` option, but this is not necessary.
+]
+
+---
+background-color: #f2f5eb
+
+## More `rsync`
+
+.content-box-warning[
+Presence/absence of a trailing slash for source directories makes a
+difference to `rsync`.
+]
+
+- The following will sync the two dirs below, so the content of each 
+  "scripts" dir will end up being identical:
+
+  ```sh
+  $ rsync -avz scripts backup/scripts
+  $ ls scripts
+  #&gt; fastq.sh
+  $ ls backup/scripts
+  #&gt; fastq.sh
+  ```
+
+- This will copy the *contents* of source dir "scripts" into target dir "scripts":
+
+  ```sh
+  $ rsync -avz scripts/ backup/scripts
+  $ ls scripts
+  #&gt; fastq.sh
+  $ ls backup/scripts
+  #&gt; scripts
+  ```
+
+---
+
+## Transferring files in the shell: any transfer size
+
+You can also use `sftp`, which doesn't run on a login node,
+so large transfers are permitted.
+(Though for *very* large transfers, Globus is preferred.)
+
+  - To log in:
+  ```bash
+  $ sftp sftp.osc.edu
+  ```
+
+  Now, you have an `sftp` prompt instead of a regular bash prompt.
+
+--
+
+- To upload files to remote, use the `put` command &amp;ndash; and note that you
+  don't need to designate remote with `:` syntax like for `scp`/`rsync`:
+
+  ```sh
+  sftp&gt; put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
+  
+  # If you don't specify a remote location, it be put in $HOME:
+  sftp&gt; put file.txt
+  ```
+
+--
+
+- To download files from remote, use the `get` command:
+
+  ```sh
+  sftp&gt; get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
+  ```
+
+---
+class: inverse middle center
+name: checksums
+
+# Ensuring data integrity with checksums
+
+----
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Ensuring data integrity with checksums
+
+Remember the hexadecimal IDs we saw for Git commits?
+These are *checksums*:
+
+&gt; *Checksums are very compressed summaries of data,
+&gt; computed in a way that even if jst one bit of the data is changed,
+&gt; the checksum will be different.* &amp;mdash; Buffalo Chapter 6
+
+--
+
+Several algorithms (&amp; associated Unix commands) can compute checksums.
+
+`SHA-1` checksums are the ones we've seen with Git and are preferred nowadays.
+We use the `shasum` command to compute them, typically for a file or set of files
+(as we did for commits), but we can even do it for a string:
+
+```sh
+$ echo "bioinformatics is fun" | shasum
+#&gt; f9b70d0d1b0a55263f1b012adab6abf572e3030b    -
+
+$ echo "bioinformatic is fun" | shasum
+#&gt; e7f33eedcfdc9aef8a9b4fec07e58f0cf292aa67    -
+```
+
+Even though the string only differed very slightly, the checksum is entirely
+different!
+
+---
+
+## Ensuring data integrity with checksums
+
+We can compute the checksum for one of the FASTA files we downloaded earlier:
+
+```sh
+$ shasum chr22.fa.gz 
+d012edd46f50d674380460d3b4e91f450688e756  chr22.fa.gz
+```
+
+Let's compute the checksums for both FASTA files, and save them in a file:
+
+```sh
+$ shasum chr*.fa.gz &gt; shasums.txt
+
+$ cat shasums.txt
+#&gt; 4f418c07dc24d2bf23744df6c3394447707df97d  chr21.fa.gz
+#&gt; d012edd46f50d674380460d3b4e91f450688e756  chr22.fa.gz
+```
+
+Now, if we transfer these files elsewhere, we can use the checksums in the file
+to check if the files were transferred completely and correctly,
+using the `-c` option:
+
+```sh
+$ shasum -c shasums.txt
+#&gt; chr21.fa.gz: OK
+#&gt; chr22.fa.gz: OK
+```
+
+---
+
+## Side note: Differences between files with `diff`
+
+We have also seen the `diff` utility at work via `git diff`,
+but it's important to realize you can also use it outside of the context
+of Git repositories.
+
+If you find that checksums differ for files that should be the same,
+or otherwise want to get an overview of differences between two similar
+text files, use `diff`, optionally with the `-u` option:
+
+```sh
+$ diff -u gene-1.bed gene-2.bed
+#&gt; --- gene-1.bed  2020-11-28 16:54:27.098085903 -0500
+#&gt; +++ gene-2.bed  2020-11-28 16:54:27.102085904 -0500
+#&gt; @@ -1,22 +1,19 @@
+#&gt;  1      6206197 6206270 GENE00000025907
+#&gt;  1      6223599 6223745 GENE00000025907
+#&gt;  1      6227940 6228049 GENE00000025907
+#&gt; +1      6222341 6228319 GENE00000025907
+#&gt;  1      6229959 6230073 GENE00000025907
+#&gt; -1      6230003 6230005 GENE00000025907
+```
+
+---
+class: inverse middle center
+name: compress
+
+# Compressed data
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Compressed data: `gzip`
+
+When we download data, it is often compressed with `gzip` ("gzipped"):  
+you can tell by the `.gz` extension.
+
+(Though recall that extensions are not destiny in Unix, and it is perfectly
+possible to misleadingly safe an unzipped file as `.gz`.)
+
+Many programs can work with gzipped files directly, but sometimes you do need
+to unzip them, which can be done with `gunzip`:
+
+```sh
+# gunzip unzips in place - the original zipped file disappears:
+$ gunzip chr21.fa.gz
+$ ls chr21*
+#&gt; chr21.fa
+
+# To keep the original, output to stdout with "-c" and redirect:
+$ gunzip -c chr22.fa.gz &gt; chr22.fa
+$ ls chr22*
+#&gt; chr22.fa  chr22.fa.gz
+```
+
+---
+
+## Compressed data: `gzip` (cont.)
+
+- To zip files, we use `gzip`:
+
+  ```sh
+  $ gzip chr21.fastq
+  $ ls chr21*
+  #&gt; chr21.fastq.gz
+  
+  # As with unzipping, use -c and redirect to keep the original:
+  $ gzip -c chr22.fa &gt; chr22_copy.fa.gz
+  $ ls chr22*
+  #&gt; chr22_copy.fa.gz  chr22.fa  chr22.fa.gz
+  ```
+
+- Often, a program will output unzipped data to standard out,
+  which we can immediately pipe to gzip so we only need to write the compressed
+  file to disk (beneficial because reading/writing to files is time-consuming):
+
+  ```sh
+  trimmer in.fastq.gz | gzip &gt; out.fastq.gz
+  ```
+  
+  *(Note that because the input to `gzip` comes from standard in, the output
+  will by default be to standard out!)*
+
+---
+
+## Concatenating compressed data
+
+```sh
+$ ls
+in.fastq.gz in2.fastq
+$ gzip -c in2.fastq &gt;&gt; in.fastq.gz
+```
+
+```sh
+cat fastq_L001.fastq.gz fastq_L001.fastq.gz &gt; fastq.gz
+```
+
+---
+
+## Working with compressed data directly
+
+```sh
+$ zgrep --color -i -n "AGATAGAT" Csyrichta_TAGGACT_L008_R1_001.fastq.gz
+2706: ACTTCGGAGAGCCCATATATACACACTAAGATAGATAGCGTTAGCTAATGTAGATAGATT
+```
+
+---
+
+## Compressed data: `tar` archives
+
+
+---
+class:inverse middle center
+name:prod
+
+# Shell productivity tips
+
+----
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Shell productivity tips
+
+- Use keyboard shortcuts, especially:
+  - Alt + . (multiple times possible!)
+  - Move cursor word-to-word with Ctrl held
+  - (Don't forget you can press enter regardless of where your cursor is!)
+  - Whenever cutting to beginning/end of line or last word, remember you can
+    paste with Ctrl + Y!
+  - Cut word with Ctrl + W or Alt+Backspace (=Option+Delete)
+
+- History:
+
+  - `Ctrl` + `R`
+  - `!!` and `sudo !!`
+  - `!ls:p`
+  - `history | grep module | head` =&gt; `!35`
+  
+- Shellcheck
+
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class: center middle inverse
+
+# Bonus material 
+
+----
+
+.left[
+- ### [Bash configuration files and $PATH](#bashrc-path)
+- ### [Process management](#processes)
+]
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class:inverse middle center
+name:processes
+
+# Process management
+
+----
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Process management: background processes
+
+- To run a process in the background, put an `&amp;` after the command:
+
+  ```sh
+  # du -sh example?
+  $ program1 input.txt &gt; results.txt &amp;
+  ```
+
+- To check which processes are running in the background:
+
+  ```sh
+  $ jobs
+  #&gt; [1]+ Running        program1 input.txt &gt; results.txt
+  ```
+
+- You can bring processes back to the foreground with `fg` and optionally
+  using the ID provided (`[1]` above).
+  
+  The default is to bring the most recent process back to the foreground,
+  so in this case, the following two would be equivalent:
+  
+  ```sh
+  $ fg
+  
+  $ fg %1
+  ```
+
+---
+
+## Process management: background processes (cont.)
+
+- To bring a process that is *already running* to the background,
+  we need to first suspend (i.e., pause) the process:
+  
+  ```sh
+  $ program1 input.txt &gt; results.txt # forgot to append ampersand
+  $ # enter control-z
+  #&gt; [1]+ Stopped
+  program1 input.txt &gt; results.txt
+  $ bg
+  #&gt; [1]+ program1 input.txt &gt; results.txt
+  ```
+
+.content-box-info[
+Recall that Ctrl+C is used to kill a foreground process.
+]
+
+---
+
+## Process management: background processes (cont.)
+
+- Even when a process is running in the background (after using `&amp;`),
+  closing the terminal would kill the process.
+  
+  To avoid this, you can use `nohup`:
+  
+  ```sh
+  $ nohup du -sh ... &amp;
+  #&gt; [1] 10900
+  ```
+
+- We can't bring a processing running with `nohup` back to the foreground,
+  but to kill it, we can use the process ID printed above and the `kill` command:
+  
+  ```sh
+  $ kill 10900
+  ```
+
+.content-box-info[
+Alternatively, you can use a so-called "terminal multiplier" like `tmux`,
+see Buffalo Chapter 4 details.
+]
+
+---
+
+## Process management: background processes (cont.)
+
+- Using background processes can be useful in `for` loops,
+  so that we simultaneously start a process for every iteration of the loop:
+  
+  ```sh
+  $ for filename in *.fastq; do
+        program "$filename" &amp;
+    done
+  ```
+
+- However, this launches as many processes as there are FASTQ files,
+  which could be a problem and is still not very efficient if you have many
+  more files than cores.
+  
+  To control this better, you can submit a separate SLURM job for each iteration
+  instead, or use `xargs` or `parallel` for a non-loop solution
+  (last week's bonus slides, and Buffalo Chapter 12).
+  
+---
+class: inverse middle center
+name: bashrc-path
+
+# Bash configuration files and $PATH
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+background-color: #f2f5eb
+
+## Bash configuration files
+
+Your bash shell is configured using simple (hidden) text files in your `$HOME`:
+
+- `~/.bashrc` &amp;ndash; for non-login shells
+
+- `~/.bash_profile` &amp;ndash; for non-login shells
+
+These can be viewed and edited like normal text files:
+
+```sh
+$ cat ~/.bashrc
+
+$ nano ~/.bashrc    # Or open in VS Code
+```
+
+--
+
+.content-box-info[
+**Some settings that are / can be stored in these config files:**
+
+- The look of your prompt.
+
+- `alias`es &amp;ndash; personal, custom shortcuts for (complex) commands.
+
+- The `$PATH`, a list of directories with binaries (next slide).
+
+- Other custom settings like running setup scripts.
+]
+
+---
+background-color: #f2f5eb
+
+## Bash configuration files
+
+Your bash shell is configured using simple (hidden) text files in your `$HOME`:
+
+- `~/.bashrc` &amp;ndash; for non-login shells
+
+- `~/.bash_profile` &amp;ndash; for non-login shells
+
+These can be viewed and edited like normal text files:
+
+```sh
+$ cat ~/.bashrc
+
+$ nano ~/.bashrc    # Or open in VS Code
+```
+
+&lt;br&gt;
+
+.content-box-info[
+To not have to deal with the login/non-login shell distinction, it is common
+to put all settings in one of these files (often `.bashrc`) and let the second
+file (often `.bash_profile`) run the first file whenever it itself is being run.
+]
+
+---
+background-color: #f2f5eb
+
+## `$PATH`: A list of directories with binaries
+
+- `$PATH` is another environment variable like `$HOME` and `$USER`.
+
+- It lists the directories that will be searched when you type a program’s name.
+  This allows you to run programs without specifying the full path to the executable.
+  For example:
+  
+  ```sh
+  $ vcftools
+  #&gt; VCFtools (0.1.16)
+  #&gt; (c) Adam Auton and Anthony Marcketta 2009
+  
+  # To check where the program's binary is located:
+  $ which vcftools
+  #&gt; /usr/bin/vcftools
+  ```
+
+---
+background-color: #f2f5eb
+
+## `$PATH`: A list of directories with binaries (cont.)
+
+- To check which directories are in your `$PATH`, you can simply `echo` it:
+
+  ```sh
+  $ echo $PATH
+  #&gt; /apps/xalt/xalt/bin:/opt/mvapich2/intel/19.0/2.3.3/bin:/apps/gnu/8.4.0/bin:/opt/intel/19.0.5/itac_latest/bin:/opt/intel/19.0.5/advisor/bin64:/opt/intel/19.0.5/vtune_amplifier/bin64:/opt/intel/19.0.5/inspector_2019/bin64:/opt/intel/19.0.5/compilers_and_libraries_2019/linux/bin/intel64:/apps/software_usage:/usr/lib64/qt-3.3/bin:/opt/osc/bin:/opt/moab/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/opt/ddn/ime/bin:/opt/puppetlabs/bin:/users/PAS0471/jelmer/software/bin
+  ```
+
+&lt;br&gt;
+
+- The output looks strange and is hard to read because the different directories
+  in your `$PATH` are separated by colons `:`.
+  Let's make that a bit more readable:
+  
+  ```sh
+  $ echo $PATH | tr ":" "\n" | nl
+  #&gt; 1  /apps/xalt/xalt/bin
+  #&gt; 2  /opt/mvapich2/intel/19.0/2.3.3/bin
+  #&gt; 3  /apps/gnu/8.4.0/bin
+  #&gt; 4  /opt/intel/19.0.5/itac_latest/bin
+  #&gt; 5  /opt/intel/19.0.5/advisor/bin64
+  #&gt; ...
+  ```
+
+---
+background-color: #f2f5eb
+
+## `$PATH`: A list of directories with binaries (cont.)
+
+- You can easily modify your `$PATH`.
+  To add a directory to your `$PATH` in the current session,
+  you simply *append* a new dir after a colon:
+
+  ```sh
+  $ PATH=$PATH:~/new-dir-with-software/
+  ```
+
+&lt;br&gt;
+
+--
+
+- However, this change will not have any effects outside of your current bash sessions.
+  
+  **For lasting changes**,
+  you should edit your bash configuration files (like `~/.bashrc`),
+  from which `$PATH` is loaded whenever you open a terminal:
+  
+  ```sh
+  $ echo "PATH=$PATH:~/new-dir-with-software/" &gt;&gt; ~/.bashrc
+  ```
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

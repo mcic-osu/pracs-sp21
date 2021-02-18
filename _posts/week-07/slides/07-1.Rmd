@@ -1,0 +1,733 @@
+---
+title: "Week 7 - Bioinformatics Data"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# *Week 7 - Bioinformatics Data*
+
+----
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/02/25 (updated: `r Sys.Date()`)
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [Downloading and transferring data](#download)
+- ### [Ensuring data integrity with checksums](#checksums)
+- ### [Compressed data](#compress)
+- ### [Shell productivity tips](#prod)
+]
+
+---
+name: download
+
+## Downloading data with `wget`
+
+`wget` will download files from a specified address, by default saving it using
+the file name from the source:
+
+```sh
+$ wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr22.fa.gz
+#> --2013-06-30 00:15:45-- http://[...]/goldenPath/hg19/chromosomes/chr22.fa.gz
+#> Resolving hgdownload.soe.ucsc.edu... 128.114.119.163
+#> Connecting to hgdownload.soe.ucsc.edu|128.114.119.163|:80... connected.
+#> HTTP request sent, awaiting response... 200 OK
+#> Length: 11327826 (11M) [application/x-gzip]
+#> Saving to: ‘chr22.fa.gz’
+#> 17% [======>                             ] 1,989,172 234KB/s eta 66s
+
+$ ls -lh
+#> -rw-rw-r-- 1 jelmer jelmer  11M Mar 20  2009 chr22.fa.gz
+```
+
+---
+name: download
+
+## Downloading data with `wget` (cont.)
+
+- `wget` can also download multiple files at once with `--recursive`:
+
+  ```sh
+  $ wget --recursive --no-parent \
+        --no-directories --accept "*.gtf" \
+        http://genomics.someuniversity.edu/labsite/annotation.html
+  ```
+
+- With `--recursive` set, downloads can get out of hand, so we use the following
+  additional options:
+  
+  - `--no-parent` &mdash; Don't follow links to parent directories,
+  - `--accept "*.gtf"` &mdash; Only download matching (here: GTF) files.
+
+- We also use `--no-directories` to not place the downloaded files in the same
+  dir structure as the source: we just want all GTF files in a single dir.
+
+--
+
+.content-box-info[
+Other useful options include `--level` to specify the number of directory levels
+that should be recursively downloaded,
+and `--reject`, which does the opposite of `--accept`. There are *many* others!
+]
+
+---
+
+## Downloading data with `curl`
+
+`curl` is similar to `wget`, but can also download data using some additional
+protocols such as SFTP (secure FTP).
+
+If you use it, you should also be aware that it prints downloads to standard
+out by default, so you should redirect (or use the `-O` option) to save
+downloads to file:
+
+```sh
+$ curl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr21.fa.gz \
+      > chr21.fa.gz
+```
+
+---
+
+## Transferring files: <br> small transfers (<1 GB) to/from OSC
+
+With **`scp`** (secure copy), which works much like the regular `cp`:
+
+- Local to remote:
+  
+  ```bash
+  $ scp <local-path> <user>@pitzer.osc.edu:<remote-path>
+  ```
+  
+- Remote to local is simply the reverse:
+  
+  ```sh
+  $ scp <user>@pitzer.osc.edu:<remote-path> <local-path>
+  ```
+
+--
+
+- For instance:
+  
+  ```sh
+  $ scp -r scripts/ jelmer@pitzer.osc.edu:~/scripts
+  $ scp -r jelmer@pitzer.osc.edu:~/scripts scripts/
+  ```
+
+--
+
+.content-box-info[
+- Do transfers in either direction from your *local* shell.
+- If you created SSH shortcuts, these will work here too!
+]
+
+---
+
+## Transferring files: <br> small transfers (<1 GB) to/from OSC
+
+Another option is the **`rsync`** command, which I recommend,
+especially when you want to keep certain folders **synced**: `rsync` won't copy
+any files that are present & identical in source and destination.
+
+- The basic from-to syntax is the same as for `scp`.
+
+--
+
+- A useful combination of options is `-avz`:
+  - `-a` enables archival mode (also makes `-r` unnecessary);
+  - `-v` increases verbosity &ndash; tells you what is being copied.
+  - `-z` enables compressed file transfer (=> faster).
+
+  ```bash
+  $ rsync -avz ~/scripts jelmer@owens.osc.edu:~/scripts
+  
+  # If the files are large, "--progress" will help you keep track:
+  $ rsync -avz --progress ~/scripts jelmer@owens.osc.edu:~/scripts
+  ```
+
+--
+
+.content-box-info[
+Buffalo also uses the `-e ssh` option, but this is not necessary.
+]
+
+---
+background-color: #f2f5eb
+
+## More `rsync`
+
+.content-box-warning[
+Presence/absence of a trailing slash for source directories makes a
+difference to `rsync`.
+]
+
+- The following will sync the two dirs below, so the content of each 
+  "scripts" dir will end up being identical:
+
+  ```sh
+  $ rsync -avz scripts backup/scripts
+  $ ls scripts
+  #> fastq.sh
+  $ ls backup/scripts
+  #> fastq.sh
+  ```
+
+- This will copy the *contents* of source dir "scripts" into target dir "scripts":
+
+  ```sh
+  $ rsync -avz scripts/ backup/scripts
+  $ ls scripts
+  #> fastq.sh
+  $ ls backup/scripts
+  #> scripts
+  ```
+
+---
+
+## Transferring files in the shell: any transfer size
+
+You can also use `sftp`, which doesn't run on a login node,
+so large transfers are permitted.
+(Though for *very* large transfers, Globus is preferred.)
+
+  - To log in:
+  ```bash
+  $ sftp sftp.osc.edu
+  ```
+
+  Now, you have an `sftp` prompt instead of a regular bash prompt.
+
+--
+
+- To upload files to remote, use the `put` command &ndash; and note that you
+  don't need to designate remote with `:` syntax like for `scp`/`rsync`:
+
+  ```sh
+  sftp> put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
+  
+  # If you don't specify a remote location, it be put in $HOME:
+  sftp> put file.txt
+  ```
+
+--
+
+- To download files from remote, use the `get` command:
+
+  ```sh
+  sftp> get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
+  ```
+
+---
+class: inverse middle center
+name: checksums
+
+# Ensuring data integrity with checksums
+
+----
+<br> <br> <br> <br>
+
+---
+
+## Ensuring data integrity with checksums
+
+Remember the hexadecimal IDs we saw for Git commits?
+These are *checksums*:
+
+> *Checksums are very compressed summaries of data,
+> computed in a way that even if jst one bit of the data is changed,
+> the checksum will be different.* &mdash; Buffalo Chapter 6
+
+--
+
+Several algorithms (& associated Unix commands) can compute checksums.
+
+`SHA-1` checksums are the ones we've seen with Git and are preferred nowadays.
+We use the `shasum` command to compute them, typically for a file or set of files
+(as we did for commits), but we can even do it for a string:
+
+```sh
+$ echo "bioinformatics is fun" | shasum
+#> f9b70d0d1b0a55263f1b012adab6abf572e3030b    -
+
+$ echo "bioinformatic is fun" | shasum
+#> e7f33eedcfdc9aef8a9b4fec07e58f0cf292aa67    -
+```
+
+Even though the string only differed very slightly, the checksum is entirely
+different!
+
+---
+
+## Ensuring data integrity with checksums
+
+We can compute the checksum for one of the FASTA files we downloaded earlier:
+
+```sh
+$ shasum chr22.fa.gz 
+d012edd46f50d674380460d3b4e91f450688e756  chr22.fa.gz
+```
+
+Let's compute the checksums for both FASTA files, and save them in a file:
+
+```sh
+$ shasum chr*.fa.gz > shasums.txt
+
+$ cat shasums.txt
+#> 4f418c07dc24d2bf23744df6c3394447707df97d  chr21.fa.gz
+#> d012edd46f50d674380460d3b4e91f450688e756  chr22.fa.gz
+```
+
+Now, if we transfer these files elsewhere, we can use the checksums in the file
+to check if the files were transferred completely and correctly,
+using the `-c` option:
+
+```sh
+$ shasum -c shasums.txt
+#> chr21.fa.gz: OK
+#> chr22.fa.gz: OK
+```
+
+---
+
+## Side note: Differences between files with `diff`
+
+We have also seen the `diff` utility at work via `git diff`,
+but it's important to realize you can also use it outside of the context
+of Git repositories.
+
+If you find that checksums differ for files that should be the same,
+or otherwise want to get an overview of differences between two similar
+text files, use `diff`, optionally with the `-u` option:
+
+```sh
+$ diff -u gene-1.bed gene-2.bed
+#> --- gene-1.bed  2020-11-28 16:54:27.098085903 -0500
+#> +++ gene-2.bed  2020-11-28 16:54:27.102085904 -0500
+#> @@ -1,22 +1,19 @@
+#>  1      6206197 6206270 GENE00000025907
+#>  1      6223599 6223745 GENE00000025907
+#>  1      6227940 6228049 GENE00000025907
+#> +1      6222341 6228319 GENE00000025907
+#>  1      6229959 6230073 GENE00000025907
+#> -1      6230003 6230005 GENE00000025907
+```
+
+---
+class: inverse middle center
+name: compress
+
+# Compressed data
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Compressed data: `gzip`
+
+When we download data, it is often compressed with `gzip` ("gzipped"):  
+you can tell by the `.gz` extension.
+
+(Though recall that extensions are not destiny in Unix, and it is perfectly
+possible to misleadingly safe an unzipped file as `.gz`.)
+
+Many programs can work with gzipped files directly, but sometimes you do need
+to unzip them, which can be done with `gunzip`:
+
+```sh
+# gunzip unzips in place - the original zipped file disappears:
+$ gunzip chr21.fa.gz
+$ ls chr21*
+#> chr21.fa
+
+# To keep the original, output to stdout with "-c" and redirect:
+$ gunzip -c chr22.fa.gz > chr22.fa
+$ ls chr22*
+#> chr22.fa  chr22.fa.gz
+```
+
+---
+
+## Compressed data: `gzip` (cont.)
+
+- To zip files, we use `gzip`:
+
+  ```sh
+  $ gzip chr21.fastq
+  $ ls chr21*
+  #> chr21.fastq.gz
+  
+  # As with unzipping, use -c and redirect to keep the original:
+  $ gzip -c chr22.fa > chr22_copy.fa.gz
+  $ ls chr22*
+  #> chr22_copy.fa.gz  chr22.fa  chr22.fa.gz
+  ```
+
+- Often, a program will output unzipped data to standard out,
+  which we can immediately pipe to gzip so we only need to write the compressed
+  file to disk (beneficial because reading/writing to files is time-consuming):
+
+  ```sh
+  trimmer in.fastq.gz | gzip > out.fastq.gz
+  ```
+  
+  *(Note that because the input to `gzip` comes from standard in, the output
+  will by default be to standard out!)*
+
+---
+
+## Concatenating compressed data
+
+```sh
+$ ls
+in.fastq.gz in2.fastq
+$ gzip -c in2.fastq >> in.fastq.gz
+```
+
+```sh
+cat fastq_L001.fastq.gz fastq_L001.fastq.gz > fastq.gz
+```
+
+---
+
+## Working with compressed data directly
+
+```sh
+$ zgrep --color -i -n "AGATAGAT" Csyrichta_TAGGACT_L008_R1_001.fastq.gz
+2706: ACTTCGGAGAGCCCATATATACACACTAAGATAGATAGCGTTAGCTAATGTAGATAGATT
+```
+
+---
+
+## Compressed data: `tar` archives
+
+
+---
+class:inverse middle center
+name:prod
+
+# Shell productivity tips
+
+----
+<br> <br> <br> <br>
+
+---
+
+## Shell productivity tips
+
+- Use keyboard shortcuts, especially:
+  - Alt + . (multiple times possible!)
+  - Move cursor word-to-word with Ctrl held
+  - (Don't forget you can press enter regardless of where your cursor is!)
+  - Whenever cutting to beginning/end of line or last word, remember you can
+    paste with Ctrl + Y!
+  - Cut word with Ctrl + W or Alt+Backspace (=Option+Delete)
+
+- History:
+
+  - `Ctrl` + `R`
+  - `!!` and `sudo !!`
+  - `!ls:p`
+  - `history | grep module | head` => `!35`
+  
+- Shellcheck
+
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>
+
+---
+class: center middle inverse
+
+# Bonus material 
+
+----
+
+.left[
+- ### [Bash configuration files and $PATH](#bashrc-path)
+- ### [Process management](#processes)
+]
+
+<br> <br> <br> <br>
+
+---
+class:inverse middle center
+name:processes
+
+# Process management
+
+----
+<br> <br> <br> <br>
+
+---
+
+## Process management: background processes
+
+- To run a process in the background, put an `&` after the command:
+
+  ```sh
+  # du -sh example?
+  $ program1 input.txt > results.txt &
+  ```
+
+- To check which processes are running in the background:
+
+  ```sh
+  $ jobs
+  #> [1]+ Running        program1 input.txt > results.txt
+  ```
+
+- You can bring processes back to the foreground with `fg` and optionally
+  using the ID provided (`[1]` above).
+  
+  The default is to bring the most recent process back to the foreground,
+  so in this case, the following two would be equivalent:
+  
+  ```sh
+  $ fg
+  
+  $ fg %1
+  ```
+
+---
+
+## Process management: background processes (cont.)
+
+- To bring a process that is *already running* to the background,
+  we need to first suspend (i.e., pause) the process:
+  
+  ```sh
+  $ program1 input.txt > results.txt # forgot to append ampersand
+  $ # enter control-z
+  #> [1]+ Stopped
+  program1 input.txt > results.txt
+  $ bg
+  #> [1]+ program1 input.txt > results.txt
+  ```
+
+.content-box-info[
+Recall that Ctrl+C is used to kill a foreground process.
+]
+
+---
+
+## Process management: background processes (cont.)
+
+- Even when a process is running in the background (after using `&`),
+  closing the terminal would kill the process.
+  
+  To avoid this, you can use `nohup`:
+  
+  ```sh
+  $ nohup du -sh ... &
+  #> [1] 10900
+  ```
+
+- We can't bring a processing running with `nohup` back to the foreground,
+  but to kill it, we can use the process ID printed above and the `kill` command:
+  
+  ```sh
+  $ kill 10900
+  ```
+
+.content-box-info[
+Alternatively, you can use a so-called "terminal multiplier" like `tmux`,
+see Buffalo Chapter 4 details.
+]
+
+---
+
+## Process management: background processes (cont.)
+
+- Using background processes can be useful in `for` loops,
+  so that we simultaneously start a process for every iteration of the loop:
+  
+  ```sh
+  $ for filename in *.fastq; do
+        program "$filename" &
+    done
+  ```
+
+- However, this launches as many processes as there are FASTQ files,
+  which could be a problem and is still not very efficient if you have many
+  more files than cores.
+  
+  To control this better, you can submit a separate SLURM job for each iteration
+  instead, or use `xargs` or `parallel` for a non-loop solution
+  (last week's bonus slides, and Buffalo Chapter 12).
+  
+---
+class: inverse middle center
+name: bashrc-path
+
+# Bash configuration files and $PATH
+
+----
+
+<br> <br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+
+## Bash configuration files
+
+Your bash shell is configured using simple (hidden) text files in your `$HOME`:
+
+- `~/.bashrc` &ndash; for non-login shells
+
+- `~/.bash_profile` &ndash; for non-login shells
+
+These can be viewed and edited like normal text files:
+
+```sh
+$ cat ~/.bashrc
+
+$ nano ~/.bashrc    # Or open in VS Code
+```
+
+--
+
+.content-box-info[
+**Some settings that are / can be stored in these config files:**
+
+- The look of your prompt.
+
+- `alias`es &ndash; personal, custom shortcuts for (complex) commands.
+
+- The `$PATH`, a list of directories with binaries (next slide).
+
+- Other custom settings like running setup scripts.
+]
+
+---
+background-color: #f2f5eb
+
+## Bash configuration files
+
+Your bash shell is configured using simple (hidden) text files in your `$HOME`:
+
+- `~/.bashrc` &ndash; for non-login shells
+
+- `~/.bash_profile` &ndash; for non-login shells
+
+These can be viewed and edited like normal text files:
+
+```sh
+$ cat ~/.bashrc
+
+$ nano ~/.bashrc    # Or open in VS Code
+```
+
+<br>
+
+.content-box-info[
+To not have to deal with the login/non-login shell distinction, it is common
+to put all settings in one of these files (often `.bashrc`) and let the second
+file (often `.bash_profile`) run the first file whenever it itself is being run.
+]
+
+---
+background-color: #f2f5eb
+
+## `$PATH`: A list of directories with binaries
+
+- `$PATH` is another environment variable like `$HOME` and `$USER`.
+
+- It lists the directories that will be searched when you type a program’s name.
+  This allows you to run programs without specifying the full path to the executable.
+  For example:
+  
+  ```sh
+  $ vcftools
+  #> VCFtools (0.1.16)
+  #> (c) Adam Auton and Anthony Marcketta 2009
+  
+  # To check where the program's binary is located:
+  $ which vcftools
+  #> /usr/bin/vcftools
+  ```
+
+---
+background-color: #f2f5eb
+
+## `$PATH`: A list of directories with binaries (cont.)
+
+- To check which directories are in your `$PATH`, you can simply `echo` it:
+
+  ```sh
+  $ echo $PATH
+  #> /apps/xalt/xalt/bin:/opt/mvapich2/intel/19.0/2.3.3/bin:/apps/gnu/8.4.0/bin:/opt/intel/19.0.5/itac_latest/bin:/opt/intel/19.0.5/advisor/bin64:/opt/intel/19.0.5/vtune_amplifier/bin64:/opt/intel/19.0.5/inspector_2019/bin64:/opt/intel/19.0.5/compilers_and_libraries_2019/linux/bin/intel64:/apps/software_usage:/usr/lib64/qt-3.3/bin:/opt/osc/bin:/opt/moab/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/ibutils/bin:/opt/ddn/ime/bin:/opt/puppetlabs/bin:/users/PAS0471/jelmer/software/bin
+  ```
+
+<br>
+
+- The output looks strange and is hard to read because the different directories
+  in your `$PATH` are separated by colons `:`.
+  Let's make that a bit more readable:
+  
+  ```sh
+  $ echo $PATH | tr ":" "\n" | nl
+  #> 1  /apps/xalt/xalt/bin
+  #> 2  /opt/mvapich2/intel/19.0/2.3.3/bin
+  #> 3  /apps/gnu/8.4.0/bin
+  #> 4  /opt/intel/19.0.5/itac_latest/bin
+  #> 5  /opt/intel/19.0.5/advisor/bin64
+  #> ...
+  ```
+
+---
+background-color: #f2f5eb
+
+## `$PATH`: A list of directories with binaries (cont.)
+
+- You can easily modify your `$PATH`.
+  To add a directory to your `$PATH` in the current session,
+  you simply *append* a new dir after a colon:
+
+  ```sh
+  $ PATH=$PATH:~/new-dir-with-software/
+  ```
+
+<br>
+
+--
+
+- However, this change will not have any effects outside of your current bash sessions.
+  
+  **For lasting changes**,
+  you should edit your bash configuration files (like `~/.bashrc`),
+  from which `$PATH` is loaded whenever you open a terminal:
+  
+  ```sh
+  $ echo "PATH=$PATH:~/new-dir-with-software/" >> ~/.bashrc
+  ```
+
