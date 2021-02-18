@@ -192,7 +192,7 @@ fastqc --outdir="$output_dir" "$fastq_file"
 
 1. Add SLURM directives to request the appropriate cluster resources.
 
-1. Load OSC's module for FastqQC.
+1. Load OSC's module for FastQC.
   
 ---
 
@@ -224,7 +224,7 @@ and 1 core, so we only specify the following options:
   
   `%j` is the job number which is printed by default, but not if we specify
   out output as, say `slurm-fastqc.out`. By including this, we will avoid
-  have multiple jobs that produce the same log file.
+  having multiple jobs that produce the same log file.
   
   ```sh
   #SBATCH --output=slurm-fastqc-%j.out
@@ -347,7 +347,7 @@ We can check in on the job using the SLURM command `squeue`:
   `PD` in the `ST` (**st**atus) column:
 
   ```sh
-  squeue -u $USER
+  $ squeue -u $USER
   # JOBID   PARTITION     NAME       USER    ST      TIME  NODES NODELIST(REASON)
   # 2526085 serial-40     fastqc_s   jelmer  PD       0:00      1 (None) 
   ```
@@ -357,7 +357,7 @@ We can check in on the job using the SLURM command `squeue`:
 - Then the job should be running &amp;ndash; `R` in the `ST` column:
 
   ```sh
-  squeue -u $USER
+  $ squeue -u $USER
   # JOBID   PARTITION     NAME       USER    ST      TIME  NODES NODELIST(REASON) 
   # 2526085 serial-40     fastqc_s   jelmer  R       0:02      1 p0002 
   ```
@@ -367,7 +367,7 @@ We can check in on the job using the SLURM command `squeue`:
 - You can also use the `-l` option for more info:
   
   ```sh
-  squeue -u $USER -l
+  $ squeue -u $USER -l
   # JOBID PARTITION     NAME     USER    STATE       TIME TIME_LIMI  NODES NODELIST(REASON) 
   # 2979968 serial-40 fastqc_s   jelmer  RUNNING       0:05     15:00      1 p0002 
   ```
@@ -379,7 +379,7 @@ We can check in on the job using the SLURM command `squeue`:
 - When the job has finished, `squeue` will return nothing (!):
 
   ```sh
-  squeue -u $USER
+  $ squeue -u $USER
   # JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON) 
   ```
 
