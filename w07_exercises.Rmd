@@ -1,0 +1,455 @@
+---
+title: "Exercises: Week 7"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+## Exercises
+
+You can do exercises 1 and 2 in a shell either at OSC or on your local computer:
+whichever you prefer.
+In exercise 3, you will be transferring files to or from OSC,
+which should be done from a local shell.
+
+### Exercise 1: Download genome assembly files
+
+In this exercise, you'll download a set of files associated with a genome assembly of one organism from NCBI. As an example, I'm using the genome assembly files for *Phytophthora nicotianae var. parasitica* (also known simply as *P. parasitica*), one of several species of fungus that causes buckeye rot of tomato.
+
+Note, if you are more interested in getting the equivalent files for another organism, you should be able to follow the same steps.
+
+1.  Go to `https://www.ncbi.nlm.nih.gov`. NCBI has a number of different databases, including "SRA" for short next-generation sequencing reads, and "PubMed" for publications. In the drop-down menu that says `All Databases` next to the `Search` box, select `Assembly` and type *Phytophthora parasitica*: we want to search for whole-genome assemblies for this species.
+
+2.  Click the assembly in the prominent box at the top that says `Phyt_para_CJ02B3_V1`.
+
+    <details>
+    <summary>Hints</summary>
+    <p>
+    Here is the link to the assembly, in case things look different for you:
+    <https://www.ncbi.nlm.nih.gov/assembly/GCA_000509465.1>.
+    (But again, you can also download files from a different organism or assembly.)
+    </p>
+    </details>
+    
+3.  Now, you should be on the assembly page.
+    There is a big blue button `Download Assembly`, but if you click on it,
+    you can see that you can only download one file at a time.
+    Since we want all 20 or so files associated with the assembly, we will use
+    `wget` instead.
+    Note that this would scale easily even if we wanted files for multiple
+    assemblies (for instance, there are 9 different
+    assemblies for *P. parasitica*, as the page reports).
+    
+    Click on `FTP directory for GenBank assembly` in the top list on the right
+    hand side.
+
+4.  Use a `wget` command to download all the files you see on the assembly
+    page, using the URL in the address bar.
+    
+    In addition to the option for downloading multiple files at once
+    (and optionally, other options to optimize the download),
+    make sure you use the following options:
+    
+    - `--no-parent` --- Stop `wget` from moving *up* via the `Parent Directory`
+      link at the top of the page, which would lead it to start downloading files
+      from other assemblies...
+    
+    - `-e robots=off` --- Ignore `robots.txt` to enable the download
+      (as specified in NCBI's
+      [download FAQ](https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/)).
+    
+    ::: {.content-box-info}
+    If you see errors saying that filenames are too long,
+    you'll have to use the `--no-host-directories` and `--cut-dirs=6` options
+    as further detailed in the Hints,
+    because all the directory levels are creating paths that are too long.
+    :::
+    
+    <details>
+    <summary>Hints</summary>
+    <p>
+    
+    - Your command should be structured as follows:
+      
+      ```sh
+      $ wget --no-parent -e robots=off <other-options> <link-to-page>
+      ```
+    
+    - The link to the page is:
+      <https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/509/465/GCA_000509465.1_Phyt_para_CJ02B3_V1/>
+    
+    - Use the `--recursive` option to download more than one file at once.
+    
+    - By default, the files will be placed inside several levels of directories:
+    
+      ```sh
+      # ftp.ncbi.nlm.nih.gov/
+      # └── genomes
+      #     └── genbank
+      #         └── protozoa
+      #             └── Phytophthora_parasitica
+      #                 └── latest_assembly_versions
+      #                     └── GCA_000509525.1_Phyt_para_IAC_01_95_V1
+      ```
+      
+      To avoid this, you can use the options `--no-host-directories` and `--cut-dirs=6`
+      as suggested in the NCBI's
+      [download FAQ](https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/).
+      And if you do so, you'll also want to specify an arbitrary target dir name
+      with `-P`, e.g. `-P ncbi_Pparasiticus`.
+    
+    - If you want to play around with different options, I suggest you use the
+      `--accept` option to only select one or two small files to be downloaded,
+      e.g. `--accept "*assembly_stats*"`.
+      
+    - Don't hesitate to look at the solution if your first attempts fail.
+      The minutiae of `wget` commands aren't terribly important -- the next
+      exercise, while easier, is more so.
+    
+    </p>
+    </details>
+
+### Exercise 2: Checking out the downloaded files
+
+1.  One of the files you've downloaded has md5 checksums for all the other files:
+    `md5checksums.txt`. Use this file in a single `md5sum` command to verify that
+    all the downloaded files are identical to the source,
+    i.e. that they have the correct checksums.
+    <details>
+    <summary>Hints</summary>
+    <p>
+    Use the `-c` (check) option to `md5sum` to cross-check the checksums of the
+    files in your directory with those in the file you specify.
+    </p>
+    </details>
+
+2.  Count the number of lines in the genome sequence
+    (`GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.fna.gz`)
+    that contain `CAGCAGCAG`, without unzipping the file.
+    
+    (The `fna` extension explicitly denotes a FASTA file with nucleotide
+    sequences, as opposed to one with amino acid sequences, `.faa`.)
+
+    <details>
+    <summary>Hints</summary>
+    <p>
+    - `zgrep` will allow you to search in a gzipped file.
+    - Recall that (z)grep's `-c` option will count matches.
+    </p>
+    </details>
+    
+3.  Check the size of the same zipped genome sequence FASTA file.
+    Then, unzip the file, and check the file size again.
+    Finally, gzip it back up.
+    
+    <details>
+    <summary>Hints</summary>
+    <p>
+    - To unzip, use `gunzip <filename>`.
+    - To zip, use `gzip <filename>`.
+    - Check the file size with `ls` or `du`.
+    </p>
+    </details>
+
+4.  Does the checksum still match for the "rezipped" FASTA file?
+
+    <details>
+    <summary>Hints</summary>
+    <p>
+    You can simply use the same command you used in the first step of this
+    exercise.
+    </p>
+    </details>
+
+### Exercise 3: File transfer
+
+Transfer the entire directory you downloaded above to OSC
+(in case you have been working locally so far) or to your local computer
+(in case you have been working at OSC so far).
+
+You can use `rsync` and/or SFTP, whichever you prefer to get some practice with.
+
+<details>
+<summary>Hints</summary>
+<p>
+
+**`sftp`**
+  
+- Log in using:
+
+  ```sh
+  sftp sftp.osc.edu
+  ```
+
+- Like many commands, the `put` and `get` functions need the `-r` option to
+  work recursively.
+  
+- In `sftp`, the `~` shortcut for your home dir does not work.
+
+**`rsync`**
+
+- Recall that using a trailing slash in the source dir will make a difference.
+  In this case (and usually) you will most likely *not* want to include a
+  trailing slash.
+
+</p>
+</details>
+
+## Solutions
+
+### Exercise 1
+
+<details>
+<summary>4. Use a `wget` command to download all these files at once.</summary>
+<p>
+
+The `wget` command with the fewest options that works for our goal is: 
+
+```sh
+$ wget --recursive -e robots=off --no-parent \
+    https://ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions/GCA_000509525.1_Phyt_para_IAC_01_95_V1/
+```
+
+These options (`--recursive` `-e robots=off` `--no-parent`) were all discussed in
+the question and the hints.
+
+If you wanted to place these files in a dir with a name of your choice,
+and no unnecessarily nest directories (see the hint above), you could use:
+
+  - `--no-host-directories` in combination with `--cut-dirs=6` will remove the 6
+    levels of nested directories you got earlier
+    (ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions).
+  - `-P ncbi_Pparasiticus/` to name your directory.
+
+Furthermore, since we are not interested in `index.html` (the actual HTML we are
+looking at on the web), we can exclude it using `--reject "index.html"`.
+
+All in all, this would result in the following command:
+```sh
+$ wget --recursive -e robots=off --no-parent \
+       --reject "index.html" \
+       --no-host-directories --cut-dirs=6 \
+       -P ncbi_Pparasiticus/ \
+       https://ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions/GCA_000509525.1_Phyt_para_IAC_01_95_V1/ 
+```
+
+This should result in the following set of files:
+
+```sh
+$ ls ncbi_Pparasiticus # Or whatever dir your downloads are in
+#> annotation_hashes.txt
+#> assembly_status.txt
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_report.txt
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_stats.txt
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_structure
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_feature_count.txt.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_feature_table.txt.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.fna.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic_gaps.txt.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gbff.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gff.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gtf.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_protein.faa.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_protein.gpff.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_rm.out.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_rm.run
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_rna_from_genomic.fna.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_translated_cds.faa.gz
+#> GCA_000509525.1_Phyt_para_IAC_01_95_V1_wgsmaster.gbff.gz
+#> index.html.tmp
+#> md5checksums.txt
+#> README.txt
+```
+      
+</p>
+</details>
+
+### Exercise 2
+
+<details>
+<summary>1. Check the file integrity with `md5sum`.</summary>
+<p>
+
+The `-c` option, when provided with a filename, will check the checksums of the
+files in your current directory against those in the file:
+
+```sh
+$ md5sum -c md5checksums.txt
+#> ./annotation_hashes.txt: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_report.txt: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_stats.txt: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_structure/Primary_Assembly/component_localID2acc: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_structure/Primary_Assembly/scaffold_localID2acc: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_structure/Primary_Assembly/unplaced_scaffolds/AGP/unplaced.scaf.agp.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_structure/Primary_Assembly/unplaced_scaffolds/FASTA/unplaced.scaf.fna.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_feature_count.txt.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_feature_table.txt.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.fna.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic_gaps.txt.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gbff.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gff.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gtf.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_protein.faa.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_protein.gpff.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_rm.out.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_rm.run: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_rna_from_genomic.fna.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_translated_cds.faa.gz: OK
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_wgsmaster.gbff.gz: OK
+```
+
+If all went well, all files should say OK.
+If there was a mismatch somewhere, you should also see a separate warning at the
+end of the output:
+
+```sh
+#> md5sum: WARNING: 1 computed checksum did NOT match
+```
+
+</p>
+</details>
+
+<details>
+<summary>2. Count the number of lines in the genome sequence that contain `CAGCAGCAG`.</summary>
+<p>
+
+```sh
+$ zgrep -c "CAGCAGCAG" GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz
+#> 1426
+```
+
+</p>
+</details>
+
+
+<details>
+<summary>3. Check file size, unzip and zip.</summary>
+<p>
+
+```sh
+$ ls -lh GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz
+#> -rw-rw-r-- 1 jelmer jelmer 8.8M Dec 21  2017 GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz
+
+$ gunzip GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz
+
+$ ls -lh GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna
+#> -rw-rw-r-- 1 jelmer jelmer 38M Dec 21  2017 GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna
+
+$ gzip GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna
+```
+
+The zipped file is less than a quarter of the size of the unzipped file.
+
+</p>
+</details>
+
+<details>
+<summary>4. Does the checksum still match for the “rezipped” FASTA file?</summary>
+<p>
+
+```sh
+$ md5sum -c md5checksums.txt
+#> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz: FAILED
+#> ... 
+#> md5sum: WARNING: 1 computed checksum did NOT match
+```
+
+No, it no longer matched! This is merely due to the fact that the gzipped file
+contains metadata about when it was zipped.
+
+However, this is another reason not to modify any original files.
+If you needed an unzipped file, it would be better, to unzip it to a separate
+file using the `-c` option:
+
+```sh
+$ gunzip -c GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz > \
+      GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna
+```
+
+</p>
+</details>
+
+### Exercise 3
+
+<details>
+<summary>Transfer with `rsync`</summary>
+<p>
+
+Regardless of the direction of the transfer, these commands should be executed
+in a local shell.
+
+- **From local to OSC**, assuming that your files were downloaded in a dir
+  called `ncbi_Pparasiticus` in your home dir,
+  your username is `me`,
+  and you made a dir `week07/exercises/` for these exercises at OSC
+  (note: `rsync` will not create "missing" directories!):
+
+  ```sh
+  $ rsync -avz --progress \
+        ~/ncbi_Pparasiticus \
+        me@pitzer.osc.edu:/fs/ess/PAS1855/users/me/week07/exercises/
+  ```
+
+  The above will result in you having an OSC dir
+  `/fs/ess/PAS1855/users/me/week07/exercises/ncbi_Pparasiticus`.
+  If you would have included a trailing slash in `~/ncbi_Pparasiticus` above,
+  you would have copied the *contents* of `ncbi_Pparasiticus` directly into
+  the exercises dir, which is probably not what you wanted.
+
+- **From OSC to local**, assuming that your files were downloaded in a dir
+  called `ncbi_Pparasiticus` in `/fs/ess/PAS1855/users/me/week07/exercises/`
+  your username is `me`, and you copy the downloaded dir straight into your
+  home dir:
+  
+  ```sh
+  $ rsync -avz --progress \
+        me@pitzer.osc.edu:/fs/ess/PAS1855/users/me/week07/exercises/ncbi_Pparasiticus \
+        ~
+  ```
+  
+  The above will result in you having a local dir
+  `~/ncbi_Pparasiticus`.
+  If you would have included a trailing slash in `~/ncbi_Pparasiticus` above,
+  you would have copied the *contents* of `ncbi_Pparasiticus` directly into
+  your home dir, which is probably not what you wanted.
+    
+</p>
+</details>
+
+<details>
+<summary>Transfer with SFTP</summary>
+<p>
+
+- **From local to OSC**:
+  
+  Assuming that your local home (`$HOME` / `~`) directory is `/home/me`,
+  and your OSC username is `me`:
+  
+  ```sh
+  $ sftp sftp.osc.edu
+  sftp> put -r /home/me/ncbi_Pparasiticus/ /fs/ess/PAS1855/users/me/week07/exercises/
+  ```
+  
+  The above will result in you having an OSC dir
+  `/fs/ess/PAS1855/users/me/week07/exercises/ncbi_Pparasiticus`.
+  
+- **From OSC to local**
+
+  Assuming that your local home (`$HOME` / `~`) directory is `/home/me`,
+  and your OSC username is `me`:
+  
+  ```sh
+  $ sftp sftp.osc.edu
+  sftp> get -r /fs/ess/PAS1855/users/me/week07/exercises/ncbi_Pparasiticus/ /home/me/
+  ```
+  
+  The above will result in you having a local dir
+  `~/ncbi_Pparasiticus`.
+  
+</p>
+</details>
+

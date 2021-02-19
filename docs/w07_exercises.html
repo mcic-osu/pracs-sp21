@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
   <meta name="generator" content="distill" />
-  <link rel="alternate" type="application/rss+xml" href="https://mcic-osu.github.io/pracs-sp21/index.xml" />
 
   <style type="text/css">
   /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
@@ -86,27 +85,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: </title>
+  <title>pracs-sp21: Exercises: Week 7</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: "/>
+  <meta property="og:title" content="pracs-sp21: Exercises: Week 7"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: "/>
+  <meta property="twitter:title" content="pracs-sp21: Exercises: Week 7"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","site","listing"]}},"value":[{"type":"character","attributes":{},"value":[""]},{"type":"character","attributes":{},"value":["distill::distill_website"]},{"type":"character","attributes":{},"value":["posts"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Exercises: Week 7"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2447,12 +2446,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 </head>
 
-<body class="layout-listing">
+<body>
 
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"","authors":[]}
+{"title":"Exercises: Week 7","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2490,253 +2489,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_navigation_before_body-->
 <!--radix_placeholder_site_before_body-->
 <!--/radix_placeholder_site_before_body-->
-<!--radix_placeholder_article_listing-->
-
-
-<script type="application/javascript">
-
-function init_posts_list() {
-
-  function load_image(img) {
-    var src = $(img).attr('data-src');
-    if (src) {
-      $(img).attr('src', src);
-      $(img).load(function() {
-        img.removeAttribute('data-src');
-      });
-    }
-  }
-
-  function set_posts_visible(posts, visible) {
-    if (visible) {
-
-      // show bottom border by default
-      $(posts).removeClass('post-preview-last');
-
-      // apply limits if need be
-      var max_posts = 25;
-      var apply_limits = $('.posts-container').hasClass('posts-apply-limit');
-      if (apply_limits && posts.length > max_posts) {
-        posts = $(posts).slice(0, max_posts);
-      } else {
-        $('.posts-more a').addClass('hidden');
-      }
-
-      // apply last style
-      $(posts.slice(-1)[0]).addClass('post-preview-last');
-
-      $(posts).removeClass('hidden');
-      $(posts).find('img[data-src]').each(function(i, img) {
-        load_image(img);
-      });
-    } else {
-      $(posts).addClass('hidden');
-    }
-  }
-
-  function apply_hash_filter() {
-
-    // clear active state
-    $('.categories .active').removeClass('active');
-
-    // mark all posts invisible to start
-    set_posts_visible($('.posts-list').children('a'), false);
-
-    // if we have a hash filter
-    if (window.location.hash && window.location.hash.startsWith("#category:")) {
-
-      // mark posts that match the category visible
-      var page_category = window.location.hash.replace(/^#category:/, "");
-      var posts = $('.post-metadata').map(function(idx, script) {
-        var metadata = $.parseJSON($(script).html());
-        var post = null;
-        $.each(metadata.categories, function(idx, category) {
-          category = category.replace(/ /g,"_");
-          if ((page_category || '').toLowerCase() === "articles" || category === page_category) {
-            post = $(script).parent().get();
-            return false;
-          }
-        });
-        return post;
-      });
-      set_posts_visible(posts, true);
-
-      // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
-
-      // update the list_caption
-      var list_caption = $('.posts-list-caption');
-      var caption = (page_category || '').toLowerCase() === "articles"
-        ? list_caption.attr('data-caption')
-        : ('Category: ' + page_category.replace(/_/g," "));
-      list_caption.text(caption);
-
-    } else {
-
-      // no hash filter, make all posts visible (subject to max display)
-      set_posts_visible($('.posts-list').children(), true);
-
-      // reset list caption
-      var list_caption = $('.posts-list-caption');
-      list_caption.text(list_caption.attr('data-caption'));
-
-
-    }
-  }
-
-  // more articles
-  function apply_post_limits(apply) {
-    if (apply) {
-      $('.posts-container').addClass('posts-apply-limit');
-      $('.posts-more a').removeClass('hidden');
-    } else {
-      $('.posts-container').removeClass('posts-apply-limit');
-      $('.posts-more a').addClass('hidden');
-    }
-  }
-
-  // click handling for tags
-  $('.dt-tag').click(function(ev) {
-    window.location.hash = '#category:' + $(this).text().replace(/ /g, "_");
-    return false;
-  })
-
-  // hash filter handling
-  apply_hash_filter();
-  $(window).on('hashchange',function() {
-    apply_post_limits(true);
-    apply_hash_filter();
-  });
-
-  // more articles link
-  $('.posts-more a').click(function(e) {
-    e.preventDefault();
-    apply_post_limits(false);
-    apply_hash_filter();
-    return false;
-  });
-
-}
-
-</script>
-
-
-
-<div class="posts-container posts-apply-limit l-page">
-<div class="posts-list">
-<h1 class="posts-list-caption" data-caption=""></h1>
-<a href="posts/week-06/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 15, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Week 06</h2>
-<div class="dt-tags"></div>
-<p>Computing at OSC</p>
-</div>
-</a>
-<a href="posts/week-07/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 15, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail"></div>
-<div class="description">
-<h2>Week 06</h2>
-<div class="dt-tags"></div>
-<p>Computing at OSC</p>
-</div>
-</a>
-<a href="posts/week-05/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 8, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Week 05</h2>
-<div class="dt-tags"></div>
-<p>Shell scripting</p>
-</div>
-</a>
-<a href="posts/week-04/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Feb. 1, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Week 04</h2>
-<div class="dt-tags"></div>
-<p>Unix data tools</p>
-</div>
-</a>
-<a href="posts/week-03/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 25, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Week 03</h2>
-<div class="dt-tags"></div>
-<p>Git &amp; GitHub</p>
-</div>
-</a>
-<a href="posts/week-02/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 18, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Week 02</h2>
-<div class="dt-tags"></div>
-<p>Project organization and Markdown</p>
-</div>
-</a>
-<a href="posts/week-01/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
-<div class="metadata">
-<div class="publishedDate">Jan. 11, 2021</div>
-<div class="dt-authors"></div>
-</div>
-<div class="thumbnail">
-<img/>
-</div>
-<div class="description">
-<h2>Week 01</h2>
-<div class="dt-tags"></div>
-<p>Course intro &amp; Shell basics</p>
-</div>
-</a>
-</div>
-<div class="posts-more">
-<a href="#">More articles &raquo;</a>
-</div>
-</div>
-<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
-<h1>index.utf8</h1>
+<h1>Exercises: Week 7</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2744,11 +2499,283 @@ function init_posts_list() {
 
 
 <div class="d-article">
-<p><br> <br></p>
-<h2 align="center" style="font-size:30px">
-Practical Computing Skills for Biologists <br> <span style="color:#969696"> Spring 2021 <br> </span> <span style="color:#bb0000; font-size:20px">A section of Current Topics in Plant Pathology (PLNTPTH 8300)</span>
-</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#exercises">Exercises</a>
+<ul>
+<li><a href="#exercise-1-download-genome-assembly-files">Exercise 1: Download genome assembly files</a></li>
+<li><a href="#exercise-2-checking-out-the-downloaded-files">Exercise 2: Checking out the downloaded files</a></li>
+<li><a href="#exercise-3-file-transfer">Exercise 3: File transfer</a></li>
+</ul></li>
+<li><a href="#solutions">Solutions</a>
+<ul>
+<li><a href="#exercise-1">Exercise 1</a></li>
+<li><a href="#exercise-2">Exercise 2</a></li>
+<li><a href="#exercise-3">Exercise 3</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<h2 id="exercises">Exercises</h2>
+<p>You can start with these exercises in a shell either at OSC or your local computer: whichever you prefer. In exercise 3, you will be transferring files to or from OSC, which should be done from a local shell.</p>
+<h3 id="exercise-1-download-genome-assembly-files">Exercise 1: Download genome assembly files</h3>
+<p>In this exercise, you’ll download a set of files associated with a genome assembly of one organism from NCBI. As an example, I’m using the genome assembly files for <em>Phytophthora nicotianae var. parasitica</em> (also known simply as <em>P. parasitica</em>), one of several species of fungus that causes buckeye rot of tomato.</p>
+<p>Note, if you are more interested in getting the equivalent files for another organism, you should be able to follow the same steps.</p>
+<ol type="1">
+<li><p>Go to <code>https://www.ncbi.nlm.nih.gov</code>. NCBI has a number of different databases, including “SRA” for short next-generation sequencing reads, and “PubMed” for publications. In the drop-down menu that says <code>All Databases</code> next to the <code>Search</code> box, select <code>Assembly</code> and type <em>Phytophthora parasitica</em>: we want to search for whole-genome assemblies for this species.</p></li>
+<li><p>Click the assembly in the prominent box at the top that says <code>Phyt_para_CJ02B3_V1</code>.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>Here is the link to the assembly, in case things look different for you: <a href="https://www.ncbi.nlm.nih.gov/assembly/GCA_000509465.1" class="uri">https://www.ncbi.nlm.nih.gov/assembly/GCA_000509465.1</a>. (But again, you can also download files from a different organism or assembly.)</p>
+</p>
+</details></li>
+<li><p>Now, you should be on the assembly page. There is a big blue button <code>Download Assembly</code>, but if you click on it, you can see that you can only download one file at a time. Since we want all 20 or so files associated with the assembly, we will use <code>wget</code> instead. Note that this would scale easily even if we wanted files for multiple assemblies (for instance, there are 9 different assemblies for <em>P. parasitica</em>, as the page reports).</p>
+<p>Click on <code>FTP directory for GenBank assembly</code> in the top list on the right hand side.</p></li>
+<li><p>Use a <code>wget</code> command to download all the files you see on the assembly page, using the URL in the address bar.</p>
+<p>In addition to the option for downloading multiple files at once (and optionally, other options to optimize the download), make sure you use the following options:</p>
+<ul>
+<li><p><code>--no-parent</code> — Stop <code>wget</code> from moving <em>up</em> via the <code>Parent Directory</code> link at the top of the page, which would lead it to start downloading files from other assemblies…</p></li>
+<li><p><code>-e robots=off</code> — Ignore <code>robots.txt</code> to enable the download (as specified in NCBI’s <a href="https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/">download FAQ</a>).</p></li>
+</ul>
+<div class="content-box-info">
+<p>If you see errors saying that filenames are too long, you’ll have to use the <code>--no-host-directories</code> and <code>--cut-dirs=6</code> options as further detailed in the Hints, because all the directory levels are creating paths that are too long.</p>
+</div>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<ul>
+<li><p>Your command should be structured as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a>$ <span class="fu">wget</span> --no-parent -e robots=off <span class="op">&lt;</span>other-options<span class="op">&gt;</span> <span class="op">&lt;</span>link-to-page<span class="op">&gt;</span></span></code></pre></div></li>
+<li><p>The link to the page is: <a href="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/509/465/GCA_000509465.1_Phyt_para_CJ02B3_V1/" class="uri">https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/509/465/GCA_000509465.1_Phyt_para_CJ02B3_V1/</a></p></li>
+<li><p>Use the <code>--recursive</code> option to download more than one file at once.</p></li>
+<li><p>By default, the files will be placed inside several levels of directories:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># ftp.ncbi.nlm.nih.gov/</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co"># └── genomes</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#     └── genbank</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#         └── protozoa</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#             └── Phytophthora_parasitica</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#                 └── latest_assembly_versions</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#                     └── GCA_000509525.1_Phyt_para_IAC_01_95_V1</span></span></code></pre></div>
+<p>To avoid this, you can use the options <code>--no-host-directories</code> and <code>--cut-dirs=6</code> as suggested in the NCBI’s <a href="https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/">download FAQ</a>. And if you do so, you’ll also want to specify an arbitrary target dir name with <code>-P</code>, e.g. <code>-P ncbi_Pparasiticus</code>.</p></li>
+<li><p>If you want to play around with different options, I suggest you use the <code>--accept</code> option to only select one or two small files to be downloaded, e.g. <code>--accept "*assembly_stats*"</code>.</p></li>
+<li><p>Don’t hesitate to look at the solution if your first attempts fail. The minutiae of <code>wget</code> commands aren’t terribly important – the next exercise, while easier, is more so.</p></li>
+</ul>
+</p>
+</details></li>
+</ol>
+<h3 id="exercise-2-checking-out-the-downloaded-files">Exercise 2: Checking out the downloaded files</h3>
+<ol type="1">
+<li><p>One of the files you’ve downloaded has md5 checksums for all the other files: <code>md5checksums.txt</code>. Use this file in a single <code>md5sum</code> command to verify that all the downloaded files are identical to the source, i.e. that they have the correct checksums.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>Use the <code>-c</code> (check) option to <code>md5sum</code> to cross-check the checksums of the files in your directory with those in the file you specify.</p>
+</p>
+</details></li>
+<li><p>Count the number of lines in the genome sequence (<code>GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.fna.gz</code>) that contain <code>CAGCAGCAG</code>, without unzipping the file.</p>
+<p>(The <code>fna</code> extension explicitly denotes a FASTA file with nucleotide sequences, as opposed to one with amino acid sequences, <code>.faa</code>.)</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<ul>
+<li><code>zgrep</code> will allow you to search in a gzipped file.</li>
+<li>Recall that (z)grep’s <code>-c</code> option will count matches.</li>
+</ul>
+</p>
+</details></li>
+<li><p>Check the size of the same zipped genome sequence FASTA file. Then, unzip the file, and check the file size again. Finally, gzip it back up.</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<ul>
+<li>To unzip, use <code>gunzip &lt;filename&gt;</code>.</li>
+<li>To zip, use <code>gzip &lt;filename&gt;</code>.</li>
+<li>Check the file size with <code>ls</code> or <code>du</code>.</li>
+</ul>
+</p>
+</details></li>
+<li><p>Does the checksum still match for the “rezipped” FASTA file?</p>
+<details>
+<p><summary>Hints</summary></p>
+<p>
+<p>You can simply use the same command you used in the first step of this exercise.</p>
+</p>
+</details></li>
+</ol>
+<h3 id="exercise-3-file-transfer">Exercise 3: File transfer</h3>
+<p>Transfer the entire directory you downloaded above to OSC (in case you have been working locally so far) or to your local computer (in case you have been working at OSC so far).</p>
+<p>You can use <code>rsync</code> and/or SFTP, whichever you prefer to get some practice with.</p>
+<details>
+<summary>Hints</summary>
+<p>
+<p><strong><code>sftp</code></strong></p>
+<ul>
+<li><p>Log in using:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">sftp</span> sftp.osc.edu</span></code></pre></div></li>
+<li><p>Like many commands, the <code>put</code> and <code>get</code> functions need the <code>-r</code> option to work recursively.</p></li>
+<li><p>In <code>sftp</code>, the <code>~</code> shortcut for your home dir does not work.</p></li>
+</ul>
+<p><strong><code>rsync</code></strong></p>
+<ul>
+<li>Recall that using a trailing slash in the source dir will make a difference. In this case (and usually) you will most likely <em>not</em> want to include a trailing slash.</li>
+</ul>
+</p>
+</details>
+<h2 id="solutions">Solutions</h2>
+<h3 id="exercise-1">Exercise 1</h3>
+<details>
+<summary>4. Use a <code>wget</code> command to download all these files at once.</summary>
+<p>
+<p>The <code>wget</code> command with the fewest options that works for our goal is:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a>$ <span class="fu">wget</span> --recursive -e robots=off --no-parent \</span>
+<span id="cb4-2"><a href="#cb4-2"></a>    https://ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions/GCA_000509525.1_Phyt_para_IAC_01_95_V1/</span></code></pre></div>
+<p>These options (<code>--recursive</code> <code>-e robots=off</code> <code>--no-parent</code>) were all discussed in the question and the hints.</p>
+<p>If you wanted to place these files in a dir with a name of your choice, and no unnecessarily nest directories (see the hint above), you could use:</p>
+<ul>
+<li><code>--no-host-directories</code> in combination with <code>--cut-dirs=6</code> will remove the 6 levels of nested directories you got earlier (ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions).</li>
+<li><code>-P ncbi_Pparasiticus/</code> to name your directory.</li>
+</ul>
+<p>Furthermore, since we are not interested in <code>index.html</code> (the actual HTML we are looking at on the web), we can exclude it using <code>--reject "index.html"</code>.</p>
+<p>All in all, this would result in the following command:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a>$ <span class="fu">wget</span> --recursive -e robots=off --no-parent \</span>
+<span id="cb5-2"><a href="#cb5-2"></a>       --reject <span class="st">&quot;index.html&quot;</span> \</span>
+<span id="cb5-3"><a href="#cb5-3"></a>       --no-host-directories --cut-dirs=6 \</span>
+<span id="cb5-4"><a href="#cb5-4"></a>       -P ncbi_Pparasiticus/ \</span>
+<span id="cb5-5"><a href="#cb5-5"></a>       https://ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions/GCA_000509525.1_Phyt_para_IAC_01_95_V1/ </span></code></pre></div>
+<p>This should result in the following set of files:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a>$ <span class="fu">ls</span> ncbi_Pparasiticus <span class="co"># Or whatever dir your downloads are in</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; annotation_hashes.txt</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt; assembly_status.txt</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_report.txt</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_stats.txt</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_structure</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_feature_count.txt.gz</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_feature_table.txt.gz</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.fna.gz</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic_gaps.txt.gz</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gbff.gz</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gff.gz</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gtf.gz</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_protein.faa.gz</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_protein.gpff.gz</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_rm.out.gz</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_rm.run</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_rna_from_genomic.fna.gz</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_translated_cds.faa.gz</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt; GCA_000509525.1_Phyt_para_IAC_01_95_V1_wgsmaster.gbff.gz</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; index.html.tmp</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt; md5checksums.txt</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt; README.txt</span></span></code></pre></div>
+</p>
+</details>
+<h3 id="exercise-2">Exercise 2</h3>
+<details>
+<summary>1. Check the file integrity with <code>md5sum</code>.</summary>
+<p>
+<p>The <code>-c</code> option, when provided with a filename, will check the checksums of the files in your current directory against those in the file:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a>$ <span class="ex">md5sum</span> -c md5checksums.txt</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; ./annotation_hashes.txt: OK</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_report.txt: OK</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_stats.txt: OK</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_structure/Primary_Assembly/component_localID2acc: OK</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_structure/Primary_Assembly/scaffold_localID2acc: OK</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_structure/Primary_Assembly/unplaced_scaffolds/AGP/unplaced.scaf.agp.gz: OK</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_structure/Primary_Assembly/unplaced_scaffolds/FASTA/unplaced.scaf.fna.gz: OK</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz: OK</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_feature_count.txt.gz: OK</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_feature_table.txt.gz: OK</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.fna.gz: OK</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic_gaps.txt.gz: OK</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gbff.gz: OK</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gff.gz: OK</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.gtf.gz: OK</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_protein.faa.gz: OK</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_protein.gpff.gz: OK</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_rm.out.gz: OK</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_rm.run: OK</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_rna_from_genomic.fna.gz: OK</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_translated_cds.faa.gz: OK</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_wgsmaster.gbff.gz: OK</span></span></code></pre></div>
+<p>If all went well, all files should say OK. If there was a mismatch somewhere, you should also see a separate warning at the end of the output:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#&gt; md5sum: </span><span class="al">WARNING</span><span class="co">: 1 computed checksum did NOT match</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<summary>2. Count the number of lines in the genome sequence that contain <code>CAGCAGCAG</code>.</summary>
+<p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a>$ <span class="fu">zgrep</span> -c <span class="st">&quot;CAGCAGCAG&quot;</span> GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; 1426</span></span></code></pre></div>
+</p>
+</details>
+<details>
+<summary>3. Check file size, unzip and zip.</summary>
+<p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a>$ <span class="fu">ls</span> -lh GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; -rw-rw-r-- 1 jelmer jelmer 8.8M Dec 21  2017 GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>$ <span class="fu">gunzip</span> GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz</span>
+<span id="cb10-5"><a href="#cb10-5"></a></span>
+<span id="cb10-6"><a href="#cb10-6"></a>$ <span class="fu">ls</span> -lh GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna</span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="co">#&gt; -rw-rw-r-- 1 jelmer jelmer 38M Dec 21  2017 GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a></span>
+<span id="cb10-9"><a href="#cb10-9"></a>$ <span class="fu">gzip</span> GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna</span></code></pre></div>
+<p>The zipped file is less than a quarter of the size of the unzipped file.</p>
+</p>
+</details>
+<details>
+<summary>4. Does the checksum still match for the “rezipped” FASTA file?</summary>
+<p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a>$ <span class="ex">md5sum</span> -c md5checksums.txt</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz: FAILED</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; ... </span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt; md5sum: </span><span class="al">WARNING</span><span class="co">: 1 computed checksum did NOT match</span></span></code></pre></div>
+<p>No, it no longer matched! This is merely due to the fact that the gzipped file contains metadata about when it was zipped.</p>
+<p>However, this is another reason not to modify any original files. If you needed an unzipped file, it would be better, to unzip it to a separate file using the <code>-c</code> option:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a>$ <span class="fu">gunzip</span> -c GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz <span class="op">&gt;</span> \</span>
+<span id="cb12-2"><a href="#cb12-2"></a>      GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna</span></code></pre></div>
+</p>
+</details>
+<h3 id="exercise-3">Exercise 3</h3>
+<details>
+<summary>Transfer with <code>rsync</code></summary>
+<p>
+<p>Regardless of the direction of the transfer, these commands should be executed in a local shell.</p>
+<ul>
+<li><p><strong>From local to OSC</strong>, assuming that your files were downloaded in a dir called <code>ncbi_Pparasiticus</code> in your home dir, your username is <code>me</code>, and you made a dir <code>week07/exercises/</code> for these exercises at OSC (note: <code>rsync</code> will not create “missing” directories!):</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1"></a>$ <span class="fu">rsync</span> -avz --progress \</span>
+<span id="cb13-2"><a href="#cb13-2"></a>      ~/ncbi_Pparasiticus \</span>
+<span id="cb13-3"><a href="#cb13-3"></a>      me@pitzer.osc.edu:/fs/ess/PAS1855/users/me/week07/exercises/</span></code></pre></div>
+<p>The above will result in you having an OSC dir <code>/fs/ess/PAS1855/users/me/week07/exercises/ncbi_Pparasiticus</code>. If you would have included a trailing slash in <code>~/ncbi_Pparasiticus</code> above, you would have copied the <em>contents</em> of <code>ncbi_Pparasiticus</code> directly into the exercises dir, which is probably not what you wanted.</p></li>
+<li><p><strong>From OSC to local</strong>, assuming that your files were downloaded in a dir called <code>ncbi_Pparasiticus</code> in <code>/fs/ess/PAS1855/users/me/week07/exercises/</code> your username is <code>me</code>, and you copy the downloaded dir straight into your home dir:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1"></a>$ <span class="fu">rsync</span> -avz --progress \</span>
+<span id="cb14-2"><a href="#cb14-2"></a>      me@pitzer.osc.edu:/fs/ess/PAS1855/users/me/week07/exercises/ncbi_Pparasiticus \</span>
+<span id="cb14-3"><a href="#cb14-3"></a>      ~</span></code></pre></div>
+<p>The above will result in you having a local dir <code>~/ncbi_Pparasiticus</code>. If you would have included a trailing slash in <code>~/ncbi_Pparasiticus</code> above, you would have copied the <em>contents</em> of <code>ncbi_Pparasiticus</code> directly into your home dir, which is probably not what you wanted.</p></li>
+</ul>
+</p>
+</details>
+<details>
+<summary>Transfer with SFTP</summary>
+<p>
+<ul>
+<li><p><strong>From local to OSC</strong>:</p>
+<p>Assuming that your local home (<code>$HOME</code> / <code>~</code>) directory is <code>/home/me</code>, and your OSC username is <code>me</code>:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1"></a>$ <span class="ex">sftp</span> sftp.osc.edu</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="ex">sftp</span><span class="op">&gt;</span> put -r /home/me/ncbi_Pparasiticus/ /fs/ess/PAS1855/users/me/week07/exercises/</span></code></pre></div>
+<p>The above will result in you having an OSC dir <code>/fs/ess/PAS1855/users/me/week07/exercises/ncbi_Pparasiticus</code>.</p></li>
+<li><p><strong>From OSC to local</strong></p>
+<p>Assuming that your local home (<code>$HOME</code> / <code>~</code>) directory is <code>/home/me</code>, and your OSC username is <code>me</code>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1"></a>$ <span class="ex">sftp</span> sftp.osc.edu</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="ex">sftp</span><span class="op">&gt;</span> get -r /fs/ess/PAS1855/users/me/week07/exercises/ncbi_Pparasiticus/ /home/me/</span></code></pre></div>
+<p>The above will result in you having a local dir <code>~/ncbi_Pparasiticus</code>.</p></li>
+</ul>
+</p>
+</details>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

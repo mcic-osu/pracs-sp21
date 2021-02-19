@@ -10,7 +10,7 @@ output:
 
 ### Slides
 
-- [Slides: ...](slides/07_....html) -- Tuesday Zoom (Feb 16)
+- Slides -- Tuesday Zoom (Feb 16) (TBA)
 
 ### Ungraded assignments
 

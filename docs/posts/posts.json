@@ -12,6 +12,18 @@
     "input_file": {}
   },
   {
+    "path": "posts/week-07/",
+    "title": "Week 06",
+    "description": "Computing at OSC",
+    "author": [],
+    "date": "2021-02-15",
+    "categories": [],
+    "contents": "\nSlides\nSlides – Tuesday Zoom (Feb 16) (TBA)\nUngraded assignments\nExercises for Week 7\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-02-19T18:36:30-05:00",
+    "input_file": "week-07.utf8.md"
+  },
+  {
     "path": "posts/week-05/",
     "title": "Week 05",
     "description": "Shell scripting",
