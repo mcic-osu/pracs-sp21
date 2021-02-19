@@ -1,8 +1,8 @@
 ---
-title: "Week 06"
+title: "Week 07"
 description: |
-  Computing at OSC
-date: 2021-02-15
+  Data transfer and integrity
+date: 2021-02-22
 output:
   distill::distill_article:
     self_contained: false
