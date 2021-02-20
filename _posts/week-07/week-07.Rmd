@@ -14,4 +14,4 @@ output:
 
 ### Ungraded assignments
 
-- [Exercises for Week 7](../../w07_exercises.Rmd)
+- [Exercises for Week 7](../../w07_exercises.html)
