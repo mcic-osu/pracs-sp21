@@ -64,7 +64,8 @@ Note, if you are more interested in getting the equivalent files for another org
     If you see errors saying that filenames are too long,
     you'll have to use the `--no-host-directories` and `--cut-dirs=6` options
     as further detailed in the Hints,
-    because all the directory levels are creating paths that are too long.
+    because all the nested directories that are being created may end up creating
+    paths that are too long.
     :::
     
     <details>
@@ -113,6 +114,11 @@ Note, if you are more interested in getting the equivalent files for another org
 
 ### Exercise 2: Checking out the downloaded files
 
+Move inside the directory that you've downloaded where all the assembly files
+are. You should be seeing over 20 files, including
+`GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_report.txt` and
+`GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz`.
+
 1.  One of the files you've downloaded has md5 checksums for all the other files:
     `md5checksums.txt`. Use this file in a single `md5sum` command to verify that
     all the downloaded files are identical to the source,
@@ -129,8 +135,9 @@ Note, if you are more interested in getting the equivalent files for another org
     (`GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.fna.gz`)
     that contain `CAGCAGCAG`, without unzipping the file.
     
-    (The `fna` extension explicitly denotes a FASTA file with nucleotide
-    sequences, as opposed to one with amino acid sequences, `.faa`.)
+    (Side note in case you are wondering about the `fna` extension:
+    this explicitly denotes a FASTA file with nucleotide sequences,
+    as opposed to one with amino acid sequences, `.faa`.)
 
     <details>
     <summary>Hints</summary>
@@ -197,6 +204,8 @@ You can use `rsync` and/or SFTP, whichever you prefer to get some practice with.
 </p>
 </details>
 
+<br>
+
 ## Solutions
 
 ### Exercise 1
@@ -235,7 +244,8 @@ $ wget --recursive -e robots=off --no-parent \
        https://ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions/GCA_000509525.1_Phyt_para_IAC_01_95_V1/ 
 ```
 
-This should result in the following set of files:
+This should result in the following set of files being downloaded
+(one is directory, in fact):
 
 ```sh
 $ ls ncbi_Pparasiticus # Or whatever dir your downloads are in
@@ -303,8 +313,9 @@ $ md5sum -c md5checksums.txt
 ```
 
 If all went well, all files should say OK.
+
 If there was a mismatch somewhere, you should also see a separate warning at the
-end of the output:
+end of the output, like:
 
 ```sh
 #> md5sum: WARNING: 1 computed checksum did NOT match
@@ -353,6 +364,7 @@ The zipped file is less than a quarter of the size of the unzipped file.
 
 ```sh
 $ md5sum -c md5checksums.txt
+#> ... (showing the pertinent part of the output)
 #> ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz: FAILED
 #> ... 
 #> md5sum: WARNING: 1 computed checksum did NOT match
@@ -362,7 +374,7 @@ No, it no longer matched! This is merely due to the fact that the gzipped file
 contains metadata about when it was zipped.
 
 However, this is another reason not to modify any original files.
-If you needed an unzipped file, it would be better, to unzip it to a separate
+If you needed an unzipped file, it would be better to unzip it to a separate
 file using the `-c` option:
 
 ```sh

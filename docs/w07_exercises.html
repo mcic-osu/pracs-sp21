@@ -2541,7 +2541,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><p><code>-e robots=off</code> — Ignore <code>robots.txt</code> to enable the download (as specified in NCBI’s <a href="https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/">download FAQ</a>).</p></li>
 </ul>
 <div class="content-box-info">
-<p>If you see errors saying that filenames are too long, you’ll have to use the <code>--no-host-directories</code> and <code>--cut-dirs=6</code> options as further detailed in the Hints, because all the directory levels are creating paths that are too long.</p>
+<p>If you see errors saying that filenames are too long, you’ll have to use the <code>--no-host-directories</code> and <code>--cut-dirs=6</code> options as further detailed in the Hints, because all the nested directories that are being created may end up creating paths that are too long.</p>
 </div>
 <details>
 <p><summary>Hints</summary></p>
@@ -2567,6 +2567,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </details></li>
 </ol>
 <h3 id="exercise-2-checking-out-the-downloaded-files">Exercise 2: Checking out the downloaded files</h3>
+<p>Move inside the directory that you’ve downloaded where all the assembly files are. You should be seeing over 20 files, including <code>GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_report.txt</code> and <code>GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz</code>.</p>
 <ol type="1">
 <li><p>One of the files you’ve downloaded has md5 checksums for all the other files: <code>md5checksums.txt</code>. Use this file in a single <code>md5sum</code> command to verify that all the downloaded files are identical to the source, i.e. that they have the correct checksums.</p>
 <details>
@@ -2576,7 +2577,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </p>
 </details></li>
 <li><p>Count the number of lines in the genome sequence (<code>GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.fna.gz</code>) that contain <code>CAGCAGCAG</code>, without unzipping the file.</p>
-<p>(The <code>fna</code> extension explicitly denotes a FASTA file with nucleotide sequences, as opposed to one with amino acid sequences, <code>.faa</code>.)</p>
+<p>(Side note in case you are wondering about the <code>fna</code> extension: this explicitly denotes a FASTA file with nucleotide sequences, as opposed to one with amino acid sequences, <code>.faa</code>.)</p>
 <details>
 <p><summary>Hints</summary></p>
 <p>
@@ -2624,6 +2625,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul>
 </p>
 </details>
+<p><br></p>
 <h2 id="solutions">Solutions</h2>
 <h3 id="exercise-1">Exercise 1</h3>
 <details>
@@ -2645,7 +2647,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb5-3"><a href="#cb5-3"></a>       --no-host-directories --cut-dirs=6 \</span>
 <span id="cb5-4"><a href="#cb5-4"></a>       -P ncbi_Pparasiticus/ \</span>
 <span id="cb5-5"><a href="#cb5-5"></a>       https://ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions/GCA_000509525.1_Phyt_para_IAC_01_95_V1/ </span></code></pre></div>
-<p>This should result in the following set of files:</p>
+<p>This should result in the following set of files being downloaded (one is directory, in fact):</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a>$ <span class="fu">ls</span> ncbi_Pparasiticus <span class="co"># Or whatever dir your downloads are in</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; annotation_hashes.txt</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt; assembly_status.txt</span></span>
@@ -2700,7 +2702,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb7-21"><a href="#cb7-21"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_rna_from_genomic.fna.gz: OK</span></span>
 <span id="cb7-22"><a href="#cb7-22"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_translated_cds.faa.gz: OK</span></span>
 <span id="cb7-23"><a href="#cb7-23"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_wgsmaster.gbff.gz: OK</span></span></code></pre></div>
-<p>If all went well, all files should say OK. If there was a mismatch somewhere, you should also see a separate warning at the end of the output:</p>
+<p>If all went well, all files should say OK.</p>
+<p>If there was a mismatch somewhere, you should also see a separate warning at the end of the output, like:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#&gt; md5sum: </span><span class="al">WARNING</span><span class="co">: 1 computed checksum did NOT match</span></span></code></pre></div>
 </p>
 </details>
@@ -2730,11 +2733,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <summary>4. Does the checksum still match for the “rezipped” FASTA file?</summary>
 <p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a>$ <span class="ex">md5sum</span> -c md5checksums.txt</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz: FAILED</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; ... </span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt; md5sum: </span><span class="al">WARNING</span><span class="co">: 1 computed checksum did NOT match</span></span></code></pre></div>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co">#&gt; ... (showing the pertinent part of the output)</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz: FAILED</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt; ... </span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt; md5sum: </span><span class="al">WARNING</span><span class="co">: 1 computed checksum did NOT match</span></span></code></pre></div>
 <p>No, it no longer matched! This is merely due to the fact that the gzipped file contains metadata about when it was zipped.</p>
-<p>However, this is another reason not to modify any original files. If you needed an unzipped file, it would be better, to unzip it to a separate file using the <code>-c</code> option:</p>
+<p>However, this is another reason not to modify any original files. If you needed an unzipped file, it would be better to unzip it to a separate file using the <code>-c</code> option:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a>$ <span class="fu">gunzip</span> -c GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz <span class="op">&gt;</span> \</span>
 <span id="cb12-2"><a href="#cb12-2"></a>      GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna</span></code></pre></div>
 </p>
