@@ -10,7 +10,7 @@ output:
 
 ### Slides
 
-- Slides -- Tuesday Zoom (Feb 16) (TBA)
+- Slides -- Thursday Zoom (Feb 25) (TBA)
 
 ### Ungraded assignments
 
