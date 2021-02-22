@@ -1,0 +1,703 @@
+---
+title: "Week 8 - First steps with Python - I"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# *Week 8 - First steps with Python*
+
+----
+
+# I: Jupyter and Python basics
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/03/02 (updated: `r Sys.Date()`)
+
+---
+
+## Overview of this week
+
+...
+
+---
+class: inverse middle center
+
+# Overview of this presentation
+
+----
+
+.left[
+- ### [What is Python and why Python](#python)
+- ### [Jupyter Notebooks](#python)
+- ### [CSB 3.4: Getting started with Python](#getting-started)
+]
+
+
+
+---
+name: python
+
+## What is Python?
+
+---
+
+## Why Python?
+
+- Show language popularity graph
+
+---
+name: jupyter
+
+## What is Jupyter?
+
+
+---
+
+## What is Jupyter? (cont.)
+
+Unfortunately, Jupyter Lab / Jupyter Notebooks are not an all-in-one solution
+for programming in Python, because they only offer interactive notebooks.
+  
+To write scripts (while still being able to run lines interactively),
+we need another solution.
+  
+There are several Python-specific IDEs such as PyCharm and Spyder,
+which are reminiscent of RStudio.
+  
+However, we will work in VS Code, which also offers good Python support,
+and which for us carries the additional advantage of not having to switch
+platforms constantly.
+
+---
+
+## Working in Jupyter Notebooks
+
+
+
+---
+
+## More Jupyter tricks
+
+- Magic functions
+
+- `!ls`
+
+---
+
+## Getting help in Python
+
+- docs.python.org
+
+- `help("MY_COMMAND")`
+
+---
+class: center middle inverse
+name: getting-started
+
+# 3.3. Getting started with Python
+
+-----
+
+<br> <br> <br> <br>
+
+---
+
+## Simple calculations
+
+- We can use Python as an oversized calculator:
+
+  ```sh
+  2 + 2         # Addition
+  #> 4
+  2 * 2         # Multiplication
+  #> 4
+  3 / 2         # Division
+  #> 1.5
+  ```
+
+--
+
+- The usual precedence rules apply, but it's better to be explicit with
+  parentheses:
+
+  ```sh
+  2 * 3 ** 3    # Read as 2*(3**3)
+  #> 54
+  
+  2 * (3 ** 3)
+  #> 54
+  
+  (2 * 3) ** 3
+  #> 216
+  ```
+
+---
+
+## Simple calculations (cont.)
+
+- **Integer division** is division in which the fractional part (remainder) is
+  discarded:
+
+  ```sh
+  3 // 2        # Integer division
+  #> 1
+  ```
+
+<br>
+
+- **The modulo operator** returns the remainder of an integer division:
+
+  ```sh
+  15 % 7
+  #> 1
+  ```
+  
+  _(Because 15 = (7*2) + 1), so 1 is the remainder of the integer division 15//7.)_
+  
+---
+
+## Logical operators: `True`, and `False`
+
+- Logical operators return a Boolean value,
+  which in Python consist of `True` and `False` (with that exact case):
+  
+  ```sh
+  2 > 3 # 
+  #> False
+  
+  2 == 2 # equals
+  #> True
+  
+  2 != 2 # is different
+  #> False
+  ```
+
+---
+
+## Strings
+
+- Quotes define strings, and you can single, double or triple (triple-double?)
+  quotes &ndash; the latter if your string contains both single and double
+  quotes:
+
+  ```sh
+  'my string'
+  #> 'my string'
+  
+  "The tree's height"
+  #> 'The tree's height'
+  
+  # """The tree ' s height is 6 ' 2"."""
+  #> 'The tree\'s height is 6\'2".'
+  ```
+
+---
+
+## Variable assignment
+
+We are familiar with assigning and using variables from bash.  
+
+- This works the same in Python, but when recalling a variable,
+  we don't need any special syntax (like `$` in bash):
+
+  ```sh
+  x = 5
+  x
+  #> 5
+  ```
+
+--
+
+- Like in bash, we can use variables to perform further calculations --
+  they will simply be replaced by whatever value they hold:
+  
+  ```sh
+  x + 3
+  #> 8
+  y = 8
+  x + y
+  #> 13
+  ```
+
+---
+
+## Variable assignment (cont.)
+
+- When we assign a variable to a *new* variable, a new object is created,
+  and the two are *not* linked:
+  
+  ```sh
+  x
+  #> 5
+  y = x
+  y
+  #> 5
+  
+  y = y + 10
+  y
+  #> 15
+  x
+  #> 5
+  ```
+
+--
+
+<br>
+
+.content-box-info[
+This may be very intuitive or expected &ndash; but in Python, this is only true for
+*immutable* objects!
+]
+
+---
+
+## Variable types
+
+- Unlike in bash, variables in Python have *types*, such as:
+  - Integers (whole numbers)
+  - Floats (numbers with decimal points)
+  - Strings
+  - Boolean (`True` or `False`)
+
+- Assign a string, and concatenate strings with `+`:
+
+  ```sh
+  x = "The cell grew"
+  
+  x + " and is now larger"
+  #> 'The cell grew and is now larger'
+  ```
+
+--
+
+.content-box-info[
+Jupyter functions to show what's in your environment:
+
+```sh
+who
+
+whos
+```
+]
+
+---
+
+## Variable types
+
+We can't perform operations on two variables with different types:
+
+```sh
+y
+#> 8
+x
+#> "The cell grew"
+
+x + y              # x is string, y is integer
+#> ---------------------------------------------
+#> TypeError
+#> Traceback (most recent call last)
+#> <ipython-input-8-b50c5120e24b> in <module>()
+#> ----> 1 x + y
+#> TypeError: Can't convert ' int ' object to str implicitly
+```
+
+---
+
+## Variable type conversion
+
+```sh
+x
+#> "The cell grew"
+y
+#> 8
+```
+
+- But we can convert variable types on the fly; to as string with `str()`:
+  
+  ```sh
+  x + " " + str(y) + " nm"
+  #> ' The cell grew 8 nm '
+  ```
+
+- To an integer with `int()`:
+
+  ```sh
+  y + int(z)
+  #> 96
+  ```
+
+- Numbers in quotes are interpreted as strings:
+  
+  ```sh
+  z = "88" # string
+  x + z
+  #> 'The cell grew88'
+  ```
+
+---
+
+## Variable type conversion
+
+As we just saw, Python types variables dynamically.
+This means that you don't have to a priori define them.
+You can check what Python has decided for you using `type()`:
+
+```sh
+x = 2
+type(x)
+#> int
+
+x = "two"
+type(x)
+#> str
+```
+
+--
+
+- And these are all the functions to convert between types:
+
+|Function     | Convert to:
+|-------------|--------------|
+| `int()`     | Integer
+| `double()`  | Double (numbers with decimals)
+| `str()`     | String
+| `bool()`    | Boolean (`True` / `False`)
+
+---
+
+## Built-in functions
+
+- In the previous slide, we saw several examples of *functions*,
+  which are called using parentheses:
+  
+  ```sh
+  # With no arguments specified:
+  function_name()
+  
+  # With arguments specified:
+  function_name(function_argument1, function_argument2)
+  ```
+
+--
+
+- For example, we can use `len()` to get the length of (e.g.) a string:
+
+  ```sh
+  s = "a long string"
+  len(s)
+  #> 13
+  ```
+
+--
+
+- Or `round()` to round a number, with an optional number of decimals to round
+  to (the default is 0):
+
+  ```sh
+  round(3.14159)
+  #> 3
+  round(3.14159, 3)
+  #> 3.142
+  ```
+
+---
+
+## Printing to screen
+
+.content-box-info[
+As we've seen, when we typed `x` or `x + y`, the outcome was printed to screen.
+
+However, this only happens in interactive Python; and in Jupyter Notebooks,
+only for the last command:
+
+```sh
+x
+z
+#> '88'
+```
+
+To be more explicit, and to print in any context, we can use the function
+`print()`:
+
+```sh
+print(x)
+print(z)
+#> 2
+#> '88'
+```
+]
+
+---
+
+## Strings and methods
+
+- **Python is "object-oriented"** &ndash;
+  its variables are objects that contain:
+  
+  - The values/data assigned to them, _and_
+  
+  - A type of functions specifically associated with the object type.
+    These are called **"methods"**.
+    
+- To see which methods are associated with a string,
+  type a dot `.` after an object name, and press <kbd>Tab</kbd>:
+  
+  ```sh
+  astring = "ATGCATG"
+  
+  astring.      # Press Tab
+  
+  # To get information about a listed method:
+  help(astring.find)
+  ```
+
+--
+
+- Let's call a method &mdash; here, we'll try `find()`,
+  which prints the position of the first occurrence of a substring:
+  
+  ```sh
+  astring.find("C")
+  #> 3
+  ```
+
+---
+
+## *Methods* versus (generic) *functions*
+
+- Call the function `print()` on a string:
+
+  ```sh
+  s = "ATGC"
+  
+  print(s)
+  #> ATGC
+  ```
+
+- Calling the method "print" returns an error message
+  that tells us that strings have no method called `print`:
+
+  ```sh
+  s.print()
+  #> ----------------------------------------------------------
+  #> AttributeError: ' str ' object has no attribute ' print '
+  ```
+
+--
+
+.content-box-info[
+**Comparing the syntax for generic functions and methods:**
+
+```sh
+function_name(object, other_argument)
+
+object.method_name(argument)
+```
+]
+
+---
+
+## Side note
+
+.content-box-info[
+**Naming variables:**
+Because a period `.` is used to indicate that a method for an object follows
+(and for other purposes, as we'll see later), you can't use a period in
+a variable name.
+
+Instead, use underscores (`my_variable`) or camel case (`MyVariable`) to
+delimit words in variable names.
+]
+
+---
+
+## More methods for strings
+
+- `.replace()` to replace substrings:
+  
+  ```sh
+  # astring = "ATGCATG"
+  
+  astring.replace("T", "U")
+  #> 'AUGCAUG'
+  ```
+
+- `count()` to count occurrences of substrings:
+
+  ```sh
+  astring.count("G")
+  #> 2
+  ```
+
+--
+
+- `.split()` will split a string into components, using spaces by default:
+
+  ```sh
+  newstring = " Mus musculus "
+  
+  newstring.split()
+  #> ['Mus', 'musculus']
+  
+  # Specify the character by which to split:
+  newstring.split("u")
+  #> ['M', 's m', 'sc', 'l', 's']
+  ```
+
+---
+
+## More methods for strings
+
+- `.strip()` to remove, by default, leading and trailing white space:
+
+  ```sh
+  # newstring = " Mus musculus "
+  
+  newstring.strip()
+  #> 'Mus musculus'
+  ```
+
+---
+
+## Other behavior of methods
+
+- You can even use string methods without first assigning the string to a
+  variable:
+  
+  ```sh
+  # Make uppercase with `.upper()`:
+  "atgc".upper()
+  #>'ATGC'
+  
+  # Make lowercase with `.lower()`:
+  "TGCA".lower()
+  #> 'tgca'
+  ```
+
+--
+
+<br>
+
+- And you can **combine multiple methods** in a single call
+  by chaining them together like so:
+
+  ```sh
+  # astring = "ATGCATG"
+  
+  astring.replace("T", "U").count("U")
+  #> 2
+  ```
+  
+---
+
+## Concatenating strings
+
+- We can concatenate string with the `+` sign:
+
+  ```sh
+  genus = "Rattus"
+  species = "norvegicus"
+  
+  genus + " " + species    # Separate with a space
+  #> 'Rattus norvegicus'   
+  ```
+
+--
+
+- But this is a slow way of concatenating &ndash;
+  the `.join()` method is better:
+
+  ```sh
+  # join requires a list of strings as input:
+  human = ["Homo", "sapiens"]
+  " ".join(human)
+  #> 'Homo sapiens'
+  
+  # You can specify any symbol as a delimiter:
+  "->".join(["one", "leads", "2", "the", "other"])
+  #> 'one->leads->2->the->other'
+  ```
+  
+---
+
+## More on methods
+
+- Different object types have different methods:
+
+  ```sh
+  my_int = 8
+  my_int.               # See methods for integers 
+  
+  my_float = 8.5
+  float.                # See methods for floats
+  
+  mystring = "ATGC"
+  my.string.            # See methods for strings
+  ```
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo 3.1
+
+1. Initialize the string `s = "WHEN on board H.M.S. Beagle, as naturalist"`.
+
+2. Apply a string method to count the number of occurrences of the
+   character `b`.
+
+3. Modify the command such that it counts both lowercase and uppercase `b`'s.
+
+4. Replace `WHEN` with `When`.
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo 3.1: Solutions
+
+1. Initialize the string:
+
+  ```sh
+  s = "WHEN on board H.M.S. Beagle, as naturalist"
+  ```
+
+2. Count the number of occurrences of the character `b`.
+
+  ```sh
+  s.count("b")
+  ```
+
+3. Count both lowercase and uppercase `b`'s:
+
+  ```sh
+  s.lower().count("b")
+  ```
+
+4. Replace `WHEN` with `When`.
+
+  ```sh
+  s.replace("WHEN","When")
+  ```
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>
+

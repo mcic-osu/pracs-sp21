@@ -1,0 +1,19 @@
+---
+title: "Week 07"
+description: |
+  First steps with Python
+date: 2021-03-01
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+### Slides
+
+- Slides -- Tuesday Zoom (Mar 2) (TBA)
+
+- Slides -- Thursday Zoom (Mar 4) (TBA)
+
+### Graded assignments
+
+- [Graded assignment 3: Python](../../w08_GA_python.html)
