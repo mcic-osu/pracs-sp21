@@ -1,0 +1,16 @@
+
+## List comprehension
+
+```sh
+animals = [' aap ', ' aap ', 'aap ']
+[x.strip() for x in animals]
+[x.strip() for x in animals if 'i' in x]
+```
+
+## Dictionary
+
+```sh
+>>> iupac = {'A':'Ala','C':'Cys','E':'Glu'}
+>>> print('C stands for the amino acid {0}', iupac['C'])
+#> C stands for the amino acid Cys
+```

@@ -1,0 +1,65 @@
+---
+title: "Python resources"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+Here is a list of recommended Python resources. Most are geared towards beginners
+(in Python and programming alike).
+Also, the bioinformatics-specific books are all quite practical,
+describing "applied bioinformatics" -- i.e. more how to analyze your data than
+how to write your own algorithms.
+
+## Free resources
+
+### Videos
+
+- [A YouTube playlist by Microsoft, introducing Python](https://www.youtube.com/watch?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6&v=jFCNu1-Xdsw)
+
+- [Introduction to Computer Science and Programming in Python](https://www.youtube.com/playlist?list=PLUl4u3cNGP63WbdFxL8giv4yhgdMGaZNA)
+
+### Courses
+
+- [Python for everybody](https://www.py4e.com/)
+
+- [Programming for Biology](http://programmingforbiology.org/index.html)
+
+<br>
+
+## Available online via the OSU library
+
+- Book: [Python for the life sciences: a gentle introduction to python for life scientists](https://library.ohio-state.edu/record=b8792177~S7)
+  (Alexandar Lancestar, 2019).
+  This book is very explicitly geared towards biologists with no or little
+  programming experience, and takes a very practical and project-oriented
+  approach. From what I've seen of the book this one is highly recommended! 
+
+- Book: [Python for Bioinformatics](https://library.ohio-state.edu/record=b8257944~S7)
+  (Sebastian Bassi, 2018).
+  This book also starts with an introduction to Python and then has chapters that
+  each describe practical problems/projects,
+  like "Calculating melting temperature from a set of primers".
+  
+- Book: [Python programming for biology, bioinformatics, and beyond](https://library.ohio-state.edu/record=b8928994~S7) (Tim Stevens, 2015).
+  This book starts with an introduction to Python and then has chapters on topics
+  like "Pairwise sequence alignments", "Sequence variation and evolution",
+  and "High-throughput sequences".
+
+- Book: [Reproducible Bioinformatics with Python](https://library.ohio-state.edu/record=b9208582~S7) (Ken Youens-Clark, 2021).
+  This is a slightly more advanced book that does not start with an introduction
+  to Python, but you should be able to follow this week with what you'll learn
+  in this course.
+
+<br>
+
+## Other resources
+  
+- Book: [Bioinformatics with Python Cookbook](https://www.amazon.com/Bioinformatics-Python-Cookbook-bioinformatics-computational/dp/1789344697) (Tiago Antao, 2018).
+
+
+
+
+  

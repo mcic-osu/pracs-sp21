@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/02 (updated: 2021-02-22)
+### 2021/03/02 (updated: 2021-02-23)
 
 ---
 
@@ -54,17 +54,77 @@ name: python
 
 ## What is Python?
 
+- Python is an all-purpose programming language that was created by
+  Guido van Rossem, first released in 1991, and named after Monty Python.
+
+- ["The Zen of Python"](https://www.python.org/dev/peps/pep-0020/)
+  describes guidelines for Python code with aphorisms that include:
+
+  - Beautiful is better than ugly.
+  - Explicit is better than implicit.
+  - Simple is better than complex.
+  - Complex is better than complicated.
+  - Readability counts.
+  - If the implementation is hard to explain, it's a bad idea.
+  - There should be one-- and preferably only one --obvious way to do it.
+
+- The last point relates to the notion of "Pythonic" code that follows these
+  and other [style guidelines](https://pep8.org/).
+
 ---
 
 ## Why Python?
 
-- Show language popularity graph
+### Show language popularity graph
+
+- Good language for new programmers due to its straightforward,
+  highly readable style.
+
+- Lot of built-in features that would require third-party libraries in other
+  languages.
+  
+- Excellent availability of third-party libraries.
+
+- Cross-platform, open source, and very popular.
+
+- Object-oriented.
+
+---
+
+## Usage of Python
+
+- Data science (especially machine learning)
+
+- Engineering, electronics, astronomy, biology / bioinformatics
+
+- Websites
+
+- Software like the Dropbox client
+
+- Widely used for games and movies
+
+- One of the 4 official languages of Google (along with Java, C++, and Go)
+
+- Tightly integrated with Linux, e.g. Ubuntu Linux prefers community
+  contributions to be in Python.
 
 ---
 name: jupyter
 
 ## What is Jupyter?
 
+Like bash and R, Python can be used both interactively (issue one command
+at a time, get instantaneous feedback) and by running scripts.
+
+We will start by using Python interactively, and will do so using
+Jupyter Notebooks.
+
+- Browser-based envirorenment that runs locally on your computer
+
+- Combines Markdown "cells" with code cells,
+  and will show results and figures "in-line".
+  
+- Jupyter = Julia, Python, R (but now compatible with other languages too).
 
 ---
 
@@ -122,11 +182,11 @@ name: getting-started
 - We can use Python as an oversized calculator:
 
   ```sh
-  2 + 2         # Addition
+  &gt;&gt;&gt; 2 + 2         # Addition
   #&gt; 4
-  2 * 2         # Multiplication
+  &gt;&gt;&gt; 2 * 2         # Multiplication
   #&gt; 4
-  3 / 2         # Division
+  &gt;&gt;&gt; 3 / 2         # Division
   #&gt; 1.5
   ```
 
@@ -136,13 +196,13 @@ name: getting-started
   parentheses:
 
   ```sh
-  2 * 3 ** 3    # Read as 2*(3**3)
+  &gt;&gt;&gt; 2 * 3 ** 3    # Read as 2*(3**3)
   #&gt; 54
   
-  2 * (3 ** 3)
+  &gt;&gt;&gt; 2 * (3 ** 3)
   #&gt; 54
   
-  (2 * 3) ** 3
+  &gt;&gt;&gt; (2 * 3) ** 3
   #&gt; 216
   ```
 
@@ -150,11 +210,11 @@ name: getting-started
 
 ## Simple calculations (cont.)
 
-- **Integer division** is division in which the fractional part (remainder) is
-  discarded:
+- **Integer division** (AKA floor division) is division in which the
+  fractional part (remainder) is discarded:
 
   ```sh
-  3 // 2        # Integer division
+  &gt;&gt;&gt; 3 // 2        # Integer division
   #&gt; 1
   ```
 
@@ -163,12 +223,22 @@ name: getting-started
 - **The modulo operator** returns the remainder of an integer division:
 
   ```sh
-  15 % 7
+  &gt;&gt;&gt; 15 % 7
   #&gt; 1
   ```
   
-  _(Because 15 = (7*2) + 1), so 1 is the remainder of the integer division 15//7.)_
+  _(As 15 = (7*2) + 1), 1 is the remainder of the integer division 15//7.)_
   
+
+--
+
+&lt;br&gt;
+
+.content-box-info[
+Like in Bash and other languages, anything after a pound sign `#` is ignored
+by Python and generally functions as a "comment".
+]
+
 ---
 
 ## Logical operators: `True`, and `False`
@@ -177,13 +247,13 @@ name: getting-started
   which in Python consist of `True` and `False` (with that exact case):
   
   ```sh
-  2 &gt; 3 # 
+  &gt;&gt;&gt; 2 &gt; 3 # 
   #&gt; False
   
-  2 == 2 # equals
+  &gt;&gt;&gt; 2 == 2 # equals
   #&gt; True
   
-  2 != 2 # is different
+  &gt;&gt;&gt; 2 != 2 # is different
   #&gt; False
   ```
 
@@ -191,33 +261,59 @@ name: getting-started
 
 ## Strings
 
-- Quotes define strings, and you can single, double or triple (triple-double?)
-  quotes &amp;ndash; the latter if your string contains both single and double
-  quotes:
+- Quotes define strings, and you can single, double, triple-single,
+  or triple-double quotes &amp;ndash; but always make sure to use the same closing
+  quote as the opening quote.
 
   ```sh
-  'my string'
+  &gt;&gt;&gt; 'my string'
+  &gt;&gt;&gt; "my string"
+  &gt;&gt;&gt; '''my string'''
+  &gt;&gt;&gt; """my string"""
   #&gt; 'my string'
+  ```
   
-  "The tree's height"
+- Being able to use single versus double quotes helps if your string contains
+  one of those:
+  
+  ```sh
+  &gt;&gt;&gt; "The tree's height"
   #&gt; 'The tree's height'
+  ```
   
+- And triple quotes are useful if your string contains both single and double quotes:  
+  
+  ```sh
   # """The tree ' s height is 6 ' 2"."""
   #&gt; 'The tree\'s height is 6\'2".'
   ```
+
+- Moreover, triple quotes can be used for multiline strings:
+
+  ```sh
+  """This
+  is a mult-line
+  string"""
+  ```
+
+.content-box-q[
+How might we be able to create a multi-line string using single/double quotes?
+]
 
 ---
 
 ## Variable assignment
 
-We are familiar with assigning and using variables from bash.  
+From working with Bash,
+we are familiar with the process of assigning variables (also known as
+"declaring variables") and then using them.  
 
 - This works the same in Python, but when recalling a variable,
   we don't need any special syntax (like `$` in bash):
 
   ```sh
-  x = 5
-  x
+  &gt;&gt;&gt; x = 5
+  &gt;&gt;&gt; x
   #&gt; 5
   ```
 
@@ -227,12 +323,16 @@ We are familiar with assigning and using variables from bash.
   they will simply be replaced by whatever value they hold:
   
   ```sh
-  x + 3
+  &gt;&gt;&gt; x + 3
   #&gt; 8
-  y = 8
-  x + y
+  &gt;&gt;&gt; y = 8
+  &gt;&gt;&gt; x + y
   #&gt; 13
   ```
+
+.content-box-info[
+Python is not sensitive to spaces around the `=` for assignment. 
+]
 
 ---
 
@@ -242,16 +342,16 @@ We are familiar with assigning and using variables from bash.
   and the two are *not* linked:
   
   ```sh
-  x
+  &gt;&gt;&gt; x
   #&gt; 5
-  y = x
-  y
+  &gt;&gt;&gt; y = x
+  &gt;&gt;&gt; y
   #&gt; 5
   
-  y = y + 10
-  y
+  &gt;&gt;&gt; y = y + 10
+  &gt;&gt;&gt; y
   #&gt; 15
-  x
+  &gt;&gt;&gt; x
   #&gt; 5
   ```
 
@@ -260,8 +360,8 @@ We are familiar with assigning and using variables from bash.
 &lt;br&gt;
 
 .content-box-info[
-This may be very intuitive or expected &amp;ndash; but in Python, this is only true for
-*immutable* objects!
+This behavior of "unlinked variables" may be very intuitive or expected &amp;ndash;
+but in Python, this is only true for *immutable* objects!
 ]
 
 ---
@@ -277,9 +377,9 @@ This may be very intuitive or expected &amp;ndash; but in Python, this is only t
 - Assign a string, and concatenate strings with `+`:
 
   ```sh
-  x = "The cell grew"
+  &gt;&gt;&gt; x = "The cell grew"
   
-  x + " and is now larger"
+  &gt;&gt;&gt; x + " and is now larger"
   #&gt; 'The cell grew and is now larger'
   ```
 
@@ -289,9 +389,11 @@ This may be very intuitive or expected &amp;ndash; but in Python, this is only t
 Jupyter functions to show what's in your environment:
 
 ```sh
-who
+&gt;&gt;&gt; who
 
-whos
+&gt;&gt;&gt; whos
+
+&gt;&gt;&gt; dir()
 ```
 ]
 
@@ -299,15 +401,15 @@ whos
 
 ## Variable types
 
-We can't perform operations on two variables with different types:
+We can't perform operations like concatenation with variables of different types:
 
 ```sh
-y
+&gt;&gt;&gt; y
 #&gt; 8
-x
+&gt;&gt;&gt; x
 #&gt; "The cell grew"
 
-x + y              # x is string, y is integer
+&gt;&gt;&gt; x + y              # x is string, y is integer
 #&gt; ---------------------------------------------
 #&gt; TypeError
 #&gt; Traceback (most recent call last)
@@ -321,31 +423,35 @@ x + y              # x is string, y is integer
 ## Variable type conversion
 
 ```sh
-x
+&gt;&gt;&gt; x
 #&gt; "The cell grew"
-y
+&gt;&gt;&gt; y
 #&gt; 8
 ```
 
 - But we can convert variable types on the fly; to as string with `str()`:
   
   ```sh
-  x + " " + str(y) + " nm"
+  &gt;&gt;&gt; x + " " + str(y) + " nm"
   #&gt; ' The cell grew 8 nm '
   ```
+
+--
 
 - To an integer with `int()`:
 
   ```sh
-  y + int(z)
+  &gt;&gt;&gt; y + int(z)
   #&gt; 96
   ```
+
+--
 
 - Numbers in quotes are interpreted as strings:
   
   ```sh
-  z = "88" # string
-  x + z
+  &gt;&gt;&gt; z = "88" # string
+  &gt;&gt;&gt; x + z
   #&gt; 'The cell grew88'
   ```
 
@@ -353,23 +459,23 @@ y
 
 ## Variable type conversion
 
-As we just saw, Python types variables dynamically.
-This means that you don't have to a priori define them.
-You can check what Python has decided for you using `type()`:
+As we just saw, Python types variables *dynamically* (also known as "duck typing").
+This means you don't have to a priori define what type a variable should be.
+You can check *what Python has decided for you* using `type()`:
 
 ```sh
-x = 2
-type(x)
+&gt;&gt;&gt; x = 2
+&gt;&gt;&gt; type(x)
 #&gt; int
 
 x = "two"
-type(x)
+&gt;&gt;&gt; type(x)
 #&gt; str
 ```
 
 --
 
-- And these are all the functions to convert between types:
+- These are all the functions to convert between types:
 
 |Function     | Convert to:
 |-------------|--------------|
@@ -377,6 +483,21 @@ type(x)
 | `double()`  | Double (numbers with decimals)
 | `str()`     | String
 | `bool()`    | Boolean (`True` / `False`)
+
+---
+
+## Naming variables
+
+- Use only alphanumeric characters and underscores in variables names.
+
+- Numbers can't be used as the *first character* in variable names.
+
+- To delimit words, preferably use underscores (`my_variable`) rather than
+  "camel case" (`MyVariable`).
+  (And note that Python is case-sensitive.)
+
+- As we'll see in a minute, periods `.` have special meaning in Python and
+  **can not** be used in variable names.
 
 ---
 
@@ -398,8 +519,8 @@ type(x)
 - For example, we can use `len()` to get the length of (e.g.) a string:
 
   ```sh
-  s = "a long string"
-  len(s)
+  &gt;&gt;&gt; s = "a long string"
+  &gt;&gt;&gt; len(s)
   #&gt; 13
   ```
 
@@ -409,9 +530,9 @@ type(x)
   to (the default is 0):
 
   ```sh
-  round(3.14159)
+  &gt;&gt;&gt; round(3.14159)
   #&gt; 3
-  round(3.14159, 3)
+  &gt;&gt;&gt; round(3.14159, 3)
   #&gt; 3.142
   ```
 
@@ -426,8 +547,8 @@ However, this only happens in interactive Python; and in Jupyter Notebooks,
 only for the last command:
 
 ```sh
-x
-z
+&gt;&gt;&gt; x
+&gt;&gt;&gt; z
 #&gt; '88'
 ```
 
@@ -435,8 +556,8 @@ To be more explicit, and to print in any context, we can use the function
 `print()`:
 
 ```sh
-print(x)
-print(z)
+&gt;&gt;&gt; print(x)
+&gt;&gt;&gt; print(z)
 #&gt; 2
 #&gt; '88'
 ```
@@ -458,12 +579,12 @@ print(z)
   type a dot `.` after an object name, and press &lt;kbd&gt;Tab&lt;/kbd&gt;:
   
   ```sh
-  astring = "ATGCATG"
+  &gt;&gt;&gt; astring = "ATGCATG"
   
-  astring.      # Press Tab
+  &gt;&gt;&gt; astring.      # Press Tab
   
   # To get information about a listed method:
-  help(astring.find)
+  &gt;&gt;&gt; help(astring.find)
   ```
 
 --
@@ -472,7 +593,7 @@ print(z)
   which prints the position of the first occurrence of a substring:
   
   ```sh
-  astring.find("C")
+  &gt;&gt;&gt; astring.find("C")
   #&gt; 3
   ```
 
@@ -483,9 +604,9 @@ print(z)
 - Call the function `print()` on a string:
 
   ```sh
-  s = "ATGC"
+  &gt;&gt;&gt; s = "ATGC"
   
-  print(s)
+  &gt;&gt;&gt; print(s)
   #&gt; ATGC
   ```
 
@@ -493,7 +614,7 @@ print(z)
   that tells us that strings have no method called `print`:
 
   ```sh
-  s.print()
+  &gt;&gt;&gt; s.print()
   #&gt; ----------------------------------------------------------
   #&gt; AttributeError: ' str ' object has no attribute ' print '
   ```
@@ -512,20 +633,6 @@ object.method_name(argument)
 
 ---
 
-## Side note
-
-.content-box-info[
-**Naming variables:**
-Because a period `.` is used to indicate that a method for an object follows
-(and for other purposes, as we'll see later), you can't use a period in
-a variable name.
-
-Instead, use underscores (`my_variable`) or camel case (`MyVariable`) to
-delimit words in variable names.
-]
-
----
-
 ## More methods for strings
 
 - `.replace()` to replace substrings:
@@ -533,14 +640,14 @@ delimit words in variable names.
   ```sh
   # astring = "ATGCATG"
   
-  astring.replace("T", "U")
+  &gt;&gt;&gt; astring.replace("T", "U")
   #&gt; 'AUGCAUG'
   ```
 
 - `count()` to count occurrences of substrings:
 
   ```sh
-  astring.count("G")
+  &gt;&gt;&gt; astring.count("G")
   #&gt; 2
   ```
 
@@ -549,13 +656,13 @@ delimit words in variable names.
 - `.split()` will split a string into components, using spaces by default:
 
   ```sh
-  newstring = " Mus musculus "
+  &gt;&gt;&gt; newstring = " Mus musculus "
   
-  newstring.split()
+  &gt;&gt;&gt; newstring.split()
   #&gt; ['Mus', 'musculus']
   
   # Specify the character by which to split:
-  newstring.split("u")
+  &gt;&gt;&gt; newstring.split("u")
   #&gt; ['M', 's m', 'sc', 'l', 's']
   ```
 
@@ -568,9 +675,13 @@ delimit words in variable names.
   ```sh
   # newstring = " Mus musculus "
   
-  newstring.strip()
+  &gt;&gt;&gt; newstring.strip()
   #&gt; 'Mus musculus'
   ```
+
+- `.index()` &amp;ndash; returns the position of a substring like `.find()`,
+  but will raise an error if the substring is not found
+  (`.find()` will return a value of `-1`).
 
 ---
 
@@ -581,11 +692,11 @@ delimit words in variable names.
   
   ```sh
   # Make uppercase with `.upper()`:
-  "atgc".upper()
+  &gt;&gt;&gt; "atgc".upper()
   #&gt;'ATGC'
   
   # Make lowercase with `.lower()`:
-  "TGCA".lower()
+  &gt;&gt;&gt; "TGCA".lower()
   #&gt; 'tgca'
   ```
 
@@ -599,7 +710,7 @@ delimit words in variable names.
   ```sh
   # astring = "ATGCATG"
   
-  astring.replace("T", "U").count("U")
+  &gt;&gt;&gt; astring.replace("T", "U").count("U")
   #&gt; 2
   ```
   
@@ -610,10 +721,10 @@ delimit words in variable names.
 - We can concatenate string with the `+` sign:
 
   ```sh
-  genus = "Rattus"
-  species = "norvegicus"
+  &gt;&gt;&gt; genus = "Rattus"
+  &gt;&gt;&gt; species = "norvegicus"
   
-  genus + " " + species    # Separate with a space
+  &gt;&gt;&gt; genus + " " + species    # Separate with a space
   #&gt; 'Rattus norvegicus'   
   ```
 
@@ -624,12 +735,12 @@ delimit words in variable names.
 
   ```sh
   # join requires a list of strings as input:
-  human = ["Homo", "sapiens"]
-  " ".join(human)
+  &gt;&gt;&gt; human = ["Homo", "sapiens"]
+  &gt;&gt;&gt; " ".join(human)
   #&gt; 'Homo sapiens'
   
   # You can specify any symbol as a delimiter:
-  "-&gt;".join(["one", "leads", "2", "the", "other"])
+  &gt;&gt;&gt; "-&gt;".join(["one", "leads", "2", "the", "other"])
   #&gt; 'one-&gt;leads-&gt;2-&gt;the-&gt;other'
   ```
   
@@ -640,14 +751,14 @@ delimit words in variable names.
 - Different object types have different methods:
 
   ```sh
-  my_int = 8
-  my_int.               # See methods for integers 
+  &gt;&gt;&gt; my_int = 8
+  &gt;&gt;&gt; my_int.               # See methods for integers 
   
-  my_float = 8.5
-  float.                # See methods for floats
+  &gt;&gt;&gt; my_float = 8.5
+  &gt;&gt;&gt; float.                # See methods for floats
   
-  mystring = "ATGC"
-  my.string.            # See methods for strings
+  &gt;&gt;&gt; mystring = "ATGC"
+  &gt;&gt;&gt; my.string.            # See methods for strings
   ```
 
 ---
@@ -670,25 +781,25 @@ delimit words in variable names.
 1. Initialize the string:
 
   ```sh
-  s = "WHEN on board H.M.S. Beagle, as naturalist"
+  &gt;&gt;&gt; s = "WHEN on board H.M.S. Beagle, as naturalist"
   ```
 
 2. Count the number of occurrences of the character `b`.
 
   ```sh
-  s.count("b")
+  &gt;&gt;&gt; s.count("b")
   ```
 
 3. Count both lowercase and uppercase `b`'s:
 
   ```sh
-  s.lower().count("b")
+  &gt;&gt;&gt; s.lower().count("b")
   ```
 
 4. Replace `WHEN` with `When`.
 
   ```sh
-  s.replace("WHEN","When")
+  &gt;&gt;&gt; s.replace("WHEN","When")
   ```
 
 ---

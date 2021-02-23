@@ -128,18 +128,19 @@ and with individual items (elements) separated by commas.
   my_list[0:3]    # Elements 1, 2 and 3
   #> [3, 2.44, "green"]
   
-  my_list[0:1]    # Only the first element
-  # 3
-  
   my_list[1:3]    # Elements 2 and 3
-  #> 2.44
+  #> [2.44, "green"]
+  
+  my_list[0:1]    # Only the first element
+  # [3]           # Note: a 1-element list is returned
+                    # (my_list[0] returns a character)
   ```
 
 ## Include fig from other book
 
 ---
 
-## More indexing with a colon
+## More indexing with a colon (i.e., "slicing")
 
 - When using a colon to indicate a range,
   as we did in the previous slide,
@@ -207,6 +208,16 @@ With negative numbers:
 - `-1` is the last element, not `-0`.
 - The default direction of the range is still positive (forward).
 ]
+
+---
+
+## Double indexing and membership test
+
+```sh
+>>> seqlist = ['AACGT', 'GTATAG', 'CTCTA']
+>>> seqlist[1][3]
+#> T
+```
 
 ---
 
@@ -280,15 +291,11 @@ With negative numbers:
   ```sh
   a * 2
   #> [132, 42, 5, 2, 1, 132, 42, 5, 2, 1]
+  
+  samples = ['red'] * 5
+  samples
+  # ['red', 'red', 'red', 'red', 'red']
   ```
-
-.content-box-info[
-If you're familiar with R, you'll notice that this behavior differs between
-the languages: Python operations are not *vectorized*.
-To operate on each element of a list, we can:
-- Use a loop or a *list comprehension*.
-- Use *arrays* from the NumPy module instead.
-]
 
 --
 
@@ -300,6 +307,18 @@ my_repeat = "AGAAG"
 my_repeat * 3
 #> 'AGAAGAGAAGAGAAG'
 ```
+]
+
+---
+
+## Side note: No "vectorization"
+
+.content-box-info[
+If you're familiar with R, you'll notice that this behavior differs between
+the languages: Python operations are not *vectorized*.
+To operate on each element of a list, we can:
+- Use a loop or a *list comprehension*.
+- Use *arrays* from the NumPy module instead.
 ]
 
 ---
@@ -332,14 +351,22 @@ my_repeat * 3
 
 --
 
-- To delete one or more elements, use the *function* `del`:
+- To delete one or more elements *by index*, use the *function* `del`:
   
   ```sh
   del(a[2:3])
   a
   #> [132, 42, 5, 2, 1]
   ```
+  
+- To delete one element *by value*, use the method `.remove()`:
 
+  ```sh
+  >>> a.remove(45)
+  >>> a
+  #> [132, 5, 2, 1]
+  ```
+  
 --
 
 - `clear` &ndash; Remove all elements from the list:
@@ -385,6 +412,9 @@ my_repeat * 3
   #> 'T'
   ```
 
+  (If you provide `.pop()` with an argument, it will remove the element at
+  that index position, e.g `pop(2)` removes the 3rd element.)
+  
 ---
 
 ## List methods (cont.)
@@ -399,7 +429,6 @@ my_repeat * 3
   #> [1, 5, 2, 42, 14, 132]
   sorted_list
   #> [1, 2, 5, 14, 42, 132]
-  
   ```
 
 --
@@ -476,11 +505,49 @@ To break this linkage, we need to explicitly create a copy of the list
 
 ---
 
+## Strings versus lists
+
+- Because strings are immutable, assigning a new variable name will always create
+  an entirely new, unlinked variable &ndash; recall Tuesday's example:
+
+  ```sh
+  >>> x = 5
+  >>> y = x
+  >>> y = y + 10
+  >>> y
+  #> 15
+  >>> x
+  #> 5
+  ```
+
+--
+
+- One thing we didn't yet see is that *strings can be indexed* like lists:
+
+  ```sh
+  >>> seq = "ATGCATG"
+  >>> seq[2]
+  #> 'T'
+  ```
+
+--
+
+- But because they are immutable, *we can't change a value*:
+
+  ```sh
+  >>> seq[2] = U
+  #> TypeError: 'str' object does not support item assignment
+  ```
+
+
+---
+
 ## Copying lists
 
 - `copy` &ndash; Create a copy of the list:
 
   ```sh
+  import copy
   new_list = my_list.copy()
   new_list
   #> ['blue', 2.44, 'green', True, 25, 'red', 0] 
@@ -667,7 +734,7 @@ they cannot be sorted, and the order of the elements can vary stochastically.
 
 ## Functions and methods for dictionaries
 
-- `.keys()` and `.values()` create list-like objects from the keys and values:
+- `.keys()`, `.values()` create list-like objects from the keys and values:
   
   ```sh
   GenomeSize.keys()
@@ -678,6 +745,13 @@ they cannot be sorted, and the order of the elements can vary stochastically.
   #> dict_values([3201.1, 4.6, 157.0, 12.1])
   ```
 
+- `.items()` returns each item, i.e. each key-value pair:
+
+  ```sh
+  >>> GenomeSize.items()
+  #> ...
+  ```
+  
 --
 
 - We can merge two dictionaries using `.update()`:
@@ -729,7 +803,6 @@ print(GenomeSize.get("Allium cepa"))
 ```
 ]
 
-
 ---
 class: center middle inverse
 name: tuples
@@ -744,7 +817,7 @@ name: tuples
 
 ## Tuples
 
-Tuples are similar to lists, in that they contain a seqeunce of values of any
+Tuples are similar to lists, in that they contain a sequence of values of any
 type, **but they are immutable:** the values cannot be changed once the
 tuple has been defined.
 
@@ -757,6 +830,7 @@ This behavior provides write-protection, and makes tuples faster than lists.
   empty_tuple_2 = ()
   
   my_tuple = (1, "two", 3)
+  single_element_tuple = (4, )   # Trailing comma needed
   ```
 
 --
@@ -854,7 +928,19 @@ name: sets
 
 ---
 
+## Methods for sets
+
+```sh
+set2.add(11)
+
+# No effect if you try to add an element that is already in the list:
+```
+
+---
+
 ## Intersecting two sets
+
+## Include visual?
 
 We can use logical operators to look for shared and non-shared elements
 between different lists:
@@ -862,6 +948,8 @@ between different lists:
 - `setA & setB` &ndash; intersect: get elements present in *both sets*
 - `setA | setB` &ndash; union: get elements present in *at least one set*
 - `setA ^ setB` &ndash; symmetric difference: get elements present in *one set*
+- `setA - setB` &ndash; asymmetric difference: get elements only in `setA`
+- `setB - setA` &ndash; asymmetric difference: get elements only in `setB`
 
 For example:
 
@@ -1055,6 +1143,7 @@ container
    ```sh
    m["b"] = "-..."
    ```
+
 ---
 class: center middle inverse
 
@@ -1064,3 +1153,32 @@ class: center middle inverse
 
 <br> <br> <br> <br>
 
+
+---
+
+## Test for membership
+
+```sh
+>>> key in dict
+# False
+
+>>> key not in dict
+# True
+```
+
+.content-box-info[
+Membership test with `in`:
+
+```sh
+>>> 'AACGT' in seqlist
+#> True
+```
+
+This also works for strings (and other data types):
+
+```sh
+'AACGT' in 'AACGTGGTA'
+True
+```
+
+]

@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/02 (updated: 2021-02-22)
+### 2021/03/02 (updated: 2021-02-23)
 
 ---
 class: inverse middle center
@@ -127,18 +127,19 @@ and with individual items (elements) separated by commas.
   my_list[0:3]    # Elements 1, 2 and 3
   #&gt; [3, 2.44, "green"]
   
-  my_list[0:1]    # Only the first element
-  # 3
-  
   my_list[1:3]    # Elements 2 and 3
-  #&gt; 2.44
+  #&gt; [2.44, "green"]
+  
+  my_list[0:1]    # Only the first element
+  # [3]           # Note: a 1-element list is returned
+                    # (my_list[0] returns a character)
   ```
 
 ## Include fig from other book
 
 ---
 
-## More indexing with a colon
+## More indexing with a colon (i.e., "slicing")
 
 - When using a colon to indicate a range,
   as we did in the previous slide,
@@ -205,6 +206,25 @@ and with individual items (elements) separated by commas.
 With negative numbers:
 - `-1` is the last element, not `-0`.
 - The default direction of the range is still positive (forward).
+]
+
+---
+
+## Double indexing
+
+```sh
+&gt;&gt;&gt; seqlist = ['AACGT', 'GTATAG', 'CTCTA']
+&gt;&gt;&gt; seqlist[1][3]
+#&gt; T
+```
+
+.content-box-info[
+Membership test with `in`:
+
+```sh
+&gt;&gt;&gt; 'AACGT' in seqlist
+#&gt; True
+```
 ]
 
 ---
@@ -279,15 +299,11 @@ With negative numbers:
   ```sh
   a * 2
   #&gt; [132, 42, 5, 2, 1, 132, 42, 5, 2, 1]
+  
+  samples = ['red'] * 5
+  samples
+  # ['red', 'red', 'red', 'red', 'red']
   ```
-
-.content-box-info[
-If you're familiar with R, you'll notice that this behavior differs between
-the languages: Python operations are not *vectorized*.
-To operate on each element of a list, we can:
-- Use a loop or a *list comprehension*.
-- Use *arrays* from the NumPy module instead.
-]
 
 --
 
@@ -299,6 +315,18 @@ my_repeat = "AGAAG"
 my_repeat * 3
 #&gt; 'AGAAGAGAAGAGAAG'
 ```
+]
+
+---
+
+## Side note: No "vectorization"
+
+.content-box-info[
+If you're familiar with R, you'll notice that this behavior differs between
+the languages: Python operations are not *vectorized*.
+To operate on each element of a list, we can:
+- Use a loop or a *list comprehension*.
+- Use *arrays* from the NumPy module instead.
 ]
 
 ---
@@ -331,14 +359,22 @@ my_repeat * 3
 
 --
 
-- To delete one or more elements, use the *function* `del`:
+- To delete one or more elements *by index*, use the *function* `del`:
   
   ```sh
   del(a[2:3])
   a
   #&gt; [132, 42, 5, 2, 1]
   ```
+  
+- To delete one element *by value*, use the method `.remove()`:
 
+  ```sh
+  &gt;&gt;&gt; a.remove(45)
+  &gt;&gt;&gt; a
+  #&gt; [132, 5, 2, 1]
+  ```
+  
 --
 
 - `clear` &amp;ndash; Remove all elements from the list:
@@ -384,6 +420,9 @@ my_repeat * 3
   #&gt; 'T'
   ```
 
+  (If you provide `.pop()` with an argument, it will remove the element at
+  that index position, e.g `pop(2)` removes the 3rd element.)
+  
 ---
 
 ## List methods (cont.)
@@ -398,7 +437,6 @@ my_repeat * 3
   #&gt; [1, 5, 2, 42, 14, 132]
   sorted_list
   #&gt; [1, 2, 5, 14, 42, 132]
-  
   ```
 
 --
@@ -475,11 +513,49 @@ To break this linkage, we need to explicitly create a copy of the list
 
 ---
 
+## Strings versus lists
+
+- Because strings are immutable, assigning a new variable name will always create
+  an entirely new, unlinked variable &amp;ndash; recall Tuesday's example:
+
+  ```sh
+  &gt;&gt;&gt; x = 5
+  &gt;&gt;&gt; y = x
+  &gt;&gt;&gt; y = y + 10
+  &gt;&gt;&gt; y
+  #&gt; 15
+  &gt;&gt;&gt; x
+  #&gt; 5
+  ```
+
+--
+
+- One thing we didn't yet see is that *strings can be indexed* like lists:
+
+  ```sh
+  &gt;&gt;&gt; seq = "ATGCATG"
+  &gt;&gt;&gt; seq[2]
+  #&gt; 'T'
+  ```
+
+--
+
+- But because they are immutable, *we can't change a value*:
+
+  ```sh
+  &gt;&gt;&gt; seq[2] = U
+  #&gt; TypeError: 'str' object does not support item assignment
+  ```
+
+
+---
+
 ## Copying lists
 
 - `copy` &amp;ndash; Create a copy of the list:
 
   ```sh
+  import copy
   new_list = my_list.copy()
   new_list
   #&gt; ['blue', 2.44, 'green', True, 25, 'red', 0] 
@@ -666,7 +742,7 @@ they cannot be sorted, and the order of the elements can vary stochastically.
 
 ## Functions and methods for dictionaries
 
-- `.keys()` and `.values()` create list-like objects from the keys and values:
+- `.keys()`, `.values()` create list-like objects from the keys and values:
   
   ```sh
   GenomeSize.keys()
@@ -677,6 +753,13 @@ they cannot be sorted, and the order of the elements can vary stochastically.
   #&gt; dict_values([3201.1, 4.6, 157.0, 12.1])
   ```
 
+- `.items()` returns each item, i.e. each key-value pair:
+
+  ```sh
+  &gt;&gt;&gt; GenomeSize.items()
+  #&gt; ...
+  ```
+  
 --
 
 - We can merge two dictionaries using `.update()`:
@@ -728,6 +811,17 @@ print(GenomeSize.get("Allium cepa"))
 ```
 ]
 
+---
+
+## Test for membership
+
+```sh
+&gt;&gt;&gt; key in dict
+# False
+
+&gt;&gt;&gt; key not in dict
+# True
+```
 
 ---
 class: center middle inverse
@@ -743,7 +837,7 @@ name: tuples
 
 ## Tuples
 
-Tuples are similar to lists, in that they contain a seqeunce of values of any
+Tuples are similar to lists, in that they contain a sequence of values of any
 type, **but they are immutable:** the values cannot be changed once the
 tuple has been defined.
 
@@ -756,6 +850,7 @@ This behavior provides write-protection, and makes tuples faster than lists.
   empty_tuple_2 = ()
   
   my_tuple = (1, "two", 3)
+  single_element_tuple = (4, )   # Trailing comma needed
   ```
 
 --
@@ -853,7 +948,19 @@ name: sets
 
 ---
 
+## Methods for sets
+
+```sh
+set2.add(11)
+
+# No effect if you try to add an element that is already in the list:
+```
+
+---
+
 ## Intersecting two sets
+
+## Include visual?
 
 We can use logical operators to look for shared and non-shared elements
 between different lists:
@@ -861,6 +968,8 @@ between different lists:
 - `setA &amp; setB` &amp;ndash; intersect: get elements present in *both sets*
 - `setA | setB` &amp;ndash; union: get elements present in *at least one set*
 - `setA ^ setB` &amp;ndash; symmetric difference: get elements present in *one set*
+- `setA - setB` &amp;ndash; asymmetric difference: get elements only in `setA`
+- `setB - setA` &amp;ndash; asymmetric difference: get elements only in `setB`
 
 For example:
 
