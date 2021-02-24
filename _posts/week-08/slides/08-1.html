@@ -32,7 +32,10 @@ class:inverse middle center
 
 ## Overview of this week
 
-...
+We will work our way through the CSB chapter 3.1-3.4 to get started
+with Python using Jupyter Notebooks.
+
+Thursday will focus entirely on section 3.4: Python data structures.
 
 ---
 class: inverse middle center
@@ -44,10 +47,8 @@ class: inverse middle center
 .left[
 - ### [What is Python and why Python](#python)
 - ### [Jupyter Notebooks](#python)
-- ### [CSB 3.4: Getting started with Python](#getting-started)
+- ### [CSB 3.3: Getting started with Python](#getting-started)
 ]
-
-
 
 ---
 name: python
@@ -87,8 +88,6 @@ name: python
 
 - Cross-platform, open source, and very popular.
 
-- Object-oriented.
-
 ---
 
 ## Usage of Python
@@ -111,27 +110,131 @@ name: python
 ---
 name: jupyter
 
+## Starting JupyterLab at OSC
+
+1. Log in to &lt;https://ondemand.osc.edu&gt;.
+
+2. Click on `Interactive Apps` (top blue bar) and then
+   `Jupyter (Owens and Pitzer)` near the bottom.
+
+3. In the form for your compute node options:
+   
+   - Cluster: either `pitzer` or `owens` works.
+   - Project: our course project `PAS1855`.
+   - **Check the box `Use JupyterLab instead of Jupyter Notebook?`**
+   - Number of hours: 1 or 2.
+   - Node type: keep the default selection, `any`.
+   - Number of cores: keep the default selection, `1`.
+   - JupyterLab Version: keep the default selection, `2.1`.
+   - Click `Launch`.
+
+4. Once the compute node is `Running`, click `Connect to Jupyter`.
+
+---
+
+## JupyterLab setup
+
+- One peculiarity about Jupyter is that you can't really go *up* in the directory
+  tree from your entry point.
+  
+  Additionally, OSC gave us no choice on where to start,
+  and placed us in our home (`$HOME`, `~`) directory.
+
+- While you can save your JupyterLab notebooks in your home directory,
+  it will be more organized to save them in your personal dir in the
+  course project dir.
+  
+  To be able to do that, we need a link to there from our home dir.
+  
+--
+
+- On the JupyterLab front page ("Launcher"), click `Terminal`.
+
+  In the terminal, create a link (in the example below, the link will be
+  named `pp8300_sp21`, but you can use a different name):
+  
+  ```sh
+  $ ln -s /fs/ess/PAS1855/users/$USER/ pp8300_sp21
+  
+  # While we're at it, let's create a dir for this week:
+  $ mkdir pp8300_sp21/week08
+  ```
+
+---
+
+## JupyterLab setup &amp; first steps
+
+- Click on the folder icon in the top of the vertical bar on the right-hand side
+  (`File Browser`). You should see your link to the project dir &amp;ndash;
+  if not, click the refresh icon in the top.
+  
+- Click on your link. You should now see this path at the top of your Launcher
+  window.
+
+- Click on `Python 3` (leftmost box) to start a JupyterLab Notebook.
+
+--
+
+- Another Jupyter peculiarity is that it will automatically start saving any
+  new notebook as `Untitled.ipynb`, so get used to your directories being
+  littered with `Untitled784.ipynb` files...
+  
+  But we will want to save the notebook under a useful name, so click  
+  `File` =&gt; `Save Notebook As` =&gt; `week08/Tuesday.ipynb`.
+
+---
+
+## Testing the JupyterLab notebook
+
+- Press &lt;kbd&gt;Esc&lt;/kbd&gt; (or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;M&lt;/kbd&gt;)
+  and then &lt;kbd&gt;M&lt;/kbd&gt; to make the cell in the notebook into
+  a *Markdown cell*, type "# Week 7 - Tuesday", and press
+  &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; to *run* the cell.
+  
+  You should now see Markdown formatting being applied.
+
+- In the next cell, which is a code cell by default,
+  type `30 * 2` and again press &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; to *run* the cell.
+  
+  You should see the result of the calculation being printed.
+
+---
+
 ## What is Jupyter?
 
-Like bash and R, Python can be used both interactively (issue one command
-at a time, get instantaneous feedback) and by running scripts.
+Like bash and R, Python can be used both *interactively* (issue one command
+at a time, get instantaneous feedback) or *non-interactively* by running a
+script with Python code.
 
-We will start by using Python interactively, and will do so using
-Jupyter Notebooks.
+We will start by using Python interactively, and will do so using  
+**JupyterLab**:
 
-- Browser-based envirorenment that runs locally on your computer
+--
 
-- Combines Markdown "cells" with code cells,
-  and will show results and figures "in-line".
+- A browser-based environment that runs locally on your computer.
+
+- Jupyter = **Ju**lia, **Py**thon, **R**
+  (but now compatible with other languages too).
   
-- Jupyter = Julia, Python, R (but now compatible with other languages too).
+- Combines Markdown "cells" with code cells,
+  and will also show results and figures inside the same document.
+
+- Files are saved as `.ipynb` (IPYthon Notebook) files in *JSON* format,
+  but you don't tend to interact with the raw files outside of the Jupyter
+  environment.
+  
+&lt;br&gt;
+
+.content-box-info[
+*Jupyter Lab* is a quite similar follow-up to Jupyter Notebooks.
+]
 
 ---
 
 ## What is Jupyter? (cont.)
 
 Unfortunately, Jupyter Lab / Jupyter Notebooks are not an all-in-one solution
-for programming in Python, because they only offer interactive notebooks.
+for programming in Python, because they *only* offer interactive notebooks.
   
 To write scripts (while still being able to run lines interactively),
 we need another solution.
@@ -139,19 +242,20 @@ we need another solution.
 There are several Python-specific IDEs such as PyCharm and Spyder,
 which are reminiscent of RStudio.
   
-However, we will work in VS Code, which also offers good Python support,
-and which for us carries the additional advantage of not having to switch
-platforms constantly.
+However, we will work in VS Code, which also offers good Python support.
+For us, that also has the advantage of not having to switch platforms constantly.
 
 ---
 
 ## Working in Jupyter Notebooks
 
+- "Kernel"
 
+- "Commands" sidebar has all the different commands and their keyboard shortcuts. 
 
 ---
 
-## More Jupyter tricks
+## More Jupyter tricks -&gt; Move to week 2
 
 - Magic functions
 
@@ -259,7 +363,7 @@ by Python and generally functions as a "comment".
 
 ---
 
-## Strings
+## Quoting defines strings
 
 - Quotes define strings, and you can single, double, triple-single,
   or triple-double quotes &amp;ndash; but always make sure to use the same closing
