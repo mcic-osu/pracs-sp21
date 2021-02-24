@@ -10,7 +10,7 @@ output:
 
 ### Slides
 
-- [Slides: data download, transfer and integrity, shell productivity tips, & scripting recap](slides/06-1_OSC.html) -- Thursday Zoom (Feb 25)
+- [Slides: data download, transfer and integrity, shell productivity tips, & scripting recap](slides/07-1.html) -- Thursday Zoom (Feb 25)
 
 ### Ungraded assignments
 
