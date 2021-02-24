@@ -1,5 +1,5 @@
 ---
-title: "Week 8 - First steps with Python - II"
+title: "Week 9 - Control flow and working with files - II"
 output:
   xaringan::moon_reader:
     seal: false
@@ -10,43 +10,12 @@ output:
       highlightLines: true
       countIncrementalSlides: false
 ---
-class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 
 knitr::opts_chunk$set(eval = FALSE)
 ```
-
-# *Week 8 - Functions, flow, and files*
-
-----
-
-# II: Data structures
-
-<br> <br> <br> <br> <br>
-
-### Jelmer Poelstra
-### 2021/03/02 (updated: `r Sys.Date()`)
-
----
-class: inverse middle center
-
-# Overview
-
-----
-
-.left[
-- ### [Lists](#lists)
-- ### [Dictionaries](#dicts)
-- ### [Tuples](#tuples)
-- ### [Sets](#sets)
-]
-
-
-
-
----
 
 ## `r icon::fa("user-edit")` Intermezzo 3.3
 
@@ -96,20 +65,3 @@ class: inverse middle center
   
   Only when the if statement is not `True` (i.e., `z` is even) is `hello` printed.
   There are 12 even numbers between 1 and 25.
-
----
-
-## `r icon::fa("user-edit")` Intermezzo 3.4
-
----
-
-## `r icon::fa("user-edit")` Intermezzo 3.4: solutions
-
-```sh
-import csv
-
-with open ("../data/Dalziel2016_data.csv") as f:
-  reader = csv.DictReader(f)
-  for row in reader:
-    print(row["loc"], row["pop"])
-```

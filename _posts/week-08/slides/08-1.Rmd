@@ -177,11 +177,12 @@ name: jupyter
 --
 
 - Another Jupyter peculiarity is that it will automatically start saving any
-  new notebook as `Untitled.ipynb`, so get used to your directories being
-  littered with `Untitled784.ipynb` files...
-  
-  But we will want to save the notebook under a useful name, so click  
-  `File` => `Save Notebook As` => `week08/Tuesday.ipynb`.
+  new notebook as `Untitled.ipynb`.
+  But we will want to save the notebook under a useful name,
+  so in the File Browser, find the current notebook and:
+  - Move it into the `week08` dir.
+  - Right-click the file, then `Rename`,
+    and rename the file to (e.g.) `Tuesday.ipynb`.
 
 ---
 
@@ -250,17 +251,20 @@ For us, that also has the advantage of not having to switch platforms constantly
 
 ## Working in Jupyter Notebooks
 
-- "Kernel"
+- The main left sidebar has several tabs that you can switch between by clicking
+  on the far left, narrow sidebar. Most useful are: 
+  
+  - The "File Browser".
+    Note that you can right-click on files and dirs to rename them, etc.
+    Here, you can also open a new "Launcher" tab by clicking the `+` button.
+  
+  - The "Commands" sidebar (magnifying glass icon), which has all the Jupyter
+    commands and their keyboard shortcuts. 
 
-- "Commands" sidebar has all the different commands and their keyboard shortcuts. 
+  You can show/hide the left Sidebar by clicking `View` => `Show Left Sidebar`.
 
----
-
-## More Jupyter tricks -> Move to week 2
-
-- Magic functions
-
-- `!ls`
+- Jupyter uses the term *"kernel"* to refer to processes for running code,
+  such as an individual notebook running a specific version of Python. 
 
 ---
 

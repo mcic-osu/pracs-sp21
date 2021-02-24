@@ -1,0 +1,86 @@
+---
+title: "Week 9 - Control flow and working with files - II"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# *Week 9 - Control flow and working with files*
+
+----
+
+# II: Working with files
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/03/02 (updated: `r Sys.Date()`)
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [JupyterLab tips and tricks](#juplab)
+- ### [Working with files](#files)
+]
+
+---
+
+## More JupyterLab
+
+- Viewing two notebooks side-by-side & `View` => `Single Document Mode`.
+
+- You can modify keyboard shortcuts via `Settings` => `Advanced Settings Editor`
+  => `Keyboard Shortcuts`.
+
+- JupyterLab also has a text editor, so you can open and edit any kind of text
+  file. Moreover, you can get HTML previews for Markdown files.
+
+- Upload and download files.
+
+- Closing a Notebook doesn't stop it from running.
+  To stop it, go to the `Running` panel in the sidebar, and click `SHUTDOWN`
+  for the notebook in question.
+
+---
+
+## More Jupyter tricks
+
+- Magic functions
+
+- `!ls`
+
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo 3.4
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo 3.4: solutions
+
+```sh
+import csv
+
+with open ("../data/Dalziel2016_data.csv") as f:
+  reader = csv.DictReader(f)
+  for row in reader:
+    print(row["loc"], row["pop"])
+```
