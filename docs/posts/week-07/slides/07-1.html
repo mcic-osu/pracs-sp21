@@ -23,7 +23,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/25 (updated: 2021-02-23)
+### 2021/02/25 (updated: 2021-02-24)
 
 ---
 class: inverse middle center
@@ -33,7 +33,7 @@ class: inverse middle center
 ----
 
 .left[
-- ### [Downloading and transferring data](#download)
+- ### [Downloading data](#download)
 - ### [Ensuring data integrity with checksums](#checksums)
 - ### [Compressed data](#compress)
 - ### [Shell productivity tips](#prod)
@@ -45,13 +45,18 @@ name: download
 
 ## Downloading data with `wget`
 
+```sh
+# Getting set up
+$ # cd /fs/ess/PAS1855/user/$USER/ # You're probably already there
+$ cd bds-files/chapter-06-bioinformatics-data/
+$ mkdir hg19
+$ cd hg19
+```
+
 `wget` will download files from a specified address, by default saving it using
 the file name from the source:
 
 ```sh
-$ mkdir ~/chr22
-$ cd ~/chr22
-
 $ wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr22.fa.gz
 #&gt; --2013-06-30 00:15:45-- http://[...]/goldenPath/hg19/chromosomes/chr22.fa.gz
 #&gt; Resolving hgdownload.soe.ucsc.edu... 128.114.119.163
@@ -73,6 +78,7 @@ name: download
 - `wget` can also download multiple files at once with `--recursive`:
 
   ```sh
+  # Fictional example, don't run
   $ wget --recursive \
         --no-parent --accept "*.gtf" \
         --no-directories \
@@ -94,76 +100,23 @@ name: download
 Other useful options include `--level` to specify the number of directory levels
 that should be recursively downloaded,  
 and `--reject`, which does the opposite of `--accept`.   
-There are *many* others...!
 ]
 
 ---
 
-## Transferring files: &lt;br&gt; small transfers (&lt;1 GB) to/from OSC
+## Downloading data with `curl`
 
-One option is **`scp`** (secure copy), which works much like regular `cp`,
-but to refer to remote,
-we prepend the SSH connection address followed by `:`:
+`curl` is similar to `wget`, but can also download data using some additional
+protocols such as SFTP (secure FTP).
 
-- Remote to local, and local to remote:
-  
-  ```sh
-  $ scp &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt; &lt;local-path&gt;
-  
-  $ scp &lt;local-path&gt; &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt;
-  ```
+If you use it, you should also be aware that it prints downloads to standard
+out by default, so you should redirect (or use the `-O` option) to save
+downloads to file:
 
---
-
-- For instance:
-  
-  ```sh
-  $ scp -r jelmer@pitzer.osc.edu:~/chr22 ~
-  
-  $ scp -r ~/scripts jelmer@pitzer.osc.edu:~
-  ```
-
---
-
-.content-box-info[
-- Do transfers in either direction from your *local* shell.
-- If you created SSH shortcuts, these will work here too!
-]
-
----
-
-## Transferring files: &lt;br&gt; small transfers (&lt;1 GB) to/from OSC
-
-Another option, which I recommend, is the **`rsync`** command, 
-especially when you have directories that you repeatedly want to **sync**.
-
-- `rsync` won't copy any files that are identical in source and
-  destination.
-
---
-
-- A useful combination of options is `-avz --progress`:
-  - `-a` enables archival mode (also makes `-r` unnecessary).
-  - `-v` increases verbosity &amp;ndash; tells you what is being copied.
-  - `-z` enables compressed file transfer (=&gt; faster).
-  - `--progress` to show transfer progress for individual files.
-
-  ```bash
-  $ rsync -avz --progress ~/bds-files jelmer@owens.osc.edu:~
-  ```
-
---
-
-.content-box-info[
-- Buffalo also uses the `-e ssh` option, but this is not necessary.
-- See the bonus slides to if you get tricked by the trailing slash.
-]
-
----
-
-## Larger transfers
-
-For larger transfers using the command line,   use `sftp` ([bonus slide](#sftp)).
+```sh
+$ curl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr21.fa.gz \
+      &gt; chr21.fa.gz
+```
 
 ---
 class: inverse middle center
@@ -214,7 +167,7 @@ different!
 
   ```sh
   $ shasum chr22.fa.gz 
-  d012edd46f50d674380460d3b4e91f450688e756  chr22.fa.gz
+  #&gt; d012edd46f50d674380460d3b4e91f450688e756  chr22.fa.gz
   ```
 
 --
@@ -252,7 +205,7 @@ or just want to get an overview of differences between two similar text files,
 use `diff`, optionally with the `-u` option:
 
 ```sh
-$ diff -u gene-1.bed gene-2.bed
+$ diff -u ../gene-1.bed ../gene-2.bed
 #&gt; --- gene-1.bed  2020-11-28 16:54:27.098085903 -0500
 #&gt; +++ gene-2.bed  2020-11-28 16:54:27.102085904 -0500
 #&gt; @@ -1,22 +1,19 @@
@@ -320,7 +273,7 @@ $ ls chr22*
   file to disk (beneficial because reading/writing to files is time-consuming):
 
   ```sh
-  trimmer in.fastq.gz | gzip &gt; out.fastq.gz
+  $ trimmer in.fastq.gz | gzip &gt; out.fastq.gz # DON'T RUN
   ```
   
   *(Note that because the input to `gzip` comes from standard in, the output
@@ -349,19 +302,7 @@ $ zcat chr22.fa.gz | head
 #&gt; NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 #&gt; NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 #&gt; NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-#&gt; NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-#&gt; NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-#&gt; NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-#&gt; NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 ```
-
---
-
-&lt;br&gt;
-
-.content-box-info[
-See the bonus slides for creating and unpacking `tar` / `tar.gz` archives.
-]
 
 ---
 class:inverse middle center
@@ -376,7 +317,7 @@ name:prod
 
 ## Shell productivity tips
 
-- Use keyboard shortcuts, especially:
+- **Use keyboard shortcuts**, such as:
   - &lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;.&lt;/kbd&gt; to recall the last argument of the previous command;
     and if you press it again, of the command before that, etc.
   
@@ -392,7 +333,7 @@ name:prod
 
 --
 
-- Otherwise:
+- Also:
 
   - Don't forget you can press &lt;kbd&gt;Enter&lt;/kbd&gt; to run a line,
     regardless of where your cursor is!
@@ -429,13 +370,14 @@ name:prod
 Exclamation points generally access your shell history:
 
 ```sh
+$ chr22.fa.gz | head
 $ !!       # Re-execute the last line
-$ sudo !!  # Prepend something (e.g. sudo) and re-execute last line
+$ zcat !!  # Prepend something (e.g. zcat) to last line &amp; re-execute
 
 $ !ls      # Re-execute last ls command
 $ !sinteractive # Re-execute last "sinteractive" command
 
-$ !ls:p    # Bring the last "ls" command to the front of your history
+$ !ls:p    # Bring last "ls" command to the front of your history
            # (Press Up arrow to access).
 ```
 
@@ -638,9 +580,7 @@ class: center middle inverse
 ----
 
 .left[
-- ### [curl for downloading files](#curl)
-- ### [Transferring files with SFTP](#sftp)
-- ### [Beware of the trailing slash with rsync](#rsync)
+- ### [Transferring files using the shell](#transfer)
 - ### [Concatenating compressed data](#concat)
 - ### [Bash configuration files and $PATH](#bashrc-path)
 - ### [Process management](#processes)
@@ -649,62 +589,75 @@ class: center middle inverse
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
+name: transfer
 background-color: #f2f5eb
-name:curl
 
-## Downloading data with `curl`
-
-`curl` is similar to `wget`, but can also download data using some additional
-protocols such as SFTP (secure FTP).
-
-If you use it, you should also be aware that it prints downloads to standard
-out by default, so you should redirect (or use the `-O` option) to save
-downloads to file:
+## Small file transfers (&lt;1 GB) to/from OSC with scp
 
 ```sh
-$ curl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr21.fa.gz \
-      &gt; chr21.fa.gz
+# Example setup - copy downloaded files to home dir for quick access
+$ cd ..
+$ cp hg19 ~
 ```
 
----
-background-color: #f2f5eb
-name: sftp
+One option is **`scp`** (secure copy), which works much like regular `cp`,
+but to refer to remote,
+we prepend the SSH connection address followed by `:`:
 
-## Transferring files with SFTP
-
-You can also use `sftp`, which doesn't run on a login node,
-so large transfers are permitted.
-(Though for *very* large transfers, Globus is preferred.)
-
-  - To log in:
-  ```bash
-  $ sftp sftp.osc.edu
-  ```
-
-  Now, you have an `sftp` prompt instead of a regular bash prompt.
-
---
-
-- To upload files to remote, use the `put` command &amp;ndash; and note that you
-  don't need to designate remote with `:` syntax like for `scp`/`rsync`:
-
-  ```sh
-  sftp&gt; put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
+- Remote to local, and local to remote:
   
-  # If you don't specify a remote location, it be put in $HOME:
-  sftp&gt; put file.txt
+  ```sh
+  $ scp &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt; &lt;local-path&gt;
+  $ scp &lt;local-path&gt; &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt;
   ```
 
 --
 
-- To download files from remote, use the `get` command:
-
+- For instance:
+  
   ```sh
-  sftp&gt; get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
+  $ scp -r jelmer@pitzer.osc.edu:~/chr22 ~
+  $ scp -r ~/chr22 jelmer@pitzer.osc.edu:~
   ```
 
+--
+
+.content-box-info[
+- Do transfers in either direction from your *local* shell.
+- If you created SSH shortcuts, these will work here too!
+]
+
 ---
-name:rsync
+
+## Small file transfers (&lt;1 GB) to/from OSC with rsync
+
+Another option, which I recommend, is the **`rsync`** command, 
+especially when you have directories that you repeatedly want to *sync*:
+`rsync` won't copy any files that are identical in source and
+destination.
+
+--
+
+- A useful combination of options is `-avz --progress`:
+  - `-a` enables archival mode (also makes `-r` unnecessary).
+  - `-v` increases verbosity &amp;ndash; tells you what is being copied.
+  - `-z` enables compressed file transfer (=&gt; faster).
+  - `--progress` to show transfer progress for individual files.
+
+  ```bash
+  $ rsync -avz --progress ~/bds-files jelmer@owens.osc.edu:~
+  ```
+
+--
+
+&lt;br&gt;
+
+.content-box-info[
+- Buffalo also uses the `-e ssh` option, but this is not necessary.
+- See the bonus slides to if you get tricked by the trailing slash.
+]
+
+---
 background-color: #f2f5eb
 
 ## Beware of the trailing slash with `rsync`
@@ -750,6 +703,42 @@ background-color: #f2f5eb
   #&gt; fastq.sh
   $ ls backup/scripts
   #&gt; ls: cannot access 'backup/scripts': No such file or directory
+  ```
+
+---
+background-color: #f2f5eb
+
+## Transferring files with SFTP
+
+You can also use `sftp`, which doesn't run on a login node,
+so large transfers are permitted.
+(Though for *very* large transfers, Globus is preferred.)
+
+  - To log in:
+  ```bash
+  $ sftp sftp.osc.edu
+  ```
+
+  Now, you have an `sftp` prompt instead of a regular bash prompt.
+
+--
+
+- To upload files to remote, use the `put` command &amp;ndash; and note that you
+  don't need to designate remote with `:` syntax like for `scp`/`rsync`:
+
+  ```sh
+  sftp&gt; put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
+  
+  # If you don't specify a remote location, it be put in $HOME:
+  sftp&gt; put file.txt
+  ```
+
+--
+
+- To download files from remote, use the `get` command:
+
+  ```sh
+  sftp&gt; get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
   ```
 
 ---
