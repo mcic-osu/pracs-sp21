@@ -23,7 +23,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/25 (updated: 2021-02-22)
+### 2021/02/25 (updated: 2021-02-23)
 
 ---
 class: inverse middle center
@@ -49,6 +49,9 @@ name: download
 the file name from the source:
 
 ```sh
+$ mkdir ~/chr22
+$ cd ~/chr22
+
 $ wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr22.fa.gz
 #&gt; --2013-06-30 00:15:45-- http://[...]/goldenPath/hg19/chromosomes/chr22.fa.gz
 #&gt; Resolving hgdownload.soe.ucsc.edu... 128.114.119.163
@@ -70,8 +73,9 @@ name: download
 - `wget` can also download multiple files at once with `--recursive`:
 
   ```sh
-  $ wget --recursive --no-parent \
-        --no-directories --accept "*.gtf" \
+  $ wget --recursive \
+        --no-parent --accept "*.gtf" \
+        --no-directories \
         http://genomics.someuniversity.edu/labsite/annotation.html
   ```
 
@@ -81,8 +85,8 @@ name: download
   - `--no-parent` &amp;mdash; Don't follow links to parent directories,
   - `--accept "*.gtf"` &amp;mdash; Only download matching (here: GTF) files.
 
-- We used `--no-directories` to prevent that downloaded files are placed
-  in the same dir structure as the source, and place all files in a single dir.
+- Finally, we used `--no-directories` so downloaded files are all placed in a
+  single dir and not in the same dir structure as the source.
 
 --
 
@@ -97,18 +101,16 @@ There are *many* others...!
 
 ## Transferring files: &lt;br&gt; small transfers (&lt;1 GB) to/from OSC
 
-One option is **`scp`** (secure copy), which works much like the regular `cp`:
+One option is **`scp`** (secure copy), which works much like regular `cp`,
+but to refer to remote,
+we prepend the SSH connection address followed by `:`:
 
-- Local to remote:
-  
-  ```bash
-  $ scp &lt;local-path&gt; &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt;
-  ```
-  
-- Remote to local is simply the reverse:
+- Remote to local, and local to remote:
   
   ```sh
   $ scp &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt; &lt;local-path&gt;
+  
+  $ scp &lt;local-path&gt; &lt;user&gt;@pitzer.osc.edu:&lt;remote-path&gt;
   ```
 
 --
@@ -116,8 +118,9 @@ One option is **`scp`** (secure copy), which works much like the regular `cp`:
 - For instance:
   
   ```sh
-  $ scp -r scripts/ jelmer@pitzer.osc.edu:~/scripts
-  $ scp -r jelmer@pitzer.osc.edu:~/scripts scripts/
+  $ scp -r jelmer@pitzer.osc.edu:~/chr22 ~
+  
+  $ scp -r ~/scripts jelmer@pitzer.osc.edu:~
   ```
 
 --
@@ -139,63 +142,28 @@ especially when you have directories that you repeatedly want to **sync**.
 
 --
 
-- The basic from-to syntax is the same as for `scp`,
-  and a useful combination of options is `-avz`:
+- A useful combination of options is `-avz --progress`:
   - `-a` enables archival mode (also makes `-r` unnecessary).
   - `-v` increases verbosity &amp;ndash; tells you what is being copied.
   - `-z` enables compressed file transfer (=&gt; faster).
+  - `--progress` to show transfer progress for individual files.
 
   ```bash
-  $ rsync -avz ~/scripts jelmer@owens.osc.edu:~/scripts
-  
-  # If the files are large, "--progress" will help you keep track:
-  $ rsync -avz --progress ~/scripts jelmer@owens.osc.edu:~/scripts
+  $ rsync -avz --progress ~/bds-files jelmer@owens.osc.edu:~
   ```
 
 --
 
 .content-box-info[
-Buffalo also uses the `-e ssh` option, but this is not necessary.
+- Buffalo also uses the `-e ssh` option, but this is not necessary.
+- See the bonus slides to if you get tricked by the trailing slash.
 ]
-
----
-
-## Beware of the trailing slash with `rsync`
-
-Presence/absence of a trailing slash for source directories makes a
-difference to `rsync`.
-
-- The following will sync the two dirs below, so the content of each 
-  "scripts" dir will end up being identical:
-
-  ```sh
-  $ rsync -avz scripts backup/scripts
-  $ ls scripts
-  #&gt; fastq.sh
-  $ ls backup/scripts
-  #&gt; fastq.sh
-  ```
-
---
-
-- This will copy the *contents* of source dir "scripts" into target dir "scripts":
-
-  ```sh
-  $ rsync -avz scripts/ backup/scripts
-  $ ls scripts
-  #&gt; fastq.sh
-  $ ls backup/scripts
-  #&gt; scripts
-  ```
 
 ---
 
 ## Larger transfers
 
-.content-box-info[
-For larger transfers using the command line,  
-use `sftp` ([bonus slide](#sftp)).
-]
+For larger transfers using the command line,   use `sftp` ([bonus slide](#sftp)).
 
 ---
 class: inverse middle center
@@ -217,7 +185,9 @@ These are *checksums*:
 &gt; computed in a way that even if jst one bit of the data is changed,
 &gt; the checksum will be different.* &amp;mdash; Buffalo Chapter 6
 
---
+---
+
+## Ensuring data integrity with checksums (cont.)
 
 Several algorithms (&amp; associated Unix commands) can compute checksums.
 
@@ -358,7 +328,7 @@ $ ls chr22*
 
 ---
 
-## Working with compressed data directly!
+## Working with compressed data directly
 
 Several of our familiar shell commands have `z` counterparts that can work with
 gzipped files directly: `zgrep`, `zless`, and `zcat` (and also `zdiff`).
@@ -428,7 +398,7 @@ name:prod
     regardless of where your cursor is!
   
   - Use the VS Code plugin "**Shellcheck**" for so-called linting (checking) of
-    code in your shell scripts!!
+    code in your shell scripts!
 
 ---
 
@@ -436,35 +406,38 @@ name:prod
 
   - To search your shell history, press &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;R&lt;/kbd&gt; and type
     your search. Keep pressing &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;R&lt;/kbd&gt; to go the matches
-    futher back in history.
+    further back in history, and press &lt;kbd&gt;Enter&lt;/kbd&gt; to execute the focal
+    command.
   
   - The `history` command will print your previously issued commands,
     and you can easily search that using `grep`:
     
     ```sh
     $ history | grep module | head -n 2
-    #&gt;
-    #&gt;
-    !35
+    #&gt; 102  module spider python
+    #&gt; 103  module load python/3.6-conda5.2
+    
+    # Now you can use the numbers to the left of each command to execute it: 
+    !103
+    #&gt; module load python/3.6-conda5.2
     ```
 
 ---
 
 ## Shell productivity tips: history (cont.)
 
-.content-box-info[
 Exclamation points generally access your shell history:
 
-- `!!` re-executes the previous line;
-  e.g. `sudo !!` will rerun the line with `sudo` prepended.
+```sh
+$ !!       # Re-execute the last line
+$ sudo !!  # Prepend something (e.g. sudo) and re-execute last line
 
-- You can use `!command` (e.g. `!ls`) to
-  re-execute the command in the same way you used it last.
-    
-- Use `!command:p` (e.g. `!ls:p`) to bring the last command to the front of
-  your history (press Up arrow to access).
-]
+$ !ls      # Re-execute last ls command
+$ !sinteractive # Re-execute last "sinteractive" command
 
+$ !ls:p    # Bring the last "ls" command to the front of your history
+           # (Press Up arrow to access).
+```
 
 ---
 class:inverse middle center
@@ -487,10 +460,9 @@ starting with a line that will print a count table of sequence lengths for a
 FASTQ file:
 
 ```sh
-fastq_file=/fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
+fq_file=/fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
 
-awk '{ if(NR%4 == 2) print length($0) }' "$fastq_file" \
-    | sort | uniq -c
+awk '{if(NR%4 == 2) print length($0)}' "$fq_file" | sort | uniq -c
 ```
 
 If we wanted to regularly run this line, it would make sense to put it in a script.
@@ -499,7 +471,7 @@ If we wanted to regularly run this line, it would make sense to put it in a scri
 
 ## Scripting
 
-To turn this command into a script, so we need to do two things:
+To turn this command into a useful script, we need to do two things:
 
 1. Include header lines that are necessary (*shebang*) or recommended (`set`)
    for scripts.
@@ -514,10 +486,9 @@ Our script `readlen.sh`:
 #!/bin/bash
 set -e -u -o pipefail
 
-fastq_file="$1"
+fq_file="$1"
 
-awk '{ if(NR%4 == 2) print length($0) }' "$fastq_file" \
-    | sort | uniq -c
+awk '{ if(NR%4 == 2) print length($0) }' "$fq_file" | sort | uniq -c
 ```
 
 ---
@@ -527,9 +498,9 @@ awk '{ if(NR%4 == 2) print length($0) }' "$fastq_file" \
 - To *run* the script, assuming it is in our working directory:
 
   ```sh
-  $ my_fastq_file=/fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
+  $ my_fq_file=/fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
   
-  $ bash readlen.sh $my_fastq_file
+  $ bash readlen.sh $my_fq_file
   ```
 
 - Or after we make it executable:
@@ -552,12 +523,12 @@ awk '{ if(NR%4 == 2) print length($0) }' "$fastq_file" \
 
 ## Looping over files using a globbing pattern
 
-If we have a directory full of FASTQ files that we want to run our script on,
-we can do the following directly on the command line:
+If we have a directory full of FASTQ files that we want to run our script on,  
+we can run a loop directly in the shell, with a globbing pattern:
 
 ```sh
-$ for fastq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
-      ./readlen.sh $fastq_file
+$ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
+      ./readlen.sh $fq_file
   do
 ```
 
@@ -565,9 +536,9 @@ $ for fastq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
 
 ## Looping over files using an array
 
-In some cases, it may be easier to use an array that contains the file names.
-For instance, files are scattered across different directories and/or we want
-to subset an arbitrary set of files that is not easy to glob.
+In some cases, it may be easier to use an *array that contains the file names*.
+For instance, say that our files are scattered across different directories
+and/or we want to subset an arbitrary set of files that is not easy to glob.
 
 - Let's assume that in such a case, we start with a file that contains a list
   of FASTQ file names:
@@ -578,15 +549,17 @@ to subset an arbitrary set of files that is not easy to glob.
   #&gt; /fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R2_001.fastq
   ```
 
+--
+
 - In this case, we read the *list of file names* into an array &amp;ndash;
   recall that:
-  - We use a command substitution (`$(command)`) syntax to capture the output
+  - We use a command substitution (`$(command)` syntax) to capture the output
     of the `cat` command.
-  - We use parentheses `()` to assign the result of the command substitution
-    to an array rather than to a regular variable.
+  - We use (another set of) parentheses `()` to assign the result of the
+    command substitution to an array rather than to a regular variable.
 
   ```sh
-  $ fastq_files=($(cat list_of_FASTQ_files.txt))
+  $ fq_files=($(cat list_of_FASTQ_files.txt))
   ```
 
 ---
@@ -597,26 +570,27 @@ to subset an arbitrary set of files that is not easy to glob.
   access all its elements:
 
   ```sh
-  $ for fastq_file in ${fastq_files[@]}; do
-          ./readlen.sh $fastq_file
+  $ for fq_file in ${fq_files[@]}; do
+          ./readlen.sh $fq_file
       do
   ```
 
 --
 
-- Notice that the loop is very similar to that using globbing
-  (we just needed an extra step to assign the array):
+- Notice that the loop is very similar to the one where we used globbing  
+  (with the array, we just needed an extra step to assign it):
 
   ```sh
-  $ for fastq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
-          ./readlen.sh $fastq_file
+  $ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
+          ./readlen.sh $fq_file
       do
   ```
+
 --
 
-- The *expansion* of the globbing pattern in the first case,
-  or of the array in the second case,
-  is done by the shell &amp;ndash; so the loop sees the following:
+- Note that the *expansion* of the globbing pattern (in the first case) and of
+  the array (in the second case) is *done by the shell* &amp;ndash;
+  so the loop sees the following:
 
   ```sh
   $ for fastq_file in file1 file2 file3 file4; do
@@ -629,6 +603,7 @@ to subset an arbitrary set of files that is not easy to glob.
 ## Where do I run the loop if it's not inside the script?
 
 - You could simply type it in the shell on the fly, like any other command.
+  
   However, for reproducibility purpose, you should save such commands:
   
   - You could make the loop a script of its own.
@@ -664,6 +639,8 @@ class: center middle inverse
 
 .left[
 - ### [curl for downloading files](#curl)
+- ### [Transferring files with SFTP](#sftp)
+- ### [Beware of the trailing slash with rsync](#rsync)
 - ### [Concatenating compressed data](#concat)
 - ### [Bash configuration files and $PATH](#bashrc-path)
 - ### [Process management](#processes)
@@ -693,7 +670,7 @@ $ curl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr21.fa.gz \
 background-color: #f2f5eb
 name: sftp
 
-## Transferring files: any transfer size to/from OSC
+## Transferring files with SFTP
 
 You can also use `sftp`, which doesn't run on a login node,
 so large transfers are permitted.
@@ -724,6 +701,55 @@ so large transfers are permitted.
 
   ```sh
   sftp&gt; get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
+  ```
+
+---
+name:rsync
+background-color: #f2f5eb
+
+## Beware of the trailing slash with `rsync`
+
+Presence/absence of a trailing slash for source directories makes a
+difference to `rsync`.
+
+- The following commands will do what you want:
+
+  ```sh
+  # Copy *contents* of source "scripts" into target "scripts":
+  $ rsync -avz scripts/ backup/scripts
+  
+  # Copy the source dir "scripts" into target dir "backup"
+  $ rsync -avz scripts backup
+  
+  $ ls scripts
+  #&gt; fastq.sh
+  $ ls backup/scripts
+  #&gt; fastq.sh
+  ```
+
+---
+background-color: #f2f5eb
+
+## Beware of the trailing slash with `rsync` (cont.)
+
+- But these commands don't:
+
+  ```sh
+  # Copy source dir scripts *into* target dir scripts:
+  $ rsync -avz scripts backup/scripts
+  
+  $ ls scripts
+  #&gt; fastq.sh
+  $ ls backup/scripts
+  #&gt; scripts
+  
+  # Copy contents of "scripts" straight into "backup":
+  $ rsync -avz scripts/ backup
+  
+  $ ls scripts
+  #&gt; fastq.sh
+  $ ls backup/scripts
+  #&gt; ls: cannot access 'backup/scripts': No such file or directory
   ```
 
 ---

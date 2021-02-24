@@ -39,6 +39,7 @@ class: inverse middle center
 - ### [Ensuring data integrity with checksums](#checksums)
 - ### [Compressed data](#compress)
 - ### [Shell productivity tips](#prod)
+- ### [Recap: scripting, with a loop](#script)
 ]
 
 ---
@@ -50,6 +51,9 @@ name: download
 the file name from the source:
 
 ```sh
+$ mkdir ~/chr22
+$ cd ~/chr22
+
 $ wget http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr22.fa.gz
 #> --2013-06-30 00:15:45-- http://[...]/goldenPath/hg19/chromosomes/chr22.fa.gz
 #> Resolving hgdownload.soe.ucsc.edu... 128.114.119.163
@@ -71,8 +75,9 @@ name: download
 - `wget` can also download multiple files at once with `--recursive`:
 
   ```sh
-  $ wget --recursive --no-parent \
-        --no-directories --accept "*.gtf" \
+  $ wget --recursive \
+        --no-parent --accept "*.gtf" \
+        --no-directories \
         http://genomics.someuniversity.edu/labsite/annotation.html
   ```
 
@@ -82,14 +87,14 @@ name: download
   - `--no-parent` &mdash; Don't follow links to parent directories,
   - `--accept "*.gtf"` &mdash; Only download matching (here: GTF) files.
 
-- We used `--no-directories` to prevent that downloaded files are placed
-  in the same dir structure as the source, and place all files in a single dir.
+- Finally, we used `--no-directories` so downloaded files are all placed in a
+  single dir and not in the same dir structure as the source.
 
 --
 
 .content-box-info[
 Other useful options include `--level` to specify the number of directory levels
-that should be recursively downloaded,
+that should be recursively downloaded,  
 and `--reject`, which does the opposite of `--accept`.   
 There are *many* others...!
 ]
@@ -98,18 +103,16 @@ There are *many* others...!
 
 ## Transferring files: <br> small transfers (<1 GB) to/from OSC
 
-One option **`scp`** (secure copy), which works much like the regular `cp`:
+One option is **`scp`** (secure copy), which works much like regular `cp`,
+but to refer to remote,
+we prepend the SSH connection address followed by `:`:
 
-- Local to remote:
-  
-  ```bash
-  $ scp <local-path> <user>@pitzer.osc.edu:<remote-path>
-  ```
-  
-- Remote to local is simply the reverse:
+- Remote to local, and local to remote:
   
   ```sh
   $ scp <user>@pitzer.osc.edu:<remote-path> <local-path>
+  
+  $ scp <local-path> <user>@pitzer.osc.edu:<remote-path>
   ```
 
 --
@@ -117,8 +120,9 @@ One option **`scp`** (secure copy), which works much like the regular `cp`:
 - For instance:
   
   ```sh
-  $ scp -r scripts/ jelmer@pitzer.osc.edu:~/scripts
-  $ scp -r jelmer@pitzer.osc.edu:~/scripts scripts/
+  $ scp -r jelmer@pitzer.osc.edu:~/chr22 ~
+  
+  $ scp -r ~/scripts jelmer@pitzer.osc.edu:~
   ```
 
 --
@@ -133,94 +137,35 @@ One option **`scp`** (secure copy), which works much like the regular `cp`:
 ## Transferring files: <br> small transfers (<1 GB) to/from OSC
 
 Another option, which I recommend, is the **`rsync`** command, 
-especially when you have directories that you repeatedly want to **sync**:
+especially when you have directories that you repeatedly want to **sync**.
 
 - `rsync` won't copy any files that are identical in source and
   destination.
 
-- The basic from-to syntax is the same as for `scp`,
-  and a useful combination of options is `-avz`:
-  - `-a` enables archival mode (also makes `-r` unnecessary);
+--
+
+- A useful combination of options is `-avz --progress`:
+  - `-a` enables archival mode (also makes `-r` unnecessary).
   - `-v` increases verbosity &ndash; tells you what is being copied.
   - `-z` enables compressed file transfer (=> faster).
+  - `--progress` to show transfer progress for individual files.
 
   ```bash
-  $ rsync -avz ~/scripts jelmer@owens.osc.edu:~/scripts
-  
-  # If the files are large, "--progress" will help you keep track:
-  $ rsync -avz --progress ~/scripts jelmer@owens.osc.edu:~/scripts
+  $ rsync -avz --progress ~/bds-files jelmer@owens.osc.edu:~
   ```
 
 --
 
 .content-box-info[
-Buffalo also uses the `-e ssh` option, but this is not necessary.
+- Buffalo also uses the `-e ssh` option, but this is not necessary.
+- See the bonus slides to if you get tricked by the trailing slash.
 ]
 
 ---
 
-## Beware of the trailing slash with `rsync`
+## Larger transfers
 
-.content-box-warning[
-Presence/absence of a trailing slash for source directories makes a
-difference to `rsync`.
-]
-
-- The following will sync the two dirs below, so the content of each 
-  "scripts" dir will end up being identical:
-
-  ```sh
-  $ rsync -avz scripts backup/scripts
-  $ ls scripts
-  #> fastq.sh
-  $ ls backup/scripts
-  #> fastq.sh
-  ```
-
-- This will copy the *contents* of source dir "scripts" into target dir "scripts":
-
-  ```sh
-  $ rsync -avz scripts/ backup/scripts
-  $ ls scripts
-  #> fastq.sh
-  $ ls backup/scripts
-  #> scripts
-  ```
-
----
-
-## Transferring files: any transfer size to/from OSC
-
-You can also use `sftp`, which doesn't run on a login node,
-so large transfers are permitted.
-(Though for *very* large transfers, Globus is preferred.)
-
-  - To log in:
-  ```bash
-  $ sftp sftp.osc.edu
-  ```
-
-  Now, you have an `sftp` prompt instead of a regular bash prompt.
-
---
-
-- To upload files to remote, use the `put` command &ndash; and note that you
-  don't need to designate remote with `:` syntax like for `scp`/`rsync`:
-
-  ```sh
-  sftp> put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
-  
-  # If you don't specify a remote location, it be put in $HOME:
-  sftp> put file.txt
-  ```
-
---
-
-- To download files from remote, use the `get` command:
-
-  ```sh
-  sftp> get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
-  ```
+For larger transfers using the command line,   use `sftp` ([bonus slide](#sftp)).
 
 ---
 class: inverse middle center
@@ -242,7 +187,9 @@ These are *checksums*:
 > computed in a way that even if jst one bit of the data is changed,
 > the checksum will be different.* &mdash; Buffalo Chapter 6
 
---
+---
+
+## Ensuring data integrity with checksums (cont.)
 
 Several algorithms (& associated Unix commands) can compute checksums.
 
@@ -303,8 +250,8 @@ but it's important to realize you can also use it outside of the context
 of Git repositories.
 
 If you find that checksums differ for files that should be the same,
-or otherwise want to get an overview of differences between two similar
-text files, use `diff`, optionally with the `-u` option:
+or just want to get an overview of differences between two similar text files,
+use `diff`, optionally with the `-u` option:
 
 ```sh
 $ diff -u gene-1.bed gene-2.bed
@@ -383,33 +330,7 @@ $ ls chr22*
 
 ---
 
-## Concatenating compressed data
-
-When it is okay to concatenate files (losing information about the original
-file origin of the data), 
-this can be done very easily.
-
-- To add a second FASTQ file to an existing gzipped file,  
-  we can simply use `>>`:
-
-  ```sh
-  $ ls
-  #> in.fastq.gz in2.fastq
-  
-  $ gzip -c in2.fastq >> in.fastq.gz
-  ```
-
-- Even more conveniently, if we have two gzipped FASTQ file for the same sample
-  but from different Illumina lanes:
-  
-  ```sh
-  $ cat sampleA_L001_R1.fastq.gz sampleA_L002_R1.fastq.gz \
-        > sampleA_R1.fastq.gz
-  ```
-
----
-
-## Working with compressed data directly!
+## Working with compressed data directly
 
 Several of our familiar shell commands have `z` counterparts that can work with
 gzipped files directly: `zgrep`, `zless`, and `zcat` (and also `zdiff`).
@@ -458,21 +379,248 @@ name:prod
 ## Shell productivity tips
 
 - Use keyboard shortcuts, especially:
-  - Alt + . (multiple times possible!)
-  - Move cursor word-to-word with Ctrl held
-  - (Don't forget you can press enter regardless of where your cursor is!)
-  - Whenever cutting to beginning/end of line or last word, remember you can
-    paste with Ctrl + Y!
-  - Cut word with Ctrl + W or Alt+Backspace (=Option+Delete)
-
-- History:
-
-  - `Ctrl` + `R`
-  - `!!` and `sudo !!`
-  - `!ls:p`
-  - `history | grep module | head` => `!35`
+  - <kbd>Alt</kbd>+<kbd>.</kbd> to recall the last argument of the previous command;
+    and if you press it again, of the command before that, etc.
   
-- Shellcheck
+  - When you hold <kbd>Ctrl</kbd> and press the arrow buttons, you will move
+    word-by-word rather than character-by-character.
+    
+  - You can also cut (delete) word-by-word by pressing <kbd>Ctrl</kbd>+<kbd>W</kbd>
+    or <kbd>Alt</kbd>+<kbd>Backspace</kbd> (=<kbd>Option</kbd>+<kbd>Delete</kbd>).
+  
+  - After cutting words or to the beginning (<kbd>Ctrl</kbd>+<kbd>U</kbd>) /
+    end (<kbd>Ctrl</kbd>+<kbd>K</kbd>) of the line,
+    you can paste this back with <kbd>Ctrl</kbd>+<kbd>Y</kbd>!
+
+--
+
+- Otherwise:
+
+  - Don't forget you can press <kbd>Enter</kbd> to run a line,
+    regardless of where your cursor is!
+  
+  - Use the VS Code plugin "**Shellcheck**" for so-called linting (checking) of
+    code in your shell scripts!
+
+---
+
+## Shell productivity tips: history
+
+  - To search your shell history, press <kbd>Ctrl</kbd>+<kbd>R</kbd> and type
+    your search. Keep pressing <kbd>Ctrl</kbd>+<kbd>R</kbd> to go the matches
+    further back in history, and press <kbd>Enter</kbd> to execute the focal
+    command.
+  
+  - The `history` command will print your previously issued commands,
+    and you can easily search that using `grep`:
+    
+    ```sh
+    $ history | grep module | head -n 2
+    #> 102  module spider python
+    #> 103  module load python/3.6-conda5.2
+    
+    # Now you can use the numbers to the left of each command to execute it: 
+    !103
+    #> module load python/3.6-conda5.2
+    ```
+
+---
+
+## Shell productivity tips: history (cont.)
+
+Exclamation points generally access your shell history:
+
+```sh
+$ !!       # Re-execute the last line
+$ sudo !!  # Prepend something (e.g. sudo) and re-execute last line
+
+$ !ls      # Re-execute last ls command
+$ !sinteractive # Re-execute last "sinteractive" command
+
+$ !ls:p    # Bring the last "ls" command to the front of your history
+           # (Press Up arrow to access).
+```
+
+---
+class:inverse middle center
+name:prod
+
+# Recap: scripting with a loop
+
+----
+<br> <br> <br> <br>
+
+---
+
+## Scripting
+
+In the [exercises for week 6](https://mcic-osu.github.io/pracs-sp21/w05_exercises.html),
+you created a script `fastq_stat.sh`.
+
+Let's recreate a simpler form of that script,
+starting with a line that will print a count table of sequence lengths for a
+FASTQ file:
+
+```sh
+fq_file=/fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
+
+awk '{if(NR%4 == 2) print length($0)}' "$fq_file" | sort | uniq -c
+```
+
+If we wanted to regularly run this line, it would make sense to put it in a script.
+
+---
+
+## Scripting
+
+To turn this command into a useful script, we need to do two things:
+
+1. Include header lines that are necessary (*shebang*) or recommended (`set`)
+   for scripts.
+   
+2. Let the script accept the file name as an *argument*.
+
+<br>
+
+Our script `readlen.sh`:
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+
+fq_file="$1"
+
+awk '{ if(NR%4 == 2) print length($0) }' "$fq_file" | sort | uniq -c
+```
+
+---
+
+## Scripting
+
+- To *run* the script, assuming it is in our working directory:
+
+  ```sh
+  $ my_fq_file=/fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
+  
+  $ bash readlen.sh $my_fq_file
+  ```
+
+- Or after we make it executable:
+
+  ```sh
+  $ chmod u+x readlen.sh
+  $ ./readlen.sh $my_fastq_file
+  ```
+
+- Or if we want to submit it to the SLURM scheduler at OSC:
+  
+  ```sh
+  $ sbatch -A PAS18555 readlen.sh $my_fastq_file
+  ```
+
+  *(Alternatively, we could provide SLURM directives **inside** the script,
+  using lines that start with `#SBATCH`.)*
+
+---
+
+## Looping over files using a globbing pattern
+
+If we have a directory full of FASTQ files that we want to run our script on,  
+we can run a loop directly in the shell, with a globbing pattern:
+
+```sh
+$ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
+      ./readlen.sh $fq_file
+  do
+```
+
+---
+
+## Looping over files using an array
+
+In some cases, it may be easier to use an *array that contains the file names*.
+For instance, say that our files are scattered across different directories
+and/or we want to subset an arbitrary set of files that is not easy to glob.
+
+- Let's assume that in such a case, we start with a file that contains a list
+  of FASTQ file names:
+
+  ```sh
+  $ head -n 2 list_of_FASTQ_files.txt
+  #> /fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
+  #> /fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R2_001.fastq
+  ```
+
+--
+
+- In this case, we read the *list of file names* into an array &ndash;
+  recall that:
+  - We use a command substitution (`$(command)` syntax) to capture the output
+    of the `cat` command.
+  - We use (another set of) parentheses `()` to assign the result of the
+    command substitution to an array rather than to a regular variable.
+
+  ```sh
+  $ fq_files=($(cat list_of_FASTQ_files.txt))
+  ```
+
+---
+
+## Looping over files using an array (cont.)
+
+- To be able to loop over an array, we use the `${array_name[@]}` syntax to
+  access all its elements:
+
+  ```sh
+  $ for fq_file in ${fq_files[@]}; do
+          ./readlen.sh $fq_file
+      do
+  ```
+
+--
+
+- Notice that the loop is very similar to the one where we used globbing  
+  (with the array, we just needed an extra step to assign it):
+
+  ```sh
+  $ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
+          ./readlen.sh $fq_file
+      do
+  ```
+
+--
+
+- Note that the *expansion* of the globbing pattern (in the first case) and of
+  the array (in the second case) is *done by the shell* &ndash;
+  so the loop sees the following:
+
+  ```sh
+  $ for fastq_file in file1 file2 file3 file4; do
+          ./readlen.sh $fastq_file
+      do    
+  ```
+
+---
+
+## Where do I run the loop if it's not inside the script?
+
+- You could simply type it in the shell on the fly, like any other command.
+  
+  However, for reproducibility purpose, you should save such commands:
+  
+  - You could make the loop a script of its own.
+  
+  - You could include it in a README or other digital notebook for your project,
+    in a code block in Markdown.
+
+<br>
+
+.content-box-info[
+In week 13, with Snakemake, we will see a way to formalize workflow elements
+like this using a Snakefile.
+  
+(Snakemake will in fact take care of looping over input files!)
+]
 
 
 ---
@@ -493,10 +641,11 @@ class: center middle inverse
 
 .left[
 - ### [curl for downloading files](#curl)
-- ### [tar archives](#tar)
+- ### [Transferring files with SFTP](#sftp)
+- ### [Beware of the trailing slash with rsync](#rsync)
+- ### [Concatenating compressed data](#concat)
 - ### [Bash configuration files and $PATH](#bashrc-path)
 - ### [Process management](#processes)
-
 ]
 
 <br> <br> <br> <br>
@@ -520,9 +669,118 @@ $ curl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/chromosomes/chr21.fa.gz \
 ```
 
 ---
+background-color: #f2f5eb
+name: sftp
 
-## Compressed data: `tar` archives
+## Transferring files with SFTP
 
+You can also use `sftp`, which doesn't run on a login node,
+so large transfers are permitted.
+(Though for *very* large transfers, Globus is preferred.)
+
+  - To log in:
+  ```bash
+  $ sftp sftp.osc.edu
+  ```
+
+  Now, you have an `sftp` prompt instead of a regular bash prompt.
+
+--
+
+- To upload files to remote, use the `put` command &ndash; and note that you
+  don't need to designate remote with `:` syntax like for `scp`/`rsync`:
+
+  ```sh
+  sftp> put scripts/fastqc.sh /fs/ess/PAS1855/users/$USER/
+  
+  # If you don't specify a remote location, it be put in $HOME:
+  sftp> put file.txt
+  ```
+
+--
+
+- To download files from remote, use the `get` command:
+
+  ```sh
+  sftp> get /fs/ess/PAS1855/users/$USER/ ~/PP8300/OSC/
+  ```
+
+---
+name:rsync
+background-color: #f2f5eb
+
+## Beware of the trailing slash with `rsync`
+
+Presence/absence of a trailing slash for source directories makes a
+difference to `rsync`.
+
+- The following commands will do what you want:
+
+  ```sh
+  # Copy *contents* of source "scripts" into target "scripts":
+  $ rsync -avz scripts/ backup/scripts
+  
+  # Copy the source dir "scripts" into target dir "backup"
+  $ rsync -avz scripts backup
+  
+  $ ls scripts
+  #> fastq.sh
+  $ ls backup/scripts
+  #> fastq.sh
+  ```
+
+---
+background-color: #f2f5eb
+
+## Beware of the trailing slash with `rsync` (cont.)
+
+- But these commands don't:
+
+  ```sh
+  # Copy source dir scripts *into* target dir scripts:
+  $ rsync -avz scripts backup/scripts
+  
+  $ ls scripts
+  #> fastq.sh
+  $ ls backup/scripts
+  #> scripts
+  
+  # Copy contents of "scripts" straight into "backup":
+  $ rsync -avz scripts/ backup
+  
+  $ ls scripts
+  #> fastq.sh
+  $ ls backup/scripts
+  #> ls: cannot access 'backup/scripts': No such file or directory
+  ```
+
+---
+background-color: #f2f5eb
+name: concat
+
+## Concatenating compressed data
+
+When it is okay to concatenate files (losing information about the original
+file origin of the data), 
+this can be done very easily.
+
+- To add a second FASTQ file to an existing gzipped file,  
+  we can simply use `>>`:
+
+  ```sh
+  $ ls
+  #> in.fastq.gz in2.fastq
+  
+  $ gzip -c in2.fastq >> in.fastq.gz
+  ```
+
+- Even more conveniently, if we have two gzipped FASTQ file for the same sample
+  but from different Illumina lanes:
+  
+  ```sh
+  $ cat sampleA_L001_R1.fastq.gz sampleA_L002_R1.fastq.gz \
+        > sampleA_R1.fastq.gz
+  ```
 
 ---
 class:inverse middle center
