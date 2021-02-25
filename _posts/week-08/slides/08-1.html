@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/02 (updated: 2021-02-23)
+### 2021/03/02 (updated: 2021-02-24)
 
 ---
 
@@ -176,11 +176,12 @@ name: jupyter
 --
 
 - Another Jupyter peculiarity is that it will automatically start saving any
-  new notebook as `Untitled.ipynb`, so get used to your directories being
-  littered with `Untitled784.ipynb` files...
-  
-  But we will want to save the notebook under a useful name, so click  
-  `File` =&gt; `Save Notebook As` =&gt; `week08/Tuesday.ipynb`.
+  new notebook as `Untitled.ipynb`.
+  But we will want to save the notebook under a useful name,
+  so in the File Browser, find the current notebook and:
+  - Move it into the `week08` dir.
+  - Right-click the file, then `Rename`,
+    and rename the file to (e.g.) `Tuesday.ipynb`.
 
 ---
 
@@ -194,7 +195,8 @@ name: jupyter
   You should now see Markdown formatting being applied.
 
 - In the next cell, which is a code cell by default,
-  type `30 * 2` and again press &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; to *run* the cell.
+  type `30 * 2` and again press &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; to *run* the
+  cell.
   
   You should see the result of the calculation being printed.
 
@@ -231,45 +233,40 @@ We will start by using Python interactively, and will do so using
 
 ---
 
-## What is Jupyter? (cont.)
+## Working in JupyterLab
 
-Unfortunately, Jupyter Lab / Jupyter Notebooks are not an all-in-one solution
-for programming in Python, because they *only* offer interactive notebooks.
+- The main left sidebar has several tabs that you can switch between by clicking
+  on the far left, narrow sidebar. Most useful are: 
   
-To write scripts (while still being able to run lines interactively),
-we need another solution.
+  - The "File Browser".
+    Note that you can right-click on files and dirs to rename them, etc.
+    Here, you can also open a new "Launcher" tab by clicking the `+` button.
   
-There are several Python-specific IDEs such as PyCharm and Spyder,
-which are reminiscent of RStudio.
+  - The "Commands" sidebar (magnifying glass icon), which has all the Jupyter
+    commands and their keyboard shortcuts. 
+
+  You can show/hide the left Sidebar by clicking `View` =&gt; `Show Left Sidebar`.
+
+- Jupyter uses the term *"kernel"* to refer to processes for running code,
+  such as an individual notebook running a specific version of Python. 
+
+---
+
+## Working in JupyterLab Notebooks
+
+- &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; &amp;ndash; run a cell and move to the next one.
+
+- &lt;kbd&gt;Esc&lt;/kbd&gt; or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;M&lt;/kbd&gt; &amp;ndash; go into "command mode"
+  to change cell type, etc.
   
-However, we will work in VS Code, which also offers good Python support.
-For us, that also has the advantage of not having to switch platforms constantly.
+- &lt;kbd&gt;M&lt;/kbd&gt; &amp;ndash; Change cell type to Markdown.
+
+- &lt;kbd&gt;Y&lt;/kbd&gt; &amp;ndash; Change a cell to code.
+
+- You can also right-click in a cell to see more actions.
 
 ---
 
-## Working in Jupyter Notebooks
-
-- "Kernel"
-
-- "Commands" sidebar has all the different commands and their keyboard shortcuts. 
-
----
-
-## More Jupyter tricks -&gt; Move to week 2
-
-- Magic functions
-
-- `!ls`
-
----
-
-## Getting help in Python
-
-- docs.python.org
-
-- `help("MY_COMMAND")`
-
----
 class: center middle inverse
 name: getting-started
 
@@ -679,18 +676,6 @@ To be more explicit, and to print in any context, we can use the function
   - A type of functions specifically associated with the object type.
     These are called **"methods"**.
     
-- To see which methods are associated with a string,
-  type a dot `.` after an object name, and press &lt;kbd&gt;Tab&lt;/kbd&gt;:
-  
-  ```sh
-  &gt;&gt;&gt; astring = "ATGCATG"
-  
-  &gt;&gt;&gt; astring.      # Press Tab
-  
-  # To get information about a listed method:
-  &gt;&gt;&gt; help(astring.find)
-  ```
-
 --
 
 - Let's call a method &amp;mdash; here, we'll try `find()`,
@@ -700,6 +685,33 @@ To be more explicit, and to print in any context, we can use the function
   &gt;&gt;&gt; astring.find("C")
   #&gt; 3
   ```
+
+---
+
+## Getting help in Python / Jupyter
+
+.content-box-info[
+- To see which methods are associated with a string,
+  type a dot `.` after an object name, and press &lt;kbd&gt;Tab&lt;/kbd&gt;:
+  
+  ```sh
+  &gt;&gt;&gt; astring = "ATGCATG"
+  &gt;&gt;&gt; astring.      # Press Tab
+  ```
+
+- To get help about methods/objects/etc, press Shift-tab:
+  ```sh
+  &gt;&gt;&gt; astring.     # Press Shift-tab for help on strings
+  &gt;&gt;&gt; astring.find # Press Shift-tab for help on find
+  
+  # Or:
+  &gt;&gt;&gt; help(astring.find)
+  &gt;&gt;&gt; ?astring.find
+  &gt;&gt;&gt; ?astring
+  ```
+  
+  On the internet, &lt;https://docs.python.org&gt; should be your go-to source.
+]
 
 ---
 

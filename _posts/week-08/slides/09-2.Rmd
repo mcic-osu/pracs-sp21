@@ -51,13 +51,19 @@ class: inverse middle center
   => `Keyboard Shortcuts`.
 
 - JupyterLab also has a text editor, so you can open and edit any kind of text
-  file. Moreover, you can get HTML previews for Markdown files.
+  file. Moreover, you can get HTML previews for Markdown files
+  (and this can go side-by-side with the source.)
+
+- New launcher (`+`) => `Show Contextual Help` => drag next to Notebook =>
+  will show help for whatever object / function you have selected.
 
 - Upload and download files.
 
 - Closing a Notebook doesn't stop it from running.
   To stop it, go to the `Running` panel in the sidebar, and click `SHUTDOWN`
   for the notebook in question.
+
+- Console for other types of files, e.g. Markdown and `.py` scripts.
 
 ---
 
@@ -66,6 +72,13 @@ class: inverse middle center
 - Magic functions
 
 - `!ls`
+
+- `%%bash` for a bash cell
+
+- <kbd>Shift</kbd>+<kbd>Enter</kbd> &ndash; Run a cell and move to the next one.
+- <kbd>Ctrl</kbd>+<kbd>Enter</kbd> &ndash; Run a cell and stay in the current cell.
+- <kbd>Alt</kbd>+<kbd>Enter</kbd> &ndash; Run a cell and insert a cell below
+  (can be handy if there's already a cell below it.)
 
 
 ---
