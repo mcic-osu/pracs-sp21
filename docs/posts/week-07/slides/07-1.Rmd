@@ -478,7 +478,7 @@ we can run a loop directly in the shell, with a globbing pattern:
 
 ```sh
 $ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
-      ./readlen.sh $fq_file
+      ./readlen.sh "$fq_file"
   done
 ```
 
@@ -523,7 +523,7 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
 
   ```sh
   $ for fq_file in ${fq_files[@]}; do
-          ./readlen.sh $fq_file
+          ./readlen.sh "$fq_file"
       done
   ```
 
@@ -534,7 +534,7 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
 
   ```sh
   $ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
-          ./readlen.sh $fq_file
+          ./readlen.sh "$fq_file"
       done
   ```
 
@@ -545,8 +545,8 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
   so the loop sees the following:
 
   ```sh
-  $ for fastq_file in file1 file2 file3 file4; do # don't run
-          ./readlen.sh $fastq_file
+  $ for fq_file in file1 file2 file3 file4; do # don't run
+          ./readlen.sh "$fq_file"
       done 
   ```
 
