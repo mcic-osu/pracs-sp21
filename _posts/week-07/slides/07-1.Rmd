@@ -139,7 +139,7 @@ Remember the hexadecimal IDs we saw for Git commits?
 These are *checksums*:
 
 > *Checksums are very compressed summaries of data,
-> computed in a way that even if jst one bit of the data is changed,
+> computed in a way that even if just one bit of the data is changed,
 > the checksum will be different.* &mdash; Buffalo Chapter 6
 
 ---
