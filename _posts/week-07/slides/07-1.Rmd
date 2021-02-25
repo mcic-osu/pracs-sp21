@@ -55,6 +55,8 @@ $ mkdir hg19
 $ cd hg19
 ```
 
+--
+
 `wget` will download files from a specified address, by default saving it using
 the file name from the source:
 
@@ -158,8 +160,8 @@ $ echo "bioinformatic is fun" | shasum
 #> e7f33eedcfdc9aef8a9b4fec07e58f0cf292aa67    -
 ```
 
-Even though the string only differed very slightly, the checksum is entirely
-different!
+Even though the string differed only very slightly,
+the checksum is entirely different!
 
 ---
 
@@ -258,9 +260,9 @@ $ ls chr22*
 - Conversely, to zip files, we use `gzip`:
 
   ```sh
-  $ gzip chr21.fastq
+  $ gzip chr21.fa
   $ ls chr21*
-  #> chr21.fastq.gz
+  #> chr21.fa.gz
   
   # As with unzipping, use -c and redirect to keep the original:
   $ gzip -c chr22.fa > chr22_copy.fa.gz
@@ -275,7 +277,7 @@ $ ls chr22*
   file to disk (beneficial because reading/writing to files is time-consuming):
 
   ```sh
-  $ trimmer in.fastq.gz | gzip > out.fastq.gz # DON'T RUN
+  $ trimmer in.fastq.gz | gzip > out.fastq.gz # don't run
   ```
   
   *(Note that because the input to `gzip` comes from standard in, the output
@@ -372,15 +374,17 @@ name:prod
 Exclamation points generally access your shell history:
 
 ```sh
-$ chr22.fa.gz | head
 $ !!       # Re-execute the last line
+
+$ chr22.fa.gz | head
 $ zcat !!  # Prepend something (e.g. zcat) to last line & re-execute
 
 $ !ls      # Re-execute last ls command
-$ !sinteractive # Re-execute last "sinteractive" command
+$ !less    # Re-execute last "sinteractive" command
 
-$ !ls:p    # Bring last "ls" command to the front of your history
-           # (Press Up arrow to access).
+$ !sinteractive:p  # Bring last "sinteractive" command to front of
+           # your history (Press Up arrow to access).
+#> sinteractive -A PAS0471            
 ```
 
 ---
@@ -451,13 +455,15 @@ awk '{ if(NR%4 == 2) print length($0) }' "$fq_file" | sort | uniq -c
 
   ```sh
   $ chmod u+x readlen.sh
-  $ ./readlen.sh $my_fastq_file
+  $ ./readlen.sh $my_fq_file
   ```
+
+--
 
 - Or if we want to submit it to the SLURM scheduler at OSC:
   
   ```sh
-  $ sbatch -A PAS18555 readlen.sh $my_fastq_file
+  $ sbatch -A PAS1855 readlen.sh $my_fq_file
   ```
 
   *(Alternatively, we could provide SLURM directives **inside** the script,
@@ -473,7 +479,7 @@ we can run a loop directly in the shell, with a globbing pattern:
 ```sh
 $ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
       ./readlen.sh $fq_file
-  do
+  done
 ```
 
 ---
@@ -488,6 +494,8 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
   of FASTQ file names:
 
   ```sh
+  $ ls /fs/ess/PAS1855/data/week05/fastq/*fastq > list_of_FASTQ_files.txt
+  
   $ head -n 2 list_of_FASTQ_files.txt
   #> /fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
   #> /fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R2_001.fastq
@@ -516,7 +524,7 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
   ```sh
   $ for fq_file in ${fq_files[@]}; do
           ./readlen.sh $fq_file
-      do
+      done
   ```
 
 --
@@ -527,7 +535,7 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
   ```sh
   $ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
           ./readlen.sh $fq_file
-      do
+      done
   ```
 
 --
@@ -537,9 +545,9 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
   so the loop sees the following:
 
   ```sh
-  $ for fastq_file in file1 file2 file3 file4; do
+  $ for fastq_file in file1 file2 file3 file4; do # don't run
           ./readlen.sh $fastq_file
-      do    
+      done 
   ```
 
 ---
@@ -557,11 +565,13 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
 
 <br>
 
+--
+
 .content-box-info[
 In week 13, with Snakemake, we will see a way to formalize workflow elements
 like this using a Snakefile.
   
-(Snakemake will in fact take care of looping over input files!)
+(Snakemake can in fact take care of looping over input files!)
 ]
 
 
