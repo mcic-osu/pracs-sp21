@@ -178,9 +178,20 @@ Transfer the entire directory you downloaded above to OSC
 
 You can use `rsync` and/or SFTP, whichever you prefer to get some practice with.
 
+*Edit Fri, Feb 26: We did not end up discussing SFTP in class. But if you are
+interested in getting experience with this (at OSC, it is recommended for larger
+transfers since the transfer does not use a login node like `scp` and` rsync` do),
+have a look at this [tutorial](https://linuxize.com/post/how-to-use-linux-sftp-command-to-transfer-files/). The hint below will tell you how you can log in to the OSC SFTP server.*
+
 <details>
 <summary>Hints</summary>
 <p>
+
+**`rsync`**
+
+- Recall that using a trailing slash in the source dir will make a difference.
+  In this case (and usually) you will most likely *not* want to include a
+  trailing slash.
 
 **`sftp`**
   
@@ -194,12 +205,6 @@ You can use `rsync` and/or SFTP, whichever you prefer to get some practice with.
   work recursively.
   
 - In `sftp`, the `~` shortcut for your home dir does not work.
-
-**`rsync`**
-
-- Recall that using a trailing slash in the source dir will make a difference.
-  In this case (and usually) you will most likely *not* want to include a
-  trailing slash.
 
 </p>
 </details>

@@ -2609,19 +2609,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h3 id="exercise-3-file-transfer">Exercise 3: File transfer</h3>
 <p>Transfer the entire directory you downloaded above to OSC (in case you have been working locally so far) or to your local computer (in case you have been working at OSC so far).</p>
 <p>You can use <code>rsync</code> and/or SFTP, whichever you prefer to get some practice with.</p>
+<p><em>Edit Fri, Feb 26: We did not end up discussing SFTP in class. But if you are interested in getting experience with this (at OSC, it is recommended for larger transfers since the transfer does not use a login node like <code>scp</code> and<code>rsync</code> do), have a look at this <a href="https://linuxize.com/post/how-to-use-linux-sftp-command-to-transfer-files/">tutorial</a>. The hint below will tell you how you can log in to the OSC SFTP server.</em></p>
 <details>
 <summary>Hints</summary>
 <p>
+<p><strong><code>rsync</code></strong></p>
+<ul>
+<li>Recall that using a trailing slash in the source dir will make a difference. In this case (and usually) you will most likely <em>not</em> want to include a trailing slash.</li>
+</ul>
 <p><strong><code>sftp</code></strong></p>
 <ul>
 <li><p>Log in using:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="ex">sftp</span> sftp.osc.edu</span></code></pre></div></li>
 <li><p>Like many commands, the <code>put</code> and <code>get</code> functions need the <code>-r</code> option to work recursively.</p></li>
 <li><p>In <code>sftp</code>, the <code>~</code> shortcut for your home dir does not work.</p></li>
-</ul>
-<p><strong><code>rsync</code></strong></p>
-<ul>
-<li>Recall that using a trailing slash in the source dir will make a difference. In this case (and usually) you will most likely <em>not</em> want to include a trailing slash.</li>
 </ul>
 </p>
 </details>
