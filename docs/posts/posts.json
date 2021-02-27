@@ -1,5 +1,17 @@
 [
   {
+    "path": "posts/week-08/",
+    "title": "Week 08",
+    "description": "First steps with Python",
+    "author": [],
+    "date": "2021-03-01",
+    "categories": [],
+    "contents": "\nSlides\nSlides – Tuesday Zoom (Mar 2) (TBA)\nSlides – Thursday Zoom (Mar 4) (TBA)\nUngraded assignments\nExercises for week 8 (TBA)\nResources\nPython resources\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-02-26T19:42:30-05:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/week-07/",
     "title": "Week 07",
     "description": "Data transfer and integrity",

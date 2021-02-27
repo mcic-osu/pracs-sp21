@@ -1,5 +1,5 @@
 ---
-title: "Week 07"
+title: "Week 08"
 description: |
   First steps with Python
 date: 2021-03-01
@@ -14,6 +14,10 @@ output:
 
 - Slides -- Thursday Zoom (Mar 4) (TBA)
 
-### Graded assignments
+### Ungraded assignments
 
-- [Graded assignment 3: Python](../../w08_GA_python.html)
+- Exercises for week 8 (TBA)
+
+### Resources
+
+- **[Python resources](../../w08_python-resources.html)**

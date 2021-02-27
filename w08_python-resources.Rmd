@@ -7,40 +7,26 @@ output:
     toc_depth: 3
 ---
 
-Here is a list of recommended Python resources. Most are geared towards beginners
-(in Python and programming alike).
+## General resources for learning Python
+
+Here is a list of recommended resources for learning Python.
+Most are geared towards beginners (in Python and programming alike).
 Also, the bioinformatics-specific books are all quite practical,
 describing "applied bioinformatics" -- i.e. more how to analyze your data than
 how to write your own algorithms.
 
-## Free resources
-
-### Videos
-
-- [A YouTube playlist by Microsoft, introducing Python](https://www.youtube.com/watch?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6&v=jFCNu1-Xdsw)
-
-- [Introduction to Computer Science and Programming in Python](https://www.youtube.com/playlist?list=PLUl4u3cNGP63WbdFxL8giv4yhgdMGaZNA)
-
-### Courses
-
-- [Python for everybody](https://www.py4e.com/)
-
-- [Programming for Biology](http://programmingforbiology.org/index.html)
-
-<br>
-
-## Available online via the OSU library
+### Available online via the OSU library
 
 - Book: [Python for the life sciences: a gentle introduction to python for life scientists](https://library.ohio-state.edu/record=b8792177~S7)
   (Alexandar Lancestar, 2019).
   This book is very explicitly geared towards biologists with no or little
   programming experience, and takes a very practical and project-oriented
-  approach. From what I've seen of the book this one is highly recommended! 
+  approach. From what I've seen of the book, I can highly recommended it! 
 
 - Book: [Python for Bioinformatics](https://library.ohio-state.edu/record=b8257944~S7)
   (Sebastian Bassi, 2018).
   This book also starts with an introduction to Python and then has chapters that
-  each describe practical problems/projects,
+  each describe practical problems/projects for Python,
   like "Calculating melting temperature from a set of primers".
   
 - Book: [Python programming for biology, bioinformatics, and beyond](https://library.ohio-state.edu/record=b8928994~S7) (Tim Stevens, 2015).
@@ -50,16 +36,36 @@ how to write your own algorithms.
 
 - Book: [Reproducible Bioinformatics with Python](https://library.ohio-state.edu/record=b9208582~S7) (Ken Youens-Clark, 2021).
   This is a slightly more advanced book that does not start with an introduction
-  to Python, but you should be able to follow this week with what you'll learn
-  in this course.
+  to Python, but you should be able to follow the book with what you'll learn
+  over the next couple of weeks in the course.
+
+### Free online resources
+
+#### Videos
+
+- [A YouTube playlist of Microsoft videos introducing Python](https://www.youtube.com/watch?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6&v=jFCNu1-Xdsw)
+
+- [Videos from the MIT course "Introduction to Computer Science and Programming in Python"](https://www.youtube.com/playlist?list=PLUl4u3cNGP63WbdFxL8giv4yhgdMGaZNA)
+
+#### Courses
+
+- [Python for everybody](https://www.py4e.com/) -- includes course materials
+  and lectures, and is also available at Coursera and edX.
+
+- [Programming for Biology](http://programmingforbiology.org/index.html) --
+  This is the Cold Spring Harbor course that your TA Zach took,
+  and the materials are available online.
+  
+### Not free
+  
+- Book: [Bioinformatics with Python Cookbook](https://www.amazon.com/Bioinformatics-Python-Cookbook-bioinformatics-computational/dp/1789344697) (Tiago Antao, 2018).
 
 <br>
 
 ## Other resources
-  
-- Book: [Bioinformatics with Python Cookbook](https://www.amazon.com/Bioinformatics-Python-Cookbook-bioinformatics-computational/dp/1789344697) (Tiago Antao, 2018).
 
+### Best practices
 
-
-
+- [PEP 8 — the Style Guide for Python Code](https://pep8.org/)
+- [Ten simple rules for writing and sharing computational analyses in Jupyter Notebooks ](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007007) -- Rule et al. 2019, PLoS Computational Biology
   

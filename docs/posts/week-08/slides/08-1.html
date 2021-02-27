@@ -1,22 +1,21 @@
----
-title: "Week 8 - First steps with Python - I"
-output:
-  xaringan::moon_reader:
-    seal: false
-    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
-    lib_dir: libs
-    nature:
-      highlightStyle: rainbow
-      highlightLines: true
-      countIncrementalSlides: false
----
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 8 - First steps with Python - I</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
 class:inverse middle center
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
 
-knitr::opts_chunk$set(eval = FALSE)
-```
 
 # *Week 8 - First steps with Python*
 
@@ -24,10 +23,10 @@ knitr::opts_chunk$set(eval = FALSE)
 
 # I: Jupyter and Python basics
 
-<br> <br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/02 (updated: `r Sys.Date()`)
+### 2021/03/02 (updated: 2021-02-24)
 
 ---
 
@@ -113,7 +112,7 @@ name: jupyter
 
 ## Starting JupyterLab at OSC
 
-1. Log in to <https://ondemand.osc.edu>.
+1. Log in to &lt;https://ondemand.osc.edu&gt;.
 
 2. Click on `Interactive Apps` (top blue bar) and then
    `Jupyter (Owens and Pitzer)` near the bottom.
@@ -163,10 +162,10 @@ name: jupyter
 
 ---
 
-## JupyterLab setup & first steps
+## JupyterLab setup &amp; first steps
 
 - Click on the folder icon in the top of the vertical bar on the right-hand side
-  (`File Browser`). You should see your link to the project dir &ndash;
+  (`File Browser`). You should see your link to the project dir &amp;ndash;
   if not, click the refresh icon in the top.
   
 - Click on your link. You should now see this path at the top of your Launcher
@@ -188,15 +187,15 @@ name: jupyter
 
 ## Testing the JupyterLab notebook
 
-- Press <kbd>Esc</kbd> (or <kbd>Ctrl</kbd>+<kbd>M</kbd>)
-  and then <kbd>M</kbd> to make the cell in the notebook into
+- Press &lt;kbd&gt;Esc&lt;/kbd&gt; (or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;M&lt;/kbd&gt;)
+  and then &lt;kbd&gt;M&lt;/kbd&gt; to make the cell in the notebook into
   a *Markdown cell*, type "# Week 7 - Tuesday", and press
-  <kbd>Shift</kbd>+<kbd>Enter</kbd> to *run* the cell.
+  &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; to *run* the cell.
   
   You should now see Markdown formatting being applied.
 
 - In the next cell, which is a code cell by default,
-  type `30 * 2` and again press <kbd>Shift</kbd>+<kbd>Enter</kbd> to *run* the
+  type `30 * 2` and again press &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; to *run* the
   cell.
   
   You should see the result of the calculation being printed.
@@ -226,7 +225,7 @@ We will start by using Python interactively, and will do so using
   but you don't tend to interact with the raw files outside of the Jupyter
   environment.
   
-<br>
+&lt;br&gt;
 
 .content-box-info[
 *Jupyter Lab* is a quite similar follow-up to Jupyter Notebooks.
@@ -246,7 +245,7 @@ We will start by using Python interactively, and will do so using
   - The "Commands" sidebar (magnifying glass icon), which has all the Jupyter
     commands and their keyboard shortcuts. 
 
-  You can show/hide the left Sidebar by clicking `View` => `Show Left Sidebar`.
+  You can show/hide the left Sidebar by clicking `View` =&gt; `Show Left Sidebar`.
 
 - Jupyter uses the term *"kernel"* to refer to processes for running code,
   such as an individual notebook running a specific version of Python. 
@@ -255,20 +254,14 @@ We will start by using Python interactively, and will do so using
 
 ## Working in JupyterLab Notebooks
 
-- <kbd>Shift</kbd>+<kbd>Enter</kbd> &ndash; run a cell and move to the next one.
+- &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; &amp;ndash; run a cell and move to the next one.
 
-- <kbd>Esc</kbd> or <kbd>Ctrl</kbd>+<kbd>M</kbd> &ndash; go into "**command mode**",
-  then:
+- &lt;kbd&gt;Esc&lt;/kbd&gt; or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;M&lt;/kbd&gt; &amp;ndash; go into "command mode"
+  to change cell type, etc.
   
-  - <kbd>M</kbd> &ndash; Change cell type to Markdown.
-  
-  - <kbd>Y</kbd> &ndash; Change a cell to code.
-  
-  - <kbd>A</kbd> &ndash; Create a new cell above the current cell.
-  
-  - <kbd>B</kbd> &ndash; Create a new cell above the current cell.
-  
-  - <kbd>D</kbd>,<kbd>D</kbd> &ndash; Delete the current cell.
+- &lt;kbd&gt;M&lt;/kbd&gt; &amp;ndash; Change cell type to Markdown.
+
+- &lt;kbd&gt;Y&lt;/kbd&gt; &amp;ndash; Change a cell to code.
 
 - You can also right-click in a cell to see more actions.
 
@@ -281,7 +274,7 @@ name: getting-started
 
 -----
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -290,12 +283,12 @@ name: getting-started
 - We can use Python as an oversized calculator:
 
   ```sh
-  >>> 2 + 2         # Addition
-  #> 4
-  >>> 2 * 2         # Multiplication
-  #> 4
-  >>> 3 / 2         # Division
-  #> 1.5
+  &gt;&gt;&gt; 2 + 2         # Addition
+  #&gt; 4
+  &gt;&gt;&gt; 2 * 2         # Multiplication
+  #&gt; 4
+  &gt;&gt;&gt; 3 / 2         # Division
+  #&gt; 1.5
   ```
 
 --
@@ -304,14 +297,14 @@ name: getting-started
   parentheses:
 
   ```sh
-  >>> 2 * 3 ** 3    # Read as 2*(3**3)
-  #> 54
+  &gt;&gt;&gt; 2 * 3 ** 3    # Read as 2*(3**3)
+  #&gt; 54
   
-  >>> 2 * (3 ** 3)
-  #> 54
+  &gt;&gt;&gt; 2 * (3 ** 3)
+  #&gt; 54
   
-  >>> (2 * 3) ** 3
-  #> 216
+  &gt;&gt;&gt; (2 * 3) ** 3
+  #&gt; 216
   ```
 
 ---
@@ -322,17 +315,17 @@ name: getting-started
   fractional part (remainder) is discarded:
 
   ```sh
-  >>> 3 // 2        # Integer division
-  #> 1
+  &gt;&gt;&gt; 3 // 2        # Integer division
+  #&gt; 1
   ```
 
-<br>
+&lt;br&gt;
 
 - **The modulo operator** returns the remainder of an integer division:
 
   ```sh
-  >>> 15 % 7
-  #> 1
+  &gt;&gt;&gt; 15 % 7
+  #&gt; 1
   ```
   
   _(As 15 = (7*2) + 1), 1 is the remainder of the integer division 15//7.)_
@@ -340,7 +333,7 @@ name: getting-started
 
 --
 
-<br>
+&lt;br&gt;
 
 .content-box-info[
 Like in Bash and other languages, anything after a pound sign `#` is ignored
@@ -355,14 +348,14 @@ by Python and generally functions as a "comment".
   which in Python consist of `True` and `False` (with that exact case):
   
   ```sh
-  >>> 2 > 3 # 
-  #> False
+  &gt;&gt;&gt; 2 &gt; 3 # 
+  #&gt; False
   
-  >>> 2 == 2 # equals
-  #> True
+  &gt;&gt;&gt; 2 == 2 # equals
+  #&gt; True
   
-  >>> 2 != 2 # is different
-  #> False
+  &gt;&gt;&gt; 2 != 2 # is different
+  #&gt; False
   ```
 
 ---
@@ -370,30 +363,30 @@ by Python and generally functions as a "comment".
 ## Quoting defines strings
 
 - Quotes define strings, and you can single, double, triple-single,
-  or triple-double quotes &ndash; but always make sure to use the same closing
+  or triple-double quotes &amp;ndash; but always make sure to use the same closing
   quote as the opening quote.
 
   ```sh
-  >>> 'my string'
-  >>> "my string"
-  >>> '''my string'''
-  >>> """my string"""
-  #> 'my string'
+  &gt;&gt;&gt; 'my string'
+  &gt;&gt;&gt; "my string"
+  &gt;&gt;&gt; '''my string'''
+  &gt;&gt;&gt; """my string"""
+  #&gt; 'my string'
   ```
   
 - Being able to use single versus double quotes helps if your string contains
   one of those:
   
   ```sh
-  >>> "The tree's height"
-  #> 'The tree's height'
+  &gt;&gt;&gt; "The tree's height"
+  #&gt; 'The tree's height'
   ```
   
 - And triple quotes are useful if your string contains both single and double quotes:  
   
   ```sh
   # """The tree ' s height is 6 ' 2"."""
-  #> 'The tree\'s height is 6\'2".'
+  #&gt; 'The tree\'s height is 6\'2".'
   ```
 
 - Moreover, triple quotes can be used for multiline strings:
@@ -420,9 +413,9 @@ we are familiar with the process of assigning variables (also known as
   we don't need any special syntax (like `$` in bash):
 
   ```sh
-  >>> x = 5
-  >>> x
-  #> 5
+  &gt;&gt;&gt; x = 5
+  &gt;&gt;&gt; x
+  #&gt; 5
   ```
 
 --
@@ -431,11 +424,11 @@ we are familiar with the process of assigning variables (also known as
   they will simply be replaced by whatever value they hold:
   
   ```sh
-  >>> x + 3
-  #> 8
-  >>> y = 8
-  >>> x + y
-  #> 13
+  &gt;&gt;&gt; x + 3
+  #&gt; 8
+  &gt;&gt;&gt; y = 8
+  &gt;&gt;&gt; x + y
+  #&gt; 13
   ```
 
 .content-box-info[
@@ -450,25 +443,25 @@ Python is not sensitive to spaces around the `=` for assignment.
   and the two are *not* linked:
   
   ```sh
-  >>> x
-  #> 5
-  >>> y = x
-  >>> y
-  #> 5
+  &gt;&gt;&gt; x
+  #&gt; 5
+  &gt;&gt;&gt; y = x
+  &gt;&gt;&gt; y
+  #&gt; 5
   
-  >>> y = y + 10
-  >>> y
-  #> 15
-  >>> x
-  #> 5
+  &gt;&gt;&gt; y = y + 10
+  &gt;&gt;&gt; y
+  #&gt; 15
+  &gt;&gt;&gt; x
+  #&gt; 5
   ```
 
 --
 
-<br>
+&lt;br&gt;
 
 .content-box-info[
-This behavior of "unlinked variables" may be very intuitive or expected &ndash;
+This behavior of "unlinked variables" may be very intuitive or expected &amp;ndash;
 but in Python, this is only true for *immutable* objects!
 ]
 
@@ -485,10 +478,10 @@ but in Python, this is only true for *immutable* objects!
 - Assign a string, and concatenate strings with `+`:
 
   ```sh
-  >>> x = "The cell grew"
+  &gt;&gt;&gt; x = "The cell grew"
   
-  >>> x + " and is now larger"
-  #> 'The cell grew and is now larger'
+  &gt;&gt;&gt; x + " and is now larger"
+  #&gt; 'The cell grew and is now larger'
   ```
 
 --
@@ -497,11 +490,11 @@ but in Python, this is only true for *immutable* objects!
 Jupyter functions to show what's in your environment:
 
 ```sh
->>> who
+&gt;&gt;&gt; who
 
->>> whos
+&gt;&gt;&gt; whos
 
->>> dir()
+&gt;&gt;&gt; dir()
 ```
 ]
 
@@ -512,18 +505,18 @@ Jupyter functions to show what's in your environment:
 We can't perform operations like concatenation with variables of different types:
 
 ```sh
->>> y
-#> 8
->>> x
-#> "The cell grew"
+&gt;&gt;&gt; y
+#&gt; 8
+&gt;&gt;&gt; x
+#&gt; "The cell grew"
 
->>> x + y              # x is string, y is integer
-#> ---------------------------------------------
-#> TypeError
-#> Traceback (most recent call last)
-#> <ipython-input-8-b50c5120e24b> in <module>()
-#> ----> 1 x + y
-#> TypeError: Can't convert ' int ' object to str implicitly
+&gt;&gt;&gt; x + y              # x is string, y is integer
+#&gt; ---------------------------------------------
+#&gt; TypeError
+#&gt; Traceback (most recent call last)
+#&gt; &lt;ipython-input-8-b50c5120e24b&gt; in &lt;module&gt;()
+#&gt; ----&gt; 1 x + y
+#&gt; TypeError: Can't convert ' int ' object to str implicitly
 ```
 
 ---
@@ -531,17 +524,17 @@ We can't perform operations like concatenation with variables of different types
 ## Variable type conversion
 
 ```sh
->>> x
-#> "The cell grew"
->>> y
-#> 8
+&gt;&gt;&gt; x
+#&gt; "The cell grew"
+&gt;&gt;&gt; y
+#&gt; 8
 ```
 
 - But we can convert variable types on the fly; to as string with `str()`:
   
   ```sh
-  >>> x + " " + str(y) + " nm"
-  #> ' The cell grew 8 nm '
+  &gt;&gt;&gt; x + " " + str(y) + " nm"
+  #&gt; ' The cell grew 8 nm '
   ```
 
 --
@@ -549,8 +542,8 @@ We can't perform operations like concatenation with variables of different types
 - To an integer with `int()`:
 
   ```sh
-  >>> y + int(z)
-  #> 96
+  &gt;&gt;&gt; y + int(z)
+  #&gt; 96
   ```
 
 --
@@ -558,9 +551,9 @@ We can't perform operations like concatenation with variables of different types
 - Numbers in quotes are interpreted as strings:
   
   ```sh
-  >>> z = "88" # string
-  >>> x + z
-  #> 'The cell grew88'
+  &gt;&gt;&gt; z = "88" # string
+  &gt;&gt;&gt; x + z
+  #&gt; 'The cell grew88'
   ```
 
 ---
@@ -572,13 +565,13 @@ This means you don't have to a priori define what type a variable should be.
 You can check *what Python has decided for you* using `type()`:
 
 ```sh
->>> x = 2
->>> type(x)
-#> int
+&gt;&gt;&gt; x = 2
+&gt;&gt;&gt; type(x)
+#&gt; int
 
 x = "two"
->>> type(x)
-#> str
+&gt;&gt;&gt; type(x)
+#&gt; str
 ```
 
 --
@@ -627,9 +620,9 @@ x = "two"
 - For example, we can use `len()` to get the length of (e.g.) a string:
 
   ```sh
-  >>> s = "a long string"
-  >>> len(s)
-  #> 13
+  &gt;&gt;&gt; s = "a long string"
+  &gt;&gt;&gt; len(s)
+  #&gt; 13
   ```
 
 --
@@ -638,10 +631,10 @@ x = "two"
   to (the default is 0):
 
   ```sh
-  >>> round(3.14159)
-  #> 3
-  >>> round(3.14159, 3)
-  #> 3.142
+  &gt;&gt;&gt; round(3.14159)
+  #&gt; 3
+  &gt;&gt;&gt; round(3.14159, 3)
+  #&gt; 3.142
   ```
 
 ---
@@ -655,19 +648,19 @@ However, this only happens in interactive Python; and in Jupyter Notebooks,
 only for the last command:
 
 ```sh
->>> x
->>> z
-#> '88'
+&gt;&gt;&gt; x
+&gt;&gt;&gt; z
+#&gt; '88'
 ```
 
 To be more explicit, and to print in any context, we can use the function
 `print()`:
 
 ```sh
->>> print(x)
->>> print(z)
-#> 2
-#> '88'
+&gt;&gt;&gt; print(x)
+&gt;&gt;&gt; print(z)
+#&gt; 2
+#&gt; '88'
 ```
 ]
 
@@ -675,7 +668,7 @@ To be more explicit, and to print in any context, we can use the function
 
 ## Strings and methods
 
-- **Python is "object-oriented"** &ndash;
+- **Python is "object-oriented"** &amp;ndash;
   its variables are objects that contain:
   
   - The values/data assigned to them, _and_
@@ -685,12 +678,12 @@ To be more explicit, and to print in any context, we can use the function
     
 --
 
-- Let's call a method &mdash; here, we'll try `find()`,
+- Let's call a method &amp;mdash; here, we'll try `find()`,
   which prints the position of the first occurrence of a substring:
   
   ```sh
-  >>> astring.find("C")
-  #> 3
+  &gt;&gt;&gt; astring.find("C")
+  #&gt; 3
   ```
 
 ---
@@ -699,25 +692,25 @@ To be more explicit, and to print in any context, we can use the function
 
 .content-box-info[
 - To see which methods are associated with a string,
-  type a dot `.` after an object name, and press <kbd>Tab</kbd>:
+  type a dot `.` after an object name, and press &lt;kbd&gt;Tab&lt;/kbd&gt;:
   
   ```sh
-  >>> astring = "ATGCATG"
-  >>> astring.      # Press Tab
+  &gt;&gt;&gt; astring = "ATGCATG"
+  &gt;&gt;&gt; astring.      # Press Tab
   ```
 
 - To get help about methods/objects/etc, press Shift-tab:
   ```sh
-  >>> astring.     # Press Shift-tab for help on strings
-  >>> astring.find # Press Shift-tab for help on find
+  &gt;&gt;&gt; astring.     # Press Shift-tab for help on strings
+  &gt;&gt;&gt; astring.find # Press Shift-tab for help on find
   
   # Or:
-  >>> help(astring.find)
-  >>> ?astring.find
-  >>> ?astring
+  &gt;&gt;&gt; help(astring.find)
+  &gt;&gt;&gt; ?astring.find
+  &gt;&gt;&gt; ?astring
   ```
   
-  On the internet, <https://docs.python.org> should be your go-to source.
+  On the internet, &lt;https://docs.python.org&gt; should be your go-to source.
 ]
 
 ---
@@ -727,19 +720,19 @@ To be more explicit, and to print in any context, we can use the function
 - Call the function `print()` on a string:
 
   ```sh
-  >>> s = "ATGC"
+  &gt;&gt;&gt; s = "ATGC"
   
-  >>> print(s)
-  #> ATGC
+  &gt;&gt;&gt; print(s)
+  #&gt; ATGC
   ```
 
 - Calling the method "print" returns an error message
   that tells us that strings have no method called `print`:
 
   ```sh
-  >>> s.print()
-  #> ----------------------------------------------------------
-  #> AttributeError: ' str ' object has no attribute ' print '
+  &gt;&gt;&gt; s.print()
+  #&gt; ----------------------------------------------------------
+  #&gt; AttributeError: ' str ' object has no attribute ' print '
   ```
 
 --
@@ -763,15 +756,15 @@ object.method_name(argument)
   ```sh
   # astring = "ATGCATG"
   
-  >>> astring.replace("T", "U")
-  #> 'AUGCAUG'
+  &gt;&gt;&gt; astring.replace("T", "U")
+  #&gt; 'AUGCAUG'
   ```
 
 - `count()` to count occurrences of substrings:
 
   ```sh
-  >>> astring.count("G")
-  #> 2
+  &gt;&gt;&gt; astring.count("G")
+  #&gt; 2
   ```
 
 --
@@ -779,14 +772,14 @@ object.method_name(argument)
 - `.split()` will split a string into components, using spaces by default:
 
   ```sh
-  >>> newstring = " Mus musculus "
+  &gt;&gt;&gt; newstring = " Mus musculus "
   
-  >>> newstring.split()
-  #> ['Mus', 'musculus']
+  &gt;&gt;&gt; newstring.split()
+  #&gt; ['Mus', 'musculus']
   
   # Specify the character by which to split:
-  >>> newstring.split("u")
-  #> ['M', 's m', 'sc', 'l', 's']
+  &gt;&gt;&gt; newstring.split("u")
+  #&gt; ['M', 's m', 'sc', 'l', 's']
   ```
 
 ---
@@ -798,11 +791,11 @@ object.method_name(argument)
   ```sh
   # newstring = " Mus musculus "
   
-  >>> newstring.strip()
-  #> 'Mus musculus'
+  &gt;&gt;&gt; newstring.strip()
+  #&gt; 'Mus musculus'
   ```
 
-- `.index()` &ndash; returns the position of a substring like `.find()`,
+- `.index()` &amp;ndash; returns the position of a substring like `.find()`,
   but will raise an error if the substring is not found
   (`.find()` will return a value of `-1`).
 
@@ -815,17 +808,17 @@ object.method_name(argument)
   
   ```sh
   # Make uppercase with `.upper()`:
-  >>> "atgc".upper()
-  #>'ATGC'
+  &gt;&gt;&gt; "atgc".upper()
+  #&gt;'ATGC'
   
   # Make lowercase with `.lower()`:
-  >>> "TGCA".lower()
-  #> 'tgca'
+  &gt;&gt;&gt; "TGCA".lower()
+  #&gt; 'tgca'
   ```
 
 --
 
-<br>
+&lt;br&gt;
 
 - And you can **combine multiple methods** in a single call
   by chaining them together like so:
@@ -833,8 +826,8 @@ object.method_name(argument)
   ```sh
   # astring = "ATGCATG"
   
-  >>> astring.replace("T", "U").count("U")
-  #> 2
+  &gt;&gt;&gt; astring.replace("T", "U").count("U")
+  #&gt; 2
   ```
   
 ---
@@ -844,27 +837,27 @@ object.method_name(argument)
 - We can concatenate string with the `+` sign:
 
   ```sh
-  >>> genus = "Rattus"
-  >>> species = "norvegicus"
+  &gt;&gt;&gt; genus = "Rattus"
+  &gt;&gt;&gt; species = "norvegicus"
   
-  >>> genus + " " + species    # Separate with a space
-  #> 'Rattus norvegicus'   
+  &gt;&gt;&gt; genus + " " + species    # Separate with a space
+  #&gt; 'Rattus norvegicus'   
   ```
 
 --
 
-- But this is a slow way of concatenating &ndash;
+- But this is a slow way of concatenating &amp;ndash;
   the `.join()` method is better:
 
   ```sh
   # join requires a list of strings as input:
-  >>> human = ["Homo", "sapiens"]
-  >>> " ".join(human)
-  #> 'Homo sapiens'
+  &gt;&gt;&gt; human = ["Homo", "sapiens"]
+  &gt;&gt;&gt; " ".join(human)
+  #&gt; 'Homo sapiens'
   
   # You can specify any symbol as a delimiter:
-  >>> "->".join(["one", "leads", "2", "the", "other"])
-  #> 'one->leads->2->the->other'
+  &gt;&gt;&gt; "-&gt;".join(["one", "leads", "2", "the", "other"])
+  #&gt; 'one-&gt;leads-&gt;2-&gt;the-&gt;other'
   ```
   
 ---
@@ -874,19 +867,19 @@ object.method_name(argument)
 - Different object types have different methods:
 
   ```sh
-  >>> my_int = 8
-  >>> my_int.               # See methods for integers 
+  &gt;&gt;&gt; my_int = 8
+  &gt;&gt;&gt; my_int.               # See methods for integers 
   
-  >>> my_float = 8.5
-  >>> float.                # See methods for floats
+  &gt;&gt;&gt; my_float = 8.5
+  &gt;&gt;&gt; float.                # See methods for floats
   
-  >>> mystring = "ATGC"
-  >>> my.string.            # See methods for strings
+  &gt;&gt;&gt; mystring = "ATGC"
+  &gt;&gt;&gt; my.string.            # See methods for strings
   ```
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 3.1
+## <i class="fas  fa-user-edit "></i> Intermezzo 3.1
 
 1. Initialize the string `s = "WHEN on board H.M.S. Beagle, as naturalist"`.
 
@@ -899,30 +892,30 @@ object.method_name(argument)
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 3.1: Solutions
+## <i class="fas  fa-user-edit "></i> Intermezzo 3.1: Solutions
 
 1. Initialize the string:
 
   ```sh
-  >>> s = "WHEN on board H.M.S. Beagle, as naturalist"
+  &gt;&gt;&gt; s = "WHEN on board H.M.S. Beagle, as naturalist"
   ```
 
 2. Count the number of occurrences of the character `b`.
 
   ```sh
-  >>> s.count("b")
+  &gt;&gt;&gt; s.count("b")
   ```
 
 3. Count both lowercase and uppercase `b`'s:
 
   ```sh
-  >>> s.lower().count("b")
+  &gt;&gt;&gt; s.lower().count("b")
   ```
 
 4. Replace `WHEN` with `When`.
 
   ```sh
-  >>> s.replace("WHEN","When")
+  &gt;&gt;&gt; s.replace("WHEN","When")
   ```
 
 ---
@@ -932,5 +925,128 @@ class: center middle inverse
 
 -----
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
