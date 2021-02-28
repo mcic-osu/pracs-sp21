@@ -1,0 +1,47 @@
+---
+title: "Exercises: Week 8"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+## Exercises
+
+### Exercise 1: variable types and strings
+
+1.  Have Python tell you what type of value `4.88` is.
+2.  What type of value is `n_samples + 4.88`?
+3.  Assign the variable `n_samples = 658`, and then extract the third character from `nsamples`.
+4.  Assign the string 'CTTATGGAAT' to a variable called `adapter`. Get Python to print the number characters in the string.
+5.  Replace all `A`s by `N`s in `adapter` and assign the resulting string to a new variable.
+6.  Find out what the third argument to the `.replace()` method does by looking at the "tooltip" when you type the opening parenthesis.
+7.  Replace only the first two `A`s in `adapter` by `N`s.
+8.  Convert the following strings and numbers to a Boolean value, and see what the resulting Boolean is (True or False): `false`, `FALSE`, `0`, `1`, `-1`.
+9.  Have a look at the names of the methods that appear when you type `adapter.` (note the `.`). What do all the `is…` methods do? Test a few on `adapter` and look for one that should evaluate to `True` for it.
+10. Can you find a method that will print the *last* occurrence of a `T` in `adapter`?
+11. Print `The adapter sequence is: CTTATGGAAT` by referencing (recalling) the value of `adapter` rather than typing the letters out.
+12. Split the sequence by `GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN` by `N`s.
+13. Bonus: In the previous, we got a list with several empty elements. can you think of a way using `join()` and `split()` to get rid of the empty elements?
+
+' '.join(aap).split()
+
+### Exercise 2: Lists
+
+1.  Assign the values X, X, X, to a list called `fungi`.
+2.  Extract the 10th element from `fungi`.
+3.  Extract the first 5 elements from `fungi`.
+4.  Extract the last 3 elements from `fungi`.
+5.  If you would run `more_fungi = fungi` and then `more_fungi.append("XXX")`, would `fungi` contain `XXX`? Think about what the answer should be and see if you were right.
+6.  If you would do `even_more_fungi = fungi.append("XXX")`, what would `even_more_fungi` contain? Think about what the answer should be and see if you were right. After simply running `even_more_fungi`, also run `print(even_more_fungi)` and see whether it makes a difference.
+7.  Copy `fungi` to a new list, with a name of your choice, that is not linked to `fungi`. Remove all elements from the new list. Check if `fungi` still contains its elements -- if not, try again!
+8.  What fundamental difference between lists and strings makes it so that `newstring = oldstring` creates *a new string*, whereas `newlist = oldlist` simply creates a new *pointer to the same list*?
+9.  In `fungi`, reassign XX to XX.
+10. We saw that the method `pop()` removes and returns the last value if no arguments are provided. Type `fungi.pop(` and see what the optional argument is. Now remove and return the 6th element.
+11. Sort `fungi` in place.
+12. Find out how you can use the `sorted()` function to sort in reverse order, and apply this to `fungi`.
+13. Bonus: Get all unique characters present in the list `fungi`.
+14. Bonus: Following up on step 12., say you wanted to sort in reverse order *in place.* In place sorting with `.sort` has no optional argument for reverse sorting, but we have seen the `reverse()` method in class. We also saw the method-chaining approach of `astring.replace("T", "U").count("U")`. Try to use this to reverse sort `fungi`. Why does it not work?
+
+set("".join(mylist))
