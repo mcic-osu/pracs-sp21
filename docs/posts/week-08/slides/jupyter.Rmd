@@ -1,0 +1,232 @@
+---
+name: jupyter
+
+## Starting JupyterLab at OSC
+
+1. Log in to <https://ondemand.osc.edu>.
+
+2. Click on `Interactive Apps` (top blue bar) and then
+   `Jupyter (Owens and Pitzer)` near the bottom.
+
+3. In the form for your compute node options:
+   
+   - Cluster: either `pitzer` or `owens` works.
+   - Project: our course project `PAS1855`.
+   - **Check the box `Use JupyterLab instead of Jupyter Notebook?`**
+   - Number of hours: 1 or 2.
+   - Node type: keep the default selection, `any`.
+   - Number of cores: keep the default selection, `1`.
+   - JupyterLab Version: keep the default selection, `2.1`.
+   - Click `Launch`.
+
+4. Once the compute node is `Running`, click `Connect to Jupyter`.
+
+---
+
+## JupyterLab setup
+
+- One peculiarity about Jupyter is that you can't really go *up* in the directory
+  tree from your entry point.
+  
+  Additionally, OSC gave us no choice on where to start,
+  and placed us in our home (`$HOME`, `~`) directory.
+
+- While you can save your JupyterLab notebooks in your home directory,
+  it will be more organized to save them in your personal dir in the
+  course project dir.
+  
+  To be able to do that, we need a link to there from our home dir.
+  
+--
+
+- On the JupyterLab front page ("Launcher"), click `Terminal`.
+
+  In the terminal, create a link (in the example below, the link will be
+  named `pp8300_sp21`, but you can use a different name):
+  
+  ```sh
+  $ ln -s /fs/ess/PAS1855/users/$USER/ pp8300_sp21
+  
+  # While we're at it, let's create a dir for this week:
+  $ mkdir pp8300_sp21/week08
+  ```
+
+---
+
+## JupyterLab setup & first steps
+
+- Click on the folder icon in the top of the vertical bar on the right-hand side
+  (`File Browser`). You should see your link to the project dir &ndash;
+  if not, click the refresh icon in the top.
+  
+- Click on your link. You should now see this path at the top of your Launcher
+  window.
+
+- Click on `Python 3` (leftmost box) to start a JupyterLab Notebook.
+
+--
+
+- Another Jupyter peculiarity is that it will automatically start saving any
+  new notebook as `Untitled.ipynb`.
+  But we will want to save the notebook under a useful name,
+  so in the File Browser, find the current notebook and:
+  - Move it into the `week08` dir.
+  - Right-click the file, then `Rename`,
+    and rename the file to (e.g.) `Tuesday.ipynb`.
+
+---
+
+## Testing the JupyterLab notebook
+
+- Press <kbd>Esc</kbd> (or <kbd>Ctrl</kbd>+<kbd>M</kbd>)
+  and then <kbd>M</kbd> to make the cell in the notebook into
+  a *Markdown cell*, type "# Week 7 - Tuesday", and press
+  <kbd>Shift</kbd>+<kbd>Enter</kbd> to *run* the cell.
+  
+  You should now see Markdown formatting being applied.
+
+- In the next cell, which is a code cell by default,
+  type `30 * 2` and again press <kbd>Shift</kbd>+<kbd>Enter</kbd> to *run* the
+  cell.
+  
+  You should see the result of the calculation being printed.
+
+---
+
+## What is Jupyter?
+
+Like bash and R, Python can be used both *interactively* (issue one command
+at a time, get instantaneous feedback) or *non-interactively* by running a
+script with Python code.
+
+We will start by using Python interactively, and will do so using  
+**JupyterLab**:
+
+--
+
+- A browser-based environment that runs locally on your computer.
+
+- Jupyter = **Ju**lia, **Py**thon, **R**
+  (but now compatible with other languages too).
+  
+- Combines Markdown "cells" with code cells,
+  and will also show results and figures inside the same document.
+
+- Files are saved as `.ipynb` (IPYthon Notebook) files in *JSON* format,
+  but you don't tend to interact with the raw files outside of the Jupyter
+  environment.
+  
+<br>
+
+.content-box-info[
+*Jupyter Lab* is a quite similar follow-up to Jupyter Notebooks.
+]
+
+---
+
+## Working in JupyterLab
+
+- The main left sidebar has several tabs that you can switch between by clicking
+  on the far left, narrow sidebar. Most useful are: 
+  
+  - The "File Browser".
+    Note that you can right-click on files and dirs to rename them, etc.
+    Here, you can also open a new "Launcher" tab by clicking the `+` button.
+  
+  - The "Commands" sidebar (magnifying glass icon), which has all the Jupyter
+    commands and their keyboard shortcuts. 
+
+  You can show/hide the left Sidebar by clicking `View` => `Show Left Sidebar`.
+
+- Jupyter uses the term *"kernel"* to refer to processes for running code,
+  such as an individual notebook running a specific version of Python. 
+
+---
+
+## Working in JupyterLab Notebooks
+
+- <kbd>Shift</kbd>+<kbd>Enter</kbd> &ndash; run a cell and move to the next one.
+
+- <kbd>Esc</kbd> or <kbd>Ctrl</kbd>+<kbd>M</kbd> &ndash; go into "**command mode**",
+  then:
+  
+  - <kbd>M</kbd> &ndash; Change cell type to Markdown.
+  
+  - <kbd>Y</kbd> &ndash; Change a cell to code.
+  
+  - <kbd>A</kbd> &ndash; Create a new cell above the current cell.
+  
+  - <kbd>B</kbd> &ndash; Create a new cell above the current cell.
+  
+  - <kbd>D</kbd>,<kbd>D</kbd> &ndash; Delete the current cell.
+
+- You can also right-click in a cell to see more actions.
+
+---
+
+.content-box-info[
+Jupyter functions to show what's in your environment:
+
+```sh
+who
+
+whos
+
+dir()
+```
+]
+
+---
+
+## Printing to screen
+
+.content-box-info[
+As we've seen, when we typed `x` or `x + y`, the outcome was printed to screen.
+
+However, this only happens in interactive Python; and in Jupyter Notebooks,
+only for the last command:
+
+```sh
+x
+z
+#> '88'
+```
+
+To be more explicit, and to print in any context, we can use the function
+`print()`:
+
+```sh
+print(x)
+print(z)
+#> 2
+#> '88'
+```
+]
+
+
+---
+
+## Getting help in Python / Jupyter
+
+.content-box-info[
+- To see which methods are associated with a string,
+  type a dot `.` after an object name, and press <kbd>Tab</kbd>:
+  
+  ```sh
+  #astring = "ATGCATG"
+  astring.      # Press Tab
+  ```
+
+- To get help about methods/objects/etc, press Shift-tab:
+  ```sh
+  astring.     # Press Shift-tab for help on strings
+  astring.find # Press Shift-tab for help on find
+  
+  # Or:
+  help(astring.find)
+  ?astring.find
+  ?astring
+  ```
+  
+  On the internet, <https://docs.python.org> should be your go-to source.
+]

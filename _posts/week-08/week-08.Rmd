@@ -10,9 +10,9 @@ output:
 
 ### Slides
 
-- Slides -- Tuesday Zoom (Mar 2) (TBA)
+- [Slides: Introduction to Python](slides/08-1.html) -- Tuesday Zoom (Mar 2) (TBA)
 
-- Slides -- Thursday Zoom (Mar 4) (TBA)
+- Slides: Python data types -- Thursday Zoom (Mar 4) (TBA)
 
 ### Ungraded assignments
 
