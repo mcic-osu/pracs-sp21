@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/02 (updated: 2021-02-23)
+### 2021/03/04 (updated: 2021-02-27)
 
 ---
 class: inverse middle center
@@ -210,22 +210,13 @@ With negative numbers:
 
 ---
 
-## Double indexing
+## Double indexing and membership test
 
 ```sh
 &gt;&gt;&gt; seqlist = ['AACGT', 'GTATAG', 'CTCTA']
 &gt;&gt;&gt; seqlist[1][3]
 #&gt; T
 ```
-
-.content-box-info[
-Membership test with `in`:
-
-```sh
-&gt;&gt;&gt; 'AACGT' in seqlist
-#&gt; True
-```
-]
 
 ---
 
@@ -357,22 +348,24 @@ To operate on each element of a list, we can:
   # ['blue', 2.44, 'green', True, 25, 'red', 0] 
   ```
 
---
+---
+
+## List methods (cont.)
 
 - To delete one or more elements *by index*, use the *function* `del`:
   
   ```sh
-  del(a[2:3])
+  del(my_list[2:4])        # Delete 3rd and 4th element 
   a
-  #&gt; [132, 42, 5, 2, 1]
+  #&gt; ['blue', 2.44, 25, 'red', 0]
   ```
   
 - To delete one element *by value*, use the method `.remove()`:
 
   ```sh
-  &gt;&gt;&gt; a.remove(45)
-  &gt;&gt;&gt; a
-  #&gt; [132, 5, 2, 1]
+  &gt;&gt;&gt; my_list.remove('red')
+  &gt;&gt;&gt; my_list
+  #&gt; my_list.remove('red')
   ```
   
 --
@@ -393,6 +386,8 @@ To operate on each element of a list, we can:
 
   ```sh
   seq = list("TKAAVVNFT")
+  seq
+  #&gt; ['T', 'K', 'A', 'A', 'V', 'V', 'N', 'F', 'T']
   seq.count("V")
   #&gt; 2
   ```
@@ -427,25 +422,25 @@ To operate on each element of a list, we can:
 
 ## List methods (cont.)
 
-- `sorted` &amp;ndash; Return a sorted list:
-
-  ```sh
-  my_list = [1, 5, 2, 42, 14, 132]
-  sorted_list = my_list.sorted()
-  
-  my_list
-  #&gt; [1, 5, 2, 42, 14, 132]
-  sorted_list
-  #&gt; [1, 2, 5, 14, 42, 132]
-  ```
-
---
-
 - `sort` &amp;ndash; Sort the elements *in place*:
 
   ```sh
   my_list.sort()
   my_list
+  #&gt; [1, 2, 5, 14, 42, 132]
+  ```
+
+--
+
+- `sorted` function &amp;ndash; Return a sorted list:
+
+  ```sh
+  my_list = [1, 5, 2, 42, 14, 132]
+  sorted_list = sorted(my_list)
+  
+  my_list
+  #&gt; [1, 5, 2, 42, 14, 132]
+  sorted_list
   #&gt; [1, 2, 5, 14, 42, 132]
   ```
 
@@ -812,18 +807,6 @@ print(GenomeSize.get("Allium cepa"))
 ]
 
 ---
-
-## Test for membership
-
-```sh
-&gt;&gt;&gt; key in dict
-# False
-
-&gt;&gt;&gt; key not in dict
-# True
-```
-
----
 class: center middle inverse
 name: tuples
 
@@ -1163,6 +1146,7 @@ container
    ```sh
    m["b"] = "-..."
    ```
+
 ---
 class: center middle inverse
 
@@ -1172,6 +1156,35 @@ class: center middle inverse
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
+
+---
+
+## Test for membership
+
+```sh
+&gt;&gt;&gt; key in dict
+# False
+
+&gt;&gt;&gt; key not in dict
+# True
+```
+
+.content-box-info[
+Membership test with `in`:
+
+```sh
+&gt;&gt;&gt; 'AACGT' in seqlist
+#&gt; True
+```
+
+This also works for strings (and other data types):
+
+```sh
+'AACGT' in 'AACGTGGTA'
+True
+```
+
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

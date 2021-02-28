@@ -14,3 +14,50 @@ animals = [' aap ', ' aap ', 'aap ']
 >>> print('C stands for the amino acid {0}', iupac['C'])
 #> C stands for the amino acid Cys
 ```
+
+## Quotes
+
+- Moreover, triple quotes can be used for multiline strings:
+
+  ```sh
+  """This
+  is a mult-line
+  string"""
+  ```
+
+.content-box-q[
+How might we be able to create a multi-line string using single/double quotes?
+]
+
+## Index
+
+- `.index()` &ndash; returns the position of a substring like `.find()`,
+  but will raise an error if the substring is not found
+  (`.find()` will return a value of `-1`).
+
+
+---
+
+
+- In the command palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>),
+  start typing "Interactive" and then select
+  `Python: Show Python Interactive Window`.
+
+- You should see a pop-up in the bottom-right, saying:
+  `"Data Science library ipykernel is not installed. Install?"`.
+  **Click `No`.**  
+  The Python Interactive Window will close.
+
+- Our Conda environment has the stuff we need already installed,  
+  and now we need to select it:
+  
+  In the narrow bar all the way at the bottom, click on `Python 3.6.8 64-bit`.
+  Then, find the Conda environment you just created
+  (`Python 3.9.2 64-bit (ipy-env: conda)`) and click on it.
+  
+- Open the command palette back up (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>),
+  and again select `Python: Show Python Interactive Window`.
+  
+  Now, the IPython (interactive Python) kernel should successfully load,
+  and you should be able to type Python commands in the pale blue panel
+  at the bottom of the screen.

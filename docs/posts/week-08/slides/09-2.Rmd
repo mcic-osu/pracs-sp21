@@ -97,3 +97,4 @@ with open ("../data/Dalziel2016_data.csv") as f:
   for row in reader:
     print(row["loc"], row["pop"])
 ```
+

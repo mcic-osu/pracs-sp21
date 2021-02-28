@@ -27,7 +27,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/03/02 (updated: `r Sys.Date()`)
+### 2021/03/04 (updated: `r Sys.Date()`)
 
 ---
 class: inverse middle center
@@ -349,22 +349,24 @@ To operate on each element of a list, we can:
   # ['blue', 2.44, 'green', True, 25, 'red', 0] 
   ```
 
---
+---
+
+## List methods (cont.)
 
 - To delete one or more elements *by index*, use the *function* `del`:
   
   ```sh
-  del(a[2:3])
+  del(my_list[2:4])        # Delete 3rd and 4th element 
   a
-  #> [132, 42, 5, 2, 1]
+  #> ['blue', 2.44, 25, 'red', 0]
   ```
   
 - To delete one element *by value*, use the method `.remove()`:
 
   ```sh
-  >>> a.remove(45)
-  >>> a
-  #> [132, 5, 2, 1]
+  >>> my_list.remove('red')
+  >>> my_list
+  #> my_list.remove('red')
   ```
   
 --
@@ -385,6 +387,8 @@ To operate on each element of a list, we can:
 
   ```sh
   seq = list("TKAAVVNFT")
+  seq
+  #> ['T', 'K', 'A', 'A', 'V', 'V', 'N', 'F', 'T']
   seq.count("V")
   #> 2
   ```
@@ -419,25 +423,25 @@ To operate on each element of a list, we can:
 
 ## List methods (cont.)
 
-- `sorted` &ndash; Return a sorted list:
-
-  ```sh
-  my_list = [1, 5, 2, 42, 14, 132]
-  sorted_list = my_list.sorted()
-  
-  my_list
-  #> [1, 5, 2, 42, 14, 132]
-  sorted_list
-  #> [1, 2, 5, 14, 42, 132]
-  ```
-
---
-
 - `sort` &ndash; Sort the elements *in place*:
 
   ```sh
   my_list.sort()
   my_list
+  #> [1, 2, 5, 14, 42, 132]
+  ```
+
+--
+
+- `sorted` function &ndash; Return a sorted list:
+
+  ```sh
+  my_list = [1, 5, 2, 42, 14, 132]
+  sorted_list = sorted(my_list)
+  
+  my_list
+  #> [1, 5, 2, 42, 14, 132]
+  sorted_list
   #> [1, 2, 5, 14, 42, 132]
   ```
 

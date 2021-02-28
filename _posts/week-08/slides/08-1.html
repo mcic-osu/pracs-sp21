@@ -21,21 +21,21 @@ class:inverse middle center
 
 ----
 
-# I: Jupyter and Python basics
+# I: Python basics
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/02 (updated: 2021-02-24)
+### 2021/03/02 (updated: 2021-02-28)
 
 ---
 
 ## Overview of this week
 
-We will work our way through the CSB chapter 3.1-3.4 to get started
-with Python using Jupyter Notebooks.
+Today, we will set up VS Code for Python and work our way through CSB chapter
+3.1-3.4 to get started with Python.
 
-Thursday will focus entirely on section 3.4: Python data structures.
+Thursday will focus on section 3.4: Python data structures.
 
 ---
 class: inverse middle center
@@ -46,9 +46,11 @@ class: inverse middle center
 
 .left[
 - ### [What is Python and why Python](#python)
-- ### [Jupyter Notebooks](#python)
+- ### [Python setup in VS Code](#setup)
 - ### [CSB 3.3: Getting started with Python](#getting-started)
 ]
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 name: python
@@ -58,28 +60,80 @@ name: python
 - Python is an all-purpose programming language that was created by
   Guido van Rossem, first released in 1991, and named after Monty Python.
 
+&lt;br&gt;
+
+- It is an *interpreted* (or *scripting*) language,
+  which means that its code does not need to be *compiled* prior to execution.
+  
+  Instead, we can run scripts as-is, like we did with Bash scripts.
+  
+  Moreover, we can open up an interactive prompt and run commands one-by-one,
+  like we also did in the shell.
+
+---
+
+## What is Python?
+
 - ["The Zen of Python"](https://www.python.org/dev/peps/pep-0020/)
   describes guidelines for Python code with aphorisms that include:
 
   - Beautiful is better than ugly.
+  
   - Explicit is better than implicit.
+  
   - Simple is better than complex.
+  
   - Complex is better than complicated.
+
+--
+
   - Readability counts.
+  
   - If the implementation is hard to explain, it's a bad idea.
-  - There should be one-- and preferably only one --obvious way to do it.
+  
+  - There should be one &amp;ndash;and preferably only one&amp;ndash; obvious way
+    to do it.
+
+&lt;br&gt;
 
 - The last point relates to the notion of "Pythonic" code that follows these
   and other [style guidelines](https://pep8.org/).
 
 ---
 
-## Why Python?
+## Perl versus Python &lt;br&gt; to calculate the average of a series of numbers
 
-### Show language popularity graph
+- Perl:
+
+  ```perl
+  sub avg(@_) {
+      $sum += $_ foreach @_;
+      return $sum / @_ unless @_ == 0;
+      return 0;
+  }
+  print avg((1..5))."\n";
+  ```
+
+- Python:
+
+  ```python
+  def avg(data):
+  if len(data) == 0:
+      return 0
+  else:
+      return sum(data) / len(data)
+  print(avg([1,2,3,4,5]))
+  ```
+
+---
+
+## Why Python?
 
 - Good language for new programmers due to its straightforward,
   highly readable style.
+
+- Highly flexible, with e.g. good support for
+  *object-oriented* and *functional* programming styles.
 
 - Lot of built-in features that would require third-party libraries in other
   languages.
@@ -90,17 +144,46 @@ name: python
 
 ---
 
+## Popularity of Python
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/python-popularity_stackoverflow.png width="75%"&gt;
+&lt;figcaption&gt;&lt;a href="https://stackoverflow.blog/2017/09/06/incredible-growth-python/"&gt;From Stack Overflow: "The Incredible Growth of Python" (2017)&lt;/a&gt; &lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/python-popularity_statista.png width="55%"&gt;
+&lt;figcaption&gt;&lt;a href="https://www.statista.com/chart/21017/most-popular-programming-languages/"&gt;From statista.com (2020)&lt;/a&gt; &lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
 ## Usage of Python
 
-- Data science (especially machine learning)
+Some of the most common broad usage categories for Python are:
 
-- Engineering, electronics, astronomy, biology / bioinformatics
+- Data science &amp;ndash; especially machine learning
 
-- Websites
+- Engineering, astronomy, biology &amp; bioinformatics
 
-- Software like the Dropbox client
+- Web development
 
-- Widely used for games and movies
+- Electronics
+
+- Software like the Dropbox client, games, movies, ...
+
+&lt;br&gt;
+
+--
+
+For instance, it is:
 
 - One of the 4 official languages of Google (along with Java, C++, and Go)
 
@@ -108,163 +191,103 @@ name: python
   contributions to be in Python.
 
 ---
-name: jupyter
 
-## Starting JupyterLab at OSC
+## Where to write and run Python code
 
-1. Log in to &lt;https://ondemand.osc.edu&gt;.
+**We will be working with Python in VS Code**, because:
 
-2. Click on `Interactive Apps` (top blue bar) and then
-   `Jupyter (Owens and Pitzer)` near the bottom.
-
-3. In the form for your compute node options:
-   
-   - Cluster: either `pitzer` or `owens` works.
-   - Project: our course project `PAS1855`.
-   - **Check the box `Use JupyterLab instead of Jupyter Notebook?`**
-   - Number of hours: 1 or 2.
-   - Node type: keep the default selection, `any`.
-   - Number of cores: keep the default selection, `1`.
-   - JupyterLab Version: keep the default selection, `2.1`.
-   - Click `Launch`.
-
-4. Once the compute node is `Running`, click `Connect to Jupyter`.
+- VS Code has very good Python support.
+  
+- This way, you don't have to learn a new environment along with a new language.
 
 ---
 
-## JupyterLab setup
+## Where to write and run Python code
 
-- One peculiarity about Jupyter is that you can't really go *up* in the directory
-  tree from your entry point.
+- An even more common way to run Python interactively is with  
+  *Jupyter Notebooks* / *JupyterLab*.
   
-  Additionally, OSC gave us no choice on where to start,
-  and placed us in our home (`$HOME`, `~`) directory.
+  - Jupyter Notebooks combine code with
+    prose in Markdown format, and can be run in OSC OnDemand as Interactive Apps.
 
-- While you can save your JupyterLab notebooks in your home directory,
-  it will be more organized to save them in your personal dir in the
-  course project dir.
-  
-  To be able to do that, we need a link to there from our home dir.
-  
---
+  - You can also run full-fledged Jupyter Notebooks in VS Code.
 
-- On the JupyterLab front page ("Launcher"), click `Terminal`.
-
-  In the terminal, create a link (in the example below, the link will be
-  named `pp8300_sp21`, but you can use a different name):
-  
-  ```sh
-  $ ln -s /fs/ess/PAS1855/users/$USER/ pp8300_sp21
-  
-  # While we're at it, let's create a dir for this week:
-  $ mkdir pp8300_sp21/week08
-  ```
-
----
-
-## JupyterLab setup &amp; first steps
-
-- Click on the folder icon in the top of the vertical bar on the right-hand side
-  (`File Browser`). You should see your link to the project dir &amp;ndash;
-  if not, click the refresh icon in the top.
-  
-- Click on your link. You should now see this path at the top of your Launcher
-  window.
-
-- Click on `Python 3` (leftmost box) to start a JupyterLab Notebook.
+  .content-box-info[
+  The "Python Interactive" window we will use in VS Code in fact also uses the
+  Jupyter infrastructure, so you will see annotations like "*Jupyter Server: local*".
+  ]
 
 --
 
-- Another Jupyter peculiarity is that it will automatically start saving any
-  new notebook as `Untitled.ipynb`.
-  But we will want to save the notebook under a useful name,
-  so in the File Browser, find the current notebook and:
-  - Move it into the `week08` dir.
-  - Right-click the file, then `Rename`,
-    and rename the file to (e.g.) `Tuesday.ipynb`.
-
----
-
-## Testing the JupyterLab notebook
-
-- Press &lt;kbd&gt;Esc&lt;/kbd&gt; (or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;M&lt;/kbd&gt;)
-  and then &lt;kbd&gt;M&lt;/kbd&gt; to make the cell in the notebook into
-  a *Markdown cell*, type "# Week 7 - Tuesday", and press
-  &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; to *run* the cell.
-  
-  You should now see Markdown formatting being applied.
-
-- In the next cell, which is a code cell by default,
-  type `30 * 2` and again press &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; to *run* the
-  cell.
-  
-  You should see the result of the calculation being printed.
-
----
-
-## What is Jupyter?
-
-Like bash and R, Python can be used both *interactively* (issue one command
-at a time, get instantaneous feedback) or *non-interactively* by running a
-script with Python code.
-
-We will start by using Python interactively, and will do so using  
-**JupyterLab**:
+- Finally, there are also IDEs (Integrative Development Environment) similar to
+  RStudio for Python &amp;ndash; most popular are *PyCharm* and *Spyder*.
 
 --
 
-- A browser-based environment that runs locally on your computer.
-
-- Jupyter = **Ju**lia, **Py**thon, **R**
-  (but now compatible with other languages too).
-  
-- Combines Markdown "cells" with code cells,
-  and will also show results and figures inside the same document.
-
-- Files are saved as `.ipynb` (IPYthon Notebook) files in *JSON* format,
-  but you don't tend to interact with the raw files outside of the Jupyter
-  environment.
-  
-&lt;br&gt;
-
-.content-box-info[
-*Jupyter Lab* is a quite similar follow-up to Jupyter Notebooks.
+.content-box-diy[
+I would recommend to start following along in VS Code,
+but if you're not a fan, feel free to explore other environments
+and even within the course you should be able to switch to another one.
 ]
 
 ---
+name: setup
 
-## Working in JupyterLab
+## Python setup in VS Code
 
-- The main left sidebar has several tabs that you can switch between by clicking
-  on the far left, narrow sidebar. Most useful are: 
+- Open a terminal inside VS Code and start an interactive session:
+
+  ```sh
+  sinteractive -A PAS1855 -t 60
+  ```
+
+- Load the OSC Conda module,
+  create a new Conda environment with Python 3.9,
+  activate it, and install `notebook` and `pylint` into it:
   
-  - The "File Browser".
-    Note that you can right-click on files and dirs to rename them, etc.
-    Here, you can also open a new "Launcher" tab by clicking the `+` button.
+  ```sh
+  module load python/3.6-conda5.2
+  conda create -y -n ipy-env -c conda-forge python=3.9
+  source activate ipy-env
+  conda install -y -c conda-forge -y notebook pylint
+  ```
   
-  - The "Commands" sidebar (magnifying glass icon), which has all the Jupyter
-    commands and their keyboard shortcuts. 
-
-  You can show/hide the left Sidebar by clicking `View` =&gt; `Show Left Sidebar`.
-
-- Jupyter uses the term *"kernel"* to refer to processes for running code,
-  such as an individual notebook running a specific version of Python. 
-
+  The Conda installation should take a while and in the mean time you can do this
+  next step:
+  
+- Click on the `Extensions` icon in the VS Code Activity Bar
+  (the far left, narrow side bar).
+  In the Extensions side bar's search box, type "Python".
+  
+  Then, click on the `Install` button for what should be the top hit, which is
+  simply called `Python` (by `ms-python`, 14.9 M downloads).
+  
 ---
 
-## Working in JupyterLab Notebooks
+## Python setup in VS Code (cont.)
 
-- &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; &amp;ndash; run a cell and move to the next one.
-
-- &lt;kbd&gt;Esc&lt;/kbd&gt; or &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;M&lt;/kbd&gt; &amp;ndash; go into "command mode"
-  to change cell type, etc.
+- In the command palette (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;P&lt;/kbd&gt;),
+  start typing "interpreter" and then select
+  `Python: Select Interpreter to Start Jupyter Server`.
   
-- &lt;kbd&gt;M&lt;/kbd&gt; &amp;ndash; Change cell type to Markdown.
+  Find the Conda environment you just created
+  (`Python 3.9.2 64-bit (ipy-env: conda)`) and click on it.
 
-- &lt;kbd&gt;Y&lt;/kbd&gt; &amp;ndash; Change a cell to code.
+- In the narrow bar all the way at the bottom,
+  there should now be a Python environment specification.
+  
+  If it is not the one you selected above, but e.g. `Python 3.6.8 64-bit`,
+  click on that, and *again select the Python 3.9.2 Conda environment*.
+  
+  Now, the bottom bar should display the Python 3.9.2 environment. 
 
-- You can also right-click in a cell to see more actions.
-
+- Open the command palette again (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;P&lt;/kbd&gt;),
+  type "interactive", and select `Python: Show Python Interactive Window`.
+  
+  If it worked, you should have a "Python Interactive" window including 
+  a pale blue panel at the bottom, which says *"Type code here and press
+  shift-enter to run"*.
+  
 ---
 
 class: center middle inverse
@@ -282,28 +305,28 @@ name: getting-started
 
 - We can use Python as an oversized calculator:
 
-  ```sh
-  &gt;&gt;&gt; 2 + 2         # Addition
-  #&gt; 4
-  &gt;&gt;&gt; 2 * 2         # Multiplication
-  #&gt; 4
-  &gt;&gt;&gt; 3 / 2         # Division
+  ```py
+  3 + 3         # Addition
+  #&gt; 6
+  3 * 3         # Multiplication
+  #&gt; 9
+  3 / 2         # Division
   #&gt; 1.5
   ```
 
 --
 
-- The usual precedence rules apply, but it's better to be explicit with
-  parentheses:
+- The usual precedence rules apply,
+  but it's better to be explicit with parentheses:
 
-  ```sh
-  &gt;&gt;&gt; 2 * 3 ** 3    # Read as 2*(3**3)
+  ```py
+  2 * 3 ** 3    # Read as 2*(3**3)
   #&gt; 54
   
-  &gt;&gt;&gt; 2 * (3 ** 3)
+  2 * (3 ** 3)
   #&gt; 54
   
-  &gt;&gt;&gt; (2 * 3) ** 3
+  (2 * 3) ** 3
   #&gt; 216
   ```
 
@@ -314,21 +337,21 @@ name: getting-started
 - **Integer division** (AKA floor division) is division in which the
   fractional part (remainder) is discarded:
 
-  ```sh
-  &gt;&gt;&gt; 3 // 2        # Integer division
-  #&gt; 1
+  ```py
+  5 // 2
+  #&gt; 2
   ```
 
 &lt;br&gt;
 
 - **The modulo operator** returns the remainder of an integer division:
 
-  ```sh
-  &gt;&gt;&gt; 15 % 7
+  ```py
+  5 % 2
   #&gt; 1
   ```
   
-  _(As 15 = (7*2) + 1), 1 is the remainder of the integer division 15//7.)_
+  _(As 5 = (2*2) + 1), 1 is the remainder of the integer division 5//2.)_
   
 
 --
@@ -347,14 +370,14 @@ by Python and generally functions as a "comment".
 - Logical operators return a Boolean value,
   which in Python consist of `True` and `False` (with that exact case):
   
-  ```sh
-  &gt;&gt;&gt; 2 &gt; 3 # 
+  ```py
+  2 &gt; 3    # Larger than
   #&gt; False
   
-  &gt;&gt;&gt; 2 == 2 # equals
+  2 == 2   # Equals
   #&gt; True
   
-  &gt;&gt;&gt; 2 != 2 # is different
+  2 != 2   # Does not equal
   #&gt; False
   ```
 
@@ -366,40 +389,30 @@ by Python and generally functions as a "comment".
   or triple-double quotes &amp;ndash; but always make sure to use the same closing
   quote as the opening quote.
 
-  ```sh
-  &gt;&gt;&gt; 'my string'
-  &gt;&gt;&gt; "my string"
-  &gt;&gt;&gt; '''my string'''
-  &gt;&gt;&gt; """my string"""
+  ```py
+  'my string'
+  "my string"
+  '''my string'''
+  """my string"""
   #&gt; 'my string'
   ```
-  
+
+--
+
 - Being able to use single versus double quotes helps if your string contains
   one of those:
   
-  ```sh
-  &gt;&gt;&gt; "The tree's height"
+  ```py
+  "The tree's height"
   #&gt; 'The tree's height'
   ```
   
 - And triple quotes are useful if your string contains both single and double quotes:  
   
-  ```sh
-  # """The tree ' s height is 6 ' 2"."""
+  ```py
+  """The tree ' s height is 6 ' 2"."""
   #&gt; 'The tree\'s height is 6\'2".'
   ```
-
-- Moreover, triple quotes can be used for multiline strings:
-
-  ```sh
-  """This
-  is a mult-line
-  string"""
-  ```
-
-.content-box-q[
-How might we be able to create a multi-line string using single/double quotes?
-]
 
 ---
 
@@ -412,9 +425,9 @@ we are familiar with the process of assigning variables (also known as
 - This works the same in Python, but when recalling a variable,
   we don't need any special syntax (like `$` in bash):
 
-  ```sh
-  &gt;&gt;&gt; x = 5
-  &gt;&gt;&gt; x
+  ```py
+  x = 5
+  x
   #&gt; 5
   ```
 
@@ -423,11 +436,11 @@ we are familiar with the process of assigning variables (also known as
 - Like in bash, we can use variables to perform further calculations --
   they will simply be replaced by whatever value they hold:
   
-  ```sh
-  &gt;&gt;&gt; x + 3
+  ```py
+  x + 3
   #&gt; 8
-  &gt;&gt;&gt; y = 8
-  &gt;&gt;&gt; x + y
+  y = 8
+  x + y
   #&gt; 13
   ```
 
@@ -439,20 +452,20 @@ Python is not sensitive to spaces around the `=` for assignment.
 
 ## Variable assignment (cont.)
 
-- When we assign a variable to a *new* variable, a new object is created,
-  and the two are *not* linked:
+- When we assign a simple variable like a number or a string to a *new* variable,
+  **a new object is created**, and the two are *not* linked:
   
-  ```sh
-  &gt;&gt;&gt; x
+  ```py
+  x
   #&gt; 5
-  &gt;&gt;&gt; y = x
-  &gt;&gt;&gt; y
+  y = x
+  y
   #&gt; 5
   
-  &gt;&gt;&gt; y = y + 10
-  &gt;&gt;&gt; y
+  y = y + 10
+  y
   #&gt; 15
-  &gt;&gt;&gt; x
+  x
   #&gt; 5
   ```
 
@@ -463,6 +476,8 @@ Python is not sensitive to spaces around the `=` for assignment.
 .content-box-info[
 This behavior of "unlinked variables" may be very intuitive or expected &amp;ndash;
 but in Python, this is only true for *immutable* objects!
+
+We will see an examples *mutable* objects on Thursday, such as *lists*.
 ]
 
 ---
@@ -470,124 +485,108 @@ but in Python, this is only true for *immutable* objects!
 ## Variable types
 
 - Unlike in bash, variables in Python have *types*, such as:
-  - Integers (whole numbers)
-  - Floats (numbers with decimal points)
-  - Strings
-  - Boolean (`True` or `False`)
-
-- Assign a string, and concatenate strings with `+`:
-
-  ```sh
-  &gt;&gt;&gt; x = "The cell grew"
   
-  &gt;&gt;&gt; x + " and is now larger"
+  - `int` &amp;ndash; Integer (whole number)
+  
+  - `float` &amp;ndash; Floating point number (number with decimal points)
+  
+  - `str` &amp;ndash; String
+  
+  - `bool` &amp;ndash; Boolean (`True` or `False`)
+
+--
+
+- Python types variables *dynamically* (also known as "duck typing").
+
+  This means you don't have to a priori define what type a variable should be.
+  You can check *what Python has decided for you* using `type()`:
+
+  ```py
+  x = 2
+  type(x)
+  #&gt; int
+  
+  x = "two"
+  type(x)
+  #&gt; str
+  ```
+
+---
+
+## Variable types (cont.)
+
+- We can combine variables of the same type using operators like `+` and `*`.
+  We already saw this for numbers, but we can do the same for string:
+  Assign a string, and concatenate strings with `+`:
+
+  ```py
+  x = "The cell grew"
+  
+  x + " and is now larger"
   #&gt; 'The cell grew and is now larger'
   ```
 
 --
 
-.content-box-info[
-Jupyter functions to show what's in your environment:
+- This doesn't work with variables of different types:
 
-```sh
-&gt;&gt;&gt; who
-
-&gt;&gt;&gt; whos
-
-&gt;&gt;&gt; dir()
-```
-]
-
----
-
-## Variable types
-
-We can't perform operations like concatenation with variables of different types:
-
-```sh
-&gt;&gt;&gt; y
-#&gt; 8
-&gt;&gt;&gt; x
-#&gt; "The cell grew"
-
-&gt;&gt;&gt; x + y              # x is string, y is integer
-#&gt; ---------------------------------------------
-#&gt; TypeError
-#&gt; Traceback (most recent call last)
-#&gt; &lt;ipython-input-8-b50c5120e24b&gt; in &lt;module&gt;()
-#&gt; ----&gt; 1 x + y
-#&gt; TypeError: Can't convert ' int ' object to str implicitly
-```
+  ```py
+  y
+  #&gt; 8
+  x
+  #&gt; "The cell grew"
+  
+  x + y
+  #&gt; ---------------------------------------------
+  #&gt; TypeError
+  #&gt; Traceback (most recent call last)
+  #&gt; &lt;ipython-input-8-b50c5120e24b&gt; in &lt;module&gt;()
+  #&gt; ----&gt; 1 x + y
+  #&gt; TypeError: Can't convert ' int ' object to str implicitly
+  ```
 
 ---
 
-## Variable type conversion
-
-```sh
-&gt;&gt;&gt; x
-#&gt; "The cell grew"
-&gt;&gt;&gt; y
-#&gt; 8
-```
+## Variable types (cont.)
 
 - But we can convert variable types on the fly; to as string with `str()`:
   
-  ```sh
-  &gt;&gt;&gt; x + " " + str(y) + " nm"
-  #&gt; ' The cell grew 8 nm '
+  ```py
+  # x = "The cell grew"
+  # y = 8
+
+  x + " " + str(y) + " nm"
+  #&gt; 'The cell grew 8 nm'
   ```
 
 --
 
 - To an integer with `int()`:
 
-  ```sh
-  &gt;&gt;&gt; y + int(z)
+  ```py
+  y + int(z)
   #&gt; 96
   ```
 
---
-
-- Numbers in quotes are interpreted as strings:
+- And to a floating point number and a Boolean with `float()` and `bool()`,
+  respectively.
   
-  ```sh
-  &gt;&gt;&gt; z = "88" # string
-  &gt;&gt;&gt; x + z
+---
+
+## Variable types (cont.)
+
+- Note that quotes always denote strings,
+  so numbers in quotes are interpreted as strings:
+  
+  ```py
+  z = "88"
+  x + z
   #&gt; 'The cell grew88'
   ```
 
 ---
 
-## Variable type conversion
-
-As we just saw, Python types variables *dynamically* (also known as "duck typing").
-This means you don't have to a priori define what type a variable should be.
-You can check *what Python has decided for you* using `type()`:
-
-```sh
-&gt;&gt;&gt; x = 2
-&gt;&gt;&gt; type(x)
-#&gt; int
-
-x = "two"
-&gt;&gt;&gt; type(x)
-#&gt; str
-```
-
---
-
-- These are all the functions to convert between types:
-
-|Function     | Convert to:
-|-------------|--------------|
-| `int()`     | Integer
-| `double()`  | Double (numbers with decimals)
-| `str()`     | String
-| `bool()`    | Boolean (`True` / `False`)
-
----
-
-## Naming variables
+## Naming Python variables
 
 - Use only alphanumeric characters and underscores in variables names.
 
@@ -602,12 +601,34 @@ x = "two"
 
 ---
 
+## Python variables
+
+.content-box-info[
+To see which variables are in your environment, the VS Code interactive window
+has a nice feature at the top of the window:
+`Show variables active in Jupyter kernel`.
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/vscode-py-vars.png width="75%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/vscode-py-vars2.png width="75%"&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+]
+
+---
+
 ## Built-in functions
 
-- In the previous slide, we saw several examples of *functions*,
+- In the previous slide, we saw several examples of *functions*,  
   which are called using parentheses:
   
-  ```sh
+  ```py
   # With no arguments specified:
   function_name()
   
@@ -619,9 +640,9 @@ x = "two"
 
 - For example, we can use `len()` to get the length of (e.g.) a string:
 
-  ```sh
-  &gt;&gt;&gt; s = "a long string"
-  &gt;&gt;&gt; len(s)
+  ```py
+  s = "a long string"
+  len(s)
   #&gt; 13
   ```
 
@@ -630,10 +651,10 @@ x = "two"
 - Or `round()` to round a number, with an optional number of decimals to round
   to (the default is 0):
 
-  ```sh
-  &gt;&gt;&gt; round(3.14159)
+  ```py
+  round(3.14159)
   #&gt; 3
-  &gt;&gt;&gt; round(3.14159, 3)
+  round(3.14159, 3)
   #&gt; 3.142
   ```
 
@@ -644,22 +665,15 @@ x = "two"
 .content-box-info[
 As we've seen, when we typed `x` or `x + y`, the outcome was printed to screen.
 
-However, this only happens in interactive Python; and in Jupyter Notebooks,
-only for the last command:
+However, this only happens when we run Python code *interactively*.
 
-```sh
-&gt;&gt;&gt; x
-&gt;&gt;&gt; z
-#&gt; '88'
-```
+To be more explicit, and to print in any context,
+we can use the function `print()`:
 
-To be more explicit, and to print in any context, we can use the function
-`print()`:
-
-```sh
-&gt;&gt;&gt; print(x)
-&gt;&gt;&gt; print(z)
+```py
+print(x)
 #&gt; 2
+print(z)
 #&gt; '88'
 ```
 ]
@@ -678,109 +692,117 @@ To be more explicit, and to print in any context, we can use the function
     
 --
 
-- Let's call a method &amp;mdash; here, we'll try `find()`,
+- Let's call our first method &amp;mdash; we'll try `find()`,
   which prints the position of the first occurrence of a substring:
   
-  ```sh
-  &gt;&gt;&gt; astring.find("C")
+  ```py
+  astring = "ATGCATG"
+  astring.find("C")
   #&gt; 3
   ```
 
 ---
 
-## Getting help in Python / Jupyter
+## Getting help
 
-.content-box-info[
-- To see which methods are associated with a string,
-  type a dot `.` after an object name, and press &lt;kbd&gt;Tab&lt;/kbd&gt;:
+- To see which methods are associated with any object,
+  type its name followed by a period `.` and a list of available methods will
+  appear. For instance, for our string `astring`, type:
   
-  ```sh
-  &gt;&gt;&gt; astring = "ATGCATG"
-  &gt;&gt;&gt; astring.      # Press Tab
-  ```
-
-- To get help about methods/objects/etc, press Shift-tab:
-  ```sh
-  &gt;&gt;&gt; astring.     # Press Shift-tab for help on strings
-  &gt;&gt;&gt; astring.find # Press Shift-tab for help on find
-  
-  # Or:
-  &gt;&gt;&gt; help(astring.find)
-  &gt;&gt;&gt; ?astring.find
-  &gt;&gt;&gt; ?astring
+  ```py
+  astring.
   ```
   
-  On the internet, &lt;https://docs.python.org&gt; should be your go-to source.
-]
+  &lt;figure&gt;
+  &lt;p align="center"&gt;
+  &lt;img src=img/show-methods.png width="75%"&gt;
+  &lt;/p&gt;
+  &lt;/figure&gt;
+  
+---
+
+## Getting help (cont.)
+
+- To get help about methods/objects, you can use:
+
+  ```py  
+  # Help for a method:
+  astring.find?   # or "?astring.find" or "help(atring.find)"
+  
+  # Help for an object, given its type:
+  astring?        # or ?astring
+  ```
+
+  &lt;figure&gt;
+  &lt;p align="center"&gt;
+  &lt;img src=img/method-doc.png width="85%"&gt;
+  &lt;/p&gt;
+  &lt;/figure&gt;
+
+&lt;br&gt;
+
+- On the internet, &lt;https://docs.python.org&gt; should be your go-to source
+  besides Google.
 
 ---
 
 ## *Methods* versus (generic) *functions*
 
+.content-box-info[
 - Call the function `print()` on a string:
 
-  ```sh
-  &gt;&gt;&gt; s = "ATGC"
+  ```py
+  # astring = "ATGCATG"
   
-  &gt;&gt;&gt; print(s)
-  #&gt; ATGC
+  print(astring)
+  #&gt; ATGCATG
   ```
 
 - Calling the method "print" returns an error message
   that tells us that strings have no method called `print`:
 
-  ```sh
-  &gt;&gt;&gt; s.print()
+  ```py
+  astring.print()
   #&gt; ----------------------------------------------------------
   #&gt; AttributeError: ' str ' object has no attribute ' print '
   ```
 
---
+- **Comparing the syntax for generic functions and methods:**
 
-.content-box-info[
-**Comparing the syntax for generic functions and methods:**
-
-```sh
-function_name(object, other_argument)
-
-object.method_name(argument)
-```
+  ```py
+  function_name(object, other_argument)
+  
+  object.method_name(argument)
+  ```
 ]
 
 ---
 
 ## More methods for strings
 
-- `.replace()` to replace substrings:
-  
-  ```sh
-  # astring = "ATGCATG"
-  
-  &gt;&gt;&gt; astring.replace("T", "U")
-  #&gt; 'AUGCAUG'
-  ```
-
 - `count()` to count occurrences of substrings:
 
-  ```sh
-  &gt;&gt;&gt; astring.count("G")
+  ```py
+  astring.count("G")
   #&gt; 2
+  ```
+
+&lt;br&gt;
+
+- `.replace()` to replace substrings:
+  
+  ```py
+  # astring = "ATGCATG"
+  
+  astring.replace("T", "U")
+  #&gt; 'AUGCAUG'
   ```
 
 --
 
-- `.split()` will split a string into components, using spaces by default:
-
-  ```sh
-  &gt;&gt;&gt; newstring = " Mus musculus "
-  
-  &gt;&gt;&gt; newstring.split()
-  #&gt; ['Mus', 'musculus']
-  
-  # Specify the character by which to split:
-  &gt;&gt;&gt; newstring.split("u")
-  #&gt; ['M', 's m', 'sc', 'l', 's']
-  ```
+.content-box-q[
+Has `astring` been modified by our `astring.replace()` call?
+]
 
 ---
 
@@ -788,16 +810,27 @@ object.method_name(argument)
 
 - `.strip()` to remove, by default, leading and trailing white space:
 
-  ```sh
-  # newstring = " Mus musculus "
+  ```py
+  newstring = " Mus musculus "  # Note the spaces before and after
   
-  &gt;&gt;&gt; newstring.strip()
+  newstring.strip()
   #&gt; 'Mus musculus'
   ```
+  
+&lt;br&gt;
 
-- `.index()` &amp;ndash; returns the position of a substring like `.find()`,
-  but will raise an error if the substring is not found
-  (`.find()` will return a value of `-1`).
+- `.split()` will split a string into components, using spaces by default:
+
+  ```py
+  newstring.split()
+  #&gt; ['Mus', 'musculus']
+  
+  # Specify the character by which to split:
+  newstring.split("u")
+  #&gt; ['M', 's m', 'sc', 'l', 's']
+  ```
+
+&lt;br&gt;
 
 ---
 
@@ -806,13 +839,13 @@ object.method_name(argument)
 - You can even use string methods without first assigning the string to a
   variable:
   
-  ```sh
+  ```py
   # Make uppercase with `.upper()`:
-  &gt;&gt;&gt; "atgc".upper()
+  "atgc".upper()
   #&gt;'ATGC'
   
   # Make lowercase with `.lower()`:
-  &gt;&gt;&gt; "TGCA".lower()
+  "TGCA".lower()
   #&gt; 'tgca'
   ```
 
@@ -823,10 +856,10 @@ object.method_name(argument)
 - And you can **combine multiple methods** in a single call
   by chaining them together like so:
 
-  ```sh
+  ```py
   # astring = "ATGCATG"
   
-  &gt;&gt;&gt; astring.replace("T", "U").count("U")
+  astring.replace("T", "U").count("U")
   #&gt; 2
   ```
   
@@ -834,13 +867,13 @@ object.method_name(argument)
 
 ## Concatenating strings
 
-- We can concatenate string with the `+` sign:
+- As we saw earlier, we can concatenate strings with the `+` sign:
 
-  ```sh
-  &gt;&gt;&gt; genus = "Rattus"
-  &gt;&gt;&gt; species = "norvegicus"
+  ```py
+  genus = "Rattus"
+  species = "norvegicus"
   
-  &gt;&gt;&gt; genus + " " + species    # Separate with a space
+  genus + " " + species    # Separate with a space
   #&gt; 'Rattus norvegicus'   
   ```
 
@@ -849,14 +882,14 @@ object.method_name(argument)
 - But this is a slow way of concatenating &amp;ndash;
   the `.join()` method is better:
 
-  ```sh
+  ```py
   # join requires a list of strings as input:
-  &gt;&gt;&gt; human = ["Homo", "sapiens"]
-  &gt;&gt;&gt; " ".join(human)
+  human = ["Homo", "sapiens"]
+  " ".join(human)
   #&gt; 'Homo sapiens'
   
   # You can specify any symbol as a delimiter:
-  &gt;&gt;&gt; "-&gt;".join(["one", "leads", "2", "the", "other"])
+  "-&gt;".join(["one", "leads", "2", "the", "other"])
   #&gt; 'one-&gt;leads-&gt;2-&gt;the-&gt;other'
   ```
   
@@ -866,15 +899,15 @@ object.method_name(argument)
 
 - Different object types have different methods:
 
-  ```sh
-  &gt;&gt;&gt; my_int = 8
-  &gt;&gt;&gt; my_int.               # See methods for integers 
+  ```py
+  my_int = 8
+  my_int.               # See methods for integers 
   
-  &gt;&gt;&gt; my_float = 8.5
-  &gt;&gt;&gt; float.                # See methods for floats
+  my_float = 8.5
+  float.                # See methods for floats
   
-  &gt;&gt;&gt; mystring = "ATGC"
-  &gt;&gt;&gt; my.string.            # See methods for strings
+  mystring = "ATGC"
+  my.string.            # See methods for strings
   ```
 
 ---
@@ -896,26 +929,26 @@ object.method_name(argument)
 
 1. Initialize the string:
 
-  ```sh
-  &gt;&gt;&gt; s = "WHEN on board H.M.S. Beagle, as naturalist"
+  ```py
+  s = "WHEN on board H.M.S. Beagle, as naturalist"
   ```
 
 2. Count the number of occurrences of the character `b`.
 
-  ```sh
-  &gt;&gt;&gt; s.count("b")
+  ```py
+  s.count("b")
   ```
 
 3. Count both lowercase and uppercase `b`'s:
 
-  ```sh
-  &gt;&gt;&gt; s.lower().count("b")
+  ```py
+  s.lower().count("b")
   ```
 
 4. Replace `WHEN` with `When`.
 
-  ```sh
-  &gt;&gt;&gt; s.replace("WHEN","When")
+  ```py
+  s.replace("WHEN","When")
   ```
 
 ---
