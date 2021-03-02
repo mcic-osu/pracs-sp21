@@ -1129,21 +1129,15 @@ container
 
 5\. Define a dictionary:
 
-   ```sh
-   m = "a": ".-", "b": "-...-", "c": "-.-."
-   ```
+<!-- m = "a": ".-", "b": "-...-", "c": "-.-." -->
    
 6\. Add element `d:
 
-   ```sh
-   m["d"] = "-.."
-   ```
+<!-- m["d"] = "-.." -->
    
 7\. Update element `b`:
 
-   ```sh
-   m["b"] = "-..."
-   ```
+<!-- m["b"] = "-..." -->
 
 ---
 class: center middle inverse

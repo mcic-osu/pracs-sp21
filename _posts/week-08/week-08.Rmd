@@ -12,7 +12,7 @@ output:
 
 - [Slides: Introduction to Python](slides/08-1.html) -- Tuesday Zoom (Mar 2)
 
-- Slides: Python data types -- Thursday Zoom (Mar 4) (TBA)
+- [Slides: Python data types](slides/08-2.html) -- Thursday Zoom (Mar 4)
 
 ### Ungraded assignments
 
