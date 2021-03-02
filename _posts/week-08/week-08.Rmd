@@ -16,7 +16,7 @@ output:
 
 ### Ungraded assignments
 
-- Exercises for week 8 (TBA)
+- [Exercises for week 8](../../w07_exercises.html)
 
 ### Resources
 
