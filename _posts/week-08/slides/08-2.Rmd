@@ -416,9 +416,6 @@ To operate on each element of a list, we can:
   #> 'T'
   ```
 
-  (If you provide `.pop()` with an argument, it will remove the element at
-  that index position, e.g `pop(2)` removes the 3rd element.)
-  
 ---
 
 ## List methods (cont.)
@@ -716,7 +713,7 @@ they cannot be sorted, and the order of the elements can vary stochastically.
   ```sh
   GS = GenomeSize.copy()  # Create a copy
   
-  GS.clear()      # Remove all entries
+  GS.clear()              # Remove all entries
   GS
   #> {}
   ```
