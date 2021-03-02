@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/02 (updated: 2021-02-28)
+### 2021/03/02 (updated: 2021-03-02)
 
 ---
 
@@ -36,6 +36,12 @@ Today, we will set up VS Code for Python and work our way through CSB chapter
 3.1-3.4 to get started with Python.
 
 Thursday will focus on section 3.4: Python data structures.
+
+&lt;br&gt;
+
+.content-box-info[
+The GitHub website has a [list of useful Python resources](https://mcic-osu.github.io/pracs-sp21/w08_python-resources.html).
+]
 
 ---
 class: inverse middle center
@@ -101,7 +107,18 @@ name: python
 
 ---
 
-## Perl versus Python &lt;br&gt; to calculate the average of a series of numbers
+## Python versus Perl custom function &lt;br&gt; to calculate the average of a series of numbers
+
+- Python:
+
+  ```python
+  def avg(data):
+      if len(data) == 0:
+        return 0
+      else:
+        return sum(data) / len(data)
+  print(avg([1,2,3,4,5]))
+  ```
 
 - Perl:
 
@@ -113,18 +130,7 @@ name: python
   }
   print avg((1..5))."\n";
   ```
-
-- Python:
-
-  ```python
-  def avg(data):
-  if len(data) == 0:
-      return 0
-  else:
-      return sum(data) / len(data)
-  print(avg([1,2,3,4,5]))
-  ```
-
+  
 ---
 
 ## Why Python?
@@ -226,7 +232,7 @@ For instance, it is:
 
 .content-box-diy[
 I would recommend to start following along in VS Code,
-but if you're not a fan, feel free to explore other environments
+but if you're not a fan, feel free to explore other environments &amp;ndash;
 and even within the course you should be able to switch to another one.
 ]
 
@@ -410,7 +416,7 @@ by Python and generally functions as a "comment".
 - And triple quotes are useful if your string contains both single and double quotes:  
   
   ```py
-  """The tree ' s height is 6 ' 2"."""
+  """The tree's height is 6'2"."""
   #&gt; 'The tree\'s height is 6\'2".'
   ```
 
@@ -423,7 +429,7 @@ we are familiar with the process of assigning variables (also known as
 "declaring variables") and then using them.  
 
 - This works the same in Python, but when recalling a variable,
-  we don't need any special syntax (like `$` in bash):
+  we don't need any special syntax (like `$` in Bash):
 
   ```py
   x = 5
@@ -433,7 +439,7 @@ we are familiar with the process of assigning variables (also known as
 
 --
 
-- Like in bash, we can use variables to perform further calculations --
+- Like in Bash, we can use variables to perform further calculations &amp;ndash;  
   they will simply be replaced by whatever value they hold:
   
   ```py
@@ -471,20 +477,18 @@ Python is not sensitive to spaces around the `=` for assignment.
 
 --
 
-&lt;br&gt;
-
 .content-box-info[
 This behavior of "unlinked variables" may be very intuitive or expected &amp;ndash;
 but in Python, this is only true for *immutable* objects!
 
-We will see an examples *mutable* objects on Thursday, such as *lists*.
+We will see examples of *mutable* objects on Thursday, such as *lists*.
 ]
 
 ---
 
 ## Variable types
 
-- Unlike in bash, variables in Python have *types*, such as:
+- Unlike in Bash, variables in Python have *types*, such as:
   
   - `int` &amp;ndash; Integer (whole number)
   
@@ -517,7 +521,8 @@ We will see an examples *mutable* objects on Thursday, such as *lists*.
 
 - We can combine variables of the same type using operators like `+` and `*`.
   We already saw this for numbers, but we can do the same for string:
-  Assign a string, and concatenate strings with `+`:
+  
+- Assign a string, and concatenate strings with `+`:
 
   ```py
   x = "The cell grew"
@@ -531,10 +536,8 @@ We will see an examples *mutable* objects on Thursday, such as *lists*.
 - This doesn't work with variables of different types:
 
   ```py
-  y
-  #&gt; 8
-  x
-  #&gt; "The cell grew"
+  # x = "The cell grew"
+  # y = 15
   
   x + y
   #&gt; ---------------------------------------------
@@ -553,7 +556,7 @@ We will see an examples *mutable* objects on Thursday, such as *lists*.
   
   ```py
   # x = "The cell grew"
-  # y = 8
+  # y = 15
 
   x + " " + str(y) + " nm"
   #&gt; 'The cell grew 8 nm'
@@ -564,26 +567,18 @@ We will see an examples *mutable* objects on Thursday, such as *lists*.
 - To an integer with `int()`:
 
   ```py
+  z = "81"
   y + int(z)
   #&gt; 96
   ```
 
-- And to a floating point number and a Boolean with `float()` and `bool()`,
-  respectively.
+- And conversion to a floating point number or a Boolean is done with `float()`   and `bool()`, respectively.
   
----
-
-## Variable types (cont.)
-
-- Note that quotes always denote strings,
-  so numbers in quotes are interpreted as strings:
+.content-box-info[
+Note that quotes always denote strings,
+so numbers in quotes, like `z` above, are interpreted as strings.
+]
   
-  ```py
-  z = "88"
-  x + z
-  #&gt; 'The cell grew88'
-  ```
-
 ---
 
 ## Naming Python variables
@@ -625,20 +620,19 @@ has a nice feature at the top of the window:
 
 ## Built-in functions
 
-- In the previous slide, we saw several examples of *functions*,  
-  which are called using parentheses:
+- In the previous slides, we saw several examples of *functions*,
+  like `str()`, which are called using parentheses:
   
   ```py
   # With no arguments specified:
   function_name()
-  
   # With arguments specified:
   function_name(function_argument1, function_argument2)
   ```
 
 --
 
-- For example, we can use `len()` to get the length of (e.g.) a string:
+- Another example is `len()`, which gets the length of (e.g.) a string:
 
   ```py
   s = "a long string"
@@ -648,8 +642,8 @@ has a nice feature at the top of the window:
 
 --
 
-- Or `round()` to round a number, with an optional number of decimals to round
-  to (the default is 0):
+- Or `round()`, to round a number,
+  with an optional number of decimals to round to (the default is 0):
 
   ```py
   round(3.14159)
@@ -687,10 +681,15 @@ print(z)
   
   - The values/data assigned to them, _and_
   
-  - A type of functions specifically associated with the object type.
+  - A type of functions specifically associated with the object type.  
     These are called **"methods"**.
+  
+  - Methods are used with syntax `&lt;object_name&gt;.&lt;method_name&gt;()`
+    instead of `&lt;method_name&gt;(object_name)`.
     
 --
+
+&lt;br&gt;
 
 - Let's call our first method &amp;mdash; we'll try `find()`,
   which prints the position of the first occurrence of a substring:
@@ -766,15 +765,6 @@ print(z)
   #&gt; ----------------------------------------------------------
   #&gt; AttributeError: ' str ' object has no attribute ' print '
   ```
-
-- **Comparing the syntax for generic functions and methods:**
-
-  ```py
-  function_name(object, other_argument)
-  
-  object.method_name(argument)
-  ```
-]
 
 ---
 
@@ -948,7 +938,7 @@ Has `astring` been modified by our `astring.replace()` call?
 4. Replace `WHEN` with `When`.
 
   ```py
-  s.replace("WHEN","When")
+  s.replace("WHEN", "When")
   ```
 
 ---

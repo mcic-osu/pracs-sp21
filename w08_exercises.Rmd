@@ -211,27 +211,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
     </details>
 
-9.  Print `The adapter sequence is: CTTATGGAAT` -- do so by referencing the variable `adapter` rather than typing the letters out.\
-
-    <details>
-
-    <summary>Hints</summary>\
-    Use the `print()` function.
-
-    </details>
-
-    <details>
-
-    <summary>Solution</summary>\
-    Make sure you don't include `adapter` between quotes so that it is not seen as a literal string; and note that you can separate these entries by a comma `,`:
-
-    ```{python}
-    print("The adapter sequence is:", adapter)
-    ```
-
-    </details>
-
-10. Split the sequence by `GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN` by `N`s.\
+9. Split the sequence by `GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN` by `N`s.\
 
     <details>
     
