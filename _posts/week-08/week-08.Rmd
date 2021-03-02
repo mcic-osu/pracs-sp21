@@ -10,13 +10,13 @@ output:
 
 ### Slides
 
-- [Slides: Introduction to Python](slides/08-1.html) -- Tuesday Zoom (Mar 2) (TBA)
+- [Slides: Introduction to Python](slides/08-1.html) -- Tuesday Zoom (Mar 2)
 
 - Slides: Python data types -- Thursday Zoom (Mar 4) (TBA)
 
 ### Ungraded assignments
 
-- [Exercises for week 8](../../w07_exercises.html)
+- [Exercises for week 8](../../w08_exercises.html)
 
 ### Resources
 
