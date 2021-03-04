@@ -518,6 +518,35 @@ We will see examples of *mutable* objects on Thursday, such as *lists*.
 
 ---
 
+## Setup for Thursday
+
+- In the command palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>),
+  start typing "interpreter" and then select
+  **`Python: Select Interpreter to Start Jupyter Server`**.
+  
+- Find the Conda environment you created on Tuesday
+  (should be: `Python 3.9.2 64-bit (ipy-env: conda)`) and click on it.
+
+- In the narrow bar all the way at the bottom,
+  there should now be a Python environment specification.
+  
+  If it is not the one you selected above, but e.g. `Python 3.6.8 64-bit`,
+  click on that, and *again select the Python 3.9.2 Conda environment*.
+  
+- Open the command palette again (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>),
+  type "interactive", and select **`Python: Show Python Interactive Window`**.
+  
+.content-box-info[
+Is this doesn't work, we can troubleshoot after class again &ndash;
+for now, open a terminal in VS Code and start a regular Python prompt with:
+
+```sh
+$ python3
+```
+]
+
+---
+
 ## Variable types (cont.)
 
 - We can combine variables of the same type using operators like `+` and `*`.
