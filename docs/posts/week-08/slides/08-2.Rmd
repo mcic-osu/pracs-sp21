@@ -15,7 +15,7 @@ class:inverse middle center
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 
-knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(eval = TRUE)
 ```
 
 # *Week 8 - First steps with Python*
@@ -43,7 +43,6 @@ class: inverse middle center
 - ### [Sets](#sets)
 ]
 
-
 ---
 class: center middle inverse
 name: lists
@@ -65,25 +64,26 @@ and with individual items (elements) separated by commas.
   
 - Two ways to create an empty list:
 
-  ```sh
-  new_list = [] # create an empty list
+  ```python
+  new_list = []
+  
   another_list = list()
   ```
 
 - Create a list with values &ndash; note that they don't have to be of the
   same type:
   
-  ```sh
+  ```python
   first_list = ["a", "e", "g"]
   second_list = [45, 33, 99]
-  my_list = [3, 2.44, "green", True]
+  third_list = [3, 2.44, "green", True]
   ```
   
 --
 
 - We can also convert other object types, such as a string, into a list:
   
-  ```sh
+  ```python
   a = list("0123456789")
   a
   #> ['0' ,'1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -96,11 +96,11 @@ and with individual items (elements) separated by commas.
 - We can access items within a list by indicating position(s)
   within square brackets. For instance:
 
-  ```sh
-  # my_list = [3, 2.44, "green", True]
+  ```python
+  # my_list = ['a', 'b', 'c', 'd', 'e']
   
   my_list[1]
-  #> 2.44
+  #> 'b'
   ```
 
   But this returns the *second* item!
@@ -110,9 +110,9 @@ and with individual items (elements) separated by commas.
 - **Python starts counting at 0**,
   so the first element corresponds to index 0:
 
-  ```sh
+  ```python
   my_list[0]
-  #> 3
+  #> 'a'
   ```
 
 ---
@@ -122,21 +122,51 @@ and with individual items (elements) separated by commas.
 - Moreover, when using *ranges*, such as with a colon `:`,  
   **the item corresponding to the last index is not included:**
 
-  ```sh
-  # my_list = [3, 2.44, "green", True]
+  ```python
+  # my_list = ['a', 'b', 'c', 'd', 'e']
   
   my_list[0:3]    # Elements 1, 2 and 3
-  #> [3, 2.44, "green"]
+  #> ['a', 'b', 'c']
   
   my_list[1:3]    # Elements 2 and 3
-  #> [2.44, "green"]
-  
-  my_list[0:1]    # Only the first element
-  # [3]           # Note: a 1-element list is returned
-                    # (my_list[0] returns a character)
+  #> ['b', 'c']
   ```
 
-## Include fig from other book
+--
+
+- Therefore, a range of two successive indices returns a single-item list:
+  
+  ```python
+  my_list[0:1]    # First item in single-element list
+  # ['a']           
+  
+  my_list[0]      # First item as a "str"
+  #> 'a'
+  ```
+
+---
+
+## Zero-indexing with half-open intervals
+
+<br>
+
+<figure>
+<p align="center">
+<img src=img/indexing1.svg width="100%">
+</p>
+</figure>
+
+---
+
+## Zero-indexing with half-open intervals
+
+<br>
+
+<figure>
+<p align="center">
+<img src=img/indexing2.svg width="100%">
+</p>
+</figure>
 
 ---
 
@@ -146,39 +176,26 @@ and with individual items (elements) separated by commas.
   as we did in the previous slide,
   numbers on either side of the colon are optional:
 
-  ```sh
+  ```python
   # my_list = [3, 2.44, "green", True]
   
-  my_list[:3]      # From the start until element 3 (noninclusive)
+  # From the first element until element 3 (noninclusive):
+  my_list[:3]      
   #> ['blue', 2.44, 'green']
   
-  my_list[3:]      # From element 3 to the end
+  # From element 3 to the last element:
+  my_list[3:]      
   #> [True]
-  
-  my_list[:]       # Take the whole list
+  ```
+
+--
+
+- As it stands to reason, we can therefore return the whole list with `[:]`:
+
+  ```python
+  my_list[:]
   #> ['blue', 2.44, 'green', True]
   ```
-
----
-
-## Indexing with two colons
-
-- When using two colons, the *third element is the direction and stride*:
-
-  ```sh
-  # my_list = [3, 2.44, "green", True]
-  
-  my_list[:3:1]    # This is the default: positive stride of one
-  #> ['blue', 2.44, 'green']
-  
-  my_list[::2]     # Take every second element: here, 1st and 3rd
-  #> [3, 'green']
-  
-  my_list[::-1]    # Go backward with stride 1 and take whole list
-  #> [True, 'green', 2.44, 3]                
-  ```
-  
-  *(The last example, then, reverses the list.)*
 
 ---
 
@@ -186,7 +203,7 @@ and with individual items (elements) separated by commas.
 
 - You can use *negative numbers* to index starting from the end:
 
-  ```sh
+  ```python
   # my_list = [3, 2.44, "green", True]
   
   my_list[-1]     # Last element
@@ -194,30 +211,83 @@ and with individual items (elements) separated by commas.
   
   my_list[-2]     # Second-to-last element
   #> 'green'
-  
+  ```
+
+- And this works with ranges as well - the default direction is still positive:
+
+  ```python
   my_list[-3:-1]  # Third-to-last to last element (noninclusive)
   #> [2.44, 'green']
   ```
 
-<br>
+---
 
---
+## Indexing with negative numbers
 
-.content-box-info[
-With negative numbers:
-- `-1` is the last element, not `-0`.
-- The default direction of the range is still positive (forward).
-]
+<figure>
+<p align="center">
+<img src=img/indexing3.svg width="100%">
+</p>
+</figure>
 
 ---
 
-## Double indexing and membership test
+## Indexing with negative numbers
 
-```sh
->>> seqlist = ['AACGT', 'GTATAG', 'CTCTA']
->>> seqlist[1][3]
-#> T
-```
+<figure>
+<p align="center">
+<img src=img/indexing4.svg width="100%">
+</p>
+</figure>
+
+---
+
+## Indexing with two colons
+
+When using **two colons**, the third element is the direction and stride.
+
+- The default stride is `1` (positive 1):
+
+  ```python
+  # my_list = [3, 2.44, "green", True]
+  
+  my_list[:3:1]
+  #> ['blue', 2.44, 'green']
+  ```
+
+- We can take every second element with a stride of `2`:  
+  
+  ```python
+  my_list[::2]
+  #> [3, 'green']
+  ```
+
+- And we can reverse the list with a stride of `-1`:
+
+  ```python
+  my_list[::-1]    # Go backward with stride 1 and take whole list
+  #> [True, 'green', 2.44, 3]                
+  ```
+
+---
+
+## Chaining indexing
+
+- Since we can also index strings:
+
+  ```python
+  seq = 'GTACAG'
+  seq[3]
+  #> C
+  ```
+
+- ...we can use index chaining to, for example, index a string inside a list:
+
+  ```python
+  seqlist = ['AACGT', 'GTACAG', 'CTCTA']
+  seqlist[1][3]
+  #> C
+  ```
 
 ---
 
@@ -227,7 +297,7 @@ With negative numbers:
   direction (to:from) and the *explicit* direction (stride),
   an empty list is returned:
 
-  ```sh
+  ```python
   my_list[-1:-3]    # With no stride indicated, it defaults to 1
   #> []
   ```
@@ -237,7 +307,7 @@ With negative numbers:
 - When your indexing range reaches beyond the last element,
   everything until the last element will simply be returned:
   
-  ```sh
+  ```python
   my_list[0:10]
   #> [3, 2.44, 'green', True]
   ```
@@ -247,7 +317,7 @@ With negative numbers:
 - But when you try to access an individual nonexistent element,  
   you will get an error:
 
-  ```sh
+  ```python
   my_list[4]
   #> ...
   #> IndexError: list index out of range
@@ -259,7 +329,7 @@ With negative numbers:
 
 - Like strings, we can concatenate two lists with `+`:
 
-  ```sh
+  ```python
   # my_list = ['blue', 2.44, 'green', True, 25] 
   
   a + my_list
@@ -270,14 +340,14 @@ With negative numbers:
 
 - We *can't* add individual elements like this:
 
-  ```sh
+  ```python
   a + 1
   #> TypeError: can only concatenate list (not "int") to list
   ```
 
-- But we can add a list on the fly, including a single-element one:
+- But we can add a list that we define on the fly, including a single-element one:
 
-  ```sh
+  ```python
   a + [1]
   #> [132, 42, 5, 2, 1, 1]
   ```
@@ -288,7 +358,7 @@ With negative numbers:
 
 - Using the multiply operator, the list contents will be *repeated* n times:
 
-  ```sh
+  ```python
   a * 2
   #> [132, 42, 5, 2, 1, 132, 42, 5, 2, 1]
   
@@ -299,10 +369,12 @@ With negative numbers:
 
 --
 
+<br>
+
 .content-box-info[
 Like the `+` operator, the `*` operator works equivalently on lists and strings:
 
-```sh
+```python
 my_repeat = "AGAAG"
 my_repeat * 3
 #> 'AGAAGAGAAGAGAAG'
@@ -311,14 +383,19 @@ my_repeat * 3
 
 ---
 
-## Side note: No "vectorization"
+## Side note: No automatic element-wise actions
 
 .content-box-info[
-If you're familiar with R, you'll notice that this behavior differs between
-the languages: Python operations are not *vectorized*.
+As the addition and multiplication of lists above already hinted at,
+Python operations do not by default act element-wise
+(unlike in R, where many operations are *vectorized*).
+
 To operate on each element of a list, we can:
-- Use a loop or a *list comprehension*.
-- Use *arrays* from the NumPy module instead.
+
+- Use a loop (next week), a *list comprehension* (next week),
+  or the `map()` function.
+
+- Use *arrays* from the NumPy module to get R-like behavior.
 ]
 
 ---
@@ -327,7 +404,7 @@ To operate on each element of a list, we can:
 
 - We can *update* an element using index notation:
 
-  ```sh
+  ```python
   my_list[0] = "blue"
   my_list
   #> ['blue', 2.44, 'green', True]
@@ -339,7 +416,7 @@ To operate on each element of a list, we can:
 
 - `append` & `extend` &ndash; Append one / multiple element(s) to the end of the list:
 
-  ```sh
+  ```python
   my_list.append(25)          # append: single item
   my_list
   # ['blue', 2.44, 'green', True, 25]
@@ -353,27 +430,27 @@ To operate on each element of a list, we can:
 
 ## List methods (cont.)
 
-- To delete one or more elements *by index*, use the *function* `del`:
+- To delete one or more elements *by index*, use the *function* `del()`:
   
-  ```sh
+  ```python
   del(my_list[2:4])        # Delete 3rd and 4th element 
   a
   #> ['blue', 2.44, 25, 'red', 0]
   ```
   
-- To delete one element *by value*, use the method `.remove()`:
+- To delete one element *by value*, use the method `remove()`:
 
-  ```sh
-  >>> my_list.remove('red')
-  >>> my_list
+  ```python
+  my_list.remove('red')
+  my_list
   #> my_list.remove('red')
   ```
   
 --
 
-- `clear` &ndash; Remove all elements from the list:
+- To remove all elements from the list, use the method `clear()`:
 
-  ```sh
+  ```python
   my_list.clear()
   my_list
   #> []
@@ -383,12 +460,15 @@ To operate on each element of a list, we can:
 
 ## List methods (cont.)
 
-- `count` &ndash; Count occurrences of a certain element in the list:
-
-  ```sh
-  seq = list("TKAAVVNFT")
-  seq
-  #> ['T', 'K', 'A', 'A', 'V', 'V', 'N', 'F', 'T']
+```python
+seq = list("TKAAVVNFT")
+seq
+#> ['T', 'K', 'A', 'A', 'V', 'V', 'N', 'F', 'T']
+```
+  
+- `count` &ndash; Count occurrences of a certain item in the list:
+  
+  ```python
   seq.count("V")
   #> 2
   ```
@@ -396,23 +476,22 @@ To operate on each element of a list, we can:
 --
 
 - `index` &ndash; Return the index corresponding to first occurrence of an
-  element:
+  item:
 
-  ```sh
+  ```python
   seq.index("V")
   4
   ```
 
 --
 
-- `pop` &ndash; Remove the last element of the list and return it:
+- `pop` &ndash; Remove the last item in the list and return it:
 
-  ```sh
-  seq2 = seq.pop()
-  
+  ```python
+  seq_last = seq.pop()
   seq
   #> ['T', 'K', 'A' , 'A' , 'V', 'V' ,'N', 'F']
-  seq2
+  seq_last
   #> 'T'
   ```
 
@@ -422,7 +501,7 @@ To operate on each element of a list, we can:
 
 - `sort` &ndash; Sort the elements *in place*:
 
-  ```sh
+  ```python
   my_list.sort()
   my_list
   #> [1, 2, 5, 14, 42, 132]
@@ -432,7 +511,7 @@ To operate on each element of a list, we can:
 
 - `sorted` function &ndash; Return a sorted list:
 
-  ```sh
+  ```python
   my_list = [1, 5, 2, 42, 14, 132]
   sorted_list = sorted(my_list)
   
@@ -446,7 +525,7 @@ To operate on each element of a list, we can:
 
 - `reverse` &ndash; Reverse the order of the elements:
 
-  ```sh
+  ```python
   my_list.reverse()
   my_list
   #> [132, 42, 14, 5, 2, 1]
@@ -459,14 +538,11 @@ To operate on each element of a list, we can:
 We've seen that many of the methods in the previous slides modify lists
 *in place*, which is something you may not be used to.
 
-```sh
-my_list
-#> [132, 42, 14, 5, 2, 1]
-
+```python
 reversed_list_maybe = my_list.reverse()
 
-print(reversed_list_maybe)
-#> None
+reversed_list_maybe
+#>
 
 my_list
 #> [1, 2, 5, 14, 42, 132]
@@ -479,14 +555,14 @@ my_list
 Also of note is that when we assign an existing list to a new name,  
 this will *not* create a new list in the way we saw with simple variables.
 
-```sh
+```python
 list_b = my_list
 ```
 
 Instead, both names (`list_b` and `a`) now are separate pointers to the *same*
 list &ndash; if we modify one, the other will also change:
 
-```sh
+```python
 list_b = list_b.append("Exclusive to list b?")
 
 my_list
@@ -498,9 +574,9 @@ my_list
 <br>
 
 .content-box-info[
-Python has this type of behavior for all mutable data types.
+Python exhibits this type of behavior for all mutable data types.
 
-To break this linkage, we need to explicitly create a copy of the list
+To break this "linkage", we need to explicitly create a copy of the list
 (next slide).
 ]
 
@@ -509,37 +585,36 @@ To break this linkage, we need to explicitly create a copy of the list
 ## Strings versus lists
 
 - Because strings are immutable, assigning a new variable name will always create
-  an entirely new, unlinked variable &ndash; recall Tuesday's example:
+  an entirely new, unlinked variable &ndash; recall from Tuesday:
 
-  ```sh
-  >>> x = 5
-  >>> y = x
-  >>> y = y + 10
-  >>> y
+  ```python
+  x = 5
+  y = x
+  y = y + 10
+  y
   #> 15
-  >>> x
+  x
   #> 5
   ```
 
 --
 
-- One thing we didn't yet see is that *strings can be indexed* like lists:
+- We saw earlier that strings can be indexed like lists:
 
-  ```sh
-  >>> seq = "ATGCATG"
-  >>> seq[2]
+  ```python
+  seq = "ATGCATG"
+  seq[2]
   #> 'T'
   ```
 
 --
 
-- But because they are immutable, *we can't change a value*:
+- So can we use this for assignment too? No, because strings are immutable unlike lists.
 
-  ```sh
-  >>> seq[2] = U
+  ```python
+  seq[2] = "U"
   #> TypeError: 'str' object does not support item assignment
   ```
-
 
 ---
 
@@ -547,7 +622,7 @@ To break this linkage, we need to explicitly create a copy of the list
 
 - `copy` &ndash; Create a copy of the list:
 
-  ```sh
+  ```python
   import copy
   new_list = my_list.copy()
   new_list
@@ -556,7 +631,7 @@ To break this linkage, we need to explicitly create a copy of the list
 
 - Or use `[:]` notation:
 
-  ```sh
+  ```python
   another_list = my_list[:] 
   ```
 
@@ -564,7 +639,7 @@ To break this linkage, we need to explicitly create a copy of the list
 
 - Now, these lists can be modified independently:
 
-  ```sh
+  ```python
   new_list.clear()
   my_list
   #> [1, 2, 5, 14, 42, 132]
@@ -591,14 +666,16 @@ name: dicts
 Dictionaries are like *unordered* lists in which the elements (**values**)
 are indexed by **keys**.
 
-- Create a dictionary using the `dict()` function, or curly braces:
+- Create an empty dictionary using curly braces or the `dict()` function:
 
-  ```sh
+  ```python
   empty_dict_1 = {}
   empty_dict_2 = dict()
   ```
-  
-  ```sh
+
+- And one with items using `key: value` notation inside curly braces:
+
+  ```python
   GenomeSize = {"Homo sapiens": 3200.0,
                   "Escherichia coli": 4.6,
                   "Arabidopsis thaliana": 157.0}
@@ -612,19 +689,19 @@ are indexed by **keys**.
 
 - Values of dictionaries can also be lists:
 
-  ```sh
+  ```python
   my_dict = {"a": "test",
-               "b": 3.14,
-               "c": [1, 2, 3, 4]}
+               "b": [1, 2, 3, 4]}
   ```
 
 ---
 
 ## Dictionaries are unordered
 
-- The order of the keys does not matter, and is not retained as it was entered:
+- The order of the keys does not matter,
+  and in fact is not retained as it was entered:
   
-  ```sh
+  ```python
   GenomeSize = {"Homo sapiens": 3200.0,
                   "Escherichia coli": 4.6,
                   "Arabidopsis thaliana": 157.0}
@@ -639,34 +716,33 @@ are indexed by **keys**.
 .content-box-info[
 **Unordered versus ordered data structures**  
 Even though lists may or may not be sorted in a systematic way,
-they are always said to be ordered in the sense that the position for each
-element is retained (unless explicitly changed),
-and elements can be reliably accessed by their position using indexing
-(`my_list[5]`).
+they are always said to be ordered in the sense that:
+- The position for each item is retained unless explicitly changed.
+- Items can thus accessed using their position (`my_list[5]`).
 
 This is not true for (default) dictionaries:
-they cannot be sorted, and the order of the elements can vary stochastically.
+they cannot be sorted, and the order of the items varies stochastically.
 ]
 
 ---
 
 ## Dictionaries are unordered (cont.)
 
-- Values are therefore recalled not by an index,
-  but by the name of their corresponding key:
+- In dictionaries, values are therefore recalled not with an index,
+  but with the name of their corresponding key:
   
-  ```sh
+  ```python
   GenomeSize["Arabidopsis thaliana"]
   #> 157.0
   ```
 
 ---
 
-## Dictionaries
+## Dictionaries (cont.)
 
 - New values can be added simply by assigning a new key:
 
-  ```sh
+  ```python
   GenomeSize["Saccharomyces cerevisiae"] = 12.1
   GenomeSize
   #> {' Arabidopsis thaliana': 157.0,
@@ -679,15 +755,15 @@ they cannot be sorted, and the order of the elements can vary stochastically.
 
 - If the key-value pair already existed, nothing happens:
 
-  ```sh
-  GenomeSize["Escherichia coli"] = 4.6  # Will remain identical
+  ```python
+  GenomeSize["Escherichia coli"] = 4.6
   ```
 
 --
 
 - But the old value will be overwritten if the new one is different:
   
-  ```sh
+  ```python
   GenomeSize["Homo sapiens"] = 3201.1
   GenomeSize
   #> {'Arabidopsis thaliana': 157.0,
@@ -700,9 +776,9 @@ they cannot be sorted, and the order of the elements can vary stochastically.
 
 ## Functions and methods for dictionaries
 
-- As with lists, elements can be deleted with the `del()` function:
+- As with lists, items can be deleted with the `del()` function:
 
-  ```sh
+  ```python
   del(GenomeSize['Homo sapiens'])
   ```
 
@@ -710,7 +786,7 @@ they cannot be sorted, and the order of the elements can vary stochastically.
 
 - Also like lists, dictionaries have `.copy()` and `.clear()` methods:
 
-  ```sh
+  ```python
   GS = GenomeSize.copy()  # Create a copy
   
   GS.clear()              # Remove all entries
@@ -722,7 +798,7 @@ they cannot be sorted, and the order of the elements can vary stochastically.
 
 - `.pop()` removes the specified key and returns the corresponding value:
 
-  ```sh
+  ```python
   GenomeSize.pop("Escherichia coli")
   #> 4.6
   
@@ -735,29 +811,31 @@ they cannot be sorted, and the order of the elements can vary stochastically.
 
 ## Functions and methods for dictionaries
 
-- `.keys()`, `.values()` create list-like objects from the keys and values:
+- The methods `keys()` and `values()` create list-like objects from the keys
+  and values:
   
-  ```sh
+  ```python
   GenomeSize.keys()
-  #> dict_keys(['Homo sapiens', 'Escherichia coli',
-  #> 'Arabidopsis thaliana' , 'Saccharomyces cerevisiae'])
+  #> dict_keys(['Arabidopsis thaliana', 'Saccharomyces cerevisiae'])
   
   GenomeSize.values()
-  #> dict_values([3201.1, 4.6, 157.0, 12.1])
+  #> dict_values([157.0, 12.1])
   ```
 
-- `.items()` returns each item, i.e. each key-value pair:
+- And similarly `items()` returns each full item, i.e. each key-value pair:
 
-  ```sh
-  >>> GenomeSize.items()
-  #> ...
+  ```python
+  GenomeSize.items()
+  #> dict_items([('Arabidopsis thaliana', 157.0), ('Saccharomyces cerevisiae', 12.1)])
   ```
   
---
+---
+
+## Functions and methods for dictionaries (cont.)
 
 - We can merge two dictionaries using `.update()`:
 
-  ```sh
+  ```python
   D1 = {"a": 1, "b": 2, "c": 3}
   D2 = {"a": 2, "d": 4, "e": 5}
   
@@ -779,7 +857,7 @@ they cannot be sorted, and the order of the elements can vary stochastically.
   This will make a difference when the key does not exist &ndash;
   and we can even specify a default value with `.get()`:
   
-  ```sh
+  ```python
   GenomeSize["Mus musculus"]
   #> KeyError: 'Mus musculus'
   
@@ -798,7 +876,7 @@ but `.get()` actually returned `None`,
 Python's keyword to define a null value.  
 We can see this by using the `print()` function:
 
-```sh
+```python
 print(GenomeSize.get("Allium cepa"))
 #> None
 ```
@@ -824,30 +902,35 @@ tuple has been defined.
 
 This behavior provides write-protection, and makes tuples faster than lists.
 
-- Tuples are created using parentheses `()`:
+- Empty tuples are created using parentheses `()` or `tuple()`:
   
-  ```sh
-  empty_tuple_1 = tuple()
-  empty_tuple_2 = ()
-  
+  ```python
+  empty_tuple_1 = ()
+  empty_tuple_2 = tuple()
+  ```
+
+- And tuples with items are created using parentheses,
+  with a trailing comma being needed when createing a single-item tuple:
+
+  ```python
   my_tuple = (1, "two", 3)
   single_element_tuple = (4, )   # Trailing comma needed
   ```
 
---
+---
+
+## Tuples (cont.)
 
 - Tuples can be indexed like lists:
 
-  ```sh
+  ```python
   my_tuple[0]
   #> 1
   ```
 
---
-
 - But when we try to modify a value, we get an error:
 
-  ```sh
+  ```python
   my_tuple[0] = 33
   #> TypeError: ' tuple ' object does not support item assignment
   ```
@@ -858,30 +941,20 @@ This behavior provides write-protection, and makes tuples faster than lists.
 
 Because they can't be modified, tuples only have two methods:
 
-- `.count()` to count the number of occurrences of an element:
+- `count()` to count the number of occurrences of an element:
 
-  ```sh
+  ```python
   tt = (1, 1, 1, 1, 2, 2, 4)
   
   tt.count(1)
   #> 4
   ```
 
-- `.index()` to return the index of the first occurrence of an element:
+- `index()` to return the index of the first occurrence of an element:
  
-  ```sh
+  ```python
   tt.index(2) 
   #> 4
-  ```
-
-<br>
-
---
-
-Tuples can also be used as keys in a dictionary:
-
-  ```sh
-  D3 = {("trial", 62): 4829}
   ```
 
 ---
@@ -903,23 +976,23 @@ name: sets
 - Sets can be created with curly braces `{}` &mdash; like dictionaries (!),
   but the syntax of the elements will make clear which you mean:
   
-  ```sh
+  ```python
   set1 = {3, 4, 5, 6}
   ```
 
-- However, we can't use just curly braces to create an *empty* set,
-  so that can only be done using `set()`:
+- However, we can't use just curly braces to create an *empty* set &ndash;
+  we can therefore only use `set()` to do so:
   
-  ```sh
+  ```python
   empty_set = set()
   ```
 
 --
 
-- In practice, it is common to create a set from a list &ndash; it is a way
+- In practice, it is common to create a set from a list &ndash; this is a way
   to quickly *get all unique elements within a list*:
   
-  ```sh
+  ```python
   my_list = [5, 6, 7, 7, 7, 8, 9, 9]
   
   set2 = set(my_list)
@@ -929,19 +1002,7 @@ name: sets
 
 ---
 
-## Methods for sets
-
-```sh
-set2.add(11)
-
-# No effect if you try to add an element that is already in the list:
-```
-
----
-
 ## Intersecting two sets
-
-## Include visual?
 
 We can use logical operators to look for shared and non-shared elements
 between different lists:
@@ -954,7 +1015,7 @@ between different lists:
 
 For example:
 
-```sh
+```python
 #set1 = {3, 4, 5, 6}
 #set2 = {5, 6, 7, 8, 9}
 
@@ -970,12 +1031,22 @@ b ^ c
 
 ---
 
+## Intersecting two sets
+
+<figure>
+<p align="center">
+<img src=img/sets.svg width="75%">
+</p>
+</figure>
+
+---
+
 ## Methods to intersect two sets
 
-- We can do the same operations with the methods `.intersection()`,
-  `.union()`, and `.symmetric_difference()`:
+- We can do the same operations with the methods `intersection()`,
+  `union()`, `symmetric_difference()`, and `difference()`:
   
-  ```sh
+  ```python
   s1 = {1, 2, 3, 4}
   s2 = {4, 5, 6}
   
@@ -987,35 +1058,35 @@ b ^ c
   
   s1.symmetric_difference(s2) # Equivalent to: s1 ^ s2
   #> {1, 2, 3, 5, 6}
+  
+  s1.difference(s2)           # In set 1 but not in set 2
+  #> {1, 2, 3}
+  
+  s2.difference(s1)           # In set 2 but not in set 1
+  #> {5, 6}
   ```
 
 ---
 
 ## Methods to intersect two sets
 
-- Moreover, we can get the *asymmetric* difference between sets:
+We can also test whether sets are *subsets* or *supersets* of each other.
 
-  ```sh
+- Set 1 is a subset of set 2 if if s2 contains all its elements,
+  and optionally others too:
+
+  ```python
   # s1 = {1, 2, 3, 4}
   # s2 = {4, 5, 6}
   
-  s1.difference(s2)    # In set 1 but not in set 2
-  #> {1, 2, 3}
-  
-  s2.difference(s1)    # In set 2 but not in set 1
-  #> {5, 6}
-  ```
-
-- We can also test whether sets are *subsets* or *supersets* of each other:
-
-  ```sh
-  # s1 is a subset of s2 if s2 contains all its elements,
-  # and optionally others too:
   s1.issubset(s2)
   #> False
+  ```
+
+- Set 1 is a superset of set 2 if set 1 contains all the elements in set 2,
+  and optionally others too:
   
-  # s1 is a superset of s2 if s1 contains all the elements in s2,
-  # and optionally others too:
+  ```python
   s1.issuperset(s2)
   #> False
   ```
@@ -1035,7 +1106,7 @@ b ^ c
 
 --
 
-```sh
+```python
 type([1, 2])
 #> list
 
@@ -1053,7 +1124,7 @@ type({1, 2})
 
 ## Creating a convoluted data structure for practice
 
-```sh
+```python
 # A tuple:
 one = (1, 2, "tuple")
 
@@ -1099,26 +1170,26 @@ container
 
 1. Define a list:
   
-   ```sh
+   ```python
    a = [1, 1, 2, 3, 5, 8]
    ```
 
 2. Extract `[5, 8]` in two ways:
    
-   ```sh
+   ```python
    a[4:6]
    a[-2:]
    ```
    
 3. Add the element 13:
 
-   ```sh
+   ```python
    a.append(13)
    ```
 
 4. Reverse the list:
    
-   ```sh
+   ```python
    a.reverse()
    a[::-1]
    ```
@@ -1128,16 +1199,22 @@ container
 ## `r icon::fa("user-edit")` Intermezzo 3.2: Solutions (cont.)
 
 5\. Define a dictionary:
-
-<!-- m = "a": ".-", "b": "-...-", "c": "-.-." -->
    
-6\. Add element `d:
-
-<!-- m["d"] = "-.." -->
+```python
+m = "a": ".-", "b": "-...-", "c": "-.-."
+```
    
+6\. Add element `d`:
+
+```python
+m["d"] = "-.."
+```
+
 7\. Update element `b`:
 
-<!-- m["b"] = "-..." -->
+```python
+m["b"] = "-..."
+```
 
 ---
 class: center middle inverse
@@ -1147,33 +1224,3 @@ class: center middle inverse
 -----
 
 <br> <br> <br> <br>
-
-
----
-
-## Test for membership
-
-```sh
->>> key in dict
-# False
-
->>> key not in dict
-# True
-```
-
-.content-box-info[
-Membership test with `in`:
-
-```sh
->>> 'AACGT' in seqlist
-#> True
-```
-
-This also works for strings (and other data types):
-
-```sh
-'AACGT' in 'AACGTGGTA'
-True
-```
-
-]

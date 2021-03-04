@@ -61,3 +61,31 @@ How might we be able to create a multi-line string using single/double quotes?
   Now, the IPython (interactive Python) kernel should successfully load,
   and you should be able to type Python commands in the pale blue panel
   at the bottom of the screen.
+
+
+## Test for membership
+
+```python
+key in dict
+# False
+
+key not in dict
+# True
+```
+
+.content-box-info[
+Membership test with `in`:
+
+```python
+'AACGT' in seqlist
+#> True
+```
+
+This also works for strings (and other data types):
+
+```python
+'AACGT' in 'AACGTGGTA'
+True
+```
+
+]
