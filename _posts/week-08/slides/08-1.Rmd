@@ -534,7 +534,7 @@ We will see examples of *mutable* objects on Thursday, such as *lists*.
 
 - Right-click in the editor and select "Run Selection/Line in Python Interactive
   Window".  
-  *(The keyboard shortcut is probably <kbd>Shift</kbd>+<kbd>Enter></kbd>.)*
+  *(The keyboard shortcut is probably <kbd>Shift</kbd>+<kbd>Enter</kbd>.)*
 
 .content-box-info[
 Is this doesn't work, we can troubleshoot after class again &ndash;
