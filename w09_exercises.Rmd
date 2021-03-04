@@ -7,7 +7,182 @@ output:
     toc_depth: 3
 ---
 
-## Exercise 1: Dictionaries
+<br>
+
+## Setup
+
+-   Open a new file and save it as `week09_exercises.py` or something along
+    those lines.
+
+-   Type your commands in the script and send them to the prompt in the Python
+    interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.
+
+    <details>
+
+    <summary>Problems with the keyboard shortcut?</summary>\
+    If this doesn't work, check your keyboard shortcut by right-clicking in the
+    script and looking for "Run Selection/Line In Python Interactive Window".\
+    \
+    Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>)
+    and look for that shortcut there, and change it if you want.
+
+    </details>
+
+-   Because these first two exercises have many small steps, I put the solutions right below the question, so you don't have to scroll back-and-forth all the time. *However*, make sure you actually try to do the exercises!
+
+## Exercise 1: More lists
+
+Start with the list you created last week:
+
+```{python}
+diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
+            'canker', 'wilt', 'root_knot', 'root_rot']
+```
+
+1.  If you would run:
+
+    ```{python, eval=FALSE}
+    more_diseases = diseases
+
+    more_diseases.append("crown_galls")
+    ```
+
+    Would the list `diseases` contain `crown_galls`? Think about what the answer should be, and then check if you were right.\
+
+    <details>
+
+    <summary>Solution</summary>\
+    Yes, `diseases` will contain the item `crown_galls` that was added to `more_diseases`, because `more_diseases` in not an independent list but is merely a second pointer to the same list that `diseases` points to.
+
+    ```{python}
+    more_diseases = diseases
+
+    more_diseases.append("crown_galls")
+
+    diseases
+    ```
+
+    </details>
+
+2.  Copy `diseases` to a new list with a name of your choice -- the new list should *not* be linked to `diseases`. Then, remove all items from the new list. Check if `diseases` still contains its items -- if not, you'll have to try again!\
+
+    <details>
+
+    <summary>Hints</summary>\
+    To create a copy, use the `copy()` method or the `[:]` notation.
+
+    </details>
+
+    <details>
+
+    <summary>Solution</summary>\
+    To create a copy, use the `copy()` method:
+
+    ```{python}
+    diseases_copy = diseases.copy()
+    ```
+
+    Or the `[:]` notation.
+
+    ```{python}
+    diseases_copy = diseases[:]
+    ```
+
+    Then, to remove all elements in the copy of the list:
+
+    ```{python}
+    diseases_copy.clear()
+
+    diseases
+    ```
+
+    </details>
+
+3.  What fundamental difference between lists and strings makes it so that `newstring = oldstring` creates *a new string*, whereas `newlist = oldlist` simply creates a new *pointer to the same list*?\
+
+    <details>
+
+    <summary>Solution</summary>\
+    The fact that strings are *immutable*, whereas lists are *mutable*.
+
+    </details>
+
+4.  Sort `diseases` in place.\
+
+    <details>
+
+    <summary>Solution</summary>\
+    Recall that `sort()` sorts in place, whereas `sorted()` returns a new, sorted list.
+
+    ```{python}
+    diseases.sort()
+
+    diseases
+    ```
+
+    </details>
+
+5. Find out how you can use the `sorted()` function to sort in reverse order, and apply this to `diseases` to create a new list `diseases_sorted`.\
+
+    <details>
+
+    <summary>Solution</summary>\
+    We can use the `reverse` argument to `sorted()` to sort in reverse order:
+
+    ```{python}
+    diseases_sorted = sorted(diseases, reverse=True)
+    ```
+
+    </details>
+
+6. ***Bonus:*** If you would run `fewer_diseases = diseases.remove("root_rot")`, what would `fewer_diseases` contain? Think about what the answer should be, and then check if you were right. Does simply running `fewer_diseases` versus running `print(fewer_diseases)` make a difference?\
+
+    <details>
+
+    <summary>Solution</summary>
+    
+    Because `remove()` operates *in place*, it doesn't return anything:
+    
+    ```{python}
+    fewer_diseases = diseases.remove("root_rot")
+
+    fewer_diseases
+    ```
+
+    Well, it actualy returns `None`, which you can see by explicitly calling
+    the `print()` function:
+    
+    ```{python}
+    print(fewer_diseases)
+    ```
+
+    </details>
+
+7. ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.\
+
+    <details>
+
+    <summary>Hints</summary>\
+    Remember how we can turn a list into a string with `join()`?
+    If you specify `""` as the separator, it will simply concatenate all the items in the list.\
+    \
+    Also, using `set()` on a string will extract the unique characters.
+
+    </details>
+
+    <details>
+
+    <summary>Solution</summary>\
+    First, turn the list into a string using `"".join`.
+    Then, call `set()` on the string to get a list of unique items (= characters).
+
+    ```{python}
+    set("".join(diseases))
+    ```
+
+    </details>
+
+## Exercise 2: Dictionaries
 
 1.  Create and print a dictionary called `yield_current` with the following items:
 
@@ -133,7 +308,7 @@ output:
 
 <br>
 
-## Exercise 2: Sets
+## Exercise 3: Sets
 
 1.  Assign a set named `dna` with 4 items: each of the 4 bases (single-letter abbreviations) in DNA.\
 
@@ -289,6 +464,10 @@ output:
 <br>
 
 ## Intro to CSB exercises
+
+<span style="color:coral">
+Hints and solutions to these exercises still have to be added.
+</i></span>
 
 From the CSB Chapter 3 preface to the exercises:
 

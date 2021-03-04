@@ -2513,7 +2513,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 </div>
 <p><br></p>
-<p><span style="color:coral"> Edit March 4: Since we did not make it to dictionaries and sets this week, I have moved the exercises for those to <a href="w09_exercises.html">those for week 9</a>. </i></span></p>
+<p><span style="color:coral"> Edit March 4: I have moved part of the exercises on lists and all those on dictionaries and sets to the <a href="w09_exercises.html">page with exercises for week 9</a>. Though you are welcome to work ahead to those already, the exercise that remain here cover the material that we ended up discussing in class this week. </i></span></p>
 <h2 id="setup">Setup</h2>
 <ul>
 <li><p>Open a new file and save it as <code>week08_exercises.py</code> or something along those lines.</p></li>
@@ -2753,111 +2753,8 @@ Note that you’ll <em>have to</em> omit a number after the colon in this case, 
 <div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a>diseases[<span class="op">-</span><span class="dv">3</span>:]</span></code></pre></div>
 <pre><code>[&#39;wilt&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;]</code></pre>
 </div>
-</details></li>
-<li><p>If you would run:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1"></a>more_diseases <span class="op">=</span> diseases</span>
-<span id="cb46-2"><a href="#cb46-2"></a></span>
-<span id="cb46-3"><a href="#cb46-3"></a>more_diseases.append(<span class="st">&quot;crown_galls&quot;</span>)</span></code></pre></div>
-</div>
-<p>Would the list <code>diseases</code> contain <code>crown_galls</code>? Think about what the answer should be, and then check if you were right.<br />
-</p>
-<details>
-<p><summary>Solution</summary><br />
-Yes, <code>diseases</code> will contain the item <code>crown_galls</code> that was added to <code>more_diseases</code>, because <code>more_diseases</code> in not an independent list but is merely a second pointer to the same list that <code>diseases</code> points to.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a>more_diseases <span class="op">=</span> diseases</span>
-<span id="cb47-2"><a href="#cb47-2"></a></span>
-<span id="cb47-3"><a href="#cb47-3"></a>more_diseases.append(<span class="st">&quot;crown_galls&quot;</span>)</span>
-<span id="cb47-4"><a href="#cb47-4"></a></span>
-<span id="cb47-5"><a href="#cb47-5"></a>diseases</span></code></pre></div>
-<pre><code>[&#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;stem_blight&#39;, &#39;canker&#39;, &#39;wilt&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;, &#39;crown_galls&#39;]</code></pre>
-</div>
-</details></li>
-<li><p>Copy <code>diseases</code> to a new list with a name of your choice – the new list should <em>not</em> be linked to <code>diseases</code>. Then, remove all items from the new list. Check if <code>diseases</code> still contains its items – if not, you’ll have to try again!<br />
-</p>
-<details>
-<p><summary>Hints</summary><br />
-To create a copy, use the <code>copy()</code> method or the <code>[:]</code> notation.</p>
 </details>
-<details>
-<p><summary>Solution</summary><br />
-To create a copy, use the <code>copy()</code> method:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb49"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a>diseases_copy <span class="op">=</span> diseases.copy()</span></code></pre></div>
-</div>
-<p>Or the <code>[:]</code> notation.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a>diseases_copy <span class="op">=</span> diseases[:]</span></code></pre></div>
-</div>
-<p>Then, to remove all elements in the copy of the list:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1"></a>diseases_copy.clear()</span>
-<span id="cb51-2"><a href="#cb51-2"></a></span>
-<span id="cb51-3"><a href="#cb51-3"></a>diseases</span></code></pre></div>
-<pre><code>[&#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;stem_blight&#39;, &#39;canker&#39;, &#39;wilt&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;, &#39;crown_galls&#39;]</code></pre>
-</div>
-</details></li>
-<li><p>What fundamental difference between lists and strings makes it so that <code>newstring = oldstring</code> creates <em>a new string</em>, whereas <code>newlist = oldlist</code> simply creates a new <em>pointer to the same list</em>?<br />
-</p>
-<details>
-<p><summary>Solution</summary><br />
-The fact that strings are <em>immutable</em>, whereas lists are <em>mutable</em>.</p>
-</details></li>
-<li><p>Sort <code>diseases</code> in place.<br />
-</p>
-<details>
-<p><summary>Solution</summary><br />
-Recall that <code>sort()</code> sorts in place, whereas <code>sorted()</code> returns a new, sorted list.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>diseases.sort()</span>
-<span id="cb53-2"><a href="#cb53-2"></a></span>
-<span id="cb53-3"><a href="#cb53-3"></a>diseases</span></code></pre></div>
-<pre><code>[&#39;canker&#39;, &#39;crown_galls&#39;, &#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;, &#39;stem_blight&#39;, &#39;wilt&#39;]</code></pre>
-</div>
-</details></li>
-<li><p>Find out how you can use the <code>sorted()</code> function to sort in reverse order, and apply this to <code>diseases</code> to create a new list <code>diseases_sorted</code>.<br />
-</p>
-<details>
-<p><summary>Solution</summary><br />
-We can use the <code>reverse</code> argument to <code>sorted()</code> to sort in reverse order:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb55"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1"></a>diseases_sorted <span class="op">=</span> <span class="bu">sorted</span>(diseases, reverse<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
-</div>
-</details></li>
-<li><p><strong><em>Bonus:</em></strong> If you would run <code>fewer_diseases = diseases.remove("root_rot")</code>, what would <code>fewer_diseases</code> contain? Think about what the answer should be, and then check if you were right. Does simply running <code>fewer_diseases</code> versus running <code>print(fewer_diseases)</code> make a difference?<br />
-</p>
-<details>
-<p><summary>Solution</summary></p>
-<p>Because <code>remove()</code> operates <em>in place</em>, it doesn’t return anything:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1"></a>fewer_diseases <span class="op">=</span> diseases.remove(<span class="st">&quot;root_rot&quot;</span>)</span>
-<span id="cb56-2"><a href="#cb56-2"></a></span>
-<span id="cb56-3"><a href="#cb56-3"></a>fewer_diseases</span></code></pre></div>
-</div>
-<p>Well, it actualy returns <code>None</code>, which you can see by explicitly calling the <code>print()</code> function:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1"></a><span class="bu">print</span>(fewer_diseases)</span></code></pre></div>
-<pre><code>None</code></pre>
-</div>
-</details></li>
-<li><p><strong><em>Bonus:</em></strong> Get all unique <em>characters</em> (not items) present in <code>diseases</code>.<br />
-</p>
-<details>
-<p><summary>Hints</summary><br />
-Remember how we can turn a list into a string with <code>join()</code>? If you specify <code>""</code> as the separator, it will simply concatenate all the items in the list.<br />
-<br />
-Also, using <code>set()</code> on a string will extract the unique characters.</p>
-</details>
-<details>
-<p><summary>Solution</summary><br />
-First, turn the list into a string using <code>"".join</code>. Then, call <code>set()</code> on the string to get a list of unique items (= characters).</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1"></a><span class="bu">set</span>(<span class="st">&quot;&quot;</span>.join(diseases))</span></code></pre></div>
-<pre><code>{&#39;n&#39;, &#39;r&#39;, &#39;_&#39;, &#39;s&#39;, &#39;w&#39;, &#39;a&#39;, &#39;t&#39;, &#39;c&#39;, &#39;o&#39;, &#39;f&#39;, &#39;p&#39;, &#39;g&#39;, &#39;k&#39;, &#39;e&#39;, &#39;h&#39;, &#39;l&#39;, &#39;i&#39;, &#39;u&#39;, &#39;m&#39;, &#39;b&#39;}</code></pre>
-</div>
-</details>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div></li>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div></li>
 </ol>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

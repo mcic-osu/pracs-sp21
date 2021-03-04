@@ -1,5 +1,5 @@
 ---
-title: "Week 8 - First steps with Python - II"
+title: "Week 8/9 - First steps with Python - II"
 output:
   xaringan::moon_reader:
     seal: false
@@ -27,7 +27,7 @@ knitr::opts_chunk$set(eval = TRUE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/03/04 (updated: `r Sys.Date()`)
+### 2021/03/04 & 2021/03/09 (updated: `r Sys.Date()`)
 
 ---
 class: inverse middle center

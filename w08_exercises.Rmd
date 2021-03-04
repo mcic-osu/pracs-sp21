@@ -14,8 +14,11 @@ knitr::opts_chunk$set(echo = TRUE)
 <br>
 
 <span style="color:coral">
-Edit March 4: Since we did not make it to dictionaries and sets this week,
-I have moved the exercises for those to [those for week 9](w09_exercises.html).
+Edit March 4: I have moved part of the exercises on lists and all those on
+dictionaries and sets to the [page with exercises for week 9](w09_exercises.html).
+Though you are welcome to work ahead to those already,
+the exercise that remain here cover the material that we ended up discussing
+in class this week. 
 </i></span>
 
 ## Setup
@@ -328,149 +331,6 @@ I have moved the exercises for those to [those for week 9](w09_exercises.html).
 
     ```{python}
     diseases[-3:]
-    ```
-
-    </details>
-
-6.  If you would run:
-
-    ```{python, eval=FALSE}
-    more_diseases = diseases
-
-    more_diseases.append("crown_galls")
-    ```
-
-    Would the list `diseases` contain `crown_galls`? Think about what the answer should be, and then check if you were right.\
-
-    <details>
-
-    <summary>Solution</summary>\
-    Yes, `diseases` will contain the item `crown_galls` that was added to `more_diseases`, because `more_diseases` in not an independent list but is merely a second pointer to the same list that `diseases` points to.
-
-    ```{python}
-    more_diseases = diseases
-
-    more_diseases.append("crown_galls")
-
-    diseases
-    ```
-
-    </details>
-
-7.  Copy `diseases` to a new list with a name of your choice -- the new list should *not* be linked to `diseases`. Then, remove all items from the new list. Check if `diseases` still contains its items -- if not, you'll have to try again!\
-
-    <details>
-
-    <summary>Hints</summary>\
-    To create a copy, use the `copy()` method or the `[:]` notation.
-
-    </details>
-
-    <details>
-
-    <summary>Solution</summary>\
-    To create a copy, use the `copy()` method:
-
-    ```{python}
-    diseases_copy = diseases.copy()
-    ```
-
-    Or the `[:]` notation.
-
-    ```{python}
-    diseases_copy = diseases[:]
-    ```
-
-    Then, to remove all elements in the copy of the list:
-
-    ```{python}
-    diseases_copy.clear()
-
-    diseases
-    ```
-
-    </details>
-
-8.  What fundamental difference between lists and strings makes it so that `newstring = oldstring` creates *a new string*, whereas `newlist = oldlist` simply creates a new *pointer to the same list*?\
-
-    <details>
-
-    <summary>Solution</summary>\
-    The fact that strings are *immutable*, whereas lists are *mutable*.
-
-    </details>
-
-9.  Sort `diseases` in place.\
-
-    <details>
-
-    <summary>Solution</summary>\
-    Recall that `sort()` sorts in place, whereas `sorted()` returns a new, sorted list.
-
-    ```{python}
-    diseases.sort()
-
-    diseases
-    ```
-
-    </details>
-
-10. Find out how you can use the `sorted()` function to sort in reverse order, and apply this to `diseases` to create a new list `diseases_sorted`.\
-
-    <details>
-
-    <summary>Solution</summary>\
-    We can use the `reverse` argument to `sorted()` to sort in reverse order:
-
-    ```{python}
-    diseases_sorted = sorted(diseases, reverse=True)
-    ```
-
-    </details>
-
-11. ***Bonus:*** If you would run `fewer_diseases = diseases.remove("root_rot")`, what would `fewer_diseases` contain? Think about what the answer should be, and then check if you were right. Does simply running `fewer_diseases` versus running `print(fewer_diseases)` make a difference?\
-
-    <details>
-
-    <summary>Solution</summary>
-    
-    Because `remove()` operates *in place*, it doesn't return anything:
-    
-    ```{python}
-    fewer_diseases = diseases.remove("root_rot")
-
-    fewer_diseases
-    ```
-
-    Well, it actualy returns `None`, which you can see by explicitly calling
-    the `print()` function:
-    
-    ```{python}
-    print(fewer_diseases)
-    ```
-
-    </details>
-
-12. ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.\
-
-    <details>
-
-    <summary>Hints</summary>\
-    Remember how we can turn a list into a string with `join()`?
-    If you specify `""` as the separator, it will simply concatenate all the items in the list.\
-    \
-    Also, using `set()` on a string will extract the unique characters.
-
-    </details>
-
-    <details>
-
-    <summary>Solution</summary>\
-    First, turn the list into a string using `"".join`.
-    Then, call `set()` on the string to get a list of unique items (= characters).
-
-    ```{python}
-    set("".join(diseases))
     ```
 
     </details>
