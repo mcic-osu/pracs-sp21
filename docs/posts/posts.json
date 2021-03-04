@@ -1,5 +1,17 @@
 [
   {
+    "path": "posts/week-09/",
+    "title": "Week 09",
+    "description": "Control flow and working with files",
+    "author": [],
+    "date": "2021-03-08",
+    "categories": [],
+    "contents": "\nSlides\nSlides: Data structures – Tuesday Zoom (Mar 9)\nSlides: Control flow (Zach) – Tuesday/Thursday Zoom (Mar 9) (TBA)\nSlides: Working with files – Thursday Zoom (Mar 11) (TBA)\nUngraded assignments\nExercises for week 9\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-03-04T18:19:17-05:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/week-08/",
     "title": "Week 08",
     "description": "First steps with Python",
