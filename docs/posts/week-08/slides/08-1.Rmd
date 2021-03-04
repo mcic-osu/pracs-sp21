@@ -523,19 +523,19 @@ We will see examples of *mutable* objects on Thursday, such as *lists*.
 - **In the OnDemand form for VS Code, set the Working Directory to
   `/fs/ess/PAS1855/users/<your-username>`.**
 
-- In the command palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>),
-  start typing "interpreter" and then select
-  **`Python: Select Interpreter to Start Jupyter Server`**.
-  
-- Find the Conda environment you created on Tuesday
-  (should be: `Python 3.9.2 64-bit (ipy-env: conda)`) and click on it.
+- Open a new file and save it as `week08.py`.
 
-- If the Python version in the narrow bar at the bottom is not the
-  one you selected, click on it, and *again select the Conda Python 3.9.2 environment*.
-  
-- Open the command palette again (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>),
-  type "interactive", and select **`Python: Show Python Interactive Window`**.
-  
+- A Python environment should load: see the bottom bar.
+  If it's not the Python in your Conda environment
+  (`Python 3.9.2 64-bit (ipy-env: conda)`),
+  click the bottom bar and select it.
+
+- Type a dummy line like `5+5`.
+
+- Right-click in the editor and select "Run Selection/Line in Python Interactive
+  Window".  
+  *(The keyboard shortcut is probably <kbd>Shift</kbd>+<kbd>Enter></kbd>.)*
+
 .content-box-info[
 Is this doesn't work, we can troubleshoot after class again &ndash;
 for now, open a terminal in VS Code and start a regular Python prompt with:
@@ -547,10 +547,33 @@ $ python3
 
 ---
 
+<br>
+
+.content-box-info[
+
+### Alternative setup in VS Code
+
+- In the command palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>),
+  start typing "interpreter" and then select
+  **`Python: Select Interpreter to Start Jupyter Server`**.
+  
+- Find the Conda environment you created on Tuesday
+  (should be: `Python 3.9.2 64-bit (ipy-env: conda)`) and click on it.
+
+- If the Python version in the narrow bar at the bottom is not the
+  one you selected, click on it,
+  and *again select the Conda Python 3.9.2 environment*.
+  
+- Open the command palette again (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>),
+  type "interactive", and select **`Python: Show Python Interactive Window`**.
+]
+
+---
+
 ## Variable types (cont.)
 
-- We can combine variables of the same type using operators like `+` and `*`.
-  We already saw this for numbers, but we can do the same for string:
+We can combine variables of the same type using operators like `+` and `*`.  
+We already saw this for numbers, but we can do the same for strings:
   
 - Assign a string, and concatenate strings with `+`:
 
@@ -566,8 +589,7 @@ $ python3
 - This doesn't work with variables of different types:
 
   ```py
-  # x = "The cell grew"
-  # y = 15
+  y = 15
   
   x + y
   #> ---------------------------------------------
@@ -589,7 +611,7 @@ $ python3
   # y = 15
 
   x + " " + str(y) + " nm"
-  #> 'The cell grew 8 nm'
+  #> 'The cell grew 15 nm'
   ```
 
 --
@@ -654,10 +676,11 @@ has a nice feature at the top of the window:
   like `str()`, which are called using parentheses:
   
   ```py
-  # With no arguments specified:
-  function_name()
+  ## With no arguments specified:
+  # function_name()
+  
   # With arguments specified:
-  function_name(function_argument1, function_argument2)
+  # function_name(function_argument1, function_argument2)
   ```
 
 --
@@ -696,9 +719,9 @@ we can use the function `print()`:
 
 ```py
 print(x)
-#> 2
+#> The cell grew
 print(z)
-#> '88'
+#> 81
 ```
 ]
 
@@ -803,6 +826,8 @@ print(z)
 - `count()` to count occurrences of substrings:
 
   ```py
+  # astring = "ATGCATG"
+  
   astring.count("G")
   #> 2
   ```
@@ -812,8 +837,6 @@ print(z)
 - `.replace()` to replace substrings:
   
   ```py
-  # astring = "ATGCATG"
-  
   astring.replace("T", "U")
   #> 'AUGCAUG'
   ```
