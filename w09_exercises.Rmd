@@ -7,7 +7,288 @@ output:
     toc_depth: 3
 ---
 
-## Exercises
+## Exercise 1: Dictionaries
+
+1.  Create and print a dictionary called `yield_current` with the following items:
+
+    ``` {.python}
+    {"plotA_1": 12, "plotA_2": 18, "plotA_3": 2,
+     "plotB_1": 33, "plotB_2": 28, "plotB_3": 57}
+    ```
+
+    <details>
+
+    <summary>Solution</summary>
+
+    ```{python}
+    yield_current = {"plotA_1": 12, "plotA_2": 18, "plotA_3": 2,
+                     "plotB_1": 33, "plotB_2": 28, "plotB_3": 57}
+                     
+    yield_current                 
+    ```
+
+    </details>
+
+2.  Print just the value for key `plotA_3`.
+
+    <details>
+
+    <summary>Solution</summary>\
+    We can get the value for a specific key using the `<dict>[<key>]` notation:
+
+    ```{python}
+    yield_current["plotA_3"]
+    ```
+
+    </details>
+
+3.  Can you select a dictionary item by position (index)? Why / why not?\
+
+    <details>
+
+    <summary>Solution</summary>\
+    No, because dictionaries have no order to them.
+
+    </details>
+
+4.  Update the value for key `plotB_2` to be `31` and check whether this worked.
+
+    <details>
+
+    <summary>Solution</summary>\
+    We can simply assign a new value using `=`:
+
+    ```{python}
+    yield_current["plotB_2"] = 31
+    yield_current["plotB_2"]
+    ```
+
+    </details>
+
+5.  Count the number of items (i.e. entries, key-value *pairs*) in your dictionary.\
+
+    <details>
+
+    <summary>Hints</summary>\
+    Use the `len()` function.
+
+    </details>
+
+    <details>
+
+    <summary>Solution</summary>
+
+    ```{python}
+    len(yield_current)
+    ```
+
+    </details>
+
+6.  ***Bonus:*** Create a dictionary `obs_20210305` with keys `plotA_3` and `plotC_1`,
+    and values `18` and `3`, respectively.
+    Then, update the `yield_current` dictionary with the `obs_20210305` dictionary,
+    and check whether this worked.\
+
+    <details>
+
+    <summary>Solution</summary>
+
+    ```{python}
+    obs_20210305 = {"plotA_3": 18, "plotC_1": 3}
+    ```
+
+    We use the `update()` method as follows:
+
+    ```{python}
+    yield_current.update(obs_20210305)
+
+    yield_current
+    ```
+    
+    Now, our dictionary has an updated value for key "plotA_3",
+    and an entirely new item with key "plotC_1".
+    
+    </details>
+
+7.  ***Bonus:*** Get and count the number of *unique values* in your dictionary.\
+
+    <details>
+
+    <summary>Hints</summary>\
+    Extract the values with the `values()` method.
+    Turn these values into a set to get the unique values.
+    Count the unique values with the `len()` function.
+
+    </details>
+
+    <details>
+
+    <summary>Solution</summary>
+
+    ```{python}
+    len(set(yield_current.values()))
+    ```
+
+    </details>
+
+<br>
+
+## Exercise 2: Sets
+
+1.  Assign a set named `dna` with 4 items: each of the 4 bases (single-letter abbreviations) in DNA.\
+
+    <details>
+
+    <summary>Hints</summary>\
+    Recall the use of curly braces to assign a set.
+
+    </details>
+
+    <details>
+
+    \
+    <summary>Solution</summary>
+
+    ```{python}
+    dna = {'A', 'G', 'C', 'T'}
+    ```
+
+    </details>
+
+2.  Assign a set named `rna` with 4 items: each of the 4 bases (single-letter abbreviations) in RNA.\
+
+    <details>
+
+    <summary>Solution</summary>
+
+    ```{python}
+    rna = {'A', 'G', 'C', 'U'}
+    ```
+
+    </details>
+
+3.  Find the 3 bases that are shared between DNA and in RNA
+    (try both with an operator and a method, if you want).\
+
+    <details>
+
+    <summary>Solution</summary>
+
+    ```{python}
+    dna & rna
+    ```
+
+    Or:
+
+    ```{python}
+    dna.intersection(rna)
+    ```
+
+    </details>
+
+4.  Find all 5 bases that are collectively found among DNA and RNA.
+
+    <details>
+
+    \
+    <summary>Solution</summary>
+
+    ```{python}
+    dna | rna
+    ```
+
+    Or:
+
+    ```{python}
+    dna.union(rna)
+    ```
+
+    </details>
+
+5.  Find the base that only occurs in DNA.
+
+    <details>
+
+    <summary>Solution</summary>
+
+    ```{python}
+    dna - rna
+    ```
+
+    Or:
+
+    ```{python}
+    rna.difference(dna)
+    ```
+
+    </details>
+
+6.  Assign a set named `purines` with the two purine bases and a set named `pyrimidines` with the three pyrimidine bases.\
+
+    <details>
+
+    <summary>Solution</summary>
+
+    ```{python}
+    purines = {'A', 'G'}
+    pyrimidines = {'C', 'T', 'U'}
+    ```
+
+    </details>
+
+7.  Find the pyrimidine that occurs both in RNA and DNA.\
+
+    <details>
+
+    <summary>Solution</summary>\
+    You can combine more than two sets either by chaining methods or adding
+    another operator.
+
+    </details>
+
+    <details>
+
+    <summary>Solution</summary>
+
+    ```{python}
+    pyrimidines & dna & rna
+    ```
+
+    Or:
+
+    ```{python}
+    pyrimidines.intersection(dna).intersection(rna)
+    ```
+
+    </details>
+
+8.  ***Bonus:*** Find the pyrimidine that occurs in RNA but not DNA.\
+
+    <details>
+
+    <summary>Solution</summary>
+
+    ```{python}
+    (rna - dna) & pyrimidines
+    ```
+
+    Or:
+
+    ```{python}
+    rna - dna & pyrimidines
+    ```
+
+    Or:
+
+    ```{python}
+    rna.difference(dna).intersection(pyrimidines)
+    ```
+
+    </details>
+
+<br>
+
+## Intro to CSB exercises
 
 From the CSB Chapter 3 preface to the exercises:
 
@@ -21,23 +302,30 @@ From the CSB Chapter 3 preface to the exercises:
 > -   Skim through appropriate sections above to refresh your memory on data-type-specific methods.
 > -   Use the documentation and help forums.
 
-### Exercise 1: Measles time series
+<br>
+
+## Exercise CSB-1: Measles time series
 
 In their article, Dalziel et al. (2016) provide a long time series reporting the numbers of cases of measles before mass vaccination, for many US cities. The data consist of cases in a given US city for a given year, and a given biweek of the year (i.e., first two weeks, second two weeks, etc.). The time series is contained in the file `Dalziel2016_data.csv`.
 
 1.  Write a program that extracts the names of all the cities in the database (one entry per city).
 
-2.  Write a program that creates a dictionary where the keys are the cities and the values are the number of records (rows) for that city in the data.
+2.  Write a program that creates a dictionary where the keys are the cities and
+    the values are the number of records (rows) for that city in the data.
 
-3.  Write a program that calculates the mean population for each city, obtained by averaging the values of `pop`.
+3.  Write a program that calculates the mean population for each city,
+    obtained by averaging the values of `pop`.
 
 4.  Write a program that calculates the mean population for each city and year.
 
-### Red queen in fruit flies
+<br>
 
-Singh et al. (2015) show that, when infected with a parasite, the four genetic lines of D. melanogaster respond by increasing the production of recombinant offspring (arguably, trying to produce new recombinants able to escape the parasite). They show that the same outcome is not achieved by artificially wounding the flies. The data needed to replicate the main claim (figure 2 of the original article) is contained in the file `Singh2015_data.csv`.
+## Exercise CSB-2: Red queen in fruit flies
 
-Open the file, and compute the mean `RecombinantFraction` for each *Drosophila* Line , and `InfectionStatus` (`W` for wounded and `I` for infected).
+Singh et al. (2015) show that, when infected with a parasite, the four genetic lines of *D. melanogaster* respond by increasing the production of recombinant offspring (arguably, trying to produce new recombinants able to escape the parasite). They show that the same outcome is not achieved by artificially wounding the flies. The data needed to replicate the main claim (figure 2 of the original article) is contained in the file `Singh2015_data.csv`.
+
+Open the file, and compute the mean `RecombinantFraction` for each *Drosophila* line,
+and `InfectionStatus` (`W` for wounded and `I` for infected).
 
 Print the results in the following form:
 

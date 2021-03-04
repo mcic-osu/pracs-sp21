@@ -2506,14 +2506,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><a href="#setup">Setup</a></li>
 <li><a href="#exercise-1-variable-types-and-strings">Exercise 1: Variable types and strings</a></li>
 <li><a href="#exercise-2-lists">Exercise 2: Lists</a></li>
-<li><a href="#exercise-3-dictionaries">Exercise 3: Dictionaries</a></li>
-<li><a href="#exercise-4-sets">Exercise 4: Sets</a></li>
 </ul>
 </nav>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
+<p><br></p>
+<p><span style="color:coral"> Edit March 4: Since we did not make it to dictionaries and sets this week, I have moved the exercises for those to <a href="w09_exercises.html">those for week 9</a>. </i></span></p>
 <h2 id="setup">Setup</h2>
 <ul>
 <li><p>Open a new file and save it as <code>week08_exercises.py</code> or something along those lines.</p></li>
@@ -2854,208 +2854,11 @@ Also, using <code>set()</code> on a string will extract the unique characters.</
 First, turn the list into a string using <code>"".join</code>. Then, call <code>set()</code> on the string to get a list of unique items (= characters).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1"></a><span class="bu">set</span>(<span class="st">&quot;&quot;</span>.join(diseases))</span></code></pre></div>
-<pre><code>{&#39;m&#39;, &#39;f&#39;, &#39;w&#39;, &#39;k&#39;, &#39;s&#39;, &#39;_&#39;, &#39;c&#39;, &#39;o&#39;, &#39;h&#39;, &#39;a&#39;, &#39;u&#39;, &#39;e&#39;, &#39;p&#39;, &#39;l&#39;, &#39;i&#39;, &#39;n&#39;, &#39;t&#39;, &#39;r&#39;, &#39;b&#39;, &#39;g&#39;}</code></pre>
+<pre><code>{&#39;k&#39;, &#39;a&#39;, &#39;g&#39;, &#39;f&#39;, &#39;n&#39;, &#39;e&#39;, &#39;s&#39;, &#39;r&#39;, &#39;t&#39;, &#39;p&#39;, &#39;i&#39;, &#39;u&#39;, &#39;h&#39;, &#39;m&#39;, &#39;l&#39;, &#39;o&#39;, &#39;_&#39;, &#39;w&#39;, &#39;c&#39;, &#39;b&#39;}</code></pre>
 </div>
-</details></li>
+</details>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div></li>
 </ol>
-<p><br></p>
-<h2 id="exercise-3-dictionaries">Exercise 3: Dictionaries</h2>
-<ol type="1">
-<li><p>Create and print a dictionary called <code>yield_current</code> with the following items:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1"></a>{<span class="st">&quot;plotA_1&quot;</span>: <span class="dv">12</span>, <span class="st">&quot;plotA_2&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotA_3&quot;</span>: <span class="dv">2</span>,</span>
-<span id="cb61-2"><a href="#cb61-2"></a> <span class="st">&quot;plotB_1&quot;</span>: <span class="dv">33</span>, <span class="st">&quot;plotB_2&quot;</span>: <span class="dv">28</span>, <span class="st">&quot;plotB_3&quot;</span>: <span class="dv">57</span>}</span></code></pre></div>
-<details>
-<p><summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1"></a>yield_current <span class="op">=</span> {<span class="st">&quot;plotA_1&quot;</span>: <span class="dv">12</span>, <span class="st">&quot;plotA_2&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotA_3&quot;</span>: <span class="dv">2</span>,</span>
-<span id="cb62-2"><a href="#cb62-2"></a>                 <span class="st">&quot;plotB_1&quot;</span>: <span class="dv">33</span>, <span class="st">&quot;plotB_2&quot;</span>: <span class="dv">28</span>, <span class="st">&quot;plotB_3&quot;</span>: <span class="dv">57</span>}</span>
-<span id="cb62-3"><a href="#cb62-3"></a></span>
-<span id="cb62-4"><a href="#cb62-4"></a>yield_current                 </span></code></pre></div>
-<pre><code>{&#39;plotA_1&#39;: 12, &#39;plotA_2&#39;: 18, &#39;plotA_3&#39;: 2, &#39;plotB_1&#39;: 33, &#39;plotB_2&#39;: 28, &#39;plotB_3&#39;: 57}</code></pre>
-</div>
-</details></li>
-<li><p>Print just the value for key <code>plotA_3</code>.</p>
-<details>
-<p><summary>Solution</summary><br />
-We can get the value for a specific key using the <code>&lt;dict&gt;[&lt;key&gt;]</code> notation:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1"></a>yield_current[<span class="st">&quot;plotA_3&quot;</span>]</span></code></pre></div>
-<pre><code>2</code></pre>
-</div>
-</details></li>
-<li><p>Can you select a dictionary item by position (index)? Why / why not?<br />
-</p>
-<details>
-<p><summary>Solution</summary><br />
-No, because dictionaries have no order to them.</p>
-</details></li>
-<li><p>Update the value for key <code>plotB_2</code> to be <code>31</code> and check whether this worked.</p>
-<details>
-<p><summary>Solution</summary><br />
-We can simply assign a new value using <code>=</code>:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb66"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1"></a>yield_current[<span class="st">&quot;plotB_2&quot;</span>] <span class="op">=</span> <span class="dv">31</span></span>
-<span id="cb66-2"><a href="#cb66-2"></a>yield_current[<span class="st">&quot;plotB_2&quot;</span>]</span></code></pre></div>
-<pre><code>31</code></pre>
-</div>
-</details></li>
-<li><p>Count the number of items (i.e. entries, key-value <em>pairs</em>) in your dictionary.<br />
-</p>
-<details>
-<p><summary>Hints</summary><br />
-Use the <code>len()</code> function.</p>
-</details>
-<details>
-<p><summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb68"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1"></a><span class="bu">len</span>(yield_current)</span></code></pre></div>
-<pre><code>6</code></pre>
-</div>
-</details></li>
-<li><p><strong><em>Bonus:</em></strong> Create a dictionary <code>obs_20210305</code> with keys <code>plotA_3</code> and <code>plotC_1</code>, and values <code>18</code> and <code>3</code>, respectively. Then, update the <code>yield_current</code> dictionary with the <code>obs_20210305</code> dictionary, and check whether this worked.<br />
-</p>
-<details>
-<p><summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb70"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1"></a>obs_20210305 <span class="op">=</span> {<span class="st">&quot;plotA_3&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotC_1&quot;</span>: <span class="dv">3</span>}</span></code></pre></div>
-</div>
-<p>We use the <code>update()</code> method as follows:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb71"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1"></a>yield_current.update(obs_20210305)</span>
-<span id="cb71-2"><a href="#cb71-2"></a></span>
-<span id="cb71-3"><a href="#cb71-3"></a>yield_current</span></code></pre></div>
-<pre><code>{&#39;plotA_1&#39;: 12, &#39;plotA_2&#39;: 18, &#39;plotA_3&#39;: 18, &#39;plotB_1&#39;: 33, &#39;plotB_2&#39;: 31, &#39;plotB_3&#39;: 57, &#39;plotC_1&#39;: 3}</code></pre>
-</div>
-<p>Now, our dictionary has an updated value for key “plotA_3”, and an entirely new item with key “plotC_1”.</p>
-</details></li>
-<li><p><strong><em>Bonus:</em></strong> Get and count the number of <em>unique values</em> in your dictionary.<br />
-</p>
-<details>
-<p><summary>Hints</summary><br />
-Extract the values with the <code>values()</code> method. Turn these values into a set to get the unique values. Count the unique values with the <code>len()</code> function.</p>
-</details>
-<details>
-<p><summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb73"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1"></a><span class="bu">len</span>(<span class="bu">set</span>(yield_current.values()))</span></code></pre></div>
-<pre><code>6</code></pre>
-</div>
-</details></li>
-</ol>
-<p><br></p>
-<h2 id="exercise-4-sets">Exercise 4: Sets</h2>
-<ol type="1">
-<li><p>Assign a set named <code>dna</code> with 4 items: each of the 4 bases (single-letter abbreviations) in DNA.<br />
-</p>
-<details>
-<p><summary>Hints</summary><br />
-Recall the use of curly braces to assign a set.</p>
-</details>
-<details>
-<p><br />
-<summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb75"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1"></a>dna <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;T&#39;</span>}</span></code></pre></div>
-</div>
-</details></li>
-<li><p>Assign a set named <code>rna</code> with 4 items: each of the 4 bases (single-letter abbreviations) in RNA.<br />
-</p>
-<details>
-<p><summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb76"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1"></a>rna <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;U&#39;</span>}</span></code></pre></div>
-</div>
-</details></li>
-<li><p>Find the 3 bases that are shared between DNA and in RNA (try both with an operator and a method, if you want).<br />
-</p>
-<details>
-<p><summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb77"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1"></a>dna <span class="op">&amp;</span> rna</span></code></pre></div>
-<pre><code>{&#39;G&#39;, &#39;C&#39;, &#39;A&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb79"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1"></a>dna.intersection(rna)</span></code></pre></div>
-<pre><code>{&#39;G&#39;, &#39;C&#39;, &#39;A&#39;}</code></pre>
-</div>
-</details></li>
-<li><p>Find all 5 bases that are collectively found among DNA and RNA.</p>
-<details>
-<p><br />
-<summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb81"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1"></a>dna <span class="op">|</span> rna</span></code></pre></div>
-<pre><code>{&#39;C&#39;, &#39;G&#39;, &#39;T&#39;, &#39;U&#39;, &#39;A&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb83"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1"></a>dna.union(rna)</span></code></pre></div>
-<pre><code>{&#39;C&#39;, &#39;G&#39;, &#39;T&#39;, &#39;U&#39;, &#39;A&#39;}</code></pre>
-</div>
-</details></li>
-<li><p>Find the base that only occurs in DNA.</p>
-<details>
-<p><summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb85"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1"></a>dna <span class="op">-</span> rna</span></code></pre></div>
-<pre><code>{&#39;T&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb87"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1"></a>rna.difference(dna)</span></code></pre></div>
-<pre><code>{&#39;U&#39;}</code></pre>
-</div>
-</details></li>
-<li><p>Assign a set named <code>purines</code> with the two purine bases and a set named <code>pyrimidines</code> with the three pyrimidine bases.<br />
-</p>
-<details>
-<p><summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb89"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1"></a>purines <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>}</span>
-<span id="cb89-2"><a href="#cb89-2"></a>pyrimidines <span class="op">=</span> {<span class="st">&#39;C&#39;</span>, <span class="st">&#39;T&#39;</span>, <span class="st">&#39;U&#39;</span>}</span></code></pre></div>
-</div>
-</details></li>
-<li><p>Find the pyrimidine that occurs both in RNA and DNA.<br />
-</p>
-<details>
-<p><summary>Solution</summary><br />
-You can combine more than two sets either by chaining methods or adding another operator.</p>
-</details>
-<details>
-<p><summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb90"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1"></a>pyrimidines <span class="op">&amp;</span> dna <span class="op">&amp;</span> rna</span></code></pre></div>
-<pre><code>{&#39;C&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb92"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1"></a>pyrimidines.intersection(dna).intersection(rna)</span></code></pre></div>
-<pre><code>{&#39;C&#39;}</code></pre>
-</div>
-</details></li>
-<li><p><strong><em>Bonus:</em></strong> Find the pyrimidine that occurs in RNA but not DNA.<br />
-</p>
-<details>
-<p><summary>Solution</summary></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb94"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1"></a>(rna <span class="op">-</span> dna) <span class="op">&amp;</span> pyrimidines</span></code></pre></div>
-<pre><code>{&#39;U&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb96"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1"></a>rna <span class="op">-</span> dna <span class="op">&amp;</span> pyrimidines</span></code></pre></div>
-<pre><code>{&#39;U&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb98"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1"></a>rna.difference(dna).intersection(pyrimidines)</span></code></pre></div>
-<pre><code>{&#39;U&#39;}</code></pre>
-</div>
-</details></li>
-</ol>
-<p><br></p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -2503,15 +2503,187 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#exercises">Exercises</a>
-<ul>
-<li><a href="#exercise-1-measles-time-series">Exercise 1: Measles time series</a></li>
-<li><a href="#red-queen-in-fruit-flies">Red queen in fruit flies</a></li>
-</ul></li>
+<li><a href="#exercise-1-dictionaries">Exercise 1: Dictionaries</a></li>
+<li><a href="#exercise-2-sets">Exercise 2: Sets</a></li>
+<li><a href="#intro-to-csb-exercises">Intro to CSB exercises</a></li>
+<li><a href="#exercise-csb-1-measles-time-series">Exercise CSB-1: Measles time series</a></li>
+<li><a href="#exercise-csb-2-red-queen-in-fruit-flies">Exercise CSB-2: Red queen in fruit flies</a></li>
 </ul>
 </nav>
 </div>
-<h2 id="exercises">Exercises</h2>
+<h2 id="exercise-1-dictionaries">Exercise 1: Dictionaries</h2>
+<ol type="1">
+<li><p>Create and print a dictionary called <code>yield_current</code> with the following items:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>{<span class="st">&quot;plotA_1&quot;</span>: <span class="dv">12</span>, <span class="st">&quot;plotA_2&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotA_3&quot;</span>: <span class="dv">2</span>,</span>
+<span id="cb1-2"><a href="#cb1-2"></a> <span class="st">&quot;plotB_1&quot;</span>: <span class="dv">33</span>, <span class="st">&quot;plotB_2&quot;</span>: <span class="dv">28</span>, <span class="st">&quot;plotB_3&quot;</span>: <span class="dv">57</span>}</span></code></pre></div>
+<details>
+<p><summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;plotA_1&#39;: 12, &#39;plotA_2&#39;: 18, &#39;plotA_3&#39;: 2, &#39;plotB_1&#39;: 33, &#39;plotB_2&#39;: 28, &#39;plotB_3&#39;: 57}</code></pre>
+</div>
+</details></li>
+<li><p>Print just the value for key <code>plotA_3</code>.</p>
+<details>
+<p><summary>Solution</summary><br />
+We can get the value for a specific key using the <code>&lt;dict&gt;[&lt;key&gt;]</code> notation:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>2</code></pre>
+</div>
+</details></li>
+<li><p>Can you select a dictionary item by position (index)? Why / why not?<br />
+</p>
+<details>
+<p><summary>Solution</summary><br />
+No, because dictionaries have no order to them.</p>
+</details></li>
+<li><p>Update the value for key <code>plotB_2</code> to be <code>31</code> and check whether this worked.</p>
+<details>
+<p><summary>Solution</summary><br />
+We can simply assign a new value using <code>=</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>31</code></pre>
+</div>
+</details></li>
+<li><p>Count the number of items (i.e. entries, key-value <em>pairs</em>) in your dictionary.<br />
+</p>
+<details>
+<p><summary>Hints</summary><br />
+Use the <code>len()</code> function.</p>
+</details>
+<details>
+<p><summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>6</code></pre>
+</div>
+</details></li>
+<li><p><strong><em>Bonus:</em></strong> Create a dictionary <code>obs_20210305</code> with keys <code>plotA_3</code> and <code>plotC_1</code>, and values <code>18</code> and <code>3</code>, respectively. Then, update the <code>yield_current</code> dictionary with the <code>obs_20210305</code> dictionary, and check whether this worked.<br />
+</p>
+<details>
+<p><summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>We use the <code>update()</code> method as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;plotA_1&#39;: 12, &#39;plotA_2&#39;: 18, &#39;plotA_3&#39;: 18, &#39;plotB_1&#39;: 33, &#39;plotB_2&#39;: 31, &#39;plotB_3&#39;: 57, &#39;plotC_1&#39;: 3}</code></pre>
+</div>
+<p>Now, our dictionary has an updated value for key “plotA_3”, and an entirely new item with key “plotC_1”.</p>
+</details></li>
+<li><p><strong><em>Bonus:</em></strong> Get and count the number of <em>unique values</em> in your dictionary.<br />
+</p>
+<details>
+<p><summary>Hints</summary><br />
+Extract the values with the <code>values()</code> method. Turn these values into a set to get the unique values. Count the unique values with the <code>len()</code> function.</p>
+</details>
+<details>
+<p><summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>6</code></pre>
+</div>
+</details></li>
+</ol>
+<p><br></p>
+<h2 id="exercise-2-sets">Exercise 2: Sets</h2>
+<ol type="1">
+<li><p>Assign a set named <code>dna</code> with 4 items: each of the 4 bases (single-letter abbreviations) in DNA.<br />
+</p>
+<details>
+<p><summary>Hints</summary><br />
+Recall the use of curly braces to assign a set.</p>
+</details>
+<details>
+<p><br />
+<summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+</details></li>
+<li><p>Assign a set named <code>rna</code> with 4 items: each of the 4 bases (single-letter abbreviations) in RNA.<br />
+</p>
+<details>
+<p><summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+</details></li>
+<li><p>Find the 3 bases that are shared between DNA and in RNA (try both with an operator and a method, if you want).<br />
+</p>
+<details>
+<p><summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;C&#39;, &#39;G&#39;, &#39;A&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;C&#39;, &#39;G&#39;, &#39;A&#39;}</code></pre>
+</div>
+</details></li>
+<li><p>Find all 5 bases that are collectively found among DNA and RNA.</p>
+<details>
+<p><br />
+<summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;G&#39;, &#39;U&#39;, &#39;T&#39;, &#39;A&#39;, &#39;C&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;G&#39;, &#39;U&#39;, &#39;T&#39;, &#39;A&#39;, &#39;C&#39;}</code></pre>
+</div>
+</details></li>
+<li><p>Find the base that only occurs in DNA.</p>
+<details>
+<p><summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;T&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;U&#39;}</code></pre>
+</div>
+</details></li>
+<li><p>Assign a set named <code>purines</code> with the two purine bases and a set named <code>pyrimidines</code> with the three pyrimidine bases.<br />
+</p>
+<details>
+<p><summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+</details></li>
+<li><p>Find the pyrimidine that occurs both in RNA and DNA.<br />
+</p>
+<details>
+<p><summary>Solution</summary><br />
+You can combine more than two sets either by chaining methods or adding another operator.</p>
+</details>
+<details>
+<p><summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;C&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;C&#39;}</code></pre>
+</div>
+</details></li>
+<li><p><strong><em>Bonus:</em></strong> Find the pyrimidine that occurs in RNA but not DNA.<br />
+</p>
+<details>
+<p><summary>Solution</summary></p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;U&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;U&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;U&#39;}</code></pre>
+</div>
+</details></li>
+</ol>
+<p><br></p>
+<h2 id="intro-to-csb-exercises">Intro to CSB exercises</h2>
 <p>From the CSB Chapter 3 preface to the exercises:</p>
 <blockquote>
 <p>Here are some practical tips on how to approach the Python exercises (or any programming task):</p>
@@ -2525,7 +2697,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>Use the documentation and help forums.</li>
 </ul>
 </blockquote>
-<h3 id="exercise-1-measles-time-series">Exercise 1: Measles time series</h3>
+<p><br></p>
+<h2 id="exercise-csb-1-measles-time-series">Exercise CSB-1: Measles time series</h2>
 <p>In their article, Dalziel et al. (2016) provide a long time series reporting the numbers of cases of measles before mass vaccination, for many US cities. The data consist of cases in a given US city for a given year, and a given biweek of the year (i.e., first two weeks, second two weeks, etc.). The time series is contained in the file <code>Dalziel2016_data.csv</code>.</p>
 <ol type="1">
 <li><p>Write a program that extracts the names of all the cities in the database (one entry per city).</p></li>
@@ -2533,14 +2706,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><p>Write a program that calculates the mean population for each city, obtained by averaging the values of <code>pop</code>.</p></li>
 <li><p>Write a program that calculates the mean population for each city and year.</p></li>
 </ol>
-<h3 id="red-queen-in-fruit-flies">Red queen in fruit flies</h3>
-<p>Singh et al. (2015) show that, when infected with a parasite, the four genetic lines of D. melanogaster respond by increasing the production of recombinant offspring (arguably, trying to produce new recombinants able to escape the parasite). They show that the same outcome is not achieved by artificially wounding the flies. The data needed to replicate the main claim (figure 2 of the original article) is contained in the file <code>Singh2015_data.csv</code>.</p>
-<p>Open the file, and compute the mean <code>RecombinantFraction</code> for each <em>Drosophila</em> Line , and <code>InfectionStatus</code> (<code>W</code> for wounded and <code>I</code> for infected).</p>
+<p><br></p>
+<h2 id="exercise-csb-2-red-queen-in-fruit-flies">Exercise CSB-2: Red queen in fruit flies</h2>
+<p>Singh et al. (2015) show that, when infected with a parasite, the four genetic lines of <em>D. melanogaster</em> respond by increasing the production of recombinant offspring (arguably, trying to produce new recombinants able to escape the parasite). They show that the same outcome is not achieved by artificially wounding the flies. The data needed to replicate the main claim (figure 2 of the original article) is contained in the file <code>Singh2015_data.csv</code>.</p>
+<p>Open the file, and compute the mean <code>RecombinantFraction</code> for each <em>Drosophila</em> line, and <code>InfectionStatus</code> (<code>W</code> for wounded and <code>I</code> for infected).</p>
 <p>Print the results in the following form:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">Line</span> 45 Average Recombination Rate:</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="ex">W</span> : 0.187</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="ex">I</span> : 0.191</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1"></a><span class="ex">Line</span> 45 Average Recombination Rate:</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="ex">W</span> : 0.187</span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="ex">I</span> : 0.191</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

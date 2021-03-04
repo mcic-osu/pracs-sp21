@@ -10,10 +10,12 @@ output:
 
 ### Slides
 
-- Slides: Control flow -- Tuesday Zoom (Mar 9) (TBA)
+- [Slides: Data structures](../week-08/slides/08-2.html) -- Tuesday Zoom (Mar 9)
+
+- Slides: Control flow (Zach) -- Tuesday/Thursday Zoom (Mar 9) (TBA)
 
 - Slides: Working with files -- Thursday Zoom (Mar 11) (TBA)
 
 ### Ungraded assignments
 
-- [Exercises for week 9] (TBA)
+- [Exercises for week 9](../../w09_exercises.html)
