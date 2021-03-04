@@ -97,7 +97,7 @@ and with individual items (elements) separated by commas.
   within square brackets. For instance:
 
   ```python
-  # my_list = ['a', 'b', 'c', 'd', 'e']
+  my_list = ['a', 'b', 'c', 'd', 'e']
   
   my_list[1]
   #> 'b'
@@ -140,6 +140,7 @@ and with individual items (elements) separated by commas.
   my_list[0:1]    # First item in single-element list
   # ['a']           
   
+  # Use a single index to return a "str":
   my_list[0]      # First item as a "str"
   #> 'a'
   ```
@@ -177,15 +178,15 @@ and with individual items (elements) separated by commas.
   numbers on either side of the colon are optional:
 
   ```python
-  # my_list = [3, 2.44, "green", True]
+  # my_list = ['a', 'b', 'c', 'd', 'e']
   
   # From the first element until element 3 (noninclusive):
   my_list[:3]      
-  #> ['blue', 2.44, 'green']
+  #> ['a', 'b', 'c']
   
-  # From element 3 to the last element:
+  # From element 4 to the last element:
   my_list[3:]      
-  #> [True]
+  #> ['d', 'e']
   ```
 
 --
@@ -194,7 +195,7 @@ and with individual items (elements) separated by commas.
 
   ```python
   my_list[:]
-  #> ['blue', 2.44, 'green', True]
+  #> ['a', 'b', 'c', 'd', 'e']
   ```
 
 ---
@@ -204,20 +205,20 @@ and with individual items (elements) separated by commas.
 - You can use *negative numbers* to index starting from the end:
 
   ```python
-  # my_list = [3, 2.44, "green", True]
+  # my_list = ['a', 'b', 'c', 'd', 'e']
   
   my_list[-1]     # Last element
-  #> True
+  #> 'e'
   
   my_list[-2]     # Second-to-last element
-  #> 'green'
+  #> 'd'
   ```
 
 - And this works with ranges as well - the default direction is still positive:
 
   ```python
   my_list[-3:-1]  # Third-to-last to last element (noninclusive)
-  #> [2.44, 'green']
+  #> ['c', 'd']
   ```
 
 ---
@@ -249,24 +250,24 @@ When using **two colons**, the third element is the direction and stride.
 - The default stride is `1` (positive 1):
 
   ```python
-  # my_list = [3, 2.44, "green", True]
+  # my_list = ['a', 'b', 'c', 'd', 'e']
   
   my_list[:3:1]
-  #> ['blue', 2.44, 'green']
+  #> ['a', 'b', 'c']
   ```
 
 - We can take every second element with a stride of `2`:  
   
   ```python
   my_list[::2]
-  #> [3, 'green']
+  #> ['a', 'c', 'e']
   ```
 
 - And we can reverse the list with a stride of `-1`:
 
   ```python
   my_list[::-1]    # Go backward with stride 1 and take whole list
-  #> [True, 'green', 2.44, 3]                
+  #> ['e', 'd', 'c', 'b', 'a']             
   ```
 
 ---
@@ -309,7 +310,7 @@ When using **two colons**, the third element is the direction and stride.
   
   ```python
   my_list[0:10]
-  #> [3, 2.44, 'green', True]
+  #> ['a', 'b', 'c', 'd', 'e']
   ```
 
 --
@@ -318,7 +319,7 @@ When using **two colons**, the third element is the direction and stride.
   you will get an error:
 
   ```python
-  my_list[4]
+  my_list[5]
   #> ...
   #> IndexError: list index out of range
   ```
@@ -330,10 +331,10 @@ When using **two colons**, the third element is the direction and stride.
 - Like strings, we can concatenate two lists with `+`:
 
   ```python
-  # my_list = ['blue', 2.44, 'green', True, 25] 
-  
+  # my_list = ['a', 'b', 'c', 'd', 'e']
+  # a = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
   a + my_list
-  #> [132, 42, 5, 2, 1, 'blue', 2.44, 'green', True, 25]
+  #> ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e']
   ```
 
 --
@@ -349,7 +350,7 @@ When using **two colons**, the third element is the direction and stride.
 
   ```python
   a + [1]
-  #> [132, 42, 5, 2, 1, 1]
+  #> ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 1]
   ```
 
 ---
@@ -360,7 +361,7 @@ When using **two colons**, the third element is the direction and stride.
 
   ```python
   a * 2
-  #> [132, 42, 5, 2, 1, 132, 42, 5, 2, 1]
+  #> ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
   
   samples = ['red'] * 5
   samples
@@ -405,6 +406,7 @@ To operate on each element of a list, we can:
 - We can *update* an element using index notation:
 
   ```python
+  my_list = [3, 2.44, "green", True]
   my_list[0] = "blue"
   my_list
   #> ['blue', 2.44, 'green', True]
@@ -480,7 +482,7 @@ seq
 
   ```python
   seq.index("V")
-  4
+  #> 4
   ```
 
 --
@@ -502,6 +504,7 @@ seq
 - `sort` &ndash; Sort the elements *in place*:
 
   ```python
+  my_list = [1, 5, 2, 42, 14, 132]
   my_list.sort()
   my_list
   #> [1, 2, 5, 14, 42, 132]
@@ -512,7 +515,6 @@ seq
 - `sorted` function &ndash; Return a sorted list:
 
   ```python
-  my_list = [1, 5, 2, 42, 14, 132]
   sorted_list = sorted(my_list)
   
   my_list
