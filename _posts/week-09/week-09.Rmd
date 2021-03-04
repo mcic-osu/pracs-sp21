@@ -1,0 +1,19 @@
+---
+title: "Week 09"
+description: |
+  Control flow and working with files
+date: 2021-03-08
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+### Slides
+
+- Slides: Control flow -- Tuesday Zoom (Mar 9) (TBA)
+
+- Slides: Working with files -- Thursday Zoom (Mar 11) (TBA)
+
+### Ungraded assignments
+
+- [Exercises for week 9] (TBA)
