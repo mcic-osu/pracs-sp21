@@ -800,7 +800,6 @@ print(z)
 
 ## *Methods* versus (generic) *functions*
 
-.content-box-info[
 - Call the function `print()` on a string:
 
   ```py

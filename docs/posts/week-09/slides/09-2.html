@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 9 - Control flow and working with files - II</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+# *Week 9 - Control flow and working with files*
+
+----
+
+# II: Working with files
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/03/11 (updated: 2021-03-06)
+
+---
+
+## Getting set up
+
+1. In VS Code, open an existing Python script for this week or start a new one
+   (`.py` extension).
+
+3. Look for your `CSB` dir (the book's GitHub repo) or download it again
+   in the shell:
+
+  ```sh
+  git clone https://github.com/CSB-book/CSB.git
+  ```
+
+4. Assuming your CSB dir is at `/fs/ess/PAS1855/users/$USER/CSB`,
+   and your Python script in `/fs/ess/PAS1855/users/$USER/week09`,
+   move to a dir in CSB in Python using: 
+
+  ```py
+  import os
+  os.chdir('../CSB/python/sandbox')
+  
+  ## Or with:
+  # os.chdir('/fs/ess/PAS1855/users/&lt;username&gt;/CSB/python/sandbox')
+  
+  ## Check your current working dir:
+  # os.getcwd()
+  ```
+
+---
+
+## CSB 3.7: Working with files
+
+We need to explicitly open a file before we can interact with it.
+Opening a file won't load it into memory, but will create a connection to the file.
+
+For instance, to open a file for *writing*:
+
+```python
+myfile = open("mytextfile", "w")
+```
+
+--
+
+| Shorthand | File mode
+|-----------|----------
+| `r`       | Read
+| `w`       | Write
+| `a`       | Append
+| `r+`       | Read + write
+
+--
+
+Now, `f` is is a file object, also called a *file handle*.
+We can see which attributes and methods are associated with our file object
+as usual, by typing a period after the object name:
+
+```python
+myfile.
+```
+---
+
+## File object attributes
+
+Let's look at some of these attributes &amp;ndash;
+the file name, mode, and encoding:
+
+```python
+myfile.name
+# 'Singh2015_data.csv'
+
+myfile.mode
+# 'w'
+
+myfile.encoding
+'UTF-8'
+```
+
+---
+
+## Writing to a file
+
+With the `write()` method, we write a string to the file,
+and with `writelines()`, we write a list to the file.
+
+However, in either case, we need to insert the newlines ourselves with `\n` (so `writelines()` is not the clearest name):  
+
+```python
+myfile.write(s + "\n")
+myfile.writelines(["A\n", "B\n", "C\n"])
+```
+
+When we are done with the file, we need to close it:
+
+```python
+myfile.close()
+```
+
+--
+
+&lt;br&gt;
+
+.content-box-info[
+To write a list to file one line at a time, we can use `join()`:
+```py
+f.write("\n".join(mylist))
+```
+]
+
+---
+
+## A more convenient way: `with open()`
+
+- If we instead use the `with open()` construct, we don't have to manually
+  close the file, instead we use indentation to indicate when we have the file
+  open:
+  
+  ```python
+  with open("Singh2015_data.csv", "r") as singh_file:    
+    
+      for my_line in singh_file:
+        print(my_line)
+  ```
+
+- The above example also shows that if we loop over the file handle,
+  we can process one line at a time.
+  
+  Here, we are simply printing the contents of the file to screen.
+
+---
+
+## Reading and writing
+
+- As another toy example, we can write the lines that we read from one file
+  to another file:
+
+  ```python
+  with open('Singh2015_data.csv', 'r') as input_file:
+      
+      with open( 'Singh_copy.csv', 'w') as output_file:
+        
+        for line in input_file:
+          output_file.write(line)
+  ```
+
+---
+
+## Progressively reading a file
+
+- To read a single line at a time, using `readline()`.  
+  **Reading is done progressively**, so if we call `readline()` twice,
+  we will read the first and then the second line:
+  
+  ```python
+  with open('Singh2015_data.csv', 'r') as input_file:
+      line1 = input_file.readline()
+      line2 = input_file.readline()
+      print(line1)
+      print(line2)
+  
+  #&gt; Line,InfectionStatus,RecombinantFraction
+  #&gt; 21,I,0.1826923077
+  ```
+
+--
+
+- Or to skip a line, for instance a header, we can use `next()`:
+
+  ```python
+  input_file.next()
+  ```
+  
+- To go back to, in this case, the 1st line, we can use:
+
+  ```python
+  input_file.seek(0)
+  ```
+  
+---
+
+## Summary of basic options to read from a file
+
+- **`for my_line in my_filehandle:`**  &amp;mdash; Loop over lines one at a time
+
+- **`readline()`** &amp;mdash; Return current line as a string ending with `\n`.
+ 
+- **`readlines()`** &amp;mdash; Return a list of strings, one item per line.
+
+- **`read()`** &amp;mdash; Return entire file content as a single string.
+
+---
+
+## Character-delimited (tabular) files
+
+We start by reading the first few lines of a CSV (comma-separated values)
+file:
+
+```python
+with open("Dalziel2016_data.csv") as dalziel_file:
+    
+    for i, line in enumerate(dalziel_file):
+        
+        print(line.strip())
+        
+        if i &gt; 2:
+            break
+
+#&gt; biweek,year,loc,cases,pop
+#&gt; 1,1906,BALTIMORE,NA,526822.1365
+#&gt; 2,1906,BALTIMORE,NA,526995.246
+#&gt; 3,1906,BALTIMORE,NA,527170.1981
+```
+
+- We didn't specify an option to `open()`, so it defaults to *read* mode.
+
+- With `enumerate()`, we can track line numbers along with line contents.
+
+- We break out of (stop) the loop when we've reached an `i` (line index)
+  of 3, meaning that we only print the first three lines.
+
+---
+
+## Using the `csv` module
+
+While we could manually split rows by commas,
+a "module" that can do this for us is `csv`,
+which we load using an `import` statement (more next week): 
+
+```python
+import csv
+
+with open("Dalziel2016_data.csv") as dalziel_file:
+    
+    # We use the function "reader" from the csv module;
+    # Note the csv.reader = &lt;module&gt;.&lt;function&gt; syntax
+    reader = csv.reader(dalziel_file)
+    
+    for i, row in enumerate(reader):
+        print(row)
+        if i &gt; 2:
+            break
+
+#&gt; ['biweek', 'year', 'loc', 'cases', 'pop']
+#&gt; ['1', '1906', 'BALTIMORE', 'NA', '526822.1365']
+#&gt; ['2', '1906', 'BALTIMORE', 'NA', '526995.246']
+#&gt; ['3', '1906', 'BALTIMORE', 'NA', '527170.1981']
+```
+
+The output is a list for every row, with one item per field.
+
+---
+
+## Using the `csv` module (cont.)
+
+We can also use the `csv.DictReader()` function which will return a *dictionary*
+for every row:
+
+```python
+with open("Dalziel2016_data.csv") as dalziel_file:
+    
+    reader = csv.DictReader(dalziel_file)
+    
+    for i, row in enumerate(reader):
+        print(dict(row))
+        
+        if i &gt; 2:
+            break
+    
+#&gt; {'biweek': '1', 'year': '1906', 'loc': 'BALTIMORE', 'cases': 'NA', 'pop': '526822.1365'}
+#&gt; {'biweek': '2', 'year': '1906', 'loc': 'BALTIMORE', 'cases': 'NA', 'pop': '526995.246'}
+#&gt; {'biweek': '3', 'year': '1906', 'loc': 'BALTIMORE', 'cases': 'NA', 'pop': '527170.1981'}
+#&gt; {'biweek': '4', 'year': '1906', 'loc': 'BALTIMORE', 'cases': 'NA', 'pop': '527347.0136'}
+```
+
+---
+
+## Using the `csv` module (cont.)
+
+Now, we can easily select rows based on their values.
+
+For instance, to take only rows from Washington,
+i.e. where the column `loc` has the value "Washington":
+
+```sh
+with open("../data/Dalziel2016_data.csv") as infile:
+    
+    reader = csv.DictReader(infile)
+
+        for row in reader:
+            if row['loc'] == "WASHINGTON":
+                print(row)
+```
+
+---
+
+## Using the `csv` module (cont.)
+
+Next, let's write the Washington rows to a new, tab-delimited file:
+
+```python
+with open("../data/Dalziel2016_data.csv") as infile:
+    
+    reader = csv.DictReader(infile)
+    
+    header = reader.fieldnames # Get the header row
+    
+    with open('Dalziel_Washington.csv', "w") as outfile:
+        
+        writer = csv.DictWriter(outfile, fieldnames=header,
+                                delimiter = '\t')
+        writer.writeheader()   # Write the header row
+
+        for row in reader:
+            if row['loc'] == "WASHINGTON":
+                writer.writerow(row)
+```
+
+---
+
+## <i class="fas  fa-user-edit "></i> Intermezzo 3.4
+
+Write code that print the values in the columns `loc` and `pop` for all the rows
+in the file `Dalziel2016_data.csv`
+
+---
+
+## <i class="fas  fa-user-edit "></i> Intermezzo 3.4: solutions
+
+```py
+import csv
+
+with open ("../data/Dalziel2016_data.csv") as f:
+  
+  reader = csv.DictReader(f)
+  
+  for row in reader:
+    print(row["loc"], row["pop"])
+```
+
+--
+
+&lt;br&gt;
+
+Or to write this to a file:
+
+```py
+with open("../data/Dalziel2016_data.csv") as infile:
+
+    reader = csv.DictReader(infile)
+
+    with open('Dalziel_loc-pop.csv', "w") as outfile:
+
+        for row in reader:
+            outfile.write(str(row['loc'] + ',' + row['pop'] + '\n'))
+```
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
