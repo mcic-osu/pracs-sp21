@@ -83,21 +83,26 @@ how to write your own algorithms.
 
 ### VS Code
 
-- [VS Code documentation on its "Python Interactive Window"](https://code.visualstudio.com/docs/python/jupyter-support-py)
+- [VS Code documentation on its "Python Interactive Window"](https://code.visualstudio.com/docs/python/jupyter-support-py).
 
-- [VS Code documentation on its Jupyter Notebook implementation](https://code.visualstudio.com/docs/python/jupyter-support)
+- [VS Code documentation on its Jupyter Notebook implementation](https://code.visualstudio.com/docs/python/jupyter-support).
 
 ### Jupyter Notebooks / JupyterLab
 
 You can also use the Jupyter Notebooks / JupyterLab as an Interactive App at OSC OnDemand.
 If you're interested in using this, I would recommend trying JupyterLab which
 can run Jupyter Notebooks but also regular Python scripts, a shell, and so forth.
+
+::: {.content-box-info}
+
 To do so at [OSC OnDemand](https://ondemand.osc.edu),
 click on `Interactive Apps` (top blue bar) and then
 `Jupyter (Owens and Pitzer)` near the bottom, and
 check the box `Use JupyterLab instead of Jupyter Notebook?`.
 
-- [6-minute video: How to use JupyterLab](https://www.youtube.com/watch?v=A5YyoCKxEOU)
+:::
+
+- [6-minute video: How to use JupyterLab](https://www.youtube.com/watch?v=A5YyoCKxEOU).
 
 - [This JupyterLab documentation](https://jupyterlab.readthedocs.io/en/2.2.x/user/interface.html)
   provides a nice introduction to JupyterLab features
