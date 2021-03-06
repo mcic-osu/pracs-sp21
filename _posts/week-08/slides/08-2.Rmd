@@ -400,6 +400,7 @@ To operate on each element of a list, we can:
 ]
 
 ---
+name: resume-here
 
 ## Updating a list element
 
