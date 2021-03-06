@@ -2510,6 +2510,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><a href="#intro-to-csb-exercises">Intro to CSB exercises</a></li>
 <li><a href="#exercise-csb-1-measles-time-series">Exercise CSB-1: Measles time series</a></li>
 <li><a href="#exercise-csb-2-red-queen-in-fruit-flies">Exercise CSB-2: Red queen in fruit flies</a></li>
+<li><a href="#csb-solutions">CSB Solutions</a></li>
 </ul>
 </nav>
 </div>
@@ -2615,7 +2616,7 @@ Also, using <code>set()</code> on a string will extract the unique characters.</
 <p><summary>Solution</summary><br />
 First, turn the list into a string using <code>"".join</code>. Then, call <code>set()</code> on the string to get a list of unique items (= characters).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>{&#39;k&#39;, &#39;i&#39;, &#39;o&#39;, &#39;c&#39;, &#39;_&#39;, &#39;r&#39;, &#39;a&#39;, &#39;n&#39;, &#39;t&#39;, &#39;s&#39;, &#39;w&#39;, &#39;b&#39;, &#39;u&#39;, &#39;m&#39;, &#39;l&#39;, &#39;g&#39;, &#39;p&#39;, &#39;h&#39;, &#39;f&#39;, &#39;e&#39;}</code></pre>
+<pre><code>{&#39;o&#39;, &#39;n&#39;, &#39;r&#39;, &#39;g&#39;, &#39;l&#39;, &#39;u&#39;, &#39;i&#39;, &#39;f&#39;, &#39;h&#39;, &#39;k&#39;, &#39;c&#39;, &#39;p&#39;, &#39;b&#39;, &#39;s&#39;, &#39;a&#39;, &#39;_&#39;, &#39;m&#39;, &#39;e&#39;, &#39;w&#39;, &#39;t&#39;}</code></pre>
 </div>
 </details></li>
 </ol>
@@ -2719,11 +2720,11 @@ Recall the use of curly braces to assign a set.</p>
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>{&#39;A&#39;, &#39;C&#39;, &#39;G&#39;}</code></pre>
+<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;C&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>{&#39;A&#39;, &#39;C&#39;, &#39;G&#39;}</code></pre>
+<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;C&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Find all 5 bases that are collectively found among DNA and RNA.</p>
@@ -2731,11 +2732,11 @@ Recall the use of curly braces to assign a set.</p>
 <p><br />
 <summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>{&#39;A&#39;, &#39;U&#39;, &#39;G&#39;, &#39;C&#39;, &#39;T&#39;}</code></pre>
+<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;T&#39;, &#39;U&#39;, &#39;C&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>{&#39;A&#39;, &#39;U&#39;, &#39;G&#39;, &#39;C&#39;, &#39;T&#39;}</code></pre>
+<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;T&#39;, &#39;U&#39;, &#39;C&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Find the base that only occurs in DNA.</p>
@@ -2792,7 +2793,6 @@ You can combine more than two sets either by chaining methods or adding another 
 </ol>
 <p><br></p>
 <h2 id="intro-to-csb-exercises">Intro to CSB exercises</h2>
-<p><span style="color:coral"> Hints and solutions to these exercises still have to be added. </i></span></p>
 <p>From the CSB Chapter 3 preface to the exercises:</p>
 <blockquote>
 <p>Here are some practical tips on how to approach the Python exercises (or any programming task):</p>
@@ -2808,22 +2808,103 @@ You can combine more than two sets either by chaining methods or adding another 
 </blockquote>
 <p><br></p>
 <h2 id="exercise-csb-1-measles-time-series">Exercise CSB-1: Measles time series</h2>
-<p>In their article, Dalziel et al. (2016) provide a long time series reporting the numbers of cases of measles before mass vaccination, for many US cities. The data consist of cases in a given US city for a given year, and a given biweek of the year (i.e., first two weeks, second two weeks, etc.). The time series is contained in the file <code>Dalziel2016_data.csv</code>.</p>
+<p>In their article, <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004655">Dalziel et al. (2016)</a> provide a long time series reporting the numbers of cases of measles before mass vaccination, for many US cities. The data consist of cases in a given US city for a given year, and a given “biweek” of the year (i.e., first two weeks, second two weeks, etc.). The time series is contained in the file <code>Dalziel2016_data.csv</code>.</p>
 <ol type="1">
-<li><p>Write a program that extracts the names of all the cities in the database (one entry per city).</p></li>
-<li><p>Write a program that creates a dictionary where the keys are the cities and the values are the number of records (rows) for that city in the data.</p></li>
-<li><p>Write a program that calculates the mean population for each city, obtained by averaging the values of <code>pop</code>.</p></li>
-<li><p>Write a program that calculates the mean population for each city and year.</p></li>
+<li><p>Write a program that extracts the names of all the cities in the database (one entry per city).</p>
+<details>
+<p><summary>Hints</summary></p>
+<ul>
+<li><p>While you could try to parse the file from scratch (you have learnt the building blocks to do so), using the <code>DictReader</code> from the <code>csv</code> module, as we did in class, will make this easier.</p></li>
+<li><p>The city name is in the column <code>loc</code>.</p></li>
+<li><p>Because each city is reported multiple times, the main task is to remove duplicates. Using a <code>set</code> will be the easiest way to do so, since sets cannot contain duplicates.</p></li>
+<li><p>You don’t need to write to a new file here, just print the <code>set</code> after you are done processing the file.</p></li>
+<li><p>Pseudocode:</p>
+<pre><code>import csv
+cities = an empty set
+open data for reading
+create dictionary reader
+for each row in the file
+    add the city to the set</code></pre></li>
+</ul>
+</details></li>
+<li><p>Write a program that creates a dictionary where the keys are the cities and the values are the number of records (rows) for that city in the data.</p>
+<details>
+<p><summary>Hints</summary></p>
+<ul>
+<li><p>Initialize an empty dictionary before you start looping over the lines.</p></li>
+<li><p>For every line, extract the city name and add 1 to the value for that city in your dictionary.</p></li>
+<li><p>You don’t need to prepopulate the dictionary with all cities, because with the <code>get()</code> method, when you provide a default value, a key that is not yet present will be added to the dictionary with said default value.</p>
+<p>For example:</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>{&#39;a&#39;: 3, &#39;b&#39;: 2, &#39;c&#39;: 1, &#39;d&#39;: 1}</code></pre>
+</div></li>
+<li><p>Pseudocode:</p>
+<pre><code>import csv library
+citycount = an empty dictionary
+open file for reading
+set up dictionary reader
+  for each line in data
+      my_city = extract the city
+      citycount[my_city] = use get to update value</code></pre></li>
+</ul>
+</details></li>
+<li><p>Write a program that calculates the mean population for each city, obtained by averaging the values of <code>pop</code>.</p>
+<details>
+<p><summary>Hints</summary></p>
+<ul>
+<li><p>Note that for some reason, the populations have decimal values.</p></li>
+<li><p>Again, use a dictionary that you keep adding to for each row of the data set. This time, though, each value in the dictionary should be a list of two items: the total population, and the number of occurences.</p></li>
+<li><p>In you <code>get()</code> call, you can initialize the values to be a list of two items as follows (assuming the dictionary is called <code>citypop</code> and the city’s name has been extracted as <code>mycity</code>):</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>citypop[mycity] <span class="op">=</span> citypop.get(mycity, [<span class="dv">0</span>,<span class="dv">0</span>])</span></code></pre></div></li>
+<li><p>Then you can refer to each item in the dictionary’s values by chaining indices, e.g. <code>citypop[mycity][0]</code>.</p></li>
+<li><p>Pseudocode:</p></li>
+</ul>
+<pre><code>import csv
+citypop = an empty dictionary
+open data file reading
+set up dictionary reader
+for each line in data
+  my_city = extract the city
+  my_pop = extract population
+  if this is the first time you see this city, initialize:
+      citypop[my_city] = [0.0, 0]
+  citypop[my_city][0] = what it was before + my_pop
+  citypop[my_city][1] = what it was before + 1
+
+for each city
+  divide the first element by the second to obtain the mean</code></pre>
+</details></li>
+<li><p>Write a program that calculates the mean population for each city and year.</p>
+<details>
+<p><summary>Hints</summary></p>
+<ul>
+<li><p>You can do this in (at least) two ways with a dictionary:</p>
+<ul>
+<li><p>By creating a nested dictionary: each city is a dictionary, which itself contains a dictionary for each year.</p></li>
+<li><p>By using a <code>(city, year)</code> tuple as the keys for the dictionary.</p></li>
+</ul>
+<p>The worked-out solution uses the first strategy.</p></li>
+</ul>
+</details></li>
 </ol>
 <p><br></p>
 <h2 id="exercise-csb-2-red-queen-in-fruit-flies">Exercise CSB-2: Red queen in fruit flies</h2>
-<p>Singh et al. (2015) show that, when infected with a parasite, the four genetic lines of <em>D. melanogaster</em> respond by increasing the production of recombinant offspring (arguably, trying to produce new recombinants able to escape the parasite). They show that the same outcome is not achieved by artificially wounding the flies. The data needed to replicate the main claim (figure 2 of the original article) is contained in the file <code>Singh2015_data.csv</code>.</p>
-<p>Open the file, and compute the mean <code>RecombinantFraction</code> for each <em>Drosophila</em> line, and <code>InfectionStatus</code> (<code>W</code> for wounded and <code>I</code> for infected).</p>
+<p><a href="https://science.sciencemag.org/content/349/6249/747">Singh et al. (2015)</a> show that, when infected with a parasite, the four genetic lines of <em>D. melanogaster</em> respond by increasing the production of recombinant offspring (arguably, trying to produce new recombinants able to escape the parasite). They show that the same outcome is not achieved by artificially wounding the flies. The data needed to replicate the main claim (figure 2 of the original article) is contained in the file <code>Singh2015_data.csv</code>.</p>
+<p>Open the file, and compute the mean <code>RecombinantFraction</code> for each <em>Drosophila</em> genetic line, and <code>InfectionStatus</code> (<code>W</code> for wounded and <code>I</code> for infected).</p>
 <p>Print the results in the following form:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1"></a><span class="ex">Line</span> 45 Average Recombination Rate:</span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="ex">W</span> : 0.187</span>
-<span id="cb24-3"><a href="#cb24-3"></a><span class="ex">I</span> : 0.191</span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1"></a><span class="ex">Line</span> 45 Average Recombination Rate:</span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="ex">W</span> : 0.187</span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="ex">I</span> : 0.191</span></code></pre></div>
+<details>
+<p><summary>Hints</summary> For each Line, you need to keep track of all the recombination rates for W (wounded) and I (infected). For example, you could build a dictionary of dictionaries in which the first dictionary has a key for each line, and the inner dictionary has a key for each status (<code>W</code> or <code>I</code>) and a list of recombination rates as each value.</p>
+Then, you would calculate averages for each list at the end.
+</details>
+<h2 id="csb-solutions">CSB Solutions</h2>
+<ul>
+<li><a href="https://github.com/CSB-book/CSB/blob/master/python/solutions/Dalziel2016_solution.ipynb">Solutions for exercise CSB-1</a>.</li>
+<li><a href="https://github.com/CSB-book/CSB/blob/master/python/solutions/Singh2015_solution.ipynb">Solutions for exercise CSB-2</a>.</li>
+</ul>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

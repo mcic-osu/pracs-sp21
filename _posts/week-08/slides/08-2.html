@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/04 &amp; 2021/03/09 (updated: 2021-03-05)
+### 2021/03/04 &amp; 2021/03/09 (updated: 2021-03-06)
 
 ---
 class: inverse middle center
@@ -399,6 +399,7 @@ To operate on each element of a list, we can:
 ]
 
 ---
+name: resume-here
 
 ## Updating a list element
 
@@ -1029,6 +1030,7 @@ b ^ c
 
 ## Methods to intersect two sets
 
+.content-box-info[
 - We can do the same operations with the methods `intersection()`,
   `union()`, `symmetric_difference()`, and `difference()`:
   
@@ -1051,11 +1053,13 @@ b ^ c
   s2.difference(s1)           # In set 2 but not in set 1
   #&gt; {5, 6}
   ```
+]
 
 ---
 
 ## Methods to intersect two sets
 
+.content-box-info[
 We can also test whether sets are *subsets* or *supersets* of each other.
 
 - Set 1 is a subset of set 2 if if s2 contains all its elements,
@@ -1075,6 +1079,18 @@ We can also test whether sets are *subsets* or *supersets* of each other.
   ```python
   s1.issuperset(s2)
   #&gt; False
+  ```
+]
+
+---
+
+## Methods for sets
+
+- Add a value to a set, if it's not in the set already
+  (nothing will happen if the value is already present in the set):
+  
+  ```py
+  s1.add(99)
   ```
 
 ---

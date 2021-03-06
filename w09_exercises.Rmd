@@ -11,20 +11,16 @@ output:
 
 ## Setup
 
--   Open a new file and save it as `week09_exercises.py` or something along
-    those lines.
+-   Open a new file and save it as `week09_exercises.py` or something along those lines.
 
--   Type your commands in the script and send them to the prompt in the Python
-    interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.
+-   Type your commands in the script and send them to the prompt in the Python interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.
 
     <details>
 
     <summary>Problems with the keyboard shortcut?</summary>\
-    If this doesn't work, check your keyboard shortcut by right-clicking in the
-    script and looking for "Run Selection/Line In Python Interactive Window".\
+    If this doesn't work, check your keyboard shortcut by right-clicking in the script and looking for "Run Selection/Line In Python Interactive Window".\
     \
-    Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>)
-    and look for that shortcut there, and change it if you want.
+    Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and look for that shortcut there, and change it if you want.
 
     </details>
 
@@ -122,7 +118,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-5. Find out how you can use the `sorted()` function to sort in reverse order, and apply this to `diseases` to create a new list `diseases_sorted`.\
+5.  Find out how you can use the `sorted()` function to sort in reverse order, and apply this to `diseases` to create a new list `diseases_sorted`.\
 
     <details>
 
@@ -135,36 +131,34 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-6. ***Bonus:*** If you would run `fewer_diseases = diseases.remove("root_rot")`, what would `fewer_diseases` contain? Think about what the answer should be, and then check if you were right. Does simply running `fewer_diseases` versus running `print(fewer_diseases)` make a difference?\
+6.  ***Bonus:*** If you would run `fewer_diseases = diseases.remove("root_rot")`, what would `fewer_diseases` contain? Think about what the answer should be, and then check if you were right. Does simply running `fewer_diseases` versus running `print(fewer_diseases)` make a difference?\
 
     <details>
 
     <summary>Solution</summary>
-    
+
     Because `remove()` operates *in place*, it doesn't return anything:
-    
+
     ```{python}
     fewer_diseases = diseases.remove("root_rot")
 
     fewer_diseases
     ```
 
-    Well, it actualy returns `None`, which you can see by explicitly calling
-    the `print()` function:
-    
+    Well, it actualy returns `None`, which you can see by explicitly calling the `print()` function:
+
     ```{python}
     print(fewer_diseases)
     ```
 
     </details>
 
-7. ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.\
+7.  ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.\
 
     <details>
 
     <summary>Hints</summary>\
-    Remember how we can turn a list into a string with `join()`?
-    If you specify `""` as the separator, it will simply concatenate all the items in the list.\
+    Remember how we can turn a list into a string with `join()`? If you specify `""` as the separator, it will simply concatenate all the items in the list.\
     \
     Also, using `set()` on a string will extract the unique characters.
 
@@ -173,8 +167,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     <details>
 
     <summary>Solution</summary>\
-    First, turn the list into a string using `"".join`.
-    Then, call `set()` on the string to get a list of unique items (= characters).
+    First, turn the list into a string using `"".join`. Then, call `set()` on the string to get a list of unique items (= characters).
 
     ```{python}
     set("".join(diseases))
@@ -259,10 +252,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-6.  ***Bonus:*** Create a dictionary `obs_20210305` with keys `plotA_3` and `plotC_1`,
-    and values `18` and `3`, respectively.
-    Then, update the `yield_current` dictionary with the `obs_20210305` dictionary,
-    and check whether this worked.\
+6.  ***Bonus:*** Create a dictionary `obs_20210305` with keys `plotA_3` and `plotC_1`, and values `18` and `3`, respectively. Then, update the `yield_current` dictionary with the `obs_20210305` dictionary, and check whether this worked.\
 
     <details>
 
@@ -279,10 +269,9 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     yield_current
     ```
-    
-    Now, our dictionary has an updated value for key "plotA_3",
-    and an entirely new item with key "plotC_1".
-    
+
+    Now, our dictionary has an updated value for key "plotA\_3", and an entirely new item with key "plotC\_1".
+
     </details>
 
 7.  ***Bonus:*** Get and count the number of *unique values* in your dictionary.\
@@ -290,9 +279,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     <details>
 
     <summary>Hints</summary>\
-    Extract the values with the `values()` method.
-    Turn these values into a set to get the unique values.
-    Count the unique values with the `len()` function.
+    Extract the values with the `values()` method. Turn these values into a set to get the unique values. Count the unique values with the `len()` function.
 
     </details>
 
@@ -342,8 +329,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-3.  Find the 3 bases that are shared between DNA and in RNA
-    (try both with an operator and a method, if you want).\
+3.  Find the 3 bases that are shared between DNA and in RNA (try both with an operator and a method, if you want).\
 
     <details>
 
@@ -416,8 +402,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     <details>
 
     <summary>Solution</summary>\
-    You can combine more than two sets either by chaining methods or adding
-    another operator.
+    You can combine more than two sets either by chaining methods or adding another operator.
 
     </details>
 
@@ -465,10 +450,6 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
 ## Intro to CSB exercises
 
-<span style="color:coral">
-Hints and solutions to these exercises still have to be added.
-</i></span>
-
 From the CSB Chapter 3 preface to the exercises:
 
 > Here are some practical tips on how to approach the Python exercises (or any programming task):
@@ -485,26 +466,153 @@ From the CSB Chapter 3 preface to the exercises:
 
 ## Exercise CSB-1: Measles time series
 
-In their article, Dalziel et al. (2016) provide a long time series reporting the numbers of cases of measles before mass vaccination, for many US cities. The data consist of cases in a given US city for a given year, and a given biweek of the year (i.e., first two weeks, second two weeks, etc.). The time series is contained in the file `Dalziel2016_data.csv`.
+In their article, [Dalziel et al. (2016)](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004655)
+provide a long time series reporting the numbers of cases of measles before mass vaccination, for many US cities. The data consist of cases in a given US city for a given year, and a given "biweek" of the year (i.e., first two weeks, second two weeks, etc.). The time series is contained in the file `Dalziel2016_data.csv`.
 
 1.  Write a program that extracts the names of all the cities in the database (one entry per city).
 
+    <details>
+    <summary>Hints</summary>
+    
+    - While you could try to parse the file from scratch (you have learnt the
+      building blocks to do so), using the `DictReader` from the `csv` module,
+      as we did in class, will make this easier.
+    
+    - The city name is in the column `loc`.
+    
+    - Because each city is reported multiple times, the main task is to remove
+      duplicates. Using a `set` will be the easiest way to do so, since sets
+      cannot contain duplicates.
+    
+    - You don't need to write to a new file here, just print the `set` after
+      you are done processing the file.
+      
+    - Pseudocode:
+    
+      ```
+      import csv
+      cities = an empty set
+      open data for reading
+      create dictionary reader
+      for each row in the file
+          add the city to the set
+      ```
+    
+    </details>
+    
 2.  Write a program that creates a dictionary where the keys are the cities and
     the values are the number of records (rows) for that city in the data.
+
+    <details>
+    <summary>Hints</summary>
+    
+    - Initialize an empty dictionary before you start looping over the lines.
+    
+    - For every line, extract the city name and add 1 to the value for that
+      city in your dictionary.
+      
+    - You don't need to prepopulate the dictionary with all cities,
+      because with the `get()` method, when you provide a default value,
+      a key that is not yet present will be added to the dictionary with said
+      default value.
+      
+      For example:
+      
+      ```{python}
+      dd = {} # empty dictionary
+      my_list = ['a', 'b', 'a', 'c', 'd', 'b', 'a']
+      for element in my_list:
+          dd[element] = dd.get(element, 0) + 1
+      
+      print(dd)
+      ```
+    
+    - Pseudocode:
+    
+      ```
+      import csv library
+      citycount = an empty dictionary
+      open file for reading
+      set up dictionary reader
+        for each line in data
+	        my_city = extract the city
+	        citycount[my_city] = use get to update value
+      ```
+      
+    </details>
 
 3.  Write a program that calculates the mean population for each city,
     obtained by averaging the values of `pop`.
 
+    <details>
+    <summary>Hints</summary>
+    
+    - Note that for some reason, the populations have decimal values.
+    
+    - Again, use a dictionary that you keep adding to for each row of the data
+      set. This time, though, each value in the dictionary should be a list
+      of two items: the total population, and the number of occurences.
+    
+    - In you `get()` call, you can initialize the values to be a list of two
+      items as follows (assuming the dictionary is called `citypop` and the
+      city's name has been extracted as `mycity`):
+      
+      ```py
+      citypop[mycity] = citypop.get(mycity, [0,0])
+      ```
+    
+    - Then you can refer to each item in the dictionary's values by chaining
+      indices, e.g. `citypop[mycity][0]`.
+    
+    - Pseudocode:
+    
+    ```
+    import csv
+    citypop = an empty dictionary
+    open data file reading
+    set up dictionary reader
+    for each line in data
+      my_city = extract the city
+      my_pop = extract population
+      if this is the first time you see this city, initialize:
+	      citypop[my_city] = [0.0, 0]
+      citypop[my_city][0] = what it was before + my_pop
+      citypop[my_city][1] = what it was before + 1
+
+    for each city
+      divide the first element by the second to obtain the mean
+    ```
+    
+    </details>
+    
 4.  Write a program that calculates the mean population for each city and year.
 
+    <details>
+    <summary>Hints</summary>
+    - You can do this in (at least) two ways with a dictionary:
+      
+      - By creating a nested dictionary: each city is a dictionary,
+        which itself contains a dictionary for each year.
+      
+      - By using a `(city, year)` tuple as the keys for the dictionary.
+      
+      The worked-out solution uses the first strategy. 
+    
+    </details>
+    
 <br>
 
 ## Exercise CSB-2: Red queen in fruit flies
 
-Singh et al. (2015) show that, when infected with a parasite, the four genetic lines of *D. melanogaster* respond by increasing the production of recombinant offspring (arguably, trying to produce new recombinants able to escape the parasite). They show that the same outcome is not achieved by artificially wounding the flies. The data needed to replicate the main claim (figure 2 of the original article) is contained in the file `Singh2015_data.csv`.
+[Singh et al. (2015)](https://science.sciencemag.org/content/349/6249/747)
+show that, when infected with a parasite,
+the four genetic lines of *D. melanogaster* respond by increasing the production
+of recombinant offspring
+(arguably, trying to produce new recombinants able to escape the parasite).
+They show that the same outcome is not achieved by artificially wounding the flies.
+The data needed to replicate the main claim (figure 2 of the original article) is contained in the file `Singh2015_data.csv`.
 
-Open the file, and compute the mean `RecombinantFraction` for each *Drosophila* line,
-and `InfectionStatus` (`W` for wounded and `I` for infected).
+Open the file, and compute the mean `RecombinantFraction` for each *Drosophila* genetic line, and `InfectionStatus` (`W` for wounded and `I` for infected).
 
 Print the results in the following form:
 
@@ -513,3 +621,15 @@ Line 45 Average Recombination Rate:
 W : 0.187
 I : 0.191
 ```
+
+<details>
+<summary>Hints</summary>
+For each Line, you need to keep track of all the recombination rates for W (wounded) and I (infected). For example, you could build a dictionary of dictionaries in which the first dictionary has a key for each line, and the inner dictionary has a key for each status (`W` or `I`) and a list of recombination rates as each value.
+
+Then, you would calculate averages for each list at the end. 
+</details>
+    
+## CSB Solutions
+
+-   [Solutions for exercise CSB-1](https://github.com/CSB-book/CSB/blob/master/python/solutions/Dalziel2016_solution.ipynb).
+-   [Solutions for exercise CSB-2](https://github.com/CSB-book/CSB/blob/master/python/solutions/Singh2015_solution.ipynb).
