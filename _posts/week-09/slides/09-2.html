@@ -26,14 +26,14 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/11 (updated: 2021-03-06)
+### 2021/03/11 (updated: 2021-03-08)
 
 ---
 
 ## Getting set up
 
 1. In VS Code, open an existing Python script for this week or start a new one
-   (`.py` extension).
+   (`.py` extension) and trigger or directly start the Interactive Window.
 
 3. Look for your `CSB` dir (the book's GitHub repo) or download it again
    in the shell:
@@ -42,9 +42,9 @@ class:inverse middle center
   git clone https://github.com/CSB-book/CSB.git
   ```
 
-4. Assuming your CSB dir is at `/fs/ess/PAS1855/users/$USER/CSB`,
-   and your Python script in `/fs/ess/PAS1855/users/$USER/week09`,
-   move to a dir in CSB in Python using: 
+4. Assuming your CSB dir is at `/fs/ess/PAS1855/users/$USER/CSB`,  
+   and your Python script in `/fs/ess/PAS1855/users/$USER/week09`,  
+   move to the `python/sandbox` dir in CSB using: 
 
   ```py
   import os
@@ -64,40 +64,46 @@ class:inverse middle center
 We need to explicitly open a file before we can interact with it.
 Opening a file won't load it into memory, but will create a connection to the file.
 
-For instance, to open a file for *writing*:
+For instance, to open a file for *writing* (`w`):
 
 ```python
-myfile = open("mytextfile", "w")
+myfile = open("my_new_file", "w")
 ```
+
+Now, `myfile` is is a file object, also called a *file handle*.
+
+&lt;br&gt;
 
 --
 
+.pull-left[
 | Shorthand | File mode
 |-----------|----------
 | `r`       | Read
 | `w`       | Write
 | `a`       | Append
 | `r+`       | Read + write
+]
 
---
+---
 
-Now, `f` is is a file object, also called a *file handle*.
+## File object attributes
+
 We can see which attributes and methods are associated with our file object
 as usual, by typing a period after the object name:
 
 ```python
 myfile.
 ```
----
 
-## File object attributes
+&lt;br&gt;
 
 Let's look at some of these attributes &amp;ndash;
 the file name, mode, and encoding:
 
 ```python
 myfile.name
-# 'Singh2015_data.csv'
+# 'my_new_file'
 
 myfile.mode
 # 'w'
@@ -110,28 +116,30 @@ myfile.encoding
 
 ## Writing to a file
 
-With the `write()` method, we write a string to the file,
-and with `writelines()`, we write a list to the file.
+To actually write to a file, we can use the `write()` method to write a string
+to the file, or `writelines()` to write a list to the file.
 
-However, in either case, we need to insert the newlines ourselves with `\n` (so `writelines()` is not the clearest name):  
+- However, in either case, we need to insert the newlines ourselves with `\n`:  
 
-```python
-myfile.write(s + "\n")
-myfile.writelines(["A\n", "B\n", "C\n"])
-```
+  ```python
+  s = 'My file contents'
+  
+  myfile.write(s + "\n")
+  myfile.writelines(["A\n", "B\n", "C\n"])
+  ```
 
-When we are done with the file, we need to close it:
-
-```python
-myfile.close()
-```
+  (`writelines()` is not therefore not the clearest name.)
 
 --
 
-&lt;br&gt;
+- When we are done with the file, we need to close it:
+
+  ```python
+  myfile.close()
+  ```
 
 .content-box-info[
-To write a list to file one line at a time, we can use `join()`:
+To write a list to file one line at a time, use `join()`:
 ```py
 f.write("\n".join(mylist))
 ```
@@ -141,21 +149,62 @@ f.write("\n".join(mylist))
 
 ## A more convenient way: `with open()`
 
-- If we instead use the `with open()` construct, we don't have to manually
-  close the file, instead we use indentation to indicate when we have the file
-  open:
+- If we use the `with open()` construct,
+  we don't have to manually close the file &amp;ndash;
+  instead, we use *indentation* to indicate that the file connection is open:
   
   ```python
-  with open("Singh2015_data.csv", "r") as singh_file:    
+  with open("my_new_file", "r") as my_file:    
     
-      for my_line in singh_file:
-        print(my_line)
+        for my_line in my_file:
+            print(my_line)
+  
+  #&gt; My file contents
+  #&gt;
+  #&gt; A
+  #&gt;
+  #&gt; B
+  #&gt;
+  #&gt; C
   ```
 
-- The above example also shows that if we loop over the file handle,
-  we can process one line at a time.
+- The above example also shows that **if we loop over the file handle,
+  we automatically process one line at a time.**
   
-  Here, we are simply printing the contents of the file to screen.
+- Here, simply printed the contents of the file to screen,
+  but notice how we ended up with double spacing.
+
+---
+
+## More newlines
+
+- To see what's going on, let's read a single line using `readline()`
+  and store the result in a variable.
+  
+  ```python
+  with open('my_new_file', 'r') as input_file:
+      
+        line1 = input_file.readline()
+  
+  line1
+  #&gt; 'My file contents\n'
+  print(line1)
+  #&gt; My file contents
+  #&gt;
+  ```
+
+--
+
+- As it turns out, the reading methods include the newline characters `\n`.
+
+- Additionally, `print()` by default inserts a newline at the end.
+
+- To `print()` or otherwise process a line, we can use `strip()` to remove
+  leading and trailing newlines (and other whitespace):
+  
+  ```py
+  line1 = input_file.readline().strip()
+  ```
 
 ---
 
@@ -165,28 +214,32 @@ f.write("\n".join(mylist))
   to another file:
 
   ```python
-  with open('Singh2015_data.csv', 'r') as input_file:
+  with open('../data/Singh2015_data.csv', 'r') as input_file:
       
-      with open( 'Singh_copy.csv', 'w') as output_file:
+      with open('Singh_copy.csv', 'w') as output_file:
         
         for line in input_file:
           output_file.write(line)
   ```
 
+- No, we don't need to think about the `\n` characters,
+  because both reading *includes* them and writing "*needs*" them.
+
 ---
 
 ## Progressively reading a file
 
-- To read a single line at a time, using `readline()`.  
-  **Reading is done progressively**, so if we call `readline()` twice,
-  we will read the first and then the second line:
+- When reading a single line at a time using `readline()`,  
+  **reading is done progressively**, so if we call `readline()` twice,
+  we will read the first and *then* the second line:
   
   ```python
-  with open('Singh2015_data.csv', 'r') as input_file:
-      line1 = input_file.readline()
-      line2 = input_file.readline()
-      print(line1)
-      print(line2)
+  with open('../data/Singh2015_data.csv', 'r') as input_file:
+      
+        line1 = input_file.readline().strip()
+        line2 = input_file.readline().strip()
+        print(line1)
+        print(line2)
   
   #&gt; Line,InfectionStatus,RecombinantFraction
   #&gt; 21,I,0.1826923077
@@ -210,13 +263,15 @@ f.write("\n".join(mylist))
 
 ## Summary of basic options to read from a file
 
-- **`for my_line in my_filehandle:`**  &amp;mdash; Loop over lines one at a time
+- Note that with all approaches, line breaks are present in the resulting
+strings as `\n`.  
 
-- **`readline()`** &amp;mdash; Return current line as a string ending with `\n`.
- 
-- **`readlines()`** &amp;mdash; Return a list of strings, one item per line.
-
-- **`read()`** &amp;mdash; Return entire file content as a single string.
+| Approach                   | Result           |
+|----------------------------|------------------|
+| **`for &lt;line&gt; in &lt;file&gt;:`** | Loop over lines one at a time.
+| **`readline()`** | Return current line as a string.
+| **`readlines()`** | Return a list of strings, one item per line.
+| **`read()`** | Return entire file content as a single string.
 
 ---
 
@@ -226,7 +281,7 @@ We start by reading the first few lines of a CSV (comma-separated values)
 file:
 
 ```python
-with open("Dalziel2016_data.csv") as dalziel_file:
+with open("../data/Dalziel2016_data.csv") as dalziel_file:
     
     for i, line in enumerate(dalziel_file):
         
@@ -241,12 +296,15 @@ with open("Dalziel2016_data.csv") as dalziel_file:
 #&gt; 3,1906,BALTIMORE,NA,527170.1981
 ```
 
+--
+
 - We didn't specify an option to `open()`, so it defaults to *read* mode.
 
 - With `enumerate()`, we can track line numbers along with line contents.
 
-- We break out of (stop) the loop when we've reached an `i` (line index)
-  of 3, meaning that we only print the first three lines.
+- We break out of the loop, i.e. we stop it from running,
+  after we've printed the line with a line index `i` of 3 &amp;ndash;
+  the effect is that we only print the first four lines.
 
 ---
 
@@ -259,7 +317,7 @@ which we load using an `import` statement (more next week):
 ```python
 import csv
 
-with open("Dalziel2016_data.csv") as dalziel_file:
+with open("../data/Dalziel2016_data.csv") as dalziel_file:
     
     # We use the function "reader" from the csv module;
     # Note the csv.reader = &lt;module&gt;.&lt;function&gt; syntax
@@ -282,11 +340,11 @@ The output is a list for every row, with one item per field.
 
 ## Using the `csv` module (cont.)
 
-We can also use the `csv.DictReader()` function which will return a *dictionary*
-for every row:
+The `csv.DictReader()` function will return a *dictionary* for every row,
+containing the *column names as the keys* and the cell values as the values:
 
 ```python
-with open("Dalziel2016_data.csv") as dalziel_file:
+with open("../data/Dalziel2016_data.csv") as dalziel_file:
     
     reader = csv.DictReader(dalziel_file)
     
@@ -306,9 +364,9 @@ with open("Dalziel2016_data.csv") as dalziel_file:
 
 ## Using the `csv` module (cont.)
 
-Now, we can easily select rows based on their values.
+Now, we can easily select rows based on their values in a specific column.
 
-For instance, to take only rows from Washington,
+For instance, to take only rows from Washington &amp;ndash;
 i.e. where the column `loc` has the value "Washington":
 
 ```sh
@@ -316,28 +374,33 @@ with open("../data/Dalziel2016_data.csv") as infile:
     
     reader = csv.DictReader(infile)
 
-        for row in reader:
-            if row['loc'] == "WASHINGTON":
-                print(row)
+    for row in reader:
+        if row['loc'] == "WASHINGTON":
+            print(row)
+            
+#&gt; {'biweek': '14', 'year': '1940', 'loc': 'WASHINGTON', 'cases': '3', 'pop': '672643.7152'}
+#&gt; {'biweek': '15', 'year': '1940', 'loc': 'WASHINGTON', 'cases': '3', 'pop': '673370.2202'}
+#&gt; {'biweek': '16', 'year': '1940', 'loc': 'WASHINGTON', 'cases': '3', 'pop': '674095.5105'}         
+#&gt; ...
 ```
 
 ---
 
 ## Using the `csv` module (cont.)
 
-Next, let's write the Washington rows to a new, tab-delimited file:
+Next, let's write the rows for Washington to a new, tab-delimited file:
 
 ```python
 with open("../data/Dalziel2016_data.csv") as infile:
     
     reader = csv.DictReader(infile)
     
-    header = reader.fieldnames # Get the header row
-    
     with open('Dalziel_Washington.csv', "w") as outfile:
         
-        writer = csv.DictWriter(outfile, fieldnames=header,
+        writer = csv.DictWriter(outfile,
+                                fieldnames = reader.fieldnames,
                                 delimiter = '\t')
+        
         writer.writeheader()   # Write the header row
 
         for row in reader:
@@ -349,8 +412,8 @@ with open("../data/Dalziel2016_data.csv") as infile:
 
 ## <i class="fas  fa-user-edit "></i> Intermezzo 3.4
 
-Write code that print the values in the columns `loc` and `pop` for all the rows
-in the file `Dalziel2016_data.csv`
+Write code that prints (`print()`) the values in the columns `loc` and `pop`
+for all rows in the file `Dalziel2016_data.csv`.
 
 ---
 
@@ -361,16 +424,17 @@ import csv
 
 with open ("../data/Dalziel2016_data.csv") as f:
   
-  reader = csv.DictReader(f)
+    reader = csv.DictReader(f)
   
-  for row in reader:
-    print(row["loc"], row["pop"])
+    for row in reader:
+        print(row["loc"], row["pop"])
 ```
 
 --
 
 &lt;br&gt;
 
+.content-box-info[
 Or to write this to a file:
 
 ```py
@@ -383,6 +447,7 @@ with open("../data/Dalziel2016_data.csv") as infile:
         for row in reader:
             outfile.write(str(row['loc'] + ',' + row['pop'] + '\n'))
 ```
+]
 
 ---
 class: center middle inverse
