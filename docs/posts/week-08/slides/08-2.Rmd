@@ -533,7 +533,7 @@ seq
 
 ## List methods (cont.)
 
-- `sort()` &ndash; Sort the list *in place*:
+- `sort()` &ndash; Sort the list:
 
   ```python
   my_list = [1, 5, 2, 42, 14, 132]
@@ -573,104 +573,13 @@ my_list
 
 ---
 
-## Modifying lists: >1 name referring to the same list
+## `r icon::fa("user-edit")` Intermezzo 3.2 - Part I
 
-Also of note is that when we assign an existing list to a new name,  
-this will *not* create a new list in the way we saw with simple variables.
+1. Define a list `a = [1, 1, 2, 3, 5, 8]`.
 
-```python
-list_b = my_list
-```
+2. Extract `[5, 8]` in two different ways (with positive and negative indices).
 
-Instead, both names (`list_b` and `a`) now are separate pointers to the *same*
-list &ndash; if we modify one, the other will also change:
-
-```python
-list_b = list_b.append("Exclusive to list b?")
-
-my_list
-#> [1, 2, 5, 14, 42, 132, "Exclusive to list b?"]
-```
-
---
-
-<br>
-
-.content-box-info[
-Python exhibits this type of behavior for all mutable data types.
-
-To break this "linkage", we need to explicitly create a copy of the list
-(next slide).
-]
-
----
-
-## Strings versus lists
-
-- Because strings are immutable, assigning a new variable name will always create
-  an entirely new, unlinked variable &ndash; recall from Tuesday:
-
-  ```python
-  x = 5
-  y = x
-  y = y + 10
-  y
-  #> 15
-  x
-  #> 5
-  ```
-
---
-
-- We saw earlier that strings can be indexed like lists:
-
-  ```python
-  seq = "ATGCATG"
-  seq[2]
-  #> 'T'
-  ```
-
---
-
-- So can we use this for assignment too? No, because strings are immutable unlike lists.
-
-  ```python
-  seq[2] = "U"
-  #> TypeError: 'str' object does not support item assignment
-  ```
-
----
-
-## Copying lists
-
-- `copy` &ndash; Create a copy of the list:
-
-  ```python
-  import copy
-  new_list = my_list.copy()
-  new_list
-  #> ['blue', 2.44, 'green', True, 25, 'red', 0] 
-  ```
-
-- Or use `[:]` notation:
-
-  ```python
-  another_list = my_list[:] 
-  ```
-
---
-
-- Now, these lists can be modified independently:
-
-  ```python
-  new_list.clear()
-  my_list
-  #> [1, 2, 5, 14, 42, 132]
-  
-  another_list.clear()
-  my_list
-  #> [1, 2, 5, 14, 42, 132]
-  ```
+3. Add an element (item) "13" at the end of the list.
 
 ---
 
@@ -729,15 +638,6 @@ are indexed by **keys**.
   #> {'Arabidopsis thaliana ' : 157.0,
   #>  'Escherichia coli' : 4.6,
   #>  'Homo sapiens' : 3200.0}
-  ```
-
---
-
-- Values of dictionaries can also be lists:
-
-  ```python
-  my_dict = {"a": "test",
-               "b": [1, 2, 3, 4]}
   ```
 
 ---
@@ -829,17 +729,7 @@ they cannot be sorted, and the order of the items varies stochastically.
 
 --
 
-- Also like lists, dictionaries have `.copy()` and `.clear()` methods:
-
-  ```python
-  GS = GenomeSize.copy()  # Create a copy
-  
-  GS.clear()              # Remove all entries
-  GS
-  #> {}
-  ```
-
---
+<br>
 
 - `.pop()` removes the specified key and returns the corresponding value:
 
@@ -928,6 +818,66 @@ print(GenomeSize.get("Allium cepa"))
 ]
 
 ---
+
+## More complex dictionaries
+
+- Values of dictionaries can also be lists:
+
+  ```python
+  codon_dict = {"Phe": ['UUU', 'UUC'],
+                  "Val": ['GUU', 'GUC', 'GUA', 'GUG'],
+                  "Met": ['AUG']}
+  ```
+
+
+- And values of dictionaries can also be dictionaries themselves:
+
+  ```python
+  RNA_dict = {"bases": ['A', 'U', 'C', 'G']}
+  
+  RNA_dict["codons"] = codon_dict
+  RNA_dict
+  
+  RNA_dict
+  #> {'bases': ['A', 'U', 'C', 'G'],
+  #>  'codons': {'Phe': ['UUU', 'UUC'],
+  #>             'Val': ['GUU', 'GUC', 'GUA', 'GUG'],
+  #>             'Met': ['AUG']}}
+  ```
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo 3.2 - Part II
+
+1. Define a dictionary `codons = {'Met': 'AUG', 'Phe': 'UUU'}`.
+
+2. Add the element `Trp` with value "UGG". 
+
+3. Update the value of `Phe` to be `['UUU', 'UUC']`.
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo 3.2: Solutions (cont.)
+
+1. Define a dictionary:
+   
+   ```python
+   codons = {'Met': 'AUG', 'Phe': 'UUU'}
+   ```
+   
+2. Add element `d`:
+
+   ```python
+   codons["Trp"] = 'UGG'
+   ```
+
+3. Update element `b`:
+
+   ```python
+   codons['Phe'] = ['UUU', 'UUC']
+   ```
+
+---
 class: center middle inverse
 name: tuples
 
@@ -954,7 +904,7 @@ This behavior provides write-protection, and makes tuples faster than lists.
   empty_tuple_2 = tuple()
   ```
 
-- Tuples that contain items are created using parentheses,
+- Tuples that contain items are created using parentheses,  
   and a trailing comma is needed when creating a single-item tuple:
 
   ```python
@@ -1025,22 +975,37 @@ name: sets
   set1 = {3, 4, 5, 6}
   ```
 
-- However, we can't use just curly braces to create an *empty* set &ndash;
+- However, we can't use just curly braces to create an *empty* set becuase that
+  is reserved for creating an empty dictionary &ndash;
   we can therefore only use `set()` to do so:
   
   ```python
   empty_set = set()
   ```
 
---
+---
 
-- In practice, it is common to create a set from a list &ndash; this is a way
-  to quickly *get all unique elements within a list*:
+## Sets (cont.)
+
+- In practice, it is common to create a set from a list &ndash;  
+  this is a way to quickly **get all unique elements within a list**:
   
   ```python
   my_list = [5, 6, 7, 7, 7, 8, 9, 9]
   
   set2 = set(my_list)
+  set2
+  #> {5, 6, 7, 8, 9}
+  ```
+
+<br>
+
+- Using the `add()` method, we can add a value to a set, with a twist &ndash;
+  **nothing will happen if the value is already present in the set**:
+  
+  ```py
+  set2.add(5)
+  
   set2
   #> {5, 6, 7, 8, 9}
   ```
@@ -1142,17 +1107,6 @@ We can also test whether sets are *subsets* or *supersets* of each other.
 
 ---
 
-## Methods for sets
-
-- Add a value to a set, if it's not in the set already
-  (nothing will happen if the value is already present in the set):
-  
-  ```py
-  s1.add(99)
-  ```
-
----
-
 ## Summary of data structures
 
 | structure | bracket type   | create empty   | create non-empty
@@ -1178,44 +1132,6 @@ type((1, 2))
 
 type({1, 2})
 #> set
-```
-
----
-
-## `r icon::fa("user-edit")` Intermezzo 3.2 - Part II
-
-1. Define a list `a = [1, 1, 2, 3, 5, 8]`.
-
-2. Extract `[5, 8]` in two different ways.
-
-3. Add an element (item) "13" at the end of the list.
-
-4. Define a dictionary `codons = {'Met': 'AUG', 'Phe': 'UUU'}`.
-
-5. Add the element `Trp` with value "UGG". 
-
-6. Update the value of `Phe` to be `['UUU', 'UUC']`.
-
----
-
-## `r icon::fa("user-edit")` Intermezzo 3.2: Solutions (cont.)
-
-4\. Define a dictionary:
-   
-```python
-codons = {'Met': 'AUG', 'Phe': 'UUU'}
-```
-   
-5\. Add element `d`:
-
-```python
-codons["Trp"] = 'UGG'
-```
-
-6\. Update element `b`:
-
-```python
-codons['Phe'] = ['UUU', 'UUC']
 ```
 
 ---
