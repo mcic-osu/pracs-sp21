@@ -56,8 +56,8 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-2.  Instead of sorting in place, you can also use `sorted()` *function* 
-    which will return a new list.
+2.  Instead of sorting in place with the `sort()` method like in the previous step,
+    you can also use the `sorted()` *function*, which will return a new list.
     Find out how to use `sorted()` to sort in reverse order,
     and apply this to `diseases` to create a new list `diseases_sorted`.\
 
@@ -72,7 +72,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-3.  ***Bonus:*** If you would run `fewer_diseases = diseases.remove("root_rot")`,
+3.  If you would run `fewer_diseases = diseases.remove("root_rot")`,
     what would `fewer_diseases` contain?
     Think about what the answer should be, and then check if you were right.
     Does simply running `fewer_diseases` versus running `print(fewer_diseases)` make a difference?\
@@ -225,7 +225,9 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     <details>
 
     <summary>Hints</summary>\
-    Extract the values with the `values()` method. Turn these values into a set to get the unique values. Count the unique values with the `len()` function.
+    Extract the values with the `values()` method.
+    Next, turn these values into a *set* to get the unique values.
+    Finally, count the unique values with the `len()` function.
 
     </details>
 
@@ -248,7 +250,9 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     <details>
 
     <summary>Hints</summary>\
-    Recall the use of curly braces to assign a set.
+    - Recall the use of curly braces to assign a set.
+    
+    - The order of the bases doesn't matter, because sets are unordered.
 
     </details>
 
@@ -275,7 +279,8 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-3.  Find the 3 bases that are shared between DNA and in RNA (try both with an operator and a method, if you want).\
+3.  Find the 3 bases that are shared between DNA and in RNA
+    (try both with an *operator* and a *method*, if you want).\
 
     <details>
 
@@ -325,12 +330,13 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     Or:
 
     ```{python}
-    rna.difference(dna)
+    dna.difference(rna)
     ```
 
     </details>
 
-6.  Assign a set named `purines` with the two purine bases and a set named `pyrimidines` with the three pyrimidine bases.\
+6.  Assign a set named `purines` with the two purine bases and a set named
+    `pyrimidines` with the three pyrimidine bases.\
 
     <details>
 
@@ -426,7 +432,7 @@ provide a long time series reporting the numbers of cases of measles before mass
     
     - The city name is in the column `loc`.
     
-    - Because each city is reported multiple times, the main task is to remove
+    - Because each city is reported multiple times, the main task here is to remove
       duplicates. Using a `set` will be the easiest way to do so, since sets
       cannot contain duplicates.
     
@@ -455,14 +461,14 @@ provide a long time series reporting the numbers of cases of measles before mass
     - Initialize an empty dictionary before you start looping over the lines.
     
     - For every line, extract the city name and add 1 to the value for that
-      city in your dictionary.
+      city in your dictionary, since you are counting rows.
       
-    - You don't need to prepopulate the dictionary with all cities,
-      because with the `get()` method, when you provide a default value,
+    - You don't need to prepopulate the dictionary with all cities:
+      when you provide a default value with the `get()` method,
       a key that is not yet present will be added to the dictionary with said
       default value.
       
-      For example:
+      For example, we can build up a dictionary using `get()` like so:
       
       ```{python}
       dd = {} # empty dictionary
@@ -493,21 +499,21 @@ provide a long time series reporting the numbers of cases of measles before mass
     <details>
     <summary>Hints</summary>
     
-    - Note that for some reason, the populations have decimal values.
+    - Note that for some reason, the population sizes have decimal values.
     
     - Again, use a dictionary that you keep adding to for each row of the data
-      set. This time, though, each value in the dictionary should be a list
-      of two items: the total population, and the number of occurences.
+      set. This time, though, *each value in the dictionary should be a list
+      of two items*: the total population, and the number of occurences.
     
-    - In you `get()` call, you can initialize the values to be a list of two
-      items as follows (assuming the dictionary is called `citypop` and the
+    - In your `get()` call, you can initialize the values to be a list of two
+      items as follows (here assuming the dictionary is called `citypop` and the
       city's name has been extracted as `mycity`):
       
       ```py
-      citypop[mycity] = citypop.get(mycity, [0,0])
+      citypop[mycity] = citypop.get(mycity, [0, 0])
       ```
     
-    - Then you can refer to each item in the dictionary's values by chaining
+    - Then, you can refer to each item in the dictionary's values by chaining
       indices, e.g. `citypop[mycity][0]`.
     
     - Pseudocode:
@@ -542,7 +548,7 @@ provide a long time series reporting the numbers of cases of measles before mass
       
       - By using a `(city, year)` tuple as the keys for the dictionary.
       
-      The worked-out solution uses the first strategy. 
+      Note that the worked-out solution in the link below uses the first strategy. 
     
     </details>
     
@@ -570,11 +576,19 @@ I : 0.191
 
 <details>
 <summary>Hints</summary>
-For each Line, you need to keep track of all the recombination rates for W (wounded) and I (infected). For example, you could build a dictionary of dictionaries in which the first dictionary has a key for each line, and the inner dictionary has a key for each status (`W` or `I`) and a list of recombination rates as each value.
+For each Dropsophila genetic line, you need to keep track of all the recombination
+rates for W (wounded) and I (infected).
+
+For example, you could build a dictionary of dictionaries in which the first (outer)
+dictionary has a key for each line,
+and the inner dictionary has a key for each status (`W` or `I`)
+and a list of recombination rates as each value.
 
 Then, you would calculate averages for each list at the end. 
 </details>
-    
+
+<br>
+
 ## CSB Solutions
 
 -   [Solutions for exercise CSB-1](https://github.com/CSB-book/CSB/blob/master/python/solutions/Dalziel2016_solution.ipynb).

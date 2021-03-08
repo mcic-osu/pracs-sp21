@@ -2549,7 +2549,7 @@ Recall that <code>sort()</code> sorts in place, whereas <code>sorted()</code> re
 <pre><code>[&#39;canker&#39;, &#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;, &#39;stem_blight&#39;, &#39;wilt&#39;]</code></pre>
 </div>
 </details></li>
-<li><p>Instead of sorting in place, you can also use <code>sorted()</code> <em>function</em> which will return a new list. Find out how to use <code>sorted()</code> to sort in reverse order, and apply this to <code>diseases</code> to create a new list <code>diseases_sorted</code>.<br />
+<li><p>Instead of sorting in place with the <code>sort()</code> method like in the previous step, you can also use the <code>sorted()</code> <em>function</em>, which will return a new list. Find out how to use <code>sorted()</code> to sort in reverse order, and apply this to <code>diseases</code> to create a new list <code>diseases_sorted</code>.<br />
 </p>
 <details>
 <p><summary>Solution</summary><br />
@@ -2558,7 +2558,7 @@ We can use the <code>reverse</code> argument to <code>sorted()</code> to sort in
 <div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>diseases_sorted <span class="op">=</span> <span class="bu">sorted</span>(diseases, reverse<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
 </div>
 </details></li>
-<li><p><strong><em>Bonus:</em></strong> If you would run <code>fewer_diseases = diseases.remove("root_rot")</code>, what would <code>fewer_diseases</code> contain? Think about what the answer should be, and then check if you were right. Does simply running <code>fewer_diseases</code> versus running <code>print(fewer_diseases)</code> make a difference?<br />
+<li><p>If you would run <code>fewer_diseases = diseases.remove("root_rot")</code>, what would <code>fewer_diseases</code> contain? Think about what the answer should be, and then check if you were right. Does simply running <code>fewer_diseases</code> versus running <code>print(fewer_diseases)</code> make a difference?<br />
 </p>
 <details>
 <p><summary>Solution</summary></p>
@@ -2587,7 +2587,7 @@ Also, using <code>set()</code> on a string will extract the unique characters.</
 First, turn the list into a string using <code>"".join</code>. Then, call <code>set()</code> on the string to get a list of unique items (= characters).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="bu">set</span>(<span class="st">&quot;&quot;</span>.join(diseases))</span></code></pre></div>
-<pre><code>{&#39;e&#39;, &#39;t&#39;, &#39;_&#39;, &#39;n&#39;, &#39;a&#39;, &#39;m&#39;, &#39;i&#39;, &#39;r&#39;, &#39;f&#39;, &#39;c&#39;, &#39;o&#39;, &#39;b&#39;, &#39;k&#39;, &#39;u&#39;, &#39;l&#39;, &#39;g&#39;, &#39;p&#39;, &#39;h&#39;, &#39;w&#39;, &#39;s&#39;}</code></pre>
+<pre><code>{&#39;_&#39;, &#39;h&#39;, &#39;g&#39;, &#39;b&#39;, &#39;l&#39;, &#39;a&#39;, &#39;m&#39;, &#39;r&#39;, &#39;i&#39;, &#39;s&#39;, &#39;w&#39;, &#39;f&#39;, &#39;n&#39;, &#39;e&#39;, &#39;t&#39;, &#39;p&#39;, &#39;o&#39;, &#39;k&#39;, &#39;c&#39;, &#39;u&#39;}</code></pre>
 </div>
 </details></li>
 </ol>
@@ -2664,7 +2664,7 @@ Use the <code>len()</code> function.</p>
 </p>
 <details>
 <p><summary>Hints</summary><br />
-Extract the values with the <code>values()</code> method. Turn these values into a set to get the unique values. Count the unique values with the <code>len()</code> function.</p>
+Extract the values with the <code>values()</code> method. Next, turn these values into a <em>set</em> to get the unique values. Finally, count the unique values with the <code>len()</code> function.</p>
 </details>
 <details>
 <p><summary>Solution</summary></p>
@@ -2681,7 +2681,11 @@ Extract the values with the <code>values()</code> method. Turn these values into
 </p>
 <details>
 <p><summary>Hints</summary><br />
-Recall the use of curly braces to assign a set.</p>
+</p>
+<ul>
+<li><p>Recall the use of curly braces to assign a set.</p></li>
+<li><p>The order of the bases doesn’t matter, because sets are unordered.</p></li>
+</ul>
 </details>
 <details>
 <p><br />
@@ -2698,18 +2702,18 @@ Recall the use of curly braces to assign a set.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>rna <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;U&#39;</span>}</span></code></pre></div>
 </div>
 </details></li>
-<li><p>Find the 3 bases that are shared between DNA and in RNA (try both with an operator and a method, if you want).<br />
+<li><p>Find the 3 bases that are shared between DNA and in RNA (try both with an <em>operator</em> and a <em>method</em>, if you want).<br />
 </p>
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>dna <span class="op">&amp;</span> rna</span></code></pre></div>
-<pre><code>{&#39;C&#39;, &#39;G&#39;, &#39;A&#39;}</code></pre>
+<pre><code>{&#39;C&#39;, &#39;A&#39;, &#39;G&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a>dna.intersection(rna)</span></code></pre></div>
-<pre><code>{&#39;C&#39;, &#39;G&#39;, &#39;A&#39;}</code></pre>
+<pre><code>{&#39;C&#39;, &#39;A&#39;, &#39;G&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Find all 5 bases that are collectively found among DNA and RNA.</p>
@@ -2718,12 +2722,12 @@ Recall the use of curly braces to assign a set.</p>
 <summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>dna <span class="op">|</span> rna</span></code></pre></div>
-<pre><code>{&#39;G&#39;, &#39;A&#39;, &#39;T&#39;, &#39;C&#39;, &#39;U&#39;}</code></pre>
+<pre><code>{&#39;T&#39;, &#39;C&#39;, &#39;G&#39;, &#39;A&#39;, &#39;U&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>dna.union(rna)</span></code></pre></div>
-<pre><code>{&#39;G&#39;, &#39;A&#39;, &#39;T&#39;, &#39;C&#39;, &#39;U&#39;}</code></pre>
+<pre><code>{&#39;T&#39;, &#39;C&#39;, &#39;G&#39;, &#39;A&#39;, &#39;U&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Find the base that only occurs in DNA.</p>
@@ -2735,8 +2739,8 @@ Recall the use of curly braces to assign a set.</p>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a>rna.difference(dna)</span></code></pre></div>
-<pre><code>{&#39;U&#39;}</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a>dna.difference(rna)</span></code></pre></div>
+<pre><code>{&#39;T&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Assign a set named <code>purines</code> with the two purine bases and a set named <code>pyrimidines</code> with the three pyrimidine bases.<br />
@@ -2811,7 +2815,7 @@ You can combine more than two sets either by chaining methods or adding another 
 <ul>
 <li><p>While you could try to parse the file from scratch (you have learnt the building blocks to do so), using the <code>DictReader</code> from the <code>csv</code> module, as we did in class, will make this easier.</p></li>
 <li><p>The city name is in the column <code>loc</code>.</p></li>
-<li><p>Because each city is reported multiple times, the main task is to remove duplicates. Using a <code>set</code> will be the easiest way to do so, since sets cannot contain duplicates.</p></li>
+<li><p>Because each city is reported multiple times, the main task here is to remove duplicates. Using a <code>set</code> will be the easiest way to do so, since sets cannot contain duplicates.</p></li>
 <li><p>You don’t need to write to a new file here, just print the <code>set</code> after you are done processing the file.</p></li>
 <li><p>Pseudocode:</p>
 <pre><code>import csv
@@ -2827,9 +2831,9 @@ for each row in the file
 <p><summary>Hints</summary></p>
 <ul>
 <li><p>Initialize an empty dictionary before you start looping over the lines.</p></li>
-<li><p>For every line, extract the city name and add 1 to the value for that city in your dictionary.</p></li>
-<li><p>You don’t need to prepopulate the dictionary with all cities, because with the <code>get()</code> method, when you provide a default value, a key that is not yet present will be added to the dictionary with said default value.</p>
-<p>For example:</p>
+<li><p>For every line, extract the city name and add 1 to the value for that city in your dictionary, since you are counting rows.</p></li>
+<li><p>You don’t need to prepopulate the dictionary with all cities: when you provide a default value with the <code>get()</code> method, a key that is not yet present will be added to the dictionary with said default value.</p>
+<p>For example, we can build up a dictionary using <code>get()</code> like so:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a>dd <span class="op">=</span> {} <span class="co"># empty dictionary</span></span>
 <span id="cb50-2"><a href="#cb50-2"></a>my_list <span class="op">=</span> [<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;a&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;a&#39;</span>]</span>
@@ -2853,11 +2857,11 @@ set up dictionary reader
 <details>
 <p><summary>Hints</summary></p>
 <ul>
-<li><p>Note that for some reason, the populations have decimal values.</p></li>
-<li><p>Again, use a dictionary that you keep adding to for each row of the data set. This time, though, each value in the dictionary should be a list of two items: the total population, and the number of occurences.</p></li>
-<li><p>In you <code>get()</code> call, you can initialize the values to be a list of two items as follows (assuming the dictionary is called <code>citypop</code> and the city’s name has been extracted as <code>mycity</code>):</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>citypop[mycity] <span class="op">=</span> citypop.get(mycity, [<span class="dv">0</span>,<span class="dv">0</span>])</span></code></pre></div></li>
-<li><p>Then you can refer to each item in the dictionary’s values by chaining indices, e.g. <code>citypop[mycity][0]</code>.</p></li>
+<li><p>Note that for some reason, the population sizes have decimal values.</p></li>
+<li><p>Again, use a dictionary that you keep adding to for each row of the data set. This time, though, <em>each value in the dictionary should be a list of two items</em>: the total population, and the number of occurences.</p></li>
+<li><p>In your <code>get()</code> call, you can initialize the values to be a list of two items as follows (here assuming the dictionary is called <code>citypop</code> and the city’s name has been extracted as <code>mycity</code>):</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1"></a>citypop[mycity] <span class="op">=</span> citypop.get(mycity, [<span class="dv">0</span>, <span class="dv">0</span>])</span></code></pre></div></li>
+<li><p>Then, you can refer to each item in the dictionary’s values by chaining indices, e.g. <code>citypop[mycity][0]</code>.</p></li>
 <li><p>Pseudocode:</p></li>
 </ul>
 <pre><code>import csv
@@ -2884,7 +2888,7 @@ for each city
 <li><p>By creating a nested dictionary: each city is a dictionary, which itself contains a dictionary for each year.</p></li>
 <li><p>By using a <code>(city, year)</code> tuple as the keys for the dictionary.</p></li>
 </ul>
-<p>The worked-out solution uses the first strategy.</p></li>
+<p>Note that the worked-out solution in the link below uses the first strategy.</p></li>
 </ul>
 </details></li>
 </ol>
@@ -2897,9 +2901,11 @@ for each city
 <span id="cb55-2"><a href="#cb55-2"></a><span class="ex">W</span> : 0.187</span>
 <span id="cb55-3"><a href="#cb55-3"></a><span class="ex">I</span> : 0.191</span></code></pre></div>
 <details>
-<p><summary>Hints</summary> For each Line, you need to keep track of all the recombination rates for W (wounded) and I (infected). For example, you could build a dictionary of dictionaries in which the first dictionary has a key for each line, and the inner dictionary has a key for each status (<code>W</code> or <code>I</code>) and a list of recombination rates as each value.</p>
+<p><summary>Hints</summary> For each Dropsophila genetic line, you need to keep track of all the recombination rates for W (wounded) and I (infected).</p>
+<p>For example, you could build a dictionary of dictionaries in which the first (outer) dictionary has a key for each line, and the inner dictionary has a key for each status (<code>W</code> or <code>I</code>) and a list of recombination rates as each value.</p>
 Then, you would calculate averages for each list at the end.
 </details>
+<p><br></p>
 <h2 id="csb-solutions">CSB Solutions</h2>
 <ul>
 <li><a href="https://github.com/CSB-book/CSB/blob/master/python/solutions/Dalziel2016_solution.ipynb">Solutions for exercise CSB-1</a>.</li>
