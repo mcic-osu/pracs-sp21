@@ -1,0 +1,90 @@
+---
+title: "Exercises: Week 10"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+Start with the list you created last week:
+
+```{python}
+diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
+            'canker', 'wilt', 'root_knot', 'root_rot']
+```
+
+1.  If you would run:
+
+    ```{python, eval=FALSE}
+    more_diseases = diseases
+
+    more_diseases.append("crown_galls")
+    ```
+
+    Would the list `diseases` contain `crown_galls`? Think about what the answer should be, and then check if you were right.\
+
+    <details>
+
+    <summary>Solution</summary>\
+    Yes, `diseases` will contain the item `crown_galls` that was added to `more_diseases`, because `more_diseases` in not an independent list but is merely a second pointer to the same list that `diseases` points to.
+
+    ```{python}
+    more_diseases = diseases
+
+    more_diseases.append("crown_galls")
+
+    diseases
+    ```
+
+    </details>
+
+2.  Copy `diseases` to a new list with a name of your choice -- the new list should *not* be linked to `diseases`. Then, remove all items from the new list. Check if `diseases` still contains its items -- if not, you'll have to try again!\
+
+    <details>
+
+    <summary>Hints</summary>\
+    To create a copy, use the `copy()` method or the `[:]` notation.
+
+    </details>
+
+    <details>
+
+    <summary>Solution</summary>\
+    To create a copy, use the `copy()` method:
+
+    ```{python}
+    diseases_copy = diseases.copy()
+    ```
+
+    Or the `[:]` notation.
+
+    ```{python}
+    diseases_copy = diseases[:]
+    ```
+
+    Then, to remove all elements in the copy of the list:
+
+    ```{python}
+    diseases_copy.clear()
+
+    diseases
+    ```
+
+    </details>
+
+3.  What fundamental difference between lists and strings makes it so that `newstring = oldstring` creates *a new string*, whereas `newlist = oldlist` simply creates a new *pointer to the same list*?\
+
+    <details>
+
+    <summary>Solution</summary>\
+    The fact that strings are *immutable*, whereas lists are *mutable*.
+
+    </details>

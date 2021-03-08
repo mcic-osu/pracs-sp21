@@ -1,0 +1,148 @@
+---
+title: "Week 10 - Writing Good Code"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# *Week 10 - Writing good code*
+
+----
+
+# I: ...
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/03/16 (updated: `r Sys.Date()`)
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo
+
+Define a function that converts from temperatures in Fahrenheit to temperatures in Kelvin, and another function that converts back again.
+
+The general formula for the conversion from Fahrenheit to Kelvin is:
+
+kelvin = (fahr - 32) * 5 / 9 + 273.15
+
+
+
+---
+
+
+
+---
+
+## Modifying lists: >1 name referring to the same list
+
+Also of note is that when we assign an existing list to a new name,  
+this will *not* create a new list in the way we saw with simple variables.
+
+```python
+list_b = my_list
+```
+
+Instead, both names (`list_b` and `a`) now are separate pointers to the *same*
+list &ndash; if we modify one, the other will also change:
+
+```python
+list_b = list_b.append("Exclusive to list b?")
+
+my_list
+#> [1, 2, 5, 14, 42, 132, "Exclusive to list b?"]
+```
+
+--
+
+<br>
+
+.content-box-info[
+Python exhibits this type of behavior for all mutable data types.
+
+To break this "linkage", we need to explicitly create a copy of the list
+(next slide).
+]
+
+---
+
+## Strings versus lists
+
+- Because strings are immutable, assigning a new variable name will always create
+  an entirely new, unlinked variable &ndash; recall from Tuesday:
+
+  ```python
+  x = 5
+  y = x
+  y = y + 10
+  y
+  #> 15
+  x
+  #> 5
+  ```
+
+--
+
+- We saw earlier that strings can be indexed like lists:
+
+  ```python
+  seq = "ATGCATG"
+  seq[2]
+  #> 'T'
+  ```
+
+--
+
+- So can we use this for assignment too? No, because strings are immutable unlike lists.
+
+  ```python
+  seq[2] = "U"
+  #> TypeError: 'str' object does not support item assignment
+  ```
+
+---
+
+## Copying lists
+
+- `copy` &ndash; Create a copy of the list:
+
+  ```python
+  import copy
+  new_list = my_list.copy()
+  new_list
+  #> ['blue', 2.44, 'green', True, 25, 'red', 0] 
+  ```
+
+- Or use `[:]` notation:
+
+  ```python
+  another_list = my_list[:] 
+  ```
+
+--
+
+- Now, these lists can be modified independently:
+
+  ```python
+  new_list.clear()
+  my_list
+  #> [1, 2, 5, 14, 42, 132]
+  
+  another_list.clear()
+  my_list
+  #> [1, 2, 5, 14, 42, 132]
+  ```
+

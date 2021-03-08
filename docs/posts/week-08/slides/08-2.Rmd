@@ -402,6 +402,53 @@ To operate on each element of a list, we can:
 ---
 name: resume-here
 
+## Setup for Tuesday Mar 9 (same as before)
+
+- **In the OnDemand form for VS Code, set the Working Directory to
+  `/fs/ess/PAS1855/users/<your-username>`.**
+
+- Open your `week08.py` from last Thu (or start a new file).
+
+- A Python environment should load: see the bottom bar.
+  If it's not the Python in your Conda environment
+  (`Python 3.9.2 64-bit (ipy-env: conda)`),
+  click the bottom bar and select it.
+
+- If you have no code in the file, type a dummy line like `5+5`.
+
+- Right-click in the editor/script and select
+  "Run Selection/Line in Python Interactive Window".
+  *(Or <kbd>Shift</kbd>+<kbd>Enter</kbd>.)*
+
+.content-box-info[
+Is this doesn't work, we can troubleshoot after class again &ndash;
+for now, open a terminal in VS Code and start a regular Python prompt with:
+
+```sh
+$ python3
+```
+]
+
+---
+
+## Recap - we talked about:
+
+- Using Python as a calculator
+- Variables and their types
+- Working with strings
+- Methods and functions
+- Our first data structure: lists
+- Indexing
+
+<figure>
+<p align="center">
+<img src=img/donald_knuth.png width="90%">
+https://xkcd.com/163/
+</p>
+</figure>
+
+---
+
 ## Updating a list element
 
 - We can *update* an element using index notation:
@@ -486,25 +533,12 @@ seq
 
 ## List methods (cont.)
 
-- `sort()` &ndash; Sort the elements *in place*:
+- `sort()` &ndash; Sort the list *in place*:
 
   ```python
   my_list = [1, 5, 2, 42, 14, 132]
   my_list.sort()
   my_list
-  #> [1, 2, 5, 14, 42, 132]
-  ```
-
---
-
-- `sorted()` *function* &ndash; Return a sorted list:
-
-  ```python
-  sorted_list = sorted(my_list)
-  
-  my_list
-  #> [1, 5, 2, 42, 14, 132]
-  sorted_list
   #> [1, 2, 5, 14, 42, 132]
   ```
 
@@ -637,6 +671,29 @@ To break this "linkage", we need to explicitly create a copy of the list
   my_list
   #> [1, 2, 5, 14, 42, 132]
   ```
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo 3.2 - Part I : Solutions
+
+1. Define a list:
+  
+   ```python
+   a = [1, 1, 2, 3, 5, 8]
+   ```
+
+2. Extract `[5, 8]` in two ways:
+   
+   ```python
+   a[4:6]
+   a[-2:]
+   ```
+   
+3. Add the element 13:
+
+   ```python
+   a.append(13)
+   ```
 
 ---
 class: center middle inverse
@@ -1125,7 +1182,7 @@ type({1, 2})
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 3.2
+## `r icon::fa("user-edit")` Intermezzo 3.2 - Part II
 
 1. Define a list `a = [1, 1, 2, 3, 5, 8]`.
 
@@ -1138,29 +1195,6 @@ type({1, 2})
 5. Add the element `Trp` with value "UGG". 
 
 6. Update the value of `Phe` to be `['UUU', 'UUC']`.
-
----
-
-## `r icon::fa("user-edit")` Intermezzo 3.2: Solutions
-
-1. Define a list:
-  
-   ```python
-   a = [1, 1, 2, 3, 5, 8]
-   ```
-
-2. Extract `[5, 8]` in two ways:
-   
-   ```python
-   a[4:6]
-   a[-2:]
-   ```
-   
-3. Add the element 13:
-
-   ```python
-   a.append(13)
-   ```
 
 ---
 

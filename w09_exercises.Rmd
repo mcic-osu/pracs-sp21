@@ -18,7 +18,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 -   Open a new file and save it as `week09_exercises.py` or something along those lines.
 
--   Type your commands in the script and send them to the prompt in the Python interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.
+-   Type your commands in the script and send them to the prompt in the Python
+    interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.
 
     <details>
 
@@ -40,74 +41,6 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
             'canker', 'wilt', 'root_knot', 'root_rot']
 ```
 
-1.  If you would run:
-
-    ```{python, eval=FALSE}
-    more_diseases = diseases
-
-    more_diseases.append("crown_galls")
-    ```
-
-    Would the list `diseases` contain `crown_galls`? Think about what the answer should be, and then check if you were right.\
-
-    <details>
-
-    <summary>Solution</summary>\
-    Yes, `diseases` will contain the item `crown_galls` that was added to `more_diseases`, because `more_diseases` in not an independent list but is merely a second pointer to the same list that `diseases` points to.
-
-    ```{python}
-    more_diseases = diseases
-
-    more_diseases.append("crown_galls")
-
-    diseases
-    ```
-
-    </details>
-
-2.  Copy `diseases` to a new list with a name of your choice -- the new list should *not* be linked to `diseases`. Then, remove all items from the new list. Check if `diseases` still contains its items -- if not, you'll have to try again!\
-
-    <details>
-
-    <summary>Hints</summary>\
-    To create a copy, use the `copy()` method or the `[:]` notation.
-
-    </details>
-
-    <details>
-
-    <summary>Solution</summary>\
-    To create a copy, use the `copy()` method:
-
-    ```{python}
-    diseases_copy = diseases.copy()
-    ```
-
-    Or the `[:]` notation.
-
-    ```{python}
-    diseases_copy = diseases[:]
-    ```
-
-    Then, to remove all elements in the copy of the list:
-
-    ```{python}
-    diseases_copy.clear()
-
-    diseases
-    ```
-
-    </details>
-
-3.  What fundamental difference between lists and strings makes it so that `newstring = oldstring` creates *a new string*, whereas `newlist = oldlist` simply creates a new *pointer to the same list*?\
-
-    <details>
-
-    <summary>Solution</summary>\
-    The fact that strings are *immutable*, whereas lists are *mutable*.
-
-    </details>
-
 4.  Sort `diseases` in place.\
 
     <details>
@@ -123,7 +56,8 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-5.  Find out how you can use the `sorted()` function to sort in reverse order, and apply this to `diseases` to create a new list `diseases_sorted`.\
+5.  Find out how you can use the `sorted()` function to sort in reverse order,
+    and apply this to `diseases` to create a new list `diseases_sorted`.\
 
     <details>
 
@@ -136,7 +70,10 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-6.  ***Bonus:*** If you would run `fewer_diseases = diseases.remove("root_rot")`, what would `fewer_diseases` contain? Think about what the answer should be, and then check if you were right. Does simply running `fewer_diseases` versus running `print(fewer_diseases)` make a difference?\
+6.  ***Bonus:*** If you would run `fewer_diseases = diseases.remove("root_rot")`,
+    what would `fewer_diseases` contain?
+    Think about what the answer should be, and then check if you were right.
+    Does simply running `fewer_diseases` versus running `print(fewer_diseases)` make a difference?\
 
     <details>
 
@@ -163,7 +100,8 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     <details>
 
     <summary>Hints</summary>\
-    Remember how we can turn a list into a string with `join()`? If you specify `""` as the separator, it will simply concatenate all the items in the list.\
+    Remember how we can turn a list into a string with `join()`?
+    If you specify `""` as the separator, it will simply concatenate all the items in the list.\
     \
     Also, using `set()` on a string will extract the unique characters.
 
@@ -172,7 +110,8 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     <details>
 
     <summary>Solution</summary>\
-    First, turn the list into a string using `"".join`. Then, call `set()` on the string to get a list of unique items (= characters).
+    First, turn the list into a string using `"".join`.
+    Then, call `set()` on the string to get a list of unique items (= characters).
 
     ```{python}
     set("".join(diseases))

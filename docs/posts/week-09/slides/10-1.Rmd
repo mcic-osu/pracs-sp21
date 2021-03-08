@@ -1,0 +1,40 @@
+---
+title: "Week 10 - Writing Good Code"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# *Week 10 - Writing good code*
+
+----
+
+# I: ...
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/03/16 (updated: `r Sys.Date()`)
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo
+
+Define a function that converts from temperatures in Fahrenheit to temperatures in Kelvin, and another function that converts back again.
+
+The general formula for the conversion from Fahrenheit to Kelvin is:
+
+kelvin = (fahr - 32) * 5 / 9 + 273.15
