@@ -41,7 +41,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
             'canker', 'wilt', 'root_knot', 'root_rot']
 ```
 
-4.  Sort `diseases` in place.\
+1.  Sort `diseases` in place.\
 
     <details>
 
@@ -56,7 +56,9 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-5.  Find out how you can use the `sorted()` function to sort in reverse order,
+2.  Instead of sorting in place, you can also use `sorted()` *function* 
+    which will return a new list.
+    Find out how to use `sorted()` to sort in reverse order,
     and apply this to `diseases` to create a new list `diseases_sorted`.\
 
     <details>
@@ -70,7 +72,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-6.  ***Bonus:*** If you would run `fewer_diseases = diseases.remove("root_rot")`,
+3.  ***Bonus:*** If you would run `fewer_diseases = diseases.remove("root_rot")`,
     what would `fewer_diseases` contain?
     Think about what the answer should be, and then check if you were right.
     Does simply running `fewer_diseases` versus running `print(fewer_diseases)` make a difference?\
@@ -95,7 +97,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-7.  ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.\
+4.  ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.\
 
     <details>
 
