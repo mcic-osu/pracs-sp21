@@ -2514,6 +2514,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul>
 </nav>
 </div>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
 <p><br></p>
 <h2 id="setup">Setup</h2>
 <ul>
@@ -2530,12 +2533,15 @@ Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P<
 <h2 id="exercise-1-more-lists">Exercise 1: More lists</h2>
 <p>Start with the list you created last week:</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>diseases <span class="op">=</span> [<span class="st">&#39;fruit_rot&#39;</span>, <span class="st">&#39;leaf_blight&#39;</span>, <span class="st">&#39;leaf_spots&#39;</span>, <span class="st">&#39;stem_blight&#39;</span>,</span>
+<span id="cb1-2"><a href="#cb1-2"></a>            <span class="st">&#39;canker&#39;</span>, <span class="st">&#39;wilt&#39;</span>, <span class="st">&#39;root_knot&#39;</span>, <span class="st">&#39;root_rot&#39;</span>]</span></code></pre></div>
 </div>
 <ol type="1">
 <li><p>If you would run:</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>more_diseases <span class="op">=</span> diseases</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>more_diseases.append(<span class="st">&quot;crown_galls&quot;</span>)</span></code></pre></div>
 </div>
 <p>Would the list <code>diseases</code> contain <code>crown_galls</code>? Think about what the answer should be, and then check if you were right.<br />
 </p>
@@ -2543,6 +2549,11 @@ Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P<
 <p><summary>Solution</summary><br />
 Yes, <code>diseases</code> will contain the item <code>crown_galls</code> that was added to <code>more_diseases</code>, because <code>more_diseases</code> in not an independent list but is merely a second pointer to the same list that <code>diseases</code> points to.</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>more_diseases <span class="op">=</span> diseases</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>more_diseases.append(<span class="st">&quot;crown_galls&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a>diseases</span></code></pre></div>
 <pre><code>[&#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;stem_blight&#39;, &#39;canker&#39;, &#39;wilt&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;, &#39;crown_galls&#39;]</code></pre>
 </div>
 </details></li>
@@ -2556,14 +2567,17 @@ To create a copy, use the <code>copy()</code> method or the <code>[:]</code> not
 <p><summary>Solution</summary><br />
 To create a copy, use the <code>copy()</code> method:</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>diseases_copy <span class="op">=</span> diseases.copy()</span></code></pre></div>
 </div>
 <p>Or the <code>[:]</code> notation.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>diseases_copy <span class="op">=</span> diseases[:]</span></code></pre></div>
 </div>
 <p>Then, to remove all elements in the copy of the list:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>diseases_copy.clear()</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a>diseases</span></code></pre></div>
 <pre><code>[&#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;stem_blight&#39;, &#39;canker&#39;, &#39;wilt&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;, &#39;crown_galls&#39;]</code></pre>
 </div>
 </details></li>
@@ -2579,6 +2593,9 @@ The fact that strings are <em>immutable</em>, whereas lists are <em>mutable</em>
 <p><summary>Solution</summary><br />
 Recall that <code>sort()</code> sorts in place, whereas <code>sorted()</code> returns a new, sorted list.</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>diseases.sort()</span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a>diseases</span></code></pre></div>
 <pre><code>[&#39;canker&#39;, &#39;crown_galls&#39;, &#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;, &#39;stem_blight&#39;, &#39;wilt&#39;]</code></pre>
 </div>
 </details></li>
@@ -2588,7 +2605,7 @@ Recall that <code>sort()</code> sorts in place, whereas <code>sorted()</code> re
 <p><summary>Solution</summary><br />
 We can use the <code>reverse</code> argument to <code>sorted()</code> to sort in reverse order:</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>diseases_sorted <span class="op">=</span> <span class="bu">sorted</span>(diseases, reverse<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
 </div>
 </details></li>
 <li><p><strong><em>Bonus:</em></strong> If you would run <code>fewer_diseases = diseases.remove("root_rot")</code>, what would <code>fewer_diseases</code> contain? Think about what the answer should be, and then check if you were right. Does simply running <code>fewer_diseases</code> versus running <code>print(fewer_diseases)</code> make a difference?<br />
@@ -2597,10 +2614,13 @@ We can use the <code>reverse</code> argument to <code>sorted()</code> to sort in
 <p><summary>Solution</summary></p>
 <p>Because <code>remove()</code> operates <em>in place</em>, it doesn’t return anything:</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>fewer_diseases <span class="op">=</span> diseases.remove(<span class="st">&quot;root_rot&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a></span>
+<span id="cb12-3"><a href="#cb12-3"></a>fewer_diseases</span></code></pre></div>
 </div>
 <p>Well, it actualy returns <code>None</code>, which you can see by explicitly calling the <code>print()</code> function:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="bu">print</span>(fewer_diseases)</span></code></pre></div>
 <pre><code>None</code></pre>
 </div>
 </details></li>
@@ -2616,18 +2636,23 @@ Also, using <code>set()</code> on a string will extract the unique characters.</
 <p><summary>Solution</summary><br />
 First, turn the list into a string using <code>"".join</code>. Then, call <code>set()</code> on the string to get a list of unique items (= characters).</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>{&#39;o&#39;, &#39;n&#39;, &#39;r&#39;, &#39;g&#39;, &#39;l&#39;, &#39;u&#39;, &#39;i&#39;, &#39;f&#39;, &#39;h&#39;, &#39;k&#39;, &#39;c&#39;, &#39;p&#39;, &#39;b&#39;, &#39;s&#39;, &#39;a&#39;, &#39;_&#39;, &#39;m&#39;, &#39;e&#39;, &#39;w&#39;, &#39;t&#39;}</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="bu">set</span>(<span class="st">&quot;&quot;</span>.join(diseases))</span></code></pre></div>
+<pre><code>{&#39;l&#39;, &#39;_&#39;, &#39;r&#39;, &#39;b&#39;, &#39;k&#39;, &#39;t&#39;, &#39;i&#39;, &#39;f&#39;, &#39;m&#39;, &#39;u&#39;, &#39;a&#39;, &#39;o&#39;, &#39;h&#39;, &#39;c&#39;, &#39;n&#39;, &#39;g&#39;, &#39;p&#39;, &#39;w&#39;, &#39;e&#39;, &#39;s&#39;}</code></pre>
 </div>
 </details></li>
 </ol>
 <h2 id="exercise-2-dictionaries">Exercise 2: Dictionaries</h2>
 <ol type="1">
 <li><p>Create and print a dictionary called <code>yield_current</code> with the following items:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>{<span class="st">&quot;plotA_1&quot;</span>: <span class="dv">12</span>, <span class="st">&quot;plotA_2&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotA_3&quot;</span>: <span class="dv">2</span>,</span>
-<span id="cb6-2"><a href="#cb6-2"></a> <span class="st">&quot;plotB_1&quot;</span>: <span class="dv">33</span>, <span class="st">&quot;plotB_2&quot;</span>: <span class="dv">28</span>, <span class="st">&quot;plotB_3&quot;</span>: <span class="dv">57</span>}</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>{<span class="st">&quot;plotA_1&quot;</span>: <span class="dv">12</span>, <span class="st">&quot;plotA_2&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotA_3&quot;</span>: <span class="dv">2</span>,</span>
+<span id="cb17-2"><a href="#cb17-2"></a> <span class="st">&quot;plotB_1&quot;</span>: <span class="dv">33</span>, <span class="st">&quot;plotB_2&quot;</span>: <span class="dv">28</span>, <span class="st">&quot;plotB_3&quot;</span>: <span class="dv">57</span>}</span></code></pre></div>
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>yield_current <span class="op">=</span> {<span class="st">&quot;plotA_1&quot;</span>: <span class="dv">12</span>, <span class="st">&quot;plotA_2&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotA_3&quot;</span>: <span class="dv">2</span>,</span>
+<span id="cb18-2"><a href="#cb18-2"></a>                 <span class="st">&quot;plotB_1&quot;</span>: <span class="dv">33</span>, <span class="st">&quot;plotB_2&quot;</span>: <span class="dv">28</span>, <span class="st">&quot;plotB_3&quot;</span>: <span class="dv">57</span>}</span>
+<span id="cb18-3"><a href="#cb18-3"></a></span>
+<span id="cb18-4"><a href="#cb18-4"></a>yield_current                 </span></code></pre></div>
 <pre><code>{&#39;plotA_1&#39;: 12, &#39;plotA_2&#39;: 18, &#39;plotA_3&#39;: 2, &#39;plotB_1&#39;: 33, &#39;plotB_2&#39;: 28, &#39;plotB_3&#39;: 57}</code></pre>
 </div>
 </details></li>
@@ -2636,6 +2661,7 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 <p><summary>Solution</summary><br />
 We can get the value for a specific key using the <code>&lt;dict&gt;[&lt;key&gt;]</code> notation:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>yield_current[<span class="st">&quot;plotA_3&quot;</span>]</span></code></pre></div>
 <pre><code>2</code></pre>
 </div>
 </details></li>
@@ -2650,6 +2676,8 @@ No, because dictionaries have no order to them.</p>
 <p><summary>Solution</summary><br />
 We can simply assign a new value using <code>=</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>yield_current[<span class="st">&quot;plotB_2&quot;</span>] <span class="op">=</span> <span class="dv">31</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>yield_current[<span class="st">&quot;plotB_2&quot;</span>]</span></code></pre></div>
 <pre><code>31</code></pre>
 </div>
 </details></li>
@@ -2662,6 +2690,7 @@ Use the <code>len()</code> function.</p>
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="bu">len</span>(yield_current)</span></code></pre></div>
 <pre><code>6</code></pre>
 </div>
 </details></li>
@@ -2670,10 +2699,13 @@ Use the <code>len()</code> function.</p>
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>obs_20210305 <span class="op">=</span> {<span class="st">&quot;plotA_3&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotC_1&quot;</span>: <span class="dv">3</span>}</span></code></pre></div>
 </div>
 <p>We use the <code>update()</code> method as follows:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>yield_current.update(obs_20210305)</span>
+<span id="cb27-2"><a href="#cb27-2"></a></span>
+<span id="cb27-3"><a href="#cb27-3"></a>yield_current</span></code></pre></div>
 <pre><code>{&#39;plotA_1&#39;: 12, &#39;plotA_2&#39;: 18, &#39;plotA_3&#39;: 18, &#39;plotB_1&#39;: 33, &#39;plotB_2&#39;: 31, &#39;plotB_3&#39;: 57, &#39;plotC_1&#39;: 3}</code></pre>
 </div>
 <p>Now, our dictionary has an updated value for key “plotA_3”, and an entirely new item with key “plotC_1”.</p>
@@ -2687,6 +2719,7 @@ Extract the values with the <code>values()</code> method. Turn these values into
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a><span class="bu">len</span>(<span class="bu">set</span>(yield_current.values()))</span></code></pre></div>
 <pre><code>6</code></pre>
 </div>
 </details></li>
@@ -2704,7 +2737,7 @@ Recall the use of curly braces to assign a set.</p>
 <p><br />
 <summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>dna <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;T&#39;</span>}</span></code></pre></div>
 </div>
 </details></li>
 <li><p>Assign a set named <code>rna</code> with 4 items: each of the 4 bases (single-letter abbreviations) in RNA.<br />
@@ -2712,7 +2745,7 @@ Recall the use of curly braces to assign a set.</p>
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>rna <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;U&#39;</span>}</span></code></pre></div>
 </div>
 </details></li>
 <li><p>Find the 3 bases that are shared between DNA and in RNA (try both with an operator and a method, if you want).<br />
@@ -2720,11 +2753,13 @@ Recall the use of curly braces to assign a set.</p>
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;C&#39;}</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>dna <span class="op">&amp;</span> rna</span></code></pre></div>
+<pre><code>{&#39;C&#39;, &#39;A&#39;, &#39;G&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;C&#39;}</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a>dna.intersection(rna)</span></code></pre></div>
+<pre><code>{&#39;C&#39;, &#39;A&#39;, &#39;G&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Find all 5 bases that are collectively found among DNA and RNA.</p>
@@ -2732,21 +2767,25 @@ Recall the use of curly braces to assign a set.</p>
 <p><br />
 <summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;T&#39;, &#39;U&#39;, &#39;C&#39;}</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a>dna <span class="op">|</span> rna</span></code></pre></div>
+<pre><code>{&#39;C&#39;, &#39;T&#39;, &#39;G&#39;, &#39;A&#39;, &#39;U&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;T&#39;, &#39;U&#39;, &#39;C&#39;}</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a>dna.union(rna)</span></code></pre></div>
+<pre><code>{&#39;C&#39;, &#39;T&#39;, &#39;G&#39;, &#39;A&#39;, &#39;U&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Find the base that only occurs in DNA.</p>
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1"></a>dna <span class="op">-</span> rna</span></code></pre></div>
 <pre><code>{&#39;T&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1"></a>rna.difference(dna)</span></code></pre></div>
 <pre><code>{&#39;U&#39;}</code></pre>
 </div>
 </details></li>
@@ -2755,7 +2794,8 @@ Recall the use of curly braces to assign a set.</p>
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
-
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1"></a>purines <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>}</span>
+<span id="cb45-2"><a href="#cb45-2"></a>pyrimidines <span class="op">=</span> {<span class="st">&#39;C&#39;</span>, <span class="st">&#39;T&#39;</span>, <span class="st">&#39;U&#39;</span>}</span></code></pre></div>
 </div>
 </details></li>
 <li><p>Find the pyrimidine that occurs both in RNA and DNA.<br />
@@ -2767,10 +2807,12 @@ You can combine more than two sets either by chaining methods or adding another 
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1"></a>pyrimidines <span class="op">&amp;</span> dna <span class="op">&amp;</span> rna</span></code></pre></div>
 <pre><code>{&#39;C&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1"></a>pyrimidines.intersection(dna).intersection(rna)</span></code></pre></div>
 <pre><code>{&#39;C&#39;}</code></pre>
 </div>
 </details></li>
@@ -2779,14 +2821,17 @@ You can combine more than two sets either by chaining methods or adding another 
 <details>
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a>(rna <span class="op">-</span> dna) <span class="op">&amp;</span> pyrimidines</span></code></pre></div>
 <pre><code>{&#39;U&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb52"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1"></a>rna <span class="op">-</span> dna <span class="op">&amp;</span> pyrimidines</span></code></pre></div>
 <pre><code>{&#39;U&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb54"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1"></a>rna.difference(dna).intersection(pyrimidines)</span></code></pre></div>
 <pre><code>{&#39;U&#39;}</code></pre>
 </div>
 </details></li>
@@ -2836,6 +2881,12 @@ for each row in the file
 <li><p>You don’t need to prepopulate the dictionary with all cities, because with the <code>get()</code> method, when you provide a default value, a key that is not yet present will be added to the dictionary with said default value.</p>
 <p>For example:</p>
 <div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1"></a>dd <span class="op">=</span> {} <span class="co"># empty dictionary</span></span>
+<span id="cb57-2"><a href="#cb57-2"></a>my_list <span class="op">=</span> [<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;a&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;a&#39;</span>]</span>
+<span id="cb57-3"><a href="#cb57-3"></a><span class="cf">for</span> element <span class="kw">in</span> my_list:</span>
+<span id="cb57-4"><a href="#cb57-4"></a>    dd[element] <span class="op">=</span> dd.get(element, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb57-5"><a href="#cb57-5"></a></span>
+<span id="cb57-6"><a href="#cb57-6"></a><span class="bu">print</span>(dd)</span></code></pre></div>
 <pre><code>{&#39;a&#39;: 3, &#39;b&#39;: 2, &#39;c&#39;: 1, &#39;d&#39;: 1}</code></pre>
 </div></li>
 <li><p>Pseudocode:</p>
@@ -2855,7 +2906,7 @@ set up dictionary reader
 <li><p>Note that for some reason, the populations have decimal values.</p></li>
 <li><p>Again, use a dictionary that you keep adding to for each row of the data set. This time, though, each value in the dictionary should be a list of two items: the total population, and the number of occurences.</p></li>
 <li><p>In you <code>get()</code> call, you can initialize the values to be a list of two items as follows (assuming the dictionary is called <code>citypop</code> and the city’s name has been extracted as <code>mycity</code>):</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>citypop[mycity] <span class="op">=</span> citypop.get(mycity, [<span class="dv">0</span>,<span class="dv">0</span>])</span></code></pre></div></li>
+<div class="sourceCode" id="cb60"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1"></a>citypop[mycity] <span class="op">=</span> citypop.get(mycity, [<span class="dv">0</span>,<span class="dv">0</span>])</span></code></pre></div></li>
 <li><p>Then you can refer to each item in the dictionary’s values by chaining indices, e.g. <code>citypop[mycity][0]</code>.</p></li>
 <li><p>Pseudocode:</p></li>
 </ul>
@@ -2892,9 +2943,9 @@ for each city
 <p><a href="https://science.sciencemag.org/content/349/6249/747">Singh et al. (2015)</a> show that, when infected with a parasite, the four genetic lines of <em>D. melanogaster</em> respond by increasing the production of recombinant offspring (arguably, trying to produce new recombinants able to escape the parasite). They show that the same outcome is not achieved by artificially wounding the flies. The data needed to replicate the main claim (figure 2 of the original article) is contained in the file <code>Singh2015_data.csv</code>.</p>
 <p>Open the file, and compute the mean <code>RecombinantFraction</code> for each <em>Drosophila</em> genetic line, and <code>InfectionStatus</code> (<code>W</code> for wounded and <code>I</code> for infected).</p>
 <p>Print the results in the following form:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1"></a><span class="ex">Line</span> 45 Average Recombination Rate:</span>
-<span id="cb29-2"><a href="#cb29-2"></a><span class="ex">W</span> : 0.187</span>
-<span id="cb29-3"><a href="#cb29-3"></a><span class="ex">I</span> : 0.191</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1"></a><span class="ex">Line</span> 45 Average Recombination Rate:</span>
+<span id="cb62-2"><a href="#cb62-2"></a><span class="ex">W</span> : 0.187</span>
+<span id="cb62-3"><a href="#cb62-3"></a><span class="ex">I</span> : 0.191</span></code></pre></div>
 <details>
 <p><summary>Hints</summary> For each Line, you need to keep track of all the recombination rates for W (wounded) and I (infected). For example, you could build a dictionary of dictionaries in which the first dictionary has a key for each line, and the inner dictionary has a key for each status (<code>W</code> or <code>I</code>) and a list of recombination rates as each value.</p>
 Then, you would calculate averages for each list at the end.
@@ -2904,7 +2955,7 @@ Then, you would calculate averages for each list at the end.
 <li><a href="https://github.com/CSB-book/CSB/blob/master/python/solutions/Dalziel2016_solution.ipynb">Solutions for exercise CSB-1</a>.</li>
 <li><a href="https://github.com/CSB-book/CSB/blob/master/python/solutions/Singh2015_solution.ipynb">Solutions for exercise CSB-2</a>.</li>
 </ul>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
