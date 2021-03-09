@@ -33,7 +33,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ## Overview of this week
 
-This presentation:
+**This presentation - CSB 4.2:**
 
 - Modules
 
@@ -41,21 +41,23 @@ This presentation:
 
 - Program structure
 
-- Writing style
+**Thursday's presentation:**
 
----
+- Writing style (4.3)
 
-<br>
+- Calling Python scripts (4.4)
 
-Thursday's presentation:
+- Errors and error handling (4.5)
 
-- Error handling
+- Beyond the basics (4.9)
 
-- Debugging
+**Optional homework - CSB sections on:**
 
-- Unit testing
+- Debugging (4.6)
 
-- Profiling
+- Unit testing (4.7)
+
+- Profiling (4.8)
 
 ---
 class: center middle inverse
@@ -688,101 +690,6 @@ pickle.dump(my_pop, open("population.pickle", "wb"))
 population = pickle.load(open("population.pickle", "rb"))
 print(population)
 ```
-
----
-class: center middle inverse
-
-# Writing style 
-
------
-
-<br> <br> <br> <br>
-
----
-
-## Some style  guidelines
-
-LINK TO STYLE GUIDELINES
-
-- Use four spaces per indentation level; not tabs.
-
-- Split long lines (especially the arguments of functions) using parentheses.
-
-- Separate functions using blank lines.
-
-- Use a new line for each operation:
-
-.pull-left[
-Yes:
-```python
-import scipy
-import re
-```
-]
-
-.pull-left[
-No:
-```python
-import scipy,re
-```
-]
-
----
-
-## Some style guidelines (cont.)
-
-- Put spaces around operators (unless using the : to “slice” a list); use
-parentheses to clarify the precedence of operators:
-
-.pull-left[
-Yes:
-```python
-a = b ** c
-z = [a, b, c, d]
-n = n * (n - 1)
-k = (a * b) + (c * d)
-my_list = a_list[1:n]
-```
-]
-
-.pull-right[
-No:
-```python
-a=b**c
-z=[ a,b,c,d ]
-n =n*(n-1)
-k=a*b+c*d
-my_list = a_list[1 : n]
-```
-]
-
----
-
-## Some style guidelines (cont.)
-
-- **Use lots of comments and "docstrings"!**
-
-  Python allows you to write short comments (starting with # ) and
-  docstrings (multiline comments flanked by triple double quotes, """ ):
-  
-  - Use docstrings to document *how to use the code*.
-    What does this function do? What is the input/output?
-  
-  - Use short comments for explaining difficult passages in the code,
-    that is, to document how the code works.
-
-
-<br>
-
-- **Naming conventions:**
-
-  - Variables and functions in lowercase, "snake case": `my_var`, `my_fun`.
-  
-  - **Constants** in uppercase: `SOME_CONSTANT`.
-  
-  - Use descriptive names: `count_pairs`, `body_mass`, `cell_volume`.
-  
-  - Verbs for functions and nouns for objects.
 
 ---
 class: center middle inverse

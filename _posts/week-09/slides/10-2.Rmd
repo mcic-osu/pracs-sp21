@@ -17,23 +17,18 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
-```{r xaringan-scribble, echo=FALSE, eval=TRUE}
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
 xaringanExtra::use_scribble()
-```
-
-```{r xaringan-tile-view, echo=FALSE, eval=TRUE}
-xaringanExtra::use_tile_view()
-```
-
-```{r xaringan-panelset, echo=FALSE, eval=TRUE}
 xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
 ```
 
 # *Week 10 - Writing good code*
 
 ----
 
-# II: Runnable scripts, error handling, and beyond the basics
+# II
 
 <br> <br> <br> <br> <br>
 
@@ -44,8 +39,110 @@ xaringanExtra::use_panelset()
 class: center middle inverse
 
 # Overview
-
 ----
+
+### - Writing style (4.3)
+
+### - Calling Python scripts (4.4)
+
+### - Errors and error handling (4.5)
+
+### - Beyond the basics (4.9)
+
+---
+class: center middle inverse
+
+# Writing style (4.3)
+
+-----
+
+<br> <br> <br> <br>
+
+---
+
+## Some style  guidelines
+
+LINK TO STYLE GUIDELINES
+
+- Use four spaces per indentation level; not tabs.
+
+- Split long lines (especially the arguments of functions) using parentheses.
+
+- Separate functions using blank lines.
+
+- Use a new line for each operation:
+
+.pull-left[
+Yes:
+```python
+import scipy
+import re
+```
+]
+
+.pull-left[
+No:
+```python
+import scipy,re
+```
+]
+
+---
+
+## Some style guidelines (cont.)
+
+- Put spaces around operators (unless using the : to “slice” a list); use
+parentheses to clarify the precedence of operators:
+
+.pull-left[
+Yes:
+```python
+a = b ** c
+z = [a, b, c, d]
+n = n * (n - 1)
+k = (a * b) + (c * d)
+my_list = a_list[1:n]
+```
+]
+
+.pull-right[
+No:
+```python
+a=b**c
+z=[ a,b,c,d ]
+n =n*(n-1)
+k=a*b+c*d
+my_list = a_list[1 : n]
+```
+]
+
+---
+
+## Some style guidelines (cont.)
+
+- **Use lots of comments and "docstrings"!**
+
+  Python allows you to write short comments (starting with # ) and
+  docstrings (multiline comments flanked by triple double quotes, """ ):
+  
+  - Use docstrings to document *how to use the code*.
+    What does this function do? What is the input/output?
+  
+  - Use short comments for explaining difficult passages in the code,
+    that is, to document how the code works.
+
+
+<br>
+
+- **Naming conventions:**
+
+  - Variables and functions in lowercase, "snake case": `my_var`, `my_fun`.
+  
+  - **Constants** in uppercase: `SOME_CONSTANT`.
+  
+  - Use descriptive names: `count_pairs`, `body_mass`, `cell_volume`.
+  
+  - Verbs for functions and nouns for objects.
 
 ---
 
@@ -62,6 +159,60 @@ class: center middle inverse
 My plot
 ]
 ]
+
+---
+class: center middle inverse
+
+# Calling Python scripts (4.4)
+
+-----
+
+<br> <br> <br> <br>
+
+---
+
+...
+
+---
+class: center middle inverse
+
+# Errors and error handling (4.5)
+
+-----
+
+<br> <br> <br> <br>
+
+---
+
+...
+
+---
+class: center middle inverse
+
+# Beyond the basics (4.9)
+
+-----
+
+<br> <br> <br> <br>
+
+---
+
+## Modifying lists: in-place-acting methods
+
+We've seen that many of the methods in the previous slides modify lists
+*in place*, which is something you may not be used to.
+
+Such methods, therefore, don't return anything:
+
+```python
+reversed_list_maybe = seq.reverse()
+
+reversed_list_maybe
+#>
+
+seq
+#> ['A', 'A', 'F', 'K', 'N', 'T', 'V', 'V']
+```
 
 ---
 
@@ -124,7 +275,8 @@ To break this "linkage", we need to explicitly create a copy of the list
 
 --
 
-- So can we use this for assignment too? No, because strings are immutable unlike lists.
+- So can we use this for assignment too?
+  No, because strings are immutable unlike lists.
 
   ```python
   seq[2] = "U"
