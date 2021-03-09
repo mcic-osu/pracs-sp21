@@ -11,6 +11,12 @@ navbar:
   left:
     - icon: fas fa-home
       href: index.html
+    - text: "Further resources"
+      menu:
+        - text: "Python resources"
+          href: w08_python-resources.html
+    - text: "Final project"
+      href: final_project.html
   right:
     - text: "About"
       href: about.html
