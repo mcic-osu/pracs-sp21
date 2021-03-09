@@ -13,11 +13,14 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Devising a project
 
-I recommend that you make your final project as useful as possible for your own
-research and/or personal development.
+The goal for your final project is to apply some of the things you have learned
+during this course, and allow you to get you more practice.
+While some aspects are required in order to get a good grade
+(see [Graded aspects below](#graded-aspects)), you have a fair amount of freedom.
+I recommend that you take advantage of that to make your final project as useful
+as possible for your own research and/or personal development.
 
-Graded aspects for the project focus on clarity, reproducibility and automation
-(see below).
+Graded aspects for the project focus on documentation, reproducibility, and automation.
 Accordingly, there are no real requirements for the level of complexity
 or sophistication, the number of scripts, the real-world usefulness, and so on.
 I would in fact recommend you take care not to be too ambitious in this regard:
@@ -30,12 +33,12 @@ Some examples of possible types of projects:
   (though subsetting the data will be useful if you have a large genomic dataset!).
 
 - You may decide that just focusing on the coding and on
-  creating a reproducible workflow is the most useful for you,
+  creating a reproducible workflow is what is most useful for you,
   and that this may be easier with a trivial and maybe not-so-relevant dataset
   so you don't get bogged down in other details.
 
 - You may think of trying to automate something "boring" and/or repetitive
-  that you did manually so far.
+  that you did manually until now.
 
 - If you would like to work with publicly available fungal genomic data,
   you should consider using your TA Zach's `MycoTools`. You can find some
@@ -46,8 +49,9 @@ Some examples of possible types of projects:
   develop a project idea.
 
 If you need help with selecting a dataset or a project topic,
-don't hesitate to contact Jelmer. I don't currently have any ready-to-go project
-ideas with accompanying data sets, but I could make one or more, if needed.
+don't hesitate to contact me (Jelmer).
+I don't currently have any ready-to-go project ideas with accompanying data
+sets, but I could make one or more, if needed.
 
 <br>
 
