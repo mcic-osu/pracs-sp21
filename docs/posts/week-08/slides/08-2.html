@@ -726,9 +726,9 @@ where the order of the items varies stochastically.
 ## Functions and methods for dictionaries (cont.)
 
 - We saw that we can extract a value with square brackets,
-  but we can also use the `.get()` method.
+  but we can also use the `get()` method.
   This will make a difference when the key does not exist &amp;ndash;
-  and we can even specify a default value with `.get()`:
+  and we can even specify a default value with `get()`:
   
   ```python
   GenomeSize["Mus musculus"]
@@ -745,7 +745,7 @@ where the order of the items varies stochastically.
 
 .content-box-info[
 In the second example, nothing was printed,
-but `.get()` actually returned `None`,
+but `get()` actually returned `None`,
 Python's keyword to define a null value.  
 We can see this by using the `print()` function:
 
@@ -955,7 +955,7 @@ name: sets
 
 ---
 
-## Intersecting two sets
+## Comparing two sets
 
 We can use logical operators to look for shared and non-shared elements
 between different lists:
@@ -984,7 +984,7 @@ b ^ c
 
 ---
 
-## Intersecting two sets
+## Comparing two sets
 
 &lt;figure&gt;
 &lt;p align="center"&gt;
@@ -1099,7 +1099,7 @@ background-color: #f2f5eb
 background-color: #f2f5eb
 name: more-sets
 
-## *Methods* to intersect two sets
+## *Methods* to compare two sets
 
 We can do the same operations that we did above with operators like `+` and `-`
 with the methods `intersection()`, `union()`, `symmetric_difference()`,
@@ -1128,7 +1128,7 @@ s2.difference(s1)           # In set 2 but not in set 1
 ---
 background-color: #f2f5eb
 
-## *Methods* to intersect two sets
+## *Methods* to compare two sets
 
 We can also test whether sets are *subsets* or *supersets* of each other.
 
