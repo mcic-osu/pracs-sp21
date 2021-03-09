@@ -1,33 +1,54 @@
 ---
-title: "About this site"
+title: "General information about your final project"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## General information about your final project
-
-
 ### Devising a project
 
 I recommend that you make your final project as useful as possible for your own
 research and/or personal development.
 
-For instance, you may want to work with your own data or a publicly
-available dataset that is similar to what you are expecting to work with
-(though subsetting the data will be useful if you have a large genomic dataset!).
-You may also decide that just focusing on the coding and on creating a reproducible
-workflow is the most useful for you, and that this may be easier with a small
-dummy dataset so you don't get bogged down in other details.
-Finally, perhaps you can think of trying to automate something "boring" that you
-so far did manually. 
+Requirements for the project focus on clarity, reproducibility and automation
+(see below).
+Accordingly, there are no real requirements for the level of complexity
+or sophistication, the number of scripts, the real-world usefulness, and so on.
+I would in fact recommend you take care not to be too ambitious in this regard.
+(Otherwise, you risk having no time to create proper documentation
+and ensure reproducibility while you struggle to get your complicated analyses
+working.)
 
-If you come up empty-handed, talk to Zach about his fungal genomics database and
-associated project ideas.
+Some examples of possible types of projects that would work:
 
-If that also doesn't float your boat, talk to me and I can help you with a dataset
-and/or project idea.
+- You may want to work with your own data or a publicly available dataset
+  that is similar to what you are expecting to work with
+  (though subsetting the data will be useful if you have a large genomic dataset!).
+
+- You may decide that just focusing on the coding and on
+  creating a reproducible workflow is the most useful for you,
+  and that this may be easier with a trivial and maybe not-so-relevant dataset
+  so you don't get bogged down in other details.
+
+- You may think of trying to automate something "boring" and/or repetitive
+  that you did manually so far.
+
+- If you would like to work with publicly available fungal genomic data,
+  you should consider using your TA Zach's `MycoTools`. You can find some
+  general information in his [README](https://gitlab.com/xonq/mycotools/-/blob/master/mycotools/README.md)
+  and more details usage information in his
+  [usage guide](https://gitlab.com/xonq/mycotools/-/blob/master/mycotools/USAGE.md).
+  If this looks interesting to you, contact Zach to get more information and to
+  develop a project idea.
+
+If you need help with selecting a dataset or a project topic,
+don't hesitate to contact Jelmer.
 
 <br>
 
@@ -36,62 +57,66 @@ and/or project idea.
 Requirements for your project focus on **appropriate usage of many of the
 tools and principles we covered during the course**.
 
-Accordingly, there are no real requirements about the level of complexity
-or sophistication, the number of scripts, the real-world usefulness, and so on,
-of your project. In fact, I would recommend that you take care not
-to be too ambitious in this regard such that you may not end up having time to
-create proper documentation and ensure reproducibility.
-
 The project should:
 
-- Be well-organized: contained in a single parent directory with a clear and
+- Be **well-organized**: contained in a single parent directory with a clear and
   sensible structure of subdirectories, descriptive file and directory names,
-  no files floating around whose purpose or source is not clear, and so on.
+  no files floating around with unclear purpose or source, and so on.
 
-- Be well-documented with at least one README in Markdown format in the root
-  directory of your project
+- Be **well-documented**, with *at least* one README in Markdown format in the root
+  directory of your project, and preferably with additional READMEs elsewhere
+  as appropriate.
 
-- Be version-controlled *throughout* (i.e. with regular, meaningful commits),
-  and repeatedly "pushed" to GitHub.
+- Be **version-controlled** with Git *throughout*: with regular, meaningful commits.
+  You will also need to push to GitHub for the proposal, draft, and final
+  submission checkpoint.
 
-- Have (most) analysis or data processing done using scripts in Bash and/or Python.
+- Contain **scripts in Bash and/or Python that do the analysis/data processing**
+  (see also the last point). Try not to do *any* "manual" work such as editing
+  a data file in a text editor or excel to fix column names,
+  since this hinders reproducibility.
   
-  - Some components in other languages such as R are fine, too,
+  - Having some components in **other languages** is fine,
     in case you know how to do things there that we didn't learn in the course
-    (for example, plotting in R -- we only cover minimal basics of plotting in Python).
+    (for example, doing some plotting in R).
     
-  - Similarly, it is okay to call external, command-line programs
+  - Similarly, it is fine to call **external, command-line programs**
     (e.g. some of the bioinformatics programs we have run, or any program
     that may be useful for your research).
     
-    If your project is *mostly* or almost entirely calling such programs, though,
-    I would like you to especially focus on creating
-    a reproducible and easily rerunnable pipeline (see below).
+    If your project's heavy lifting consists *mostly* or almost entirely of
+    calling such programs, though, it becomes especially important that you
+    are creating a reproducible and easily rerunnable pipeline (see below).
   
-- Run one or more of the scripts as SLURM jobs at OSC.
-  (But a locally run project *could* be okay if your research does not and will not
+- Run one or more scripts as **SLURM jobs at OSC**.  
+  (A locally run project could be okay if your research does not and will not
   require the use of supercomputers like those at OSC -- check in with me if this
-  is the case and you would prefer not to use OSC.)
+  is the case and you would therefore prefer not to use OSC.)
 
-- Be easily re-runnable using a "master" / "controller" script that glues the
-  entire project together.
+- Be easily **re-runnable using a Snakefile or a "master" / "controller" script**
+  that glues the entire project together.
   
-  A `README.md` that explains what you did or provides
-  instructions how to rerun the project, even if in detail
-  ("Next, I ran script C using the command `my_script.py arg1 arg2`"),
-  is not enough: there should be a script that can actually be run,
-  for instance by me!
+  It is **not** enough to include a `README.md` that explains what you did or that
+  provides instructions how to rerun the project, even if in detail
+  ("Next, I ran the third script using the command `my_script.py arg1 arg2`").
+  Such information is very useful, but there should be a script that can actually
+  be run to reproduce the project, for instance by me!
   
-  Preferably, this is done using single Snakemake control script ("Snakefile").
+  Preferably, this is done using single Snakemake control script ("Snakefile"),
+  but a shell or Python script may also work. 
 
 <br>
 
 ### Steps (checkpoints)
 
-#### Proposal -- due March 23
+Information about expectations for each of the steps (checkpoints) for the project
+will be provided in the content for individual weeks.
+Below is an overview which will be updated with the links:
 
-#### Draft -- due April 6
+- Proposal -- due March 23
 
-#### In-class Presentations -- April 13 and 15
+- Draft -- due April 6
 
-#### Final submission -- due April 23
+- In-class presentations -- April 13 and 15
+
+- Final submission -- due April 23
