@@ -22,7 +22,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ----
 
-# I: ...
+# I: <br> Modules, functions, <br> program structure, and writing style
 
 <br> <br> <br> <br> <br>
 
@@ -31,118 +31,764 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo
+## Overview of this week
 
-Define a function that converts from temperatures in Fahrenheit to temperatures in Kelvin, and another function that converts back again.
+This presentation:
 
-The general formula for the conversion from Fahrenheit to Kelvin is:
+- Modules
 
-kelvin = (fahr - 32) * 5 / 9 + 273.15
+- Functions
 
+- Program structure
 
-
----
-
-
+- Writing style
 
 ---
 
-## Modifying lists: >1 name referring to the same list
+<br>
 
-Also of note is that when we assign an existing list to a new name,  
-this will *not* create a new list in the way we saw with simple variables.
+Thursday's presentation:
 
-```python
-list_b = my_list
-```
+- Error handling
 
-Instead, both names (`list_b` and `a`) now are separate pointers to the *same*
-list &ndash; if we modify one, the other will also change:
+- Debugging
 
-```python
-list_b = list_b.append("Exclusive to list b?")
+- Unit testing
 
-my_list
-#> [1, 2, 5, 14, 42, 132, "Exclusive to list b?"]
-```
+- Profiling
+
+---
+class: center middle inverse
+
+# Modules
+
+-----
+
+<br> <br> <br> <br>
+
+---
+
+## Modules
+
+Modules, packages, and libraries:
+
+- **Python modules** contain *collections of functions*.  
+  Technically, Python modules are single `.py` files.
+  
+- *Collections of modules* are technically **packages**,
+  though they can also be simply referred to as modules.   
+
+- The term **library** is not as well-defined,
+  and can be used interchangeably with both module and package.
+
 
 --
 
 <br>
 
-.content-box-info[
-Python exhibits this type of behavior for all mutable data types.
+Modules and packages can be *imported* into your Python environment
+(in a script or interactively) using the import statement:
+  
+  ```py
+  import os
+  ```
 
-To break this "linkage", we need to explicitly create a copy of the list
-(next slide).
+---
+
+## Installing modules
+
+Modules from the **Python standard library** don't have to be installed,
+and can be imported directly.
+
+So, while they are part of any Python installation, they are not loaded by
+default. 
+
+----
+
+--
+
+So-called "**third-party**" modules/packages/libraries, on the other hand,
+do need to be installed.
+
+These are not installed from inside Python (like with R),
+but using stand-alone package managers, usually in the shell:
+
+- We have already worked with `conda` &ndash; to install the 
+  `numpy` ("NUMerical PYthon") library, for instance:
+  ```sh
+  $ conda install numpy
+  ```
+  
+- Another common package manager is the Python-specific `pip`:
+  ```sh
+  $ pip install numpy
+  ```
+
+---
+
+## Loading modules
+
+In Python, it is customary to not load modules directly into your "namespace".
+
+This means that the module's functions will not be accessibly by just their names,
+but you need to prepending the module's name.
+
+- Simply using the module name as in `import mymodule` will load all of the module's
+  function, which can then be referred to using `mymodule.myfunction`:
+
+  ```py
+  import os
+  os.getcwd()
+  ```
+
+- If a module's name is long(ish), it is common to define an "alias" for the
+  module in the `import` call:
+  
+  ```py
+  import numpy as np
+  my_array = np.array([1, 2, 3, 4])
+  ```
+  
+  (While the alias name can be anything you like,
+  most modules have commonly-used aliases, like `np` for `numpy`.)  
+
+---
+
+## Loading modules (cont.)
+
+- To only load certain functions from a moudle,
+  or certain modules from multi-module packages:
+
+  ```py
+  # From the snakemake.io module, import two functions:
+  from snakemake.io import expand, glob_wildcards
+  
+  # From the matplotlib package, import the pyplot module: 
+  from matplotlib import pyplot as plt
+  
+  # Or equivalently using <package>.<module>:
+  import matplotlib.pyplot as plt
+  ```
+
+<br>
+
+- Finally, it *is* possible but discouraged to load all functions from a module
+  directly into your namespace using an asterisk `*` wildcard:
+  
+  ```sh
+  from numpy import *
+  array([1, 2, 3, 4])
+  ```
+
+---
+
+## Creating modules
+
+In Python, it is exceedingly easy to create a module: just save a file with
+functions (e.g. `my_utils.py`) and load it using `import my_utils`  
+(assuming the file is in the same directory or can be otherwise found).
+
+---
+class: center middle inverse
+
+# Functions
+
+-----
+
+<br> <br> <br> <br>
+
+---
+
+## Writing our first function
+
+```py
+def GC_content(dna):
+
+    # Make sure the input string is all uppercase:
+    dna = dna.upper()
+    
+    # Count the occurrences of each nucleotide:
+    numG = dna.count("G")
+    numC = dna.count("C")
+    numA = dna.count("A")
+    numT = dna.count("T")
+    
+    # Finally, calculate (G + C) / (A + T + G + C):
+    GC = (numG + numC) / (numG + numC + numT + numA)
+    
+    return GC 
+```
+
+---
+
+## Writing our first function (cont.)
+
+```py
+def GC_content(dna):
+
+    # Arbitrary code...
+    
+    return GC
+```
+
+The anatomy of a Python function:
+
+- Start with the keyword `def` (for *define*)
+
+- Next provide the name of the function, which is whatever we would like it to be.
+  
+- Between parenthesis, list the input(s) (*argument(s)*) of the function.
+
+- Don't forget the colon `:`!
+
+- All the code belonging to the function is indented.
+
+- The function returns output as defined after the `return` keyword.
+
+---
+
+## Using our first function (cont.)
+
+```python
+GCcontent("AATTTCCCGGGAAA")
+#> 0.42857142857142855
+
+GCcontent("ATGCATGCATGC")
+#> 0.5
+```
+
+---
+
+## Why are custom functions useful?
+
+Custom functions are useful to break up your code in small(ish) units.
+
+This way, the main part of the program can become a series of logically
+connected function calls,
+and the nuts and bolts are the individual functions.
+
+In other words, having modular code:
+
+- Makes it easier to see what your program does.
+
+- Makes it easier to test your code.
+
+- Makes it easier to repeat operations
+  (like calculating GC content for mulitple sequences).
+
+- Makes your programs more flexible (function arguments!) and
+  easier to adapt.
+
+---
+
+## A few more simple functions
+
+A function to nicely print a dictionary:
+
+```python
+def print_dictionary(mydic):
+    
+    for k, v in mydic.items():
+        print("key: ", k, " value: ", str(v))
+```
+
+<br>
+
+--
+
+Let's try it:
+
+```python
+print_dictionary({"a": 3.4, "b": [1, 2, 3, 4], "c": "astring"})
+
+#> key:  a  value:  3.4
+#> key:  b  value:  [1, 2, 3, 4]
+#> key:  c  value:  astring
+```
+
+---
+
+## A few more simple functions (cont.)
+
+A function to calculate the square for a series of numbers,
+and put those squares in a list:
+  
+```python
+def squared(start = 1, end = 10):
+      
+    # Create empty list to catch result of each iteration:
+    results = []
+      
+    # Loop through the numbers:
+    for i in range(start, end):
+        r = i ** 2        # Calculate square 
+        results.append(r) # Append current value to list
+      
+    return results
+```
+
+Let's try it:
+
+```python
+squared(start = 3, end = 10)
+#> [9, 16, 25, 36, 49, 64, 81]
+```
+
+---
+
+## A few more simple functions (cont.)
+
+```python
+def squared(start = 1, end = 10):
+    ...
+```
+
+Because we specified default values in the function definition,  
+we can omit one or both!
+
+```python
+# Specify only start, end has default value 10:
+squared(5)
+#> [25, 36, 49, 64, 81]
+
+# Specify only end, start has default value 1:
+squared(end = 3)
+#> [1, 4]
+
+# Start has default value 1, end is 10:
+squared()
+#> [1, 4, 9, 16, 25, 36, 49, 64, 81]
+```
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo 4.1: Determine the function
+
+```python
+def foo1(x = 7):
+    return x ** 0.5
+```
+
+--
+
+`foo1()` returns the square root of its argument.
+
+<br>
+
+--
+
+```python
+def foo2(x = 3, y = 5):
+    if x > y:
+        return x
+    return y
+```
+
+--
+
+`foo2()` returns the larger of two numbers.
+
+---
+
+## `r icon::fa("user-edit")` Intermezzo 4.1: Determine the function (cont.)
+
+
+```python
+def foo4(x = 6):
+    result = 1
+    for i in range(1, x + 1):
+        result = result * i
+    return result
+```
+
+--
+
+`foo4()` returns the factorial of a number.
+
+<br>
+
+--
+
+```python
+def foo6(x = 25):
+    if x == 1:
+        return 1
+    return x * foo6(x - 1)
+```
+
+--
+
+`foo6()` returns the factorial of a number via *recursion*.
+
+---
+
+## `r icon::fa("user-edit")` A function to convert temperature
+
+- Define a function that converts from temperatures in degrees Fahrenheit to
+  degrees celcius.
+
+  (To convert Fahrenheit to Celcius, subtract 32 and then multiply by 5/9.)
+
+- Test your function with any temperature.
+
+---
+
+## `r icon::fa("user-edit")` A function to convert temperature: Solution
+
+```python
+def f_to_c(deg_f):
+    deg_c = (deg_f - 32) * (5 / 9)
+    return deg_c
+```
+
+```python
+#> f_to_c(100)
+37.77777777777778
+```
+
+---
+class: center middle inverse
+
+# Program structure
+
+-----
+
+### Practicing coding a more complex program <br> via a population genetic simulation
+
+<br> <br> <br> <br>
+
+
+---
+
+## The outline of the program
+
+We will simulate genetic drift: random changes in allele frequency over time
+that happen in finite populations.
+
+We'll ask how long it takes before an allele drifts to fixation.
+
+--
+
+<br>
+
+To do so, we'll divide our code into several functions:
+
+- A function that initializes the population:
+  It should take as input the size of the population (`N`),
+  and the probability of having an `A` allele (`p`).
+  This function returns an entire population.
+
+- A function that computes genotype frequencies,
+  which we will need to determine whether an allele has gone to fixation.
+  The function should take a population as input and output the count for each
+  genotype.
+
+- A reproduction function that takes the current population and produces the
+  next generation.
+
+<br>
+
+--
+
+**Start by opening a new file and saving it as `drift.py`.**
+
+---
+
+## The function to build the population
+
+```python
+import scipy  # for random numbers
+
+def build_population(N, p):
+    """The population consists of N individuals. 
+       Each individual has two chromosomes, containing
+       allele "A" or "a", with probability p and 1-p, respectively.
+       The population is a list of tuples.
+    """
+    
+    population = []                  # Start with empty list
+    
+    for i in range(N):               # Loop over individuals
+        
+        allele1 = "A"                # The "default" allele is A
+        if scipy.random.rand() > p:  # Random number between 0 and 1
+            allele1 = "a"
+        
+        allele2 = "A"                # Second chromosome (diploidy)
+        if scipy.random.rand() > p:
+            allele2 = "a"
+        
+        population.append((allele1, allele2))
+    
+    return population
+```
+
+---
+
+## Test the function (not in the script)
+
+```python
+build_population(N = 5, p = 0.5)
+#> [('a', 'a'), ('a', 'A'), ('A', 'A'), ('A', 'a'), ('A', 'A')]
+
+build_population(N = 5, p = 0.5)
+#> [('A', 'a'), ('A', 'a'), ('a', 'a'), ('A', 'A'), ('A', 'a')]
+
+build_population(N = 5, p = 0.9)
+#> [('A', 'A'), ('A', 'A'), ('A', 'a'), ('A', 'A'), ('A', 'A')]
+
+build_population(N = 5, p = 0)
+#> [('a', 'a'), ('a', 'a'), ('a', 'a'), ('a', 'a'), ('a', 'a')]
+```
+
+---
+
+## The function to calculate genotype frequencies
+
+```python
+def compute_frequencies(population):
+    """ Count the genotypes.
+        Returns a dictionary with counts for each genotype.
+    """
+    
+    AA = population.count(("A", "A"))
+    Aa = population.count(("A", "a"))
+    aA = population.count(("a", "A"))
+    aa = population.count(("a", "a"))
+    
+    return({"AA": AA,
+            "aa": aa,
+            "Aa": Aa,
+            "aA": aA})
+```
+
+---
+
+## Test the function (not in the script)
+
+```python
+>>> my_pop = build_population(6, 0.5)
+>>> compute_frequencies(my_pop)
+```
+
+---
+
+## The function to create a new generation
+```python
+def reproduce_population(population):
+    """ Create a new generation through sexual reproduction
+        For each of N new offspring:
+        - Choose the parents at random
+        - The offspring receives one chromosome from each parent
+    """
+    
+    new_generation = []
+    
+    N = len(population)
+    
+    for i in range(N):
+        
+        dad = scipy.random.randint(N)  # random integer between 0 and N-1
+        mom = scipy.random.randint(N)
+        
+        chr_mom = scipy.random.randint(2)  # which chromosome comes from mom
+        
+        offspring = (population[mom][chr_mom],
+                     population[dad][1 - chr_mom])
+        
+        new_generation.append(offspring)
+    
+    return(new_generation)
+```
+
+---
+
+## Test the function (not in the script)
+
+```python
+>>> reproduce_population(my_pop)
+```
+
+---
+
+## A new script for the main program
+
+- Open a new file and save it as `simulate_drift.py`.
+
+- In it, we will first import our functions:
+
+  ```python
+  import drift
+  ```
+
+- Let's check whether this worked:
+
+  ```python
+  >>> help(drift)
+  ```
+
+---
+
+```python
+def simulate_drift(N, p):
+    
+    # Initialize the population:
+    my_pop = drift.build_population(N, p)
+    
+    num_generations = 0
+    fixation = False
+    
+    while fixation == False:
+    
+      # Compute genotype counts:
+      genotype_counts = drift.compute_frequencies(my_pop)
+      
+      # If one allele went to fixation, stop:
+      if genotype_counts["AA"] == N or genotype_counts["aa"] == N:
+          print("An allele reached fixation at generation", num_generations)
+          print("The genotype counts are")
+          print(genotype_counts)
+          
+          fixation == True
+          break # Superfluous?
+      
+      # If not, reproduce:
+      my_pop = drift.reproduce_population(my_pop)
+      num_generations = num_generations + 1
+```
+
+---
+
+## Test the program
+
+```python
+simulate_drift(100, 0.5)
+#> An allele reached fixation at generation 66
+#> The genotype counts are
+#> { ' aa ' : 100, ' aA ' : 0, ' AA ' : 0, ' Aa ' : 0}
+
+simulate_drift(100, 0.9)
+#> An allele reached fixation at generation 20
+#> The genotype counts are
+#> { ' aa ' : 0, ' aA ' : 0, ' AA ' : 100, ' Aa ' : 0}
+```
+
+---
+
+## Saving and loading Python objects
+
+```python
+import pickle
+# save Python object to file
+pickle.dump(my_pop, open("population.pickle", "wb"))
+# What is wb?
+```
+
+```python
+population = pickle.load(open("population.pickle", "rb"))
+print(population)
+```
+
+---
+class: center middle inverse
+
+# Writing style 
+
+-----
+
+<br> <br> <br> <br>
+
+---
+
+## Some style  guidelines
+
+LINK TO STYLE GUIDELINES
+
+- Use four spaces per indentation level; not tabs.
+
+- Split long lines (especially the arguments of functions) using parentheses.
+
+- Separate functions using blank lines.
+
+- Use a new line for each operation:
+
+.pull-left[
+Yes:
+```python
+import scipy
+import re
+```
+]
+
+.pull-left[
+No:
+```python
+import scipy,re
+```
 ]
 
 ---
 
-## Strings versus lists
+## Some style guidelines (cont.)
 
-- Because strings are immutable, assigning a new variable name will always create
-  an entirely new, unlinked variable &ndash; recall from Tuesday:
+- Put spaces around operators (unless using the : to “slice” a list); use
+parentheses to clarify the precedence of operators:
 
-  ```python
-  x = 5
-  y = x
-  y = y + 10
-  y
-  #> 15
-  x
-  #> 5
-  ```
+.pull-left[
+Yes:
+```python
+a = b ** c
+z = [a, b, c, d]
+n = n * (n - 1)
+k = (a * b) + (c * d)
+my_list = a_list[1:n]
+```
+]
 
---
-
-- We saw earlier that strings can be indexed like lists:
-
-  ```python
-  seq = "ATGCATG"
-  seq[2]
-  #> 'T'
-  ```
-
---
-
-- So can we use this for assignment too? No, because strings are immutable unlike lists.
-
-  ```python
-  seq[2] = "U"
-  #> TypeError: 'str' object does not support item assignment
-  ```
+.pull-right[
+No:
+```python
+a=b**c
+z=[ a,b,c,d ]
+n =n*(n-1)
+k=a*b+c*d
+my_list = a_list[1 : n]
+```
+]
 
 ---
 
-## Copying lists
+## Some style guidelines (cont.)
 
-- `copy` &ndash; Create a copy of the list:
+- **Use lots of comments and "docstrings"!**
 
-  ```python
-  import copy
-  new_list = my_list.copy()
-  new_list
-  #> ['blue', 2.44, 'green', True, 25, 'red', 0] 
-  ```
-
-- Or use `[:]` notation:
-
-  ```python
-  another_list = my_list[:] 
-  ```
-
---
-
-- Now, these lists can be modified independently:
-
-  ```python
-  new_list.clear()
-  my_list
-  #> [1, 2, 5, 14, 42, 132]
+  Python allows you to write short comments (starting with # ) and
+  docstrings (multiline comments flanked by triple double quotes, """ ):
   
-  another_list.clear()
-  my_list
-  #> [1, 2, 5, 14, 42, 132]
-  ```
+  - Use docstrings to document *how to use the code*.
+    What does this function do? What is the input/output?
+  
+  - Use short comments for explaining difficult passages in the code,
+    that is, to document how the code works.
 
+
+<br>
+
+- **Naming conventions:**
+
+  - Variables and functions in lowercase, "snake case": `my_var`, `my_fun`.
+  
+  - **Constants** in uppercase: `SOME_CONSTANT`.
+  
+  - Use descriptive names: `count_pairs`, `body_mass`, `cell_volume`.
+  
+  - Verbs for functions and nouns for objects.
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>
