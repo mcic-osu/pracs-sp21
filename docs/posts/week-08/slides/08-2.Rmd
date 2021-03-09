@@ -18,6 +18,13 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = TRUE)
 ```
 
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
+xaringanExtra::use_scribble()
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
+```
+
 # *Week 8 - First steps with Python*
 
 ----
@@ -449,7 +456,7 @@ https://xkcd.com/163/
 
 ---
 
-## Updating a list element
+## Modifying lists
 
 - We can *update* an element using index notation:
 
@@ -459,10 +466,8 @@ https://xkcd.com/163/
   my_list
   #> ['x', 'b', 'c', 'd', 'e']
   ```
-  
----
 
-## List methods
+--
 
 - To append an element to the end of the list, use the method `append()`:
 
@@ -472,16 +477,6 @@ https://xkcd.com/163/
   # ['x', 'b', 'c', 'd', 'e', 'f']
   ```
   
-- To delete one or more elements *by index*, use the *function* `del()`:
-  
-  ```python
-  del(my_list[2:4])        # Delete 3rd and 4th element 
-  a
-  #> ['x', 'b', 'e', 'f']
-  ```
-  
---
-
 - To remove all elements from the list, use the method `clear()`:
 
   ```python
@@ -492,7 +487,7 @@ https://xkcd.com/163/
 
 ---
 
-## List methods (cont.)
+## Misc. list methods
 
 ```python
 seq = list("TKAAVVNFT")
@@ -507,8 +502,6 @@ seq
   #> 2
   ```
 
---
-
 - `index()` &ndash; Return the index corresponding to first occurrence of an
   item:
 
@@ -517,29 +510,17 @@ seq
   #> 4
   ```
 
---
-
-- `pop()` &ndash; Remove the last item in the list and return it:
-
-  ```python
-  seq_last = seq.pop()
-  seq
-  #> ['T', 'K', 'A' , 'A' , 'V', 'V' ,'N', 'F']
-  seq_last
-  #> 'T'
-  ```
-
 ---
 
-## List methods (cont.)
+## Misc. list methods (cont.)
 
 - `sort()` &ndash; Sort the list:
 
   ```python
-  my_list = [1, 5, 2, 42, 14, 132]
-  my_list.sort()
-  my_list
-  #> [1, 2, 5, 14, 42, 132]
+  # seq = ['T', 'K', 'A', 'A', 'V', 'V', 'N', 'F', 'T']
+  seq.sort()
+  seq
+  #> ['A', 'A', 'F', 'K', 'N', 'T', 'V', 'V']
   ```
 
 --
@@ -547,43 +528,26 @@ seq
 - `reverse()` &ndash; Reverse the order of the elements:
 
   ```python
-  my_list.reverse()
-  my_list
-  #> [132, 42, 14, 5, 2, 1]
+  seq.reverse()
+  seq
+  #> ['V', 'V', 'T', 'N', 'K', 'F', 'A', 'A']
   ```
 
 ---
 
-## Modifying lists: in-place-acting methods
+## <i class="fa fa-user-edit"></i> Intermezzo 3.2 - Part I
 
-We've seen that many of the methods in the previous slides modify lists
-*in place*, which is something you may not be used to.
-
-Such methods, therefore, don't return anything:
-
-```python
-reversed_list_maybe = my_list.reverse()
-
-reversed_list_maybe
-#>
-
-my_list
-#> [1, 2, 5, 14, 42, 132]
-```
-
----
-
-## `r icon::fa("user-edit")` Intermezzo 3.2 - Part I
+.panelset[
+.panel[.panel-name[Questions]
 
 1. Define a list `a = [1, 1, 2, 3, 5, 8]`.
 
 2. Extract `[5, 8]` in two different ways (with positive and negative indices).
 
-3. Add an element (item) "13" at the end of the list.
+3. Add an element (item) containing `13` at the end of the list.
+]
 
----
-
-## `r icon::fa("user-edit")` Intermezzo 3.2 - Part I : Solutions
+.panel[.panel-name[Solutions]
 
 1. Define a list:
   
@@ -594,15 +558,17 @@ my_list
 2. Extract `[5, 8]` in two ways:
    
    ```python
-   a[4:6]
+   a[4:]    # Or a[4:6]
    a[-2:]
    ```
    
-3. Add the element 13:
+3. Add an item:
 
    ```python
    a.append(13)
    ```
+]
+]
 
 ---
 class: center middle inverse
@@ -640,22 +606,12 @@ are indexed by **keys**.
   #>  'Homo sapiens' : 3200.0}
   ```
 
+- The order of the keys does not matter,
+  and is in fact not retained as it was entered!
+  
 ---
 
 ## Dictionaries are unordered
-
-- The order of the keys does not matter,
-  and in fact is not retained as it was entered:
-  
-  ```python
-  GenomeSize = {"Homo sapiens": 3200.0,
-                  "Escherichia coli": 4.6,
-                  "Arabidopsis thaliana": 157.0}
-  GenomeSize
-  #> {'Arabidopsis thaliana ' : 157.0,
-  #>  'Escherichia coli' : 4.6,
-  #>  'Homo sapiens' : 3200.0}
-  ```
 
 - In dictionaries, values are therefore recalled not with an index,
   but with the name of their corresponding key:
@@ -665,9 +621,9 @@ are indexed by **keys**.
   #> 157.0
   ```
 
----
+--
 
-## Dictionaries are unordered (cont.)
+<br>
 
 .content-box-info[
 **Unordered versus ordered data structures**  
@@ -677,13 +633,13 @@ they are always said to be ordered in the sense that:
 - The position for each item is retained unless explicitly changed.
 - Items can thus accessed using their position (`my_list[5]`).
 
-This is not true for (default) dictionaries:
-they cannot be sorted, and the order of the items varies stochastically.
+This is not true for (default) dictionaries,
+where the order of the items varies stochastically.
 ]
 
 ---
 
-## Dictionaries (cont.)
+## Modifying dictionaries
 
 - New values can be added simply by assigning a new key:
 
@@ -721,32 +677,7 @@ they cannot be sorted, and the order of the items varies stochastically.
 
 ## Functions and methods for dictionaries
 
-- As with lists, items can be deleted with the `del()` function:
-
-  ```python
-  del(GenomeSize['Homo sapiens'])
-  ```
-
---
-
-<br>
-
-- `.pop()` removes the specified key and returns the corresponding value:
-
-  ```python
-  GenomeSize.pop("Escherichia coli")
-  #> 4.6
-  
-  GenomeSize
-  #> {'Arabidopsis thaliana': 157.0,
-  #> 'Saccharomyces cerevisiae': 12.1}
-  ```
-  
----
-
-## Functions and methods for dictionaries
-
-- The methods `keys()` and `values()` create list-like objects from the keys
+- The methods **`keys()`** and **`values()`** create list-like objects from the keys
   and values:
   
   ```python
@@ -757,7 +688,7 @@ they cannot be sorted, and the order of the items varies stochastically.
   #> dict_values([157.0, 12.1])
   ```
 
-- And similarly `items()` returns each full item, i.e. each key-value pair:
+- And similarly **`items()`** returns each full item, i.e. each key-value pair:
 
   ```python
   GenomeSize.items()
@@ -768,7 +699,7 @@ they cannot be sorted, and the order of the items varies stochastically.
 
 ## Functions and methods for dictionaries (cont.)
 
-- We can merge two dictionaries using `.update()`:
+- We can merge two dictionaries using `update()`:
 
   ```python
   D1 = {"a": 1, "b": 2, "c": 3}
@@ -779,13 +710,13 @@ they cannot be sorted, and the order of the items varies stochastically.
   #> {'d': 4, 'e': 5, 'b': 2, 'a': 2, 'c': 3}
   ```
 
-  With `.update()`, the order matters: for keys present in both dictionaries
+  With `update()`, the order matters: for keys present in both dictionaries
   but with different values, the value of the *second* dictionary will
   overwrite that of the first.
   
 ---
 
-## Functions and methods for dictionaries
+## Functions and methods for dictionaries (cont.)
 
 - We saw that we can extract a value with square brackets,
   but we can also use the `.get()` method.
@@ -847,17 +778,19 @@ print(GenomeSize.get("Allium cepa"))
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 3.2 - Part II
+## <i class="fa fa-user-edit"></i> Intermezzo 3.2 - Part II
+
+.panelset[
+.panel[.panel-name[Questions]
 
 1. Define a dictionary `codons = {'Met': 'AUG', 'Phe': 'UUU'}`.
 
-2. Add the element `Trp` with value "UGG". 
+2. Add the element `Trp` with value `"UGG"`. 
 
 3. Update the value of `Phe` to be `['UUU', 'UUC']`.
+]
 
----
-
-## `r icon::fa("user-edit")` Intermezzo 3.2: Solutions (cont.)
+.panel[.panel-name[Solutions]
 
 1. Define a dictionary:
    
@@ -865,17 +798,20 @@ print(GenomeSize.get("Allium cepa"))
    codons = {'Met': 'AUG', 'Phe': 'UUU'}
    ```
    
-2. Add element `d`:
+2. Add an item:
 
    ```python
    codons["Trp"] = 'UGG'
    ```
 
-3. Update element `b`:
+3. Update an item:
 
    ```python
    codons['Phe'] = ['UUU', 'UUC']
    ```
+   
+]
+]
 
 ---
 class: center middle inverse
@@ -968,7 +904,7 @@ name: sets
 
 **Sets are lists with no duplicate entries.**
 
-- Sets can be created with curly braces `{}` &mdash; like dictionaries (!),
+- Sets can be created with curly braces `{}` &mdash; like dictionaries (!),  
   but the syntax of the elements will make clear which you mean:
   
   ```python
@@ -1051,62 +987,6 @@ b ^ c
 
 ---
 
-## Methods to intersect two sets
-
-.content-box-info[
-- We can do the same operations with the methods `intersection()`,
-  `union()`, `symmetric_difference()`, and `difference()`:
-  
-  ```python
-  s1 = {1, 2, 3, 4}
-  s2 = {4, 5, 6}
-  
-  s1.intersection(s2)         # Equivalent to: s1 & s2
-  #> {4}
-  
-  s1.union(s2)                # Equivalent to: s1 | s2
-  #> {1, 2, 3, 4, 5, 6}
-  
-  s1.symmetric_difference(s2) # Equivalent to: s1 ^ s2
-  #> {1, 2, 3, 5, 6}
-  
-  s1.difference(s2)           # In set 1 but not in set 2
-  #> {1, 2, 3}
-  
-  s2.difference(s1)           # In set 2 but not in set 1
-  #> {5, 6}
-  ```
-]
-
----
-
-## Methods to intersect two sets
-
-.content-box-info[
-We can also test whether sets are *subsets* or *supersets* of each other.
-
-- Set 1 is a subset of set 2 if if s2 contains all its elements,
-  and optionally others too:
-
-  ```python
-  # s1 = {1, 2, 3, 4}
-  # s2 = {4, 5, 6}
-  
-  s1.issubset(s2)
-  #> False
-  ```
-
-- Set 1 is a superset of set 2 if set 1 contains all the elements in set 2,
-  and optionally others too:
-  
-  ```python
-  s1.issuperset(s2)
-  #> False
-  ```
-]
-
----
-
 ## Summary of data structures
 
 | structure | bracket type   | create empty   | create non-empty
@@ -1142,3 +1022,124 @@ class: center middle inverse
 -----
 
 <br> <br> <br> <br>
+
+---
+class: inverse middle center
+
+# Bonus Material
+
+----
+
+<br>
+
+.left[
+- ### [Removing items from lists and dictionaries](#rm)
+- ### [More on comparing sets](#more-sets)
+]
+
+<br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+name: rm
+
+## Removing items from lists
+
+- To delete one or more items *by index*, use the *function* `del()`:
+  
+  ```python
+  del(my_list[2:4])        # Delete 3rd and 4th element 
+  a
+  #> ['x', 'b', 'e', 'f']
+  ```
+ 
+ 
+- `pop()` &ndash; Remove the last item in the list *and return it*:
+
+  ```python
+  seq_last = seq.pop()
+  seq
+  #> ['T', 'K', 'A' , 'A' , 'V', 'V' ,'N', 'F']
+  seq_last
+  #> 'T'
+  ```
+
+---
+background-color: #f2f5eb
+
+## Removing items from dictionaries
+
+- As with lists, items can be deleted with the `del()` function:
+
+  ```python
+  del(GenomeSize['Homo sapiens'])
+  ```
+
+<br>
+
+- `pop()` removes the specified key and returns the corresponding value:
+
+  ```python
+  GenomeSize.pop("Escherichia coli")
+  #> 4.6
+  
+  GenomeSize
+  #> {'Arabidopsis thaliana': 157.0,
+  #> 'Saccharomyces cerevisiae': 12.1}
+  ```
+
+---
+background-color: #f2f5eb
+name: more-sets
+
+## *Methods* to intersect two sets
+
+We can do the same operations that we did above with operators like `+` and `-`
+with the methods `intersection()`, `union()`, `symmetric_difference()`,
+and `difference()`:
+
+```python
+s1 = {1, 2, 3, 4}
+s2 = {4, 5, 6}
+
+s1.intersection(s2)         # Equivalent to: s1 & s2
+#> {4}
+
+s1.union(s2)                # Equivalent to: s1 | s2
+#> {1, 2, 3, 4, 5, 6}
+
+s1.symmetric_difference(s2) # Equivalent to: s1 ^ s2
+#> {1, 2, 3, 5, 6}
+
+s1.difference(s2)           # In set 1 but not in set 2
+#> {1, 2, 3}
+
+s2.difference(s1)           # In set 2 but not in set 1
+#> {5, 6}
+```
+
+---
+background-color: #f2f5eb
+
+## *Methods* to intersect two sets
+
+We can also test whether sets are *subsets* or *supersets* of each other.
+
+- Set 1 is a subset of set 2 if if s2 contains all its elements,
+  and optionally others too:
+
+  ```python
+  # s1 = {1, 2, 3, 4}
+  # s2 = {4, 5, 6}
+  
+  s1.issubset(s2)
+  #> False
+  ```
+
+- Set 1 is a superset of set 2 if set 1 contains all the elements in set 2,
+  and optionally others too:
+  
+  ```python
+  s1.issuperset(s2)
+  #> False
+  ```
