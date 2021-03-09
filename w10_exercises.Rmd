@@ -7,12 +7,13 @@ output:
     toc_depth: 3
 ---
 
-
 ```{r}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 <br>
+
+## Exercise 1
 
 Start with the list you created last week:
 
@@ -21,7 +22,72 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
             'canker', 'wilt', 'root_knot', 'root_rot']
 ```
 
-1.  If you would run:
+## Exercise 1: More lists
+
+Start with the list you created last week:
+
+```{python}
+diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
+            'canker', 'wilt', 'root_knot', 'root_rot']
+```
+
+1.  Sort `diseases` in place.\
+
+    <details>
+
+    <summary>Solution</summary>\
+    Recall that `sort()` sorts in place, whereas `sorted()` returns a new, sorted list.
+
+    ```{python}
+    diseases.sort()
+
+    diseases
+    ```
+
+    </details>
+
+2.  Instead of sorting in place with the `sort()` method like in the previous step,
+    you can also use the `sorted()` *function*, which will return a new list.
+    Find out how to use `sorted()` to sort in reverse order,
+    and apply this to `diseases` to create a new list `diseases_sorted`.\
+
+    <details>
+
+    <summary>Solution</summary>\
+    We can use the `reverse` argument to `sorted()` to sort in reverse order:
+
+    ```{python}
+    diseases_sorted = sorted(diseases, reverse=True)
+    ```
+
+    </details>
+
+3.  If you would run `fewer_diseases = diseases.remove("root_rot")`,
+    what would `fewer_diseases` contain?
+    Think about what the answer should be, and then check if you were right.
+    Does simply running `fewer_diseases` versus running `print(fewer_diseases)` make a difference?\
+
+    <details>
+
+    <summary>Solution</summary>
+
+    Because `remove()` operates *in place*, it doesn't return anything:
+
+    ```{python}
+    fewer_diseases = diseases.remove("root_rot")
+
+    fewer_diseases
+    ```
+
+    Well, it actualy returns `None`, which you can see by explicitly calling the `print()` function:
+
+    ```{python}
+    print(fewer_diseases)
+    ```
+
+    </details>
+
+4.  If you would run:
 
     ```{python, eval=FALSE}
     more_diseases = diseases
@@ -29,12 +95,15 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     more_diseases.append("crown_galls")
     ```
 
-    Would the list `diseases` contain `crown_galls`? Think about what the answer should be, and then check if you were right.\
+    Would the list `diseases` contain `crown_galls`?
+    Think about what the answer should be, and then check if you were right.\
 
     <details>
 
     <summary>Solution</summary>\
-    Yes, `diseases` will contain the item `crown_galls` that was added to `more_diseases`, because `more_diseases` in not an independent list but is merely a second pointer to the same list that `diseases` points to.
+    Yes, `diseases` will contain the item `crown_galls` that was added to `more_diseases`,
+    because `more_diseases` in not an independent list but is merely a second pointer
+    to the same list that `diseases` points to.
 
     ```{python}
     more_diseases = diseases
@@ -46,7 +115,10 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-2.  Copy `diseases` to a new list with a name of your choice -- the new list should *not* be linked to `diseases`. Then, remove all items from the new list. Check if `diseases` still contains its items -- if not, you'll have to try again!\
+2.  Copy `diseases` to a new list with a name of your choice --
+    the new list should *not* be linked to `diseases`.
+    Then, remove all items from the new list.
+    Check if `diseases` still contains its items -- if not, you'll have to try again!\
 
     <details>
 
@@ -88,3 +160,108 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     The fact that strings are *immutable*, whereas lists are *mutable*.
 
     </details>
+
+4.  ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.\
+
+    <details>
+
+    <summary>Hints</summary>\
+    Remember how we can turn a list into a string with `join()`?
+    If you specify `""` as the separator, it will simply concatenate all the items in the list.\
+    \
+    Also, using `set()` on a string will extract the unique characters.
+
+    </details>
+
+    <details>
+
+    <summary>Solution</summary>\
+    First, turn the list into a string using `"".join`.
+    Then, call `set()` on the string to get a list of unique items (= characters).
+
+    ```{python}
+    set("".join(diseases))
+    ```
+
+    </details>
+
+<br>
+
+## Exercise CSB-1: Assortative mating
+
+[Jiang et al. (2013)](https://www.journals.uchicago.edu/doi/10.1086/670160) studied assortative mating in animals. They compiled a large database, reporting the results of many experiments on mating. In particular, for several taxa they provide the value of correlation among the sizes of the mates. A positive value of `r` stands for assortative mating (large animals tend to mate with large animals), and a negative value for disassortative mating.
+
+1\. You can find the data in `good_code/data/Jiang2013_data.csv`. Write a function that takes as input the desired Taxon and returns the mean value of r.
+
+2\. You should see that fish have a positive value of `r`, but that this is also true for other taxa. Is the mean value of `r` especially high for fish? To test this, compute a p-value by repeatedly sampling 37 values of r (37 experiments on fish are reported in the database) at random, and calculating the probability of observing a higher mean value of `r`. To get an accurate estimate of the p-value, use 50,000 randomizations.
+
+3\. Repeat the procedure for all taxa.
+
+Hints: <https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_pseudo.md>
+
+<br>
+
+## Exercise CSB-2: Human intestinal ecosystems
+
+[Lahti et al. (2014)](https://www.nature.com/articles/ncomms5344) studied the microbial communities living in the intestines of 1000 individuals. They found that bacterial strains tend to be either absent or abundant, and posit that this would reflect bistability in these bacterial assemblages.
+
+The data used in this study are contained in the directory `good_code/data/Lahti2014`. The directory contains the file `Metadata.tab` characterizing each of the 1006 human records, the file `HITChip.tab` containing HITChip signal estimates of microbial abundance, and `README`, a description of the data by the study's authors.
+
+1.  Write a function that takes as input a dictionary of constraints (i.e., selecting a specific group of records) and returns a dictionary tabulating the BMI group for all the records matching the constraints.
+
+    For example, calling:
+
+    ``` {.python}
+    get_BMI_count({"Age": "28", "Sex": "female"})
+    ```
+
+    should return:
+
+    ``` {.python}
+    {'NA': 3, 'lean': 8, 'overweight': 2, 'underweight': 1}
+    ```
+
+2.  Write a function that takes as input the constraints (as above) and a bacterial "genus." The function returns the average abundance (in logarithm base 10) of the genus for each BMI group in the subpopulation.
+
+    For example, calling:
+
+    ``` {.python}
+    get_abundance_by_BMI({"Time": "0",
+                          "Nationality": "US"},
+                          "Clostridium difficile et rel.")
+    ```
+
+    should return:
+
+    ``` {.python}
+    ------------------------------------------------
+    Abundance of Clostridium difficile et rel.
+    In subpopulation:
+    ------------------------------------------------
+    Nationality -> US
+    Time -> 0
+    ------------------------------------------------
+    3.08
+    NA
+    3.31
+    underweight
+    3.84
+    lean
+    2.89
+    overweight
+    3.31
+    obese
+    3.45
+    severeobese
+    ------------------------------------------------
+    ```
+
+3.  Repeat this analysis for all genera, and for the records having `Time = 0`.
+
+Hints: <https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_pseudo.md>
+
+## CSB Solutions
+
+-   [Solutions for exercise CSB-1](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_solution.ipynb).
+
+-   [Solutions for exercise CSB-2](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_solution_detailed.ipynb).
