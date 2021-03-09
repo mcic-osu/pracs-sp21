@@ -2515,41 +2515,42 @@ Further resources
 <h3>Contents</h3>
 <ul>
 <li><a href="#devising-a-project">Devising a project</a></li>
-<li><a href="#requirements">Requirements</a></li>
+<li><a href="#graded-aspects">Graded aspects</a></li>
 <li><a href="#steps-checkpoints">Steps (checkpoints)</a></li>
 </ul>
 </nav>
 </div>
 <h3 id="devising-a-project">Devising a project</h3>
 <p>I recommend that you make your final project as useful as possible for your own research and/or personal development.</p>
-<p>Requirements for the project focus on clarity, reproducibility and automation (see below). Accordingly, there are no real requirements for the level of complexity or sophistication, the number of scripts, the real-world usefulness, and so on. I would in fact recommend you take care not to be too ambitious in this regard. (Otherwise, you risk having no time to create proper documentation and ensure reproducibility while you struggle to get your complicated analyses working.)</p>
-<p>Some examples of possible types of projects that would work:</p>
+<p>Graded aspects for the project focus on clarity, reproducibility and automation (see below). Accordingly, there are no real requirements for the level of complexity or sophistication, the number of scripts, the real-world usefulness, and so on. I would in fact recommend you take care not to be too ambitious in this regard: start small and then expand if you are able to.</p>
+<p>Some examples of possible types of projects:</p>
 <ul>
 <li><p>You may want to work with your own data or a publicly available dataset that is similar to what you are expecting to work with (though subsetting the data will be useful if you have a large genomic dataset!).</p></li>
 <li><p>You may decide that just focusing on the coding and on creating a reproducible workflow is the most useful for you, and that this may be easier with a trivial and maybe not-so-relevant dataset so you don’t get bogged down in other details.</p></li>
 <li><p>You may think of trying to automate something “boring” and/or repetitive that you did manually so far.</p></li>
 <li><p>If you would like to work with publicly available fungal genomic data, you should consider using your TA Zach’s <code>MycoTools</code>. You can find some general information in his <a href="https://gitlab.com/xonq/mycotools/-/blob/master/mycotools/README.md">README</a> and more details usage information in his <a href="https://gitlab.com/xonq/mycotools/-/blob/master/mycotools/USAGE.md">usage guide</a>. If this looks interesting to you, contact Zach to get more information and to develop a project idea.</p></li>
 </ul>
-<p>If you need help with selecting a dataset or a project topic, don’t hesitate to contact Jelmer.</p>
+<p>If you need help with selecting a dataset or a project topic, don’t hesitate to contact Jelmer. I don’t currently have any ready-to-go project ideas with accompanying data sets, but I could make one or more, if needed.</p>
 <p><br></p>
-<h3 id="requirements">Requirements</h3>
-<p>Requirements for your project focus on <strong>appropriate usage of many of the tools and principles we covered during the course</strong>.</p>
-<p>The project should:</p>
+<h3 id="graded-aspects">Graded aspects</h3>
+<p>Graded aspects of your project focus on <strong>appropriate usage of many of the tools and principles we covered during the course</strong>.</p>
+<p>To receive a high grade, your project should:</p>
 <ul>
 <li><p>Be <strong>well-organized</strong>: contained in a single parent directory with a clear and sensible structure of subdirectories, descriptive file and directory names, no files floating around with unclear purpose or source, and so on.</p></li>
 <li><p>Be <strong>well-documented</strong>, with <em>at least</em> one README in Markdown format in the root directory of your project, and preferably with additional READMEs elsewhere as appropriate.</p></li>
 <li><p>Be <strong>version-controlled</strong> with Git <em>throughout</em>: with regular, meaningful commits. You will also need to push to GitHub for the proposal, draft, and final submission checkpoint.</p></li>
-<li><p>Contain <strong>scripts in Bash and/or Python that do the analysis/data processing</strong> (see also the last point). Try not to do <em>any</em> “manual” work such as editing a data file in a text editor or excel to fix column names, since this hinders reproducibility.</p>
+<li><p>Contain <strong>scripts in Bash and/or Python that do data processing and/or analysis</strong> (see also the last point). Try not to do <em>any</em> manual work such as editing a data file in a text editor or Excel to fix column names, since this hinders reproducibility.</p>
 <ul>
-<li><p>Having some components in <strong>other languages</strong> is fine, in case you know how to do things there that we didn’t learn in the course (for example, doing some plotting in R).</p></li>
-<li><p>Similarly, it is fine to call <strong>external, command-line programs</strong> (e.g. some of the bioinformatics programs we have run, or any program that may be useful for your research).</p>
-<p>If your project’s heavy lifting consists <em>mostly</em> or almost entirely of calling such programs, though, it becomes especially important that you are creating a reproducible and easily rerunnable pipeline (see below).</p></li>
+<li><p>Having some components in <em>other languages</em> is fine, in case you know how to do things there that we didn’t learn in the course (for example, doing some plotting in R).</p></li>
+<li><p>Similarly, it is fine to call <em>external, command-line programs</em> (e.g. some of the bioinformatics programs we have run, or any program that may be useful for your research).</p>
+<p>If your project’s heavy lifting consists <em>mostly or almost entirely</em> of calling such programs, though, it becomes especially important that you are creating a reproducible and easily rerunnable pipeline (see below).</p></li>
 </ul></li>
 <li><p>Run one or more scripts as <strong>SLURM jobs at OSC</strong>.<br />
 (A locally run project could be okay if your research does not and will not require the use of supercomputers like those at OSC – check in with me if this is the case and you would therefore prefer not to use OSC.)</p></li>
 <li><p>Be easily <strong>re-runnable using a Snakefile or a “master” / “controller” script</strong> that glues the entire project together.</p>
-<p>It is <strong>not</strong> enough to include a <code>README.md</code> that explains what you did or that provides instructions how to rerun the project, even if in detail (“Next, I ran the third script using the command <code>my_script.py arg1 arg2</code>”). Such information is very useful, but there should be a script that can actually be run to reproduce the project, for instance by me!</p>
-<p>Preferably, this is done using single Snakemake control script (“Snakefile”), but a shell or Python script may also work.</p></li>
+<p>It is not enough to include a <code>README.md</code> that explains what you did or that provides instructions how to rerun the project, even if in detail. Such information is very useful, but the goal here is to provide a way to rerun the project with a single command – a command that I could also run.</p>
+<p>Preferably, this is done using single Snakemake control script (“Snakefile”), but a shell or Python script may also work.</p>
+<p>(This is a challenging aspect, and your grade won’t plummet if you don’t succeed, but it is important to try!)</p></li>
 </ul>
 <p><br></p>
 <h3 id="steps-checkpoints">Steps (checkpoints)</h3>

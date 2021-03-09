@@ -16,16 +16,14 @@ knitr::opts_chunk$set(echo = FALSE)
 I recommend that you make your final project as useful as possible for your own
 research and/or personal development.
 
-Requirements for the project focus on clarity, reproducibility and automation
+Graded aspects for the project focus on clarity, reproducibility and automation
 (see below).
 Accordingly, there are no real requirements for the level of complexity
 or sophistication, the number of scripts, the real-world usefulness, and so on.
-I would in fact recommend you take care not to be too ambitious in this regard.
-(Otherwise, you risk having no time to create proper documentation
-and ensure reproducibility while you struggle to get your complicated analyses
-working.)
+I would in fact recommend you take care not to be too ambitious in this regard:
+start small and then expand if you are able to.
 
-Some examples of possible types of projects that would work:
+Some examples of possible types of projects:
 
 - You may want to work with your own data or a publicly available dataset
   that is similar to what you are expecting to work with
@@ -48,16 +46,17 @@ Some examples of possible types of projects that would work:
   develop a project idea.
 
 If you need help with selecting a dataset or a project topic,
-don't hesitate to contact Jelmer.
+don't hesitate to contact Jelmer. I don't currently have any ready-to-go project
+ideas with accompanying data sets, but I could make one or more, if needed.
 
 <br>
 
-### Requirements
+### Graded aspects
 
-Requirements for your project focus on **appropriate usage of many of the
+Graded aspects of your project focus on **appropriate usage of many of the
 tools and principles we covered during the course**.
 
-The project should:
+To receive a high grade, your project should:
 
 - Be **well-organized**: contained in a single parent directory with a clear and
   sensible structure of subdirectories, descriptive file and directory names,
@@ -71,20 +70,20 @@ The project should:
   You will also need to push to GitHub for the proposal, draft, and final
   submission checkpoint.
 
-- Contain **scripts in Bash and/or Python that do the analysis/data processing**
-  (see also the last point). Try not to do *any* "manual" work such as editing
-  a data file in a text editor or excel to fix column names,
-  since this hinders reproducibility.
+- Contain **scripts in Bash and/or Python that do data processing and/or analysis**
+  (see also the last point).
+  Try not to do *any* manual work such as editing a data file in a text editor
+  or Excel to fix column names, since this hinders reproducibility.
   
-  - Having some components in **other languages** is fine,
+  - Having some components in *other languages* is fine,
     in case you know how to do things there that we didn't learn in the course
     (for example, doing some plotting in R).
     
-  - Similarly, it is fine to call **external, command-line programs**
+  - Similarly, it is fine to call *external, command-line programs*
     (e.g. some of the bioinformatics programs we have run, or any program
     that may be useful for your research).
     
-    If your project's heavy lifting consists *mostly* or almost entirely of
+    If your project's heavy lifting consists *mostly or almost entirely* of
     calling such programs, though, it becomes especially important that you
     are creating a reproducible and easily rerunnable pipeline (see below).
   
@@ -96,14 +95,16 @@ The project should:
 - Be easily **re-runnable using a Snakefile or a "master" / "controller" script**
   that glues the entire project together.
   
-  It is **not** enough to include a `README.md` that explains what you did or that
-  provides instructions how to rerun the project, even if in detail
-  ("Next, I ran the third script using the command `my_script.py arg1 arg2`").
-  Such information is very useful, but there should be a script that can actually
-  be run to reproduce the project, for instance by me!
+  It is not enough to include a `README.md` that explains what you did or that
+  provides instructions how to rerun the project, even if in detail.
+  Such information is very useful, but the goal here is to provide a way to
+  rerun the project with a single command -- a command that I could also run.
   
   Preferably, this is done using single Snakemake control script ("Snakefile"),
-  but a shell or Python script may also work. 
+  but a shell or Python script may also work.
+  
+  (This is a challenging aspect, and your grade won't plummet if you don't
+  succeed, but it is important to try!)
 
 <br>
 

@@ -12,9 +12,9 @@ output:
 
 - [Slides: Data structures](../week-08/slides/08-2.html#resume-here) -- Tuesday Zoom (Mar 9)
 
-- Slides: Control flow (Zach) -- Tuesday/Thursday Zoom (TBA)
+- [Slides: Control flow (Zach)](../week-09/slides/09-1_zach.pdf) -- Tuesday/Thursday Zoom
 
-- [Slides: Working with files](../week-08/slides/09-2.html) -- Thursday Zoom (Mar 11)
+- [Slides: Working with files](../week-09/slides/09-2.html) -- Thursday Zoom (Mar 11)
 
 ### Ungraded assignments
 
