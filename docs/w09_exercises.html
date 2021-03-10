@@ -2519,7 +2519,7 @@ Further resources
 <li><a href="#exercise-2-sets">Exercise 2: Sets</a></li>
 <li><a href="#intro-to-csb-exercises">Intro to CSB exercises</a></li>
 <li><a href="#exercise-csb-1-measles-time-series">Exercise CSB-1: Measles time series</a></li>
-<li><a href="#exercise-csb-2-red-queen-in-fruit-flies">Exercise CSB-2: Red queen in fruit flies</a></li>
+<li><a href="#bonus-exercise-csb-2-red-queen-in-fruit-flies">Bonus: Exercise CSB-2: Red queen in fruit flies</a></li>
 <li><a href="#csb-solutions">CSB Solutions</a></li>
 </ul>
 </nav>
@@ -2563,12 +2563,6 @@ We can get the value for a specific key using the <code>&lt;dict&gt;[&lt;key&gt;
 <div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>yield_current[<span class="st">&quot;plotA_3&quot;</span>]</span></code></pre></div>
 <pre><code>2</code></pre>
 </div>
-</details></li>
-<li><p>Can you select a dictionary item by position (index)? Why / why not?<br />
-</p>
-<details>
-<p><summary>Solution</summary><br />
-No, because dictionaries have no order to them.</p>
 </details></li>
 <li><p>Update the value for key <code>plotB_2</code> to be <code>31</code> and check whether this worked.</p>
 <details>
@@ -2657,12 +2651,12 @@ Extract the values with the <code>values()</code> method. Next, turn these value
 <p><summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>dna <span class="op">&amp;</span> rna</span></code></pre></div>
-<pre><code>{&#39;C&#39;, &#39;G&#39;, &#39;A&#39;}</code></pre>
+<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;C&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>dna.intersection(rna)</span></code></pre></div>
-<pre><code>{&#39;C&#39;, &#39;G&#39;, &#39;A&#39;}</code></pre>
+<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;C&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Find all 5 bases that are collectively found among DNA and RNA.</p>
@@ -2671,12 +2665,12 @@ Extract the values with the <code>values()</code> method. Next, turn these value
 <summary>Solution</summary></p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>dna <span class="op">|</span> rna</span></code></pre></div>
-<pre><code>{&#39;U&#39;, &#39;A&#39;, &#39;C&#39;, &#39;G&#39;, &#39;T&#39;}</code></pre>
+<pre><code>{&#39;G&#39;, &#39;U&#39;, &#39;C&#39;, &#39;A&#39;, &#39;T&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>dna.union(rna)</span></code></pre></div>
-<pre><code>{&#39;U&#39;, &#39;A&#39;, &#39;C&#39;, &#39;G&#39;, &#39;T&#39;}</code></pre>
+<pre><code>{&#39;G&#39;, &#39;U&#39;, &#39;C&#39;, &#39;A&#39;, &#39;T&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Find the base that only occurs in DNA.</p>
@@ -2842,7 +2836,7 @@ for each city
 </details></li>
 </ol>
 <p><br></p>
-<h2 id="exercise-csb-2-red-queen-in-fruit-flies">Exercise CSB-2: Red queen in fruit flies</h2>
+<h2 id="bonus-exercise-csb-2-red-queen-in-fruit-flies">Bonus: Exercise CSB-2: Red queen in fruit flies</h2>
 <p><a href="https://science.sciencemag.org/content/349/6249/747">Singh et al. (2015)</a> show that, when infected with a parasite, the four genetic lines of <em>D. melanogaster</em> respond by increasing the production of recombinant offspring (arguably, trying to produce new recombinants able to escape the parasite). They show that the same outcome is not achieved by artificially wounding the flies. The data needed to replicate the main claim (figure 2 of the original article) is contained in the file <code>Singh2015_data.csv</code>.</p>
 <p>Open the file, and compute the mean <code>RecombinantFraction</code> for each <em>Drosophila</em> genetic line, and <code>InfectionStatus</code> (<code>W</code> for wounded and <code>I</code> for infected).</p>
 <p>Print the results in the following form:</p>

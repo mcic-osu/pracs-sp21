@@ -67,16 +67,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
     </details>
 
-3.  Can you select a dictionary item by position (index)? Why / why not?\
-
-    <details>
-
-    <summary>Solution</summary>\
-    No, because dictionaries have no order to them.
-
-    </details>
-
-4.  Update the value for key `plotB_2` to be `31` and check whether this worked.
+3.  Update the value for key `plotB_2` to be `31` and check whether this worked.
 
     <details>
 
@@ -90,7 +81,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
     </details>
 
-5.  Count the number of items (i.e. entries, key-value *pairs*) in your dictionary.\
+4.  Count the number of items (i.e. entries, key-value *pairs*) in your dictionary.\
 
     <details>
 
@@ -109,7 +100,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
     </details>
 
-6.  ***Bonus:*** Create a dictionary `obs_20210305` with keys `plotA_3` and `plotC_1`, and values `18` and `3`, respectively. Then, update the `yield_current` dictionary with the `obs_20210305` dictionary, and check whether this worked.\
+5.  ***Bonus:*** Create a dictionary `obs_20210305` with keys `plotA_3` and
+    `plotC_1`, and values `18` and `3`, respectively.
+    Then, update the `yield_current` dictionary with the `obs_20210305` dictionary,
+    and check whether this worked.\
 
     <details>
 
@@ -465,7 +459,7 @@ provide a long time series reporting the numbers of cases of measles before mass
     
 <br>
 
-## Exercise CSB-2: Red queen in fruit flies
+## Bonus: Exercise CSB-2: Red queen in fruit flies
 
 [Singh et al. (2015)](https://science.sciencemag.org/content/349/6249/747)
 show that, when infected with a parasite,
