@@ -14,6 +14,10 @@ output:
 
 - [Slides: Writing style, running scripts, and errors](../week-10/slides/10-2.html) -- Thursday Zoom (Mar 18)
 
+### Final project: new
+
+- [Final project: proposal](../../finalproject_proposal.html) -- due Tuesday, Mar 23
+
 ### Ungraded assignments
 
 - [Exercises for week 10](../../w10_exercises.html)

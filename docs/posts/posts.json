@@ -1,5 +1,17 @@
 [
   {
+    "path": "posts/week-10/",
+    "title": "Week 10",
+    "description": "Writing good code",
+    "author": [],
+    "date": "2021-03-15",
+    "categories": [],
+    "contents": "\nSlides\nSlides: Modules, custom functions, and program structure – Tuesday Zoom (Mar 16)\nSlides: Writing style, running scripts, and errors – Thursday Zoom (Mar 18)\nFinal project: new\nFinal project: proposal – due Tuesday, Mar 23\nUngraded assignments\nExercises for week 10\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-03-11T17:37:50-05:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/week-09/",
     "title": "Week 09",
     "description": "Control flow and working with files",

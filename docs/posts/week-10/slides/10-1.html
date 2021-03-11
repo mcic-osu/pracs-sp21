@@ -1,29 +1,22 @@
----
-title: "Week 10 - Writing Good Code"
-output:
-  xaringan::moon_reader:
-    seal: false
-    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
-    lib_dir: libs
-    nature:
-      highlightStyle: rainbow
-      highlightLines: true
-      countIncrementalSlides: false
----
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 10 - Writing Good Code</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
 class:inverse middle center
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
 
-knitr::opts_chunk$set(eval = FALSE)
-```
 
-```{r xaringan-extra, echo=FALSE, eval=TRUE}
-#xaringanExtra::use_scribble()
-#xaringanExtra::use_panelset()
-#xaringanExtra::use_clipboard()
-#xaringanExtra::use_search(show_icon = TRUE)
-```
+
 
 # *Week 10 - Writing good code*
 
@@ -31,10 +24,10 @@ knitr::opts_chunk$set(eval = FALSE)
 
 # I (Tuesday)
 
-<br> <br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/16 (updated: `r Sys.Date()`)
+### 2021/03/16 (updated: 2021-03-11)
 
 ---
 
@@ -45,7 +38,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 - Modules
 
-- Functions
+- Writing your own functions
 
 - Program structure
 ]
@@ -62,7 +55,7 @@ knitr::opts_chunk$set(eval = FALSE)
 - Beyond the basics (4.9)
 ]
 
-<br> <br>
+&lt;br&gt; &lt;br&gt;
 
 .content-box-info[
 **Optional homework - CSB sections on:**
@@ -76,7 +69,7 @@ class: center middle inverse
 
 -----
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -93,7 +86,7 @@ class: center middle inverse
 
 --
 
-<br>
+&lt;br&gt;
 
 Modules and packages can be *imported* into your Python environment,
 be that in a script or an interactive environment, using the `import` statement:
@@ -122,7 +115,7 @@ do need to be installed.
 These are not installed from inside Python (like with R),
 but using stand-alone package managers, usually in the shell:
 
--  `conda`, which we have already worked with &ndash;
+-  `conda`, which we have already worked with &amp;ndash;
   for instance, to install the `numpy` ("NUMerical PYthon") library:
   ```sh
   $ conda install numpy
@@ -179,11 +172,11 @@ but you need to prepending the module's name.
   # From the matplotlib package, import the pyplot module: 
   from matplotlib import pyplot as plt
   
-  # Or equivalently using <package>.<module>:
+  # Or equivalently using &lt;package&gt;.&lt;module&gt;:
   import matplotlib.pyplot as plt
   ```
 
-<br>
+&lt;br&gt;
 
 --
 
@@ -213,7 +206,7 @@ class: center middle inverse
 
 -----
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -257,9 +250,9 @@ The anatomy of a Python function:
 - Start with the keyword `def` (for *define*)
 
 - Next provide the name of the function, which is whatever we would like it to be
-  &ndash; though it is highly recommended to be descriptive!
+  &amp;ndash; though it is highly recommended to be descriptive!
   
-- Between parenthesis, list the input(s) &ndash;*argument(s)*&ndash; of the function.
+- Between parenthesis, list the input(s) &amp;ndash;*argument(s)*&amp;ndash; of the function.
 
 - Don't forget the colon `:`!
 
@@ -273,10 +266,10 @@ The anatomy of a Python function:
 
 ```python
 GCcontent("AATTTCCCGGGAAA")
-#> 0.42857142857142855
+#&gt; 0.42857142857142855
 
 GCcontent("ATGCATGCATGC")
-#> 0.5
+#&gt; 0.5
 ```
 
 Excellent!
@@ -293,7 +286,7 @@ and the nuts and bolts are in the individual functions.
 
 --
 
-<br>
+&lt;br&gt;
 
 **Having modular code with functions:**
 
@@ -304,7 +297,7 @@ and the nuts and bolts are in the individual functions.
 - Makes it easier to repeat operations
   (like calculating GC content for mulitple sequences).
 
-- Makes your programs more flexible &ndash; function arguments!
+- Makes your programs more flexible &amp;ndash; function arguments!
 
 ---
 
@@ -319,7 +312,7 @@ def print_dictionary(mydic):
         print("key: ", k, " value: ", str(v))
 ```
 
-<br>
+&lt;br&gt;
 
 --
 
@@ -328,9 +321,9 @@ Let's try it:
 ```python
 print_dictionary({"a": 3.4, "b": [1, 2, 3, 4], "c": "astring"})
 
-#> key:  a  value:  3.4
-#> key:  b  value:  [1, 2, 3, 4]
-#> key:  c  value:  astring
+#&gt; key:  a  value:  3.4
+#&gt; key:  b  value:  [1, 2, 3, 4]
+#&gt; key:  c  value:  astring
 ```
 
 ---
@@ -360,7 +353,7 @@ Let's try it:
 
 ```python
 squared(start = 3, end = 10)
-#> [9, 16, 25, 36, 49, 64, 81]
+#&gt; [9, 16, 25, 36, 49, 64, 81]
 ```
 
 ---
@@ -378,15 +371,15 @@ we can omit one or both!
 ```python
 # Specify only start, end has default value 10:
 squared(5)
-#> [25, 36, 49, 64, 81]
+#&gt; [25, 36, 49, 64, 81]
 
 # Specify only end, start has default value 1:
 squared(end = 3)
-#> [1, 4]
+#&gt; [1, 4]
 
 # Start has default value 1, end is 10:
 squared()
-#> [1, 4, 9, 16, 25, 36, 49, 64, 81]
+#&gt; [1, 4, 9, 16, 25, 36, 49, 64, 81]
 ```
 
 ---
@@ -402,9 +395,9 @@ We can also reverse the order as long as we are calling the arguments by name:
 
 ```python
 squared(end = 5, start = 2)
-#> [4, 9, 16]
+#&gt; [4, 9, 16]
 squared(5, 2)
-#> []
+#&gt; []
 ```
 
 ---
@@ -425,15 +418,15 @@ Let's see this in action:
 ```python
 results = [5, 10]
 results
-#> [5, 10]
+#&gt; [5, 10]
 
 # Our squared() function collects results in the list "results"
 squared()
-#> [1, 4, 9, 16, 25, 36, 49, 64, 81]
+#&gt; [1, 4, 9, 16, 25, 36, 49, 64, 81]
 
 # However, after calling the function, results has been unchanged:
 results
-#> [5, 10]
+#&gt; [5, 10]
 ```
 
 ---
@@ -450,14 +443,14 @@ The behavior of limiting the scope of variables in functions is useful because:
   single object that they return: recall that a function exits after a
   statement with `return`.
 
-<br>
+&lt;br&gt;
 
 It is possible to set variables with a global scope in functions, using the
 `global` keyword, but this is not generally recommended.
 
 ---
 
-## <i class="fa fa-user-edit"></i> Intermezzo 4.1: <br> Determine the function of the function
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 4.1: &lt;br&gt; Determine the function of the function
 
 ```python
 def foo1(x = 7):
@@ -468,13 +461,13 @@ def foo1(x = 7):
 
 `foo1()` returns the square root of a number.
 
-<br>
+&lt;br&gt;
 
 --
 
 ```python
 def foo2(x = 3, y = 5):
-    if x > y:
+    if x &gt; y:
         return x
     return y
 ```
@@ -485,7 +478,7 @@ def foo2(x = 3, y = 5):
 
 ---
 
-## <i class="fa fa-user-edit"></i> Intermezzo 4.1: <br> Determine the function of the function (cont.)
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 4.1: &lt;br&gt; Determine the function of the function (cont.)
 
 
 ```python
@@ -498,9 +491,9 @@ def foo4(x = 6):
 
 --
 
-`foo4()` returns the factorial of a number (`6!` => `6 * 5 * 4 * 3 * 2 * 1`).
+`foo4()` returns the factorial of a number (`6!` =&gt; `6 * 5 * 4 * 3 * 2 * 1`).
 
-<br>
+&lt;br&gt;
 
 --
 
@@ -517,7 +510,7 @@ def foo6(x = 25):
 
 ---
 
-## <i class="fa fa-user-edit"></i> A function to convert temperatures
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; A function to convert temperatures
 
 - Define a function that converts from temperatures in degrees Fahrenheit to
   degrees celcius.
@@ -528,7 +521,7 @@ def foo6(x = 25):
 
 ---
 
-## <i class="fa fa-user-edit"></i> A function to convert temperature: Solution
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; A function to convert temperature: Solution
 
 ```python
 def convert_to_celcius(deg_f):
@@ -539,7 +532,7 @@ def convert_to_celcius(deg_f):
 ```
 
 ```python
-#> convert_to_celcius(100)
+#&gt; convert_to_celcius(100)
 37.77777777777778
 ```
 
@@ -550,9 +543,9 @@ class: center middle inverse
 
 -----
 
-### Practicing coding a more complex program <br> with a population genetic simulation
+### Practicing coding a more complex program &lt;br&gt; with a population genetic simulation
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 
 ---
@@ -567,7 +560,7 @@ We'll ask how long it takes before, at a single locus, one of the two alleles
 
 --
 
-<br>
+&lt;br&gt;
 
 To do so, we'll divide our code into several functions:
 
@@ -584,13 +577,13 @@ To do so, we'll divide our code into several functions:
 
 - A function that takes the current population and **produces the next generation**.
 
-<br>
+&lt;br&gt;
 
 ---
 
 ## We'll put out functions in a separate script
 
-<br>
+&lt;br&gt;
 
 Start by opening a new file and saving it as `drift.py`.
 
@@ -613,11 +606,11 @@ def build_population(N, p):
     for i in range(N):               # Loop over individuals
         
         allele1 = "A"                # The "default" allele is A
-        if scipy.random.rand() > p:  # Random number between 0 and 1
+        if scipy.random.rand() &gt; p:  # Random number between 0 and 1
             allele1 = "a"
         
         allele2 = "A"                # Second chromosome (diploidy)
-        if scipy.random.rand() > p:
+        if scipy.random.rand() &gt; p:
             allele2 = "a"
         
         population.append((allele1, allele2))
@@ -633,21 +626,21 @@ With a `p` of 0.5, we expect roughly equal proportions of `A` and `a` and
 differences between two instantiations:
 
 ```python
->>> build_population(N = 5, p = 0.5)
-#> [('a', 'a'), ('a', 'A'), ('A', 'A'), ('A', 'a'), ('A', 'A')]
+&gt;&gt;&gt; build_population(N = 5, p = 0.5)
+#&gt; [('a', 'a'), ('a', 'A'), ('A', 'A'), ('A', 'a'), ('A', 'A')]
 
->>> build_population(N = 5, p = 0.5)
-#> [('A', 'a'), ('A', 'a'), ('a', 'a'), ('A', 'A'), ('A', 'a')]
+&gt;&gt;&gt; build_population(N = 5, p = 0.5)
+#&gt; [('A', 'a'), ('A', 'a'), ('a', 'a'), ('A', 'A'), ('A', 'a')]
 ```
 
 With a `p` other than 0.5, we should see uneven numbers:
 
 ```python
->>> build_population(N = 5, p = 0.9)
-#> [('A', 'A'), ('A', 'A'), ('A', 'a'), ('A', 'A'), ('A', 'A')]
+&gt;&gt;&gt; build_population(N = 5, p = 0.9)
+#&gt; [('A', 'A'), ('A', 'A'), ('A', 'a'), ('A', 'A'), ('A', 'A')]
 
->>> build_population(N = 5, p = 0)
-#> [('a', 'a'), ('a', 'a'), ('a', 'a'), ('a', 'a'), ('a', 'a')]
+&gt;&gt;&gt; build_population(N = 5, p = 0)
+#&gt; [('a', 'a'), ('a', 'a'), ('a', 'a'), ('a', 'a'), ('a', 'a')]
 ```
 
 ---
@@ -679,8 +672,8 @@ def compute_frequencies(population):
 ## Test the function (not in the script)
 
 ```python
->>> my_pop = build_population(6, 0.5)
->>> compute_frequencies(my_pop)
+&gt;&gt;&gt; my_pop = build_population(6, 0.5)
+&gt;&gt;&gt; compute_frequencies(my_pop)
 ```
 
 ---
@@ -700,7 +693,7 @@ def reproduce_population(population):
     
     for i in range(N):     # Run through individuals 1 at a time
         
-        dad = scipy.random.randint(N)  # Random int between 0 & N-1
+        dad = scipy.random.randint(N)  # Random int between 0 &amp; N-1
         mom = scipy.random.randint(N)  # (to pick indiv. from pop)
         
         chr_mom = scipy.random.randint(2) # Pick chromosome: 1 or 0
@@ -718,8 +711,8 @@ def reproduce_population(population):
 ## Test the function (not in the script)
 
 ```python
->>> reproduce_population(my_pop)
-#> [('A', 'A'), ('A', 'A'), ('A', 'A'), ('A', 'a'), ('A', 'a'), ('a', 'A')]
+&gt;&gt;&gt; reproduce_population(my_pop)
+#&gt; [('A', 'A'), ('A', 'A'), ('A', 'A'), ('A', 'a'), ('A', 'a'), ('a', 'A')]
 ```
 
 ---
@@ -739,30 +732,30 @@ def reproduce_population(population):
 ## Get help for our own module!
 
 ```python
->>> help(drift)
+&gt;&gt;&gt; help(drift)
   
-#> Help on module drift:
-#> 
-#> NAME
-#>     drift
-#> 
-#> FUNCTIONS
-#>     build_population(N, p)
-#>         The population consists of N individuals. 
-#>         Each individual has two chromosomes, containing
-#>         allele "A" or "a", with probability p and 1-p, 
-#>         respectively.
-#>         
-#>         The population is a list of tuples.
-#>     
-#>     compute_frequencies(population)
-#>         Count the genotypes.
-#>         Returns a dictionary with counts for each genotype.
-#>     
-#>     reproduce_population(population)
-#>         Create a new generation through sexual reproduction
-#>         For each of N new offspring:
-#>         ...
+#&gt; Help on module drift:
+#&gt; 
+#&gt; NAME
+#&gt;     drift
+#&gt; 
+#&gt; FUNCTIONS
+#&gt;     build_population(N, p)
+#&gt;         The population consists of N individuals. 
+#&gt;         Each individual has two chromosomes, containing
+#&gt;         allele "A" or "a", with probability p and 1-p, 
+#&gt;         respectively.
+#&gt;         
+#&gt;         The population is a list of tuples.
+#&gt;     
+#&gt;     compute_frequencies(population)
+#&gt;         Count the genotypes.
+#&gt;         Returns a dictionary with counts for each genotype.
+#&gt;     
+#&gt;     reproduce_population(population)
+#&gt;         Create a new generation through sexual reproduction
+#&gt;         For each of N new offspring:
+#&gt;         ...
 ```
 
 ---
@@ -828,20 +821,20 @@ def simulate_drift(N, p):
 ## Test the program
 
 ```python
->>> simulate_drift(100, 0.5)
-#> An allele reached fixation at generation 66
-#> The genotype counts are
-#> { ' aa ' : 100, ' aA ' : 0, ' AA ' : 0, ' Aa ' : 0}
+&gt;&gt;&gt; simulate_drift(100, 0.5)
+#&gt; An allele reached fixation at generation 66
+#&gt; The genotype counts are
+#&gt; { ' aa ' : 100, ' aA ' : 0, ' AA ' : 0, ' Aa ' : 0}
 
->>> simulate_drift(100, 0.9)
-#> An allele reached fixation at generation 20
-#> The genotype counts are
-#> { ' aa ' : 0, ' aA ' : 0, ' AA ' : 100, ' Aa ' : 0}
+&gt;&gt;&gt; simulate_drift(100, 0.9)
+#&gt; An allele reached fixation at generation 20
+#&gt; The genotype counts are
+#&gt; { ' aa ' : 0, ' aA ' : 0, ' AA ' : 100, ' Aa ' : 0}
 
->>> simulate_drift(10, 0.5)
-#> An allele reached fixation at generation 7
-#> The genotype counts are
-#> {'AA': 0, 'aa': 10, 'Aa': 0, 'aA': 0}
+&gt;&gt;&gt; simulate_drift(10, 0.5)
+#&gt; An allele reached fixation at generation 7
+#&gt; The genotype counts are
+#&gt; {'AA': 0, 'aa': 10, 'Aa': 0, 'aA': 0}
 ```
 
 ---
@@ -880,4 +873,127 @@ class: center middle inverse
 
 -----
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

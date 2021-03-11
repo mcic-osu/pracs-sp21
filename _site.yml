@@ -16,7 +16,11 @@ navbar:
         - text: "Python resources"
           href: w08_python-resources.html
     - text: "Final project"
-      href: final_project.html
+      menu:
+        - text: "General info"
+          href: final_project.html
+        - text: "Proposal"
+          href: finalproject_proposal.html
   right:
     - text: "About"
       href: about.html
