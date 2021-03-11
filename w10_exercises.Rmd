@@ -13,18 +13,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <br>
 
-## Exercise 1
-
-Start with the list you created last week:
-
-```{python}
-diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
-            'canker', 'wilt', 'root_knot', 'root_rot']
-```
-
 ## Exercise 1: More lists
 
-Start with the list you created last week:
+Start with a same list as you created in the exercises for week 8:
 
 ```{python}
 diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
@@ -36,7 +27,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     <details>
 
     <summary>Solution</summary>\
-    Recall that `sort()` sorts in place, whereas `sorted()` returns a new, sorted list.
+    The `sort()` method sorts a list in place:
 
     ```{python}
     diseases.sort()
@@ -47,7 +38,9 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     </details>
 
 2.  Instead of sorting in place with the `sort()` method like in the previous step,
-    you can also use the `sorted()` *function*, which will return a new list.
+    you can also use the `sorted()` *function*, which will not sort in place
+    but return a *new*, sorted list.
+    
     Find out how to use `sorted()` to sort in reverse order,
     and apply this to `diseases` to create a new list `diseases_sorted`.\
 
@@ -95,7 +88,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     more_diseases.append("crown_galls")
     ```
 
-    Would the list `diseases` contain `crown_galls`?
+    Would the list `diseases` also contain `crown_galls`?
     Think about what the answer should be, and then check if you were right.\
 
     <details>
@@ -116,14 +109,15 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
     </details>
 
 2.  Copy `diseases` to a new list with a name of your choice --
-    the new list should *not* be linked to `diseases`.
+    the new list should *not* simply be a pointed to the old one,
+    but a different object in memory.
     Then, remove all items from the new list.
     Check if `diseases` still contains its items -- if not, you'll have to try again!\
 
     <details>
 
     <summary>Hints</summary>\
-    To create a copy, use the `copy()` method or the `[:]` notation.
+    To create a new list, use the `copy()` method or the `[:]` notation.
 
     </details>
 
@@ -152,7 +146,9 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-3.  What fundamental difference between lists and strings makes it so that `newstring = oldstring` creates *a new string*, whereas `newlist = oldlist` simply creates a new *pointer to the same list*?\
+3.  What fundamental difference between lists and strings makes it so that
+    `newstring = oldstring` creates *a new string*,
+    whereas `newlist = oldlist` simply creates a new *pointer to the same list*?
 
     <details>
 
@@ -161,15 +157,16 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
     </details>
 
-4.  ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.\
+4.  ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.
 
     <details>
 
     <summary>Hints</summary>\
     Remember how we can turn a list into a string with `join()`?
-    If you specify `""` as the separator, it will simply concatenate all the items in the list.\
-    \
-    Also, using `set()` on a string will extract the unique characters.
+    If you specify `""` as the separator,
+    it will simply concatenate all the items in the list.
+    
+    Next, note that applying `set()` to a string will extract the unique characters.
 
     </details>
 
@@ -191,23 +188,140 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
 [Jiang et al. (2013)](https://www.journals.uchicago.edu/doi/10.1086/670160) studied assortative mating in animals. They compiled a large database, reporting the results of many experiments on mating. In particular, for several taxa they provide the value of correlation among the sizes of the mates. A positive value of `r` stands for assortative mating (large animals tend to mate with large animals), and a negative value for disassortative mating.
 
-1\. You can find the data in `good_code/data/Jiang2013_data.csv`. Write a function that takes as input the desired Taxon and returns the mean value of r.
+1\. You can find the data in `good_code/data/Jiang2013_data.csv`. Write a function      that takes as input the desired Taxon and returns the mean value of `r`.
+    Then, apply that function to all taxa in the file.
+    
+    <details>
 
-2\. You should see that fish have a positive value of `r`, but that this is also true for other taxa. Is the mean value of `r` especially high for fish? To test this, compute a p-value by repeatedly sampling 37 values of r (37 experiments on fish are reported in the database) at random, and calculating the probability of observing a higher mean value of `r`. To get an accurate estimate of the p-value, use 50,000 randomizations.
+    <summary>Hints</summary>
+    
+    - Have a look at the file in the shell before you start.
+    
+    - To parse the file, `DictReader` from the `csv` module is again a good option,
+      but note that you'll have the specify the `delimiter` argument since the file
+      is tab-separated.
+      
+    - There are several ways of going about here, but the one in the solutions is
+      to first read in the file and create two lists: one with taxa names and
+      one with the corresponding values for `r`:
+      (These lists will also be re-used in parts 2 and 3 of the exercise,
+      so it is recommended to follow this approach.)
+      
+      ```python
+      import csv
+
+      taxa = []
+      r_values = []
+      
+      open the file and set up dictionary reader
+      for each row:
+          append to taxa
+          append to r_values
+      ```
+      
+    - Then, the actual function will take these two lists and a taxon name as input.
+    
+      ```python
+      def compute_avg_r(taxa, r_values, target_taxon = "Fish"):
+      avg_taxon = 0.0
+      num_occurrences = 0
+      cycle through the values of taxa
+          every time you find the right taxon, add its r value to avg_taxon
+          and increment num_occurrences
+      at the end, divide avg_taxon by num_occurrences and return the average
+      ```
+      
+    - To apply the function to all taxa, use a set to get the unique taxa,
+      and loop over the taxa.
+      
+    </details>
+
+2\. You should have seen that fish have a positive value of `r`,
+    but that this is also true for other taxa.
+    Is the mean value of `r` especially high for fish?
+    To test this, compute a p-value by repeatedly sampling 37 values of `r`
+    (37 experiments on fish are reported in the database) at random,
+    and calculating the probability of observing a higher mean value of `r`.
+    To get an accurate estimate of the p-value, use 50,000 randomizations.
+    
+    <details>
+
+    <summary>Hints</summary>
+    
+    - Part 3 of the exercise will be to repeat this procedure,
+      so it will be a good idea to create a function here.
+      
+      Your function should take as input the target taxon name,
+      the lists of taxa and of `r`-values that you created earlier,
+      and the number of repetitions (randomizations).
+    
+    In the function:
+      
+      - First compute the mean `r` value for the target taxon.
+      
+      - Then, iterate over the output of `range()` to repeat the randomizations.  
+      
+      - In every iteration, shuffle either the list with `r` values or the taxon
+        names, using the function **`scipy.random.shuffle()`**
+        (don't forget to import `scipy`).
+      
+        Then, you can simply call the same function you used before to calculate
+        the mean value of `r`.
+        
+      - In every iteration, compare the randomized mean with the observed mean,
+        and keep a tally of the number of times the observed mean is higher.
+        
+      - The p-value will simply be the proportion (~= probability) of times you
+        got a higher mean value of `r` among randomized sets of 37.
+    
+    Pseudocode:
+    
+    ```python
+    def compute_pvalue(taxa, r_values, target_taxon = "Fish", num_rep = 1000):
+        observed_r = compute the mean for the observed average r value
+        count_random_is_higher = 0.0
+        for i in range(num_rep):
+            shuffle the r values
+            random_r = compute the mean using the shuffled values
+            if random_r >= observed_r:
+    	          increment count_random_is_higher
+        now divide count_random_is_higher by num_rep (= the p-value) and return
+    ```
+    
+    </details>
+
 
 3\. Repeat the procedure for all taxa.
 
-Hints: <https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_pseudo.md>
+    <details>
+
+    <summary>Hints</summary>
+    
+    Loop over all taxa, and call the function you created in the previous part
+    of the exercise in every iteration.
+    
+    </details>
+
 
 <br>
 
-## Exercise CSB-2: Human intestinal ecosystems
+## Bonus: Exercise CSB-2: Human intestinal ecosystems
 
-[Lahti et al. (2014)](https://www.nature.com/articles/ncomms5344) studied the microbial communities living in the intestines of 1000 individuals. They found that bacterial strains tend to be either absent or abundant, and posit that this would reflect bistability in these bacterial assemblages.
+[Lahti et al. (2014)](https://www.nature.com/articles/ncomms5344) studied the microbial communities living in the intestines of 1,000 human individuals.
+They found that bacterial strains tend to be either absent or abundant,
+and posit that this would reflect bistability in these bacterial assemblages.
 
-The data used in this study are contained in the directory `good_code/data/Lahti2014`. The directory contains the file `Metadata.tab` characterizing each of the 1006 human records, the file `HITChip.tab` containing HITChip signal estimates of microbial abundance, and `README`, a description of the data by the study's authors.
+The data used in this study are contained in the directory
+`good_code/data/Lahti2014`. The directory contains:
+- The file `HITChip.tab` containing estimates of microbial abundance for each
+  sample, as obtained by HITChip signal.
+- The file `Metadata.tab`, providing metadata about each of the 1,006 human records.
+- `README`, a description of the data by the study's authors.
 
-1.  Write a function that takes as input a dictionary of constraints (i.e., selecting a specific group of records) and returns a dictionary tabulating the BMI group for all the records matching the constraints.
+1.  Write a function that takes as input a dictionary of constraints
+    (i.e., selecting a specific group of records) and returns a dictionary
+    tabulating the values for the column `BMI_group` for all records
+    matching the constraints.
 
     For example, calling:
 
@@ -221,7 +335,44 @@ The data used in this study are contained in the directory `good_code/data/Lahti
     {'NA': 3, 'lean': 8, 'overweight': 2, 'underweight': 1}
     ```
 
-2.  Write a function that takes as input the constraints (as above) and a bacterial "genus." The function returns the average abundance (in logarithm base 10) of the genus for each BMI group in the subpopulation.
+    <details>
+
+    <summary>Hints</summary>
+    
+    - Several strategies are again possible, but the solution here will have
+      all code in the function, including reading in the file.
+      
+    - Once again, `DictReader()` from the `csv` module is a useful way to read
+      in the data.
+      
+    - Loop over the lines (rows) and for each row, you'll want to check whether
+      all conditions are satisfied. 
+      
+    - Your output dictionary will basically be a count table of the values
+      found for the `BMI_group`, column, so for each matching row,
+      add 1 to the value for the key that represents the group (`lean`, etc).
+      
+    Pseudocode:
+    
+    ```python
+    def get_BMI_count(dict_constr):
+        open the file and set up the csv reader
+       for each row:
+            add_to_count = True
+            for each constrain in dict_constr:
+    	          if constraint is not met:
+    	              add_to_count = False
+            if add_to_count:
+    	          all the constraints are respected
+    	          add to the tally
+       return the result
+    ```
+    
+    </details>
+    
+2.  Write a function that takes as input the constraints (as above) and a bacterial
+    "genus." The function returns the average abundance (in logarithm base 10) of
+    the genus for each BMI group in the subpopulation.
 
     For example, calling:
 
@@ -256,9 +407,51 @@ The data used in this study are contained in the directory `good_code/data/Lahti
     ------------------------------------------------
     ```
 
+    <details>
+
+    <summary>Hints</summary>
+    
+    To write the function, you need to:
+    
+    1. Open the file `Metadata.tab`, and extract the `SampleID` corresponding to
+       the constraints specified by the user (you can use a list to keep track of all IDs).
+    
+    2. Open the file `HITChip.tab` to extract the abundances matching the genus
+       specified by the user (and for the ID stored in step 1).
+        
+    You can use the `log10` function from the `scipy` module to calculate the
+    log value (though you may get a deprecation warning; this is now supposed
+    to be called from the `numpy` module, but we haven't installed that yet.)
+    
+    Pseudocode:
+    
+    ```python
+    def get_abundance_by_BMI(dict_constraints, genus = 'Aerococcus'):
+        open the file Metadata.tab extract matching IDs using the same 
+        approach as in exercise 1
+        these IDs are stored in BMI_IDs
+
+        Now open HITChip.tab, and keep track of the abundance of the genus for each BMI group
+        Calculate means, and print results
+    ```
+    
+    </details>
+    
 3.  Repeat this analysis for all genera, and for the records having `Time = 0`.
 
-Hints: <https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_pseudo.md>
+    <details>
+
+    <summary>Hints</summary>
+    
+    The genera are contained in the header of the file `HITChip.tab`.
+    Extract them from the file and store them in a list.
+    
+    Then, you can call the function `get_abundance_by_BMI({'Time': '0'}, g)`,
+    where g is the genus; cycle through all genera.
+    
+    </details>
+
+<br>
 
 ## CSB Solutions
 

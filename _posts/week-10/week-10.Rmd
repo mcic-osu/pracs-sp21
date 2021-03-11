@@ -1,0 +1,19 @@
+---
+title: "Week 10"
+description: |
+  Writing good code
+date: 2021-03-15
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+### Slides
+
+- [Slides: Modules, custom functions, and program structure](../week-10/slides/10-1.html) -- Tuesday Zoom (Mar 16)
+
+- [Slides: Writing style, running scripts, and errors](../week-10/slides/10-2.html) -- Thursday Zoom (Mar 18)
+
+### Ungraded assignments
+
+- [Exercises for week 10](../../w10_exercises.html)

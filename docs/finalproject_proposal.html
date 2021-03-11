@@ -85,27 +85,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Exercises: Week 10</title>
+  <title>pracs-sp21: Final project: proposal</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Exercises: Week 10"/>
+  <meta property="og:title" content="pracs-sp21: Final project: proposal"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Exercises: Week 10"/>
+  <meta property="twitter:title" content="pracs-sp21: Final project: proposal"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Exercises: Week 10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Final project: proposal"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2451,7 +2451,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Exercises: Week 10","authors":[]}
+{"title":"Final project: proposal","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2502,7 +2502,7 @@ Further resources
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Exercises: Week 10</h1>
+<h1>Final project: proposal</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2510,326 +2510,19 @@ Further resources
 
 
 <div class="d-article">
-<div class="d-contents d-contents-float">
-<nav class="l-text toc figcaption" id="TOC">
-<h3>Contents</h3>
+<p><strong>Write a concise, informal summary of what you plan to do for your final project (due Tuesday, Mar 23).</strong></p>
+<p><em>For general information about devising a project and expectations for your project, please see <a href="final_project.html">this page</a>.</em></p>
+<p>Some pointers:</p>
 <ul>
-<li><a href="#exercise-1-more-lists">Exercise 1: More lists</a></li>
-<li><a href="#exercise-csb-1-assortative-mating">Exercise CSB-1: Assortative mating</a></li>
-<li><a href="#bonus-exercise-csb-2-human-intestinal-ecosystems">Bonus: Exercise CSB-2: Human intestinal ecosystems</a></li>
-<li><a href="#csb-solutions">CSB Solutions</a></li>
+<li><p>Create a directory for your project and start a Git repository. This will be a repository for the project as a whole, not just for this proposal.</p></li>
+<li><p>Write the proposal in Markdown and include it in your repository. Like we did with the graded assignments, when you’re done, push your repository to GitHub and tag me (<code>@jelmerp</code>) in an “Issue” on GitHub (please make sure to tag me in the text body for the issue, it won’t be parsed as a tag if you do this in the title of the issue).</p></li>
+<li><p>In the proposal, start with a general description of what your project will be about, without going into detail about coding languages and approaches. Describe what data you will work with and what kind of output your project will produce.</p></li>
+<li><p>Next, describe the more technical aspects: in which language(s) do you intend to code, what do different scripts by and large need to do, and how will you structure and document your project? Will you mostly be coding your data processing/analyses yourself, or are you mostly running external programs?</p></li>
+<li><p>Check the list of graded aspects on the <a href="final_project.html">page with general information about the project</a>. If you are not sure you will be able to fulfill one of these, or intend to skip something (e.g. OSC SLURM jobs), mention that here.</p></li>
+<li><p>Describe which aspects of your project you are uncertain about, for instance because you intend to include some topics that we have yet to cover in the course, or because something will depend on how other things go.</p></li>
+<li><p>Finally, describe why you chose to pick this project. Because it will be useful for your research? Because it gives you practice with coding topics you like or that you want to / need to get better with? All of the above and/or something else?</p></li>
 </ul>
-</nav>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-
-</div>
-<p><br></p>
-<h2 id="exercise-1-more-lists">Exercise 1: More lists</h2>
-<p>Start with a same list as you created in the exercises for week 8:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>diseases <span class="op">=</span> [<span class="st">&#39;fruit_rot&#39;</span>, <span class="st">&#39;leaf_blight&#39;</span>, <span class="st">&#39;leaf_spots&#39;</span>, <span class="st">&#39;stem_blight&#39;</span>,</span>
-<span id="cb1-2"><a href="#cb1-2"></a>            <span class="st">&#39;canker&#39;</span>, <span class="st">&#39;wilt&#39;</span>, <span class="st">&#39;root_knot&#39;</span>, <span class="st">&#39;root_rot&#39;</span>]</span></code></pre></div>
-</div>
-<ol type="1">
-<li><p>Sort <code>diseases</code> in place.<br />
-</p>
-<details>
-<p><summary>Solution</summary><br />
-The <code>sort()</code> method sorts a list in place:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>diseases.sort()</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>diseases</span></code></pre></div>
-<pre><code>[&#39;canker&#39;, &#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;, &#39;stem_blight&#39;, &#39;wilt&#39;]</code></pre>
-</div>
-</details></li>
-<li><p>Instead of sorting in place with the <code>sort()</code> method like in the previous step, you can also use the <code>sorted()</code> <em>function</em>, which will not sort in place but return a <em>new</em>, sorted list.</p>
-<p>Find out how to use <code>sorted()</code> to sort in reverse order, and apply this to <code>diseases</code> to create a new list <code>diseases_sorted</code>.<br />
-</p>
-<details>
-<p><summary>Solution</summary><br />
-We can use the <code>reverse</code> argument to <code>sorted()</code> to sort in reverse order:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>diseases_sorted <span class="op">=</span> <span class="bu">sorted</span>(diseases, reverse<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
-</div>
-</details></li>
-<li><p>If you would run <code>fewer_diseases = diseases.remove("root_rot")</code>, what would <code>fewer_diseases</code> contain? Think about what the answer should be, and then check if you were right. Does simply running <code>fewer_diseases</code> versus running <code>print(fewer_diseases)</code> make a difference?<br />
-</p>
-<details>
-<p><summary>Solution</summary></p>
-<p>Because <code>remove()</code> operates <em>in place</em>, it doesn’t return anything:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>fewer_diseases <span class="op">=</span> diseases.remove(<span class="st">&quot;root_rot&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>fewer_diseases</span></code></pre></div>
-</div>
-<p>Well, it actualy returns <code>None</code>, which you can see by explicitly calling the <code>print()</code> function:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="bu">print</span>(fewer_diseases)</span></code></pre></div>
-<pre><code>None</code></pre>
-</div>
-</details></li>
-<li><p>If you would run:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>more_diseases <span class="op">=</span> diseases</span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a>more_diseases.append(<span class="st">&quot;crown_galls&quot;</span>)</span></code></pre></div>
-</div>
-<p>Would the list <code>diseases</code> also contain <code>crown_galls</code>? Think about what the answer should be, and then check if you were right.<br />
-</p>
-<details>
-<p><summary>Solution</summary><br />
-Yes, <code>diseases</code> will contain the item <code>crown_galls</code> that was added to <code>more_diseases</code>, because <code>more_diseases</code> in not an independent list but is merely a second pointer to the same list that <code>diseases</code> points to.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>more_diseases <span class="op">=</span> diseases</span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a>more_diseases.append(<span class="st">&quot;crown_galls&quot;</span>)</span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a>diseases</span></code></pre></div>
-<pre><code>[&#39;canker&#39;, &#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;root_knot&#39;, &#39;stem_blight&#39;, &#39;wilt&#39;, &#39;crown_galls&#39;]</code></pre>
-</div>
-</details></li>
-<li><p>Copy <code>diseases</code> to a new list with a name of your choice – the new list should <em>not</em> simply be a pointed to the old one, but a different object in memory. Then, remove all items from the new list. Check if <code>diseases</code> still contains its items – if not, you’ll have to try again!<br />
-</p>
-<details>
-<p><summary>Hints</summary><br />
-To create a new list, use the <code>copy()</code> method or the <code>[:]</code> notation.</p>
-</details>
-<details>
-<p><summary>Solution</summary><br />
-To create a copy, use the <code>copy()</code> method:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>diseases_copy <span class="op">=</span> diseases.copy()</span></code></pre></div>
-</div>
-<p>Or the <code>[:]</code> notation.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>diseases_copy <span class="op">=</span> diseases[:]</span></code></pre></div>
-</div>
-<p>Then, to remove all elements in the copy of the list:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>diseases_copy.clear()</span>
-<span id="cb13-2"><a href="#cb13-2"></a></span>
-<span id="cb13-3"><a href="#cb13-3"></a>diseases</span></code></pre></div>
-<pre><code>[&#39;canker&#39;, &#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;root_knot&#39;, &#39;stem_blight&#39;, &#39;wilt&#39;, &#39;crown_galls&#39;]</code></pre>
-</div>
-</details></li>
-<li><p>What fundamental difference between lists and strings makes it so that <code>newstring = oldstring</code> creates <em>a new string</em>, whereas <code>newlist = oldlist</code> simply creates a new <em>pointer to the same list</em>?</p>
-<details>
-<p><summary>Solution</summary><br />
-The fact that strings are <em>immutable</em>, whereas lists are <em>mutable</em>.</p>
-</details></li>
-<li><p><strong><em>Bonus:</em></strong> Get all unique <em>characters</em> (not items) present in <code>diseases</code>.</p>
-<details>
-<p><summary>Hints</summary><br />
-Remember how we can turn a list into a string with <code>join()</code>? If you specify <code>""</code> as the separator, it will simply concatenate all the items in the list.</p>
-<p>Next, note that applying <code>set()</code> to a string will extract the unique characters.</p>
-</details>
-<details>
-<p><summary>Solution</summary><br />
-First, turn the list into a string using <code>"".join</code>. Then, call <code>set()</code> on the string to get a list of unique items (= characters).</p>
-<div class="layout-chunk" data-layout="l-body">
-<<<<<<< HEAD
-<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="bu">set</span>(<span class="st">&quot;&quot;</span>.join(diseases))</span></code></pre></div>
-<pre><code>{&#39;n&#39;, &#39;k&#39;, &#39;s&#39;, &#39;l&#39;, &#39;a&#39;, &#39;m&#39;, &#39;_&#39;, &#39;c&#39;, &#39;g&#39;, &#39;i&#39;, &#39;w&#39;, &#39;b&#39;, &#39;r&#39;, &#39;o&#39;, &#39;u&#39;, &#39;h&#39;, &#39;f&#39;, &#39;t&#39;, &#39;e&#39;, &#39;p&#39;}</code></pre>
-=======
-<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="bu">set</span>(<span class="st">&quot;&quot;</span>.join(diseases))</span></code></pre></div>
-<pre><code>{&#39;k&#39;, &#39;c&#39;, &#39;h&#39;, &#39;e&#39;, &#39;g&#39;, &#39;w&#39;, &#39;b&#39;, &#39;n&#39;, &#39;_&#39;, &#39;u&#39;, &#39;s&#39;, &#39;f&#39;, &#39;a&#39;, &#39;m&#39;, &#39;r&#39;, &#39;l&#39;, &#39;p&#39;, &#39;o&#39;, &#39;i&#39;, &#39;t&#39;}</code></pre>
->>>>>>> w10-dev
-</div>
-</details></li>
-</ol>
-<p><br></p>
-<h2 id="exercise-csb-1-assortative-mating">Exercise CSB-1: Assortative mating</h2>
-<p><a href="https://www.journals.uchicago.edu/doi/10.1086/670160">Jiang et al. (2013)</a> studied assortative mating in animals. They compiled a large database, reporting the results of many experiments on mating. In particular, for several taxa they provide the value of correlation among the sizes of the mates. A positive value of <code>r</code> stands for assortative mating (large animals tend to mate with large animals), and a negative value for disassortative mating.</p>
-<p>1. You can find the data in <code>good_code/data/Jiang2013_data.csv</code>. Write a function that takes as input the desired Taxon and returns the mean value of <code>r</code>. Then, apply that function to all taxa in the file.</p>
-<pre><code>&lt;details&gt;
-
-&lt;summary&gt;Hints&lt;/summary&gt;
-
-- Have a look at the file in the shell before you start.
-
-- To parse the file, `DictReader` from the `csv` module is again a good option,
-  but note that you&#39;ll have the specify the `delimiter` argument since the file
-  is tab-separated.
-  
-- There are several ways of going about here, but the one in the solutions is
-  to first read in the file and create two lists: one with taxa names and
-  one with the corresponding values for `r`:
-  (These lists will also be re-used in parts 2 and 3 of the exercise,
-  so it is recommended to follow this approach.)
-  
-  ```python
-  import csv
-
-  taxa = []
-  r_values = []
-  
-  open the file and set up dictionary reader
-  for each row:
-      append to taxa
-      append to r_values
-  ```
-  
-- Then, the actual function will take these two lists and a taxon name as input.
-
-  ```python
-  def compute_avg_r(taxa, r_values, target_taxon = &quot;Fish&quot;):
-  avg_taxon = 0.0
-  num_occurrences = 0
-  cycle through the values of taxa
-      every time you find the right taxon, add its r value to avg_taxon
-      and increment num_occurrences
-  at the end, divide avg_taxon by num_occurrences and return the average
-  ```
-  
-- To apply the function to all taxa, use a set to get the unique taxa,
-  and loop over the taxa.
-  
-&lt;/details&gt;</code></pre>
-<p>2. You should have seen that fish have a positive value of <code>r</code>, but that this is also true for other taxa. Is the mean value of <code>r</code> especially high for fish? To test this, compute a p-value by repeatedly sampling 37 values of <code>r</code> (37 experiments on fish are reported in the database) at random, and calculating the probability of observing a higher mean value of <code>r</code>. To get an accurate estimate of the p-value, use 50,000 randomizations.</p>
-<pre><code>&lt;details&gt;
-
-&lt;summary&gt;Hints&lt;/summary&gt;
-
-- Part 3 of the exercise will be to repeat this procedure,
-  so it will be a good idea to create a function here.
-  
-  Your function should take as input the target taxon name,
-  the lists of taxa and of `r`-values that you created earlier,
-  and the number of repetitions (randomizations).
-
-In the function:
-  
-  - First compute the mean `r` value for the target taxon.
-  
-  - Then, iterate over the output of `range()` to repeat the randomizations.  
-  
-  - In every iteration, shuffle either the list with `r` values or the taxon
-    names, using the function **`scipy.random.shuffle()`**
-    (don&#39;t forget to import `scipy`).
-  
-    Then, you can simply call the same function you used before to calculate
-    the mean value of `r`.
-    
-  - In every iteration, compare the randomized mean with the observed mean,
-    and keep a tally of the number of times the observed mean is higher.
-    
-  - The p-value will simply be the proportion (~= probability) of times you
-    got a higher mean value of `r` among randomized sets of 37.
-
-Pseudocode:
-
-```python
-def compute_pvalue(taxa, r_values, target_taxon = &quot;Fish&quot;, num_rep = 1000):
-    observed_r = compute the mean for the observed average r value
-    count_random_is_higher = 0.0
-    for i in range(num_rep):
-        shuffle the r values
-        random_r = compute the mean using the shuffled values
-        if random_r &gt;= observed_r:
-              increment count_random_is_higher
-    now divide count_random_is_higher by num_rep (= the p-value) and return
-```
-
-&lt;/details&gt;</code></pre>
-<p>3. Repeat the procedure for all taxa.</p>
-<pre><code>&lt;details&gt;
-
-&lt;summary&gt;Hints&lt;/summary&gt;
-
-Loop over all taxa, and call the function you created in the previous part
-of the exercise in every iteration.
-
-&lt;/details&gt;</code></pre>
-<p><br></p>
-<h2 id="bonus-exercise-csb-2-human-intestinal-ecosystems">Bonus: Exercise CSB-2: Human intestinal ecosystems</h2>
-<p><a href="https://www.nature.com/articles/ncomms5344">Lahti et al. (2014)</a> studied the microbial communities living in the intestines of 1,000 human individuals. They found that bacterial strains tend to be either absent or abundant, and posit that this would reflect bistability in these bacterial assemblages.</p>
-<p>The data used in this study are contained in the directory <code>good_code/data/Lahti2014</code>. The directory contains: - The file <code>HITChip.tab</code> containing estimates of microbial abundance for each sample, as obtained by HITChip signal. - The file <code>Metadata.tab</code>, providing metadata about each of the 1,006 human records. - <code>README</code>, a description of the data by the study’s authors.</p>
-<ol type="1">
-<li><p>Write a function that takes as input a dictionary of constraints (i.e., selecting a specific group of records) and returns a dictionary tabulating the values for the column <code>BMI_group</code> for all records matching the constraints.</p>
-<p>For example, calling:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>get_BMI_count({<span class="st">&quot;Age&quot;</span>: <span class="st">&quot;28&quot;</span>, <span class="st">&quot;Sex&quot;</span>: <span class="st">&quot;female&quot;</span>})</span></code></pre></div>
-<p>should return:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>{<span class="st">&#39;NA&#39;</span>: <span class="dv">3</span>, <span class="st">&#39;lean&#39;</span>: <span class="dv">8</span>, <span class="st">&#39;overweight&#39;</span>: <span class="dv">2</span>, <span class="st">&#39;underweight&#39;</span>: <span class="dv">1</span>}</span></code></pre></div>
-<details>
-<p><summary>Hints</summary></p>
-<ul>
-<li><p>Several strategies are again possible, but the solution here will have all code in the function, including reading in the file.</p></li>
-<li><p>Once again, <code>DictReader()</code> from the <code>csv</code> module is a useful way to read in the data.</p></li>
-<li><p>Loop over the lines (rows) and for each row, you’ll want to check whether all conditions are satisfied.</p></li>
-<li><p>Your output dictionary will basically be a count table of the values found for the <code>BMI_group</code>, column, so for each matching row, add 1 to the value for the key that represents the group (<code>lean</code>, etc).</p></li>
-</ul>
-<p>Pseudocode:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">def</span> get_BMI_count(dict_constr):</span>
-<span id="cb22-2"><a href="#cb22-2"></a>    <span class="bu">open</span> the <span class="bu">file</span> <span class="kw">and</span> <span class="bu">set</span> up the csv reader</span>
-<span id="cb22-3"><a href="#cb22-3"></a>   <span class="cf">for</span> each row:</span>
-<span id="cb22-4"><a href="#cb22-4"></a>        add_to_count <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb22-5"><a href="#cb22-5"></a>        <span class="cf">for</span> each constrain <span class="kw">in</span> dict_constr:</span>
-<span id="cb22-6"><a href="#cb22-6"></a>              <span class="cf">if</span> constraint <span class="kw">is</span> <span class="kw">not</span> met:</span>
-<span id="cb22-7"><a href="#cb22-7"></a>                  add_to_count <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb22-8"><a href="#cb22-8"></a>        <span class="cf">if</span> add_to_count:</span>
-<span id="cb22-9"><a href="#cb22-9"></a>              <span class="bu">all</span> the constraints are respected</span>
-<span id="cb22-10"><a href="#cb22-10"></a>              add to the tally</span>
-<span id="cb22-11"><a href="#cb22-11"></a>   <span class="cf">return</span> the result</span></code></pre></div>
-</details></li>
-<li><p>Write a function that takes as input the constraints (as above) and a bacterial “genus.” The function returns the average abundance (in logarithm base 10) of the genus for each BMI group in the subpopulation.</p>
-<p>For example, calling:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>get_abundance_by_BMI({<span class="st">&quot;Time&quot;</span>: <span class="st">&quot;0&quot;</span>,</span>
-<span id="cb23-2"><a href="#cb23-2"></a>                      <span class="st">&quot;Nationality&quot;</span>: <span class="st">&quot;US&quot;</span>},</span>
-<span id="cb23-3"><a href="#cb23-3"></a>                      <span class="st">&quot;Clostridium difficile et rel.&quot;</span>)</span></code></pre></div>
-<p>should return:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="op">------------------------------------------------</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>Abundance of Clostridium difficile et rel.</span>
-<span id="cb24-3"><a href="#cb24-3"></a>In subpopulation:</span>
-<span id="cb24-4"><a href="#cb24-4"></a><span class="op">------------------------------------------------</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a>Nationality <span class="op">-&gt;</span> US</span>
-<span id="cb24-6"><a href="#cb24-6"></a>Time <span class="op">-&gt;</span> <span class="dv">0</span></span>
-<span id="cb24-7"><a href="#cb24-7"></a><span class="op">------------------------------------------------</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a><span class="fl">3.08</span></span>
-<span id="cb24-9"><a href="#cb24-9"></a>NA</span>
-<span id="cb24-10"><a href="#cb24-10"></a><span class="fl">3.31</span></span>
-<span id="cb24-11"><a href="#cb24-11"></a>underweight</span>
-<span id="cb24-12"><a href="#cb24-12"></a><span class="fl">3.84</span></span>
-<span id="cb24-13"><a href="#cb24-13"></a>lean</span>
-<span id="cb24-14"><a href="#cb24-14"></a><span class="fl">2.89</span></span>
-<span id="cb24-15"><a href="#cb24-15"></a>overweight</span>
-<span id="cb24-16"><a href="#cb24-16"></a><span class="fl">3.31</span></span>
-<span id="cb24-17"><a href="#cb24-17"></a>obese</span>
-<span id="cb24-18"><a href="#cb24-18"></a><span class="fl">3.45</span></span>
-<span id="cb24-19"><a href="#cb24-19"></a>severeobese</span>
-<span id="cb24-20"><a href="#cb24-20"></a><span class="op">------------------------------------------------</span></span></code></pre></div>
-<details>
-<p><summary>Hints</summary></p>
-<p>To write the function, you need to:</p>
-<ol type="1">
-<li><p>Open the file <code>Metadata.tab</code>, and extract the <code>SampleID</code> corresponding to the constraints specified by the user (you can use a list to keep track of all IDs).</p></li>
-<li><p>Open the file <code>HITChip.tab</code> to extract the abundances matching the genus specified by the user (and for the ID stored in step 1).</p></li>
-</ol>
-<p>You can use the <code>log10</code> function from the <code>scipy</code> module to calculate the log value (though you may get a deprecation warning; this is now supposed to be called from the <code>numpy</code> module, but we haven’t installed that yet.)</p>
-<p>Pseudocode:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">def</span> get_abundance_by_BMI(dict_constraints, genus <span class="op">=</span> <span class="st">&#39;Aerococcus&#39;</span>):</span>
-<span id="cb25-2"><a href="#cb25-2"></a>    <span class="bu">open</span> the <span class="bu">file</span> Metadata.tab extract matching IDs using the same </span>
-<span id="cb25-3"><a href="#cb25-3"></a>    approach <span class="im">as</span> <span class="kw">in</span> exercise <span class="dv">1</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>    these IDs are stored <span class="kw">in</span> BMI_IDs</span>
-<span id="cb25-5"><a href="#cb25-5"></a></span>
-<span id="cb25-6"><a href="#cb25-6"></a>    Now <span class="bu">open</span> HITChip.tab, <span class="kw">and</span> keep track of the abundance of the genus <span class="cf">for</span> each BMI group</span>
-<span id="cb25-7"><a href="#cb25-7"></a>    Calculate means, <span class="kw">and</span> <span class="bu">print</span> results</span></code></pre></div>
-</details></li>
-<li><p>Repeat this analysis for all genera, and for the records having <code>Time = 0</code>.</p>
-<details>
-<p><summary>Hints</summary></p>
-<p>The genera are contained in the header of the file <code>HITChip.tab</code>. Extract them from the file and store them in a list.</p>
-<p>Then, you can call the function <code>get_abundance_by_BMI({'Time': '0'}, g)</code>, where g is the genus; cycle through all genera.</p>
-</details></li>
-</ol>
-<p><br></p>
-<h2 id="csb-solutions">CSB Solutions</h2>
-<ul>
-<li><p><a href="https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_solution.ipynb">Solutions for exercise CSB-1</a>.</p></li>
-<li><p><a href="https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_solution_detailed.ipynb">Solutions for exercise CSB-2</a>.</p></li>
-</ul>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
