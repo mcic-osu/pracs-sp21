@@ -139,7 +139,7 @@ to the file, or `writelines()` to write a list to the file.
 - When we are done with the file, **we need to close it**:
 
   ```python
-  myfile.close()
+  my_filehandle.close()
   ```
 
 &lt;br&gt;
@@ -206,8 +206,7 @@ f.write("\n".join(mylist))
   a newline anyway, we end up with double-spacing.
 
 - For single-space `print()`ing, or when processing a line,
-  we can use `strip()` to remove leading and trailing newlines
-  (and other whitespace):
+  we can use `strip()` to remove newlines characters (and other whitespace):
   
   ```py
   line1 = my_filehandle.readline().strip()
