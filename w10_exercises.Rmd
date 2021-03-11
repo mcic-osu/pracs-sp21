@@ -411,6 +411,29 @@ The data used in this study are contained in the directory
 
     <summary>Hints</summary>
     
+    To write the function, you need to:
+    
+    1. Open the file `Metadata.tab`, and extract the `SampleID` corresponding to
+       the constraints specified by the user (you can use a list to keep track of all IDs).
+    
+    2. Open the file `HITChip.tab` to extract the abundances matching the genus
+       specified by the user (and for the ID stored in step 1).
+        
+    You can use the `log10` function from the `scipy` module to calculate the
+    log value (though you may get a deprecation warning; this is now supposed
+    to be called from the `numpy` module, but we haven't installed that yet.)
+    
+    Pseudocode:
+    
+    ```python
+    def get_abundance_by_BMI(dict_constraints, genus = 'Aerococcus'):
+        open the file Metadata.tab extract matching IDs using the same 
+        approach as in exercise 1
+        these IDs are stored in BMI_IDs
+
+        Now open HITChip.tab, and keep track of the abundance of the genus for each BMI group
+        Calculate means, and print results
+    ```
     
     </details>
     
@@ -420,9 +443,13 @@ The data used in this study are contained in the directory
 
     <summary>Hints</summary>
     
+    The genera are contained in the header of the file `HITChip.tab`.
+    Extract them from the file and store them in a list.
+    
+    Then, you can call the function `get_abundance_by_BMI({'Time': '0'}, g)`,
+    where g is the genus; cycle through all genera.
     
     </details>
-    
 
 <br>
 
