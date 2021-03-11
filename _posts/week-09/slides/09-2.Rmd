@@ -39,19 +39,20 @@ xaringanExtra::use_search(show_icon = TRUE)
 
 ## Getting set up
 
-1. In VS Code, open an existing Python script for this week or start a new one
-   (`.py` extension) and trigger or directly start the Interactive Window.
+1. In the shell, look for your `CSB` dir (the book's GitHub repo) or
+   download it again:
 
-3. Look for your `CSB` dir (the book's GitHub repo) or download it again
-   in the shell:
+   ```sh
+   git clone https://github.com/CSB-book/CSB.git         # SHELL
+   ```
 
-  ```sh
-  git clone https://github.com/CSB-book/CSB.git         # SHELL
-  ```
+2. Trigger an interactive Python window from a Python script
+   (<kbd>Shift</kbd>+<kbd>Enter</kbd>).
 
-4. Assuming your CSB dir is at `/fs/ess/PAS1855/users/$USER/CSB`,  
-   and your Python script in `/fs/ess/PAS1855/users/$USER/week09`,  
-   move to the `python/sandbox` dir in CSB using: 
+3. Move to the `python/sandbox` dir in CSB in Python.
+
+   Assuming your CSB dir is at `/fs/ess/PAS1855/users/$USER/CSB`,  
+   and your Python script in `/fs/ess/PAS1855/users/$USER/week09`: 
 
   ```py
   import os                                             # PYTHON
@@ -74,25 +75,40 @@ Opening a file won't load it into memory, but will create a connection to the fi
 For instance, to open a file for *writing* (`w`):
 
 ```python
-my_filehandle = open('my_new_file', 'w')
+my_filehandle = open('my_new_file.txt', 'w')
 ```
 
 Now, `my_filehandle` is is a file object, also called a *file handle*.
 
 <br>
 
---
+<figure>
+<p align="center">
+<img src=img/file_handle_output-3.png width="65%">
+<figcaption>From O’Neil 2017 - A Primer for Computational Biology</figcaption>
+</p>
+</figure>
+
+---
+
+## Most commonly used file modes
 
 .center[
-**File modes:**
-
 | Shorthand | File mode
 |-----------|----------
 | `r`       | Read
 | `w`       | Write
 | `a`       | Append
-| `r+`       | Read + write
+| `r+`      | Read + write
 ]
+
+<br>
+
+```python
+open('my_new_file.txt', 'w')
+open('some_data.txt', 'r')
+```
+
 
 ---
 
@@ -110,8 +126,6 @@ to the file, or `writelines()` to write a list to the file.
   my_filehandle.writelines(["A\n", "B\n", "C\n"])
   ```
 
-  *(`writelines()` is not therefore not the clearest name.)*
-
 --
 
 - When we are done with the file, **we need to close it**:
@@ -119,6 +133,8 @@ to the file, or `writelines()` to write a list to the file.
   ```python
   myfile.close()
   ```
+
+<br>
 
 .content-box-info[
 To write a list to file one line at a time, use `join()`:
@@ -133,10 +149,10 @@ f.write("\n".join(mylist))
 
 - If we use the `with open()` construct,
   we don't have to manually close the file &ndash;
-  instead, we use *indentation* to indicate that the file connection is open:
+  instead, the file connection is open as long as our code is *indented*:
   
   ```python
-  with open("my_new_file", "r") as my_filehandle:    
+  with open("my_new_file.txt", "r") as my_filehandle:    
     
         for my_line in my_filehandle:  # Loop over lines
             print(my_line)             # Print line back
@@ -153,8 +169,8 @@ f.write("\n".join(mylist))
 - The above example also shows that **if we loop over the file handle,
   we automatically process one line at a time.**
   
-- Here, simply printed the contents of the file to screen,
-  but notice how we ended up with double-spacing.
+- Here, we simply printed the contents of the file to screen,
+  but notice how we ended up with *double-spacing*.
 
 ---
 
@@ -164,7 +180,7 @@ f.write("\n".join(mylist))
   let's read a single line using `readline()` and store the result in a variable:
   
   ```python
-  with open('my_new_file', 'r') as my_filehandle:
+  with open('my_new_file.txt', 'r') as my_filehandle:
         line1 = my_filehandle.readline()
   
   line1
@@ -178,7 +194,8 @@ f.write("\n".join(mylist))
 
 - As it turns out, reading methods also return the newline characters `\n`.
 
-- Additionally, `print()` by default inserts a newline at the end.
+- `print()` parses the newline character and because it by default always inserts
+  a newline anyway, we end up with double-spacing.
 
 - For single-space `print()`ing, or when processing a line,
   we can use `strip()` to remove leading and trailing newlines
@@ -187,26 +204,6 @@ f.write("\n".join(mylist))
   ```py
   line1 = my_filehandle.readline().strip()
   ```
-
----
-
-## Reading and writing
-
-- As another toy example, we can write the lines that we read from one file
-  to another file:
-
-  ```python
-  with open('../data/Singh2015_data.csv', 'r') as input_file:
-      
-      with open('Singh_copy.csv', 'w') as output_file:
-        
-        for line in input_file:
-            output_file.write(line)
-  ```
-
-- Now, we don't need to think about the `\n` characters:
-  recall that reading methods *include* them,
-  while writing methods "*need*" them.
 
 ---
 
@@ -234,12 +231,6 @@ f.write("\n".join(mylist))
 
   ```python
   input_file.next()
-  ```
-  
-- To go back to, in this case, the 1st line, we can use:
-
-  ```python
-  input_file.seek(0)
   ```
   
 ---
@@ -391,6 +382,10 @@ with open("../data/Dalziel2016_data.csv") as infile:
                 writer.writerow(row)
 ```
 
+- We can specify the delimiter to be a tab `\t` (default is a comma).
+
+- `writeheader()` and `writerow()` will write data from the file as is.
+
 ---
 
 ## <i class="fa fa-user-edit"></i> Intermezzo 3.4
@@ -405,9 +400,9 @@ Write code that prints (using the `print()` function) the values in the columns
 ```py
 import csv
 
-with open ("../data/Dalziel2016_data.csv") as f:
+with open ("../data/Dalziel2016_data.csv") as fhandle:
   
-    reader = csv.DictReader(f)
+    reader = csv.DictReader(fhandle)
   
     for row in reader:
         print(row["loc"], row["pop"])
@@ -440,3 +435,36 @@ class: center middle inverse
 -----
 
 <br> <br> <br> <br>
+
+
+---
+background-color: #f2f5eb
+
+## Reading and writing
+
+- As another toy example, we can write the lines that we read from one file
+  to another file:
+
+  ```python
+  with open('../data/Singh2015_data.csv', 'r') as input_file:
+      
+      with open('Singh_copy.csv', 'w') as output_file:
+        
+        for line in input_file:
+            output_file.write(line)
+  ```
+
+- Now, we don't need to think about the `\n` characters:
+  recall that reading methods *include* them,
+  while writing methods "*need*" them.
+  
+<br>
+
+----
+  
+- When reading a file line-by-line, to go back to a specific line
+  in this case the 1st line, we can use:
+
+  ```python
+  input_file.seek(0)
+  ```
