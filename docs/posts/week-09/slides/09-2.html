@@ -6,7 +6,20 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
     <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
@@ -14,6 +27,8 @@
     <textarea id="source">
 
 class:inverse middle center
+
+
 
 
 
@@ -26,7 +41,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/11 (updated: 2021-03-08)
+### 2021/03/11 (updated: 2021-03-10)
 
 ---
 
@@ -39,7 +54,7 @@ class:inverse middle center
    in the shell:
 
   ```sh
-  git clone https://github.com/CSB-book/CSB.git
+  git clone https://github.com/CSB-book/CSB.git         # SHELL
   ```
 
 4. Assuming your CSB dir is at `/fs/ess/PAS1855/users/$USER/CSB`,  
@@ -47,10 +62,10 @@ class:inverse middle center
    move to the `python/sandbox` dir in CSB using: 
 
   ```py
-  import os
+  import os                                             # PYTHON
   os.chdir('../CSB/python/sandbox')
   
-  ## Or with:
+  ## Or w/ an absolute dir, replace &lt;username&gt; w/ real username:
   # os.chdir('/fs/ess/PAS1855/users/&lt;username&gt;/CSB/python/sandbox')
   
   ## Check your current working dir:
@@ -61,22 +76,24 @@ class:inverse middle center
 
 ## CSB 3.7: Working with files
 
-We need to explicitly open a file before we can interact with it.
+In Python, we need to *explicitly open a file* before we can interact with it.
 Opening a file won't load it into memory, but will create a connection to the file.
 
 For instance, to open a file for *writing* (`w`):
 
 ```python
-myfile = open("my_new_file", "w")
+my_filehandle = open('my_new_file', 'w')
 ```
 
-Now, `myfile` is is a file object, also called a *file handle*.
+Now, `my_filehandle` is is a file object, also called a *file handle*.
 
 &lt;br&gt;
 
 --
 
-.pull-left[
+.center[
+**File modes:**
+
 | Shorthand | File mode
 |-----------|----------
 | `r`       | Read
@@ -84,33 +101,6 @@ Now, `myfile` is is a file object, also called a *file handle*.
 | `a`       | Append
 | `r+`       | Read + write
 ]
-
----
-
-## File object attributes
-
-We can see which attributes and methods are associated with our file object
-as usual, by typing a period after the object name:
-
-```python
-myfile.
-```
-
-&lt;br&gt;
-
-Let's look at some of these attributes &amp;ndash;
-the file name, mode, and encoding:
-
-```python
-myfile.name
-# 'my_new_file'
-
-myfile.mode
-# 'w'
-
-myfile.encoding
-'UTF-8'
-```
 
 ---
 
@@ -123,16 +113,16 @@ to the file, or `writelines()` to write a list to the file.
 
   ```python
   s = 'My file contents'
+  my_filehandle.write(s + "\n")
   
-  myfile.write(s + "\n")
-  myfile.writelines(["A\n", "B\n", "C\n"])
+  my_filehandle.writelines(["A\n", "B\n", "C\n"])
   ```
 
-  (`writelines()` is not therefore not the clearest name.)
+  *(`writelines()` is not therefore not the clearest name.)*
 
 --
 
-- When we are done with the file, we need to close it:
+- When we are done with the file, **we need to close it**:
 
   ```python
   myfile.close()
@@ -154,10 +144,10 @@ f.write("\n".join(mylist))
   instead, we use *indentation* to indicate that the file connection is open:
   
   ```python
-  with open("my_new_file", "r") as my_file:    
+  with open("my_new_file", "r") as my_filehandle:    
     
-        for my_line in my_file:
-            print(my_line)
+        for my_line in my_filehandle:  # Loop over lines
+            print(my_line)             # Print line back
   
   #&gt; My file contents
   #&gt;
@@ -172,19 +162,18 @@ f.write("\n".join(mylist))
   we automatically process one line at a time.**
   
 - Here, simply printed the contents of the file to screen,
-  but notice how we ended up with double spacing.
+  but notice how we ended up with double-spacing.
 
 ---
 
 ## More newlines
 
-- To see what's going on, let's read a single line using `readline()`
-  and store the result in a variable.
+- To see what's going on with the double-spacing,
+  let's read a single line using `readline()` and store the result in a variable:
   
   ```python
-  with open('my_new_file', 'r') as input_file:
-      
-        line1 = input_file.readline()
+  with open('my_new_file', 'r') as my_filehandle:
+        line1 = my_filehandle.readline()
   
   line1
   #&gt; 'My file contents\n'
@@ -195,15 +184,16 @@ f.write("\n".join(mylist))
 
 --
 
-- As it turns out, the reading methods include the newline characters `\n`.
+- As it turns out, reading methods also return the newline characters `\n`.
 
 - Additionally, `print()` by default inserts a newline at the end.
 
-- To `print()` or otherwise process a line, we can use `strip()` to remove
-  leading and trailing newlines (and other whitespace):
+- For single-space `print()`ing, or when processing a line,
+  we can use `strip()` to remove leading and trailing newlines
+  (and other whitespace):
   
   ```py
-  line1 = input_file.readline().strip()
+  line1 = my_filehandle.readline().strip()
   ```
 
 ---
@@ -219,11 +209,12 @@ f.write("\n".join(mylist))
       with open('Singh_copy.csv', 'w') as output_file:
         
         for line in input_file:
-          output_file.write(line)
+            output_file.write(line)
   ```
 
-- No, we don't need to think about the `\n` characters,
-  because both reading *includes* them and writing "*needs*" them.
+- Now, we don't need to think about the `\n` characters:
+  recall that reading methods *include* them,
+  while writing methods "*need*" them.
 
 ---
 
@@ -263,8 +254,8 @@ f.write("\n".join(mylist))
 
 ## Summary of basic options to read from a file
 
-- Note that with all approaches, line breaks are present in the resulting
-strings as `\n`.  
+- Note that with all approaches,
+  line breaks are present in the resulting strings as `\n`.  
 
 | Approach                   | Result           |
 |----------------------------|------------------|
@@ -410,14 +401,14 @@ with open("../data/Dalziel2016_data.csv") as infile:
 
 ---
 
-## <i class="fas  fa-user-edit "></i> Intermezzo 3.4
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 3.4
 
-Write code that prints (`print()`) the values in the columns `loc` and `pop`
-for all rows in the file `Dalziel2016_data.csv`.
+Write code that prints (using the `print()` function) the values in the columns
+`loc` and `pop` for all rows in the file `Dalziel2016_data.csv`.
 
 ---
 
-## <i class="fas  fa-user-edit "></i> Intermezzo 3.4: solutions
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 3.4: solutions
 
 ```py
 import csv

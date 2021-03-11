@@ -14,8 +14,14 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+```
+
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
+xaringanExtra::use_scribble()
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
 ```
 
 # *Week 9 - Control flow and working with files*
@@ -40,7 +46,7 @@ knitr::opts_chunk$set(eval = FALSE)
    in the shell:
 
   ```sh
-  git clone https://github.com/CSB-book/CSB.git
+  git clone https://github.com/CSB-book/CSB.git         # SHELL
   ```
 
 4. Assuming your CSB dir is at `/fs/ess/PAS1855/users/$USER/CSB`,  
@@ -48,10 +54,10 @@ knitr::opts_chunk$set(eval = FALSE)
    move to the `python/sandbox` dir in CSB using: 
 
   ```py
-  import os
+  import os                                             # PYTHON
   os.chdir('../CSB/python/sandbox')
   
-  ## Or with:
+  ## Or w/ an absolute dir, replace <username> w/ real username:
   # os.chdir('/fs/ess/PAS1855/users/<username>/CSB/python/sandbox')
   
   ## Check your current working dir:
@@ -62,22 +68,24 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ## CSB 3.7: Working with files
 
-We need to explicitly open a file before we can interact with it.
+In Python, we need to *explicitly open a file* before we can interact with it.
 Opening a file won't load it into memory, but will create a connection to the file.
 
 For instance, to open a file for *writing* (`w`):
 
 ```python
-myfile = open("my_new_file", "w")
+my_filehandle = open('my_new_file', 'w')
 ```
 
-Now, `myfile` is is a file object, also called a *file handle*.
+Now, `my_filehandle` is is a file object, also called a *file handle*.
 
 <br>
 
 --
 
-.pull-left[
+.center[
+**File modes:**
+
 | Shorthand | File mode
 |-----------|----------
 | `r`       | Read
@@ -85,33 +93,6 @@ Now, `myfile` is is a file object, also called a *file handle*.
 | `a`       | Append
 | `r+`       | Read + write
 ]
-
----
-
-## File object attributes
-
-We can see which attributes and methods are associated with our file object
-as usual, by typing a period after the object name:
-
-```python
-myfile.
-```
-
-<br>
-
-Let's look at some of these attributes &ndash;
-the file name, mode, and encoding:
-
-```python
-myfile.name
-# 'my_new_file'
-
-myfile.mode
-# 'w'
-
-myfile.encoding
-'UTF-8'
-```
 
 ---
 
@@ -124,16 +105,16 @@ to the file, or `writelines()` to write a list to the file.
 
   ```python
   s = 'My file contents'
+  my_filehandle.write(s + "\n")
   
-  myfile.write(s + "\n")
-  myfile.writelines(["A\n", "B\n", "C\n"])
+  my_filehandle.writelines(["A\n", "B\n", "C\n"])
   ```
 
-  (`writelines()` is not therefore not the clearest name.)
+  *(`writelines()` is not therefore not the clearest name.)*
 
 --
 
-- When we are done with the file, we need to close it:
+- When we are done with the file, **we need to close it**:
 
   ```python
   myfile.close()
@@ -155,10 +136,10 @@ f.write("\n".join(mylist))
   instead, we use *indentation* to indicate that the file connection is open:
   
   ```python
-  with open("my_new_file", "r") as my_file:    
+  with open("my_new_file", "r") as my_filehandle:    
     
-        for my_line in my_file:
-            print(my_line)
+        for my_line in my_filehandle:  # Loop over lines
+            print(my_line)             # Print line back
   
   #> My file contents
   #>
@@ -173,19 +154,18 @@ f.write("\n".join(mylist))
   we automatically process one line at a time.**
   
 - Here, simply printed the contents of the file to screen,
-  but notice how we ended up with double spacing.
+  but notice how we ended up with double-spacing.
 
 ---
 
 ## More newlines
 
-- To see what's going on, let's read a single line using `readline()`
-  and store the result in a variable.
+- To see what's going on with the double-spacing,
+  let's read a single line using `readline()` and store the result in a variable:
   
   ```python
-  with open('my_new_file', 'r') as input_file:
-      
-        line1 = input_file.readline()
+  with open('my_new_file', 'r') as my_filehandle:
+        line1 = my_filehandle.readline()
   
   line1
   #> 'My file contents\n'
@@ -196,15 +176,16 @@ f.write("\n".join(mylist))
 
 --
 
-- As it turns out, the reading methods include the newline characters `\n`.
+- As it turns out, reading methods also return the newline characters `\n`.
 
 - Additionally, `print()` by default inserts a newline at the end.
 
-- To `print()` or otherwise process a line, we can use `strip()` to remove
-  leading and trailing newlines (and other whitespace):
+- For single-space `print()`ing, or when processing a line,
+  we can use `strip()` to remove leading and trailing newlines
+  (and other whitespace):
   
   ```py
-  line1 = input_file.readline().strip()
+  line1 = my_filehandle.readline().strip()
   ```
 
 ---
@@ -220,11 +201,12 @@ f.write("\n".join(mylist))
       with open('Singh_copy.csv', 'w') as output_file:
         
         for line in input_file:
-          output_file.write(line)
+            output_file.write(line)
   ```
 
-- No, we don't need to think about the `\n` characters,
-  because both reading *includes* them and writing "*needs*" them.
+- Now, we don't need to think about the `\n` characters:
+  recall that reading methods *include* them,
+  while writing methods "*need*" them.
 
 ---
 
@@ -264,8 +246,8 @@ f.write("\n".join(mylist))
 
 ## Summary of basic options to read from a file
 
-- Note that with all approaches, line breaks are present in the resulting
-strings as `\n`.  
+- Note that with all approaches,
+  line breaks are present in the resulting strings as `\n`.  
 
 | Approach                   | Result           |
 |----------------------------|------------------|
@@ -411,14 +393,14 @@ with open("../data/Dalziel2016_data.csv") as infile:
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 3.4
+## <i class="fa fa-user-edit"></i> Intermezzo 3.4
 
-Write code that prints (`print()`) the values in the columns `loc` and `pop`
-for all rows in the file `Dalziel2016_data.csv`.
+Write code that prints (using the `print()` function) the values in the columns
+`loc` and `pop` for all rows in the file `Dalziel2016_data.csv`.
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 3.4: solutions
+## <i class="fa fa-user-edit"></i> Intermezzo 3.4: solutions
 
 ```py
 import csv
