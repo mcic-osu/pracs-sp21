@@ -1,7 +1,7 @@
 ---
 title: "Week 08"
 description: |
-  First steps with Python
+  Python: First steps
 date: 2021-03-01
 output:
   distill::distill_article:

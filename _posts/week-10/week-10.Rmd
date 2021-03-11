@@ -1,7 +1,7 @@
 ---
 title: "Week 10"
 description: |
-  Writing good code
+  Python: Writing good code
 date: 2021-03-15
 output:
   distill::distill_article:
