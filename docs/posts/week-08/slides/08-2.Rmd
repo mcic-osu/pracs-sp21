@@ -584,8 +584,8 @@ name: dicts
 
 ## Dictionaries
 
-Dictionaries are like *unordered* lists in which the elements (**values**)
-are indexed by **keys**.
+Dictionaries are like lists in which the elements (**values**) are indexed by
+**keys**.
 
 - Create an empty dictionary using curly braces or the `dict()` function:
 
@@ -611,31 +611,20 @@ are indexed by **keys**.
   
 ---
 
-## Dictionaries are unordered
+## Accessing dictionary values
 
-- In dictionaries, values are therefore recalled not with an index,
-  but with the name of their corresponding key:
+- In dictionaries, individual *values* cannot be accessed by referencing by
+  index (position).
+  Instead, we use the name of the corresponding *key*:
   
   ```python
   GenomeSize["Arabidopsis thaliana"]
   #> 157.0
   ```
+  
+  Note that here, we are using square brackets and not curly braces, using
+  the syntax `dictionary_name["key_name"]` to get the corresponding value.
 
---
-
-<br>
-
-.content-box-info[
-**Unordered versus ordered data structures**  
-
-Even though lists may or may not be sorted in a systematic way,
-they are always said to be ordered in the sense that:
-- The position for each item is retained unless explicitly changed.
-- Items can thus accessed using their position (`my_list[5]`).
-
-This is not true for (default) dictionaries,
-where the order of the items varies stochastically.
-]
 
 ---
 
