@@ -307,6 +307,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Intro to CSB exercises
 
+<span style="color:coral">
+Edit March 12: We did not get to the section on reading tabular files with the
+`csv` module in class. Please read CSB 3.7.2 (p. 115-116) before attempting
+to do these exercises.
+</i></span>
+
 From the CSB Chapter 3 preface to the exercises:
 
 > Here are some practical tips on how to approach the Python exercises (or any programming task):
