@@ -15,6 +15,12 @@ navbar:
       menu:
         - text: "Python resources"
           href: w08_python-resources.html
+    - text: "Topic overviews"
+      menu:
+        - text: "Shell"
+          href: overviews_shell.html
+        - text: "Shell scripting"
+          href: overviews_shellscript.html
     - text: "Final project"
       menu:
         - text: "General info"

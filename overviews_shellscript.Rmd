@@ -1,0 +1,75 @@
+---
+title: "Topic Overview: Shell scripting"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Commands
+
++------------+-----------------------------------------------------------------+----------------------------------------------------+
+| Col1       | Col2                                                            | Col3                                               |
++============+=================================================================+====================================================+
+| `basename` | Strip any directory names from a path, and optionally suffices. | `basename data/A.fq` <br> `basename data/A.fq .fq` |
++------------+-----------------------------------------------------------------+----------------------------------------------------+
+|            |                                                                 |                                                    |
++------------+-----------------------------------------------------------------+----------------------------------------------------+
+|            |                                                                 |                                                    |
++------------+-----------------------------------------------------------------+----------------------------------------------------+
+
+### `for` loops
+
+``` {.sh}
+# Basic example:
+for i in 1 2 3 4; do
+    echo "Now the variable "i" is: $i"
+done
+
+# Loop to rename files:
+for oldname in *.fastq; do
+    newname=$(basename "$oldname" _001.fastq).fq
+    echo "Old/new name: $oldname $newname"
+    mv "$oldname" "$newname"
+done
+
+# Loop using an array to submit a script for each sample:
+my_samples=($(cut -f1 my_metadata.txt))
+for my_sample in ${my_samples[@]}; do
+    my_script.sh $my_sample
+done
+```
+
+### `if` statements
+
+``` {.sh}
+# Use a command's exit status - for grep, a match is success is true:
+$ if grep "AGATCGG" contimated.fasta > /dev/null; then
+      echo "OH NO! File is contaminated!"
+      exit 1
+  fi
+
+# Remove all empty files from a directory:
+for file in *; do
+    if [ ! -s "$file" ]; then
+        echo rm "$file"
+    fi
+done
+```
+
+### File test operators
+
+| Operator           | Returns true if:                              |
+|--------------------|-----------------------------------------------|
+| `-s`               | file is not zero size                         |
+| `-e`               | file exists                                   |
+| `-f`               | file is a regular file (e.g. not a directory) |
+| `-d`               | file is a directory                           |
+| `-h`               | file is a symbolic link                       |
+| `-r` / `-w` / `-x` | file has read/write/execute permissions       |
+
