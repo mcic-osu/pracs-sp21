@@ -2481,7 +2481,6 @@ Topic overviews
 </button>
 <div class="nav-dropdown-content">
 <a href="overviews_shell.html">Shell</a>
-<a href="overviews_shellscript.html">Shell scripting</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2538,14 +2537,15 @@ Final project
 <li><a href="#basic-commands">Basic commands</a></li>
 <li><a href="#data-tools">Data tools</a></li>
 <li><a href="#miscellaneae">Miscellaneae</a></li>
+<li><a href="#shell-wildcards">Shell wildcards</a></li>
+<li><a href="#regular-expressions">Regular expressions</a></li>
 <li><a href="#details-for-selected-commands">Details for selected commands</a>
 <ul>
 <li><a href="#less"><code>less</code></a></li>
 <li><a href="#sed"><code>sed</code></a></li>
+<li><a href="#sed-flags"><code>sed</code> flags:</a></li>
 <li><a href="#awk"><code>awk</code></a></li>
 </ul></li>
-<li><a href="#shell-wildcards">Shell wildcards</a></li>
-<li><a href="#regular-expressions">Regular expressions</a></li>
 <li><a href="#keyboard-shortcuts">Keyboard shortcuts</a></li>
 </ul>
 </nav>
@@ -2651,7 +2651,7 @@ Final project
 <colgroup>
 <col style="width: 3%" />
 <col style="width: 34%" />
-<col style="width: 61%" />
+<col style="width: 62%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2669,13 +2669,13 @@ Final project
 <tr class="even">
 <td><strong><code>cut</code></strong></td>
 <td><strong>Select one or more columns</strong> from a file.</td>
-<td><em>Select columns 1-4:</em> <br> <code>cut -f 1-4 my.csv</code> <br>     <code>-d ","</code> <em>comma as delimiter</em></td>
+<td><em>Select columns 1-4:</em> <br> <code>cut -f 1-4 my.csv</code> <br> <br>     <code>-d ","</code> <em>comma as delimiter</em></td>
 </tr>
 <tr class="odd">
 <td><strong><code>sort</code></strong></td>
 <td><p><strong>Sort lines.</strong></p>
 <p>The <code>-V</code> option will successfully sort <code>chr10</code> <em>after</em> <code>chr2</code>. etc.</p></td>
-<td><em>Sort column 1 alphabetically,</em> <br> <em>column 2 reverse numerically:</em> <br> <code>sort -k1,1 -k2,2nr my.bed</code> <br>     <code>-k 1,1</code> <em>by column 1 only</em> <br>     <code>-n</code> <em>numerical sorting</em> <br>     <code>-r</code> <em>reverse order</em> <br>     <code>-V</code> <em>recognize number with string</em></td>
+<td><em>Sort column 1 alphabetically,</em> <br> <em>column 2 reverse numerically:</em> <br> <code>sort -k1,1 -k2,2nr my.bed</code> <br><br>     <code>-k 1,1</code> <em>by column 1 only</em> <br>     <code>-n</code> <em>numerical sorting</em> <br>     <code>-r</code> <em>reverse order</em> <br>     <code>-V</code> <em>recognize number with string</em></td>
 </tr>
 <tr class="even">
 <td><strong><code>uniq</code></strong></td>
@@ -2691,7 +2691,7 @@ Final project
 <td><strong><code>tr</code></strong></td>
 <td><p><strong>Substitute (<em>tr</em>anslate) characters</strong> or <em>character classes</em> (like <code>A-Z</code> for uppercase letters). Does not take files as argument; piping or redirection needed.</p>
 <p>To “squeeze” (<code>-s</code>) is to remove consecutive duplicates (akin to <code>uniq</code>).</p></td>
-<td><em>TSV to CSV:</em> <br> <code>cat my.csv | tr "\t" ","</code> <br> <em>Uppercase to lowercase:</em> <code>tr A-Z a-z &lt; in.txt &gt; out.txt</code> <br>     <code>-d</code> <em>delete</em> <br>     <code>-s</code> <em>squeeze</em></td>
+<td><em>TSV to CSV:</em> <br> <code>cat my.csv | tr "\t" ","</code> <br> <em>Uppercase to lowercase:</em> <code>tr A-Z a-z &lt; in.txt &gt; out.txt</code> <br><br>     <code>-d</code> <em>delete</em> <br>     <code>-s</code> <em>squeeze</em></td>
 </tr>
 <tr class="odd">
 <td><strong><code>grep</code></strong></td>
@@ -2699,7 +2699,7 @@ Final project
 <p>Default regex is basic (GNU BRE): use <code>-E</code> for extended regex (GNU ERE) and <code>-P</code> for Perl-like regex.</p>
 <p>To print lines surrounding a match, use <code>-A n</code> (<code>n</code> lines after match) or <code>-B n</code> (<code>n</code> lines after match) or <code>-C n</code> (<code>n</code> lines before and after match).</p>
 <p><span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></p></td>
-<td><em>Match AAC or AGC:</em> <br> <code>grep "A[AG]C" my.fa</code> <br> <em>Omit comment lines:</em> <br> <code>grep -v "^# my.gff</code> <br>     <code>-c</code> <em>count</em> <br>     <code>-i</code> <em>ignore case</em> <br>     <code>-r</code> <em>recursive</em> <br>     <code>-v</code> <em>invert</em> <br>     <code>-o</code> <em>print match only</em></td>
+<td><em>Match AAC or AGC:</em> <br> <code>grep "A[AG]C" my.fa</code> <br> <em>Omit comment lines:</em> <br> <code>grep -v "^# my.gff</code> <br><br>     <code>-c</code> <em>count</em> <br>     <code>-i</code> <em>ignore case</em> <br>     <code>-r</code> <em>recursive</em> <br>     <code>-v</code> <em>invert</em> <br>     <code>-o</code> <em>print match only</em></td>
 </tr>
 </tbody>
 </table>
@@ -2786,51 +2786,7 @@ Final project
 </tr>
 </tbody>
 </table>
-<h2 id="details-for-selected-commands">Details for selected commands</h2>
-<h3 id="less"><code>less</code></h3>
-<table>
-<colgroup>
-<col style="width: 39%" />
-<col style="width: 60%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Key</th>
-<th>Function</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><kbd>q</kbd></td>
-<td>Exit <code>less</code></td>
-</tr>
-<tr class="even">
-<td><kbd>space</kbd> / <kbd>b</kbd></td>
-<td>Go down / up a page. (<em><code>pgup</code> / <code>pgdn</code> usually also work.</em>)</td>
-</tr>
-<tr class="odd">
-<td><kbd>d</kbd> / <kbd>u</kbd></td>
-<td>Go down / up <em>half</em> a page.</td>
-</tr>
-<tr class="even">
-<td><kbd>g</kbd> / <kbd>G</kbd></td>
-<td>Go to the first / last line (<code>home</code> / <code>end</code> also work).</td>
-</tr>
-<tr class="odd">
-<td><kbd>/</kbd><code>&lt;pattern&gt;</code> or <kbd>?</kbd><code>&lt;pattern&gt;</code></td>
-<td>Search for <code>&lt;pattern&gt;</code> forwards / backwards: type your search after <code>/</code> or <code>?</code>.</td>
-</tr>
-<tr class="even">
-<td><kbd>n</kbd> / <kbd>N</kbd></td>
-<td>When searching, go to next / previous search match.<br />
-<span style="color:white">dddddddddddddddddddddddddddddddddddddddddddddddddddd</span></td>
-</tr>
-</tbody>
-</table>
-<h3 id="sed"><code>sed</code></h3>
-<p>TBA</p>
-<h3 id="awk"><code>awk</code></h3>
-<p>TBA</p>
+<p><br></p>
 <h2 id="shell-wildcards">Shell wildcards</h2>
 <table>
 <colgroup>
@@ -2863,6 +2819,7 @@ Final project
 </tr>
 </tbody>
 </table>
+<p><br></p>
 <h2 id="regular-expressions">Regular expressions</h2>
 <p>Note: ERE = GNU “Extended Regular Expressions”. If “yes” in ERE column, symbol needs <code>-E</code> flag for <code>grep</code> and <code>sed</code> (note that <code>awk</code> uses ERE by default) to turn on ERE. (When using the default in <code>grep</code> and <code>sed</code>, Basic Regular Expressions (BRE), symbol would need to be preceded by a backslash to work.)</p>
 <table style="width:100%;">
@@ -2956,6 +2913,301 @@ Final project
 </tbody>
 </table>
 <p><br></p>
+<h2 id="details-for-selected-commands">Details for selected commands</h2>
+<h3 id="less"><code>less</code></h3>
+<table>
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><kbd>q</kbd></td>
+<td>Exit <code>less</code></td>
+</tr>
+<tr class="even">
+<td><kbd>space</kbd> / <kbd>b</kbd></td>
+<td>Go down / up a page. (<em><code>pgup</code> / <code>pgdn</code> usually also work.</em>)</td>
+</tr>
+<tr class="odd">
+<td><kbd>d</kbd> / <kbd>u</kbd></td>
+<td>Go down / up <em>half</em> a page.</td>
+</tr>
+<tr class="even">
+<td><kbd>g</kbd> / <kbd>G</kbd></td>
+<td>Go to the first / last line (<code>home</code> / <code>end</code> also work).</td>
+</tr>
+<tr class="odd">
+<td><kbd>/</kbd><code>&lt;pattern&gt;</code> or <kbd>?</kbd><code>&lt;pattern&gt;</code></td>
+<td>Search for <code>&lt;pattern&gt;</code> forwards / backwards: type your search after <code>/</code> or <code>?</code>.</td>
+</tr>
+<tr class="even">
+<td><kbd>n</kbd> / <kbd>N</kbd></td>
+<td>When searching, go to next / previous search match.<br />
+<span style="color:white">dddddddddddddddddddddddddddddddddddddddddddddddddddd</span></td>
+</tr>
+</tbody>
+</table>
+<h3 id="sed"><code>sed</code></h3>
+<h3 id="sed-flags"><code>sed</code> flags:</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Flag</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-E</code></td>
+<td>Use extended regular expressions</td>
+</tr>
+<tr class="even">
+<td><code>-e</code></td>
+<td>When using multiple expressions, precede each with <code>-e</code></td>
+</tr>
+<tr class="odd">
+<td><code>-i</code></td>
+<td>Edit a file <strong>in place</strong></td>
+</tr>
+<tr class="even">
+<td><code>-n</code></td>
+<td>Don’t print lines unless specified with <code>p</code> modifier</td>
+</tr>
+</tbody>
+</table>
+<h4 id="sed-examples"><code>sed</code> examples</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Replace &quot;chrom&quot; by &quot;chr&quot; in every line,</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># with &quot;i&quot;: case insensitive, and &quot;g&quot;: global (&gt;1 replacements per line)</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">sed</span> <span class="st">&#39;s/chrom/chr/ig&#39;</span> chroms.txt</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Only print lines matching &quot;abc&quot;:</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">sed</span> -n <span class="st">&#39;/abc/p&#39;</span> my.txt</span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># Print lines 20-50:</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">sed</span> -n <span class="st">&#39;20,50p&#39;</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="co"># Change the genomic coordinates format chr1:431-874 (&quot;chrom:start-end&quot;)</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co"># ...to one that has a tab (&quot;\t&quot;) between each field:</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="bu">echo</span> <span class="st">&quot;chr1:431-874&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> -e <span class="st">&#39;s/:/\t/&#39;</span> -e <span class="st">&#39;s/-/\t/&#39;</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt; chr1    431     874</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co"># Invert the order of two words:</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="bu">echo</span> <span class="st">&quot;inverted words&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> -E <span class="st">&#39;s/(\w+) (\w+)/\2 \1/&#39;</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; words inverted</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="co"># Capture transcript IDs from a GTF file (format &#39;transcript_id &quot;ID_I_WANT&quot;&#39;):</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="co"># (Needs &quot;-n&quot; and &quot;p&quot; so lines with no transcript_id are not printed.) </span></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="fu">grep</span> -v <span class="st">&quot;^#&quot;</span> my.gtf <span class="kw">|</span> <span class="fu">sed</span> -E -n <span class="st">&#39;s/.*transcript_id &quot;([^&quot;]+)&quot;.*/\1/p&#39;</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a></span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="co"># When a pattern contains a `/`, use a different expression delimiter:</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="bu">echo</span> <span class="st">&quot;data/fastq/sampleA.fastq&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s#data/fastq/##&#39;</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="co">#&gt; sampleA.fastq</span></span></code></pre></div>
+<h3 id="awk"><code>awk</code></h3>
+<ul>
+<li><p><strong>Records and fields</strong>: by default, each line is a record (assigned to <code>$0</code>). Each column is a field (assigned to <code>$1</code>, <code>$2</code>, etc).</p></li>
+<li><p><strong>Patterns and actions</strong>: A pattern is a condition to be tested, and an action is something to do when the pattern evaluates to true.</p>
+<ul>
+<li><p>Omit the pattern: action applies to every record.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">awk</span> <span class="st">&#39;{ print $0 }&#39;</span> my.txt     <span class="co"># Print entire file</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">awk</span> <span class="st">&#39;{ print $3,$2 }&#39;</span> my.txt  <span class="co"># Print columns 3 and 2 for each line</span></span></code></pre></div></li>
+<li><p>Omit the action: print full records that match the pattern.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Print all lines for which:</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">awk</span> <span class="st">&#39;$3 &lt; 10&#39;</span> my.bed          <span class="co"># Column 3 is less than 10</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">awk</span> <span class="st">&#39;$1 == &quot;chr1&quot;&#39;</span> my.bed     <span class="co"># Column 1 is &quot;chr1&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">awk</span> <span class="st">&#39;/chr1/&#39;</span> my.bed           <span class="co"># Regex pattern &quot;chr1&quot; matches</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="fu">awk</span> <span class="st">&#39;$1 ~ /chr1/&#39;</span> my.bed      <span class="co"># Column 1 _matches_ &quot;chr1&quot;</span></span></code></pre></div></li>
+</ul></li>
+</ul>
+<h4 id="awk-examples"><code>awk</code> examples</h4>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Count columns in a GTF file after excluding the header</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co"># (lines starting with &quot;#&quot;):</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">awk</span> -F <span class="st">&quot;\t&quot;</span> <span class="st">&#39;!/^#/ {print NF; exit}&#39;</span> my.gtf</span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co"># Print all lines for which column 1 matches &quot;chr1&quot; and the difference</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co"># ...between columns 3 and 2 (feature length) is less than 10:</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="fu">awk</span> <span class="st">&#39;$1 ~ /chr1/ &amp;&amp; $3 - $2 &gt; 10&#39;</span> my.bed</span>
+<span id="cb4-8"><a href="#cb4-8"></a></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co"># Select lines with &quot;chr2&quot; or &quot;chr3&quot;, print all columns and add a column </span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co"># ...with the difference between column 3 and 2 (feature length):</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="fu">awk</span> <span class="st">&#39;$1 ~ /chr2|chr3/ { print $0 &quot;\t&quot; $3 - $2 }&#39;</span> my.bed</span>
+<span id="cb4-12"><a href="#cb4-12"></a></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co"># Caclulate the mean value for a column:</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="fu">awk</span> <span class="st">&#39;BEGIN{ sum = 0 };            </span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="st">     { sum += ($3 - $2) };             </span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="st">     END{ print &quot;mean: &quot; sum/NR };&#39;</span> my.bed</span></code></pre></div>
+<h4 id="awk-comparison-and-logical-operators"><code>awk</code> comparison and logical operators</h4>
+<table>
+<thead>
+<tr class="header">
+<th>Comparison</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>a == b</code></td>
+<td><code>a</code> is equal to <code>b</code></td>
+</tr>
+<tr class="even">
+<td><code>a != b</code></td>
+<td><code>a</code> is not equal to <code>b</code></td>
+</tr>
+<tr class="odd">
+<td><code>a &lt; b</code></td>
+<td><code>a</code> is less than <code>b</code></td>
+</tr>
+<tr class="even">
+<td><code>a &gt; b</code></td>
+<td><code>a</code> is greater than <code>b</code></td>
+</tr>
+<tr class="odd">
+<td><code>a &lt;= b</code></td>
+<td><code>a</code> is less than or equal to <code>b</code></td>
+</tr>
+<tr class="even">
+<td><code>a &gt;= b</code></td>
+<td><code>a</code> is greater than or equal to <code>b</code></td>
+</tr>
+<tr class="odd">
+<td><code>a ~ /b/</code></td>
+<td><code>a</code> matches regular expression pattern <code>b</code></td>
+</tr>
+<tr class="even">
+<td><code>a !~ /b/</code></td>
+<td><code>a</code> does not match regular expression pattern <code>b</code></td>
+</tr>
+<tr class="odd">
+<td><code>a &amp;&amp; b</code></td>
+<td>logical and: <code>a</code> <strong>and</strong> <code>b</code></td>
+</tr>
+<tr class="even">
+<td><code>a</code> <code>|</code><code>|</code> <code>b</code></td>
+<td>logical or: <code>a</code> <strong>or</strong> <code>b</code> <em>[note typo in Buffalo]</em></td>
+</tr>
+<tr class="odd">
+<td><code>!a</code></td>
+<td>not a (logical negation)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="awk-special-variables-and-keywords"><code>awk</code> special variables and keywords</h4>
+<table>
+<thead>
+<tr class="header">
+<th>keyword/<br>variable</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>BEGIN</code></td>
+<td>Used as a pattern that matches the start of the file</td>
+</tr>
+<tr class="even">
+<td><code>END</code></td>
+<td>Used as a pattern that matches the end of the file</td>
+</tr>
+<tr class="odd">
+<td><code>NR</code></td>
+<td>Number of Records (running count; in <code>END</code>: total nr. of lines)</td>
+</tr>
+<tr class="even">
+<td><code>NF</code></td>
+<td>Number of Fields (for each record)</td>
+</tr>
+<tr class="odd">
+<td><code>$0</code></td>
+<td>Contains entire record (usually a line)</td>
+</tr>
+<tr class="even">
+<td><code>$1</code> - <code>$n</code></td>
+<td>Contains one column each</td>
+</tr>
+<tr class="odd">
+<td><code>FS</code></td>
+<td>Input Field Separator (default: any whitespace)</td>
+</tr>
+<tr class="even">
+<td><code>OFS</code></td>
+<td>Output Field Separator (default: single space)</td>
+</tr>
+<tr class="odd">
+<td><code>RS</code></td>
+<td>Input Record Separator (default: newline)</td>
+</tr>
+<tr class="even">
+<td><code>ORS</code></td>
+<td>Output Record Separator (default: newline)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="awk-functions"><code>awk</code> functions</h4>
+<table>
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>length(&lt;string&gt;)</code></td>
+<td>Return number of characters</td>
+</tr>
+<tr class="even">
+<td><code>tolower(&lt;string&gt;)</code></td>
+<td>Convert to lowercase</td>
+</tr>
+<tr class="odd">
+<td><code>toupper(&lt;string&gt;)</code></td>
+<td>Convert to uppercase</td>
+</tr>
+<tr class="even">
+<td><code>substr(&lt;string&gt;, &lt;start&gt;, &lt;end&gt;)</code></td>
+<td>Return substring</td>
+</tr>
+<tr class="odd">
+<td><code>split(&lt;string&gt;, &lt;array&gt;, &lt;delimiter&gt;)</code></td>
+<td>Split into chunks in an array</td>
+</tr>
+<tr class="even">
+<td><code>sub(&lt;from&gt;, &lt;to&gt;, &lt;string&gt;)</code></td>
+<td>Substitute (replace) regex</td>
+</tr>
+<tr class="odd">
+<td><code>gsub(&lt;from&gt;, &lt;to&gt; &lt;string&gt;)</code></td>
+<td>&gt;1 substitution per line</td>
+</tr>
+<tr class="even">
+<td><code>print</code></td>
+<td>Print, e.g. column: <code>print $1</code></td>
+</tr>
+<tr class="odd">
+<td><code>exit</code></td>
+<td>Break out of record-processing loop; <br> e.g. to stop when match is found</td>
+</tr>
+<tr class="even">
+<td><code>next</code></td>
+<td>Don’t process later fields: to next iteration</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
 <h2 id="keyboard-shortcuts">Keyboard shortcuts</h2>
 <table>
 <colgroup>
@@ -3028,7 +3280,7 @@ Final project
 <ol>
 <li id="fn1" role="doc-endnote"><p><kbd>Ctrl</kbd>+<kbd>K</kbd> doesn’t work by default in VS Code, but can be set there.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2" role="doc-endnote"><p>Doesn’t work by default in VS Code, but can be set there.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></li>
 </ol>
 </section>

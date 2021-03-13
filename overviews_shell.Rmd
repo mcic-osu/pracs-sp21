@@ -113,34 +113,7 @@ knitr::opts_chunk$set(echo = TRUE)
 | **`$PATH`**            | Contains colon-separated **list of directories with executables**: these will be searched when trying to execute a program by name. <br> [ddddddddddddddddddddddddddddddddddddd]{style="color:white"} | *Add dir to path:* <br> `PATH=$PATH:/new/dir` <br> *(But for lasting changes, edit the Bash configuration file `~./bashrc`.)* [dddddddddddddddddddddddddddddddd]{style="color:white"}              |
 +------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-## Details for selected commands
-
-### `less` {#less}
-
-+----------------------------------------------------+---------------------------------------------------------------------------------+
-| Key                                                | Function                                                                        |
-+====================================================+=================================================================================+
-| <kbd>q</kbd>                                       | Exit `less`                                                                     |
-+----------------------------------------------------+---------------------------------------------------------------------------------+
-| <kbd>space</kbd> / <kbd>b</kbd>                    | Go down / up a page. (*`pgup` / `pgdn` usually also work.*)                     |
-+----------------------------------------------------+---------------------------------------------------------------------------------+
-| <kbd>d</kbd> / <kbd>u</kbd>                        | Go down / up *half* a page.                                                     |
-+----------------------------------------------------+---------------------------------------------------------------------------------+
-| <kbd>g</kbd> / <kbd>G</kbd>                        | Go to the first / last line (`home` / `end` also work).                         |
-+----------------------------------------------------+---------------------------------------------------------------------------------+
-| <kbd>/</kbd>`<pattern>` or <kbd>?</kbd>`<pattern>` | Search for `<pattern>` forwards / backwards: type your search after `/` or `?`. |
-+----------------------------------------------------+---------------------------------------------------------------------------------+
-| <kbd>n</kbd> / <kbd>N</kbd>                        | When searching, go to next / previous search match.\                            |
-|                                                    | [dddddddddddddddddddddddddddddddddddddddddddddddddddd]{style="color:white"}     |
-+----------------------------------------------------+---------------------------------------------------------------------------------+
-
-### `sed`
-
-TBA
-
-### `awk`
-
-TBA
+<br>
 
 ## Shell wildcards
 
@@ -153,6 +126,8 @@ TBA
 +-------------+--------------------------------------------------------------+------------------------------------------------------+
 | [] and [\^] | One or none (`^`) of the "character set" within the brackets | `ls fig1[A-G]` <br> `ls fig[0-9]` <br> `ls fig[^4]*` |
 +-------------+--------------------------------------------------------------+------------------------------------------------------+
+
+<br>
 
 ## Regular expressions
 
@@ -185,6 +160,166 @@ Note: ERE = GNU "Extended Regular Expressions". If "yes" in ERE column, symbol n
 +--------------------------------------+-----+----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------+
 | `\1`, `\2`, etc.                     | yes | Backreferences to groups captured with `()`: first group is `\1`, second group is `\2`, etc. <br> [ddddddddddddddddddddddddddddddddddddd]{style="color:white"} | *Invert order of two words:* <br> `sed -E 's/(\w+) (\w+)/\2 \1/'`                                          |
 +--------------------------------------+-----+----------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------+
+
+<br>
+
+## Details for selected commands
+
+### `less` {#less}
+
++----------------------------------------------------+---------------------------------------------------------------------------------+
+| Key                                                | Function                                                                        |
++====================================================+=================================================================================+
+| <kbd>q</kbd>                                       | Exit `less`                                                                     |
++----------------------------------------------------+---------------------------------------------------------------------------------+
+| <kbd>space</kbd> / <kbd>b</kbd>                    | Go down / up a page. (*`pgup` / `pgdn` usually also work.*)                     |
++----------------------------------------------------+---------------------------------------------------------------------------------+
+| <kbd>d</kbd> / <kbd>u</kbd>                        | Go down / up *half* a page.                                                     |
++----------------------------------------------------+---------------------------------------------------------------------------------+
+| <kbd>g</kbd> / <kbd>G</kbd>                        | Go to the first / last line (`home` / `end` also work).                         |
++----------------------------------------------------+---------------------------------------------------------------------------------+
+| <kbd>/</kbd>`<pattern>` or <kbd>?</kbd>`<pattern>` | Search for `<pattern>` forwards / backwards: type your search after `/` or `?`. |
++----------------------------------------------------+---------------------------------------------------------------------------------+
+| <kbd>n</kbd> / <kbd>N</kbd>                        | When searching, go to next / previous search match.\                            |
+|                                                    | [dddddddddddddddddddddddddddddddddddddddddddddddddddd]{style="color:white"}     |
++----------------------------------------------------+---------------------------------------------------------------------------------+
+
+### `sed`
+
+### `sed` flags:
+
+| Flag   | Meaning |
+|--------|---------|
+| `-E`     | Use extended regular expressions
+| `-e`     | When using multiple expressions, precede each with `-e`
+| `-i`     | Edit a file **in place**
+| `-n`     | Don't print lines unless specified with `p` modifier
+
+
+#### `sed` examples
+
+```sh
+# Replace "chrom" by "chr" in every line,
+# with "i": case insensitive, and "g": global (>1 replacements per line)
+sed 's/chrom/chr/ig' chroms.txt
+
+# Only print lines matching "abc":
+sed -n '/abc/p' my.txt
+
+# Print lines 20-50:
+sed -n '20,50p'
+
+# Change the genomic coordinates format chr1:431-874 ("chrom:start-end")
+# ...to one that has a tab ("\t") between each field:
+echo "chr1:431-874" | sed -e 's/:/\t/' -e 's/-/\t/'
+#> chr1    431     874
+
+# Invert the order of two words:
+echo "inverted words" | sed -E 's/(\w+) (\w+)/\2 \1/'
+#> words inverted
+
+# Capture transcript IDs from a GTF file (format 'transcript_id "ID_I_WANT"'):
+# (Needs "-n" and "p" so lines with no transcript_id are not printed.) 
+grep -v "^#" my.gtf | sed -E -n 's/.*transcript_id "([^"]+)".*/\1/p'
+
+# When a pattern contains a `/`, use a different expression delimiter:
+echo "data/fastq/sampleA.fastq" | sed 's#data/fastq/##'
+#> sampleA.fastq
+```
+
+### `awk`
+
+-   **Records and fields**: by default, each line is a record (assigned to `$0`).
+    Each column is a field (assigned to `$1`, `$2`, etc).
+
+-   **Patterns and actions**: A pattern is a condition to be tested,
+    and an action is something to do when the pattern evaluates to true.
+
+    -   Omit the pattern: action applies to every record.
+
+        ``` {.sh}
+        awk '{ print $0 }' my.txt     # Print entire file
+        awk '{ print $3,$2 }' my.txt  # Print columns 3 and 2 for each line
+        ```
+
+    -   Omit the action: print full records that match the pattern.
+
+        ``` {.sh}
+        # Print all lines for which:
+        awk '$3 < 10' my.bed          # Column 3 is less than 10
+        awk '$1 == "chr1"' my.bed     # Column 1 is "chr1"
+        awk '/chr1/' my.bed           # Regex pattern "chr1" matches
+        awk '$1 ~ /chr1/' my.bed      # Column 1 _matches_ "chr1"
+        ```
+
+#### `awk` examples
+
+``` {.sh}
+# Count columns in a GTF file after excluding the header
+# (lines starting with "#"):
+awk -F "\t" '!/^#/ {print NF; exit}' my.gtf
+
+# Print all lines for which column 1 matches "chr1" and the difference
+# ...between columns 3 and 2 (feature length) is less than 10:
+awk '$1 ~ /chr1/ && $3 - $2 > 10' my.bed
+
+# Select lines with "chr2" or "chr3", print all columns and add a column 
+# ...with the difference between column 3 and 2 (feature length):
+awk '$1 ~ /chr2|chr3/ { print $0 "\t" $3 - $2 }' my.bed
+
+# Caclulate the mean value for a column:
+awk 'BEGIN{ sum = 0 };            
+     { sum += ($3 - $2) };             
+     END{ print "mean: " sum/NR };' my.bed
+```
+
+
+#### `awk` comparison and logical operators
+
+| Comparison  | Description
+|-------------|-------------|
+| `a == b`    | `a` is equal to `b`
+| `a != b`    | `a` is not equal to `b`
+| `a < b`     | `a` is less than `b`
+| `a > b`     | `a` is greater than `b`
+| `a <= b`    | `a` is less than or equal to `b`
+| `a >= b`    | `a` is greater than or equal to `b`
+| `a ~ /b/`   | `a` matches regular expression pattern `b`
+| `a !~ /b/`  | `a` does not match regular expression pattern `b`
+| `a && b`    | logical and: `a` **and** `b`
+| `a` <code>&#124;</code><code>&#124;</code> `b` | logical or: `a` **or** `b` *[note typo in Buffalo]*
+| `!a`        | not a (logical negation)
+
+#### `awk` special variables and keywords
+
+| keyword/<br>variable  | meaning    |
+|----------|------------|
+| `BEGIN`  | Used as a pattern that matches the start of the file
+| `END`    | Used as a pattern that matches the end of the file
+| `NR`     | Number of Records (running count; in `END`: total nr. of lines)
+| `NF`     | Number of Fields (for each record)
+| `$0`     | Contains entire record (usually a line)
+| `$1` - `$n` | Contains one column each
+| `FS`     | Input Field Separator (default: any whitespace)
+| `OFS`    | Output Field Separator (default: single space)
+| `RS`     | Input Record Separator (default: newline)
+| `ORS`    | Output Record Separator (default: newline)
+
+#### `awk` functions
+
+| Function         | Meaning                        |
+|------------------|--------------------------------|
+| `length(<string>)`        | Return number of characters
+| `tolower(<string>)`       | Convert to lowercase
+| `toupper(<string>)`       | Convert to uppercase
+| `substr(<string>, <start>, <end>)`  | Return substring
+| `split(<string>, <array>, <delimiter>)`   | Split into chunks in an array
+| `sub(<from>, <to>, <string>)`        | Substitute (replace) regex
+| `gsub(<from>, <to> <string>)`        | >1 substitution per line 
+| `print`                    | Print, e.g. column: `print $1`
+| `exit`                    | Break out of record-processing loop; <br> e.g. to stop when match is found
+| `next`                      | Don't process later fields: to next iteration
+| 
 
 <br>
 

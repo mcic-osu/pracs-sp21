@@ -19,8 +19,6 @@ navbar:
       menu:
         - text: "Shell"
           href: overviews_shell.html
-        - text: "Shell scripting"
-          href: overviews_shellscript.html
     - text: "Final project"
       menu:
         - text: "General info"
