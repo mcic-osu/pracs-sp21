@@ -464,8 +464,7 @@ but are intuitive and good practice.
   but *recalled* as `$oldname`:
 
   ```sh
-  $ for oldname in *.fastq
-  > do
+  $ for oldname in *.fastq; do
   >   echo "Old name: $oldname"
   > done
   ```
@@ -488,8 +487,7 @@ but are intuitive and good practice.
   a sanity check:
   
   ```sh
-  $ for oldname in *.fastq
-  > do
+  $ for oldname in *.fastq; do
   >   newname=$(basename "$oldname" _001.fastq).fq
   >   echo "Old/new name: $oldname $newname"
   > done
@@ -505,8 +503,7 @@ but are intuitive and good practice.
 - Finally, we add the actual `mv` command:  
 
   ```sh
-  $ for oldname in *.fastq
-  > do
+  $ for oldname in *.fastq; do
   >   newname=$(basename "$oldname" _001.fastq).fq
   >   echo "Old/new name: $oldname $newname"
   >   mv "$oldname" "$newname"
@@ -814,8 +811,7 @@ name:conditional
 **To remove all empty files in a directory:**
 
 ```sh
-$ for file in *
-> do
+$ for file in *; do
 >   if [ ! -s "$file" ]
 >   then
 >      echo rm "$file"
@@ -825,14 +821,14 @@ $ for file in *
 
 An overview of *file test operators* that can be used in this way:
 
-| operator | returns true if:
+| Operator | Returns true if:
 |----------|----------------
-| -s       | file is not zero size
-| -e       | file exists
-| -f       | file is a regular file (e.g. not a directory)
-| -d       | file is a directory 
-| -h       | file is a symbolic link
-| -r/w/x   | file has read/write/execute permissions
+| `-s`       | file is not zero size
+| `-e`       | file exists
+| `-f`       | file is a regular file (e.g. not a directory)
+| `-d`       | file is a directory 
+| `-h`       | file is a symbolic link
+| `-r`/ `-w` / `-x`   | file has read/write/execute permissions
 
 
 ---
@@ -844,10 +840,8 @@ name:conditional
 **To remove all empty files in a directory:**
 
 ```sh
-$ for file in *
-> do
->   if [ ! -s "$file" ]
->   then
+$ for file in *; do
+>   if [ ! -s "$file" ]; then
 >      echo rm "$file"
 >   fi
 > done

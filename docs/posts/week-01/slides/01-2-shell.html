@@ -6,6 +6,18 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30}) })</script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides.css" type="text/css" />
   </head>
@@ -13,6 +25,8 @@
     <textarea id="source">
 
 class:inverse middle center
+
+
 
 
 
@@ -24,7 +38,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/01/14 (updated: 2021-01-14)
+### 2021/01/14 (updated: 2021-03-12)
 
 ---
 class: inverse middle center
@@ -102,7 +116,7 @@ You can't right-click in this shell-in-the-browser, but:
 - To **paste**, use &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;V&lt;/kbd&gt;.
 
 - To **copy**, simply select text and you should see a
-  <i class="fas  fa-cut "></i> icon. 
+  `&lt;i class="fas  fa-cut "&gt;&lt;/i&gt;`{=html} icon. 
 ]
 
 ---
@@ -231,7 +245,8 @@ name: shell-intro
 
   - `Up` / `Down` arrow keys to cycle through command history.
 
-  - `Ctrl + C` to kill the currently running command. Try this:
+  - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;C&lt;/kbd&gt; to kill the currently running command.
+    Try this:
     
     ```sh
     # For each, see what happens, then press Ctrl + C
@@ -240,14 +255,14 @@ name: shell-intro
     $ echo "Missing quote"  # Omit closing quote!
     ```
   
-  - `Ctrl+D` or typing `exit` will exit a shell.
+  - &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;D&lt;/kbd&gt; or typing `exit` will exit a shell.
 
 &lt;br&gt;
 
 --
 
 .content-box-warning[
-Another shell shortcut you may be aware of is **`Ctrl+W`**,  
+Another shell shortcut you may be aware of is **&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;W&lt;/kbd&gt;**,  
 which cuts the *word* behind the cursor &amp;ndash; but in a browser,  
 it closes your tab!
 ]
@@ -493,7 +508,7 @@ $ cd ../data   # Move to the data dir for the next commands
 
 ## 1.5.2 &amp;ndash; Viewing and processing text files
 
-- **`cat`** will print one or more files:
+- **`cat`** will print the contents of one or more files to screen:
   ```sh
   $ cat Marra2014_about.txt Gesquiere2011_about.txt
   ```
@@ -769,7 +784,7 @@ name: wrap-up
 ## The Unix philosophy
 
 &gt; *This is the Unix philosophy: Write programs that do one thing and do it well.*
-&gt; *Write programs to work together. Write programs to handle text streams,*
+&gt; *Write programs to work together. Write programs to handle text **streams**,*
 &gt; *because that is a universal interface.*&lt;br&gt;
 &gt; — Doug McIlory
 
@@ -807,7 +822,7 @@ $ cat *.fa &gt; combined.fa
 
 ---
 
-## Looking Ahead
+## Looking ahead
 
 - Next two weeks, primary focus on project organization and then Git,  
   with more shell practice and tools along the way.
@@ -836,7 +851,7 @@ class: inverse middle center
 class: inverse middle center
 name: bonus
 
-# Bonus Materials
+# Bonus material
 
 ----
 
@@ -850,33 +865,33 @@ name: bonus
 background-color: #f2f5eb
 name: keyboard-shortcuts
 
-## Keyboard Shortcuts and Tricks I
+## Keyboard shortcuts and tricks - I
 
 | Shortcut | Command | Function
 |--|--|
-| `Tab` | | Tab completion! Files, commands, etc. &lt;br&gt; Double `Tab` to show options when &lt;br&gt; multiple are still available.|
-| Up/Down arrow | | Cycle through command history|
-| `CTRL` + `R` | | Enter characters to search for in the history &lt;br&gt; (repeat `CTRL` + `R` to keep going back, &lt;br&gt; `ENTER` to put command in prompt) |
-| `CTRL` + `C` | | Abort (kill) current process |
-| `CTRL` + `D` | `exit` | Exit the current shell (/ interactive job) |
-| `CTRL` + `Z` | (`bg` / `fg`)| Suspend (pause) a process, &lt;br&gt; then use `bg` to move to background|
+| &lt;kbd&gt;Tab&lt;/kbd&gt; | | Tab completion! Files, commands, etc. &lt;br&gt; Double &lt;kbd&gt;Tab&lt;kbd&gt; to show options when &lt;br&gt; multiple are still available.|
+| &lt;kbd&gt;&amp;#8679;&lt;/kbd&gt; / &lt;kbd&gt;&amp;#8681;&lt;/kbd&gt; | | Cycle through command history|
+| &lt;kbd&gt;CTRL&lt;/kbd&gt; + &lt;kbd&gt;R&lt;/kbd&gt; | | Enter characters to search for in the history &lt;br&gt; (repeat &lt;kbd&gt;CTRL&lt;/kbd&gt; + &lt;kbd&gt;R&lt;/kbd&gt; to keep going back, &lt;br&gt; &lt;kbd&gt;ENTER&lt;/kbd&gt; to put command in prompt) |
+| &lt;kbd&gt;CTRL&lt;/kbd&gt; + &lt;kbd&gt;C&lt;/kbd&gt; | | Abort (kill) current process |
+| &lt;kbd&gt;CTRL&lt;/kbd&gt; + &lt;kbd&gt;D&lt;/kbd&gt; | `exit` | Exit the current shell (/ interactive job) |
+| &lt;kbd&gt;CTRL&lt;/kbd&gt; + &lt;kbd&gt;Z&lt;/kbd&gt; | (`bg` / `fg`)| Suspend (pause) a process, &lt;br&gt; then use `bg` to move to background |
 
 ---
 background-color: #f2f5eb
 
-## Keyboard Shortcuts and Tricks II
+## Keyboard shortcuts and tricks - II
 
 | Shortcut | Function
 |--|--|
-| `Ctrl` + `Shift` + `c`  | Copy |
-| `Ctrl` + `Shift` + `v`  | Paste |
-| `Ctrl` + `a` | Go to beginning of line |
-| `Ctrl` + `e` | Go to end of line |
-| `Ctrl` + `u` | Cut to beginning of line |
-| `Ctrl` + `k` | Cut to end of line |
-| `Ctrl` + `w` | Cut previous word |
-| `Ctrl` + `y` | Paste previously cut element |
-| **`Alt` + `.`** | Paste last argument of last command |
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;C&lt;/kbd&gt;  | Copy |
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;V&lt;/kbd&gt;  | Paste |
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;A&lt;/kbd&gt; | Go to beginning of line |
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;E&lt;/kbd&gt; | Go to end of line |
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;U&lt;/kbd&gt; | Cut to beginning of line |
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;K&lt;/kbd&gt; | Cut to end of line |
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;W&lt;/kbd&gt; | Cut previous word |
+| &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Y&lt;/kbd&gt; | Paste previously cut element |
+| **&lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;.&lt;/kbd&gt;** | Paste last argument of last command |
 
 - For the last one, can also use `!$`:
 
@@ -911,7 +926,7 @@ background-color: #f2f5eb
 background-color: #f2f5eb
 name: uniqc
 
-## 1.6.2 &amp;ndash; Selecting Columns Using `cut`: Bonus
+## 1.6.2 &amp;ndash; Selecting columns using `cut`: Bonus
 
 - Use `uniq -c` to count occurrences of each unique value!
   ```sh
