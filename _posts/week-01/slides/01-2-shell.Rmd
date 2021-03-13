@@ -14,8 +14,13 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+```
+
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
+xaringanExtra::use_scribble()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
 ```
 
 ## *Week 1*
@@ -233,7 +238,8 @@ name: shell-intro
 
   - `Up` / `Down` arrow keys to cycle through command history.
 
-  - `Ctrl + C` to kill the currently running command. Try this:
+  - <kbd>Ctrl</kbd>+<kbd>C</kbd> to kill the currently running command.
+    Try this:
     
     ```sh
     # For each, see what happens, then press Ctrl + C
@@ -242,14 +248,14 @@ name: shell-intro
     $ echo "Missing quote"  # Omit closing quote!
     ```
   
-  - `Ctrl+D` or typing `exit` will exit a shell.
+  - <kbd>Ctrl</kbd>+<kbd>D</kbd> or typing `exit` will exit a shell.
 
 <br>
 
 --
 
 .content-box-warning[
-Another shell shortcut you may be aware of is **`Ctrl+W`**,  
+Another shell shortcut you may be aware of is **<kbd>Ctrl</kbd>+<kbd>W</kbd>**,  
 which cuts the *word* behind the cursor &ndash; but in a browser,  
 it closes your tab!
 ]
@@ -495,7 +501,7 @@ $ cd ../data   # Move to the data dir for the next commands
 
 ## 1.5.2 &ndash; Viewing and processing text files
 
-- **`cat`** will print one or more files:
+- **`cat`** will print the contents of one or more files to screen:
   ```sh
   $ cat Marra2014_about.txt Gesquiere2011_about.txt
   ```
@@ -771,7 +777,7 @@ name: wrap-up
 ## The Unix philosophy
 
 > *This is the Unix philosophy: Write programs that do one thing and do it well.*
-> *Write programs to work together. Write programs to handle text streams,*
+> *Write programs to work together. Write programs to handle text **streams**,*
 > *because that is a universal interface.*<br>
 > — Doug McIlory
 
@@ -809,7 +815,7 @@ $ cat *.fa > combined.fa
 
 ---
 
-## Looking Ahead
+## Looking ahead
 
 - Next two weeks, primary focus on project organization and then Git,  
   with more shell practice and tools along the way.
@@ -838,7 +844,7 @@ class: inverse middle center
 class: inverse middle center
 name: bonus
 
-# Bonus Materials
+# Bonus material
 
 ----
 
@@ -852,33 +858,33 @@ name: bonus
 background-color: #f2f5eb
 name: keyboard-shortcuts
 
-## Keyboard Shortcuts and Tricks I
+## Keyboard shortcuts and tricks - I
 
 | Shortcut | Command | Function
 |--|--|
-| `Tab` | | Tab completion! Files, commands, etc. <br> Double `Tab` to show options when <br> multiple are still available.|
-| Up/Down arrow | | Cycle through command history|
-| `CTRL` + `R` | | Enter characters to search for in the history <br> (repeat `CTRL` + `R` to keep going back, <br> `ENTER` to put command in prompt) |
-| `CTRL` + `C` | | Abort (kill) current process |
-| `CTRL` + `D` | `exit` | Exit the current shell (/ interactive job) |
-| `CTRL` + `Z` | (`bg` / `fg`)| Suspend (pause) a process, <br> then use `bg` to move to background|
+| <kbd>Tab</kbd> | | Tab completion! Files, commands, etc. <br> Double <kbd>Tab<kbd> to show options when <br> multiple are still available.|
+| <kbd>&#8679;</kbd> / <kbd>&#8681;</kbd> | | Cycle through command history|
+| <kbd>CTRL</kbd> + <kbd>R</kbd> | | Enter characters to search for in the history <br> (repeat <kbd>CTRL</kbd> + <kbd>R</kbd> to keep going back, <br> <kbd>ENTER</kbd> to put command in prompt) |
+| <kbd>CTRL</kbd> + <kbd>C</kbd> | | Abort (kill) current process |
+| <kbd>CTRL</kbd> + <kbd>D</kbd> | `exit` | Exit the current shell (/ interactive job) |
+| <kbd>CTRL</kbd> + <kbd>Z</kbd> | (`bg` / `fg`)| Suspend (pause) a process, <br> then use `bg` to move to background |
 
 ---
 background-color: #f2f5eb
 
-## Keyboard Shortcuts and Tricks II
+## Keyboard shortcuts and tricks - II
 
 | Shortcut | Function
 |--|--|
-| `Ctrl` + `Shift` + `c`  | Copy |
-| `Ctrl` + `Shift` + `v`  | Paste |
-| `Ctrl` + `a` | Go to beginning of line |
-| `Ctrl` + `e` | Go to end of line |
-| `Ctrl` + `u` | Cut to beginning of line |
-| `Ctrl` + `k` | Cut to end of line |
-| `Ctrl` + `w` | Cut previous word |
-| `Ctrl` + `y` | Paste previously cut element |
-| **`Alt` + `.`** | Paste last argument of last command |
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd>  | Copy |
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>  | Paste |
+| <kbd>Ctrl</kbd>+<kbd>A</kbd> | Go to beginning of line |
+| <kbd>Ctrl</kbd>+<kbd>E</kbd> | Go to end of line |
+| <kbd>Ctrl</kbd>+<kbd>U</kbd> | Cut to beginning of line |
+| <kbd>Ctrl</kbd>+<kbd>K</kbd> | Cut to end of line |
+| <kbd>Ctrl</kbd>+<kbd>W</kbd> | Cut previous word |
+| <kbd>Ctrl</kbd>+<kbd>Y</kbd> | Paste previously cut element |
+| **<kbd>Alt</kbd>+<kbd>.</kbd>** | Paste last argument of last command |
 
 - For the last one, can also use `!$`:
 
@@ -913,7 +919,7 @@ background-color: #f2f5eb
 background-color: #f2f5eb
 name: uniqc
 
-## 1.6.2 &ndash; Selecting Columns Using `cut`: Bonus
+## 1.6.2 &ndash; Selecting columns using `cut`: Bonus
 
 - Use `uniq -c` to count occurrences of each unique value!
   ```sh

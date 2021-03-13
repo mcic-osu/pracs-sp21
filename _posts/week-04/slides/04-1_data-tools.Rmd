@@ -255,7 +255,7 @@ $ mus=Mus_musculus.GRCm38.75_chr1 # Save for quick recall
 
 - You'll be inside the pager, and your prompt is gone. Keyboard shortcuts:
 
-| key                             | function |
+| Key                             | Function |
 |---------------------------------|----------|
 | <kbd>q</kbd>                    | Exit `less`
 | <kbd>space</kbd> / <kbd>b</kbd> | Next / previous page. <br>(*`pgup` / `pgdn` usually also work.*)
@@ -830,6 +830,7 @@ name: exit-status
   ```
 
 ---
+background-color: #f2f5eb
 
 ## Exit status of a command
 
