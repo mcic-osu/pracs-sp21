@@ -1,0 +1,21 @@
+---
+title: "Week 12"
+description: |
+  Python: Regular expressions (half-module)
+date: 2021-03-29
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+### Slides
+
+- [Slides: Regex](../week-12/slides/12-1.html) -- Tuesday Zoom (Mar 30)
+
+### Final project: new
+
+- [Final project: draft](../../finalproject_draft.html) -- due Tuesday, Apr 6
+
+### Ungraded assignments
+
+- [Exercises for week 11](../../w12_exercises.html)

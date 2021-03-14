@@ -1,0 +1,478 @@
+---
+title: "Week 11 - Python: Regular expression"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
+#xaringanExtra::use_scribble()
+#xaringanExtra::use_panelset()
+#xaringanExtra::use_clipboard()
+#xaringanExtra::use_search(show_icon = TRUE)
+```
+
+# *Week 11 - Python: Regular expressions*
+
+----
+
+# I (Tuesday)
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/03/23 (updated: `r Sys.Date()`)
+
+---
+
+## Overview of this week
+
+.pull-left[
+**This presentation - CSB 4.2:**
+
+- ..
+
+]
+
+.pull-right[
+**Thursday's presentation:**
+
+- ...
+]
+
+<br> <br>
+
+---
+class: center middle inverse
+
+# ...
+
+-----
+
+<br> <br> <br> <br>
+
+---
+
+## What are regular expressions?
+
+> *Often, it is not feasible to search for all possible occurrences exactly as*
+> *they appear in the text, but you can describe the pattern you’re looking for*
+> *in your own words (e.g., find all words starting with 3 uppercase letters,*
+> *followed by 4 digits).*
+> *The question is how to explain such a pattern to a computer.*
+> *The answer is to use regular expressions.*
+> CSB 5.1
+
+- In other words: strings that (may) include special symbols to describe
+  patterns succinctly.
+
+Use example from Unix regex
+
+---
+
+## Why use regular expressions?
+
+- **To collect information:** Match degenerate primer sequences, transcription
+  factor binding sites, find accession and gene numbers, extract references
+  from a manuscript.
+
+- **To navigate and parse text files:** Parse (semi-)structured output that
+  doesn't adhere to formats for which you can use a specialized tool directly.
+
+- **As a more sophisticated replace:** Replace multiple variations of a string
+  at the same time.
+
+---
+
+## Using the `re` module in Python
+
+- You may recall that we used the `find()` method earlier to search strings,
+  but `find()` only works for literal strings.
+  
+- To use regular expressions, we will need to import the `re` module from
+  the Python Standard Library (no installation needed):
+  
+  ```python
+  import re
+  ```
+
+--
+
+- We start with using `re.search()` to search for a literal string after all:
+
+  ```python
+  # We define a string that we will query:
+  my_string = "a given string"
+  
+  # We search my_string for the regex pattern "given":
+  m = re.search(r"given", my_string)
+  ```
+
+.content-box-info[
+The `r"my_string"` syntax denotes a ***r*aw string**,
+in which Python will not ...
+]
+
+---
+
+## The match object
+
+- The `re.search()` function returns a *match object*:
+
+  ```python
+  print(m)
+  #> <_sre.SRE_Match object; span=(2, 7), match= 'given' >
+  ```
+
+- From the match object, we can use the `group()` method to extract the actual
+  string that was found,
+  (which in our case is necessarily `given` since this was a *literal* string):
+  
+  ```python
+  m.group()
+  #> 'given'
+  ```
+
+- We can also get the start and end positions (indices) of the match:
+
+  ```python
+  m.start()
+  #> 2
+  
+  m.end()
+  #> 7
+  ```
+
+---
+
+## Failing to match
+
+If no matches are found, `re.search()` returns `None`:
+
+```python
+m = re.search(r"9", my_string)
+print(m)
+#> None
+```
+
+---
+class: center middle inverse
+
+# Components of regular expressions
+
+---
+
+## Literal characters
+
+As we saw, a search pattern can include only literal characters,
+but this is not very powerful.
+
+---
+
+## Metacharacters
+
+| Symbol | Negation  | Matches:
+|---------------|-----------|--------
+| `\n`          |           | A newline.
+| `\t`          |           | A tab.    
+| `\s`          | `\S`      | Any/no white space: space, tab, newline, carriage return.
+| `\w`          | `\W`      | Any/no word character: alphanumeric and underscore.
+| `\d`          | `\D`      | Any/no digit.
+| `.`           |           | Any character
+
+---
+
+## Match whitespace
+
+- For example, to match whitespace:
+
+  ```python
+  # my_string = "a given string"
+  m = re.search(r"\s", my_string)
+  
+  m.group()
+  #> ' '
+  m.start()
+  #> 1
+  ```
+
+--
+
+- Match a white space character followed by five “word” characters
+  (alphanumeric and underscore):
+
+  ```python
+  m = re.search(r"\s\w\w\w\w\w", my_string)
+  
+  m.group()
+  #> ' given'
+  ```
+
+.content-box-info[
+Note that `re.search()` only returns the first match.
+We'll see two functions later that will find all matches.
+]
+
+---
+
+## Character classes (called "sets" in CSB)
+
+```python
+my_string = "sunflowers are described on page 89"
+```
+
+- Search for a word that starts with a lowercase or uppercase `s`,
+  followed by two word characters:
+
+  ```python
+  m = re.search(r"[sS]\w\w", my_string)
+  m.group()
+  #> 'sun'
+  ```
+
+- Search for a number consisting of two digits:
+
+  ```python
+  m = re.search(r"[0-9][0-9]", my_string)
+  m.group()
+  #> '89'
+  
+  m = re.search(r"[0-9][0-9]\D", my_string)
+  m.group()
+  #> '89'
+  ```
+
+---
+
+## Negatic a character class
+
+Negate a character class using a caret `^` as the first symbol within the
+square brackets:
+  
+```python
+m = re.search(r"[^s-z]\w\w\w\w\w\w", my_string)
+m.group()
+#> 'nflower'
+```
+
+---
+
+## Quantifiers
+
+Instead of typing `\w` 5 times, like above, we can use *quantifiers* to match
+multiple consecutive matching characters more succinctly and flexibly.
+
+<br>
+
+| Quantifier  | Matches |
+|-------------|---------|
+| **`*`**     | Preceding character *any number of times* (including 0).
+| **`?`**     | Preceding character *at most* once.
+| **`+`**     | Preceding character *at least* once.
+| **`{n}`**   | Preceding character *exactly `n` times*.
+| **`{n,}`**  | Preceding character *at least `n` times*.
+| **`{n,m}`** | Preceding character *at least `n` and at most `m` times*.
+
+---
+
+## Using quantifiers
+
+- From some text, we could attempt to extract a DNA sequence:
+  at least one capital `A`/`C`/`G`/`T`:
+  
+  ```python
+  re.search(r"[ACGT]+","A motif like ATTCGT.").group()
+  #> 'A'
+  ```
+
+- This is not stringent enough, so let's instead require at least
+  three consecutive bases:
+  
+  ```python
+  re.search(r"[ACGT]{3,}", "the motif ATTCGT").group()
+  'ATTCGT'
+  ```
+
+---
+
+## Greedy vs. non-greedy matching
+
+The quantifiers `?`, `*` and `+` are said to be "greedy":
+when faced with multiple possible end points of a match,
+they will use the last possible end point.
+In other words, they will **match as much text as possible**.
+
+For example, when matching any number of characters followed by a white space below, instead of matching `"once "`, we get the most expansive match
+possible here:
+
+```python
+my_string = "once upon a time"
+re.search(r".*\s", my_string)
+m.group()
+#> 'once upon a '
+```
+
+--
+
+Appending a question mark to the quantifier (i.e., `??`, `*?`, or `+?`)
+makes the quantifier "reluctant" or "non-greedy":
+it will match as little as possible instead:
+
+```python
+re.search(r".*?\s", "once upon a time").group()
+#> 'once '
+```
+
+---
+
+## Anchors
+
+Often, we want to require that any match be made at the end or the beginning
+of a string (or equivalently, of a *line* in a file):
+
+Anchor | Matches
+-------|--------
+`^`    | Beginning of the string/line (Note re-usage: cf. `[^0-9]`)
+`$`    | End of the string/line
+
+For example:
+
+```python
+my_string = "ATATA"
+
+m = re.search(r"^TATA", my_string)
+print(m)
+#> None
+
+m = re.search(r"TATA$", my_string)
+m.group()
+'TATA'
+```
+
+---
+
+## <i class="fa fa-user-edit"></i> Intermezzo 5.1
+
+Describe the following regular expressions in plain English. What does the
+regular expression match?
+
+```python
+re.search(r"\d" , "it takes 2 to tango").group()
+```
+
+```python
+re.search(r"\w*\s\d.*\d", "take 2 grams of H2O").group()
+```
+
+```python
+re.search(r"\s\w*\s", "once upon a time").group()
+```
+
+```python
+re.search(r"\s\w{1,3}\s", "once upon a time").group()
+```
+
+```python
+re.search(r"\s\w*$", "once upon a time").group()
+```
+
+---
+
+## <i class="fa fa-user-edit"></i> Intermezzo 5.1: Solutions
+
+(a) Matches one digit: "2"
+(b) Matches zero or more word characters ( \w* ), followed by a white space
+( \s ), followed by a digit ( \d ), zero or more characters ( .* ), and ending
+with a digit ( \d ): "take 2 grams of H2"
+(c) Any sequence of word characters (zero or more), flanked by two white
+spaces: " upon "
+(d) A sequence of one to three word characters, flanked by two white
+spaces: " a "
+(e) Matches the last word in the target string (preceded by a white space):
+" time"
+
+---
+
+## Alternations
+
+```python
+my_string = "I found my cat!"
+m = re.search(r"cat|mouse", my_string)
+m.group()
+#> 'cat'
+```
+
+---
+
+## <i class="fa fa-user-edit"></i> Intermezzo 5.2
+
+Let’s practice translating from plain English to regular expressions.
+
+The NCBI GenBank contains information on nucleotide sequences, protein sequences,
+and whole genome sequences (WGS). 
+
+The following table describes the construction of sequence identifiers in plain English. Construct the appropriate regular expression to match either protein, WGS or nucleotide IDs:
+
+1. **Protein**: 3 letters + 5 numerals
+
+2. **WGS**: 4 letters + 2 numerals for WGS assembly version + 6–8 numerals
+
+3. **Nucleotide**: 1 letter + 5 numerals OR 2 letters + 6 numerals
+
+---
+
+## <i class="fa fa-user-edit"></i> Intermezzo 5.2: Solutions
+
+1. 
+```python
+r"[A-Za-z]{3}\d{5}"
+```
+
+<br>
+
+2. 
+```python
+r"[A-Za-z]{4}\d{8,10}"
+```
+
+<br>
+
+3. 
+```python
+r"([A-Z]{1}\d{5}|[A-Z]{2}\d{6})"
+```
+
+---
+
+## Raw string notation and escaping metacharacters
+
+
+---
+
+# Other functions of the *re* module
+
+----
+
+
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>

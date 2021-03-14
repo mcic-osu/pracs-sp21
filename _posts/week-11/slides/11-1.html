@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 11 - Python: Regular expression</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+
+
+# *Week 11 - Python: Regular expressions*
+
+----
+
+# I (Tuesday)
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/03/23 (updated: 2021-03-14)
+
+---
+
+## Overview of this week
+
+.pull-left[
+**This presentation - CSB 4.2:**
+
+- ..
+
+]
+
+.pull-right[
+**Thursday's presentation:**
+
+- ...
+]
+
+&lt;br&gt; &lt;br&gt;
+
+---
+class: center middle inverse
+
+# ...
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## What are regular expressions?
+
+&gt; *Often, it is not feasible to search for all possible occurrences exactly as*
+&gt; *they appear in the text, but you can describe the pattern you’re looking for*
+&gt; *in your own words (e.g., find all words starting with 3 uppercase letters,*
+&gt; *followed by 4 digits).*
+&gt; *The question is how to explain such a pattern to a computer.*
+&gt; *The answer is to use regular expressions.*
+&gt; CSB 5.1
+
+- In other words: strings that (may) include special symbols to describe
+  patterns succinctly.
+
+Use example from Unix regex
+
+---
+
+## Why use regular expressions?
+
+- **To collect information:** Match degenerate primer sequences, transcription
+  factor binding sites, find accession and gene numbers, extract references
+  from a manuscript.
+
+- **To navigate and parse text files:** Parse (semi-)structured output that
+  doesn't adhere to formats for which you can use a specialized tool directly.
+
+- **As a more sophisticated replace:** Replace multiple variations of a string
+  at the same time.
+
+---
+
+## Using the `re` module in Python
+
+- You may recall that we used the `find()` method earlier to search strings,
+  but `find()` only works for literal strings.
+  
+- To use regular expressions, we will need to import the `re` module from
+  the Python Standard Library (no installation needed):
+  
+  ```python
+  import re
+  ```
+
+--
+
+- We start with using `re.search()` to search for a literal string after all:
+
+  ```python
+  # We define a string that we will query:
+  my_string = "a given string"
+  
+  # We search my_string for the regex pattern "given":
+  m = re.search(r"given", my_string)
+  ```
+
+.content-box-info[
+The `r"my_string"` syntax denotes a ***r*aw string**,
+in which Python will not ...
+]
+
+---
+
+## The match object
+
+- The `re.search()` function returns a *match object*:
+
+  ```python
+  print(m)
+  #&gt; &lt;_sre.SRE_Match object; span=(2, 7), match= 'given' &gt;
+  ```
+
+- From the match object, we can use the `group()` method to extract the actual
+  string that was found,
+  (which in our case is necessarily `given` since this was a *literal* string):
+  
+  ```python
+  m.group()
+  #&gt; 'given'
+  ```
+
+- We can also get the start and end positions (indices) of the match:
+
+  ```python
+  m.start()
+  #&gt; 2
+  
+  m.end()
+  #&gt; 7
+  ```
+
+---
+
+## Failing to match
+
+If no matches are found, `re.search()` returns `None`:
+
+```python
+m = re.search(r"9", my_string)
+print(m)
+#&gt; None
+```
+
+---
+class: center middle inverse
+
+# Components of regular expressions
+
+---
+
+## Literal characters
+
+As we saw, a search pattern can include only literal characters,
+but this is not very powerful.
+
+---
+
+## Metacharacters
+
+| Symbol | Negation  | Matches:
+|---------------|-----------|--------
+| `\n`          |           | A newline.
+| `\t`          |           | A tab.    
+| `\s`          | `\S`      | Any/no white space: space, tab, newline, carriage return.
+| `\w`          | `\W`      | Any/no word character: alphanumeric and underscore.
+| `\d`          | `\D`      | Any/no digit.
+| `.`           |           | Any character
+
+---
+
+## Match whitespace
+
+- For example, to match whitespace:
+
+  ```python
+  # my_string = "a given string"
+  m = re.search(r"\s", my_string)
+  
+  m.group()
+  #&gt; ' '
+  m.start()
+  #&gt; 1
+  ```
+
+--
+
+- Match a white space character followed by five “word” characters
+  (alphanumeric and underscore):
+
+  ```python
+  m = re.search(r"\s\w\w\w\w\w", my_string)
+  
+  m.group()
+  #&gt; ' given'
+  ```
+
+.content-box-info[
+Note that `re.search()` only returns the first match.
+We'll see two functions later that will find all matches.
+]
+
+---
+
+## Character classes (called "sets" in CSB)
+
+```python
+my_string = "sunflowers are described on page 89"
+```
+
+- Search for a word that starts with a lowercase or uppercase `s`,
+  followed by two word characters:
+
+  ```python
+  m = re.search(r"[sS]\w\w", my_string)
+  m.group()
+  #&gt; 'sun'
+  ```
+
+- Search for a number consisting of two digits:
+
+  ```python
+  m = re.search(r"[0-9][0-9]", my_string)
+  m.group()
+  #&gt; '89'
+  
+  m = re.search(r"[0-9][0-9]\D", my_string)
+  m.group()
+  #&gt; '89'
+  ```
+
+---
+
+## Negatic a character class
+
+Negate a character class using a caret `^` as the first symbol within the
+square brackets:
+  
+```python
+m = re.search(r"[^s-z]\w\w\w\w\w\w", my_string)
+m.group()
+#&gt; 'nflower'
+```
+
+---
+
+## Quantifiers
+
+Instead of typing `\w` 5 times, like above, we can use *quantifiers* to match
+multiple consecutive matching characters more succinctly and flexibly.
+
+&lt;br&gt;
+
+| Quantifier  | Matches |
+|-------------|---------|
+| **`*`**     | Preceding character *any number of times* (including 0).
+| **`?`**     | Preceding character *at most* once.
+| **`+`**     | Preceding character *at least* once.
+| **`{n}`**   | Preceding character *exactly `n` times*.
+| **`{n,}`**  | Preceding character *at least `n` times*.
+| **`{n,m}`** | Preceding character *at least `n` and at most `m` times*.
+
+---
+
+## Using quantifiers
+
+- From some text, we could attempt to extract a DNA sequence:
+  at least one capital `A`/`C`/`G`/`T`:
+  
+  ```python
+  re.search(r"[ACGT]+","A motif like ATTCGT.").group()
+  #&gt; 'A'
+  ```
+
+- This is not stringent enough, so let's instead require at least
+  three consecutive bases:
+  
+  ```python
+  re.search(r"[ACGT]{3,}", "the motif ATTCGT").group()
+  'ATTCGT'
+  ```
+
+---
+
+## Greedy vs. non-greedy matching
+
+The quantifiers `?`, `*` and `+` are said to be "greedy":
+when faced with multiple possible end points of a match,
+they will use the last possible end point.
+In other words, they will **match as much text as possible**.
+
+For example, when matching any number of characters followed by a white space below, instead of matching `"once "`, we get the most expansive match
+possible here:
+
+```python
+my_string = "once upon a time"
+re.search(r".*\s", my_string)
+m.group()
+#&gt; 'once upon a '
+```
+
+--
+
+Appending a question mark to the quantifier (i.e., `??`, `*?`, or `+?`)
+makes the quantifier "reluctant" or "non-greedy":
+it will match as little as possible instead:
+
+```python
+re.search(r".*?\s", "once upon a time").group()
+#&gt; 'once '
+```
+
+---
+
+## Anchors
+
+Often, we want to require that any match be made at the end or the beginning
+of a string (or equivalently, of a *line* in a file):
+
+Anchor | Matches
+-------|--------
+`^`    | Beginning of the string/line (Note re-usage: cf. `[^0-9]`)
+`$`    | End of the string/line
+
+For example:
+
+```python
+my_string = "ATATA"
+
+m = re.search(r"^TATA", my_string)
+print(m)
+#&gt; None
+
+m = re.search(r"TATA$", my_string)
+m.group()
+'TATA'
+```
+
+---
+
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.1
+
+Describe the following regular expressions in plain English. What does the
+regular expression match?
+
+```python
+re.search(r"\d" , "it takes 2 to tango").group()
+```
+
+```python
+re.search(r"\w*\s\d.*\d", "take 2 grams of H2O").group()
+```
+
+```python
+re.search(r"\s\w*\s", "once upon a time").group()
+```
+
+```python
+re.search(r"\s\w{1,3}\s", "once upon a time").group()
+```
+
+```python
+re.search(r"\s\w*$", "once upon a time").group()
+```
+
+---
+
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.1: Solutions
+
+(a) Matches one digit: "2"
+(b) Matches zero or more word characters ( \w* ), followed by a white space
+( \s ), followed by a digit ( \d ), zero or more characters ( .* ), and ending
+with a digit ( \d ): "take 2 grams of H2"
+(c) Any sequence of word characters (zero or more), flanked by two white
+spaces: " upon "
+(d) A sequence of one to three word characters, flanked by two white
+spaces: " a "
+(e) Matches the last word in the target string (preceded by a white space):
+" time"
+
+---
+
+## Alternations
+
+```python
+my_string = "I found my cat!"
+m = re.search(r"cat|mouse", my_string)
+m.group()
+#&gt; 'cat'
+```
+
+---
+
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.2
+
+Let’s practice translating from plain English to regular expressions.
+
+The NCBI GenBank contains information on nucleotide sequences, protein sequences,
+and whole genome sequences (WGS). 
+
+The following table describes the construction of sequence identifiers in plain English. Construct the appropriate regular expression to match either protein, WGS or nucleotide IDs:
+
+1. **Protein**: 3 letters + 5 numerals
+
+2. **WGS**: 4 letters + 2 numerals for WGS assembly version + 6–8 numerals
+
+3. **Nucleotide**: 1 letter + 5 numerals OR 2 letters + 6 numerals
+
+---
+
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.2: Solutions
+
+1. 
+```python
+r"[A-Za-z]{3}\d{5}"
+```
+
+&lt;br&gt;
+
+2. 
+```python
+r"[A-Za-z]{4}\d{8,10}"
+```
+
+&lt;br&gt;
+
+3. 
+```python
+r"([A-Z]{1}\d{5}|[A-Z]{2}\d{6})"
+```
+
+---
+
+## Raw string notation and escaping metacharacters
+
+
+---
+
+# Other functions of the *re* module
+
+----
+
+
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
