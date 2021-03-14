@@ -1,0 +1,120 @@
+---
+title: "Topic Overview: Markdown"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Markdown syntax
+
+Mentioned extended syntax is not supported by all interpreters, but it is by GitHub-flavored Markdown among others.
+
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| Syntax                                                     | Result                                                                                        |
++============================================================+===============================================================================================+
+| `*italic*`                                                 | *italic* (alternative: single underscore `_`)                                                 |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `**bold**`                                                 | **bold** (alternative: double underscore `__`)                                                |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `<https://website.com>`                                    | Clickable link: <https://website.com>                                                         |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `[link text](website.com)`                                 | Link with custom text: [link text](https://website.com)                                       |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `![](path/to/figure.png)`                                  | Figure                                                                                        |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `# My Title`                                               | Header level 1 (largest)                                                                      |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `## My Section`                                            | Header level 2                                                                                |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `### My Subsection`                                        | Header level 3 -- and so forth                                                                |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `- List item` <br> `- Another item` <br> `- Third item`    | Bulleted (unordered) list                                                                     |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `1. List item` <br> `1. Another item` <br> `1. Third item` | Numbered (ordered) list <br> (numbering will be automatic)                                    |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `` `inline code` ``                                        | `inline code` formatting                                                                      |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| ```` ``` ```` *or 4 leading spaces*                        | Start/end of generic code block (```` ``` ```` is *extended syntax*)                          |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| ```` ```bash ````                                          | Start of `bash`-formatted code block (end with ```` ``` ````)                                 |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `---`                                                      | Horizontal rule (line)                                                                        |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `> Text`                                                   | Blockquote (think quoted text in email)                                                       |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| *blank line*                                               | New paragraph (white space between lines)                                                     |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| *two spaces at end of line*                                | Force a line break. <br> [ddddddddddddddddddddddddddddddddddddddddddddd]{style="color:white"} |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `~~strikethrough~~`                                        | ~~strikethrough~~ *(extended syntax)*                                                         |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `Footnote ref[^1]`                                         | Footnote ref<sup>1</sup> *(extended syntax)*                                                  |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+| `[^1]: Text`                                               | The actual footnote *(extended syntax)*                                                       |
++------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
+
+## Whitespace
+
+-   Markdown generally ignores single line breaks: use two spaces at the end of a line to force a line break, or when appropriate, leave a blank line to start a new paragraph.
+
+-   Multiple consecutive blank lines (or spaces) will be treated the same as a single blank line (or space). For extra vertical whitespace, use the HTML tag `<br>`, each of which forces a new line break.
+
+## Tables
+
+Note that the vertical bars `|` don't have to be aligned.
+
+\| blabla \| blabla \| <br> \|-----------\|-----------\|\
+\| blabla \| blabla \|\
+\| blabla \| blabla \|
+
+| blabla | blabla |
+|--------|--------|
+| blabla | blabla |
+| blabla | blabla |
+
+## HTML
+
+Most Markdown interpreters accept HTML syntax. Some simple examples:
+
+-   **Figures** -- a centered figure using 50% of the page width:
+
+    ``` {.html}
+    <p align="center">
+    <img src=my.png width=50%>
+    </p>
+    ```
+
+-   **Text colors**:
+
+    ``` {.html}
+    inline <span style="color:red">colored</span> text
+    ```
+
+    inline [colored]{style="color:red"} text
+
+-   Other:
+
+| Syntax                    | Result                  |
+|---------------------------|-------------------------|
+| `superscript<sup>2</sup>` | superscript<sup>2</sup> |
+| `superscript<sub>2</sub>` | subscript<sub>2</sub>   |
+| `<br>`                    | linebreak / empty line  |
+| `<!-- text -->`           | comment                 |
+
+## Rendering
+
+-   Use Pandoc:
+
+``` {.sh}
+pandoc README.md > README.html
+pandoc -o README.pdf README.md
+```
+
+-   GitHub will automatically show rendered versions of Markdown files.
+-   In VS Code, when editing a Markdown file, click `*Open Preview to the Side*` to see a preview.
