@@ -19,6 +19,12 @@ navbar:
       menu:
         - text: "Shell"
           href: overviews_shell.html
+        - text: "Shell scripting"
+          href: overviews_shellscript.html
+        - text: "OSC jobs"
+        - text: "Markdown"
+        - text: "Git"
+        - text: "Python"
     - text: "Final project"
       menu:
         - text: "General info"

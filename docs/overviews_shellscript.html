@@ -2481,6 +2481,11 @@ Topic overviews
 </button>
 <div class="nav-dropdown-content">
 <a href="overviews_shell.html">Shell</a>
+<a href="overviews_shellscript.html">Shell scripting</a>
+<span class="nav-dropdown-header">OSC jobs</span>
+<span class="nav-dropdown-header">Markdown</span>
+<span class="nav-dropdown-header">Git</span>
+<span class="nav-dropdown-header">Python</span>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2534,79 +2539,250 @@ Final project
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#commands">Commands</a></li>
+<li><a href="#bash-script-essentials">Bash script essentials</a>
+<ul>
+<li><a href="#inside-the-script">Inside the script</a></li>
+<li><a href="#executing-scripts">Executing scripts</a></li>
+</ul></li>
+<li><a href="#scripting-related-code">Scripting-related code</a>
+<ul>
+<li><a href="#overview">Overview</a></li>
 <li><a href="#for-loops"><code>for</code> loops</a></li>
 <li><a href="#if-statements"><code>if</code> statements</a></li>
 <li><a href="#file-test-operators">File test operators</a></li>
+<li><a href="#comparison-operators">Comparison operators</a></li>
+</ul></li>
 </ul>
 </nav>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<h3 id="commands">Commands</h3>
+<h2 id="bash-script-essentials">Bash script essentials</h2>
+<p>In VS Code, don’t forget to install the <code>shellcheck</code> extension!</p>
+<h3 id="inside-the-script">Inside the script</h3>
 <table>
 <colgroup>
 <col style="width: 9%" />
-<col style="width: 50%" />
-<col style="width: 40%" />
+<col style="width: 62%" />
+<col style="width: 28%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>Col1</th>
-<th>Col2</th>
-<th>Col3</th>
+<th><strong>Code</strong></th>
+<th>Explanation</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>basename</code></td>
-<td>Strip any directory names from a path, and optionally suffices.</td>
-<td><code>basename data/A.fq</code> <br> <code>basename data/A.fq .fq</code></td>
+<td><strong><code>#!/bin/bash</code></strong></td>
+<td><strong>“Shebang” line</strong>: points the computer to the Bash interpreter at <code>/bin/bash</code>.</td>
+<td></td>
 </tr>
 <tr class="even">
-<td></td>
-<td></td>
+<td><strong><code>set -u -e -o pipefail</code></strong></td>
+<td><strong>Bash strict settings</strong>: exit script with error if an unset variable is referenced (<code>-u</code>), a general error occurs (but with exceptions; <code>-e</code>), an error occurs in a shell pipeline (<code>-o pipefail</code>).</td>
 <td></td>
 </tr>
 <tr class="odd">
+<td><strong><code>$0</code></strong></td>
+<td><strong>Name of the script</strong> (does not work for scripts submitted as SLURM jobs).</td>
 <td></td>
-<td></td>
-<td></td>
+</tr>
+<tr class="even">
+<td><strong><code>$1</code>, <code>$2</code>, etc</strong></td>
+<td>“Positional parameters”: first, second, etc, <strong>arguments passed to the script from the shell</strong>.</td>
+<td><code>./script.sh my_arg1 my_arg2</code> <br> <code>$1</code> will be “my_arg1” and <code>$2</code> will be “my_arg2”.</td>
+</tr>
+<tr class="odd">
+<td><strong><code>$#</code></strong></td>
+<td><strong>Number of arguments</strong> passed to the script.</td>
+<td><code>./script.sh my_arg1 my_arg2</code> <br> <code>$#</code> will be 2.</td>
+</tr>
+<tr class="even">
+<td><strong><code>&gt;&amp;2</code></strong></td>
+<td><strong>Redirect standard out to standard error</strong>: e.g., “manually” designate an <code>echo</code> statement to represent standard error.</td>
+<td><code>echo "Error: Invalid line number" &gt;&amp;2</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>exit 1</code></strong></td>
+<td><strong>Exit the script</strong> with exit code <code>1</code> (= failure). <br><span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+<td><code>echo "Error: need at least 3 args" &amp;&amp; exit 1</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="executing-scripts">Executing scripts</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 79%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><code>bash myscript.sh</code></strong></td>
+<td>Scripts that are not executable (execute permission not set) and/or have no <em>shebang</em> line can be run by explicitly calling <code>bash</code>.</td>
+</tr>
+<tr class="even">
+<td><strong><code>./myscript.sh</code></strong> <br> <strong><code>scripts/myscript.sh</code></strong></td>
+<td>Scripts that are executable and have a <em>shebang</em> line can be called directly. But if they are in the current working dir, preface with <code>./</code> (otherwise the script will be looked for only in <code>$PATH</code>).</td>
+</tr>
+<tr class="odd">
+<td><strong><code>myscript.sh input.txt output.txt</code></strong></td>
+<td>Call a script with two arguments, which will be available inside the script as <code>$1</code> and <code>$2</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h2 id="scripting-related-code">Scripting-related code</h2>
+<h3 id="overview">Overview</h3>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 43%" />
+<col style="width: 51%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Code</strong></th>
+<th>Explanation</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><code>=</code></strong></td>
+<td><strong>Assign a variable</strong>. No spaces around the <code>=</code> !</td>
+<td><code>nlines=200</code> <br> <code>nlines=$(wc -l my.csv)</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>$</code></strong></td>
+<td><p><strong>Recall/reference a variable</strong> with <code>$</code>.</p>
+<p>Preferably <strong>quote</strong> variables too, especially in scripts, to prevent unwanted shell expansion in case of spaces and other special characters in variable values.</p>
+<p>Optionally, put variable names in curly braces <code>{}</code>.</p></td>
+<td><code>echo $nlines</code> <em>(After assignment e.g. <code>nlines=200</code>)</em> <br> <code>echo "$nlines"</code> <em>(Safer: quoted)</em> <br> <code>echo "${nlines}"</code> <em>(Optionally: “embraced”)</em></td>
+</tr>
+<tr class="odd">
+<td><strong><code>[ ]</code></strong></td>
+<td><strong>Test statement</strong>. Spaces required around the brackets (see examples)!</td>
+<td><code>[ 9 -gt 5 ]</code> <em>(Returns true: 9 is greater than 5)</em> <br> <code>[ $var1 -lt $var2 ]</code> <em>(Returns true if $var1 is less than $var2)</em> <br> <code>[ -d my_dir ]</code> <em>(Returns true if dir exists and is a dir)</em></td>
+</tr>
+<tr class="even">
+<td><strong><code>()</code></strong></td>
+<td>Use to <strong>assign an array</strong>.</td>
+<td><code>sample_names=(zmaysA zmaysB zmaysC)</code> <br> <code>sample_files=($(cut -f 3 samples.txt))</code> <br> <code>sample_files=($(cat fastq_files.txt))</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>${array[@]}</code></strong></td>
+<td>Print all values in an <strong>array</strong>.</td>
+<td><code>echo ${sample_names[@]}</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>&amp;&amp;</code></strong></td>
+<td>Chain commands: execute second command <strong><em>only if the first succeeds</em></strong>.</td>
+<td><code>cd data &amp;&amp; ls data</code> <br> <code>git add --all &amp;&amp; git commit -m "Add README" &amp;&amp; git push</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>||</code></strong></td>
+<td>Chain commands: execute second command <strong><em>only if the first fails</em></strong>.</td>
+<td><code>cd "$outdir" || echo "Cannot change directory!"</code> <br> <code>[ -d "$outdir" ] || mkdir "$outdir"</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>basename</code></strong></td>
+<td><strong>Strip any directory names from a path</strong>, and optionally a suffix too.</td>
+<td><code>basename data/A.fq</code> <em>(Returns <code>A.fq</code>)</em> <br> <code>basename data/A.fq .fq</code> <em>(Returns <code>A</code>)</em></td>
+</tr>
+<tr class="odd">
+<td><strong><code>expr</code></strong></td>
+<td>Simple <strong>arithmetic</strong> in the shell (but: no decimals, only integers!) <br><span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+<td><code>nseqs=$(expr $nlines / 4)</code> <em>(Divide a value by 4)</em></td>
 </tr>
 </tbody>
 </table>
 <h3 id="for-loops"><code>for</code> loops</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Basic example:</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">for</span> <span class="ex">i</span> in 1 2 3 4<span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>    <span class="bu">echo</span> <span class="st">&quot;Now the variable &quot;</span>i<span class="st">&quot; is: </span><span class="va">$i</span><span class="st">&quot;</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">done</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># Loop to rename files:</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">for</span> <span class="ex">oldname</span> in *.fastq<span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>    <span class="va">newname=$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> _001.fastq<span class="va">)</span>.fq</span>
-<span id="cb1-9"><a href="#cb1-9"></a>    <span class="bu">echo</span> <span class="st">&quot;Old/new name: </span><span class="va">$oldname</span><span class="st"> </span><span class="va">$newname</span><span class="st">&quot;</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>    <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$newname</span><span class="st">&quot;</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="kw">done</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># Loop using an array to submit a script for each sample:</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="va">my_samples=($(</span><span class="fu">cut</span> -f1 my_metadata.txt<span class="va">))</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="kw">for</span> <span class="ex">my_sample</span> in <span class="va">${my_samples[@]}</span><span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a>    <span class="ex">my_script.sh</span> <span class="va">$my_sample</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="kw">done</span></span></code></pre></div>
+<p><strong>Basic example showing the syntax:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">for</span> <span class="ex">i</span> in 1 2 3<span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>    <span class="bu">echo</span> <span class="st">&quot;Now the variable &#39;i&#39; is: </span><span class="va">$i</span><span class="st">&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">done</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; Now the variable &#39;i&#39; is: 1</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt; Now the variable &#39;i&#39; is: 2</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; Now the variable &#39;i&#39; is: 3</span></span></code></pre></div>
+<p>In each iteration, one of the items provided after <code>in</code> will be <strong>assigned</strong> to the variable name provided after <code>for</code>, which can then be used inside the loop.</p>
+<p><strong>Practical examples:</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Loop over files using globbing - better than using `ls`:</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">for</span> <span class="ex">fastq_file</span> in data/raw/*fastq.gz<span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>      <span class="bu">echo</span> <span class="st">&quot;File </span><span class="va">$fastq_file</span><span class="st"> has </span><span class="va">$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="va">$fastq_file)</span><span class="st"> lines.&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>      <span class="co"># More processing...</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">done</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>  </span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># Loop to rename files:</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="kw">for</span> <span class="ex">oldname</span> in *.fastq<span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>    <span class="va">newname=$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> _001.fastq<span class="va">)</span>.fq</span>
+<span id="cb2-10"><a href="#cb2-10"></a>    <span class="bu">echo</span> <span class="st">&quot;Old/new name: </span><span class="va">$oldname</span><span class="st"> </span><span class="va">$newname</span><span class="st">&quot;</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>    <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$newname</span><span class="st">&quot;</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="kw">done</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co"># Loop using an array to submit a script for each sample:</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="va">my_samples=($(</span><span class="fu">cut</span> -f1 my_metadata.txt<span class="va">))</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="kw">for</span> <span class="ex">my_sample</span> in <span class="va">${my_samples[@]}</span><span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a>    <span class="ex">my_script.sh</span> <span class="va">$my_sample</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="kw">done</span></span></code></pre></div>
 <h3 id="if-statements"><code>if</code> statements</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Use a command&#39;s exit status - for grep, a match is success is true:</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>$ <span class="kw">if</span> <span class="fu">grep</span> <span class="st">&quot;AGATCGG&quot;</span> contimated.fasta <span class="op">&gt;</span> /dev/null<span class="kw">;</span> <span class="kw">then</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>      <span class="bu">echo</span> <span class="st">&quot;OH NO! File is contaminated!&quot;</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>      <span class="bu">exit</span> 1</span>
-<span id="cb2-5"><a href="#cb2-5"></a>  <span class="kw">fi</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># Remove all empty files from a directory:</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="kw">for</span> <span class="fu">file</span> in *<span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>    <span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-s</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a>        <span class="bu">echo</span> rm <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a>    <span class="kw">fi</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="kw">done</span></span></code></pre></div>
+<p><strong>Basic syntax:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">if</span> <span class="op">&lt;</span><span class="ex">some_test</span><span class="op">&gt;</span><span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>    <span class="co"># Commands to run if test evaluated to true</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">fi</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>  </span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">if</span> <span class="op">&lt;</span><span class="ex">some_test</span><span class="op">&gt;</span><span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>    <span class="co"># Commands to run if test evaluated to true</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="kw">else</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>    <span class="co"># Commands to run if test evaluated to false</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="kw">fi</span></span></code></pre></div>
+<p>The test is usually done with the <code>[]</code> syntax for a test, e.g. <code>[ -d my_dir ]</code> which will evaluate to true is <code>my_dir</code> is an existing directory.</p>
+<p><strong>Practical examples:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Differential processing based on (e.g.) the number of samples:</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="va">n_samples=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span> samples.txt<span class="va">)</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">if</span><span class="bu"> [</span> <span class="st">&quot;</span><span class="va">$n_samples</span><span class="st">&quot;</span> <span class="ot">-gt</span> 9<span class="bu"> ]</span>; <span class="kw">then</span>  <span class="co"># If the nr of samples is &gt;9</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>    <span class="bu">echo</span> <span class="st">&quot;&gt;9 samples: processing files with algorithm A...&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="kw">else</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>    <span class="bu">echo</span> <span class="st">&quot;&lt;= 9 samples: processing files with algorithm B...&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="kw">fi</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co"># Test whether the correct number of arguments (here: 2)</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co"># were provided to the script:</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="st">&quot;</span><span class="va">$#</span><span class="st">&quot;</span> <span class="ot">-eq</span> 2<span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a>      <span class="bu">echo</span> <span class="st">&quot;Error: wrong number of arguments&quot;</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a>      <span class="bu">echo</span> <span class="st">&quot;You provided </span><span class="va">$#</span><span class="st"> arguments, while 2 are required.&quot;</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a>      <span class="bu">echo</span> <span class="st">&quot;Usage: line.sh &lt;line-number&gt; &lt;file&gt;&quot;</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a>      <span class="bu">exit</span> 1</span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="kw">fi</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a></span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="co"># Test whether the input file is a regular file (-f) and can be read (-r):</span></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="va">$file</span><span class="bu"> ]</span> <span class="kw">||</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-r</span> <span class="va">$file</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb4-20"><a href="#cb4-20"></a>    <span class="bu">echo</span> <span class="st">&quot;Error: can&#39;t open file&quot;</span></span>
+<span id="cb4-21"><a href="#cb4-21"></a>    <span class="bu">echo</span> <span class="st">&quot;Second argument should be a readable file&quot;</span></span>
+<span id="cb4-22"><a href="#cb4-22"></a>    <span class="bu">echo</span> <span class="st">&quot;You provided: </span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb4-23"><a href="#cb4-23"></a>    <span class="bu">exit</span> 1</span>
+<span id="cb4-24"><a href="#cb4-24"></a><span class="kw">fi</span></span>
+<span id="cb4-25"><a href="#cb4-25"></a></span>
+<span id="cb4-26"><a href="#cb4-26"></a><span class="co"># Use a command&#39;s exit status - for grep, a match is success is true:</span></span>
+<span id="cb4-27"><a href="#cb4-27"></a><span class="kw">if</span> <span class="fu">grep</span> <span class="st">&quot;AGATCGG&quot;</span> contimated.fasta <span class="op">&gt;</span> /dev/null<span class="kw">;</span> <span class="kw">then</span></span>
+<span id="cb4-28"><a href="#cb4-28"></a>    <span class="bu">echo</span> <span class="st">&quot;OH NO! File is contaminated!&quot;</span></span>
+<span id="cb4-29"><a href="#cb4-29"></a>    <span class="bu">exit</span> 1</span>
+<span id="cb4-30"><a href="#cb4-30"></a><span class="kw">fi</span></span>
+<span id="cb4-31"><a href="#cb4-31"></a></span>
+<span id="cb4-32"><a href="#cb4-32"></a><span class="co"># Remove all empty files from a directory:</span></span>
+<span id="cb4-33"><a href="#cb4-33"></a><span class="kw">for</span> <span class="fu">file</span> in *<span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb4-34"><a href="#cb4-34"></a>    <span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-s</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb4-35"><a href="#cb4-35"></a>        <span class="fu">rm</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb4-36"><a href="#cb4-36"></a>    <span class="kw">fi</span></span>
+<span id="cb4-37"><a href="#cb4-37"></a><span class="kw">done</span></span></code></pre></div>
 <h3 id="file-test-operators">File test operators</h3>
 <table>
 <thead>
@@ -2617,32 +2793,89 @@ Final project
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>-s</code></td>
-<td>file is not zero size</td>
-</tr>
-<tr class="even">
-<td><code>-e</code></td>
-<td>file exists</td>
-</tr>
-<tr class="odd">
 <td><code>-f</code></td>
-<td>file is a regular file (e.g. not a directory)</td>
+<td>File is a regular file (e.g. not a directory)</td>
 </tr>
 <tr class="even">
 <td><code>-d</code></td>
-<td>file is a directory</td>
+<td>File is a directory</td>
+</tr>
+<tr class="odd">
+<td><code>-e</code></td>
+<td>File exists</td>
+</tr>
+<tr class="even">
+<td><code>-s</code></td>
+<td>File is not zero size</td>
 </tr>
 <tr class="odd">
 <td><code>-h</code></td>
-<td>file is a symbolic link</td>
+<td>File is a symbolic link</td>
 </tr>
 <tr class="even">
 <td><code>-r</code> / <code>-w</code> / <code>-x</code></td>
-<td>file has read/write/execute permissions</td>
+<td>File has read/write/execute permissions</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 id="comparison-operators">Comparison operators</h3>
+<table>
+<thead>
+<tr class="header">
+<th>String</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-z str</code></td>
+<td>String <code>str</code> is null (empty)</td>
+</tr>
+<tr class="even">
+<td><code>str1 = str2</code></td>
+<td>Strings <code>str1</code> and <code>str2</code> are identical</td>
+</tr>
+<tr class="odd">
+<td><code>str1 != str2</code>        </td>
+<td>Strings <code>str1</code> and <code>str2</code> are different                </td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr class="header">
+<th>Integer</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>int1 -eq int2</code></td>
+<td>Integers <code>int1</code> and <code>int2</code> are equal</td>
+</tr>
+<tr class="even">
+<td><code>int1 -ne int2</code></td>
+<td>Integers <code>int1</code> and <code>int2</code> are not equal</td>
+</tr>
+<tr class="odd">
+<td><code>int1 -lt int2</code></td>
+<td>Integer <code>int1</code> is less than <code>int2</code></td>
+</tr>
+<tr class="even">
+<td><code>int1 -gt int2</code></td>
+<td>Integer <code>int1</code> is greater than <code>int2</code></td>
+</tr>
+<tr class="odd">
+<td><code>int1 -le int2</code></td>
+<td>Integer <code>int1</code> is less than or equal to <code>int2</code></td>
+</tr>
+<tr class="even">
+<td><code>int1 -ge int2</code>      </td>
+<td>Integer <code>int1</code> is greater than or equal to <code>int2</code></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

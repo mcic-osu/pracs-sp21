@@ -11,26 +11,90 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### Commands
+## Bash script essentials
 
-+------------+-----------------------------------------------------------------+----------------------------------------------------+
-| Col1       | Col2                                                            | Col3                                               |
-+============+=================================================================+====================================================+
-| `basename` | Strip any directory names from a path, and optionally suffices. | `basename data/A.fq` <br> `basename data/A.fq .fq` |
-+------------+-----------------------------------------------------------------+----------------------------------------------------+
-|            |                                                                 |                                                    |
-+------------+-----------------------------------------------------------------+----------------------------------------------------+
-|            |                                                                 |                                                    |
-+------------+-----------------------------------------------------------------+----------------------------------------------------+
+In VS Code, don't forget to install the `shellcheck` extension!
+
+### Inside the script
+
+| **Code**                    | Explanation                                                                                                                                                                                          | Example                                                                                 |
+|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| **`#!/bin/bash`**           | **"Shebang" line**: points the computer to the Bash interpreter at `/bin/bash`.                                                                                                                      |                                                                                         |
+| **`set -u -e -o pipefail`** | **Bash strict settings**: exit script with error if an unset variable is referenced (`-u`), a general error occurs (but with exceptions; `-e`), an error occurs in a shell pipeline (`-o pipefail`). |                                                                                         |
+| **`$0`**                    | **Name of the script** (does not work for scripts submitted as SLURM jobs).                                                                                                                          |                                                                                         |
+| **`$1`, `$2`, etc**         | "Positional parameters": first, second, etc, **arguments passed to the script from the shell**.                                                                                                      | `./script.sh my_arg1 my_arg2` <br> `$1` will be "my\_arg1" and `$2` will be "my\_arg2". |
+| **`$#`**                    | **Number of arguments** passed to the script.                                                                                                                                                        | `./script.sh my_arg1 my_arg2` <br> `$#` will be 2.                                      |
+| **`>&2`**                   | **Redirect standard out to standard error**: e.g., "manually" designate an `echo` statement to represent standard error.                                                                             | `echo "Error: Invalid line number" >&2`                                                 |
+| **`exit 1`**                | **Exit the script** with exit code `1` (= failure). <br>[ddddddddddddddddddddddddddddddddddddd]{style="color:white"}                                                                                 | `echo "Error: need at least 3 args" && exit 1`                                          |
+
+### Executing scripts
+
++----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Command                                            | Explanation                                                                                                                                                                                            |
++====================================================+========================================================================================================================================================================================================+
+| **`bash myscript.sh`**                             | Scripts that are not executable (execute permission not set) and/or have no *shebang* line can be run by explicitly calling `bash`.                                                                    |
++----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **`./myscript.sh`** <br> **`scripts/myscript.sh`** | Scripts that are executable and have a *shebang* line can be called directly. But if they are in the current working dir, preface with `./` (otherwise the script will be looked for only in `$PATH`). |
++----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **`myscript.sh input.txt output.txt`**             | Call a script with two arguments, which will be available inside the script as `$1` and `$2`.                                                                                                          |
++----------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+<br>
+
+## Scripting-related code
+
+### Overview
+
++-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Code**          | Explanation                                                                                                                                                       | Example                                                                                                                                                                                        |
++===================+===================================================================================================================================================================+================================================================================================================================================================================================+
+| **`=`**           | **Assign a variable**. No spaces around the `=` !                                                                                                                 | `nlines=200` <br> `nlines=$(wc -l my.csv)`                                                                                                                                                     |
++-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **`$`**           | **Recall/reference a variable** with `$`.                                                                                                                         | `echo $nlines` *(After assignment e.g. `nlines=200`)* <br> `echo "$nlines"` *(Safer: quoted)* <br> `echo "${nlines}"` *(Optionally: "embraced")*                                               |
+|                   |                                                                                                                                                                   |                                                                                                                                                                                                |
+|                   | Preferably **quote** variables too, especially in scripts, to prevent unwanted shell expansion in case of spaces and other special characters in variable values. |                                                                                                                                                                                                |
+|                   |                                                                                                                                                                   |                                                                                                                                                                                                |
+|                   | Optionally, put variable names in curly braces `{}`.                                                                                                              |                                                                                                                                                                                                |
++-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **`[ ]`**         | **Test statement**. Spaces required around the brackets (see examples)!                                                                                           | `[ 9 -gt 5 ]` *(Returns true: 9 is greater than 5)* <br> `[ $var1 -lt $var2 ]` *(Returns true if \$var1 is less than \$var2)* <br> `[ -d my_dir ]` *(Returns true if dir exists and is a dir)* |
++-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **`()`**          | Use to **assign an array**.                                                                                                                                       | `sample_names=(zmaysA zmaysB zmaysC)` <br> `sample_files=($(cut -f 3 samples.txt))` <br> `sample_files=($(cat fastq_files.txt))`                                                               |
++-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **`${array[@]}`** | Print all values in an **array**.                                                                                                                                 | `echo ${sample_names[@]}`                                                                                                                                                                      |
++-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **`&&`**          | Chain commands: execute second command ***only if the first succeeds***.                                                                                          | `cd data && ls data` <br> `git add --all && git commit -m "Add README" && git push`                                                                                                            |
++-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **`||`**          | Chain commands: execute second command ***only if the first fails***.                                                                                             | `cd "$outdir" || echo "Cannot change directory!"` <br> `[ -d "$outdir" ] || mkdir "$outdir"`                                                                                                   |
++-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **`basename`**    | **Strip any directory names from a path**, and optionally a suffix too.                                                                                           | `basename data/A.fq` *(Returns `A.fq`)* <br> `basename data/A.fq .fq` *(Returns `A`)*                                                                                                          |
++-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **`expr`**        | Simple **arithmetic** in the shell (but: no decimals, only integers!) <br>[ddddddddddddddddddddddddddddddddddddd]{style="color:white"}                            | `nseqs=$(expr $nlines / 4)` *(Divide a value by 4)*                                                                                                                                            |
++-------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 ### `for` loops
 
-``` {.sh}
-# Basic example:
-for i in 1 2 3 4; do
-    echo "Now the variable "i" is: $i"
-done
+**Basic example showing the syntax:**
 
+``` {.sh}
+for i in 1 2 3; do
+    echo "Now the variable 'i' is: $i"
+done
+#> Now the variable 'i' is: 1
+#> Now the variable 'i' is: 2
+#> Now the variable 'i' is: 3
+```
+
+In each iteration, one of the items provided after `in` will be **assigned** to the variable name provided after `for`, which can then be used inside the loop.
+
+**Practical examples:**
+
+``` {.sh}
+# Loop over files using globbing - better than using `ls`:
+for fastq_file in data/raw/*fastq.gz; do
+      echo "File $fastq_file has $(wc -l < $fastq_file) lines."
+      # More processing...
+done
+  
 # Loop to rename files:
 for oldname in *.fastq; do
     newname=$(basename "$oldname" _001.fastq).fq
@@ -47,17 +111,60 @@ done
 
 ### `if` statements
 
+**Basic syntax:**
+
 ``` {.sh}
-# Use a command's exit status - for grep, a match is success is true:
-$ if grep "AGATCGG" contimated.fasta > /dev/null; then
-      echo "OH NO! File is contaminated!"
+if <some_test>; then
+    # Commands to run if test evaluated to true
+fi
+  
+if <some_test>; then
+    # Commands to run if test evaluated to true
+else
+    # Commands to run if test evaluated to false
+fi
+```
+
+The test is usually done with the `[]` syntax for a test, e.g. `[ -d my_dir ]` which will evaluate to true is `my_dir` is an existing directory.
+
+**Practical examples:**
+
+``` {.sh}
+# Differential processing based on (e.g.) the number of samples:
+n_samples=$(wc -l < samples.txt)
+if [ "$n_samples" -gt 9 ]; then  # If the nr of samples is >9
+    echo ">9 samples: processing files with algorithm A..."
+else
+    echo "<= 9 samples: processing files with algorithm B..."
+fi
+
+# Test whether the correct number of arguments (here: 2)
+# were provided to the script:
+if [ ! "$#" -eq 2 ]; then
+      echo "Error: wrong number of arguments"
+      echo "You provided $# arguments, while 2 are required."
+      echo "Usage: line.sh <line-number> <file>"
       exit 1
-  fi
+fi
+
+# Test whether the input file is a regular file (-f) and can be read (-r):
+if [ ! -f $file ] || [ ! -r $file ]; then
+    echo "Error: can't open file"
+    echo "Second argument should be a readable file"
+    echo "You provided: $file"
+    exit 1
+fi
+
+# Use a command's exit status - for grep, a match is success is true:
+if grep "AGATCGG" contimated.fasta > /dev/null; then
+    echo "OH NO! File is contaminated!"
+    exit 1
+fi
 
 # Remove all empty files from a directory:
 for file in *; do
     if [ ! -s "$file" ]; then
-        echo rm "$file"
+        rm "$file"
     fi
 done
 ```
@@ -66,10 +173,26 @@ done
 
 | Operator           | Returns true if:                              |
 |--------------------|-----------------------------------------------|
-| `-s`               | file is not zero size                         |
-| `-e`               | file exists                                   |
-| `-f`               | file is a regular file (e.g. not a directory) |
-| `-d`               | file is a directory                           |
-| `-h`               | file is a symbolic link                       |
-| `-r` / `-w` / `-x` | file has read/write/execute permissions       |
+| `-f`               | File is a regular file (e.g. not a directory) |
+| `-d`               | File is a directory                           |
+| `-e`               | File exists                                   |
+| `-s`               | File is not zero size                         |
+| `-h`               | File is a symbolic link                       |
+| `-r` / `-w` / `-x` | File has read/write/execute permissions       |
 
+### Comparison operators
+
+| String                 | Description                                             |
+|------------------------|---------------------------------------------------------|
+| `-z str`               | String `str` is null (empty)                            |
+| `str1 = str2`          | Strings `str1` and `str2` are identical                 |
+| `str1 != str2`         | Strings `str1` and `str2` are different                 |
+
+| Integer               | Description                                       |
+|-----------------------|---------------------------------------------------|
+| `int1 -eq int2`       | Integers `int1` and `int2` are equal              |
+| `int1 -ne int2`       | Integers `int1` and `int2` are not equal          |
+| `int1 -lt int2`       | Integer `int1` is less than `int2`                |
+| `int1 -gt int2`       | Integer `int1` is greater than `int2`             |
+| `int1 -le int2`       | Integer `int1` is less than or equal to `int2`    |
+| `int1 -ge int2`       | Integer `int1` is greater than or equal to `int2` |
