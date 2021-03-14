@@ -21,8 +21,10 @@ navbar:
           href: overviews_shell.html
         - text: "Shell scripting"
           href: overviews_shellscript.html
-        - text: "OSC jobs"
+        - text: "OSC: SLURM jobs and software"
+          href: overviews_slurm.html
         - text: "Markdown"
+          href: overviews_markdown.html
         - text: "Git"
         - text: "Python"
     - text: "Final project"
