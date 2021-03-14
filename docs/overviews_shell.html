@@ -2482,8 +2482,8 @@ Topic overviews
 <div class="nav-dropdown-content">
 <a href="overviews_shell.html">Shell</a>
 <a href="overviews_shellscript.html">Shell scripting</a>
-<span class="nav-dropdown-header">OSC jobs</span>
-<span class="nav-dropdown-header">Markdown</span>
+<a href="overviews_slurm.html">OSC: SLURM jobs and software</a>
+<a href="overviews_markdown.html">Markdown</a>
 <span class="nav-dropdown-header">Git</span>
 <span class="nav-dropdown-header">Python</span>
 </div>
@@ -2830,7 +2830,7 @@ Final project
 <table>
 <colgroup>
 <col style="width: 12%" />
-<col style="width: 1%" />
+<col style="width: 2%" />
 <col style="width: 51%" />
 <col style="width: 34%" />
 </colgroup>
@@ -2893,9 +2893,9 @@ Final project
 </tr>
 <tr class="odd">
 <td><strong><code>\w</code></strong></td>
-<td>yes</td>
-<td><strong>“Word” character</strong>: any alphanumeric character or “_”.</td>
-<td><code>grep -E -o 'gene_id "\w+"'</code></td>
+<td>(yes)</td>
+<td><strong>“Word” character</strong>: any alphanumeric character or “_”. Needs <code>-E</code> (ERE) in <code>grep</code> but not in <code>sed</code> (…).</td>
+<td><code>grep -E -o 'gene_id "\w+"'</code> <br> <code>sed s/\w/X/</code> (c<em>hange any word character to X)</em></td>
 </tr>
 <tr class="even">
 <td><strong><code>|</code></strong></td>

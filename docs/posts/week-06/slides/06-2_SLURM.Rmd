@@ -53,13 +53,13 @@ name: slurm
   
 | Resource/use                  | short      | long                 | default
 |-------------------------------|------------|----------------------|:---------:|
-| Project to be billed          | -A PAS0471 | --account=PAS0471    | _N/A_
-| Time limit                    | -t 4:00:00 | --time=4:00:00       | 1:00:00
-| Nr of nodes                   | -N 1       | --nodes=1            | 1
-| Nr of cores                   | -c 1       | --cpus-per-task=1    | 1
-| Nr of "tasks" (processes)     | -n 1       | --ntasks=1           | 1
-| Nr of tasks per node          | -          | --ntasks-per-node    | 1
-| Memory limit per node         | -          | --mem=4G             | *(4G)*
+| Project to be billed          | `-A PAS0471` | `--account=PAS0471`    | _N/A_
+| Time limit                    | `-t 4:00:00` | `--time=4:00:00`      | 1:00:00
+| Nr of nodes                   | `-N 1`       | `--nodes=1`            | 1
+| Nr of cores                   | `-c 1`       | `--cpus-per-task=1`    | 1
+| Nr of "tasks" (processes)     | `-n 1`      | `--ntasks=1`           | 1
+| Nr of tasks per node          | -          | `--ntasks-per-node`   | 1
+| Memory limit per node         | -          | `--mem=4G`             | *(4G)*
 
 ---
 
@@ -69,8 +69,8 @@ name: slurm
 
 | Resource/use                         | short    | long
 |--------------------------------------|----------|-------
-| Log output file (%j = job number) &nbsp; &nbsp;    | -o       |  --output=slurm-fastqc-%j.out &nbsp; &nbsp; &nbsp; &nbsp;
-| Error output (*stderr*)              | -e       | --error=slurm-fastqc-%j.err
+| Log output file (%j = job number) &nbsp; &nbsp;    | `-o`       |  --output=slurm-fastqc-%j.out &nbsp; &nbsp; &nbsp; &nbsp;
+| Error output (*stderr*)              | `-e`       | `--error=slurm-fastqc-%j.err`
 
 <br> <br> <br> <br> <br> <br> <br> <br>
 
@@ -84,17 +84,17 @@ To send standard error to its own output file, use the `-e` / `--error` option.
 
 ## More on SLURM directives (cont.)
 
-**Some other options (for more, see the [SLURM documentation](https://slurm.schedmd.com/sbatch.html)):**
+**Some other options** (for more, see the [SLURM documentation](https://slurm.schedmd.com/sbatch.html)):
 
 | Resource/use                         | short    | long
 |--------------------------------------|----------|-------
-| Log output file (%j = job number)    | -o       |  --output=slurm-fastqc-%j.out
-| Error output (*stderr*)              | -e       | --error=slurm-fastqc-%j.err
-| Job name (displayed in the queue)    | -        | --job-name=fastqc
-| Partition (=queue type)              | -        | --partition=longserial
-| Get email when job starts/ends/fails | -        | --mail-type=ALL/START/END/FAIL
-| Let job begin at/after specific time | -        | --begin=2021-02-01T12:00:00
-| Let job begin after other jobs is done | -      | --dependency=afterany:123456
+| Log output file (%j = job number)    | `-o`       |  `--output=slurm-fastqc-%j.out`
+| Error output (*stderr*)              | `-e`       | `--error=slurm-fastqc-%j.err`
+| Job name (displayed in the queue)    | -        | `--job-name=fastqc`
+| Partition (=queue type)              | -        | `--partition=longserial`
+| Get email when job starts/ends/fails | -        | `--mail-type=ALL` <br> `--mail-type=START` <br> `--mail-type=END` <br> `--mail-type=FAIL`
+| Let job begin at/after specific time | -        | `--begin=2021-02-01T12:00:00`
+| Let job begin after other job is done | -      | `--dependency=afterany:123456`
 
 ---
 
@@ -1036,7 +1036,7 @@ You may want to use an `sstat` call like the following **at the end of your
 script**:
 
 ```sh
-sstat -j 2978505 --format=jobid,avecpu,averss,maxrss,ntasks
+sstat -j $SLURM_JOB_ID --format=jobid,avecpu,averss,maxrss,ntasks
 ```
 
 Which will get you output like:
@@ -1070,7 +1070,7 @@ $ sacct -j 2978487 --format=JobID,JobName,NodeList,Elapsed,State,ExitCode,MaxRSS
 - Get information about all jobs &ndash; by default those run in the past day:
 
 ```sh
-$ sacct -u jelmer --format=JobID,JobName,NodeList,Elapsed,State,ExitCode,MaxRSS,AllocTRES%32 | grep -v ".extern"
+$ sacct -u $USER --format=JobID,JobName,NodeList,Elapsed,State,ExitCode,MaxRSS,AllocTRES%32 | grep -v ".extern"
 
 #               JobID    JobName        NodeList    Elapsed      State ExitCode     MaxRSS                        AllocTRES 
 #-------------------- ---------- --------------- ---------- ---------- -------- ---------- -------------------------------- 
@@ -1289,7 +1289,7 @@ background-color: #f2f5eb
   ```
 
 .content-box-diy[
-Open your `~/.bashrc` file (with VS Code or nano) and add these lines to the
+Open your `~/.bashrc` file (with VS Code or Nano) and add these lines to the
 bottom.
 ]
 
