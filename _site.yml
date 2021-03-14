@@ -11,10 +11,41 @@ navbar:
   left:
     - icon: fas fa-home
       href: index.html
-    - text: "Further resources"
+    - text: "Modules"
       menu:
-        - text: "Python resources"
-          href: w08_python-resources.html
+        - text: "01: Shell basics"
+          href: posts/week-01/index.html
+        - text: "02: Project organization & Markdown"
+          href: posts/week-02/index.html
+        - text: "03: Git & GitHub"
+          href: posts/week-03/index.html
+        - text: "04: Unix data tools"
+          href: posts/week-04/index.html
+        - text: "05: Shell scripting"
+          href: posts/week-05/index.html
+        - text: "06: Computing at OSC"
+          href: posts/week-06/index.html
+        - text: "07: Data transfer & integrity"
+          href: posts/week-07/index.html
+        - text: "08: Python - First steps"
+          href: posts/week-08/index.html
+        - text: "09: Python - Control flow & files"
+          href: posts/week-09/index.html
+        - text: "10: Python - Writing good code"
+          href: posts/week-10/index.html
+        - text: "11: Python - Scientific computing"
+        - text: "12: Python - Regular expressions"
+        - text: "13: Snakemake"
+        - text: "14: Putting it all together"
+    - text: "Final project"
+      menu:
+        - text: "General info"
+          href: final_project.html
+        - text: "Checkpoint I: Proposal"
+          href: finalproject_proposal.html
+        - text: "Checkpoint II: Draft"
+        - text: "Checkpoint III: Presentation"
+        - text: "Checkpoint IV: Submission"
     - text: "Topic overviews"
       menu:
         - text: "Shell"
@@ -27,15 +58,11 @@ navbar:
           href: overviews_markdown.html
         - text: "Git"
         - text: "Python"
-    - text: "Final project"
+    - text: "Go further"
       menu:
-        - text: "General info"
-          href: final_project.html
-        - text: "Checkpoint I: Proposal"
-          href: finalproject_proposal.html
-        - text: "Checkpoint II: Draft"
-        - text: "Checkpoint III: Presentation"
-        - text: "Checkpoint IV: Submission"
+        - text: "Python resources"
+          href: w08_python-resources.html
+
   right:
     - text: "About"
       href: about.html
