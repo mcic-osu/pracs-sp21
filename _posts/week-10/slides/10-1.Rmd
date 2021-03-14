@@ -20,8 +20,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ```{r xaringan-extra, echo=FALSE, eval=TRUE}
 #xaringanExtra::use_scribble()
-#xaringanExtra::use_panelset()
-#xaringanExtra::use_clipboard()
+xaringanExtra::use_clipboard()
 #xaringanExtra::use_search(show_icon = TRUE)
 ```
 
@@ -53,8 +52,6 @@ knitr::opts_chunk$set(eval = FALSE)
 .pull-right[
 **Thursday's presentation:**
 
-- Writing style (4.3)
-
 - Calling Python scripts (4.4)
 
 - Errors and error handling (4.5)
@@ -65,7 +62,9 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br>
 
 .content-box-info[
-**Optional homework - CSB sections on:**
+**Not discussed - CSB sections on:**
+- Writing style (4.3)
+
 - Debugging (4.6), Unit testing (4.7), and Profiling (4.8)
 ]
 
@@ -80,7 +79,7 @@ class: center middle inverse
 
 ---
 
-## Modules, packages, and libraries:
+## Modules and packages
 
 - **Python modules** contain *collections of functions*.  
   Technically, a Python module is a single `.py` file.
@@ -88,15 +87,16 @@ class: center middle inverse
 - *Collections of modules* are technically **packages**,
   though they can also be simply referred to as modules.   
 
-- The term **library** is not as well-defined,
-  and can be used interchangeably with both module and package.
+- (The term *library* is not as well-defined,
+  and can be used interchangeably with both module and package,
+  but is also used to describe a repository of modules.)
 
 --
 
 <br>
 
-Modules and packages can be *imported* into your Python environment,
-be that in a script or an interactive environment, using the `import` statement:
+Use the **`import` statement** to import modules and packages into your Python
+environment, be that in a script or an interactive environment:
   
   ```py
   import os
@@ -109,15 +109,15 @@ be that in a script or an interactive environment, using the `import` statement:
 Modules from the **Python standard library** don't have to be installed,
 and can be imported directly.
 
-So, while they are part of any Python installation, they are not loaded by
-default. 
+So, they are not loaded by default, but are part of any Python installation.
+
+For example: `csv`, `os`, `datetime`, and `re`.
 
 ---
 
 ## Installing modules
 
-So-called "**third-party**" modules/packages/libraries, on the other hand,
-do need to be installed.
+So-called "**third-party**" modules/packages/libraries do need to be installed.
 
 These are not installed from inside Python (like with R),
 but using stand-alone package managers, usually in the shell:
@@ -125,13 +125,31 @@ but using stand-alone package managers, usually in the shell:
 -  `conda`, which we have already worked with &ndash;
   for instance, to install the `numpy` ("NUMerical PYthon") library:
   ```sh
-  $ conda install numpy
+  $ conda install numpy                      # Shell
   ```
   
 - Another common package manager is the Python-specific `pip`:
   ```sh
-  $ pip install numpy
+  $ pip install numpy                        # Shell
   ```
+
+---
+
+## Installing modules
+
+.content-box-diy[
+
+**Let's install *numpy* and *pandas***, which we'll need next week,  
+into our `ipy-env`.
+
+Open a terminal in VS Code, type `bash` to break out of the container, and:
+
+```sh
+module load python/3.6-conda5.2
+source activate ipy-env
+conda install -y numpy pandas
+```
+]
 
 ---
 
@@ -139,8 +157,8 @@ but using stand-alone package managers, usually in the shell:
 
 In Python, it is customary not to load modules directly into your "namespace".
 
-This means that the module's functions will not be accessibly by just their names,
-but you need to prepending the module's name.
+This means that the module's functions will not be accessibly by just their
+function names: instead, you need to prepend the module's name.
 
 --
 
@@ -154,12 +172,12 @@ but you need to prepending the module's name.
 
 --
 
-- If a module's name is long(ish), it is common to define an "alias" for the
-  module in the `import` call, so the function calls can be shorter:
+- If a module's name is long(ish), it is common to use `as` to define an "alias"
+  for the module, so the function calls can be shorter:
   
   ```py
   import numpy as np
-  my_array = np.array([1, 2, 3, 4])
+  np.array([1, 2, 3, 4])
   ```
   
   *(While the alias name can be anything you like,
@@ -170,7 +188,7 @@ but you need to prepending the module's name.
 ## Loading modules (cont.)
 
 - To load only  certain functions from a module,
-  or certain modules from multi-module packages:
+  or to load certain modules from multi-module packages:
 
   ```py
   # From the snakemake.io module, import two functions:
@@ -187,24 +205,28 @@ but you need to prepending the module's name.
 
 --
 
-- Finally, it *is* possible yet discouraged to load all functions from a module
+- Finally, it is *possible yet discouraged* to load all functions from a module
   directly into your namespace using an asterisk `*` wildcard:
   
   ```py
   from numpy import *
-  array([1, 2, 3, 4])   # Now we don't need a numpy. / np. prefix
+  array([1, 2, 3, 4])   # Now, no need for "numpy." / "np." prefix
   ```
 
 ---
 
 ## Creating modules
 
-In Python, it is exceedingly easy to create a module:
+**In Python, it is exceedingly easy to create a module:**
 
-Just save a file with functions (e.g. `my_utils.py`) and load it using
-`import my_utils`
-(assuming the file is in the same directory or can otherwise be located
-by Python).
+Just save a file with functions (e.g. `my_utils.py`) and load it using:
+
+```python
+import my_utils
+```
+
+*(This works assuming the file is in the same directory or can otherwise
+be located by Python.)*
 
 ---
 class: center middle inverse
@@ -254,18 +276,19 @@ def GC_content(dna):
 
 The anatomy of a Python function:
 
-- Start with the keyword `def` (for *define*)
+- Start with the **keyword `def`** (for *define*)
 
-- Next provide the name of the function, which is whatever we would like it to be
-  &ndash; though it is highly recommended to be descriptive!
+- Next, provide the **name of the function**.
+  This can be whatever we like &ndash; though it is highly recommended to be
+  descriptive!
   
-- Between parenthesis, list the input(s) &ndash;*argument(s)*&ndash; of the function.
+- Between parentheses, list the **argument(s)** (input) of the function.
 
-- Don't forget the colon `:`!
+- Don't forget the **colon `:`** before you start the body of the function!
 
 - All the code belonging to the function is indented.
 
-- The function returns output as defined after the `return` keyword.
+- The function returns output as defined after the **`return` keyword**.
 
 ---
 
@@ -316,7 +339,7 @@ A function to nicely print a dictionary:
 def print_dictionary(mydic):
     
     for k, v in mydic.items():
-        print("key: ", k, " value: ", str(v))
+        print("key: ", k, " value: ", v)
 ```
 
 <br>
@@ -337,8 +360,8 @@ print_dictionary({"a": 3.4, "b": [1, 2, 3, 4], "c": "astring"})
 
 ## A few more simple functions (cont.)
 
-A function to calculate the square for a series of numbers,
-and put those squares in a list:
+A function to calculate the square for a series of numbers,  
+and compile those squares in a list:
   
 ```python
 def squared(start = 1, end = 10):  # We provide default values!
@@ -348,8 +371,8 @@ def squared(start = 1, end = 10):  # We provide default values!
       
     # Loop through the numbers:
     for i in range(start, end):
-        r = i ** 2        # Calculate square 
-        results.append(r) # Append current value to list
+        i_square = i ** 2        # Calculate square 
+        results.append(i_square) # Append current value to list
       
     return results
 ```
@@ -398,7 +421,9 @@ def squared(start = 1, end = 10):
     ...
 ```
 
-We can also reverse the order as long as we are calling the arguments by name:
+With these so-called "keyword arguments",
+we can also reverse the order of the arguments,
+as long as we are calling them by name:
 
 ```python
 squared(end = 5, start = 2)
@@ -418,7 +443,7 @@ The "scope" of a variable refers to the environment in which it can be accessed:
   This is the default (and only possible) behavior *outside of functions*.
 
 - When a variable has **"function scope"**, it is available only inside the function.
-  This is the default behavior *in functions*.
+  This is the default behavior *inside functions*.
 
 Let's see this in action:
 
@@ -442,18 +467,26 @@ results
 
 The behavior of limiting the scope of variables in functions is useful because:
 
-- It means you don't have to worry about variable names overlapping with the
-  rest of the program (and you may reuse your function in completely different
-  programs!).
+- It means you don't have to worry about **variable names overlapping** with the
+  rest of the program.
 
-- It makes sure that functions do not have "*side effects*" apart from the
-  single object that they return: recall that a function exits after a
-  statement with `return`.
+- It ensures functions don't have **"*side effects*"** apart from the single object
+  they return: recall, a function exits after a statement with `return`.
 
-<br>
+*(It is possible to set variables with a global scope in functions, using the
+`global` keyword, but this is not generally recommended.)*
 
-It is possible to set variables with a global scope in functions, using the
-`global` keyword, but this is not generally recommended.
+--
+
+.content-box-info[
+So, functions are supposed to be their own little words:
+
+- They *should* only use objects that are explicitly passed to the
+  function as arguments: **independence from the global environment**.
+  
+- They *should* not modify anything in the global environment except the
+  single object that they return: **no side effects to the global environment**
+]
 
 ---
 
@@ -562,8 +595,8 @@ class: center middle inverse
 We will simulate genetic drift: random changes in allele frequency over time
 that happen in finite populations.
 
-We'll ask how long it takes before, at a single locus, one of the two alleles
-(`A` or `a`) drifts to fixation.
+**We'll ask how long it takes before one of the two alleles at a single locus
+(`A` or `a`) drifts to fixation.**
 
 --
 
@@ -608,6 +641,37 @@ def build_population(N, p):
        The population is a list of tuples.
     """
     
+    population = []
+    
+    for i in range(N):
+        
+        allele1 = "A"
+        if scipy.random.rand() > p:
+            allele1 = "a"
+        
+        allele2 = "A"
+        if scipy.random.rand() > p:
+            allele2 = "a"
+        
+        population.append((allele1, allele2))
+    
+    return population
+```
+
+---
+
+## The function to build the population
+
+```python
+import scipy  # for random numbers
+
+def build_population(N, p):
+    """The population consists of N individuals. 
+       Each individual has two chromosomes, containing
+       allele "A" or "a", with probability p and 1-p, respectively.
+       The population is a list of tuples.
+    """
+    
     population = []                  # Start with empty list
     
     for i in range(N):               # Loop over individuals
@@ -627,6 +691,34 @@ def build_population(N, p):
 
 ---
 
+## Use Docstrings to document your functions!
+
+.content-box-info[
+
+Note the description of the function provided in a special multiline comment
+(triple quotes), which is called a **"docstring"** (documentation string).
+
+```python
+def build_population(N, p):
+    """The population consists of N individuals. 
+       Each individual has two chromosomes, containing
+       allele "A" or "a", with probability p and 1-p, respectively.
+       The population is a list of tuples.
+    """
+```
+
+<br>
+
+We can see this documentation, for instance, if call the help for our function:
+
+```python
+>>> build_population?
+>>> help(build_population)
+```
+]
+
+---
+
 ## Test the function (not in the script)
 
 With a `p` of 0.5, we expect roughly equal proportions of `A` and `a` and
@@ -640,7 +732,11 @@ differences between two instantiations:
 #> [('A', 'a'), ('A', 'a'), ('a', 'a'), ('A', 'A'), ('A', 'a')]
 ```
 
-With a `p` other than 0.5, we should see uneven numbers:
+--
+
+<br>
+
+With a `p` other than 0.5, we should see uneven numbers of `a`s and `A`s:
 
 ```python
 >>> build_population(N = 5, p = 0.9)
@@ -681,6 +777,38 @@ def compute_frequencies(population):
 ```python
 >>> my_pop = build_population(6, 0.5)
 >>> compute_frequencies(my_pop)
+
+#>  {'AA': 1, 'aa': 1, 'Aa': 2, 'aA': 2}
+```
+
+---
+
+## The function to create a new generation
+```python
+def reproduce_population(population):
+    """ Create a new generation through sexual reproduction
+        For each of N new offspring:
+        - Choose the parents at random
+        - The offspring receives one chromosome from each parent
+    """
+    
+    new_generation = []
+    
+    N = len(population)
+    
+    for i in range(N):
+        
+        dad = scipy.random.randint(N)  # Random int between 0 & N-1
+        mom = scipy.random.randint(N)
+        
+        chr_mom = scipy.random.randint(2)
+        
+        offspring = (population[mom][chr_mom],
+                     population[dad][1 - chr_mom])
+        
+        new_generation.append(offspring)
+    
+    return(new_generation)
 ```
 
 ---
@@ -784,7 +912,8 @@ def simulate_drift(N, p):
       
       # If one allele went to fixation, stop:
       if genotype_counts["AA"] == N or genotype_counts["aa"] == N:
-          print("An allele reached fixation at generation", num_generations)
+          print("An allele reached fixation at generation",
+                num_generations)
           print("The genotype counts are")
           print(genotype_counts)
           
@@ -845,6 +974,25 @@ def simulate_drift(N, p):
 ```
 
 ---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>
+
+---
+class: center middle inverse
+
+# Bonus material
+
+-----
+
+<br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
 
 ## Saving and loading Python objects with `pickle`
 
@@ -872,12 +1020,3 @@ and storage in a plain text file is not optimal.
   # "rb": Read in Binary mode
   population = pickle.load(open("population.pickle", "rb"))
   ```
-
----
-class: center middle inverse
-
-# Questions?
-
------
-
-<br> <br> <br> <br>
