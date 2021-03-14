@@ -31,8 +31,11 @@ navbar:
       menu:
         - text: "General info"
           href: final_project.html
-        - text: "Proposal"
+        - text: "Checkpoint I: Proposal"
           href: finalproject_proposal.html
+        - text: "Checkpoint II: Draft"
+        - text: "Checkpoint III: Presentation"
+        - text: "Checkpoint IV: Submission"
   right:
     - text: "About"
       href: about.html
