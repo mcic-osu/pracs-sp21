@@ -2593,12 +2593,12 @@ Final project
 <tr class="even">
 <td><strong><code>$1</code>, <code>$2</code>, etc</strong></td>
 <td>“Positional parameters”: first, second, etc, <strong>arguments passed to the script from the shell</strong>.</td>
-<td><code>./script.sh my_arg1 my_arg2</code> <br> <code>$1</code> will be “my_arg1” and <code>$2</code> will be “my_arg2”.</td>
+<td><code>./script.sh my_arg1 my_arg2</code> <br> <em><code>$1</code> will be “my_arg1” and <code>$2</code> will be “my_arg2”.</em></td>
 </tr>
 <tr class="odd">
 <td><strong><code>$#</code></strong></td>
 <td><strong>Number of arguments</strong> passed to the script.</td>
-<td><code>./script.sh my_arg1 my_arg2</code> <br> <code>$#</code> will be 2.</td>
+<td><code>./script.sh my_arg1 my_arg2</code> <br> <em><code>$#</code> will be 2.</em></td>
 </tr>
 <tr class="even">
 <td><strong><code>&gt;&amp;2</code></strong></td>
@@ -2634,7 +2634,7 @@ Final project
 <td>Scripts that are executable and have a <em>shebang</em> line can be called directly. But if they are in the current working dir, preface with <code>./</code> (otherwise the script will be looked for only in <code>$PATH</code>).</td>
 </tr>
 <tr class="odd">
-<td><strong><code>myscript.sh input.txt output.txt</code></strong></td>
+<td><strong><code>./myscript.sh input.txt output.txt</code></strong></td>
 <td>Call a script with two arguments, which will be available inside the script as <code>$1</code> and <code>$2</code>.</td>
 </tr>
 </tbody>
@@ -2675,7 +2675,7 @@ Final project
 </tr>
 <tr class="even">
 <td><strong><code>()</code></strong></td>
-<td>Use to <strong>assign an array</strong>.</td>
+<td>Use to <strong>assign an array</strong>: a collection of items that can e.g. be looped over.</td>
 <td><code>sample_names=(zmaysA zmaysB zmaysC)</code> <br> <code>sample_files=($(cut -f 3 samples.txt))</code> <br> <code>sample_files=($(cat fastq_files.txt))</code></td>
 </tr>
 <tr class="odd">
