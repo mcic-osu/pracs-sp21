@@ -57,6 +57,7 @@ navbar:
         - text: "Markdown"
           href: overviews_markdown.html
         - text: "Git"
+          href: overviews_git.html
         - text: "Python"
     - text: "Go further"
       menu:

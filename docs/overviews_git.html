@@ -85,27 +85,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Final project: proposal</title>
+  <title>pracs-sp21: Topic Overview: Git</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Final project: proposal"/>
+  <meta property="og:title" content="pracs-sp21: Topic Overview: Git"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Final project: proposal"/>
+  <meta property="twitter:title" content="pracs-sp21: Topic Overview: Git"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Final project: proposal"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Topic Overview: Git"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2451,7 +2451,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Final project: proposal","authors":[]}
+{"title":"Topic Overview: Git","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2553,7 +2553,7 @@ Go further
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Final project: proposal</h1>
+<h1>Topic Overview: Git</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2561,23 +2561,344 @@ Go further
 
 
 <div class="d-article">
-<p><strong>Write a concise, informal summary of what you plan to do for your final project (due Tuesday, Mar 23). <span style="color:coral"><i>[10 points]</i></span></strong></p>
-<div class="content-box-info">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
 <ul>
-<li><em>For general information about devising a project and expectations for your project, please see <a href="final_project.html">this page</a>.</em></li>
-<li>If you want to primarily use Python in your project, and are unsure about the possibilities because we are still in the middle of the section on Python, you can contact me to push back your due date for this proposal.</li>
+<li><a href="#key-commands">Key commands</a></li>
+<li><a href="#miscellaneous">Miscellaneous</a></li>
+<li><a href="#tips-and-tricks">Tips and tricks</a></li>
+<li><a href="#explanatory-figures">Explanatory figures</a></li>
+<li><a href="#advanced-bonus">Advanced (bonus)</a>
+<ul>
+<li><a href="#undoing-changes-and-viewing-the-past">Undoing changes and viewing the past</a></li>
+<li><a href="#merge-conflicts">Merge conflicts</a></li>
+<li><a href="#forking-and-pull-requests">Forking and Pull Requests</a></li>
+<li><a href="#miscellaneous-1">Miscellaneous</a></li>
+</ul></li>
 </ul>
+</nav>
 </div>
-<p>Some pointers:</p>
+<h2 id="key-commands">Key commands</h2>
+<table>
+<colgroup>
+<col style="width: 2%" />
+<col style="width: 48%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Explanation</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><code>add</code></strong></td>
+<td><p>Stage files to be committed, including previously untracked files.</p>
+<p>Therefore, <code>git add</code> does two things for untracked files at once: start tracking them and stage them. Files that are already tracked are merely staged by <code>git add</code>.</p></td>
+<td><em>Stage a single file:</em> <br> <code>git add file.txt</code> <br> <em>Stages all eligible files, tracked and untracked:</em> <br> <code>git add --all</code> <br> <em>Stage shell scripts anywhere in project:</em> <br> <code>git add *.sh</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>commit</code></strong></td>
+<td>Commit all currently staged changes to create a snapshot for the repository (that you could always return to later on).</td>
+<td><code>git commit -m "Started the book"</code> <br> <code>git commit -am "Fix infinite loop bug"</code> <br>     <code>-m</code> <em>follow with commit message</em> <br>     <code>-a</code> <em>Also stage all changes (but won’t add untracked files)</em></td>
+</tr>
+<tr class="odd">
+<td><strong><code>status</code></strong></td>
+<td>Get the status of your repository: which files have changed since the last commit, which untracked files are present, etc.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong><code>log</code></strong></td>
+<td>See the repository’s commit history.</td>
+<td><code>git log</code> <br> <em>1-line summary for each commit:</em> <br> <code>git log --oneline</code> <br> <em>Show all branches in “graph” form (useful with &gt;1 branch):</em> <br> <code>git log --oneline --graph --all</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>diff</code></strong></td>
+<td><p>By default, show changes between the working dir and:</p>
 <ul>
-<li><p>Create a directory for your project and start a Git repository. This will be a repository for the project as a whole, not just for this proposal. <span style="color:coral"><i>[1]</i></span></p></li>
-<li><p>Write the proposal in Markdown and include it in your repository. Like we did with the graded assignments, when you’re done, push your repository to GitHub and tag me (<code>@jelmerp</code>) in an “Issue” on GitHub (please make sure to tag me in the text body for the issue, it won’t be parsed as a tag if you do this in the title of the issue). <span style="color:coral"><i>[1]</i></span></p></li>
-<li><p>In the proposal, start with a general description of what your project will be about, without going into detail about coding languages and approaches. Describe what data you will work with and what kind of output your project will produce. (This can be pretty minimal if your project is “code-first” with a trivial data set.) <span style="color:coral"><i>[2]</i></span></p></li>
-<li><p>Next, summarize how you envision the more technical aspects: in which language(s) do you intend to code, what do you think you will need separate scripts for, and how will you structure results? Will you mostly be coding your data processing/analyses from scratch, or are you primarily running external programs? <span style="color:coral"><i>[2]</i></span></p></li>
-<li><p>Check the list of graded aspects on the <a href="final_project.html">page with general information about the project</a>. If you are not sure you will be able to fulfill one of these, or intend to skip something (e.g. OSC SLURM jobs), mention that here.</p></li>
-<li><p>Briefly mention which aspects of your project you are uncertain about, for instance because you intend to include some topics that we have yet to cover in the course, or because something will depend on how other things go. <span style="color:coral"><i>[1]</i></span></p></li>
-<li><p>Finally, briefly describe why you chose to pick this project. Because it will be useful for your research? Because it gives you practice with coding topics you like or that you want to / need to get better with? All of the above and/or something else? <span style="color:coral"><i>[1]</i></span></p></li>
+<li>The stage (index) if something has been staged.</li>
+<li>The last commit if nothing has been staged.</li>
+</ul></td>
+<td><em>Last commit vs second-to-last commit - full repo:</em> <br> <code>git diff HEAD HEAD^</code> <br> <em>Last commit vs a specified commit - specific file:</em> <br> <code>git diff HEAD d715c54 todo.txt</code> <br> <em>Show changed between stage and last commit:</em> <br> <code>git diff --staged</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>mv</code></strong></td>
+<td>Move files that are tracked by Git: better to use <code>git mv</code> than regular <code>mv</code> so Git will immediately register what happened properly.</td>
+<td><code>git mv old.txt new.txt</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>rm</code></strong></td>
+<td>Delete files that are tracked by Git: better to use <code>git rm</code> than regular <code>rm</code> so Git will immediately register what happened properly.</td>
+<td><code>git rm tmp.txt</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>branch</code></strong></td>
+<td>Various functionality for Git branches, such as creating, removing, and listing branches. (To switch between branches, use <code>git checkout</code>.)</td>
+<td><em>List existing branches:</em> <br> <code>git branch</code> <br> <em>Create a new branch named “my-new-branch”:</em> <br> <code>git branch my-new-branch</code> <br> <em>Rename the current branch to “main”:</em> <br> <code>git branch -M main</code> <br> <em>Remove a branch that is no longer needed:</em> <br> <code>git branch -d fastercode</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>checkout</code></strong></td>
+<td><p><code>git checkout</code> has multiple functions:</p>
+<ul>
+<li><code>git checkout &lt;branch-name&gt;</code> will switch between branches.</li>
+<li><code>git checkout -- &lt;file&gt;</code> will revert the specified file back to its last committed state.</li>
+<li><code>git checkout &lt;commit-id&gt;</code> will move you to the specified commit for looking around.</li>
+</ul></td>
+<td><em>Move to the master branch:</em> <br> <code>git checkout master</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>merge</code></strong></td>
+<td>Merge a specified branch into the current branch. When doing a merge, make sure that you are on the branch that you want to keep, and from there, merge the branch whose changes you want to incorporate.</td>
+<td><code>git merge fastercode -m "my msg"</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>remote</code></strong></td>
+<td>Interact with “remote” counterparts of repositories: in our case, GitHub repositories.</td>
+<td><em>List the repo’s remote connections:</em> <br> <code>git remote -v</code> <br> Add a remote <em>(syntax: git remote add &lt;nickname&gt; &lt;URL&gt;):</em> <br> <code>git remote add origin git@github.com:me/my.git</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>push</code></strong></td>
+<td>Upload (changes to) your local repository to an online counterpart, in our case a GitHub repository.</td>
+<td><em>Push currently active branch to default remote connection:</em> <br> <code>git push</code> <br> <em>Whenever we push a branch for the first time, we need to use the -u option to set up an “upstream” counterpart:</em> <br> <code>git push -u origin main</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>pull</code></strong></td>
+<td>Download (changes from) an online counterpart to your local repository (in our case a GitHub repository) <strong>and</strong> merge (as in <code>git merge</code>) the changes into your local repo. May result in a <a href="#merge-conflicts">merge conflict</a> if you are collaborating with others on the remote repo.</td>
+<td><em>Pull from currently active branch in remote repo:</em> <br> <code>git pull</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>clone</code></strong></td>
+<td>Download an only repository and create a local copy.</td>
+<td><code>git clone https://github.com/CSB-book/CSB.git</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>tag</code></strong></td>
+<td>Add a “tag” to a commit, for instance to mark the version of the scripts used in the analysis for your paper. <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+<td><code>git tag -a v1.2.0 -m "Publish version"</code> <br> <em>Tags need to be explicitly pushed like so:</em> <br> <code>git push --follow-tags</code></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h2 id="miscellaneous">Miscellaneous</h2>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 45%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Code / concept</th>
+<th>Explanation</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><code>module load git</code></strong></td>
+<td>Load the OSC Git module. If you forget to do this, Git will still work but you’ll be using a <em>very</em> old version.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong><code>.gitignore</code></strong></td>
+<td><p>A file that tells Git what (kinds of) files to ignore, i.e. not to list among “Untracked files”.</p>
+<ul>
+<li><code>.gitignore</code> is usually (recommended!) in the top-level repo dir.</li>
+<li>Don’t forget to add and commit the <code>.gitignore</code> file.</li>
+<li>Note that files won’t be “retroactively ignored”: files that are already in the repo need to be explicitly removed.</li>
+</ul></td>
+<td><em>Example entries:</em> <br> <br> <em>Ignore everything in the dir “data”:</em> <br> <code>data/</code> <br> <em>Ignore all files ending in <code>~</code></em>: <br> <code>*~</code> <br> <em>Ignore gzipped FASTQ files in the <strong>entire</strong> repo:</em> <br> <code>*.fastq.gz</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>HEAD</code></strong></td>
+<td>A pointer to the most recent (last) commit on the current branch. Note that as a <em>pointer</em>, <code>HEAD</code> can move and will do so e.g. if you switch between branches.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong><code>HEAD^</code>, <code>HEAD^^</code></strong></td>
+<td>Pointer to the second-to-last and third-to-last (and so on) commit.</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong><code>HEAD~1</code>, <code>HEAD~2</code></strong></td>
+<td>Pointer to the second-to-last and third-to-last (and so on) commit: easier than <code>^</code> as you get further back, e.g. <code>HEAD~8</code>. <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+<td><br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h2 id="tips-and-tricks">Tips and tricks</h2>
+<ul>
+<li><p><strong>Use informative commit messages!</strong> Think about yourself looking for some specific changes that you made in the repository a year ago: what would help you to find them?</p></li>
+<li><p><strong>Commit often, using small commits.</strong> This will also help to keep commit messages informative.</p></li>
+<li><p><strong>Don’t include unrelated sets of edits in a single commit.</strong> If you have worked on two disparate things in your project since the last commit, <code>git add</code> + <code>git commit</code> them separately.</p></li>
+<li><p><strong>When collaborating: pull often</strong>. This will reduce the chances of <em>merge conflicts</em>.</p></li>
+<li><p><strong>Don’t commit unnecessary files</strong>: include a <code>.gitignore</code> file to ignore these.</p></li>
+<li><p><strong>Don’t have nested repositories.</strong> For example, in the dir structure <code>work/projects/gwas/</code>, you would have a Git repository for in the <code>work</code> dir and in the <code>gwas</code> dir.</p></li>
+<li><p><strong>Be <em>very</em> careful with destructive commands</strong> like <code>git reset</code> at the commit level, or simply deleting your <code>.git</code> directory. As you get started with Git, best to make backup copies before you try these.</p></li>
+<li><p><strong>File and repo size limitations:</strong></p>
+<ul>
+<li><p>Binary files cannot be tracked as effectively as plain text files: Git will just save a new version whenever there has been a change.</p></li>
+<li><p><em>Repository size</em>: Best to keep individual repositories under a total size of 1 GB.</p></li>
+<li><p><em>File size</em>: GitHub will not allow files over 100 MB.</p></li>
+</ul></li>
 </ul>
+<h2 id="explanatory-figures">Explanatory figures</h2>
+<figure>
+<p align="center">
+<p><img src="img/git-head-notation.svg" width="70%"/></p>
+<figcaption>
+<p>Referring to past commits.</p>
+</figcaption>
+</p>
+</figure>
+<figure>
+<p align="center">
+<p><img src="img/git-do1.svg" width="40%"/></p>
+<figcaption>
+<p>Git’s three areas (“trees”), staging, and committing.</p>
+</figcaption>
+</p>
+</figure>
+<figure>
+<p align="center">
+<p><img src="img/git-do-undo.svg" width="70%"/></p>
+<figcaption>
+<p>Overview of ways to undo changes that have not been committed.</p>
+</figcaption>
+</p>
+</figure>
+<p><br></p>
+<h2 id="advanced-bonus">Advanced (bonus)</h2>
+<h3 id="undoing-changes-and-viewing-the-past">Undoing changes and viewing the past</h3>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 20%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>I need to</th>
+<th>Use this</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Undo unstaged changes to a file</td>
+<td><p><code>git checkout -- &lt;file&gt;</code></p>
+<p>Note: for the most recent Git versions (not yet on OSC), the recommended method is the new command <code>git restore</code>.</p></td>
+<td><em>After accidentally deleting <code>README.md</code> or overwriting it instead of appending to it:</em> <br> <code>git checkout -- README.md</code></td>
+</tr>
+<tr class="even">
+<td>Unstage a file</td>
+<td><p><code>git reset HEAD &lt;filename&gt;</code></p>
+<p>Note: for the most recent Git versions (not yet on OSC), the recommended method is the new command <code>git restore --staged</code>.</p></td>
+<td><em>After accidentally staging <code>README.md</code> which was not supposed to be part of the next commit:</em> <br> <code>git reset HEAD README.md</code></td>
+</tr>
+<tr class="odd">
+<td>Undo staged changes to a file</td>
+<td><p><code>git checkout HEAD -- &lt;filename&gt;</code>.</p>
+<p>Note: this irrevocably discards the non-committed changes (your data is only safe with Git once it has been committed!).</p></td>
+<td><em>After accidentally deleting <code>README.md</code> or overwriting it instead of appending to it, AND staging these changes:</em> <br> <code>git checkout HEAD -- README.md</code></td>
+</tr>
+<tr class="even">
+<td>Undo ALL unstaged changes (all files)</td>
+<td><code>git checkout -- .</code></td>
+<td><em>After making edits to several files that you all want to get rid of, to revert back to the last commit:</em> <br> <code>git checkout -- .</code></td>
+</tr>
+<tr class="odd">
+<td>Undo ALL staged and unstaged changes (all files)</td>
+<td><p><code>git reset --hard HEAD</code></p>
+<p>This will take you back to the state of your repository right after the last commit.</p></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>View the state of my repo for a past commit</td>
+<td><p><code>git checkout &lt;commit-id&gt;</code>.</p>
+<p>This is only for “looking around”. If you decide you want to go back to your repo as it was in an earlier commit, use <code>git revert</code> or <code>git reset</code> (see below).</p></td>
+<td><code>git checkout 4dce25f</code> <br> <code>git checkout HEAD^^</code> <br> <em>To go back, assuming you’re on branch <code>master</code>:</em> <br> <code>git checkout master</code></td>
+</tr>
+<tr class="odd">
+<td>Undo one or more commits</td>
+<td><p>To undo one or more commits, i.e. to roll the state of your repository back to how it was before the commit you want to undo, there are two main commands:</p>
+<ul>
+<li><code>git revert</code>: Undo the changes made by commits by reverting them in a new commit. (<strong>Safe</strong> – does not change history.)</li>
+<li><code>git reset</code>: Delete commits as if they were never made. (<strong>Unsafe</strong> – changes history.)</li>
+</ul>
+<p>(<code>git reset HEAD^</code> undoes changes made by the last commit as it resets to the second-to-last commit.)</p></td>
+<td><em>Undo changes by most recent commit:</em> <br> <code>git revert HEAD</code> <br> <em>Undo changed by second-to-last commit:</em> <br> <code>git revert HEAD^</code> <br> <em>Undo changes by any arbitrary commit:</em> <code>git revert e1c5739</code> <br> <br> <em>Undo last commit and completely discard all changes made by it:</em> <br><code>git reset --hard HEAD^</code> <br> <em>Undo last commit and put all changes made by that commit in the working dir:</em> <br><code>git reset HEAD^</code> <br> <em>Undo last commit and stage all changes made by it (“peel off commit”):</em> <br><code>git reset --soft HEAD^</code></td>
+</tr>
+<tr class="even">
+<td>Retrieve a file version from a past commit <br> <span style="color:white">dddddddddddddddddddd</span></td>
+<td><code>git checkout --</code> <br> or <br> <code>git show</code> <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+<td><em>Retrieve from second-to-last commit:</em> <br> <code>git checkout HEAD^^ -- README.md</code> <br> <em>Retrieve from arbitrary commit:</em> <br> <code>git checkout e1c5739 -- README.md</code> <br> <em>To not change after all and go back to the current version:</em> <br> <code>git checkout HEAD -- README.md</code> <br> <br> <em>Look at the version from the last commit:</em> <code>git show HEAD:README.md</code> <br> <em>Revert to arbitrary earlier version using redirection:</em> <br> <code>git show ad4ca74:README.md &gt; README.md</code> <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h3 id="merge-conflicts">Merge conflicts</h3>
+<p>A merge conflict can occur when all three of the following conditions are met:</p>
+<ul>
+<li>You try to merge two branches (including when pulling from remote: recall that a <em>pull</em> includes a <em>merge</em>).</li>
+<li>One or more files have been changed (via commits) on both of these branches since their divergence.</li>
+<li>Some of these changes were made in the same part(s) of file(s).</li>
+</ul>
+<p>When this occurs, Git has no way of knowing which changes to keep, and will report a <strong><em>merge conflict</em></strong>. When it does so, your merge process has basically been <em>paused</em>, and Git wants you to make changes to resolve the conflict, after which a <code>git commit</code> will complete the merge. To resolve a merge conflict:</p>
+<ol type="1">
+<li>Use <code>git status</code> to find the conflicting files.</li>
+<li>Open and edit those files manually to a version that fixes the conflict. Note that Git has added <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> to help you see the conflict and that you will want to remove.</li>
+<li>Use <code>git add</code> to tell Git you’ve resolved the conflict in a particular file.</li>
+<li>Use <code>git status</code> to check that all changes are staged, at which point Git should tell you “<em>All conflicts fixed but you are still merging. (use "git commit" to conclude merge)</em>”.</li>
+<li>Use <code>git commit -m "My merge message"</code> to conclude the merge.</li>
+</ol>
+<p><br></p>
+<h3 id="forking-and-pull-requests">Forking and Pull Requests</h3>
+<p><strong><em>Forking</em></strong> is a GitHub concept that will create a personal GitHub repo that remains linked to the source repository. For instance, you could keep your fork up-to-date with the source, and you could issue a <strong><em>Pull Request</em></strong> from your fork. See <a href="posts/week-03/slides/03-2_git.html#pr">these slides</a> for details and screenshots.</p>
+<p><br></p>
+<h3 id="miscellaneous-1">Miscellaneous</h3>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 64%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Code / concept</th>
+<th>Explanation</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><code>stash</code></strong></td>
+<td><code>git stash</code> temporarily saves files. It can be useful when you need to pull from remote, but are prevented from doing so because you have changes in your working dir (and those are not appropriate for a separate commit / new branch). In such a case, stash the changes, pull, and get your stashed changes back (see example on right).</td>
+<td><em>Stash changes to tracked files:</em><br />
+<code>git stash</code> (Add <code>-u</code> to include untracked files) <br> <em>Pull from the remote repository:</em> <br> <code>git pull</code> <br> <em>Apply stashed changes:</em> <br> <code>git stash apply</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>commit --amend</code></strong></td>
+<td>Add something to a commit that has already been made, for instance if you notice a type or forgot a file. Note: this “changes history” and as such is not recommended by everyone – at any rate, do not amend commits that have been pushed online!</td>
+<td><code>git commit --amend --no-edit</code> (<em>No edit will keep the same commit message)</em></td>
+</tr>
+<tr class="odd">
+<td><strong><code>checkout -b</code></strong></td>
+<td>Create a new branch and move to it immediately.</td>
+<td><code>git checkout -b my-new-branch</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>git log &lt;filename&gt;</code></strong></td>
+<td>Show commits in which a specific file was changed (!). <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+<td><code>git log my-failing-script.sh</code></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
