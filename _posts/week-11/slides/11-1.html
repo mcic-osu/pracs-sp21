@@ -27,7 +27,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/23 (updated: 2021-03-14)
+### 2021/03/23 (updated: 2021-03-15)
 
 ---
 
@@ -75,8 +75,8 @@ extend the features of NumPy.
 
 We have already used SciPy last week, to generate random numbers,
 and will start with NumPy now.
-NumPy is typically imported `as np`, so we can access its functions with a
-little less typing:
+NumPy is typically imported with `as np` added,
+so we can access its functions with a little less typing:
 
 ```python
 import numpy as np
@@ -118,7 +118,8 @@ a
 
 --
 
-- However, with arrays we can easily do element-wise ("vectorized") operations:
+- However, with arrays, these operarors do perform **element-wise** ("vectorized")
+  operations:
 
   ```python
   # Multiply each element by 2:
@@ -132,63 +133,67 @@ a
 
 ---
 
-## Some functions and methods for arrays
+## Some attributes of arrays
 
-- Get the length (number of elements) along each dimension with the `shape()`
-  method:
+- Get the length (number of elements) along each dimension with `shape`:
 
   ```python
-  a.shape
-  (9,)
+  a.shape           # NOTE: No parentheses!
+  #&gt; (9,)           # We have only one dimension in this case
   ```
 
-- Get the number of dimensions with the `ndim()` method:
+- Get the number of dimensions with `ndim`:
 
   ```python
   a.ndim
-  #? 1
+  #&gt; 1
   ```
 
-- Get the number of elements with the `size()` method:
+- Get the number of elements with the `size`:
   
   ```python
   a.size
   #&gt; 9
   ```
 
-- Get the data type for the elements in the array
-  (64-bit integers):
+- Get the data type for the elements in the array:
   
   ```python
   a.dtype.name
-  #&gt; 'int64'
+  #&gt; 'int64'        # 64-bit integers
   ```
 
 ---
 
 ## Simple Arithmetic and statistics for arrays
 
-```python
-# Sum of all elements:
-a.sum()
-#&gt; 36
 
-# Mean:
-a.mean()
-#&gt; 4.0
+- Sum of all elements with `sum()`:
 
-# Standard deviation:
-a.std()
-#&gt; 2.5819888974716112
+  ```python
+  a.sum()
+  #&gt; 36
+  ```
+  
+- Mean and standard deviation with `mean()` and `std()`:
+  
+  ```python
+  a.mean()
+  #&gt; 4.0
 
-# Lowest value:
-a.min()
-#&gt; 0
+  a.std()
+  #&gt; 2.5819888974716112
+  ```
 
-# Highest value:
-a.max()
-#&gt; 8
-```
+- Lowest and highest value with `min()` and `max()`:
+
+  ```python
+  a.min()
+  #&gt; 0
+
+  a.max()
+  #&gt; 8
+  ```
 
 ---
 
@@ -217,7 +222,8 @@ a.max()
 
 Convert a list to a one-dimensional array:
 
-- Integers:
+- If we create an array of numbers without digits,
+  they will be interpreted as integers:
 
   ```python
   a1 = np.array([1, 2, 3, 4])
@@ -228,7 +234,7 @@ Convert a list to a one-dimensional array:
   #&gt; 'int64'
   ```
 
-- Floats:
+- If we include decimal points, they will be floats:
 
   ```python
   a1 = np.array([1.0, 2.0, 3.0, 4.0])
@@ -270,7 +276,10 @@ Convert a list of lists to a two-dimensional array.
 
 ## Initialize arrays with a given structure
 
-- create 3x2 array filled with floating-point zeros:
+- `np.zeros()` will create an array with 0s.
+
+  We can specify the dimensions with a tuple &amp;ndash;
+  here, we ask for a 3x2 array filled with floating-point zeros:
 
   ```python
   m = np.zeros((3, 2), dtype = float)
@@ -280,8 +289,11 @@ Convert a list of lists to a two-dimensional array.
   #&gt; [ 0., 0.]])
   ```
 
-- Create an array containing the integers from 0 to 8,
-  and arrange it in a 3x3 array:
+--
+
+- We can also "reshape" an existing array using `reshape()` &amp;ndash;
+  here, we create an 1-dimensional array containing the integers from 0 to 8,
+  and then arrange it in a 3x3 array:
   
   ```python
   a = np.arange(9)
@@ -295,41 +307,47 @@ Convert a list of lists to a two-dimensional array.
 
 ## Initialize arrays with a given structure (cont.)
 
-- Create an array with random values,
-  drawn from uniform distribution U[0,1]
+- NumPy can also generate random numbers with the `np.random` module (more later).
+
+  Let's create an array with random values,
+  drawn from the uniform distribution `U[0,1]`
+  (the default for `np.random.random`):
 
   ```python
   np.random.random((2, 3))
   #&gt; array([[ 0.2331427 , 0.28167952, 0.66094357],
   #&gt;       [0.13703488, 0.75519455, 0.08413554]])
-```
-
+  ```
+  
+  Note that with the tuple `(2, 3)`, we merely specify the dimensions.
+  
 ---
 
 ## Array indexing
 
-With one-dimensional arrays, indexing works just like we saw for lists:
+With one-dimensional arrays, indexing works just like we have seen for lists.
 
 ```python
 a
 #&gt; array([0, 1, 2, 3, 4, 5, 6, 7, 8])
 ```
   
-- Single-element indexing - 2nd element:
+- Single-element indexing &amp;ndash; e.g., get the 2nd element:
   
   ```python
   a[1]
   #&gt; 1
   ```
 
-- Create a slice - start to the 5th element (noninclusive):
+- Create a slice &amp;ndash; e.g., from the start to the 5th element (noninclusive):
   
   ```python
   a[:4]
   #&gt; array([0, 1, 2, 3])
   ```
   
-- Slice with negative indices - 3rd to last to last element:
+- Slice with negative indices &amp;ndash; e.g., from the 3rd-to-last to the last
+  element:
   
   ```python
   a[-3:]
@@ -348,7 +366,7 @@ m
 #&gt;        [12, 13, 14, 15]])
 ```
 
-- Extract submatrix:
+- Extract a submatrix &amp;ndash; e.g. rows 1-3 and columns 2-4:
   
   ```python
   m[0:3, 1:4]
@@ -357,39 +375,47 @@ m
   #&gt;        [ 9, 10, 11]])
   ```
   
+.pull-left[
 - Get the second row:
 
   ```python
+  m[1, :]
+  #&gt; array([4, 5, 6, 7])
   m[1]
   #&gt; array([4, 5, 6, 7])
   ```
-  
+]
+
+.pull-right[  
 - Get the second column:
 
   ```python
   m[:, 1]
   #&gt; array([ 1, 5, 9, 13])
   ```
+]
 
 ---
 
 ## Operate on the whole array, rows, or columns
 
-- Whole matrix operation:
+- By default, methods like `sum()` will operate on the entire matrix:
 
   ```python
   m.sum()
   #&gt; 120
   ```
   
-- Column sums:
+&lt;br&gt;
+
+- To get sums for each **column**, we specify **`axis = 0`**:
 
   ```python
   m.sum(axis = 0)
   #&gt; array([24, 28, 32, 36])
   ```
 
-- Row sums:
+- To get sums for each **row**, we specify **`axis = 1`**:
   
   ```python
   m.sum(axis = 1)
@@ -400,9 +426,15 @@ m
 
 ## Load data into NumPy
 
+Rather than creating *file handles* and reading data often line-by-line,
+as we did in the past few weeks,
+NumPy (as well as Pandas later on) typically
+**read files into memory all at once as an object**.
+
+For instance, we can use NumPy's `loadtxt()` function as follows:
+
 ```python
-m =
-np.loadtxt("my_matrix_file.csv", delimiter = ",")
+m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
 ```
 
 ---
