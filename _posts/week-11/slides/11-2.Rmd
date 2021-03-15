@@ -1,0 +1,180 @@
+---
+title: "Week 11 - Python: Scientific computing"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
+#xaringanExtra::use_scribble()
+#xaringanExtra::use_panelset()
+#xaringanExtra::use_clipboard()
+#xaringanExtra::use_search(show_icon = TRUE)
+```
+
+# *Week 11 - Python: Scientific computing*
+
+----
+
+# I (Tuesday)
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/03/23 (updated: `r Sys.Date()`)
+
+---
+
+## Overview of this week
+
+.pull-left[
+**Tuesday's presentation**
+
+- NumPy and SciPy (CSB 6.2)
+
+]
+
+.pull-right[
+**Today's presentation:**
+
+- Pandas (CSB 6.3)
+
+- BioPython (CSB 6.4)
+]
+
+<br> <br>
+
+---
+class: center middle inverse
+
+# Pandas (CSB 6.3)
+
+-----
+
+<br> <br> <br> <br>
+
+---
+class: center middle inverse
+
+# BioPython (CSB 6.4)
+
+-----
+
+# I: Retrieving sequences from NCBI (6.4.1)
+
+<br> <br> <br> <br>
+
+---
+
+## Search the database
+
+- Import the package:
+  
+  ```python
+  from Bio import Entrez
+  ```
+
+- provide your e-mail address to let NCBI know who you are
+
+  ```python
+  Entrez.email = "me@bigu.edu"
+  ```
+  
+- Create a "handle" to search results:
+
+  ```python
+  handle = Entrez.esearch(db = "nuccore",
+                          term = ("Uropsilus investigator[Organism]"))
+  ```
+
+- Read the results and close the handle:
+
+  ```python
+  record = Entrez.read(handle)
+  handle.close()
+  ```
+
+---
+
+## Looking at the results
+
+- Record is a dictionary, we can look at the keys:
+  
+  ```python
+  record.keys()
+  #> dict_keys(['Count', 'RetMax', 'RetStart', 'IdList',
+  #>            'TranslationSet', 'TranslationStack',
+  #>             'QueryTranslation'])
+  ```
+  
+- How many sequences did we find?  
+  
+  ```python
+  record["Count"]
+  '71'
+  ```
+  
+- What is the list of GenBank identifiers?
+
+  ```python
+  id_list = record["IdList"]
+  print(id_list)
+  #> ['524853022', '555947199', '555947198', ... , '555946814']
+  ```
+
+---
+
+## Downloading the sequences
+
+```python
+# always tell NCBI who you are
+Entrez.email = "me@bigu.edu"
+handle = Entrez.efetch(db = "nuccore",
+rettype = "fasta",
+retmode = "text",
+id = id_list[:10])
+# set up a handle to an output file
+out_handle = open("Uropsilus_seq.fasta", "w")
+# write obtained sequence data to file
+for line in handle:
+out_handle.write(line)
+out_handle.close()
+handle.close()
+```
+
+---
+
+class: center middle inverse
+
+# BioPython (CSB 6.4)
+
+-----
+
+# II: Input and output of sequence data using *SeqIO* (6.4.2)
+
+<br> <br> <br> <br>
+
+---
+
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>
+

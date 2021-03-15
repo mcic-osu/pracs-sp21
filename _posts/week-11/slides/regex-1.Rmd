@@ -1,5 +1,5 @@
 ---
-title: "Week 11 - Python: Regular expression"
+title: "Week 12 - Python: Regular expression"
 output:
   xaringan::moon_reader:
     seal: false
@@ -34,26 +34,20 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/03/23 (updated: `r Sys.Date()`)
+### 2021/03/30 (updated: `r Sys.Date()`)
 
 ---
 
 ## Overview of this week
 
-.pull-left[
-**This presentation - CSB 4.2:**
+Today:
 
 - ..
 
-]
 
-.pull-right[
-**Thursday's presentation:**
+<br>
 
-- ...
-]
-
-<br> <br>
+No meeting on Thursday!
 
 ---
 class: center middle inverse

@@ -1,5 +1,5 @@
 ---
-title: "Week 11 - Python: Regular expression"
+title: "Week 11 - Python: Scientific computing"
 output:
   xaringan::moon_reader:
     seal: false
@@ -14,7 +14,6 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
@@ -25,7 +24,7 @@ knitr::opts_chunk$set(eval = FALSE)
 #xaringanExtra::use_search(show_icon = TRUE)
 ```
 
-# *Week 11 - Python: Regular expressions*
+# *Week 11 - Python: Scientific computing*
 
 ----
 
@@ -41,16 +40,18 @@ knitr::opts_chunk$set(eval = FALSE)
 ## Overview of this week
 
 .pull-left[
-**This presentation - CSB 4.2:**
+**This presentation**
 
-- ..
+- NumPy and SciPy (CSB 6.2)
 
 ]
 
 .pull-right[
 **Thursday's presentation:**
 
-- ...
+- Pandas (CSB 6.3)
+
+- BioPython (CSB 6.4)
 ]
 
 <br> <br>
@@ -58,7 +59,7 @@ knitr::opts_chunk$set(eval = FALSE)
 ---
 class: center middle inverse
 
-# ...
+# NumPy and SciPy (CSB 6.2)
 
 -----
 
@@ -66,407 +67,358 @@ class: center middle inverse
 
 ---
 
-## What are regular expressions?
+## What are NumPy and Scipy?
 
-> *Often, it is not feasible to search for all possible occurrences exactly as*
-> *they appear in the text, but you can describe the pattern you’re looking for*
-> *in your own words (e.g., find all words starting with 3 uppercase letters,*
-> *followed by 4 digits).*
-> *The question is how to explain such a pattern to a computer.*
-> *The answer is to use regular expressions.*
-> CSB 5.1
+NumPy is the basic Python package for scientific computing,
+which includes efficient data structures for vectors and matrices.
 
-- In other words: strings that (may) include special symbols to describe
-  patterns succinctly.
+SciPy is a collection of statistical and mathematical functions meant to
+extend the features of NumPy.
 
-Use example from Unix regex
+<br> <br>
 
----
+--
 
-## Why use regular expressions?
+We have already used SciPy last week, to generate random numbers,
+and will start with NumPy now.
+NumPy is typically imported `as np`, so we can access its functions with a
+little less typing:
 
-- **To collect information:** Match degenerate primer sequences, transcription
-  factor binding sites, find accession and gene numbers, extract references
-  from a manuscript.
-
-- **To navigate and parse text files:** Parse (semi-)structured output that
-  doesn't adhere to formats for which you can use a specialized tool directly.
-
-- **As a more sophisticated replace:** Replace multiple variations of a string
-  at the same time.
+```python
+import numpy as np
+```
 
 ---
 
-## Using the `re` module in Python
+## NumPy arrays
 
-- You may recall that we used the `find()` method earlier to search strings,
-  but `find()` only works for literal strings.
-  
-- To use regular expressions, we will need to import the `re` module from
-  the Python Standard Library (no installation needed):
-  
+Arrays are NumPy's main data structure,
+which can contain numerical vectors (1-dimensional arrays),
+matrices (2-dimensional arrays),
+and tensors (n-dimensional arrays).
+
+To create a one-dimensional array,
+we can use NumPy's variant on the `range()` function, `np.arange()`:
+
+```python
+a = np.arange(9)
+a
+#> array([0, 1, 2, 3, 4, 5, 6, 7, 8])
+```
+
+---
+
+## NumPy arrays (cont.)
+
+- Recall that with lists, we can use operators like `*` but they are not
+  applied element-wise:
+
   ```python
-  import re
+  mylist = list(range(9))
+  mylist
+  #>[0, 1, 2, 3, 4, 5, 6, 7, 8]
+  
+  mylist * 2
+  #>[0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8]
   ```
 
 --
 
-- We start with using `re.search()` to search for a literal string after all:
+- However, with arrays we can easily do element-wise ("vectorized") operations:
 
   ```python
-  # We define a string that we will query:
-  my_string = "a given string"
+  # Multiply each element by 2:
+  a * 2
+  #> array([ 0, 2, 4, 6, 8, 10, 12, 14, 16])
   
-  # We search my_string for the regex pattern "given":
-  m = re.search(r"given", my_string)
-  ```
-
-.content-box-info[
-The `r"my_string"` syntax denotes a ***r*aw string**,
-in which Python will not ...
-]
-
----
-
-## The match object
-
-- The `re.search()` function returns a *match object*:
-
-  ```python
-  print(m)
-  #> <_sre.SRE_Match object; span=(2, 7), match= 'given' >
-  ```
-
-- From the match object, we can use the `group()` method to extract the actual
-  string that was found,
-  (which in our case is necessarily `given` since this was a *literal* string):
-  
-  ```python
-  m.group()
-  #> 'given'
-  ```
-
-- We can also get the start and end positions (indices) of the match:
-
-  ```python
-  m.start()
-  #> 2
-  
-  m.end()
-  #> 7
+  # Add 2 to each element:
+  2 + a
+  #> array([ 2, 3, 4, 5, 6, 7, 8, 9, 10])
   ```
 
 ---
 
-## Failing to match
+## Some functions and methods for arrays
 
-If no matches are found, `re.search()` returns `None`:
+- Get the length (number of elements) along each dimension with the `shape()`
+  method:
+
+  ```python
+  a.shape
+  (9,)
+  ```
+
+- Get the number of dimensions with the `ndim()` method:
+
+  ```python
+  a.ndim
+  #? 1
+  ```
+
+- Get the number of elements with the `size()` method:
+  
+  ```python
+  a.size
+  #> 9
+  ```
+
+- Get the data type for the elements in the array
+  (64-bit integers):
+  
+  ```python
+  a.dtype.name
+  #> 'int64'
+  ```
+
+---
+
+## Simple Arithmetic and statistics for arrays
 
 ```python
-m = re.search(r"9", my_string)
-print(m)
-#> None
+# Sum of all elements:
+a.sum()
+#> 36
+
+# Mean:
+a.mean()
+#> 4.0
+
+# Standard deviation:
+a.std()
+#> 2.5819888974716112
+
+# Lowest value:
+a.min()
+#> 0
+
+# Highest value:
+a.max()
+#> 8
 ```
 
 ---
-class: center middle inverse
 
-# Components of regular expressions
+## Functions that work element-wise
 
----
-
-## Literal characters
-
-As we saw, a search pattern can include only literal characters,
-but this is not very powerful.
-
----
-
-## Metacharacters
-
-| Symbol | Negation  | Matches:
-|---------------|-----------|--------
-| `\n`          |           | A newline.
-| `\t`          |           | A tab.    
-| `\s`          | `\S`      | Any/no white space: space, tab, newline, carriage return.
-| `\w`          | `\W`      | Any/no word character: alphanumeric and underscore.
-| `\d`          | `\D`      | Any/no digit.
-| `.`           |           | Any character
-
----
-
-## Match whitespace
-
-- For example, to match whitespace:
+- Square root:
 
   ```python
-  # my_string = "a given string"
-  m = re.search(r"\s", my_string)
+  np.sqrt(a)
+  #> array([0., 1., 1.41421356, 1.73205081, 2., 2.23606798,
+  #>        2.44948974, 2.64575131, 2.82842712])
+```
+
+- Exponentiation:
+
+  ```python
+  np.exp(a)
+  #> array([1.00000000e+00, 2.71828183e+00, 7.38905610e+00,
+  #>        2.00855369e+01, 5.45981500e+01, 1.48413159e+02,
+  #>        4.03428793e+02, 1.09663316e+03, 2.98095799e+03])
+  ```
+
+---
+
+## Creating arrays by converting lists
+
+Convert a list to a one-dimensional array:
+
+- Integers:
+
+  ```python
+  a1 = np.array([1, 2, 3, 4])
+  print(a1)
+  #> [1 2 3 4]
   
-  m.group()
-  #> ' '
-  m.start()
+  a1.dtype.name
+  #> 'int64'
+  ```
+
+- Floats:
+
+  ```python
+  a1 = np.array([1.0, 2.0, 3.0, 4.0])
+  
+  print(a1)
+  #> [ 1. 2. 3. 4.]
+  a1.dtype.name
+  #> 'float64'
+  ```
+
+---
+
+## Creating arrays by converting lists (cont.)
+
+Convert a list of lists to a two-dimensional array.
+
+- Integers:
+
+  ```python
+  m = np.array([[1, 2], [3, 4]])
+  m
+  #> array([[1, 2],
+  #>       [3, 4]])
+  ```
+  
+- Floats - now we explicitly specify the data type:  
+  
+  ```python
+  m = np.array([[1, 2], [3, 4]], dtype = float)
+  
+  print(m)
+  #> [[ 1. 2.]
+  #> [ 3. 4.]]
+  m.dtype.name
+  #> 'float64'
+  ```
+
+---
+
+## Initialize arrays with a given structure
+
+- create 3x2 array filled with floating-point zeros:
+
+  ```python
+  m = np.zeros((3, 2), dtype = float)
+  m
+  #> array([[ 0., 0.],
+  #> [ 0., 0.],
+  #> [ 0., 0.]])
+  ```
+
+- Create an array containing the integers from 0 to 8,
+  and arrange it in a 3x3 array:
+  
+  ```python
+  a = np.arange(9)
+  a.reshape((3,3))
+  #> array([[0, 1, 2],
+  #>       [3, 4, 5],
+  #>       [6, 7, 8]])
+  ```
+
+---
+
+## Initialize arrays with a given structure (cont.)
+
+- Create an array with random values,
+  drawn from uniform distribution U[0,1]
+
+  ```python
+  np.random.random((2, 3))
+  #> array([[ 0.2331427 , 0.28167952, 0.66094357],
+  #>       [0.13703488, 0.75519455, 0.08413554]])
+```
+
+---
+
+## Array indexing
+
+With one-dimensional arrays, indexing works just like we saw for lists:
+
+```python
+a
+#> array([0, 1, 2, 3, 4, 5, 6, 7, 8])
+```
+  
+- Single-element indexing - 2nd element:
+  
+  ```python
+  a[1]
   #> 1
   ```
 
---
-
-- Match a white space character followed by five “word” characters
-  (alphanumeric and underscore):
-
-  ```python
-  m = re.search(r"\s\w\w\w\w\w", my_string)
+- Create a slice - start to the 5th element (noninclusive):
   
-  m.group()
-  #> ' given'
+  ```python
+  a[:4]
+  #> array([0, 1, 2, 3])
   ```
-
-.content-box-info[
-Note that `re.search()` only returns the first match.
-We'll see two functions later that will find all matches.
-]
-
+  
+- Slice with negative indices - 3rd to last to last element:
+  
+  ```python
+  a[-3:]
+  #> array([6, 7, 8])
+  ```
 ---
 
-## Character classes (called "sets" in CSB)
+## Two-dimensional indexing
 
 ```python
-my_string = "sunflowers are described on page 89"
+m = np.arange(16).reshape((4, 4))
+m
+#> array([[ 0, 1, 2, 3],
+#>        [ 4, 5, 6, 7],
+#>        [ 8, 9, 10, 11],
+#>        [12, 13, 14, 15]])
 ```
 
-- Search for a word that starts with a lowercase or uppercase `s`,
-  followed by two word characters:
-
+- Extract submatrix:
+  
   ```python
-  m = re.search(r"[sS]\w\w", my_string)
-  m.group()
-  #> 'sun'
+  m[0:3, 1:4]
+  #> array([[ 1, 2, 3],
+  #>        [ 5, 6, 7],
+  #>        [ 9, 10, 11]])
   ```
-
-- Search for a number consisting of two digits:
+  
+- Get the second row:
 
   ```python
-  m = re.search(r"[0-9][0-9]", my_string)
-  m.group()
-  #> '89'
-  
-  m = re.search(r"[0-9][0-9]\D", my_string)
-  m.group()
-  #> '89'
+  m[1]
+  #> array([4, 5, 6, 7])
   ```
-
----
-
-## Negatic a character class
-
-Negate a character class using a caret `^` as the first symbol within the
-square brackets:
   
-```python
-m = re.search(r"[^s-z]\w\w\w\w\w\w", my_string)
-m.group()
-#> 'nflower'
-```
+- Get the second column:
 
----
-
-## Quantifiers
-
-Instead of typing `\w` 5 times, like above, we can use *quantifiers* to match
-multiple consecutive matching characters more succinctly and flexibly.
-
-<br>
-
-| Quantifier  | Matches |
-|-------------|---------|
-| **`*`**     | Preceding character *any number of times* (including 0).
-| **`?`**     | Preceding character *at most* once.
-| **`+`**     | Preceding character *at least* once.
-| **`{n}`**   | Preceding character *exactly `n` times*.
-| **`{n,}`**  | Preceding character *at least `n` times*.
-| **`{n,m}`** | Preceding character *at least `n` and at most `m` times*.
-
----
-
-## Using quantifiers
-
-- From some text, we could attempt to extract a DNA sequence:
-  at least one capital `A`/`C`/`G`/`T`:
-  
   ```python
-  re.search(r"[ACGT]+","A motif like ATTCGT.").group()
-  #> 'A'
-  ```
-
-- This is not stringent enough, so let's instead require at least
-  three consecutive bases:
-  
-  ```python
-  re.search(r"[ACGT]{3,}", "the motif ATTCGT").group()
-  'ATTCGT'
+  m[:, 1]
+  #> array([ 1, 5, 9, 13])
   ```
 
 ---
 
-## Greedy vs. non-greedy matching
+## Operate on the whole array, rows, or columns
 
-The quantifiers `?`, `*` and `+` are said to be "greedy":
-when faced with multiple possible end points of a match,
-they will use the last possible end point.
-In other words, they will **match as much text as possible**.
+- Whole matrix operation:
 
-For example, when matching any number of characters followed by a white space below, instead of matching `"once "`, we get the most expansive match
-possible here:
+  ```python
+  m.sum()
+  #> 120
+  ```
+  
+- Column sums:
+
+  ```python
+  m.sum(axis = 0)
+  #> array([24, 28, 32, 36])
+  ```
+
+- Row sums:
+  
+  ```python
+  m.sum(axis = 1)
+  #> array([ 6, 22, 38, 54])
+  ```
+
+---
+
+## Load data into NumPy
 
 ```python
-my_string = "once upon a time"
-re.search(r".*\s", my_string)
-m.group()
-#> 'once upon a '
-```
-
---
-
-Appending a question mark to the quantifier (i.e., `??`, `*?`, or `+?`)
-makes the quantifier "reluctant" or "non-greedy":
-it will match as little as possible instead:
-
-```python
-re.search(r".*?\s", "once upon a time").group()
-#> 'once '
+m =
+np.loadtxt("my_matrix_file.csv", delimiter = ",")
 ```
 
 ---
 
-## Anchors
-
-Often, we want to require that any match be made at the end or the beginning
-of a string (or equivalently, of a *line* in a file):
-
-Anchor | Matches
--------|--------
-`^`    | Beginning of the string/line (Note re-usage: cf. `[^0-9]`)
-`$`    | End of the string/line
-
-For example:
-
-```python
-my_string = "ATATA"
-
-m = re.search(r"^TATA", my_string)
-print(m)
-#> None
-
-m = re.search(r"TATA$", my_string)
-m.group()
-'TATA'
-```
-
----
-
-## <i class="fa fa-user-edit"></i> Intermezzo 5.1
-
-Describe the following regular expressions in plain English. What does the
-regular expression match?
-
-```python
-re.search(r"\d" , "it takes 2 to tango").group()
-```
-
-```python
-re.search(r"\w*\s\d.*\d", "take 2 grams of H2O").group()
-```
-
-```python
-re.search(r"\s\w*\s", "once upon a time").group()
-```
-
-```python
-re.search(r"\s\w{1,3}\s", "once upon a time").group()
-```
-
-```python
-re.search(r"\s\w*$", "once upon a time").group()
-```
-
----
-
-## <i class="fa fa-user-edit"></i> Intermezzo 5.1: Solutions
-
-(a) Matches one digit: "2"
-(b) Matches zero or more word characters ( \w* ), followed by a white space
-( \s ), followed by a digit ( \d ), zero or more characters ( .* ), and ending
-with a digit ( \d ): "take 2 grams of H2"
-(c) Any sequence of word characters (zero or more), flanked by two white
-spaces: " upon "
-(d) A sequence of one to three word characters, flanked by two white
-spaces: " a "
-(e) Matches the last word in the target string (preceded by a white space):
-" time"
-
----
-
-## Alternations
-
-```python
-my_string = "I found my cat!"
-m = re.search(r"cat|mouse", my_string)
-m.group()
-#> 'cat'
-```
-
----
-
-## <i class="fa fa-user-edit"></i> Intermezzo 5.2
-
-Let’s practice translating from plain English to regular expressions.
-
-The NCBI GenBank contains information on nucleotide sequences, protein sequences,
-and whole genome sequences (WGS). 
-
-The following table describes the construction of sequence identifiers in plain English. Construct the appropriate regular expression to match either protein, WGS or nucleotide IDs:
-
-1. **Protein**: 3 letters + 5 numerals
-
-2. **WGS**: 4 letters + 2 numerals for WGS assembly version + 6–8 numerals
-
-3. **Nucleotide**: 1 letter + 5 numerals OR 2 letters + 6 numerals
-
----
-
-## <i class="fa fa-user-edit"></i> Intermezzo 5.2: Solutions
-
-1. 
-```python
-r"[A-Za-z]{3}\d{5}"
-```
-
-<br>
-
-2. 
-```python
-r"[A-Za-z]{4}\d{8,10}"
-```
-
-<br>
-
-3. 
-```python
-r"([A-Z]{1}\d{5}|[A-Z]{2}\d{6})"
-```
-
----
-
-## Raw string notation and escaping metacharacters
+## Example: image processing with NumPy
 
 
 ---
 
-# Other functions of the *re* module
-
-----
-
-
+## Random numbers and distributions (6.2.2)
 
 ---
 class: center middle inverse
@@ -476,3 +428,5 @@ class: center middle inverse
 -----
 
 <br> <br> <br> <br>
+
+
