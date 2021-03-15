@@ -147,7 +147,7 @@ Open a terminal in VS Code, type `bash` to break out of the container, and:
 ```sh
 module load python/3.6-conda5.2
 source activate ipy-env
-conda install -y scipy numpy pandas
+conda install -y numpy pandas scipy biopython
 ```
 ]
 
