@@ -241,7 +241,7 @@ f.write("\n".join(mylist))
 
 | Approach                   | Result           |
 |----------------------------|------------------|
-| **`for <line> in <file>:`** | Loop over lines one at a time.
+| **`for <line> in <fhandle>:`** | Loop over lines one at a time.
 | **`readline()`** | Return current line as a string.
 | **`readlines()`** | Return a list of strings, one item per line.
 | **`read()`** | Return entire file content as a single string.
@@ -268,8 +268,6 @@ with open("../data/Dalziel2016_data.csv") as dalziel_file:
 #> 2,1906,BALTIMORE,NA,526995.246
 #> 3,1906,BALTIMORE,NA,527170.1981
 ```
-
---
 
 - We didn't specify an option to `open()`, so it defaults to *read* mode.
 
@@ -383,7 +381,7 @@ with open("../data/Dalziel2016_data.csv") as infile:
 
 - We can specify the delimiter to be a tab `\t` (default is a comma).
 
-- `writeheader()` and `writerow()` will write data from the file as is.
+- `writeheader()` and `writerow()` will write data from the file *as is*.
 
 ---
 
@@ -391,6 +389,8 @@ with open("../data/Dalziel2016_data.csv") as infile:
 
 Write code that prints (using the `print()` function) the values in the columns
 `loc` and `pop` for all rows in the file `Dalziel2016_data.csv`.
+
+<!-- `r icon::fa("user-edit")` -->
 
 ---
 

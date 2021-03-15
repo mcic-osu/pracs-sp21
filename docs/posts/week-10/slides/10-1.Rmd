@@ -41,7 +41,6 @@ xaringanExtra::use_clipboard()
 
 .pull-left[
 **This presentation - CSB 4.2:**
-
 - Modules
 
 - Writing your own functions
@@ -84,14 +83,8 @@ class: center middle inverse
 - **Python modules** contain *collections of functions*.  
   Technically, a Python module is a single `.py` file.
   
-- *Collections of modules* are technically **packages**,
-  though they can also be simply referred to as modules.   
-
-- (The term *library* is not as well-defined,
-  and can be used interchangeably with both module and package,
-  but is also used to describe a repository of modules.)
-
---
+- *Collections of modules* are technically **packages**  
+  (though they can also be simply referred to as modules).   
 
 <br>
 
@@ -101,6 +94,14 @@ environment, be that in a script or an interactive environment:
   ```py
   import os
   ```
+
+<br>
+
+.content-box-info[
+The term **library** is not as well-defined,
+and can be used interchangeably both with *module* and *package*,
+but is also used to describe a repository of modules.
+]
 
 ---
 
@@ -139,8 +140,8 @@ but using stand-alone package managers, usually in the shell:
 
 .content-box-diy[
 
-**Let's install *numpy* and *pandas***, which we'll need next week,  
-into our `ipy-env`.
+**Let's install a couple of packages that we'll need next week  
+into our Conda environment `ipy-env`.**
 
 Open a terminal in VS Code, type `bash` to break out of the container, and:
 
@@ -155,7 +156,7 @@ conda install -y numpy pandas scipy biopython
 
 ## Loading modules
 
-In Python, it is customary not to load modules directly into your "namespace".
+In Python, it is customary **not** to load modules directly into your "namespace".
 
 This means that the module's functions will not be accessibly by just their
 function names: instead, you need to prepend the module's name.
@@ -308,6 +309,8 @@ Excellent!
 
 ## Why are custom functions useful?
 
+--
+
 Custom functions are useful to break up your code in small(ish) units.
 
 This way, the main part of your program (script) can become a series of logically
@@ -327,7 +330,7 @@ and the nuts and bolts are in the individual functions.
 - Makes it easier to repeat operations
   (like calculating GC content for mulitple sequences).
 
-- Makes your programs more flexible &ndash; function arguments!
+- Makes your programs more flexible (function arguments)!
 
 ---
 
@@ -388,7 +391,7 @@ squared(start = 3, end = 10)
 
 ---
 
-## Default arguments
+## Keyword arguments with default values
 
 ```python
 def squared(start = 1, end = 10):
@@ -414,7 +417,7 @@ squared()
 
 ---
 
-## Default arguments (cont.)
+## Keyword arguments with default values (cont.)
 
 ```python
 def squared(start = 1, end = 10):
@@ -466,6 +469,8 @@ results
 ## Variable scope
 
 The behavior of limiting the scope of variables in functions is useful because:
+
+--
 
 - It means you don't have to worry about **variable names overlapping** with the
   rest of the program.
@@ -586,7 +591,6 @@ class: center middle inverse
 ### Practicing coding a more complex program <br> with a population genetic simulation
 
 <br> <br> <br> <br>
-
 
 ---
 
@@ -927,33 +931,6 @@ def simulate_drift(N, p):
 
 ---
 
-## Side note: removing some count redundancy
-
-```python
-def simulate_drift(N, p):
-    
-    my_pop = drift.build_population(N, p)
-    num_generations = 0
-    #fixation = False
-    
-    #while fixation == False:
-    while True:
-    
-      genotype_counts = drift.compute_frequencies(my_pop)
-      
-      if genotype_counts["AA"] == N or genotype_counts["aa"] == N:
-          print("An allele reached fixation at generation", num_generations)
-          print("The genotype counts are")
-          print(genotype_counts)
-          #fixation == True
-          break
-      
-      my_pop = drift.reproduce_population(my_pop)
-      num_generations = num_generations + 1
-```
-
----
-
 ## Test the program
 
 ```python
@@ -1020,3 +997,31 @@ and storage in a plain text file is not optimal.
   # "rb": Read in Binary mode
   population = pickle.load(open("population.pickle", "rb"))
   ```
+
+---
+background-color: #f2f5eb
+
+## Removing some redundancy from the main function:
+
+```python
+def simulate_drift(N, p):
+    
+    my_pop = drift.build_population(N, p)
+    num_generations = 0
+    #fixation = False
+    
+    #while fixation == False:
+    while True:
+    
+      genotype_counts = drift.compute_frequencies(my_pop)
+      
+      if genotype_counts["AA"] == N or genotype_counts["aa"] == N:
+          print("An allele reached fixation at generation", num_generations)
+          print("The genotype counts are")
+          print(genotype_counts)
+          #fixation == True
+          break
+      
+      my_pop = drift.reproduce_population(my_pop)
+      num_generations = num_generations + 1
+```

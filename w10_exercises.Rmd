@@ -188,119 +188,117 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
 [Jiang et al. (2013)](https://www.journals.uchicago.edu/doi/10.1086/670160) studied assortative mating in animals. They compiled a large database, reporting the results of many experiments on mating. In particular, for several taxa they provide the value of correlation among the sizes of the mates. A positive value of `r` stands for assortative mating (large animals tend to mate with large animals), and a negative value for disassortative mating.
 
-1\. You can find the data in `good_code/data/Jiang2013_data.csv`. Write a function      that takes as input the desired Taxon and returns the mean value of `r`.
-    Then, apply that function to all taxa in the file.
+1. You can find the data in `good_code/data/Jiang2013_data.csv`.
+   Write a function that takes as input the desired Taxon and returns the mean value of `r`.
+   Then, apply that function to all taxa in the file.
     
-    <details>
+   <details> 
+   <summary>Hints</summary>
+   
+   - Have a look at the file in the shell before you start.
+   
+   - To parse the file, `DictReader` from the `csv` module is again a good option,
+     but note that you'll have the specify the `delimiter` argument since the file
+     is tab-separated.
+     
+   - There are several ways of going about here, but the one in the solutions is
+     to first read in the file and create two lists: one with taxa names and
+     one with the corresponding values for `r`:
+     (These lists will also be re-used in parts 2 and 3 of the exercise,
+     so it is recommended to follow this approach.)
+     
+     ```python
+     import csv 
+     taxa = []
+     r_values = []
+     
+     open the file and set up dictionary reader
+     for each row:
+         append to taxa
+         append to r_values
+     ```
+     
+   - Then, the actual function will take these two lists and a taxon name as input.
+   
+     ```python
+     def compute_avg_r(taxa, r_values, target_taxon = "Fish"):
+     avg_taxon = 0.0
+     num_occurrences = 0
+     cycle through the values of taxa
+         every time you find the right taxon, add its r value to avg_taxon
+         and increment num_occurrences
+     at the end, divide avg_taxon by num_occurrences and return the average
+     ```
+     
+   - To apply the function to all taxa, use a set to get the unique taxa,
+     and loop over the taxa.
+     
+   </details>
 
-    <summary>Hints</summary>
-    
-    - Have a look at the file in the shell before you start.
-    
-    - To parse the file, `DictReader` from the `csv` module is again a good option,
-      but note that you'll have the specify the `delimiter` argument since the file
-      is tab-separated.
-      
-    - There are several ways of going about here, but the one in the solutions is
-      to first read in the file and create two lists: one with taxa names and
-      one with the corresponding values for `r`:
-      (These lists will also be re-used in parts 2 and 3 of the exercise,
-      so it is recommended to follow this approach.)
-      
-      ```python
-      import csv
-
-      taxa = []
-      r_values = []
-      
-      open the file and set up dictionary reader
-      for each row:
-          append to taxa
-          append to r_values
-      ```
-      
-    - Then, the actual function will take these two lists and a taxon name as input.
-    
-      ```python
-      def compute_avg_r(taxa, r_values, target_taxon = "Fish"):
-      avg_taxon = 0.0
-      num_occurrences = 0
-      cycle through the values of taxa
-          every time you find the right taxon, add its r value to avg_taxon
-          and increment num_occurrences
-      at the end, divide avg_taxon by num_occurrences and return the average
-      ```
-      
-    - To apply the function to all taxa, use a set to get the unique taxa,
-      and loop over the taxa.
-      
-    </details>
-
-2\. You should have seen that fish have a positive value of `r`,
-    but that this is also true for other taxa.
-    Is the mean value of `r` especially high for fish?
-    To test this, compute a p-value by repeatedly sampling 37 values of `r`
-    (37 experiments on fish are reported in the database) at random,
-    and calculating the probability of observing a higher mean value of `r`.
-    To get an accurate estimate of the p-value, use 50,000 randomizations.
-    
-    <details>
-
-    <summary>Hints</summary>
-    
-    - Part 3 of the exercise will be to repeat this procedure,
-      so it will be a good idea to create a function here.
-      
-      Your function should take as input the target taxon name,
-      the lists of taxa and of `r`-values that you created earlier,
-      and the number of repetitions (randomizations).
-    
-    In the function:
-      
-      - First compute the mean `r` value for the target taxon.
-      
-      - Then, iterate over the output of `range()` to repeat the randomizations.  
-      
-      - In every iteration, shuffle either the list with `r` values or the taxon
-        names, using the function **`scipy.random.shuffle()`**
-        (don't forget to import `scipy`).
-      
-        Then, you can simply call the same function you used before to calculate
-        the mean value of `r`.
-        
-      - In every iteration, compare the randomized mean with the observed mean,
-        and keep a tally of the number of times the observed mean is higher.
-        
-      - The p-value will simply be the proportion (~= probability) of times you
-        got a higher mean value of `r` among randomized sets of 37.
-    
-    Pseudocode:
-    
-    ```python
-    def compute_pvalue(taxa, r_values, target_taxon = "Fish", num_rep = 1000):
-        observed_r = compute the mean for the observed average r value
-        count_random_is_higher = 0.0
-        for i in range(num_rep):
-            shuffle the r values
-            random_r = compute the mean using the shuffled values
-            if random_r >= observed_r:
-    	          increment count_random_is_higher
-        now divide count_random_is_higher by num_rep (= the p-value) and return
-    ```
-    
-    </details>
+2. You should have seen that fish have a positive value of `r`,
+   but that this is also true for other taxa.
+   Is the mean value of `r` especially high for fish?
+   To test this, compute a p-value by repeatedly sampling 37 values of `r`
+   (37 experiments on fish are reported in the database) at random,
+   and calculating the probability of observing a higher mean value of `r`.
+   To get an accurate estimate of the p-value, use 50,000 randomizations.
+   
+   <details> 
+   <summary>Hints</summary>
+   
+   - Part 3 of the exercise will be to repeat this procedure,
+     so it will be a good idea to create a function here.
+     
+     Your function should take as input the target taxon name,
+     the lists of taxa and of `r`-values that you created earlier,
+     and the number of repetitions (randomizations).
+   
+   In the function:
+     
+     - First compute the mean `r` value for the target taxon.
+     
+     - Then, iterate over the output of `range()` to repeat the randomizations.  
+     
+     - In every iteration, shuffle either the list with `r` values or the taxon
+       names, using the function **`scipy.random.shuffle()`**
+       (don't forget to import `scipy`).
+     
+       Then, you can simply call the same function you used before to calculate
+       the mean value of `r`.
+       
+     - In every iteration, compare the randomized mean with the observed mean,
+       and keep a tally of the number of times the observed mean is higher.
+       
+     - The p-value will simply be the proportion (~= probability) of times you
+       got a higher mean value of `r` among randomized sets of 37.
+   
+   Pseudocode:
+   
+   ```python
+   def compute_pvalue(taxa, r_values, target_taxon = "Fish", num_rep = 1000):
+       observed_r = compute the mean for the observed average r value
+       count_random_is_higher = 0.0
+       for i in range(num_rep):
+           shuffle the r values
+           random_r = compute the mean using the shuffled values
+           if random_r >= observed_r:
+   	          increment count_random_is_higher
+       now divide count_random_is_higher by num_rep (= the p-value) and return
+   ```
+   
+   </details>
 
 
-3\. Repeat the procedure for all taxa.
+3. Repeat the procedure for all taxa.
 
-    <details>
+   <details>
 
-    <summary>Hints</summary>
-    
-    Loop over all taxa, and call the function you created in the previous part
-    of the exercise in every iteration.
-    
-    </details>
+   <summary>Hints</summary>
+   
+   Loop over all taxa, and call the function you created in the previous part
+   of the exercise in every iteration.
+   
+   </details>
 
 
 <br>
