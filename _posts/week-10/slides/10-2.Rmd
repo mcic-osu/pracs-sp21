@@ -28,7 +28,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ----
 
-# II (Thursday)
+# II: Calling Python scripts, errors, <br> and beyond the basics
 
 <br> <br> <br> <br> <br>
 
@@ -67,11 +67,15 @@ or we have interactively sent code from a script there.
 Like we did with Bash scripts, we can however also save a script and then run
 it non-interactively by calling it from the shell.
 
-To do so, we need to:
+To be able to do so smoothly and flexibly, we will:
 
 - Add a *shebang* line in the Python script.
 
-- 
+- Make the script executable.
+
+- Parse command-line arguments passed to the script.
+
+- Add an `if __name__ == "__main__"` statement.
 
 ---
 

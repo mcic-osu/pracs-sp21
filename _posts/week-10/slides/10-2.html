@@ -22,121 +22,25 @@ class:inverse middle center
 
 ----
 
-# II (Thursday)
+# II: Calling Python scripts, errors, &lt;br&gt; and beyond the basics
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/18 (updated: 2021-03-11)
+### 2021/03/18 (updated: 2021-03-16)
 
 ---
 class: center middle inverse
 
 # Overview
-----
 
-### - Writing style (4.3)
+----
 
 ### - Calling Python scripts (4.4)
 
-### - Errors and error handling (4.5)
-
 ### - Beyond the basics (4.9)
 
----
-class: center middle inverse
-
-# Writing style (4.3)
-
------
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-
-## Some style  guidelines
-
-- For more, see "[PEP8 - The style guide for Python code](https://pep8.org/)".
-
-- Use four spaces per indentation level; not tabs.
-
-- Split long lines (especially the arguments of functions) using parentheses.
-
-- Separate functions using blank lines.
-
-- Use a new line for each operation:
-
-.pull-left[
-Yes:
-```python
-import scipy
-import re
-```
-]
-
-.pull-left[
-No:
-```python
-import scipy,re
-```
-]
-
----
-
-## Some style guidelines (cont.)
-
-- Put spaces around operators (unless using the : to “slice” a list); use
-parentheses to clarify the precedence of operators:
-
-.pull-left[
-Yes:
-```python
-a = b ** c
-z = [a, b, c, d]
-n = n * (n - 1)
-k = (a * b) + (c * d)
-my_list = a_list[1:n]
-```
-]
-
-.pull-right[
-No:
-```python
-a=b**c
-z=[ a,b,c,d ]
-n =n*(n-1)
-k=a*b+c*d
-my_list = a_list[1 : n]
-```
-]
-
----
-
-## Some style guidelines (cont.)
-
-- **Use lots of comments and "docstrings"!**
-
-  Python allows you to write short comments (starting with # ) and
-  docstrings (multiline comments flanked by triple double quotes, """ ):
-  
-  - Use docstrings to document *how to use the code*.
-    What does this function do? What is the input/output?
-  
-  - Use short comments for explaining difficult passages in the code,
-    that is, to document how the code works.
-
-
-&lt;br&gt;
-
-- **Naming conventions:**
-
-  - Variables and functions in lowercase, "snake case": `my_var`, `my_fun`.
-  
-  - **Constants** in uppercase: `SOME_CONSTANT`.
-  
-  - Use descriptive names: `count_pairs`, `body_mass`, `cell_volume`.
-  
-  - Verbs for functions and nouns for objects.
+### - Errors and error handling (4.5)
 
 ---
 class: center middle inverse
@@ -157,11 +61,15 @@ or we have interactively sent code from a script there.
 Like we did with Bash scripts, we can however also save a script and then run
 it non-interactively by calling it from the shell.
 
-To do so, we need to:
+To be able to do so smoothly and flexibly, we will:
 
 - Add a *shebang* line in the Python script.
 
-- 
+- Make the script executable.
+
+- Parse command-line arguments passed to the script.
+
+- Add an `if __name__ == "__main__"` statement.
 
 ---
 
@@ -291,95 +199,6 @@ Now, we can run our Python script from the shell:
 ```sh
 $ ./simulate_drift.py 1000 0.1
 ```
-
----
-class: center middle inverse
-
-# Errors and error handling (4.5)
-
------
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-
-## Errors and exceptions
-
-Python's error messages contain a lot of useful information,
-so it really pays off to pay attention to them.
-
-The two main error types that Python distinguishes between are:
-
-- **Syntax errors**: You have not followed the syntax (= grammar) of Python.
-
-- **Exceptions**: The code is gramatically correct but cannot be executed.
-
----
-
-## Most common error messages
-
-| Error type       | Explanation
-|------------------|--------------
-| SyntaxError      | Your code contains a syntax (i.e., grammar) error. &lt;br&gt; Common problems are a missing colon, missing quotes, `=` instead of `==`.
-| IndentationError | **Incorrect amount of indentation**, e.g. after `if`, loop, or function definition.
-| TypeError        | Variable type does not allow the operation: e.g. adding a number and a string.
-| NameError        | Variable does not exist (typo?).
-| IndexError       | Item in list does not exist.
-| KeyError         | Item in dictionary does not exist.
-| IOError          | File that does not exist, or you tried to write to a file that is open only for reading (IO = Input/Output).
-| AttributeError   | Attribute or method that does not exist, e.g. `.keys()` on a list.
-
----
-
-## Handling exceptions
-
-Like almost any programming language (but unlike Bash),
-Python will stop execution when it encounters an error:
-e.g., in case of an error encountered while running your script,
-any code after the error will not be run.
-
-For instance, we may get an error when trying to divide by 0:
-
-```python
-y = 16
-x = 0
-
-y / x
-#&gt; ----------------------------------------------------------
-#&gt; ZeroDivisionError Traceback (most recent call last)
-#&gt; ----&gt; 1 y / x
-#&gt; ZeroDivisionError: float division by zero
-```
-
----
-
-## Handling exceptions (cont.)
-
-Sometimes, you want to allow for an error and carry on,
-in which case you are said to "catch" the error.
-
-For example:
-
-```python
-try:
-    print(y / x)
-except:
-    print("Cannot divide by 0")
-print("I'm done")
-```
-
-&lt;br&gt;
-
---
-
-.content-box-info[
-Note that this is doing the opposite of what we were doing in Bash scripts,
-where we made sure the program stops when it encounters an error,
-which it did not do by default.
-
-The distinction is that in *specific, anticipated cases*, we actually may want
-to carry on despite something that is technically an error.
-]
 
 ---
 class: center middle inverse
@@ -671,11 +490,208 @@ b
 ---
 class: center middle inverse
 
+# Errors and error handling (4.5)
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Errors and exceptions
+
+Python's error messages contain a lot of useful information,
+so it really pays off to pay attention to them.
+
+The two main error types that Python distinguishes between are:
+
+- **Syntax errors**: You have not followed the syntax (= grammar) of Python.
+
+- **Exceptions**: The code is gramatically correct but cannot be executed.
+
+---
+
+## Most common error messages
+
+| Error type       | Explanation
+|------------------|--------------
+| SyntaxError      | Your code contains a syntax (i.e., grammar) error. &lt;br&gt; Common problems are a missing colon, missing quotes, `=` instead of `==`.
+| IndentationError | **Incorrect amount of indentation**, e.g. after `if`, loop, or function definition.
+| TypeError        | Variable type does not allow the operation: e.g. adding a number and a string.
+| NameError        | Variable does not exist (typo?).
+| IndexError       | Item in list does not exist.
+| KeyError         | Item in dictionary does not exist.
+| IOError          | File that does not exist, or you tried to write to a file that is open only for reading (IO = Input/Output).
+| AttributeError   | Attribute or method that does not exist, e.g. `.keys()` on a list.
+
+---
+
+## Handling exceptions
+
+Like almost any programming language (but unlike Bash),
+Python will stop execution when it encounters an error:
+e.g., in case of an error encountered while running your script,
+any code after the error will not be run.
+
+For instance, we may get an error when trying to divide by 0:
+
+```python
+y = 16
+x = 0
+
+y / x
+#&gt; ----------------------------------------------------------
+#&gt; ZeroDivisionError Traceback (most recent call last)
+#&gt; ----&gt; 1 y / x
+#&gt; ZeroDivisionError: float division by zero
+```
+
+---
+
+## Handling exceptions (cont.)
+
+Sometimes, you want to allow for an error and carry on,
+in which case you are said to "catch" the error.
+
+For example:
+
+```python
+try:
+    print(y / x)
+except:
+    print("Cannot divide by 0")
+print("I'm done")
+```
+
+&lt;br&gt;
+
+--
+
+.content-box-info[
+Note that this is doing the opposite of what we were doing in Bash scripts,
+where we made sure the program stops when it encounters an error,
+which it did not do by default.
+
+The distinction is that in *specific, anticipated cases*,
+we actually may want to carry on despite something that is technically an error.
+]
+
+---
+class: center middle inverse
+
 # Questions?
 
 -----
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class: center middle inverse
+
+# Bonus material
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class: center middle inverse
+
+# Writing style (4.3)
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+background-color: #f2f5eb
+
+## Some style  guidelines
+
+- For more, see "[PEP8 - The style guide for Python code](https://pep8.org/)".
+
+- Use four spaces per indentation level; not tabs.
+
+- Split long lines (especially the arguments of functions) using parentheses.
+
+- Separate functions using blank lines.
+
+- Use a new line for each operation:
+
+.pull-left[
+Yes:
+```python
+import scipy
+import re
+```
+]
+
+.pull-left[
+No:
+```python
+import scipy,re
+```
+]
+
+---
+background-color: #f2f5eb
+
+## Some style guidelines (cont.)
+
+- Put spaces around operators (unless using the : to “slice” a list); use
+parentheses to clarify the precedence of operators:
+
+.pull-left[
+Yes:
+```python
+a = b ** c
+z = [a, b, c, d]
+n = n * (n - 1)
+k = (a * b) + (c * d)
+my_list = a_list[1:n]
+```
+]
+
+.pull-right[
+No:
+```python
+a=b**c
+z=[ a,b,c,d ]
+n =n*(n-1)
+k=a*b+c*d
+my_list = a_list[1 : n]
+```
+]
+
+---
+background-color: #f2f5eb
+
+## Some style guidelines (cont.)
+
+- **Use lots of comments and "docstrings"!**
+
+  Python allows you to write short comments (starting with # ) and
+  docstrings (multiline comments flanked by triple double quotes, """ ):
+  
+  - Use docstrings to document *how to use the code*.
+    What does this function do? What is the input/output?
+  
+  - Use short comments for explaining difficult passages in the code,
+    that is, to document how the code works.
+
+
+&lt;br&gt;
+
+- **Naming conventions:**
+
+  - Variables and functions in lowercase, "snake case": `my_var`, `my_fun`.
+  
+  - **Constants** in uppercase: `SOME_CONSTANT`.
+  
+  - Use descriptive names: `count_pairs`, `body_mass`, `cell_volume`.
+  
+  - Verbs for functions and nouns for objects.
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
