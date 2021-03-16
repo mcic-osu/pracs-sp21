@@ -1,28 +1,22 @@
----
-title: "Week 11 - Python: Scientific computing"
-output:
-  xaringan::moon_reader:
-    seal: false
-    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
-    lib_dir: libs
-    nature:
-      highlightStyle: rainbow
-      highlightLines: true
-      countIncrementalSlides: false
----
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 11 - Python: Scientific computing</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
 class:inverse middle center
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(eval = FALSE)
-```
 
-```{r xaringan-extra, echo=FALSE, eval=TRUE}
-#xaringanExtra::use_scribble()
-#xaringanExtra::use_panelset()
-#xaringanExtra::use_clipboard()
-#xaringanExtra::use_search(show_icon = TRUE)
-```
+
+
 
 # *Week 11 - Python: Scientific computing*
 
@@ -30,10 +24,10 @@ knitr::opts_chunk$set(eval = FALSE)
 
 # I (Tuesday)
 
-<br> <br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/23 (updated: `r Sys.Date()`)
+### 2021/03/23 (updated: 2021-03-15)
 
 ---
 
@@ -54,7 +48,7 @@ knitr::opts_chunk$set(eval = FALSE)
 - BioPython (CSB 6.4)
 ]
 
-<br> <br>
+&lt;br&gt; &lt;br&gt;
 
 ---
 class: center middle inverse
@@ -63,7 +57,7 @@ class: center middle inverse
 
 -----
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -82,7 +76,7 @@ Like in R, we don't read files in line-by-line but load them all at once:
 
 ```python
 import os
-os.chdir('/fs/ess/PAS1855/users/<user>/CSB/scientific/data')
+os.chdir('/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/data')
 # os.chdir('../CSB/scientific/sandbox')
 
 data = pd.read_csv("../data/Dale2015_data.csv")
@@ -125,14 +119,14 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   data.head()
   ```
 
-- We could also add a column with a constant &ndash; a vectorized operation,
+- We could also add a column with a constant &amp;ndash; a vectorized operation,
   like we have seen with NumPy:
   
   ```python
   data["Study"] = 1
   ```
 
-- Or we could add a column of random numbers &ndash;
+- Or we could add a column of random numbers &amp;ndash;
   note that we can quickly get the correct number of rows using `data.shape[0]`:
   
   ```python
@@ -172,14 +166,14 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   
   ```python
   data["Scientific_name"][:3]
-  #> 0 Abroscopus albogularis
-  #> 1 Abroscopus schisticeps
-  #> 2 Abroscopus superciliaris
+  #&gt; 0 Abroscopus albogularis
+  #&gt; 1 Abroscopus schisticeps
+  #&gt; 2 Abroscopus superciliaris
   
   data.Scientific_name[:3]
-  #> 0 Abroscopus albogularis
-  #> 1 Abroscopus schisticeps
-  #> 2 Abroscopus superciliaris
+  #&gt; 0 Abroscopus albogularis
+  #&gt; 1 Abroscopus schisticeps
+  #&gt; 2 Abroscopus superciliaris
   ```
 
 ---
@@ -190,14 +184,14 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
   ```python
   data[0:3, 0:3]
-  #> TypeError: '(slice(0, 3, None), slice(0, 3, None))' is an invalid key
+  #&gt; TypeError: '(slice(0, 3, None), slice(0, 3, None))' is an invalid key
   ```
 
 - Instead we need to use the method `iloc()`:
   
   ```python
   data.iloc[2, 1]
-  #> 'Yellow-bellied Warbler'
+  #&gt; 'Yellow-bellied Warbler'
   ```
   
   Add more
@@ -210,10 +204,10 @@ We can also use `loc`, which selects rows and columns using **labels** ...
 
 ```python
 data.loc[:3, ["Scientific_name", "English_name"]]
-#> 0 Abroscopus albogularis Rufous-faced Warbler
-#> 1 Abroscopus schisticeps Black-faced Warbler
-#> 2 Abroscopus superciliaris Yellow-bellied Warbler
-#> 3 Acanthagenys rufogularis Spiny-cheeked Honeyeater
+#&gt; 0 Abroscopus albogularis Rufous-faced Warbler
+#&gt; 1 Abroscopus schisticeps Black-faced Warbler
+#&gt; 2 Abroscopus superciliaris Yellow-bellied Warbler
+#&gt; 3 Acanthagenys rufogularis Spiny-cheeked Honeyeater
 
 data.loc[data.Scientific_name == "Zosterops mouroniensis"]
 # Scientific_name	English_name	TipLabel	Female_plumage_score	Male_plumage_score	Sum_scores	Study
@@ -228,25 +222,25 @@ data.loc[data.Scientific_name == "Zosterops mouroniensis"]
 
   ```python
   data[data.English_name.str.contains("Bowerbird")]
-  #> [Shows all rows with Bowerbirds]
+  #&gt; [Shows all rows with Bowerbirds]
   
   data[data.English_name.str.contains("Bowerbird")]["Scientific_name"][:3]
-  #> 188 Amblyornis flavifrons
-  #> 189 Amblyornis inornata
-  #> 190 Amblyornis macgregoriae
-  #> Name: Scientific_name, dtype: object
+  #&gt; 188 Amblyornis flavifrons
+  #&gt; 189 Amblyornis inornata
+  #&gt; 190 Amblyornis macgregoriae
+  #&gt; Name: Scientific_name, dtype: object
   ```
 ---
 
 ## Filtering rows
 
 ```python
-high_male_score = data[data["Male_plumage_score"] > 65]
+high_male_score = data[data["Male_plumage_score"] &gt; 65]
 ```
 
 ```python
-highly_dimorphic = data[(data.Male_plumage_score > 70) & \
-                        (data.Female_plumage_score < 40)]
+highly_dimorphic = data[(data.Male_plumage_score &gt; 70) &amp; \
+                        (data.Female_plumage_score &lt; 40)]
 ```
 
 One important feature of pandas is that many commands return a view,
@@ -254,8 +248,8 @@ as opposed to a copy of the data. A simple example:
 
 ```python
 high_male_score["Qualitative_score"] = "High"
-#> [...] SettingWithCopyWarning:
-#> A value is trying to be set on a copy of a slice from a DataFrame.
+#&gt; [...] SettingWithCopyWarning:
+#&gt; A value is trying to be set on a copy of a slice from a DataFrame.
 ```
 
 ---
@@ -327,7 +321,7 @@ class: center middle inverse
 
 # I: Retrieving sequences from NCBI (6.4.1)
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -367,9 +361,9 @@ class: center middle inverse
   
   ```python
   record.keys()
-  #> dict_keys(['Count', 'RetMax', 'RetStart', 'IdList',
-  #>            'TranslationSet', 'TranslationStack',
-  #>             'QueryTranslation'])
+  #&gt; dict_keys(['Count', 'RetMax', 'RetStart', 'IdList',
+  #&gt;            'TranslationSet', 'TranslationStack',
+  #&gt;             'QueryTranslation'])
   ```
   
 - How many sequences did we find?  
@@ -384,7 +378,7 @@ class: center middle inverse
   ```python
   id_list = record["IdList"]
   print(id_list)
-  #> ['524853022', '555947199', '555947198', ... , '555946814']
+  #&gt; ['524853022', '555947199', '555947198', ... , '555946814']
   ```
 
 ---
@@ -417,7 +411,7 @@ class: center middle inverse
 
 # II: Input and output of sequence data using *SeqIO* (6.4.2)
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -429,5 +423,128 @@ class: center middle inverse
 
 -----
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

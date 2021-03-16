@@ -313,11 +313,12 @@ Convert a list of lists to a two-dimensional array.
 
 ## Initialize arrays with a given structure (cont.)
 
-- NumPy can also generate random numbers with the `np.random` module (more later).
+- NumPy can also generate random numbers with the `np.random` module
+  (more later).
 
   Let's create an array with random values,
   drawn from the uniform distribution `U[0,1]`
-  (the default for `np.random.random`):
+  (the default for `np.random.random()`):
 
   ```python
   np.random.random((2, 3))
@@ -445,12 +446,295 @@ m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
 
 ---
 
-## Example: image processing with NumPy
+## Case study: image processing with NumPy
+
+- We start by loading NumPy and Scikit-image:
+
+  ```python
+  #import numpy as np        # Should be loaded already
+  import skimage.io as io
+  ```
+
+- We will also make Matplotlib image plotting available inside the 
+  interactive Python window:
+
+  ```python
+  %matplotlib inline
+  ```
+
+- Next, let's save the path to the image we want to read in:
+  ```python
+  import os
+  CSB_dir = '/fs/ess/PAS1855/users/<user>/CSB/scientific/data'
+  # CSB_dir = '../CSB/scientific/data'
+  image_file = 'Kacsoh2013_Drosobrain.png'
+  image_path = os.path.join(CSB_dir, image_file)
+  ```
 
 
 ---
 
+.content-box-info[
+### Magic commands
+
+]
+
+---
+
+## Case study: Image processing with NumPy (cont.)
+
+Let's view the image:
+
+```python
+image = io.imread(image_path)
+io.imshow(image)
+```
+
+<p align="center">
+<img src=img/red.png width="55%">
+</p>
+
+---
+
+## Case study: Image processing with NumPy (cont.)
+
+- How is our image saved?
+
+  ```python
+  type(image)
+  #> numpy.ndarray
+  ```
+  
+  As a NumPy array!
+
+- Therefore, we can use the NumPy methods we have learned about.
+  Let's check the dimensions:
+  
+  ```python
+  image.shape
+  (1024, 1024, 4)
+  ```
+  
+  The image is 1024 x 1024 pixels,
+  and along the 3rd dimension we have RGBA:
+  Red (0), Green (1), Blue (2), and alpha (opaqueness; 3).
+
+---
+
+## Case study: Image processing with NumPy (cont.)
+
+- The first channel is the red channel, which should be the one of interest
+  given what our image looks like. Let's extract it and explore:
+  
+  ```python
+  red = image[:, :, 0]
+  
+  print(red.mean())
+  #> 23.181024551391602
+  print(red.std())
+  #> 30.446740821993011
+  print(red.min(), red.max())
+  #> 0 255
+  ```
+  
+- It looks like we only have variation in the red channel:
+
+  ```python
+  for channel_index in range(0, image.shape[2]):
+        print(image[:, :, channel_index].std())
+  #> 30.44674082199301
+  #> 0.0
+  #> 0.0
+  #> 0.0
+  ```
+
+---
+
+## Case study: Image processing with NumPy (cont.)
+
+Say that we are interested in examining what area in the image express the
+NPF and NPFR1 genes targeted by the assays.
+
+We'll take an overly simple approach,
+by setting a threshold of 100 and determining which pixels have a higher value
+than that.
+
+---
+
+## Case study: Image processing with NumPy (cont.)
+
+First, let's check what a value of 100 looks like by modifying a copy of the
+image:
+
+  ```python
+  img_copy = image.copy()
+  img_copy[:, 480:500, 0] = 100
+  io.imshow(img_copy)
+  ```
+  
+<p align="center">
+<img src=img/redline.png width="50%">
+</p>
+
+---
+
+## Case study: Image processing with NumPy (cont.)
+
+- Next, we'll create a "mask", an array of that indicates whether the pixel
+  intensity of the red channel is above the threshold.
+
+  ```python
+  threshold = 100
+  # red > threshold produces a Boolean array - times 1 to get 0/1
+  mask = (red > threshold) * 1
+  ```
+.pull-left[
+
+How many pixels pass?
+
+```python
+mask.sum()
+#> 37037
+```
+
+Plot the mask:
+
+```python
+io.imshow(mask)
+```
+
+]
+
+.pull-right[
+<p align="left">
+<img src=img/mask1.png width="100%">
+</p>
+]
+
+---
+
+## Case study: Image processing with NumPy (cont.)
+
+Finally, we'll use a little trick to get the actual pixel values back for those
+pixels that passed the threshold &ndash; multiply by the mask:
+
+```python
+mask2 = red * mask
+io.imshow(mask2)
+```
+
+<p align="center">
+<img src=img/mask2.png width="60%">
+</p>
+
+---
+
 ## Random numbers and distributions (6.2.2)
+
+Being able to generate random numbers is useful to perform simulations,
+randomizations, and statistics. NumPy offers a number of functions to
+get random numbers.
+
+As we saw earlier `np.random.random()` will by sample from a uniform
+distribution between 0 and 1:
+
+```python
+# import numpy as np
+
+np.random.random(2)   # The only argument is the number of samples
+#> array([ 0.31622522, 0.6173434 ])
+```
+
+---
+
+## Random numbers and distributions (cont.)
+
+Similarly, we can sample integers with `np.random.randint()`,  
+for which we can specify not only sample size but also minimum and maximum:
+
+```python
+# If one positional argument is provided, it is the maximum:
+np.random.randint(5)
+#> 3
+
+# If two positional arguments are provided, they are min and max:
+np.random.randint(5, 10)
+#> 8
+
+# We can also specify the sample size:
+np.random.randint(-5, -3, size = 4)
+#> array([-4, -5, -5, -3])
+```
+
+.content-box-info[
+The CSB book uses the truly dreadfully named `np.random.random_integers()`
+but this function has now thankfully been deprecated in favor of
+`np.random.randint()`.
+]
+
+---
+
+## Random numbers and distributions (cont.)
+
+- `np.random.shuffle()` can be used to randomize the order of elements in an
+  array:
+  
+  ```python
+  a = np.arange(4)
+  a
+  #> array([0, 1, 2, 3])
+  np.random.shuffle(a)     # Shuffle in place
+  a
+  #> array([1, 0, 2, 3])
+  ```
+
+---
+
+## Random numbers and distributions (cont.)
+
+We can sample from many other distributions, for instance:
+
+- **Beta**, with parameters alpha, beta, and sample size:
+
+  ```python
+  np.random.beta(1/2, 1/2, 4)
+  array([ 0.64371741, 0.07697382, 0.04568635, 0.04068809])
+  ```
+
+- **Normal**, with parameters: mean, standard deviation, and sample size:
+  
+  ```python
+  np.random.normal(10, 0.1, 4)
+  #> array([ 9.9574825 , 10.03459465, 9.93908575, 9.80264752])
+  ```
+
+---
+
+## Random numbers and distributions (cont.)
+
+Random numbers from computers are technically "pseudorandom" because they are
+generated using a deterministic algorithm.
+
+Therefore, if we set the **"seed"** to the same value,
+we will generate the same values (and the same as in the book too!):
+
+```python
+np.random.seed(10)
+print(np.random.random(1))
+print(np.random.random(1))
+
+np.random.seed(10)
+print(np.random.random(1))
+print(np.random.random(1))
+
+#> [0.77132064]
+#> [0.02075195]
+#> [0.77132064]
+#> [0.02075195]
+```
+
+This can be useful to fix bugs or when you need predictable results such as
+when creating a figure from the results of simulations.
 
 ---
 class: center middle inverse
