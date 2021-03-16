@@ -147,7 +147,8 @@ At OSC, Conda is generally the preferred method of managing Python modules.
 
 .content-box-diy[
 
-**Let's install a couple of packages that we'll need next week  
+**Let's install a couple of packages,
+which we'll need this week and especially next week  
 into our Conda environment `ipy-env`.**
 
 Open a terminal in VS Code, type `bash` to break out of the container, and:
@@ -241,6 +242,8 @@ import my_utils
 
 *(This works assuming the file is in the same directory or can otherwise
 be located by Python.)*
+
+We'll do this in a little bit with our popgen simulation!
 
 ---
 class: center middle inverse
@@ -347,9 +350,10 @@ and the nuts and bolts are in the individual functions.
 - Makes it easier to test your code.
 
 - Makes it easier to repeat operations
-  (like calculating GC content for mulitple sequences).
+  (like calculating GC content for multiple sequences).
 
-- Makes your programs more flexible (function arguments)!
+- Makes your programs more flexible &ndash;
+  thanks to usage of function *arguments*.
 
 ---
 
@@ -474,19 +478,6 @@ So, functions are supposed to be their "own little words":
 ---
 
 ## <i class="fa fa-user-edit"></i> Intermezzo 4.1: <br> Determine the function of the function
-
-```python
-def foo1(x = 7):
-    return x ** 0.5
-```
-
---
-
-`foo1()` returns the square root of a number.
-
-<br>
-
---
 
 ```python
 def foo2(x = 3, y = 5):
