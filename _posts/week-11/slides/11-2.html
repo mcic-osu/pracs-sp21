@@ -27,7 +27,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/23 (updated: 2021-03-15)
+### 2021/03/23 (updated: 2021-03-16)
 
 ---
 
@@ -76,7 +76,7 @@ Like in R, we don't read files in line-by-line but load them all at once:
 
 ```python
 import os
-os.chdir('/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/data')
+os.chdir('/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/sandbox')
 # os.chdir('../CSB/scientific/sandbox')
 
 data = pd.read_csv("../data/Dale2015_data.csv")
@@ -90,44 +90,97 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
   ```python
   data.head()
+  
+  #&gt;      Scientific_name	         English_name	          TipLabel	Female_plumage_score	Male_plumage_score
+  #&gt; 0	Abroscopus albogularis	  Rufous-faced Warbler	  Abroscopus_albogularis	45.833333	51.944444
+  #&gt; 1	Abroscopus schisticeps	  Black-faced Warbler	    Abroscopus_schisticeps	48.888889	47.777778
+  #&gt; 2	Abroscopus superciliaris	Yellow-bellied Warbler	  Abroscopus_superciliaris	43.194444	43.611111
+  #&gt; 3	Acanthagenys rufogularis	Spiny-cheeked Honeyeater	Acanthagenys_rufogularis	39.305556	39.166667
+  #&gt; 4	Acanthidops bairdii	     Peg-billed Finch	        Acanthidops_bairdii	40.555556	54.166667
   ```
 
+- Just typing the name of the dataframe will also return a very useful view:
+
+  ```python
+  data
+  ```
+  
 - Check the dimensions:
 
   ```python
   data.shape
-  (5831, 5)
+  #&gt; (5831, 5)
   ```
 
-- Get the column names with `columns()`, which returns an `Index` object:
-
-  ```python
-  Index(['Scientific_name', 'English_name', 'TipLabel',
-         'Female_plumage_score', 'Male_plumage_score'],
-         dtype='object')
-  ```
-  
 ---
 
-## Manipulating DataFrames
+## Exploring DataFrames
+
+- `columns` returns an `Index` object with the column names:
+
+  ```python
+  data.columns
+  #&gt; Index(['Scientific_name', 'English_name', 'TipLabel',
+  #&gt;        'Female_plumage_score', 'Male_plumage_score'],
+  #&gt;        dtype='object')
+  ```
+  
+- `dtypes` returns data types by column &amp;ndash; note, strings are called
+  "object":
+
+  ```python
+  data.dtypes
+  #&gt; data_raw.dtypes
+  #&gt; Scientific_name          object
+  #&gt; English_name             object
+  #&gt; TipLabel                 object
+  #&gt; Female_plumage_score    float64
+  #&gt; Male_plumage_score      float64
+  #&gt; dtype: object
+  ```
+
+- A `DataFrame` has an explicit rowwise index: notice the rows numbering.
+  
+  ```python
+  data.index
+  #&gt; RangeIndex(start=0, stop=5831, step=1)
+  ```
+
+---
+
+## Manipulating DataFrames: renaming columns
+
+- We can rename columns using `rename()` with a dictionary of old and new column
+  names:
+  
+  ```python
+  data = data.rename(columns={"Scientific_name": "latin",
+                              "English_name": "english",
+                              "Female_plumage_score": "score_f",
+                              "Male_plumage_score": "score_m"})
+  ```
+
+---
+
+## Manipulating DataFrames: adding columns
 
 - Create a new column that sums the plumage score for males and females:
 
   ```python
-  data["Sum_scores"] = data["Female_plumage_score"] + data["Male_plumage_score"]
+  data["score_sum"] = data["score_f"] + data["score_m"]
   
   data.head()
   ```
 
-- We could also add a column with a constant &amp;ndash; a vectorized operation,
-  like we have seen with NumPy:
+- We could also easily add a column with a constant using a vectorized
+  operation, like we have seen with NumPy:
   
   ```python
   data["Study"] = 1
   ```
 
 - Or we could add a column of random numbers &amp;ndash;
-  note that we can quickly get the correct number of rows using `data.shape[0]`:
+  note that we can get the number of rows on the fly using `data.shape[0]`:
   
   ```python
   data["Rnd"] = np.random.random(data.shape[0])
@@ -135,13 +188,13 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ---
 
-## Manipulating DataFrames (cont.)
+## Manipulating DataFrames: removing columns
 
 - We can use `del()` to drop one column,
   or `drop()` to remove one or more columns:
   
   ```python
-  del(data["Sum_scores"])
+  del(data["score_sum"])
   
   data.drop(["Rnd", "Study"], axis = 1, inplace = True)
   ```
@@ -153,24 +206,25 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ## Indexing DataFrames
 
-- First, note that we can specify columns not just using `df["colname"]` but      also using `df.colname`:
+- First, note that we can specify columns not just using `df["colname"]` but
+  also using `df.colname`:
   
   ```python
-  data["Scientific_name"]
+  data["latin"]
   
-  data.Scientific_name
+  data.latin
   ```
 
-- Next, we can index the resulting `Series` (1-dimensional array) like we are
-  used to:
+- Next, we can index the resulting `Series` (1-dimensional array) like we
+  may expect:
   
   ```python
-  data["Scientific_name"][:3]
+  data["latin"][:3]
   #&gt; 0 Abroscopus albogularis
   #&gt; 1 Abroscopus schisticeps
   #&gt; 2 Abroscopus superciliaris
   
-  data.Scientific_name[:3]
+  data.latin[:3]
   #&gt; 0 Abroscopus albogularis
   #&gt; 1 Abroscopus schisticeps
   #&gt; 2 Abroscopus superciliaris
@@ -180,7 +234,7 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ## Indexing DataFrames (cont.)
 
-- But we can't index the entire DataFrame the way we may expect to:
+- But we can't index the entire `DataFrame` the way we may expect to:
 
   ```python
   data[0:3, 0:3]
@@ -192,125 +246,236 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   ```python
   data.iloc[2, 1]
   #&gt; 'Yellow-bellied Warbler'
-  ```
   
-  Add more
+  # First 2 rows, all columns (out-of-range slices work):
+  data.iloc[:2, :10]
+  
+  # First 2 rows, columns 2 and 4:
+  data.iloc[:2, [1, 3]]
+  
+  # Last 5 rows, all columns:
+  data.iloc[-5:, ]
+  ```
   
 ---
 
 ## Indexing DataFrames (cont.)
 
-We can also use `loc`, which selects rows and columns using **labels** ...
+We can also use `loc`, which selects rows and columns using **labels**.  
+
+The labels for the columns are of course the column names,
+and the labels for the rows is the index (row numbers).
+
+Notice that ranges given with `loc` are *inclusive*,
+so `data.loc[:3, ]` returns the first *four* rows!
 
 ```python
-data.loc[:3, ["Scientific_name", "English_name"]]
-#&gt; 0 Abroscopus albogularis Rufous-faced Warbler
-#&gt; 1 Abroscopus schisticeps Black-faced Warbler
+data.loc[:3, ["latin", "english"]]
+#&gt; 0 Abroscopus albogularis   Rufous-faced Warbler
+#&gt; 1 Abroscopus schisticeps   Black-faced Warbler
 #&gt; 2 Abroscopus superciliaris Yellow-bellied Warbler
 #&gt; 3 Acanthagenys rufogularis Spiny-cheeked Honeyeater
-
-data.loc[data.Scientific_name == "Zosterops mouroniensis"]
-# Scientific_name	English_name	TipLabel	Female_plumage_score	Male_plumage_score	Sum_scores	Study
-# 5801	Zosterops mouroniensis	Mount Karthala White-eye	Zosterops_mouroniensis	47.916667	47.5	95.416667	1
 ```
 
 ---
 
-## Indexing DataFrames (cont.)
+## Indexing / filtering DataFrames
 
-- We can even select rows based on only part of the cell content:
+- We can also index based on (a `Series` of) Booleans,
+  for instance to select the row(s) for a certain species:
 
   ```python
-  data[data.English_name.str.contains("Bowerbird")]
-  #&gt; [Shows all rows with Bowerbirds]
+  data.latin == "Zosterops mouroniensis"
+  #&gt; 0       False
+  #&gt; 1       False
+  #&gt; 2       False
+  #&gt; ...
   
-  data[data.English_name.str.contains("Bowerbird")]["Scientific_name"][:3]
+  data.loc[data.latin == "Zosterops mouroniensis"]
+  #         Scientific_name	       English_name	            TipLabel	Female_plumage_score	Male_plumage_score	Sum_scores	Study
+  # 5801	Zosterops mouroniensis	Mount Karthala White-eye	Zosterops_mouroniensis	47.916667	47.5	95.416667	1
+  ```
+
+- Or get only the most highly dimorphic species:
+
+  ```python
+  data[(data.score_m &gt; 70) &amp; (data.score_f &lt; 40)]
+  #&gt; 	      latin	              english	TipLabel	      score_f	score_m
+#&gt; 875	   Chiroxiphia pareola	Blue-backed Manakin	     Chiroxiphia_pareola	39.305556	71.666667
+#&gt; 1355	  Cyornis hainanus	   Hainan Blue-flycatcher	  Cyornis_hainanus	37.222222	71.250000
+#&gt; 1811	  Euplectes hartlaubi	Marsh Widowbird	         Euplectes_hartlaubi	39.583333	70.555556
+#&gt; 1885	  Foudia omissa	      Forest Fody	             Foudia_omissa	37.777778	71.805556
+  ```
+
+---
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/Blue-backedManakin.jpeg width="62%"&gt;
+&lt;figcaption&gt;Blue-backed Manakin - males (&lt;a href="http://www.arctracer.com/photos/trinidad/birds/Blue-backedManakin.html"&gt;Figure source&lt;/a&gt;)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/manakin_female.jpg width="62%"&gt;
+&lt;figcaption&gt;Blue-backed Manakin - female (&lt;a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg"&gt;Figure source&lt;/a&gt;)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/marsh_widowbird.jpg width="60%"&gt;
+&lt;figcaption&gt;Marsh Widowbird - male (&lt;a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg"&gt;Figure source&lt;/a&gt;)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/marsh_widowbird_female.jpg width="60%"&gt;
+&lt;figcaption&gt;Marsh Widowbird - female (&lt;a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg"&gt;Figure source&lt;/a&gt;)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Indexing / filtering DataFrames
+
+- We can even select rows based on only part of the cell content,
+  using `str.contains()`:
+
+  ```python
+  data[data.english.str.contains("Bower")]
+  #&gt; [All rows containing "Bower" in the "english" column]
+  
+  data[data.english.str.contains("Bower")]["latin"][:3]
   #&gt; 188 Amblyornis flavifrons
   #&gt; 189 Amblyornis inornata
   #&gt; 190 Amblyornis macgregoriae
   #&gt; Name: Scientific_name, dtype: object
   ```
+
+&lt;br&gt;
+
+--
+
+.content-box-diy[
+Try this:
+
+```python
+data[data.english.str.contains("Bower")].loc[:2, "latin"]
+```
+
+Why is it not returning any rows?
+]
+
 ---
 
-## Filtering rows
+## Views versus copies
+
+When we slice and filter `DataFrames`, we generally get a "**view**" of the
+data, as opposed to a *copy* of the data.
+Therefore, we get a warning when we try to modify such as view:
 
 ```python
-high_male_score = data[data["Male_plumage_score"] &gt; 65]
-```
+high_male_score = data[data["score_m"] &gt; 65]
 
-```python
-highly_dimorphic = data[(data.Male_plumage_score &gt; 70) &amp; \
-                        (data.Female_plumage_score &lt; 40)]
-```
-
-One important feature of pandas is that many commands return a view,
-as opposed to a copy of the data. A simple example:
-
-```python
-high_male_score["Qualitative_score"] = "High"
+high_male_score["score_qual"] = "High"
 #&gt; [...] SettingWithCopyWarning:
 #&gt; A value is trying to be set on a copy of a slice from a DataFrame.
+```
+
+Our operation still worked &amp;ndash;
+a column has been added to `high_male_score` but not to data:
+
+```python
+high_male_score.columns
+#&gt;Index(['latin', 'english', 'TipLabel', 'score_f', 'score_m', 'score_qual'],
+#&gt;      dtype='object')
+
+data.columns
+#&gt; Index(['latin', 'english', 'TipLabel', 'score_f', 'score_m'],
+#&gt;       dtype='object')
 ```
 
 ---
 
 ## Copy and modify
 
-
----
-
-## Some simple plots
+But in such case, we should instead make a copy of the data:
 
 ```python
-%matplotlib inline
-```
+high_male_score = data[data["score_m"] &gt; 65].copy()
 
-Histogram:
-
-```python
-data.Male_plumage_score.hist()
-```
-
-Scatterplot:
-
-```python
-data.plot.scatter(x = "Male_plumage_score", y = "Female_plumage_score")
-```
-
-Boxplot:
-
-```python
-data[["Male_plumage_score", "Female_plumage_score"]].plot.box()
+high_male_score["score_qual"] = "High"
 ```
 
 ---
 
-## Intermezzo 6.2
+## Summary statistics
 
-Gächter and Schulz (2016) performed a provocative experiment to study
-intrinsic honesty in different countries. Groups of students were asked to per-
-form two rolls of a fair die, and to report the result of the first roll. They
-were paid an amount of money proportional to the reported number, with
-the exception that they were given no money when they reported rolling a 6.
+Like we have seen with NumPy, we can also easily get summary statistics:
 
-The subjects knew of the monetary reward, and that their rolls were
-private—the experimenters could not determine whether they were telling
-the truth or not. If everybody were to tell the truth, we would expect that each
-claim (from 0 to 5 monetary units) would be equally represented in the data,
-with a proportion of 16 = 0.16. Countries where cheaters were more abundant
-would have a higher proportion of subjects claiming a reward of 5 units and
-a lower proportion of those claiming 0 units.
+```python
+data.score_m.mean()
+#&gt; 51.009189390042877
 
-1. Load the file ( data/Gachter2016_data.csv ) using pandas . Which
-country reported the smallest frequency of Claim == 0 (meaning
-fewest honest players)? Which the highest?
+data.score_m.median()
+#&gt; 49.72222222
 
-2. Now calculate the reported frequency of rolling the number 5 (which
-would lead to a claim of 5 units) for each country. Which country has
-the lowest frequency (most honest players)? Which the highest? Notice
-that the data report cumulative frequencies; to obtain the frequency of
-rolling a 5, you need to subtract the cumulative frequency of claiming
-4 monetary units from 1.0.
+data.score_m.std()
+#&gt; 8.2006629346736908
+```
+
+---
+
+## Some simple plots with Matplotlib &amp;ndash; histogram:
+
+```python
+data.score_m.hist()
+```
+
+&lt;p align="center"&gt;
+&lt;img src=img/hist.svg width="90%"&gt;
+&lt;/p&gt;
+
+---
+
+## Simple plots with Matplotlib &amp;ndash; scatterplot
+
+```python
+data.plot.scatter(x = "score_m", y = "score_f")
+```
+
+&lt;p align="center"&gt;
+&lt;img src=img/scatter.svg width="90%"&gt;
+&lt;/p&gt;
+
+---
+
+## Simple plots with Matplotlib &amp;ndash; boxplot:
+
+```python
+data[["score_m", "score_f"]].plot.box()
+```
+
+&lt;p align="center"&gt;
+&lt;img src=img/boxplot.svg width="90%"&gt;
+&lt;/p&gt;
+
+---
+
+## Intermezzo
+
+Get the English names of species for which both males and females have a
+plumage score higher than XX.
+
+---
+
+## Intermezzo: Solutions
+
 
 ---
 class: center middle inverse
@@ -325,81 +490,116 @@ class: center middle inverse
 
 ---
 
-## Search the database
+## Using BioPython to inferface with NCBI databases
 
-- Import the package:
+While we already downloaded some data from NCBI manually in the exercises for
+week 7 (Bioinformatics Data),
+we can also use NCBI's **"Entrez Programming Utilities"** to do this
+programmatically.
+
+BioPython includes an Entrez module that interfaces with NCBI Entrez. 
+This is a much better method to find and download data, if you regularly need
+to do so.
+
+- We start by importing the module:
   
   ```python
   from Bio import Entrez
   ```
 
-- provide your e-mail address to let NCBI know who you are
+- As another setup step,
+  we should provide our e-mail address to let NCBI know who we are:
 
   ```python
-  Entrez.email = "me@bigu.edu"
+  Entrez.email = "me.1@osu.edu"  # Replace by your email address
   ```
-  
+
+---
+
+## Search the database
+
 - Create a "handle" to search results:
 
   ```python
   handle = Entrez.esearch(db = "nuccore",
-                          term = ("Uropsilus investigator[Organism]"))
+                          term = ("Uropsilus investigator[Organism]"),
+                          RetMax = 200)
   ```
 
 - Read the results and close the handle:
 
   ```python
-  record = Entrez.read(handle)
+  search_results = Entrez.read(handle)
   handle.close()
   ```
 
----
+&lt;br&gt;
 
-## Looking at the results
-
-- Record is a dictionary, we can look at the keys:
+- Our results are returned in the form of a dictionary,
+  so let's look at the keys:
   
   ```python
-  record.keys()
+  search_results.keys()
   #&gt; dict_keys(['Count', 'RetMax', 'RetStart', 'IdList',
   #&gt;            'TranslationSet', 'TranslationStack',
   #&gt;             'QueryTranslation'])
   ```
   
+---
+
+## Looking at the results
+
 - How many sequences did we find?  
   
   ```python
-  record["Count"]
-  '71'
+  search_results["Count"]
+  '126'   # Has increased from '71' in the book!
   ```
   
 - What is the list of GenBank identifiers?
 
   ```python
-  id_list = record["IdList"]
+  id_list = search_results["IdList"]
   print(id_list)
   #&gt; ['524853022', '555947199', '555947198', ... , '555946814']
+  ```
+
+- Did we get all 126 IDs in the list? Note that the default is to only return
+  20, but because we used `RetMax = 200` in the call to `Entrez.esearch()`,
+  we got all of them:
+
+  ```python
+  len(id_list)
+  #&gt; '126'
+  search_results["RetMax"]
+  #&gt; '200'
   ```
 
 ---
 
 ## Downloading the sequences
 
+We'll now use the GenBank IDs to actually download some sequences:
+
 ```python
-# always tell NCBI who you are
-Entrez.email = "me@bigu.edu"
-handle = Entrez.efetch(db = "nuccore",
-rettype = "fasta",
-retmode = "text",
-id = id_list[:10])
-# set up a handle to an output file
+search_handle = Entrez.efetch(db = "nuccore",
+                              rettype = "fasta",
+                              retmode = "text",
+                              id = id_list)
+
+# Set up a handle to an output file:
 out_handle = open("Uropsilus_seq.fasta", "w")
-# write obtained sequence data to file
+
+# Write the obtained sequence data to the output file:
 for line in handle:
-out_handle.write(line)
+    out_handle.write(line)
+
+# Close the handles:
 out_handle.close()
-handle.close()
+search_handle.close()
 ```
+
+Next, we'll read in our FASTA file using SeqIO.
 
 ---
 
@@ -414,6 +614,169 @@ class: center middle inverse
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
+
+## Reading a FASTA file with SeqIO
+
+- We start by importing the SeqIO module:
+
+  ```python
+  from Bio import SeqIO
+  ```
+
+- Let's print the ID and sequence length for each sequence:
+
+  ```python
+  in_handle = open("Uropsilus_seq.fasta", "r")
+  
+  for record in SeqIO.parse(in_handle, "fasta"):
+      print(record.description)
+      print(len(record), '\n')
+  in_handle.close()
+  
+  #&gt; KC516837.1 Uropsilus investigator isolate A11 apolipoprotein B (ApoB) gene, partial cds
+  #&gt; 573 
+  
+  #&gt; KC516819.1 Uropsilus investigator voucher mlxs331 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
+  #&gt; 912 
+  
+  #&gt; KC516818.1 Uropsilus investigator voucher mlxs022 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
+  #&gt; 912 
+  #&gt; [...]
+  ```
+
+---
+
+## Selecting only sequences for the BMI1 genes
+
+```python
+# We will import the "re" module for regular expression searches:
+import re
+
+output_handle = open("Uropsilus_BMI1.fasta", "w")
+
+for record in SeqIO.parse("Uropsilus_seq.fasta", "fasta"):
+    
+    # Find the BMI1 sequences using "re.search"
+    if re.search("BMI1", record.description):
+        print(record.id)
+        short_seq = record[:100]  # Just take the first 100 bases
+        SeqIO.write(short_seq, output_handle, "fasta")
+        
+output_handle.close()
+```
+
+---
+
+class: center middle inverse
+
+# BioPython (CSB 6.4)
+
+-----
+
+# III: Programmatic BLAST Search (6.4.3)
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## BLAST
+
+The Basic Local Alignment Search Tool (BLAST) finds regions of similarity
+between biological sequences. Biopython provides a module to conveniently
+run a BLAST search against online databases:
+
+```python
+# NCBIWWW allows programmatic access to NCBI's BLAST server
+from Bio.Blast import NCBIWWW
+# retrieve sequences using SeqIO
+handle = open("Uropsilus_BMI1.fasta", "r")
+# convert SecRecord into a list for easy access
+records = list(SeqIO.parse(handle, "fasta"))
+# retrieve fourth sequence
+print(records[3].id, " ", records[3].seq)
+```
+
+---
+
+## BLAST
+
+We are ready to run our BLAST search against the NCBI nucleotide
+database (other options are blastp , blastx , tblastn , and tblastx ):
+
+```python
+# always tell NCBI who you are
+Entrez.email = "me@bigu.edu"
+# NCBIWWW.qplast requires three arguments:
+# program, database, sequence
+result_handle = NCBIWWW.qblast("blastn", "nt", records[3].seq)
+# set up output file
+save_file = open("my_blast.xml", "w")
+# write results to output file
+save_file.write(result_handle.read())
+save_file.close()
+result_handle.close()
+```
+
+---
+
+## BLAST
+
+By default, the BLAST query returns an XML file that we parse using the
+NCBIXML parser:
+
+```python
+from Bio.Blast import NCBIXML
+result_handle = open("my_blast.xml")
+# use NCBIXML.read if you run BLAST for one sequence
+# or NCBIXML.parse for multiple sequences
+blast_records = NCBIXML.read(result_handle)
+```
+
+---
+
+## BLAST
+
+Next, we loop through the individual alignment hits and retrieve some
+basic information about results that have a good match (i.e., low E value)
+to our Uropsilus BMI1 query sequence and are more than 3000 nucleotides
+long:
+
+```python
+E_VALUE_THRESH = 0.04
+for alignment in blast_records.alignments:
+for hsp in alignment.hsps:
+if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; 3000:
+print("****Alignment****")
+print("sequence:", alignment.title)
+print("length:", alignment.length)
+print("E value:", hsp.expect)
+print(hsp.query[0:75] + "...")
+print(hsp.match[0:75] + "...")
+print(hsp.sbjct[0:75] + "...")
+#&gt; ****Alignment****
+#&gt; sequence: gi|1304911126|ref|XM_006933246.4| PREDICTED: Felis catus BMI1 proto-oncogene, polycomb ring finger (BMI1), transcript variant X3, mRNA
+#&gt; length: 3523
+#&gt; E value: 2.25861e-42
+#&gt; TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
+#&gt; |||||||||||||||||||||||||||||||||||||||||||||...
+#&gt; TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
+#&gt; [...]
+```
+
+
+class: center middle inverse
+
+# BioPython (CSB 6.4)
+
+-----
+
+# IV: Querying PubMed for scientific literature information (6.4.4)
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## PubMed search
 
 
 ---
