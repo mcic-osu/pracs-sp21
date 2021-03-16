@@ -6,10 +6,18 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30}) })</script>
     <script src="libs/clipboard/clipboard.min.js"></script>
     <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
     <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
     <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
@@ -26,12 +34,12 @@ class:inverse middle center
 
 ----
 
-# I (Tuesday)
+# I: Modules, writing functions, &lt;br&gt; and program structure
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/16 (updated: 2021-03-15)
+### 2021/03/16 (updated: 2021-03-16)
 
 ---
 
@@ -81,8 +89,8 @@ class: center middle inverse
 - **Python modules** contain *collections of functions*.  
   Technically, a Python module is a single `.py` file.
   
-- *Collections of modules* are technically **packages**  
-  (though they can also be simply referred to as modules).   
+- **Packages** are *collections of modules* packaged together   
+  (though the term module is in practice also used for packages).
 
 &lt;br&gt;
 
@@ -97,7 +105,7 @@ environment, be that in a script or an interactive environment:
 
 .content-box-info[
 The term **library** is not as well-defined,
-and can be used interchangeably both with *module* and *package*,
+and can be used interchangeably with large packages,
 but is also used to describe a repository of modules.
 ]
 
@@ -105,36 +113,43 @@ but is also used to describe a repository of modules.
 
 ## Modules from the Python standard library
 
-Modules from the **Python standard library** don't have to be installed,
-and can be imported directly.
+Modules from the **Python standard library**  are part of any Python
+installation, but do need to be *loaded* before you can use their functionality.
 
-So, they are not loaded by default, but are part of any Python installation.
-
-For example: `csv`, `os`, `datetime`, and `re`.
+For example: `csv` (working with CSV files), `os` (interfacing with the OS),
+and `re` (using regular expressions &amp;ndash; week after next).
 
 ---
 
-## Installing modules
+## Installing modules/packages
 
-So-called "**third-party**" modules/packages/libraries do need to be installed.
+So-called "**third-party**" modules/packages do need to be installed.
 
-These are not installed from inside Python (like with R),
-but using stand-alone package managers, usually in the shell:
+These are not installed from inside Python,
+but using stand-alone package managers that can be called in the shell:
 
--  `conda`, which we have already worked with &amp;ndash;
-  for instance, to install the `numpy` ("NUMerical PYthon") library:
+- Conda, which we have already worked with &amp;ndash;
+  for instance, to install the `numpy` ("NUMerical PYthon") library
+  into an active Conda environment:
+  
   ```sh
   $ conda install numpy                      # Shell
   ```
-  
+
 - Another common package manager is the Python-specific `pip`:
   ```sh
-  $ pip install numpy                        # Shell
+  $ pip install --user numpy                 # Shell
   ```
+
+&lt;br&gt;
+
+.content-box-info[
+At OSC, Conda is generally the preferred method of managing Python modules.
+]
 
 ---
 
-## Installing modules
+## Installing modules/packages
 
 .content-box-diy[
 
@@ -144,8 +159,11 @@ into our Conda environment `ipy-env`.**
 Open a terminal in VS Code, type `bash` to break out of the container, and:
 
 ```sh
-module load python/3.6-conda5.2
-source activate ipy-env
+sinteractive -A PAS1855 -t 60   # Start an interactive job
+module load python/3.6-conda5.2 # Load the OSC Conda module
+source activate ipy-env         # Activate your "ipy-env"
+
+# Finally, install the Python packages:
 conda install -y numpy pandas scipy biopython
 ```
 ]
@@ -157,12 +175,13 @@ conda install -y numpy pandas scipy biopython
 In Python, it is customary **not** to load modules directly into your "namespace".
 
 This means that the module's functions will not be accessibly by just their
-function names: instead, you need to prepend the module's name.
+function names: instead, you need to **prepend the module name**.
 
 --
 
-- Simply using the module name as in `import mymodule` will load all of the
-  module's functions, which can then be referred to using `mymodule.myfunction`:
+- For example, simply using the module name as in `import mymodule` will load
+  all of the module's functions,
+  which can then be referred to using `mymodule.myfunction`:
 
   ```py
   import os
@@ -187,7 +206,7 @@ function names: instead, you need to prepend the module's name.
 ## Loading modules (cont.)
 
 - To load only  certain functions from a module,
-  or to load certain modules from multi-module packages:
+  or to load specific modules from multi-module packages:
 
   ```py
   # From the snakemake.io module, import two functions:
@@ -204,13 +223,15 @@ function names: instead, you need to prepend the module's name.
 
 --
 
-- Finally, it is *possible yet discouraged* to load all functions from a module
-  directly into your namespace using an asterisk `*` wildcard:
+.content-box-info[
+Finally, it is *possible yet discouraged* to load all functions from a module
+directly into your namespace using an asterisk `*` wildcard:
   
   ```py
   from numpy import *
   array([1, 2, 3, 4])   # Now, no need for "numpy." / "np." prefix
   ```
+]
 
 ---
 
@@ -240,7 +261,7 @@ class: center middle inverse
 
 ## Writing our first function
 
-A function to calculate the GC content of a DNA sequence, provided as a string
+A function to calculate the **GC content of a DNA sequence** provided as a string
 (the GC content is the proportion of bases that are either Gs or Cs):
 
 ```py
@@ -260,6 +281,12 @@ def GC_content(dna):
     
     return GC 
 ```
+
+.content-box-info[
+Create a "cell" in your Python script using `# %%` &amp;ndash;
+now, &lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt; will execute the entire cell,
+and create a new one below it.
+]
 
 ---
 
@@ -294,8 +321,8 @@ The anatomy of a Python function:
 ## Using our first function
 
 ```python
-GCcontent("AATTTCCCGGGAAA")
-#&gt; 0.42857142857142855
+GCcontent("AAATTTTG")
+#&gt; 0.125
 
 GCcontent("ATGCATGCATGC")
 #&gt; 0.5
@@ -332,34 +359,7 @@ and the nuts and bolts are in the individual functions.
 
 ---
 
-## A few more simple functions
-
-A function to nicely print a dictionary:
-
-```python
-def print_dictionary(mydic):
-    
-    for k, v in mydic.items():
-        print("key: ", k, " value: ", v)
-```
-
-&lt;br&gt;
-
---
-
-Let's try it:
-
-```python
-print_dictionary({"a": 3.4, "b": [1, 2, 3, 4], "c": "astring"})
-
-#&gt; key:  a  value:  3.4
-#&gt; key:  b  value:  [1, 2, 3, 4]
-#&gt; key:  c  value:  astring
-```
-
----
-
-## A few more simple functions (cont.)
+## Another simple function
 
 A function to calculate the square for a series of numbers,  
 and compile those squares in a list:
@@ -384,12 +384,17 @@ Let's try it:
 
 ```python
 squared(start = 3, end = 10)
+```
+
+--
+
+```python
 #&gt; [9, 16, 25, 36, 49, 64, 81]
 ```
 
 ---
 
-## Keyword arguments with default values
+## Arguments with default values
 
 ```python
 def squared(start = 1, end = 10):
@@ -400,37 +405,17 @@ Because we specified default values in the function definition,
 we can omit one or both!
 
 ```python
-# Specify only start, end has default value 10:
+# If we only specify "start", then "end" has default value 10:
 squared(5)
 #&gt; [25, 36, 49, 64, 81]
 
-# Specify only end, start has default value 1:
+# If we only specify "end", then "start" has default value 1:
 squared(end = 3)
 #&gt; [1, 4]
 
-# Start has default value 1, end is 10:
+# No arguments provided: start=1, end=10:
 squared()
 #&gt; [1, 4, 9, 16, 25, 36, 49, 64, 81]
-```
-
----
-
-## Keyword arguments with default values (cont.)
-
-```python
-def squared(start = 1, end = 10):
-    ...
-```
-
-With these so-called "keyword arguments",
-we can also reverse the order of the arguments,
-as long as we are calling them by name:
-
-```python
-squared(end = 5, start = 2)
-#&gt; [4, 9, 16]
-squared(5, 2)
-#&gt; []
 ```
 
 ---
@@ -441,10 +426,11 @@ The "scope" of a variable refers to the environment in which it can be accessed:
 
 - When a variable has **"global scope"**, it is available anywhere in the program
   unless/until set to another value.
-  This is the default (and only possible) behavior *outside of functions*.
+  This is Python's behavior for variables set anywhere *outside of functions*.
 
-- When a variable has **"function scope"**, it is available only inside the function.
-  This is the default behavior *inside functions*.
+- When a variable has **"function scope"**,
+  it is available only inside the function.
+  This is the Python's default behavior *inside functions*.
 
 Let's see this in action:
 
@@ -482,13 +468,13 @@ The behavior of limiting the scope of variables in functions is useful because:
 --
 
 .content-box-info[
-So, functions are supposed to be their own little words:
+So, functions are supposed to be their "own little words":
 
 - They *should* only use objects that are explicitly passed to the
   function as arguments: **independence from the global environment**.
   
 - They *should* not modify anything in the global environment except the
-  single object that they return: **no side effects to the global environment**
+  single object that they return: **no side effects to the global environment**.
 ]
 
 ---
@@ -623,7 +609,7 @@ To do so, we'll divide our code into several functions:
 
 ---
 
-## We'll put out functions in a separate script
+## We'll put our functions in a separate script
 
 &lt;br&gt;
 
@@ -634,38 +620,7 @@ Start by opening a new file and saving it as `drift.py`.
 ## The function to build the population
 
 ```python
-import scipy  # for random numbers
-
-def build_population(N, p):
-    """The population consists of N individuals. 
-       Each individual has two chromosomes, containing
-       allele "A" or "a", with probability p and 1-p, respectively.
-       The population is a list of tuples.
-    """
-    
-    population = []
-    
-    for i in range(N):
-        
-        allele1 = "A"
-        if scipy.random.rand() &gt; p:
-            allele1 = "a"
-        
-        allele2 = "A"
-        if scipy.random.rand() &gt; p:
-            allele2 = "a"
-        
-        population.append((allele1, allele2))
-    
-    return population
-```
-
----
-
-## The function to build the population
-
-```python
-import scipy  # for random numbers
+import numpy as np  # for random numbers
 
 def build_population(N, p):
     """The population consists of N individuals. 
@@ -679,11 +634,11 @@ def build_population(N, p):
     for i in range(N):               # Loop over individuals
         
         allele1 = "A"                # The "default" allele is A
-        if scipy.random.rand() &gt; p:  # Random number between 0 and 1
+        if np.random.random() &gt; p:   # Random number between 0 and 1
             allele1 = "a"
         
         allele2 = "A"                # Second chromosome (diploidy)
-        if scipy.random.rand() &gt; p:
+        if np.random.random() &gt; p:
             allele2 = "a"
         
         population.append((allele1, allele2))
@@ -800,10 +755,10 @@ def reproduce_population(population):
     
     for i in range(N):
         
-        dad = scipy.random.randint(N)  # Random int between 0 &amp; N-1
-        mom = scipy.random.randint(N)
+        dad = np.random.randint(N)  # Random int between 0 &amp; N-1
+        mom = np.random.randint(N)  # (to pick indiv. from pop)
         
-        chr_mom = scipy.random.randint(2)
+        chr_mom = np.random.randint(2)
         
         offspring = (population[mom][chr_mom],
                      population[dad][1 - chr_mom])
@@ -830,12 +785,12 @@ def reproduce_population(population):
     
     for i in range(N):     # Run through individuals 1 at a time
         
-        dad = scipy.random.randint(N)  # Random int between 0 &amp; N-1
-        mom = scipy.random.randint(N)  # (to pick indiv. from pop)
+        dad = np.random.randint(N)     # Random int between 0 &amp; N-1
+        mom = np.random.randint(N)     # (to pick indiv. from pop)
         
-        chr_mom = scipy.random.randint(2) # Pick chromosome: 1 or 0
+        chr_mom = np.random.randint(2) # Pick chromosome: 1 or 0
         
-        offspring = (population[mom][chr_mom], # 1 chr. from mom
+        offspring = (population[mom][chr_mom],     # 1 chr. from mom
                      population[dad][1 - chr_mom]) # 1 chr. from dad
         
         new_generation.append(offspring) # Add to master list
@@ -864,6 +819,19 @@ def reproduce_population(population):
   import drift
   ```
 
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+.content-box-diy[
+If your Conda installation of additional Python packages failed or is
+still running, use a variant with SciPy functions instead:
+
+```sh
+# In the shell:
+cd /fs/ess/PAS1855/users/$USER/week10
+cp /fs/ess/PAS1855/users/jelmer/week10/drift_scipy.py drift.py
+```
+
+]
 ---
 
 ## Get help for our own module!
@@ -1022,6 +990,55 @@ def simulate_drift(N, p):
       
       my_pop = drift.reproduce_population(my_pop)
       num_generations = num_generations + 1
+```
+
+---
+background-color: #f2f5eb
+
+## Another simple function
+
+A function to nicely print a dictionary:
+
+```python
+def print_dictionary(mydic):
+    
+    for k, v in mydic.items():
+        print("key: ", k, " value: ", v)
+```
+
+&lt;br&gt;
+
+--
+
+Let's try it:
+
+```python
+print_dictionary({"a": 3.4, "b": [1, 2, 3, 4], "c": "astring"})
+
+#&gt; key:  a  value:  3.4
+#&gt; key:  b  value:  [1, 2, 3, 4]
+#&gt; key:  c  value:  astring
+```
+
+---
+background-color: #f2f5eb
+
+## Keyword arguments can be passed in any order
+
+```python
+def squared(start = 1, end = 10):
+    ...
+```
+
+With these so-called "keyword arguments",
+we can also reverse the order of the arguments,
+as long as we are calling them by name:
+
+```python
+squared(end = 5, start = 2)
+#&gt; [4, 9, 16]
+squared(5, 2)
+#&gt; []
 ```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
