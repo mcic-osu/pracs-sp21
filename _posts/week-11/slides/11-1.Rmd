@@ -67,6 +67,17 @@ class: center middle inverse
 
 ---
 
+## Setup
+
+```sh
+sinteractive -A PAS1855 -t 60
+module load python/3.6-conda5.2
+source activate ipy-env
+conda install -y scikit-image
+```
+
+---
+
 ## What are NumPy and Scipy?
 
 NumPy is the basic Python package for scientific computing,
@@ -79,9 +90,8 @@ extend the features of NumPy.
 
 --
 
-We have already used SciPy last week, to generate random numbers,
-and will start with NumPy now.
-NumPy is typically imported with `as np` added,
+We have already used NumPy a bit last week to generate random numbers.
+As we saw, NumPy is typically imported with `as np` added,
 so we can access its functions with a little less typing:
 
 ```python
@@ -93,9 +103,8 @@ import numpy as np
 ## NumPy arrays
 
 Arrays are NumPy's main data structure,
-which can contain numerical vectors (1-dimensional arrays),
-matrices (2-dimensional arrays),
-and tensors (n-dimensional arrays).
+which can contain numerical **vectors** (1-dimensional arrays),
+**matrices** (2-dimensional arrays), and **tensors** (n-dimensional arrays).
 
 To create a one-dimensional array,
 we can use NumPy's variant on the `range()` function, `np.arange()`:
@@ -110,8 +119,8 @@ a
 
 ## NumPy arrays (cont.)
 
-- Recall that with lists, we can use operators like `*` but they are not
-  applied element-wise:
+- Recall once again that with lists,
+  we can use operators like `*` but they are not applied element-wise:
 
   ```python
   mylist = list(range(9))
@@ -124,8 +133,8 @@ a
 
 --
 
-- However, with arrays, these operarors do perform **element-wise** ("vectorized")
-  operations:
+- However, with arrays, these operators do work **element-wise**
+  (are "vectorized"):
 
   ```python
   # Multiply each element by 2:
@@ -155,6 +164,8 @@ a
   #> 1
   ```
 
+--
+
 - Get the number of elements with the `size`:
   
   ```python
@@ -173,7 +184,6 @@ a
 
 ## Simple Arithmetic and statistics for arrays
 
-
 - Sum of all elements with `sum()`:
 
   ```python
@@ -190,6 +200,8 @@ a
   a.std()
   #> 2.5819888974716112
   ```
+
+--
 
 - Lowest and highest value with `min()` and `max()`:
 
@@ -226,9 +238,9 @@ a
 
 ## Creating arrays by converting lists
 
-Convert a list to a one-dimensional array:
+**Converting a list to a one-dimensional array**
 
-- If we create an array of numbers without digits,
+- If we create an array of numbers without decimal points,  
   they will be interpreted as integers:
 
   ```python
@@ -255,7 +267,7 @@ Convert a list to a one-dimensional array:
 
 ## Creating arrays by converting lists (cont.)
 
-Convert a list of lists to a two-dimensional array.
+**Converting a "list of lists" to a two-dimensional array.**
 
 - Integers:
 
@@ -284,7 +296,7 @@ Convert a list of lists to a two-dimensional array.
 
 - `np.zeros()` will create an array with 0s.
 
-  We can specify the dimensions with a tuple &ndash;
+  We can **specify the dimensions using a tuple** &ndash;  
   here, we ask for a 3x2 array filled with floating-point zeros:
 
   ```python
@@ -297,12 +309,13 @@ Convert a list of lists to a two-dimensional array.
 
 --
 
-- We can also "reshape" an existing array using `reshape()` &ndash;
-  here, we create an 1-dimensional array containing the integers from 0 to 8,
-  and then arrange it in a 3x3 array:
+- We can also "reshape" an existing array using `reshape()` &ndash;  
+  let's create a 1-dimensional array containing the integers from 0 to 8,  
+  and then re-arrange it to a 3x3 array:
   
   ```python
   a = np.arange(9)
+  
   a.reshape((3,3))
   #> array([[0, 1, 2],
   #>       [3, 4, 5],
@@ -311,28 +324,9 @@ Convert a list of lists to a two-dimensional array.
 
 ---
 
-## Initialize arrays with a given structure (cont.)
-
-- NumPy can also generate random numbers with the `np.random` module
-  (more later).
-
-  Let's create an array with random values,
-  drawn from the uniform distribution `U[0,1]`
-  (the default for `np.random.random()`):
-
-  ```python
-  np.random.random((2, 3))
-  #> array([[ 0.2331427 , 0.28167952, 0.66094357],
-  #>       [0.13703488, 0.75519455, 0.08413554]])
-  ```
-  
-  Note that with the tuple `(2, 3)`, we merely specify the dimensions.
-  
----
-
 ## Array indexing
 
-With one-dimensional arrays, indexing works just like we have seen for lists.
+**With one-dimensional arrays, indexing works just as we've seen for lists.**
 
 ```python
 a
@@ -373,15 +367,18 @@ m
 #>        [12, 13, 14, 15]])
 ```
 
-- Extract a submatrix &ndash; e.g. rows 1-3 and columns 2-4:
+- With multiple dimensions, we can separate slices for each dimension using
+  commas &ndash; extract a submatrix with rows 1-3 and columns 2-4:
   
   ```python
-  m[0:3, 1:4]
+  m[0:3, 1:4]               # m[rows, columns]
   #> array([[ 1, 2, 3],
   #>        [ 5, 6, 7],
   #>        [ 9, 10, 11]])
   ```
-  
+
+--
+
 .pull-left[
 - Get the second row:
 
@@ -433,10 +430,11 @@ m
 
 ## Load data into NumPy
 
-Rather than creating *file handles* and reading data often line-by-line,
-as we did in the past few weeks,
-NumPy (as well as Pandas later on) typically
-**read files into memory all at once as an object**.
+Rather than creating *file handles* and reading data line-by-line,
+like we did in the past few weeks, NumPy (as well as Pandas) typically
+**read files into memory all at once, and save the contents in an object**.
+
+<br>
 
 For instance, we can use NumPy's `loadtxt()` function as follows:
 
@@ -455,28 +453,26 @@ m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
   import skimage.io as io
   ```
 
-- We will also make Matplotlib image plotting available inside the 
-  interactive Python window:
-
-  ```python
-  %matplotlib inline
-  ```
-
-- Next, let's save the path to the image we want to read in:
+- Next, let's save the path to the image we want to read in as a variable:
   ```python
   import os
+  
   CSB_dir = '/fs/ess/PAS1855/users/<user>/CSB/scientific/data'
   # CSB_dir = '../CSB/scientific/data'
+  
   image_file = 'Kacsoh2013_Drosobrain.png'
   image_path = os.path.join(CSB_dir, image_file)
   ```
 
-
----
+--
 
 .content-box-info[
-### Magic commands
+If using a Jupyter Notebook, we would also need to make Matplotlib image plotting
+available using this IPython "magic function":
 
+```python
+%matplotlib inline
+```
 ]
 
 ---
@@ -507,6 +503,10 @@ io.imshow(image)
   
   As a NumPy array!
 
+<br>
+
+--
+
 - Therefore, we can use the NumPy methods we have learned about.
   Let's check the dimensions:
   
@@ -515,16 +515,18 @@ io.imshow(image)
   (1024, 1024, 4)
   ```
   
-  The image is 1024 x 1024 pixels,
-  and along the 3rd dimension we have RGBA:
-  Red (0), Green (1), Blue (2), and alpha (opaqueness; 3).
+  The image is 1024 x 1024 pixels, with RGBA along the 3rd dimension:
+    - Red (index 0)
+    - Green (index 1)
+    - Blue (index 2)
+    - Alpha (opaqueness; index 3).
 
 ---
 
 ## Case study: Image processing with NumPy (cont.)
 
-- The first channel is the red channel, which should be the one of interest
-  given what our image looks like. Let's extract it and explore:
+- The first channel is the red channel, which should be the one of interest,
+  given what our image looks like... Let's extract it and explore a bit:
   
   ```python
   red = image[:, :, 0]
@@ -536,8 +538,10 @@ io.imshow(image)
   print(red.min(), red.max())
   #> 0 255
   ```
-  
-- It looks like we only have variation in the red channel:
+
+--
+
+- It looks like we indeed *only* have variation in the red channel:
 
   ```python
   for channel_index in range(0, image.shape[2]):
@@ -553,18 +557,17 @@ io.imshow(image)
 ## Case study: Image processing with NumPy (cont.)
 
 Say that we are interested in examining what area in the image express the
-NPF and NPFR1 genes targeted by the assays.
+NPF and NPFR1 genes that were targeted by this assay.
 
-We'll take an overly simple approach,
-by setting a threshold of 100 and determining which pixels have a higher value
-than that.
+We'll here take an overly simple approach,
+by **setting a threshold of 100** and determining which pixels have a higher
+value than that.
 
 ---
 
 ## Case study: Image processing with NumPy (cont.)
 
-First, let's check what a value of 100 looks like by modifying a copy of the
-image:
+Let's check what a value of 100 looks like by modifying a copy of the image:
 
   ```python
   img_copy = image.copy()
@@ -588,6 +591,9 @@ image:
   # red > threshold produces a Boolean array - times 1 to get 0/1
   mask = (red > threshold) * 1
   ```
+
+--
+
 .pull-left[
 
 How many pixels pass?
@@ -632,8 +638,8 @@ io.imshow(mask2)
 ## Random numbers and distributions (6.2.2)
 
 Being able to generate random numbers is useful to perform simulations,
-randomizations, and statistics. NumPy offers a number of functions to
-get random numbers.
+randomizations, and statistics &ndash; and NumPy offers a number of functions to
+get random numbers from different distributions.
 
 As we saw earlier `np.random.random()` will by sample from a uniform
 distribution between 0 and 1:
@@ -665,6 +671,8 @@ np.random.randint(5, 10)
 np.random.randint(-5, -3, size = 4)
 #> array([-4, -5, -5, -3])
 ```
+
+--
 
 .content-box-info[
 The CSB book uses the truly dreadfully named `np.random.random_integers()`
@@ -733,8 +741,10 @@ print(np.random.random(1))
 #> [0.02075195]
 ```
 
-This can be useful to fix bugs or when you need predictable results such as
-when creating a figure from the results of simulations.
+--
+
+Setting a seed can be useful to fix bugs or when you need predictable results
+such as when creating a figure from the results of simulations.
 
 ---
 class: center middle inverse
@@ -745,4 +755,27 @@ class: center middle inverse
 
 <br> <br> <br> <br>
 
+---
 
+## Initialize arrays with a given structure (cont.)
+
+- As we saw last week, NumPy can generate random numbers with the `np.random`
+  module &ndash; and we'll discuss several functions for this later on.
+
+  For now, let's create an array with random values drawn from the uniform
+  distribution `U[0,1]` with `np.random.random()`:
+
+  ```python
+  np.random.random((2, 3))
+  #> array([[ 0.2331427 , 0.28167952, 0.66094357],
+  #>       [0.13703488, 0.75519455, 0.08413554]])
+  ```
+  
+  Note that with the tuple `(2, 3)`, we merely specify the dimensions.
+
+---
+
+.content-box-info[
+### Magic commands
+
+]

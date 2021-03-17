@@ -64,6 +64,7 @@ class: center middle inverse
 ## Pandas
 
 Pandas is short for Python Data Analysis Library.
+
 With its `Series` and especially `DataFrame`s,
 you can do similar analyses to what is typically done in R using the *tidyverse*.
 
@@ -72,7 +73,13 @@ import pandas as pd
 import numpy as np
 ```
 
-Like in R, we don't read files in line-by-line but load them all at once:
+&lt;br&gt;
+
+--
+
+Like in R (and NumPy),
+we don't read files in line-by-line but load them all at once &amp;ndash;
+the standard Pandas function for this is **`read_csv()`**:
 
 ```python
 import os
@@ -104,7 +111,9 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   ```python
   data
   ```
-  
+
+--
+
 - Check the dimensions:
 
   ```python
@@ -124,7 +133,9 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   #&gt;        'Female_plumage_score', 'Male_plumage_score'],
   #&gt;        dtype='object')
   ```
-  
+
+--
+
 - `dtypes` returns data types by column &amp;ndash; note, strings are called
   "object":
 
@@ -139,7 +150,9 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   #&gt; dtype: object
   ```
 
-- A `DataFrame` has an explicit rowwise index: notice the rows numbering.
+--
+
+- A `DataFrame` has an explicit **rowwise index** (notice the row numbering):
   
   ```python
   data.index
@@ -150,8 +163,11 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ## Manipulating DataFrames: renaming columns
 
-- We can rename columns using `rename()` with a dictionary of old and new column
-  names:
+- We can rename columns using `rename()` with a
+  **dictionary of old and new column names.**
+  
+  Let's do so to make the column names and therefore our lines of code
+  a bit shorter:
   
   ```python
   data = data.rename(columns={"Scientific_name": "latin",
@@ -172,6 +188,10 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   data.head()
   ```
 
+--
+
+&lt;br&gt;
+
 - We could also easily add a column with a constant using a vectorized
   operation, like we have seen with NumPy:
   
@@ -190,8 +210,8 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ## Manipulating DataFrames: removing columns
 
-- We can use `del()` to drop one column,
-  or `drop()` to remove one or more columns:
+- We can use the familiar, generic `del()` function to drop one column,  
+  or the more verbose `drop()` method to remove one or more columns:
   
   ```python
   del(data["score_sum"])
@@ -200,6 +220,7 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   ```
   
   - `axis = 0` acts along rows, and `axis = 1` along columns.
+  
   - `inplace` means that the `DataFrame` is modified in place.
 
 ---
@@ -214,6 +235,8 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   
   data.latin
   ```
+
+&lt;br&gt;
 
 - Next, we can index the resulting `Series` (1-dimensional array) like we
   may expect:
@@ -241,7 +264,9 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   #&gt; TypeError: '(slice(0, 3, None), slice(0, 3, None))' is an invalid key
   ```
 
-- Instead we need to use the method `iloc()`:
+&lt;br&gt;
+
+- Instead we need to use the **`iloc()` method**:
   
   ```python
   data.iloc[2, 1]
@@ -261,12 +286,13 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ## Indexing DataFrames (cont.)
 
-We can also use `loc`, which selects rows and columns using **labels**.  
+We can also use the **`loc` method**,
+which selects rows and columns using **labels**.  
 
-The labels for the columns are of course the column names,
-and the labels for the rows is the index (row numbers).
+The labels for the columns are &amp;ndash;of course&amp;ndash; the column names,  
+whereas the labels for the rows are in the **row number index**.
 
-Notice that ranges given with `loc` are *inclusive*,
+Notice that ranges given with `loc` are *inclusive*:  
 so `data.loc[:3, ]` returns the first *four* rows!
 
 ```python
@@ -295,6 +321,8 @@ data.loc[:3, ["latin", "english"]]
   #         Scientific_name	       English_name	            TipLabel	Female_plumage_score	Male_plumage_score	Sum_scores	Study
   # 5801	Zosterops mouroniensis	Mount Karthala White-eye	Zosterops_mouroniensis	47.916667	47.5	95.416667	1
   ```
+
+--
 
 - Or get only the most highly dimorphic species:
 
@@ -343,8 +371,8 @@ data.loc[:3, ["latin", "english"]]
 
 ## Indexing / filtering DataFrames
 
-- We can even select rows based on only part of the cell content,
-  using `str.contains()`:
+- We can even select rows based on only part of the cell content,  
+  using the **`str.contains()`** method:
 
   ```python
   data[data.english.str.contains("Bower")]
@@ -370,47 +398,6 @@ data[data.english.str.contains("Bower")].loc[:2, "latin"]
 
 Why is it not returning any rows?
 ]
-
----
-
-## Views versus copies
-
-When we slice and filter `DataFrames`, we generally get a "**view**" of the
-data, as opposed to a *copy* of the data.
-Therefore, we get a warning when we try to modify such as view:
-
-```python
-high_male_score = data[data["score_m"] &gt; 65]
-
-high_male_score["score_qual"] = "High"
-#&gt; [...] SettingWithCopyWarning:
-#&gt; A value is trying to be set on a copy of a slice from a DataFrame.
-```
-
-Our operation still worked &amp;ndash;
-a column has been added to `high_male_score` but not to data:
-
-```python
-high_male_score.columns
-#&gt;Index(['latin', 'english', 'TipLabel', 'score_f', 'score_m', 'score_qual'],
-#&gt;      dtype='object')
-
-data.columns
-#&gt; Index(['latin', 'english', 'TipLabel', 'score_f', 'score_m'],
-#&gt;       dtype='object')
-```
-
----
-
-## Copy and modify
-
-But in such case, we should instead make a copy of the data:
-
-```python
-high_male_score = data[data["score_m"] &gt; 65].copy()
-
-high_male_score["score_qual"] = "High"
-```
 
 ---
 
@@ -763,6 +750,60 @@ print(hsp.sbjct[0:75] + "...")
 #&gt; [...]
 ```
 
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+
+---
+
+## Views versus copies
+
+When we slice and filter `DataFrames`, we generally get a "**view**" of the
+data, as opposed to a *copy* of the data.
+Therefore, we get a warning when we try to modify such as view:
+
+```python
+high_male_score = data[data["score_m"] &gt; 65]
+
+high_male_score["score_qual"] = "High"
+#&gt; [...] SettingWithCopyWarning:
+#&gt; A value is trying to be set on a copy of a slice from a DataFrame.
+```
+
+--
+
+Our operation still worked &amp;ndash;
+a column has been added to `high_male_score` but not to data:
+
+```python
+high_male_score.columns
+#&gt;Index(['latin', 'english', 'TipLabel', 'score_f', 'score_m', 'score_qual'],
+#&gt;      dtype='object')
+
+data.columns
+#&gt; Index(['latin', 'english', 'TipLabel', 'score_f', 'score_m'],
+#&gt;       dtype='object')
+```
+
+---
+
+## Copy and modify
+
+But in such case, we should instead make a copy of the data:
+
+```python
+high_male_score = data[data["score_m"] &gt; 65].copy()
+
+high_male_score["score_qual"] = "High"
+```
+
+---
 
 class: center middle inverse
 
@@ -777,16 +818,6 @@ class: center middle inverse
 ---
 
 ## PubMed search
-
-
----
-class: center middle inverse
-
-# Questions?
-
------
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
