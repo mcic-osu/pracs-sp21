@@ -12,7 +12,7 @@ output:
 
 - [Slides: Modules, custom functions, and program structure](../week-10/slides/10-1.html) -- Tuesday Zoom (Mar 16)
 
-- [Slides: Writing style, running scripts, and errors](../week-10/slides/10-2.html) -- Thursday Zoom (Mar 18)
+- [Slides: Calling Python scripts, errors, and beyond the basics](../week-10/slides/10-2.html) -- Thursday Zoom (Mar 18)
 
 ### Final project: new
 
