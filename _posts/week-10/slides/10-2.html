@@ -275,6 +275,12 @@ $ ./simulate_drift.py 1000 0.1
 ```
 
 ---
+
+## Side note: standard in and standard out in scripts
+
+## TODO
+
+---
 class: center middle inverse
 
 # Beyond the basics (4.9)
@@ -321,11 +327,15 @@ class: center middle inverse
   #&gt; (1, 2, 4, 6)
   ```
 
+&lt;br&gt;
+
+**We can *concatenate* lists and tuples using the `+` operator.**
+
 ---
 
 ## Arithmetic of data structures (cont.)
 
-- Sets:
+- But we can't do the same for sets:
 
   ```python
   a = {1, 2}
@@ -334,40 +344,20 @@ class: center middle inverse
   #&gt; TypeError: unsupported operand type(s) for +: 'set' and 'set'
   ```
 
----
+- How could we combine `a` and `b` into a single set with all 4 numbers?
 
-## Arithmetic of data structures (cont.)
+--
 
-- Sets:
-
-  ```python
-  a = {1, 2}
-  b = {4, 6}
-  a + b
-  #&gt; TypeError: unsupported operand type(s) for +: 'set' and 'set'
-  ```
-
----
-
-## Arithmetic of data structures (cont.)
-
-- Sets:
-
-  ```python
-  a = {1, 2}
-  b = {4, 6}
-  a + b
-  #&gt; TypeError: unsupported operand type(s) for +: 'set' and 'set'  
-  ```
-  
   ```python
   a | b
   {1, 2, 4, 6}
   ```
 
---
+---
 
-- Dictionaries:
+## Arithmetic of data structures (cont.)
+
+- We also can't use `+` for dictionaries:
   
   ```python
   z1 = {1: "AAA", 2: "BBB"}
@@ -375,7 +365,9 @@ class: center middle inverse
   z1 + z2
   #&gt; TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
   ```
-  
+
+- How can we combine two dictionaries again?
+
 --
 
   ```python
@@ -389,7 +381,8 @@ class: center middle inverse
 ## Arithmetic of data structures (cont.)
 
 We can also "multiply" strings, lists, and tuples,
-though recall that this is never element-wise:
+though recall that this repeats the contents *n* time and does not operate
+element-wise:
 
 ```python
 'a' * 3
@@ -408,13 +401,17 @@ though recall that this is never element-wise:
 
 *Strings*, *sets*, and *tuples* are **immutable**. As a consequence:
 
-- They don't have methods that can modify them *in place*,
-  and any "modification" that you may seem to be making creates a completely
-  new object.
+- They don't have methods that can modify them *in place*, so any
+  "modification" in fact creates an entirely new object:
   
   ```python
-  seq[2] = "U"
-  #&gt; TypeError: 'str' object does not support item assignment
+  seq = 'AACT'
+  
+  seq.replace("T", "U")
+  'AACU'
+  
+  seq
+  'AACT'
   ```
 
 --
@@ -589,22 +586,23 @@ The two main error types that Python distinguishes between are:
 
 | Error type       | Explanation
 |------------------|--------------
-| SyntaxError      | Your code contains a syntax (i.e., grammar) error. &lt;br&gt; Common problems are a missing colon, missing quotes, `=` instead of `==`.
-| IndentationError | **Incorrect amount of indentation**, e.g. after `if`, loop, or function definition.
-| TypeError        | Variable type does not allow the operation: e.g. adding a number and a string.
-| NameError        | Variable does not exist (typo?).
-| IndexError       | Item in list does not exist.
-| KeyError         | Item in dictionary does not exist.
-| IOError          | File that does not exist, or you tried to write to a file that is open only for reading (IO = Input/Output).
-| AttributeError   | Attribute or method that does not exist, e.g. `.keys()` on a list.
+| SyntaxError      | **Code contains a syntax (i.e., grammar) error**. &lt;br&gt; Common problems are a missing colon, missing quotes, `=` instead of `==`.
+| IndentationError | **Incorrect amount of indentation**, &lt;br&gt; e.g. after `if`, loop, or function definition.
+| TypeError        | **Variable type does not allow the operation**: &lt;br&gt; e.g. adding a number and a string.
+| NameError        | **Variable does not exist** (typo?).
+| IndexError       | **Item in list does not exist.**
+| KeyError         | **Item in dictionary does not exist.**
+| IOError          | **File** does not exist, or you tried to write to a file that is open only for reading (IO = Input/Output).
+| AttributeError   | **Attribute or method does not exist**, &lt;br&gt; e.g. `.keys()` on a list.
 
 ---
 
 ## Handling exceptions
 
 Like almost any programming language (but unlike Bash),
-Python will stop execution when it encounters an error:
-e.g., in case of an error encountered while running your script,
+Python will stop execution when it encounters an error.
+
+So, when an error is encountered in the middle of running your script,
 any code after the error will not be run.
 
 For instance, we may get an error when trying to divide by 0:
@@ -637,6 +635,7 @@ except:
 print("I'm done")
 ```
 
+## expand
 &lt;br&gt;
 
 --
@@ -765,7 +764,6 @@ background-color: #f2f5eb
   - Use descriptive names: `count_pairs`, `body_mass`, `cell_volume`.
   
   - Verbs for functions and nouns for objects.
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
