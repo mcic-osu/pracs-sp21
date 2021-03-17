@@ -15,115 +15,195 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## CSB Intermezzo 6.2
 
-Gächter and Schulz (2016) performed a provocative experiment to study
-intrinsic honesty in different countries. Groups of students were asked to per-
-form two rolls of a fair die, and to report the result of the first roll. They
-were paid an amount of money proportional to the reported number, with
-the exception that they were given no money when they reported rolling a 6.
+[Gächter and Schulz (2016)](https://www.nature.com/articles/nature17160)
+performed a provocative experiment to study intrinsic honesty in different countries.
+Groups of students were asked to perform two rolls of a fair die,
+and to report the result of the first roll.
+They were paid an amount of money proportional to the reported number,
+with the exception that they were given no money when they reported rolling a 6.
 
-The subjects knew of the monetary reward, and that their rolls were
-private—the experimenters could not determine whether they were telling
-the truth or not. If everybody were to tell the truth, we would expect that each
-claim (from 0 to 5 monetary units) would be equally represented in the data,
-with a proportion of 16 = 0.16. Countries where cheaters were more abundant
-would have a higher proportion of subjects claiming a reward of 5 units and
-a lower proportion of those claiming 0 units.
+The subjects knew of the monetary reward,
+and that their rolls were private — the experimenters could not determine whether
+they were telling the truth or not.
+If everybody were to tell the truth, we would expect that each claim
+(from 0 to 5 monetary units) would be equally represented in the data,
+with a proportion of 1/6 = 0.16.
+Countries where cheaters were more abundant would have a higher proportion of
+subjects claiming a reward of 5 units and a lower proportion of those claiming
+0 units.
 
-1. Load the file ( data/Gachter2016_data.csv ) using pandas . Which
-country reported the smallest frequency of Claim == 0 (meaning
-fewest honest players)? Which the highest?
+1. Load the file (`data/Gachter2016_data.csv`) using pandas.
+   Which country reported the smallest frequency of `Claim == 0`
+   (meaning fewest honest players)? Which the highest?
 
-2. Now calculate the reported frequency of rolling the number 5 (which
-would lead to a claim of 5 units) for each country. Which country has
-the lowest frequency (most honest players)? Which the highest? Notice
-that the data report cumulative frequencies; to obtain the frequency of
-rolling a 5, you need to subtract the cumulative frequency of claiming
-4 monetary units from 1.0.
+2. Now calculate the reported frequency of rolling the number 5
+   (which would lead to a claim of 5 units) for each country.
+   Which country has the lowest frequency (most honest players)?
+   Which the highest?
+   
+   Notice that the data report cumulative frequencies;
+   to obtain the frequency of rolling a 5,
+   you need to subtract the cumulative frequency of claiming 4 monetary units
+   from 1.0.
 
-## CSB Exercise 1: Lord of the Fruit Flies
+<br>
 
-Suppose you need information on how to breed Drosophila virilis in your lab-
-oratory and you would like to contact an expert. Conduct a PubMed query
-on who has published most contributions on D. virilis. This person might be
-a good researcher to contact.
+## Exercise CSB-2: Number of reviewers and rejection rate
+
+[Fox et al. (2016)](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2435.12587)
+studied the effects on the outcome of papers of the genders
+of the handling editors and reviewers.
+For the study, they compiled a database including all the submissions to the
+journal Functional Ecology from 2004 to 2014.
+Their data are reported in `data/Fox2016_data.csv`.
+
+Besides the effects of gender and bias in journals,
+the data can be used to investigate whether manuscripts having more reviewers are
+more likely to be rejected.
+Note that this hypothesis should be tested for reviewed manuscripts,
+that is, excluding “desk rejections” without review.
+
+1. Import the data using pandas,
+   and count the number of reviewers (by summing `ReviewerAgreed`)
+   for each manuscript (i.e., unique `MsID`).
+   The column `FinalDecision` contains `1` for rejection, and `0` for acceptance.
+   
+   Compile a table measuring the probability of rejection given the number
+   of reviewers.
+   Does having more reviewers increase the probability of being rejected?
+   
+2. Write a function to repeat the analysis above for each year represented
+   in the database. For example, for the year 2009, your function should return:
+
+   ```sh
+   Year: 2009
+   Submissions: 626
+   Overall rejection rate: 0.827
+   NumRev    NumMs   rejection rate
+   0   306   0.977
+   1   2     0.5
+   2   228   0.68
+   3   86    0.698
+   4   4     0.75
+   ```
+
+<br>
+
+## Bonus -- Exercise CSB-1: Lord of the fruit flies
+
+TO DO:For this exercise, you'll need to read the section ...
+
+Suppose you need information on how to breed *Drosophila virilis* in your
+laboratory and you would like to contact an expert.
+Conduct a PubMed query on who has published most contributions on D. virilis.
+This person might be a good researcher to contact.
 
 1. Identify how many papers in the PubMed database have the words
-Drosophila virilis in their title or abstract. Use the usehistory argument
-so you can refer to this search in the next step.
-2. Retrieve the PubMed entries that were identified in step (1).
+   *Drosophila virilis* in their title or abstract.
+   Use the `usehistory` argument so you can refer to this search in the next step.
+
+2. Retrieve the PubMed entries that were identified in step 1.
+
 3. Count the number of contributions per author.
+
 4. Identify the five authors with the most contributions.
 
-## CSB Exercise 2: Number of Reviewers and Rejection Rate
+<br>
 
-Fox et al. (2016) studied the effects on the outcome of papers of the genders
-of the handling editors and reviewers. For the study, they compiled a database
-including all the submissions to the journal Functional Ecology from 2004 to
-2014. Their data are reported in data/Fox2016_data.csv . Besides the effects
-of gender and bias in journals, the data can be used to investigate whether
-manuscripts having more reviewers are more likely to be rejected. Note that
-this hypothesis should be tested for reviewed manuscripts, that is, excluding
-“desk rejections” without review.
-1. Import the data using pandas , and count the number of reviewers (by
-summing ReviewerAgreed ) for each manuscript (i.e., unique MsID ). The
-column FinalDecision contains 1 for rejection, and 0 for acceptance.
-Compile a table measuring the probability of rejection given the number
-of reviewers. Does having more reviewers increase the probability of
-being rejected?
-2. Write a function to repeat the analysis above for each year represented
-in the database. For example, you should return
+## Bonus -- Exercise CSB-3: The evolution of cooperation
 
+Why are some animals (including humans) cooperating?
+What gives rise to complex social organizations and reciprocity?
+These fascinating questions can be studied using game theory,
+made popular in evolutionary biology by Maynard Smith (1982).
 
-```sh
-Year: 2009
-Submissions: 626
-Overall rejection rate: 0.827
-NumRev    NumMs   rejection rate
-0   306   0.977
-1   2     0.5
-2   228   0.68
-3   86    0.698
-4   4     0.75
-```
+One of the most well-studied problems in game theory is the “prisoner’s dilemma”:
+two prisoners are suspected of a crime and interrogated in separate rooms;
+each prisoner is given the possibility to either betray the other, or remain silent. 
 
-## Bonus -- CSB Exercise 3: The Evolution of Cooperation
+If both remain silent (i.e., they cooperate), they each get 1 year in prison;
+if one remains silent (cooperates) and the other betrays (defects),
+the one who remained silent is sentenced to 3 years, while the other is let free;
+finally, if each betrays the other (defects), both receive a term of 2 years.
 
-Why are some animals (including humans) cooperating? What gives rise to
-complex social organizations and reciprocity? These fascinating questions can
-be studied using game theory, made popular in evolutionary biology by May-
-nard Smith (1982). One of the most well-studied problems in game theory is
-the “prisoner’s dilemma”: two prisoners are suspected of a crime and interro-
-gated in separate rooms; each prisoner is given the possibility to either betray
-the other, or remain silent. If both remain silent (i.e., they cooperate), they
-each get 1 year in prison; if one remains silent (cooperates) and the other
-betrays (defects), the one who remained silent is sentenced to 3 years, while
-the other is let free; finally, if each betrays the other (defects), both receive a
-term of 2 years. Mathematically, one can show that if the game is played only
-once, defecting is the safest strategy (Nash equilibrium). But what if the game
-is played over and over? Then the mathematics becomes difficult, as the best
-choice depends on the choices of other players.
+Mathematically, one can show that if the game is played only once,
+defecting is the safest strategy (Nash equilibrium).
+But what if the game is played over and over?
+Then the mathematics becomes difficult,
+as the best choice depends on the choices of other players.
+
 Axelrod’s brilliant idea (Axelrod, 1980a) was to invite game theorists,
-sociologists, psychologists, and mathematicians to submit programs imple-
-menting different strategies for a game of iterated prisoner’s dilemma. Each
-program would have access to the history of the moves played so far, and
-based on this would decide a move. Each submission then competed against
-itself, as well as against each other program, in a round-robin tournament.
+sociologists, psychologists, and mathematicians to submit programs implementing
+different strategies for a game of iterated prisoner’s dilemma.
+Each program would have access to the history of the moves played so far,
+and based on this would decide a move.
+Each submission then competed against itself, as well as against each other
+program, in a round-robin tournament.
 
 1. Implement the following five strategies:
-(a) always cooperate
-(b) always defect
-(c) random: cooperate with probability 12 , and defect otherwise
-(d) tit for tat: cooperate on the first turn, then do whatever the other
-player did in the previous turn
-(e) tit for two tat: start by cooperating, and defect only if the other
-player has defected twice in a row
-Each strategy should be a function, accepting as input a list storing the
-previous turns of the game, and returning 1 for cooperate and 0 for
-defect.
+   
+   (a) Always cooperate.
+   
+   (b) Always defect.
+   
+   (c) Random: cooperate with probability 12 , and defect otherwise.
+  
+   (d) Tit for tat: cooperate on the first turn,
+       then do whatever the other player did in the previous turn.
+       
+   (e) Tit for two tat: start by cooperating,
+       and defect only if the other player has defected twice in a row.
+       
+   Each strategy should be a function,
+   accepting as input a list storing the previous turns of the game,
+   and returning `1` for cooperate and `0` for defect.
+
 2. Write a function that accepts the names of two strategies and plays them
-against each other in a game of iterated prisoner’s dilemma for a given
-number of turns. Who wins between random and always_defect ? And
-between random and tit_for_tat ?
-3. [Advanced] Implement a round-robin tournament in which each strat-
-egy is played against every other (including against itself) for 10 rounds
-of 1000 turns each. Who is the winner? 20
+   against each other in a game of iterated prisoner’s dilemma for a given
+   number of turns.
+   Who wins between `random` and `always_defect`?
+   And between `random` and `tit_for_tat`?
+   
+3. [Advanced/Bonus] Implement a round-robin tournament in which each strategy is
+   played against every other (including against itself) for 10 rounds of 1000
+   turns each. Who is the winner?
+
+<br>
+
+## Solutions
+
+<details>
+
+<summary>Intermezzo 6.2</summary>
+
+```python
+import pandas
+# read the data
+data = pandas.read_csv("../data/Gachter2016_data.csv")
+# see the structure
+data.head()
+# extract data for Claim == 0 and copy the DataFrame
+claim_0 = data[data.Claim == 0].copy()
+# country with the lowest frequency of 0s [Tanzania]
+print(claim_0.sort_values("CumulativeFrequency").head(1))
+# country with the highest frequency of 0s [Germany]
+print(claim_0.sort_values("CumulativeFrequency",ascending = False).head(1))
+# extract the data for Claim == 4 and copy the DataFrame
+claim_5 = data[data.Claim == 4].copy()
+# update values
+claim_5.Claim = 5
+claim_5.CumulativeFrequency = 1.0 - claim_5.CumulativeFrequency.values
+# country with the lowest frequency of 5s [Lithuania]
+print(claim_5.sort_values("CumulativeFrequency").head(1))
+# country with the highest frequency of 5s [Morocco]
+print(claim_5.sort_values("CumulativeFrequency", ascending = False).head(1))
+```
+</details>
+
+- [Exercise CSB-2](...).
+
+https://github.com/CSB-book/CSB/tree/master/scientific/solutions
+
+- [Bonus -- Exercise CSB-1: Lord of the fruit flies](https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Lord_of_the_flies_solution.ipynb). CHECK IF WORKING
+
+- [Bonus -- Exercise CSB-3](...).
