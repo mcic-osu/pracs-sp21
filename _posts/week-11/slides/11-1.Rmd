@@ -28,7 +28,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ----
 
-# I (Tuesday)
+# I: NumPy
 
 <br> <br> <br> <br> <br>
 

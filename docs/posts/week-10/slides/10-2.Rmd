@@ -61,29 +61,58 @@ class: center middle inverse
 
 ## Calling Python scripts
 
-So far, we have been working directly in the Python interpreter,
-or we have interactively sent code from a script there.
+So far, we have worked with Python:
+  
+  - By typing in the Python interactive window or console directly.
+  
+  - Similarly, by interactively sending code from a script there.
+  
+  - By loading a Python script as a module using `import my_module`.
 
-Like we did with Bash scripts, we can however also save a script and then run
-it non-interactively by calling it from the shell.
+But, like we did with Bash scripts, we can also save a script and then  
+**run it non-interactively by calling it from the shell.**
 
-To be able to do so smoothly and flexibly, we will:
+--
 
-- Add a *shebang* line in the Python script.
+<br>
 
-- Make the script executable.
+----
 
-- Parse command-line arguments passed to the script.
+<br>
 
-- Add an `if __name__ == "__main__"` statement.
+**We will practice this with our `simulate_drift.py` script from Tuesday.**
 
 ---
 
-## Calling Python scripts: shebang line
+## Calling Python scripts (cont.)
 
-Rather than using `/usr/bin/python3` as the path to the interpreter,
-akin to what we did in Bash scripts with `/bin/bash` (and as CSB does here),
-we will call the `env` utility to determine the path of Python for us.
+To be able to run the script smoothly and flexibly, we will:
+
+- Add a *shebang* line (inside the script).
+
+- Make the script executable (outside of the script).
+
+- Parse command-line arguments passed to the script  
+  (inside & outside of the script).
+
+- Add an `if __name__ == "__main__"` statement (inside the script).
+
+<br>
+
+Most of this is familiar from what we did running Bash scripts!
+
+---
+
+## Calling Python scripts: *shebang* line
+
+We could write a *shebang* analogous to what we did for Bash scripts,
+providing `/usr/bin/python3` (vs. `/bin/bash`) as the path to the interpreter.
+This is also what CSB does.
+
+However, we will instead **call the `env` utility to determine the path of Python
+for us.**
+
+--
 
 Let's see what difference that makes &ndash; open a new terminal and type:
 
@@ -92,12 +121,19 @@ $ /usr/bin/env python3
 #> ...
 #> Python 3.6.8
 >>>                     # Ctrl-D or exit() to exit Python
+
+$ which python3
+#> /usr/bin/python3
 ```
 
---
+That loaded OSC's default Python 3 installation at `/usr/bin/python3`.
 
-That loaded OSC's default Python 3 installation.
-If we now load our Conda environment with a new version of Python, and try again:
+---
+
+## Calling Python scripts: *shebang* line
+
+If we now load our Conda environment with a new version of Python,  
+and try again:
 
 ```sh
 $ module load python/3.6-conda5.2
@@ -111,11 +147,18 @@ $ which python3         # Check the current path to Python
 #> ~/.conda/envs/ipy-env/bin/python3
 ```
 
+Nice! `env` automatically tracked down the correct version of Python for us.
+
+So, using `/usr/bin/env python3` in the *shebang* line is flexible,
+and we don't need to change the path depending on which Python installation
+we want to use.
+
 ---
 
 ## Calling Python scripts: Make the script executable
 
-Make the script executable in the shell:
+Make the script executable in the shell &ndash;
+same as we've done with Bash scripts:
 
 ```sh
 $ chmod +x simulate_drift.py
@@ -125,21 +168,43 @@ $ chmod +x simulate_drift.py
 
 ## Calling Python scripts: Parse command-line arguments
 
-In this case, also like with our Bash scripts, we also want the script to take
-*arguments*, so we include the following code in the script to parse these
-arguments:
+Again like in our Bash scripts,
+we also generally want scripts to take *arguments*.
+
+Arguments that were passed to the script (as in `./my.py arg1 arg2`) are
+available inside the script in the list `sys.argv`.
+
+Just like `$0` contained the name of the script in Bash,
+and `$1` contained the first argument, and so on, in Python:
+
+- `sys.argv[0]` contains the name of the script.
+- `sys.argv[1]` contains the first argument.
+- `sys.argv[1]` contains the second argument.
+- And so on...
+
+---
+
+## Calling Python scripts: Parse command-line arguments
+
+To parse the command-line arguments, we therefore include the following code
+in the script:
 
 ```python
 # DON'T COPY THIS YET, WE WILL MAKE MODIFICATIONS
 
 # Parse command line arguments, and convert to the right type
 # (they are strings by default):
+import sys ?
+
 N = int(sys.argv[1])
 p = float(sys.argv[2])
 ```
 
-Additionally, our script is currently just a function so we also need to *call*
-the function in order to run it, and we use the command-line arguments:
+<br>
+
+Additionally, our script currently just contains a function.
+We therefore also need to *call* the function in order to run it,
+and we use the command-line arguments to do so:
 
 ```python
 # Call the simulation:
@@ -160,20 +225,27 @@ A Python script can be run in two quite different ways:
   In this case, we want to actually run some computations,
   e.g. *call* the functions in the script. 
 
+---
+
+## Calling Python scripts: `__name__`
+
 We could create separate scripts for both use cases, but Python makes it easy
 for a single script to perform either of these functions depending on the context.
 
-Using the special variable `__name__`, we can tell whether a script is being
-called from the shell (in this case, the value of `__name__` will be `'__main__'`)
-or whether it is being imported
-(in this case, the value of `__name__` will be the name of the script).
+Using the special variable `__name__`, we can tell the use case:
 
+- If the script is being imported,  
+  **the value of `__name__` will be the name of the script.**
+
+- If the script is being called from the shell,  
+  **the value of `__name__` will be `'__main__'`.**
+  
 ---
 
 ## Calling Python scripts: `__name__`
 
 Therefore, we can include the following `if` statement to determine whether
-a script is being called from the shell, and *only* if it is, we actually
+a script is being called from the shell &mdash; and *only* if it is, we actually
 parse arguments and *run* the functions in our script:
 
 ```python
@@ -187,6 +259,8 @@ if __name__ == "__main__":
   # Call the simulation:
   simulate_drift(N, p)
 ```
+
+--
 
 While the `__name__ == "__main__"` call is not necessary *just* for our
 current use case
@@ -205,6 +279,12 @@ Now, we can run our Python script from the shell:
 ```sh
 $ ./simulate_drift.py 1000 0.1
 ```
+
+---
+
+## Side note: standard in and standard out in scripts
+
+## TODO
 
 ---
 class: center middle inverse
@@ -253,11 +333,15 @@ class: center middle inverse
   #> (1, 2, 4, 6)
   ```
 
+<br>
+
+**We can *concatenate* lists and tuples using the `+` operator.**
+
 ---
 
 ## Arithmetic of data structures (cont.)
 
-- Sets:
+- But we can't do the same for sets:
 
   ```python
   a = {1, 2}
@@ -266,40 +350,20 @@ class: center middle inverse
   #> TypeError: unsupported operand type(s) for +: 'set' and 'set'
   ```
 
----
+- How could we combine `a` and `b` into a single set with all 4 numbers?
 
-## Arithmetic of data structures (cont.)
+--
 
-- Sets:
-
-  ```python
-  a = {1, 2}
-  b = {4, 6}
-  a + b
-  #> TypeError: unsupported operand type(s) for +: 'set' and 'set'
-  ```
-
----
-
-## Arithmetic of data structures (cont.)
-
-- Sets:
-
-  ```python
-  a = {1, 2}
-  b = {4, 6}
-  a + b
-  #> TypeError: unsupported operand type(s) for +: 'set' and 'set'  
-  ```
-  
   ```python
   a | b
   {1, 2, 4, 6}
   ```
 
---
+---
 
-- Dictionaries:
+## Arithmetic of data structures (cont.)
+
+- We also can't use `+` for dictionaries:
   
   ```python
   z1 = {1: "AAA", 2: "BBB"}
@@ -307,7 +371,9 @@ class: center middle inverse
   z1 + z2
   #> TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
   ```
-  
+
+- How can we combine two dictionaries again?
+
 --
 
   ```python
@@ -320,8 +386,9 @@ class: center middle inverse
 
 ## Arithmetic of data structures (cont.)
 
-We can also "multiply" strings, lists, and tuples, though recall that this
-is never element-wise:
+We can also "multiply" strings, lists, and tuples,
+though recall that this repeats the contents *n* time and does not operate
+element-wise:
 
 ```python
 'a' * 3
@@ -340,13 +407,17 @@ is never element-wise:
 
 *Strings*, *sets*, and *tuples* are **immutable**. As a consequence:
 
-- They don't have methods that can modify them *in place*,
-  and any "modification" that you may seem to be making creates a completely
-  new object.
+- They don't have methods that can modify them *in place*, so any
+  "modification" in fact creates an entirely new object:
   
   ```python
-  seq[2] = "U"
-  #> TypeError: 'str' object does not support item assignment
+  seq = 'AACT'
+  
+  seq.replace("T", "U")
+  'AACU'
+  
+  seq
+  'AACT'
   ```
 
 --
@@ -521,22 +592,23 @@ The two main error types that Python distinguishes between are:
 
 | Error type       | Explanation
 |------------------|--------------
-| SyntaxError      | Your code contains a syntax (i.e., grammar) error. <br> Common problems are a missing colon, missing quotes, `=` instead of `==`.
-| IndentationError | **Incorrect amount of indentation**, e.g. after `if`, loop, or function definition.
-| TypeError        | Variable type does not allow the operation: e.g. adding a number and a string.
-| NameError        | Variable does not exist (typo?).
-| IndexError       | Item in list does not exist.
-| KeyError         | Item in dictionary does not exist.
-| IOError          | File that does not exist, or you tried to write to a file that is open only for reading (IO = Input/Output).
-| AttributeError   | Attribute or method that does not exist, e.g. `.keys()` on a list.
+| SyntaxError      | **Code contains a syntax (i.e., grammar) error**. <br> Common problems are a missing colon, missing quotes, `=` instead of `==`.
+| IndentationError | **Incorrect amount of indentation**, <br> e.g. after `if`, loop, or function definition.
+| TypeError        | **Variable type does not allow the operation**: <br> e.g. adding a number and a string.
+| NameError        | **Variable does not exist** (typo?).
+| IndexError       | **Item in list does not exist.**
+| KeyError         | **Item in dictionary does not exist.**
+| IOError          | **File** does not exist, or you tried to write to a file that is open only for reading (IO = Input/Output).
+| AttributeError   | **Attribute or method does not exist**, <br> e.g. `.keys()` on a list.
 
 ---
 
 ## Handling exceptions
 
 Like almost any programming language (but unlike Bash),
-Python will stop execution when it encounters an error:
-e.g., in case of an error encountered while running your script,
+Python will stop execution when it encounters an error.
+
+So, when an error is encountered in the middle of running your script,
 any code after the error will not be run.
 
 For instance, we may get an error when trying to divide by 0:
@@ -569,6 +641,7 @@ except:
 print("I'm done")
 ```
 
+## expand
 <br>
 
 --
@@ -697,4 +770,3 @@ background-color: #f2f5eb
   - Use descriptive names: `count_pairs`, `body_mass`, `cell_volume`.
   
   - Verbs for functions and nouns for objects.
-

@@ -22,12 +22,12 @@ class:inverse middle center
 
 ----
 
-# I (Tuesday)
+# II: Pandas and BioPython
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/23 (updated: 2021-03-16)
+### 2021/03/23 (updated: 2021-03-17)
 
 ---
 
@@ -36,7 +36,7 @@ class:inverse middle center
 .pull-left[
 **Tuesday's presentation**
 
-- NumPy and SciPy (CSB 6.2)
+- NumPy (CSB 6.2)
 
 ]
 
@@ -63,14 +63,35 @@ class: center middle inverse
 
 ## Pandas
 
-Pandas is short for Python Data Analysis Library.
+Pandas is short for "Python Data Analysis Library".
 
-With its `Series` and especially `DataFrame`s,
-you can do similar analyses to what is typically done in R using the *tidyverse*.
+Like NumPy has arrays, the signature data structure of Pandas it its
+`DataFrame`.
+With Pandas' `DataFrame`s, we can analyze tabular data much more
+smoothly in Python.
+
+If you are familiar with R's *tidyverse*, Pandas allows for similar types of
+operations on tabular data.
+
+---
+
+## Pandas
+
+Panda is built on NumPy, so we typically import NumPy along with Pandas:
 
 ```python
 import pandas as pd
 import numpy as np
+```
+
+&lt;br&gt;
+
+Next, let's move into the CSB chapter's sandbox directory:
+
+```python
+import os
+os.chdir('/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/sandbox')
+# os.chdir('../CSB/scientific/sandbox')
 ```
 
 &lt;br&gt;
@@ -82,10 +103,6 @@ we don't read files in line-by-line but load them all at once &amp;ndash;
 the standard Pandas function for this is **`read_csv()`**:
 
 ```python
-import os
-os.chdir('/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/sandbox')
-# os.chdir('../CSB/scientific/sandbox')
-
 data = pd.read_csv("../data/Dale2015_data.csv")
 ```
 
@@ -668,78 +685,166 @@ class: center middle inverse
 
 ## BLAST
 
-The Basic Local Alignment Search Tool (BLAST) finds regions of similarity
-between biological sequences. Biopython provides a module to conveniently
-run a BLAST search against online databases:
+The **Basic Local Alignment Search Tool (BLAST)** finds regions of similarity
+between biological sequences,
+and is one of the most widely used bioinformatics tool.
+
+You may not it from its web interface, where you can paste in or upload some
+sequences, and then "BLAST them" against a database you can specify.
+
+### screenshot?
+
+
+&lt;br&gt;
+
+Using this web interface may be convenient when you have one or a few sequences,
+but it is not very reproducible and completely unsuitable for automation.
+
+---
+
+## Getting set up for BLAST
+
+Biopython provides the module `Bio.Blast` which we can use to run a BLAST search
+against the NCBI's online databases.
+
+We will import just a few of its functions: `NCBIWWW` for access to NCBI's
+BLAST server (the BLAST analysis is still being performed there!),
+and `NCBIXML` to parse the XML format that our results will be in
 
 ```python
-# NCBIWWW allows programmatic access to NCBI's BLAST server
-from Bio.Blast import NCBIWWW
-# retrieve sequences using SeqIO
+# from Bio import SeqIO   # Should already be loaded
+# from Bio import Entrez  # Should already be loaded
+from Bio.Blast import NCBIWWW, NCBIXML
+```
+
+&lt;br&gt;
+
+--
+
+We will start by parsing our FASTA file with SeqIO,
+and then converting the records into a list:
+
+```python
 handle = open("Uropsilus_BMI1.fasta", "r")
-# convert SecRecord into a list for easy access
 records = list(SeqIO.parse(handle, "fasta"))
-# retrieve fourth sequence
-print(records[3].id, " ", records[3].seq)
 ```
 
 ---
 
-## BLAST
+## Our sequence records as a named list
 
-We are ready to run our BLAST search against the NCBI nucleotide
-database (other options are blastp , blastx , tblastn , and tblastx ):
+What does this list that we created look like? Let's print the first 2 items:
 
 ```python
-# always tell NCBI who you are
-Entrez.email = "me@bigu.edu"
-# NCBIWWW.qplast requires three arguments:
-# program, database, sequence
+records[0:2]
+#&gt; [SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778086.1', name='KF778086.1', description="KF778086.1 Uropsilus investigator voucher KIZ:020539 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[]),
+#&gt; SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778085.1', name='KF778085.1', description="KF778085.1 Uropsilus investigator voucher KIZ:020527 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[])]
+```
+
+### More about this list type
+
+Say that the fourth sequence is the one we are interested in:
+
+```python
+print(records[3].id, " ", records[3].seq)
+#&gt; KF778083.1   TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTCAACAAATGGAAAGAATATGCATAGAATAATGCATTCTATGTAGCCA
+```
+
+---
+
+## Run the BLAST search
+
+For our BLAST search, we will use the nucleotide database (`nt`)
+with the `blastn` algorithm, one of several BLAST variants
+(other options are `blastp`, `blastx`, `tblastn`, and `tblastx`).
+
+The `qblast()` function requires three arguments: the program (`blastn` for us),
+the database (`nt` for us), and the query sequence (our 4th record from the
+FASTA file): 
+
+```python
+Entrez.email = "me.999@osu.edu"
+
 result_handle = NCBIWWW.qblast("blastn", "nt", records[3].seq)
-# set up output file
+```
+
+Now, we will write our results, which are in XML format, to an XML file
+and then close the result handle:
+
+```python
 save_file = open("my_blast.xml", "w")
-# write results to output file
 save_file.write(result_handle.read())
 save_file.close()
+
 result_handle.close()
 ```
 
 ---
 
-## BLAST
+## Parse the XML file
 
-By default, the BLAST query returns an XML file that we parse using the
-NCBIXML parser:
+We will now parse our XML file with blast results using the `NCBIXML` parser:
 
 ```python
-from Bio.Blast import NCBIXML
 result_handle = open("my_blast.xml")
-# use NCBIXML.read if you run BLAST for one sequence
-# or NCBIXML.parse for multiple sequences
 blast_records = NCBIXML.read(result_handle)
+```
+
+(Because we our query consisted only of a single sequence,
+we could use `NCBIXML.read()`.
+For multiple sequences, you should use `NCBIXML.parse`.)
+
+---
+
+## Processing the BLAST results
+
+Next, we loop through the individual alignment hits and then for each hit
+through the "High-Scoring Pairs" (HSPs, subsequences with a good match).
+
+For each High-Scoring Pair, we check whether the match is good enough
+according to an arbitrary E-value (`E_VALUE_THRESH`) and length (`LEN_THRESH`)
+that we set.
+
+```python
+E_VALUE_THRESH = 0.04
+LEN_THRESH = 3000
+
+for alignment in blast_records.alignments:
+    
+    for hsp in alignment.hsps:
+        
+        if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; LEN_THRESH:
+            
+            print("****Alignment****")
+            print("sequence:", alignment.title)
+            print("length:", alignment.length)
+            print("E value:", hsp.expect)
+            print(hsp.query[0:75] + "...")
+            print(hsp.match[0:75] + "...")
+            print(hsp.sbjct[0:75] + "...")
 ```
 
 ---
 
-## BLAST
-
-Next, we loop through the individual alignment hits and retrieve some
-basic information about results that have a good match (i.e., low E value)
-to our Uropsilus BMI1 query sequence and are more than 3000 nucleotides
-long:
+## Processing the BLAST results
 
 ```python
 E_VALUE_THRESH = 0.04
+LEN_THRESH = 3000
+
 for alignment in blast_records.alignments:
-for hsp in alignment.hsps:
-if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; 3000:
-print("****Alignment****")
-print("sequence:", alignment.title)
-print("length:", alignment.length)
-print("E value:", hsp.expect)
-print(hsp.query[0:75] + "...")
-print(hsp.match[0:75] + "...")
-print(hsp.sbjct[0:75] + "...")
+    
+    for hsp in alignment.hsps:
+        
+        if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; LEN_THRESH:
+            
+            print("****Alignment****")
+            print("sequence:", alignment.title)
+            print("length:", alignment.length)
+            print("E value:", hsp.expect)
+            print(hsp.query[0:75] + "...")
+            print(hsp.match[0:75] + "...")
+            print(hsp.sbjct[0:75] + "...")
 #&gt; ****Alignment****
 #&gt; sequence: gi|1304911126|ref|XM_006933246.4| PREDICTED: Felis catus BMI1 proto-oncogene, polycomb ring finger (BMI1), transcript variant X3, mRNA
 #&gt; length: 3523
@@ -762,7 +867,7 @@ class: center middle inverse
 
 ---
 
-## Views versus copies
+## "Views" versus copies in Pandas
 
 When we slice and filter `DataFrames`, we generally get a "**view**" of the
 data, as opposed to a *copy* of the data.
