@@ -36,7 +36,7 @@ class:inverse middle center
 
 ----
 
-# II: Calling Python scripts, errors, &lt;br&gt; and beyond the basics
+# II: Running Python scripts, errors, &lt;br&gt; and beyond the basics
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
@@ -50,7 +50,7 @@ class: center middle inverse
 
 ----
 
-### - Calling Python scripts (4.4)
+### - Running Python scripts (4.4)
 
 ### - Beyond the basics (4.9)
 
@@ -59,7 +59,7 @@ class: center middle inverse
 ---
 class: center middle inverse
 
-# Calling Python scripts (4.4)
+# Running Python scripts (4.4)
 
 -----
 
@@ -67,7 +67,7 @@ class: center middle inverse
 
 ---
 
-## Calling Python scripts
+## Running Python scripts
 
 So far, we have worked with Python:
   
@@ -91,7 +91,7 @@ But, like we did with Bash scripts, we can also save a script and then
 
 ---
 
-## Calling Python scripts (cont.)
+## Running Python scripts (cont.)
 
 To be able to run the script smoothly and flexibly, we will:
 
@@ -110,7 +110,7 @@ Most of this is familiar from what we did running Bash scripts!
 
 ---
 
-## Calling Python scripts: *shebang* line
+## Running Python scripts: *shebang* line
 
 We could write a *shebang* line just like we did for Bash scripts,
 directly providing the path to the interpreter,
@@ -139,7 +139,7 @@ That loaded OSC's default Python 3 installation at `/usr/bin/python3`.
 
 ---
 
-## Calling Python scripts: *shebang* line
+## Running Python scripts: *shebang* line
 
 If we now load our Conda environment with a new version of Python,  
 and try again:
@@ -166,7 +166,7 @@ change the path depending on which Python installation we want to use.
 
 ---
 
-## Calling Python scripts: Make the script executable
+## Running Python scripts: Make the script executable
 
 Make the script executable in the shell &amp;ndash;
 same as we've done with Bash scripts:
@@ -177,13 +177,15 @@ $ chmod u+x simulate_drift.py
 
 ---
 
-## Calling Python scripts: Parse command-line arguments
+## Running Python scripts: Parse command-line arguments
 
 Again like we did with Bash scripts,
 we generally want our Python scripts to take *arguments*.
 
 Arguments that were passed to the script (as in `./my.py arg1 arg2`) are
 available inside the script in the list `sys.argv`.
+
+--
 
 Just like `$0` contained the name of the script in Bash,
 and `$1` contained the first argument, and so on:
@@ -206,10 +208,11 @@ look into the [`argparse` module](https://docs.python.org/3/howto/argparse.html)
 
 ---
 
-## Calling Python scripts: Parse command-line arguments
+## Running Python scripts: Parse command-line arguments
 
-Out simulate_drift.py script should take two arguments:  
-the population size `N` and the odds for one allele `p`.
+Our `simulate_drift.py` script should take two arguments:  
+the population size `N` and `p` which is essentially the starting allele
+frequency.
 
 Because the items in the `sys.argv` list are strings by default,  
 we need to convert them to the right type:
@@ -236,7 +239,7 @@ simulate_drift(N, p)
 
 ---
 
-## Calling Python scripts: `__name__`
+## Running Python scripts: `__name__`
 
 A Python script can be run in two quite different ways:
 
@@ -250,7 +253,7 @@ A Python script can be run in two quite different ways:
 
 ---
 
-## Calling Python scripts: `__name__`
+## Running Python scripts: `__name__`
 
 We could create separate scripts for both use cases, but Python makes it easy
 for **a single script to perform either of these functions depending on the context.**
@@ -265,7 +268,7 @@ Using the special variable `__name__`, we can tell the use case:
   
 ---
 
-## Calling Python scripts: `__name__`
+## Running Python scripts: `__name__`
 
 Therefore, we can include an `if` statement to parse arguments and *run* the
 functions in our script only when our script is being called from the shell:
@@ -287,7 +290,7 @@ its functions will just be made available to us.
 
 ---
 
-## Finally, calling our script
+## Finally, running our script
 
 Now, we can run our Python script from the shell:
 
@@ -352,8 +355,6 @@ more complex analysis pipelines** than would be advisable with Bash scripts.
 
 However, we will learn about an "even more advanced" of managing workflows
 using Snakemake (which *is* a Python program!).
-
-
 
 ---
 class: center middle inverse
@@ -483,10 +484,10 @@ element-wise:
   seq = 'AACT'
   
   seq.replace("T", "U")
-  'AACU'
+  #&gt; 'AACU'
   
   seq
-  'AACT'
+  #&gt; 'AACT'
   ```
 
 --
@@ -523,7 +524,7 @@ As a consequence:
   #&gt; None
   
   seq
-  #&gt; ['A', 'A', 'C', 'G']
+  #&gt; ['G', 'C', 'A', 'A']
   ```
 
 ---
@@ -541,7 +542,7 @@ As a consequence:
   ```python
   seq2 = seq
   
-  seq2 = seq2.append('T')
+  seq2.append('T')
   
   seq2
   #&gt; ['A', 'A', 'C', 'G', 'T']
@@ -570,12 +571,12 @@ As a consequence:
 - Now, these lists can be modified independently:
 
   ```python
-  seq.clear()
-  
-  seq
-  #&gt; []
+  seq2.clear()
   
   seq2
+  #&gt; []
+  
+  seq
   #&gt; ['A', 'A', 'C', 'G', 'T']
   ```
 
@@ -585,7 +586,7 @@ As a consequence:
 For lists specifically, we can also use `[:]` notation:
 
 ```python
-seq2 = seq[:] 
+seq2 = seq[:]
 ```
 ]
 
@@ -743,7 +744,7 @@ def superdiv(x, y):
     try:
         return(x / y)
     except:
-        return(0)
+        return(None)      # Return None when trying to divide by 0
 ```
 
 --

@@ -51,7 +51,7 @@ xaringanExtra::use_search(show_icon = TRUE)
 .pull-right[
 **Thursday's presentation:**
 
-- Calling Python scripts (4.4)
+- Running Python scripts (4.4)
 
 - Errors and error handling (4.5)
 
