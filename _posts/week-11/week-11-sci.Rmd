@@ -12,7 +12,9 @@ output:
 
 - [Slides: Numpy](../week-11/slides/11-1.html) -- Tuesday Zoom (Mar 23)
 
-- [Slides: Pandas and BioPython](../week-11/slides/11-2.html) -- Thursday Zoom (Mar 25)
+- [Slides: Pandas](../week-11/slides/11-2.html) -- Thursday Zoom (Mar 25)
+
+- [Slides: BioPython](../week-11/slides/11-3.html) -- Thursday Zoom (Mar 25)
 
 ### Final project: due
 
