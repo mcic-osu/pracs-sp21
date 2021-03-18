@@ -78,19 +78,14 @@ conda install -y scikit-image
 
 ---
 
-## What are NumPy and Scipy?
+## What is NumPy?
 
 NumPy is the basic Python package for scientific computing,
-which includes efficient data structures for vectors and matrices.
+which includes **efficient data structures and vectorized computation
+for vectors and matrices.**
 
-SciPy is a collection of statistical and mathematical functions meant to
-extend the features of NumPy.
+We have already used NumPy a bit last week to **generate random numbers**.
 
-<br> <br>
-
---
-
-We have already used NumPy a bit last week to generate random numbers.
 As we saw, NumPy is typically imported with `as np` added,
 so we can access its functions with a little less typing:
 
@@ -115,6 +110,10 @@ a
 #> array([0, 1, 2, 3, 4, 5, 6, 7, 8])
 ```
 
+One of the key differences between regular Python lists and NumPy arrays is
+that **all elements in an array have to be of the same type.**  
+Usually, they are either integers or floats. 
+
 ---
 
 ## NumPy arrays (cont.)
@@ -124,27 +123,27 @@ a
 
   ```python
   mylist = list(range(9))
-  mylist
-  #>[0, 1, 2, 3, 4, 5, 6, 7, 8]
-  
   mylist * 2
   #>[0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8]
   ```
 
 --
 
-- However, with arrays, these operators do work **element-wise**
-  (are "vectorized"):
+- However, with arrays, these operators do work **element-wise**:
 
   ```python
   # Multiply each element by 2:
   a * 2
   #> array([ 0, 2, 4, 6, 8, 10, 12, 14, 16])
   
-  # Add 2 to each element:
-  2 + a
-  #> array([ 2, 3, 4, 5, 6, 7, 8, 9, 10])
+  # ...
+  a + a
+  #> ...
   ```
+  
+  Such operations are said to be "**vectorized**".  
+  In the first example, `2` is recycled (or **_broadcast_**) as many times as
+  is necessary to multiply each element...FINISH
 
 ---
 
@@ -324,9 +323,10 @@ a
 
 ---
 
-## Array indexing
+## Array indexing and slicing
 
-**With one-dimensional arrays, indexing works just as we've seen for lists.**
+**With one-dimensional arrays, indexing and slicing works just as we've seen
+for lists.**
 
 ```python
 a
@@ -356,7 +356,7 @@ a
   ```
 ---
 
-## Two-dimensional indexing
+## Two-dimensional indexing and slicing
 
 ```python
 m = np.arange(16).reshape((4, 4))
@@ -401,7 +401,7 @@ m
 
 ---
 
-## Operate on the whole array, rows, or columns
+## Operate on the entire array or on rows/columns
 
 - By default, methods like `sum()` will operate on the entire matrix:
 
@@ -700,16 +700,8 @@ but this function has now thankfully been deprecated in favor of
 
 ## Random numbers and distributions (cont.)
 
-We can sample from many other distributions, for instance:
-
-- **Beta**, with parameters alpha, beta, and sample size:
-
-  ```python
-  np.random.beta(1/2, 1/2, 4)
-  array([ 0.64371741, 0.07697382, 0.04568635, 0.04068809])
-  ```
-
-- **Normal**, with parameters: mean, standard deviation, and sample size:
+We can sample from many other distributions, such as the **normal distribution**,
+with parameters *mean*, *standard deviation*, and *sample size*:
   
   ```python
   np.random.normal(10, 0.1, 4)
@@ -756,6 +748,16 @@ class: center middle inverse
 <br> <br> <br> <br>
 
 ---
+class: center middle inverse
+
+# Bonus material
+
+-----
+
+<br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
 
 ## Initialize arrays with a given structure (cont.)
 
@@ -774,8 +776,7 @@ class: center middle inverse
   Note that with the tuple `(2, 3)`, we merely specify the dimensions.
 
 ---
+background-color: #f2f5eb
 
-.content-box-info[
-### Magic commands
+## IPython magic commands
 
-]
