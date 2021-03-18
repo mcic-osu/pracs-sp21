@@ -10,11 +10,11 @@ output:
 
 ### Slides
 
-- [Slides: Numpy](../week-11/slides/11-1.html) -- Tuesday Zoom (Mar 23)
+- Slides: Numpy] -- Tuesday Zoom (Mar 23) -- TBA
 
-- [Slides: Pandas](../week-11/slides/11-2.html) -- Thursday Zoom (Mar 25)
+- Slides: Pandas] -- Thursday Zoom (Mar 25) -- TBA
 
-- [Slides: BioPython](../week-11/slides/11-3.html) -- Thursday Zoom (Mar 25)
+- Slides: BioPython -- Thursday Zoom (Mar 25) -- TBA
 
 ### Final project: due
 
@@ -22,4 +22,4 @@ output:
 
 ### Ungraded assignments
 
-- [Exercises for week 11](../../w11_exercises.html)
+- Exercises for week 11 - TBA

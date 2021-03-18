@@ -1,5 +1,17 @@
 [
   {
+    "path": "posts/week-11/",
+    "title": "Week 11",
+    "description": "Python: Scientific computing",
+    "author": [],
+    "date": "2021-03-22",
+    "categories": [],
+    "contents": "\nSlides\nSlides: Numpy] – Tuesday Zoom (Mar 23) – TBA\nSlides: Pandas] – Thursday Zoom (Mar 25) – TBA\nSlides: BioPython – Thursday Zoom (Mar 25) – TBA\nFinal project: due\nFinal project: proposal – due Tuesday, Mar 23\nUngraded assignments\nExercises for week 11 - TBA\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-03-18T18:49:01-04:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/week-10/",
     "title": "Week 10",
     "description": "Python: Writing good code",
