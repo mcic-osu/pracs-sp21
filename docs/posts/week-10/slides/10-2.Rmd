@@ -18,10 +18,10 @@ knitr::opts_chunk$set(eval = FALSE)
 ```
 
 ```{r xaringan-extra, echo=FALSE, eval=TRUE}
-#xaringanExtra::use_scribble()
-#xaringanExtra::use_panelset()
-#xaringanExtra::use_clipboard()
-#xaringanExtra::use_search(show_icon = TRUE)
+xaringanExtra::use_scribble()
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
 ```
 
 # *Week 10 - Writing good code*
@@ -61,29 +61,59 @@ class: center middle inverse
 
 ## Calling Python scripts
 
-So far, we have been working directly in the Python interpreter,
-or we have interactively sent code from a script there.
+So far, we have worked with Python:
+  
+  - By typing in the Python interactive window directly.
+  
+  - Similarly, by interactively sending code from a script there.
+  
+  - By loading a Python script as a module using `import my_module`.
 
-Like we did with Bash scripts, we can however also save a script and then run
-it non-interactively by calling it from the shell.
+But, like we did with Bash scripts, we can also save a script and then  
+**run it non-interactively by calling it from the shell.**
 
-To be able to do so smoothly and flexibly, we will:
+--
 
-- Add a *shebang* line in the Python script.
+<br>
 
-- Make the script executable.
+----
 
-- Parse command-line arguments passed to the script.
+<br>
 
-- Add an `if __name__ == "__main__"` statement.
+**We will practice this with our `simulate_drift.py` script from Tuesday.**
 
 ---
 
-## Calling Python scripts: shebang line
+## Calling Python scripts (cont.)
 
-Rather than using `/usr/bin/python3` as the path to the interpreter,
-akin to what we did in Bash scripts with `/bin/bash` (and as CSB does here),
-we will call the `env` utility to determine the path of Python for us.
+To be able to run the script smoothly and flexibly, we will:
+
+- Add a *shebang* line (inside the script).
+
+- Make the script executable (outside of the script).
+
+- Parse command-line arguments passed to the script  
+  (inside & outside of the script).
+
+- Add an `if __name__ == "__main__"` statement (inside the script).
+
+<br>
+
+Most of this is familiar from what we did running Bash scripts!
+
+---
+
+## Calling Python scripts: *shebang* line
+
+We could write a *shebang* the way we did for Bash scripts,
+directly providing the path to the interpreter,
+which in this case would be `/usr/bin/python3` (vs. `/bin/bash`).
+(This is also what CSB does in the example.)
+
+However, we will instead **call the `env` utility to determine the path of Python
+for us.**
+
+--
 
 Let's see what difference that makes &ndash; open a new terminal and type:
 
@@ -92,16 +122,24 @@ $ /usr/bin/env python3
 #> ...
 #> Python 3.6.8
 >>>                     # Ctrl-D or exit() to exit Python
+
+$ which python3
+#> /usr/bin/python3
 ```
 
---
+That loaded OSC's default Python 3 installation at `/usr/bin/python3`.
 
-That loaded OSC's default Python 3 installation.
-If we now load our Conda environment with a new version of Python, and try again:
+---
+
+## Calling Python scripts: *shebang* line
+
+If we now load our Conda environment with a new version of Python,  
+and try again:
 
 ```sh
 $ module load python/3.6-conda5.2
 $ source activate ipy-env
+
 $ /usr/bin/env python3
 #> ...
 #> Python 3.9.2
@@ -111,38 +149,77 @@ $ which python3         # Check the current path to Python
 #> ~/.conda/envs/ipy-env/bin/python3
 ```
 
+Nice! `env` automatically tracked down the correct version of Python for us.
+
+<br>
+
+So, using `/usr/bin/env python3` in the *shebang* line means we don't need to
+change the path depending on which Python installation we want to use.
+
 ---
 
 ## Calling Python scripts: Make the script executable
 
-Make the script executable in the shell:
+Make the script executable in the shell &ndash;
+same as we've done with Bash scripts:
 
 ```sh
-$ chmod +x simulate_drift.py
+$ chmod u+x simulate_drift.py
 ```
 
 ---
 
 ## Calling Python scripts: Parse command-line arguments
 
-In this case, also like with our Bash scripts, we also want the script to take
-*arguments*, so we include the following code in the script to parse these
-arguments:
+Again like in our Bash scripts, we generally want scripts to take *arguments*.
+
+Arguments that were passed to the script (as in `./my.py arg1 arg2`) are
+available inside the script in the list `sys.argv`.
+
+Just like `$0` contained the name of the script in Bash,
+and `$1` contained the first argument, and so on:
+
+- `sys.argv[0]` contains the name of the script.
+
+- `sys.argv[1]` contains the first argument.
+
+- `sys.argv[2]` contains the second argument.
+
+- And so on...
+
+
+<br>
+
+.content-box-info[
+For more sophisticated argument parsing, such as accepting flags and named options,
+look into the [`argparse` module](https://docs.python.org/3/howto/argparse.html).
+]
+
+---
+
+## Calling Python scripts: Parse command-line arguments
+
+Out simulate_drift.py script should take two arguments:  
+the population size `N` and the odds for one allele `p`.
+
+Because the items in the `sys.argv` list are strings by default,  
+we need to convert them to the right type:
 
 ```python
-# DON'T COPY THIS YET, WE WILL MAKE MODIFICATIONS
+import sys              # PUT THIS AT THE TOP OF THE SCRIPT
 
-# Parse command line arguments, and convert to the right type
-# (they are strings by default):
-N = int(sys.argv[1])
+N = int(sys.argv[1])    # PUT THIS BELOW THE FUNCTION
 p = float(sys.argv[2])
 ```
 
-Additionally, our script is currently just a function so we also need to *call*
-the function in order to run it, and we use the command-line arguments:
+<br>
+
+Additionally, our script currently just contains a *function*.  
+We therefore also need to *call* the function in order to run it,  
+and we use `N` and `p` as parsed from the command-line arguments to do so:
 
 ```python
-# Call the simulation:
+# Run the simulation:
 simulate_drift(N, p)
 ```
 
@@ -152,49 +229,44 @@ simulate_drift(N, p)
 
 A Python script can be run in two quite different ways:
 
-- It can be imported into any Python session using `import`.
+- It can be **imported into any Python session using `import`**.  
   When we do this, we typically just want to load the functions that are 
-  available in the script.
+  available in the script/module to use them in our own script.
 
-- They can be run from the shell.
-  In this case, we want to actually run some computations,
+- It can be **run from the shell.**
+  In this case, we want to directly run computations,
   e.g. *call* the functions in the script. 
-
-We could create separate scripts for both use cases, but Python makes it easy
-for a single script to perform either of these functions depending on the context.
-
-Using the special variable `__name__`, we can tell whether a script is being
-called from the shell (in this case, the value of `__name__` will be `'__main__'`)
-or whether it is being imported
-(in this case, the value of `__name__` will be the name of the script).
 
 ---
 
 ## Calling Python scripts: `__name__`
 
-Therefore, we can include the following `if` statement to determine whether
-a script is being called from the shell, and *only* if it is, we actually
-parse arguments and *run* the functions in our script:
+We could create separate scripts for both use cases, but Python makes it easy
+for a single script to perform either of these functions depending on the context.
+
+Using the special variable `__name__`, we can tell the use case:
+
+| If the script is being: | Then the value of `__name__` is:
+|-------------------------| -----
+| Called from the shell   | `__main__`
+| Imported                | *The name of the script*
+
+  
+---
+
+## Calling Python scripts: `__name__`
+
+Therefore, we can include an `if` statement to parse arguments and *run* the
+functions in our script only when our script is being called from the shell:
 
 ```python
 if __name__ == "__main__":
-
-  # Parse command line arguments, and convert to the right type
-  # (they are strings by default):
-  N = int(sys.argv[1])
-  p = float(sys.argv[2])
+    
+    N = int(sys.argv[1])
+    p = float(sys.argv[2])
   
-  # Call the simulation:
-  simulate_drift(N, p)
+    simulate_drift(N, p)
 ```
-
-While the `__name__ == "__main__"` call is not necessary *just* for our
-current use case
-(we want to call the script to run it and may not have an intention to import it),
-it is common and good practice for Python scripts to include this.
-
-That way, our scripts can always be called directly *or* loaded as a module
-without problems.
 
 ---
 
@@ -204,7 +276,57 @@ Now, we can run our Python script from the shell:
 
 ```sh
 $ ./simulate_drift.py 1000 0.1
+
+#> An allele reached fixation at generation 162
+#> The genotype counts are
+#> {'AA': 0, 'aa': 1000, 'Aa': 0, 'aA': 0}
 ```
+
+---
+
+## Side note I: <br> Standard input and standard output in scripts
+
+Python makes it straightforward to let scripts interface with standard input
+and standard output.
+
+To **accept input from standard input**,
+we can use the `sys.stdin()` function:
+
+```python
+#!/user/bin/env python
+import sys
+
+for line in sys.stdin():
+    # Process each line...
+```
+
+To **send output to standard out**, we can simply use the `print()` function
+as we did `simulate_drift.py`, or `sys.stdout()` (and `sys.stderr()`).
+
+If our output is processed data,
+printing to standard out rather than saving to file can be also useful as it
+allows you to flexibly redirect output into any file,
+possibly gzip it, and perhaps even pipe it into another program! 
+
+```sh
+grep "my_gene" my.GFF | ./process_gene.py | gzip > gene_output.gz
+```
+
+---
+
+## Side note II: <br> Using Python to orchestrate analysis pipelines
+
+We can also run external command-line programs (and shell tools) from within
+Python scripts as we can **run any run shell command** in a Python script.<sup>[1]</sup>
+
+Combined with Python's advanced argument parsing capabilities such as with
+the `argparse` module, this means that you can **use Python to glue together
+more complex analysis pipelines** than would be advisable with Bash scripts.
+
+However, we will learn about an "even more advanced" of managing workflows
+using Snakemake (which *is* a Python program!).
+
+.footnote[<sup>[1]</sup>This can be done e.g. with the `subprocess.check_output()` function.]
 
 ---
 class: center middle inverse
@@ -219,7 +341,7 @@ class: center middle inverse
 
 ## Arithmetic of data structures
 
-- Lists:
+- Recall that we can use operators like `+` with lists:
 
   ```python
   a = [1, 2, 3]
@@ -232,7 +354,7 @@ class: center middle inverse
 
 ## Arithmetic of data structures
 
-- Lists:
+- Recall that we can use operators like `+` with lists:
 
   ```python
   a = [1, 2, 3]
@@ -244,7 +366,7 @@ class: center middle inverse
 
 --
 
-- Tuples:
+- ...As well as with tuples:
 
   ```python
   a = (1, 2)
@@ -253,11 +375,15 @@ class: center middle inverse
   #> (1, 2, 4, 6)
   ```
 
+<br>
+
+**Specifically, the `+` operator will *concatenate* lists and tuples.**
+
 ---
 
 ## Arithmetic of data structures (cont.)
 
-- Sets:
+- But we can't do the same for sets:
 
   ```python
   a = {1, 2}
@@ -266,40 +392,20 @@ class: center middle inverse
   #> TypeError: unsupported operand type(s) for +: 'set' and 'set'
   ```
 
----
+- How could we combine `a` and `b` into a single set with all 4 numbers?
 
-## Arithmetic of data structures (cont.)
+--
 
-- Sets:
-
-  ```python
-  a = {1, 2}
-  b = {4, 6}
-  a + b
-  #> TypeError: unsupported operand type(s) for +: 'set' and 'set'
-  ```
-
----
-
-## Arithmetic of data structures (cont.)
-
-- Sets:
-
-  ```python
-  a = {1, 2}
-  b = {4, 6}
-  a + b
-  #> TypeError: unsupported operand type(s) for +: 'set' and 'set'  
-  ```
-  
   ```python
   a | b
   {1, 2, 4, 6}
   ```
 
---
+---
 
-- Dictionaries:
+## Arithmetic of data structures (cont.)
+
+- We also can't use `+` for dictionaries:
   
   ```python
   z1 = {1: "AAA", 2: "BBB"}
@@ -307,7 +413,9 @@ class: center middle inverse
   z1 + z2
   #> TypeError: unsupported operand type(s) for +: 'dict' and 'dict'
   ```
-  
+
+- How can we combine two dictionaries again?
+
 --
 
   ```python
@@ -320,8 +428,9 @@ class: center middle inverse
 
 ## Arithmetic of data structures (cont.)
 
-We can also "multiply" strings, lists, and tuples, though recall that this
-is never element-wise:
+We can also "multiply" strings, lists, and tuples,
+though recall that this repeats the contents *n* times and does not operate
+element-wise:
 
 ```python
 'a' * 3
@@ -340,13 +449,17 @@ is never element-wise:
 
 *Strings*, *sets*, and *tuples* are **immutable**. As a consequence:
 
-- They don't have methods that can modify them *in place*,
-  and any "modification" that you may seem to be making creates a completely
-  new object.
+- They don't have methods that can modify them *in place*,  
+  so any "modification" in fact creates an entirely new object:
   
   ```python
-  seq[2] = "U"
-  #> TypeError: 'str' object does not support item assignment
+  seq = 'AACT'
+  
+  seq.replace("T", "U")
+  'AACU'
+  
+  seq
+  'AACT'
   ```
 
 --
@@ -386,10 +499,6 @@ As a consequence:
   #> ['A', 'A', 'C', 'G']
   ```
 
-- When we assign them to a new variable name, all that happens is that we create
-  a new pointer to the *same variable*, and if we make a change using one of the
-  names, the other is changed too.
-
 ---
 
 ## Mutable and immutable data types
@@ -399,9 +508,8 @@ As a consequence:
 
 - They have methods that can modify them *in place*.
 
-- When we assign them to a new variable name, all that happens is that we create
-  a new pointer to the *same variable*, and if we make a change using one of the
-  names, the other is changed too.
+- When we assign them to a new variable name, all that happens is that we
+  **create a new pointer to the *same variable*,**:
   
   ```python
   seq2 = seq
@@ -414,8 +522,8 @@ As a consequence:
   #> ['A', 'A', 'C', 'G', 'T']
   ```
 
-  To actually create a new object with the same contents, we need to explicitly
-  make a copy.
+  To actually create a new object with the same contents,
+  we need to explicitly make a copy.
 
 ---
 
@@ -506,7 +614,7 @@ class: center middle inverse
 
 ## Errors and exceptions
 
-Python's error messages contain a lot of useful information,
+Python's error messages contain a lot of useful information,  
 so it really pays off to pay attention to them.
 
 The two main error types that Python distinguishes between are:
@@ -521,34 +629,52 @@ The two main error types that Python distinguishes between are:
 
 | Error type       | Explanation
 |------------------|--------------
-| SyntaxError      | Your code contains a syntax (i.e., grammar) error. <br> Common problems are a missing colon, missing quotes, `=` instead of `==`.
-| IndentationError | **Incorrect amount of indentation**, e.g. after `if`, loop, or function definition.
-| TypeError        | Variable type does not allow the operation: e.g. adding a number and a string.
-| NameError        | Variable does not exist (typo?).
-| IndexError       | Item in list does not exist.
-| KeyError         | Item in dictionary does not exist.
-| IOError          | File that does not exist, or you tried to write to a file that is open only for reading (IO = Input/Output).
-| AttributeError   | Attribute or method that does not exist, e.g. `.keys()` on a list.
+| SyntaxError      | **Code contains a syntax (i.e., grammar) error**. <br> Common problems are a missing colon, missing quotes, `=` instead of `==`.
+| IndentationError | **Incorrect amount of indentation**, <br> e.g. after `if`, loop, or function definition.
+| TypeError        | **Variable type does not allow the operation**: <br> e.g. adding a number and a string.
+| NameError        | **Variable does not exist** (typo?).
+
+---
+
+## Most common error messages
+
+| Error type       | Explanation
+|------------------|--------------
+| SyntaxError      | **Code contains a syntax (i.e., grammar) error**. <br> Common problems are a missing colon, missing quotes, `=` instead of `==`.
+| IndentationError | **Incorrect amount of indentation**, <br> e.g. after `if`, loop, or function definition.
+| TypeError        | **Variable type does not allow the operation**: <br> e.g. adding a number and a string.
+| NameError        | **Variable does not exist** (typo?).
+| IndexError       | **Item in list does not exist.**
+| KeyError         | **Item in dictionary does not exist.**
+| IOError          | **File** does not exist, or you tried to write to a file that is open only for reading (IO = Input/Output).
+| AttributeError   | **Attribute or method does not exist**, <br> e.g. `.keys()` on a list.
 
 ---
 
 ## Handling exceptions
 
-Like almost any programming language (but unlike Bash),
-Python will stop execution when it encounters an error:
-e.g., in case of an error encountered while running your script,
+Like most programming languages (but unlike Bash),  
+Python will **stop execution** when it encounters an error.
+
+So, when an error is encountered in the middle of running your script or function,
 any code after the error will not be run.
 
 For instance, we may get an error when trying to divide by 0:
 
 ```python
-y = 16
-x = 0
+def div(x, y):
+    print("I will divide!")
+    print(x / y)
+    print("I'm done")
+    
+div(10, 5)
+#> I will divide!
+#> 2
+#> Still here?
 
-y / x
-#> ----------------------------------------------------------
-#> ZeroDivisionError Traceback (most recent call last)
-#> ----> 1 y / x
+div(10, 0)
+#> I will divide!
+#> [...]
 #> ZeroDivisionError: float division by zero
 ```
 
@@ -556,22 +682,46 @@ y / x
 
 ## Handling exceptions (cont.)
 
-Sometimes, you want to allow for an error and carry on,
-in which case you are said to "catch" the error.
+Sometimes, you want to allow for an error and carry on,  
+in which case you are said to **"catch" the error**.
 
 For example:
 
 ```python
-try:
-    print(y / x)
-except:
-    print("Cannot divide by 0")
-print("I'm done")
+def superdiv(x, y):
+    print("I will divide!")
+    try:
+        print(x / y)
+    except:
+        print("Error: Cannot divide by 0")
+    print("I'm done")
+
+
+superdiv(10, 0)
+#> I will divide!
+#> Error: Cannot divide by 0
+#> I'm done
 ```
 
-<br>
+---
+
+## Handling exceptions (cont.)
+
+A less silly version of that,
+where you actually need to accommodate zero-divisions,
+could look something like this:
+
+```python
+def superdiv(x, y):
+    try:
+        return(x / y)
+    except:
+        return(0)
+```
 
 --
+
+<br>
 
 .content-box-info[
 Note that this is doing the opposite of what we were doing in Bash scripts,
@@ -614,11 +764,10 @@ background-color: #f2f5eb
 
 ## Some style  guidelines
 
-- For more, see "[PEP8 - The style guide for Python code](https://pep8.org/)".
-
 - Use four spaces per indentation level; not tabs.
 
-- Split long lines (especially the arguments of functions) using parentheses.
+- Split long lines using parentheses: consider having your text editor insert
+  a vertical line at 80 characters and try not to pass that line.
 
 - Separate functions using blank lines.
 
@@ -632,20 +781,29 @@ import re
 ```
 ]
 
-.pull-left[
+.pull-right[
 No:
 ```python
-import scipy,re
+import scipy, re
 ```
 ]
+
+<br> <br>
+
+.content-box-info[
+For more style guidelines, see
+[PEP8 - The style guide for Python code](https://pep8.org/)
+]
+
 
 ---
 background-color: #f2f5eb
 
 ## Some style guidelines (cont.)
 
-- Put spaces around operators (unless using the : to “slice” a list); use
-parentheses to clarify the precedence of operators:
+- Put spaces around operators (unless using the : to “slice” a list).
+
+- Use parentheses to clarify the precedence of operators.
 
 .pull-left[
 Yes:
@@ -679,14 +837,16 @@ background-color: #f2f5eb
   Python allows you to write short comments (starting with # ) and
   docstrings (multiline comments flanked by triple double quotes, """ ):
   
-  - Use docstrings to document *how to use the code*.
+  - Use docstrings to document *how to use the code*.  
     What does this function do? What is the input/output?
   
-  - Use short comments for explaining difficult passages in the code,
+  - Use short comments for explaining difficult passages in the code:  
     that is, to document how the code works.
 
 
 <br>
+
+--
 
 - **Naming conventions:**
 
@@ -697,4 +857,3 @@ background-color: #f2f5eb
   - Use descriptive names: `count_pairs`, `body_mass`, `cell_volume`.
   
   - Verbs for functions and nouns for objects.
-
