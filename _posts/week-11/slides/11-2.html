@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 11 - Python: Scientific computing</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+
+
+# *Week 11 - Python: Scientific computing*
+
+----
+
+# II: Pandas and BioPython
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/03/23 (updated: 2021-03-17)
+
+---
+
+## Overview of this week
+
+.pull-left[
+**Tuesday's presentation**
+
+- NumPy (CSB 6.2)
+
+]
+
+.pull-right[
+**Today's presentation:**
+
+- Pandas (CSB 6.3)
+
+- BioPython (CSB 6.4)
+]
+
+&lt;br&gt; &lt;br&gt;
+
+---
+class: center middle inverse
+
+# Pandas (CSB 6.3)
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Pandas
+
+Pandas is short for "Python Data Analysis Library".
+
+Like NumPy has arrays, the signature data structure of Pandas it its
+`DataFrame`.
+With Pandas' `DataFrame`s, we can analyze tabular data much more
+smoothly in Python.
+
+If you are familiar with R's *tidyverse*, Pandas allows for similar types of
+operations on tabular data.
+
+---
+
+## Pandas
+
+Panda is built on NumPy, so we typically import NumPy along with Pandas:
+
+```python
+import pandas as pd
+import numpy as np
+```
+
+&lt;br&gt;
+
+Next, let's move into the CSB chapter's sandbox directory:
+
+```python
+import os
+os.chdir('/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/sandbox')
+# os.chdir('../CSB/scientific/sandbox')
+```
+
+&lt;br&gt;
+
+--
+
+Like in R (and NumPy),
+we don't read files in line-by-line but load them all at once &amp;ndash;
+the standard Pandas function for this is **`read_csv()`**:
+
+```python
+data = pd.read_csv("../data/Dale2015_data.csv")
+```
+
+---
+
+## Exploring DataFrames
+
+- Show the first 6 rows with `head()`:
+
+  ```python
+  data.head()
+  
+  #&gt;      Scientific_name	         English_name	          TipLabel	Female_plumage_score	Male_plumage_score
+  #&gt; 0	Abroscopus albogularis	  Rufous-faced Warbler	  Abroscopus_albogularis	45.833333	51.944444
+  #&gt; 1	Abroscopus schisticeps	  Black-faced Warbler	    Abroscopus_schisticeps	48.888889	47.777778
+  #&gt; 2	Abroscopus superciliaris	Yellow-bellied Warbler	  Abroscopus_superciliaris	43.194444	43.611111
+  #&gt; 3	Acanthagenys rufogularis	Spiny-cheeked Honeyeater	Acanthagenys_rufogularis	39.305556	39.166667
+  #&gt; 4	Acanthidops bairdii	     Peg-billed Finch	        Acanthidops_bairdii	40.555556	54.166667
+  ```
+
+- Just typing the name of the dataframe will also return a very useful view:
+
+  ```python
+  data
+  ```
+
+--
+
+- Check the dimensions:
+
+  ```python
+  data.shape
+  #&gt; (5831, 5)
+  ```
+
+---
+
+## Exploring DataFrames
+
+- `columns` returns an `Index` object with the column names:
+
+  ```python
+  data.columns
+  #&gt; Index(['Scientific_name', 'English_name', 'TipLabel',
+  #&gt;        'Female_plumage_score', 'Male_plumage_score'],
+  #&gt;        dtype='object')
+  ```
+
+--
+
+- `dtypes` returns data types by column &amp;ndash; note, strings are called
+  "object":
+
+  ```python
+  data.dtypes
+  #&gt; data_raw.dtypes
+  #&gt; Scientific_name          object
+  #&gt; English_name             object
+  #&gt; TipLabel                 object
+  #&gt; Female_plumage_score    float64
+  #&gt; Male_plumage_score      float64
+  #&gt; dtype: object
+  ```
+
+--
+
+- A `DataFrame` has an explicit **rowwise index** (notice the row numbering):
+  
+  ```python
+  data.index
+  #&gt; RangeIndex(start=0, stop=5831, step=1)
+  ```
+
+---
+
+## Manipulating DataFrames: renaming columns
+
+- We can rename columns using `rename()` with a
+  **dictionary of old and new column names.**
+  
+  Let's do so to make the column names and therefore our lines of code
+  a bit shorter:
+  
+  ```python
+  data = data.rename(columns={"Scientific_name": "latin",
+                              "English_name": "english",
+                              "Female_plumage_score": "score_f",
+                              "Male_plumage_score": "score_m"})
+  ```
+
+---
+
+## Manipulating DataFrames: adding columns
+
+- Create a new column that sums the plumage score for males and females:
+
+  ```python
+  data["score_sum"] = data["score_f"] + data["score_m"]
+  
+  data.head()
+  ```
+
+--
+
+&lt;br&gt;
+
+- We could also easily add a column with a constant using a vectorized
+  operation, like we have seen with NumPy:
+  
+  ```python
+  data["Study"] = 1
+  ```
+
+- Or we could add a column of random numbers &amp;ndash;
+  note that we can get the number of rows on the fly using `data.shape[0]`:
+  
+  ```python
+  data["Rnd"] = np.random.random(data.shape[0])
+  ```
+
+---
+
+## Manipulating DataFrames: removing columns
+
+- We can use the familiar, generic `del()` function to drop one column,  
+  or the more verbose `drop()` method to remove one or more columns:
+  
+  ```python
+  del(data["score_sum"])
+  
+  data.drop(["Rnd", "Study"], axis = 1, inplace = True)
+  ```
+  
+  - `axis = 0` acts along rows, and `axis = 1` along columns.
+  
+  - `inplace` means that the `DataFrame` is modified in place.
+
+---
+
+## Indexing DataFrames
+
+- First, note that we can specify columns not just using `df["colname"]` but
+  also using `df.colname`:
+  
+  ```python
+  data["latin"]
+  
+  data.latin
+  ```
+
+&lt;br&gt;
+
+- Next, we can index the resulting `Series` (1-dimensional array) like we
+  may expect:
+  
+  ```python
+  data["latin"][:3]
+  #&gt; 0 Abroscopus albogularis
+  #&gt; 1 Abroscopus schisticeps
+  #&gt; 2 Abroscopus superciliaris
+  
+  data.latin[:3]
+  #&gt; 0 Abroscopus albogularis
+  #&gt; 1 Abroscopus schisticeps
+  #&gt; 2 Abroscopus superciliaris
+  ```
+
+---
+
+## Indexing DataFrames (cont.)
+
+- But we can't index the entire `DataFrame` the way we may expect to:
+
+  ```python
+  data[0:3, 0:3]
+  #&gt; TypeError: '(slice(0, 3, None), slice(0, 3, None))' is an invalid key
+  ```
+
+&lt;br&gt;
+
+- Instead we need to use the **`iloc()` method**:
+  
+  ```python
+  data.iloc[2, 1]
+  #&gt; 'Yellow-bellied Warbler'
+  
+  # First 2 rows, all columns (out-of-range slices work):
+  data.iloc[:2, :10]
+  
+  # First 2 rows, columns 2 and 4:
+  data.iloc[:2, [1, 3]]
+  
+  # Last 5 rows, all columns:
+  data.iloc[-5:, ]
+  ```
+  
+---
+
+## Indexing DataFrames (cont.)
+
+We can also use the **`loc` method**,
+which selects rows and columns using **labels**.  
+
+The labels for the columns are &amp;ndash;of course&amp;ndash; the column names,  
+whereas the labels for the rows are in the **row number index**.
+
+Notice that ranges given with `loc` are *inclusive*:  
+so `data.loc[:3, ]` returns the first *four* rows!
+
+```python
+data.loc[:3, ["latin", "english"]]
+#&gt; 0 Abroscopus albogularis   Rufous-faced Warbler
+#&gt; 1 Abroscopus schisticeps   Black-faced Warbler
+#&gt; 2 Abroscopus superciliaris Yellow-bellied Warbler
+#&gt; 3 Acanthagenys rufogularis Spiny-cheeked Honeyeater
+```
+
+---
+
+## Indexing / filtering DataFrames
+
+- We can also index based on (a `Series` of) Booleans,
+  for instance to select the row(s) for a certain species:
+
+  ```python
+  data.latin == "Zosterops mouroniensis"
+  #&gt; 0       False
+  #&gt; 1       False
+  #&gt; 2       False
+  #&gt; ...
+  
+  data.loc[data.latin == "Zosterops mouroniensis"]
+  #         Scientific_name	       English_name	            TipLabel	Female_plumage_score	Male_plumage_score	Sum_scores	Study
+  # 5801	Zosterops mouroniensis	Mount Karthala White-eye	Zosterops_mouroniensis	47.916667	47.5	95.416667	1
+  ```
+
+--
+
+- Or get only the most highly dimorphic species:
+
+  ```python
+  data[(data.score_m &gt; 70) &amp; (data.score_f &lt; 40)]
+  #&gt; 	      latin	              english	TipLabel	      score_f	score_m
+#&gt; 875	   Chiroxiphia pareola	Blue-backed Manakin	     Chiroxiphia_pareola	39.305556	71.666667
+#&gt; 1355	  Cyornis hainanus	   Hainan Blue-flycatcher	  Cyornis_hainanus	37.222222	71.250000
+#&gt; 1811	  Euplectes hartlaubi	Marsh Widowbird	         Euplectes_hartlaubi	39.583333	70.555556
+#&gt; 1885	  Foudia omissa	      Forest Fody	             Foudia_omissa	37.777778	71.805556
+  ```
+
+---
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/Blue-backedManakin.jpeg width="62%"&gt;
+&lt;figcaption&gt;Blue-backed Manakin - males (&lt;a href="http://www.arctracer.com/photos/trinidad/birds/Blue-backedManakin.html"&gt;Figure source&lt;/a&gt;)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/manakin_female.jpg width="62%"&gt;
+&lt;figcaption&gt;Blue-backed Manakin - female (&lt;a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg"&gt;Figure source&lt;/a&gt;)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/marsh_widowbird.jpg width="60%"&gt;
+&lt;figcaption&gt;Marsh Widowbird - male (&lt;a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg"&gt;Figure source&lt;/a&gt;)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/marsh_widowbird_female.jpg width="60%"&gt;
+&lt;figcaption&gt;Marsh Widowbird - female (&lt;a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg"&gt;Figure source&lt;/a&gt;)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Indexing / filtering DataFrames
+
+- We can even select rows based on only part of the cell content,  
+  using the **`str.contains()`** method:
+
+  ```python
+  data[data.english.str.contains("Bower")]
+  #&gt; [All rows containing "Bower" in the "english" column]
+  
+  data[data.english.str.contains("Bower")]["latin"][:3]
+  #&gt; 188 Amblyornis flavifrons
+  #&gt; 189 Amblyornis inornata
+  #&gt; 190 Amblyornis macgregoriae
+  #&gt; Name: Scientific_name, dtype: object
+  ```
+
+&lt;br&gt;
+
+--
+
+.content-box-diy[
+Try this:
+
+```python
+data[data.english.str.contains("Bower")].loc[:2, "latin"]
+```
+
+Why is it not returning any rows?
+]
+
+---
+
+## Summary statistics
+
+Like we have seen with NumPy, we can also easily get summary statistics:
+
+```python
+data.score_m.mean()
+#&gt; 51.009189390042877
+
+data.score_m.median()
+#&gt; 49.72222222
+
+data.score_m.std()
+#&gt; 8.2006629346736908
+```
+
+---
+
+## Some simple plots with Matplotlib &amp;ndash; histogram:
+
+```python
+data.score_m.hist()
+```
+
+&lt;p align="center"&gt;
+&lt;img src=img/hist.svg width="90%"&gt;
+&lt;/p&gt;
+
+---
+
+## Simple plots with Matplotlib &amp;ndash; scatterplot
+
+```python
+data.plot.scatter(x = "score_m", y = "score_f")
+```
+
+&lt;p align="center"&gt;
+&lt;img src=img/scatter.svg width="90%"&gt;
+&lt;/p&gt;
+
+---
+
+## Simple plots with Matplotlib &amp;ndash; boxplot:
+
+```python
+data[["score_m", "score_f"]].plot.box()
+```
+
+&lt;p align="center"&gt;
+&lt;img src=img/boxplot.svg width="90%"&gt;
+&lt;/p&gt;
+
+---
+
+## Intermezzo
+
+Get the English names of species for which both males and females have a
+plumage score higher than XX.
+
+---
+
+## Intermezzo: Solutions
+
+
+---
+class: center middle inverse
+
+# BioPython (CSB 6.4)
+
+-----
+
+# I: Retrieving sequences from NCBI (6.4.1)
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Using BioPython to inferface with NCBI databases
+
+While we already downloaded some data from NCBI manually in the exercises for
+week 7 (Bioinformatics Data),
+we can also use NCBI's **"Entrez Programming Utilities"** to do this
+programmatically.
+
+BioPython includes an Entrez module that interfaces with NCBI Entrez. 
+This is a much better method to find and download data, if you regularly need
+to do so.
+
+- We start by importing the module:
+  
+  ```python
+  from Bio import Entrez
+  ```
+
+- As another setup step,
+  we should provide our e-mail address to let NCBI know who we are:
+
+  ```python
+  Entrez.email = "me.1@osu.edu"  # Replace by your email address
+  ```
+
+---
+
+## Search the database
+
+- Create a "handle" to search results:
+
+  ```python
+  handle = Entrez.esearch(db = "nuccore",
+                          term = ("Uropsilus investigator[Organism]"),
+                          RetMax = 200)
+  ```
+
+- Read the results and close the handle:
+
+  ```python
+  search_results = Entrez.read(handle)
+  handle.close()
+  ```
+
+&lt;br&gt;
+
+- Our results are returned in the form of a dictionary,
+  so let's look at the keys:
+  
+  ```python
+  search_results.keys()
+  #&gt; dict_keys(['Count', 'RetMax', 'RetStart', 'IdList',
+  #&gt;            'TranslationSet', 'TranslationStack',
+  #&gt;             'QueryTranslation'])
+  ```
+  
+---
+
+## Looking at the results
+
+- How many sequences did we find?  
+  
+  ```python
+  search_results["Count"]
+  '126'   # Has increased from '71' in the book!
+  ```
+  
+- What is the list of GenBank identifiers?
+
+  ```python
+  id_list = search_results["IdList"]
+  print(id_list)
+  #&gt; ['524853022', '555947199', '555947198', ... , '555946814']
+  ```
+
+- Did we get all 126 IDs in the list? Note that the default is to only return
+  20, but because we used `RetMax = 200` in the call to `Entrez.esearch()`,
+  we got all of them:
+
+  ```python
+  len(id_list)
+  #&gt; '126'
+  search_results["RetMax"]
+  #&gt; '200'
+  ```
+
+---
+
+## Downloading the sequences
+
+We'll now use the GenBank IDs to actually download some sequences:
+
+```python
+search_handle = Entrez.efetch(db = "nuccore",
+                              rettype = "fasta",
+                              retmode = "text",
+                              id = id_list)
+
+# Set up a handle to an output file:
+out_handle = open("Uropsilus_seq.fasta", "w")
+
+# Write the obtained sequence data to the output file:
+for line in handle:
+    out_handle.write(line)
+
+# Close the handles:
+out_handle.close()
+search_handle.close()
+```
+
+Next, we'll read in our FASTA file using SeqIO.
+
+---
+
+class: center middle inverse
+
+# BioPython (CSB 6.4)
+
+-----
+
+# II: Input and output of sequence data using *SeqIO* (6.4.2)
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Reading a FASTA file with SeqIO
+
+- We start by importing the SeqIO module:
+
+  ```python
+  from Bio import SeqIO
+  ```
+
+- Let's print the ID and sequence length for each sequence:
+
+  ```python
+  in_handle = open("Uropsilus_seq.fasta", "r")
+  
+  for record in SeqIO.parse(in_handle, "fasta"):
+      print(record.description)
+      print(len(record), '\n')
+  in_handle.close()
+  
+  #&gt; KC516837.1 Uropsilus investigator isolate A11 apolipoprotein B (ApoB) gene, partial cds
+  #&gt; 573 
+  
+  #&gt; KC516819.1 Uropsilus investigator voucher mlxs331 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
+  #&gt; 912 
+  
+  #&gt; KC516818.1 Uropsilus investigator voucher mlxs022 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
+  #&gt; 912 
+  #&gt; [...]
+  ```
+
+---
+
+## Selecting only sequences for the BMI1 genes
+
+```python
+# We will import the "re" module for regular expression searches:
+import re
+
+output_handle = open("Uropsilus_BMI1.fasta", "w")
+
+for record in SeqIO.parse("Uropsilus_seq.fasta", "fasta"):
+    
+    # Find the BMI1 sequences using "re.search"
+    if re.search("BMI1", record.description):
+        print(record.id)
+        short_seq = record[:100]  # Just take the first 100 bases
+        SeqIO.write(short_seq, output_handle, "fasta")
+        
+output_handle.close()
+```
+
+---
+
+class: center middle inverse
+
+# BioPython (CSB 6.4)
+
+-----
+
+# III: Programmatic BLAST Search (6.4.3)
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## BLAST
+
+The **Basic Local Alignment Search Tool (BLAST)** finds regions of similarity
+between biological sequences,
+and is one of the most widely used bioinformatics tool.
+
+You may not it from its web interface, where you can paste in or upload some
+sequences, and then "BLAST them" against a database you can specify.
+
+### screenshot?
+
+
+&lt;br&gt;
+
+Using this web interface may be convenient when you have one or a few sequences,
+but it is not very reproducible and completely unsuitable for automation.
+
+---
+
+## Getting set up for BLAST
+
+Biopython provides the module `Bio.Blast` which we can use to run a BLAST search
+against the NCBI's online databases.
+
+We will import just a few of its functions: `NCBIWWW` for access to NCBI's
+BLAST server (the BLAST analysis is still being performed there!),
+and `NCBIXML` to parse the XML format that our results will be in
+
+```python
+# from Bio import SeqIO   # Should already be loaded
+# from Bio import Entrez  # Should already be loaded
+from Bio.Blast import NCBIWWW, NCBIXML
+```
+
+&lt;br&gt;
+
+--
+
+We will start by parsing our FASTA file with SeqIO,
+and then converting the records into a list:
+
+```python
+handle = open("Uropsilus_BMI1.fasta", "r")
+records = list(SeqIO.parse(handle, "fasta"))
+```
+
+---
+
+## Our sequence records as a named list
+
+What does this list that we created look like? Let's print the first 2 items:
+
+```python
+records[0:2]
+#&gt; [SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778086.1', name='KF778086.1', description="KF778086.1 Uropsilus investigator voucher KIZ:020539 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[]),
+#&gt; SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778085.1', name='KF778085.1', description="KF778085.1 Uropsilus investigator voucher KIZ:020527 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[])]
+```
+
+### More about this list type
+
+Say that the fourth sequence is the one we are interested in:
+
+```python
+print(records[3].id, " ", records[3].seq)
+#&gt; KF778083.1   TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTCAACAAATGGAAAGAATATGCATAGAATAATGCATTCTATGTAGCCA
+```
+
+---
+
+## Run the BLAST search
+
+For our BLAST search, we will use the nucleotide database (`nt`)
+with the `blastn` algorithm, one of several BLAST variants
+(other options are `blastp`, `blastx`, `tblastn`, and `tblastx`).
+
+The `qblast()` function requires three arguments: the program (`blastn` for us),
+the database (`nt` for us), and the query sequence (our 4th record from the
+FASTA file): 
+
+```python
+Entrez.email = "me.999@osu.edu"
+
+result_handle = NCBIWWW.qblast("blastn", "nt", records[3].seq)
+```
+
+Now, we will write our results, which are in XML format, to an XML file
+and then close the result handle:
+
+```python
+save_file = open("my_blast.xml", "w")
+save_file.write(result_handle.read())
+save_file.close()
+
+result_handle.close()
+```
+
+---
+
+## Parse the XML file
+
+We will now parse our XML file with blast results using the `NCBIXML` parser:
+
+```python
+result_handle = open("my_blast.xml")
+blast_records = NCBIXML.read(result_handle)
+```
+
+(Because we our query consisted only of a single sequence,
+we could use `NCBIXML.read()`.
+For multiple sequences, you should use `NCBIXML.parse`.)
+
+---
+
+## Processing the BLAST results
+
+Next, we loop through the individual alignment hits and then for each hit
+through the "High-Scoring Pairs" (HSPs, subsequences with a good match).
+
+For each High-Scoring Pair, we check whether the match is good enough
+according to an arbitrary E-value (`E_VALUE_THRESH`) and length (`LEN_THRESH`)
+that we set.
+
+```python
+E_VALUE_THRESH = 0.04
+LEN_THRESH = 3000
+
+for alignment in blast_records.alignments:
+    
+    for hsp in alignment.hsps:
+        
+        if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; LEN_THRESH:
+            
+            print("****Alignment****")
+            print("sequence:", alignment.title)
+            print("length:", alignment.length)
+            print("E value:", hsp.expect)
+            print(hsp.query[0:75] + "...")
+            print(hsp.match[0:75] + "...")
+            print(hsp.sbjct[0:75] + "...")
+```
+
+---
+
+## Processing the BLAST results
+
+```python
+E_VALUE_THRESH = 0.04
+LEN_THRESH = 3000
+
+for alignment in blast_records.alignments:
+    
+    for hsp in alignment.hsps:
+        
+        if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; LEN_THRESH:
+            
+            print("****Alignment****")
+            print("sequence:", alignment.title)
+            print("length:", alignment.length)
+            print("E value:", hsp.expect)
+            print(hsp.query[0:75] + "...")
+            print(hsp.match[0:75] + "...")
+            print(hsp.sbjct[0:75] + "...")
+#&gt; ****Alignment****
+#&gt; sequence: gi|1304911126|ref|XM_006933246.4| PREDICTED: Felis catus BMI1 proto-oncogene, polycomb ring finger (BMI1), transcript variant X3, mRNA
+#&gt; length: 3523
+#&gt; E value: 2.25861e-42
+#&gt; TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
+#&gt; |||||||||||||||||||||||||||||||||||||||||||||...
+#&gt; TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
+#&gt; [...]
+```
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+
+---
+
+## "Views" versus copies in Pandas
+
+When we slice and filter `DataFrames`, we generally get a "**view**" of the
+data, as opposed to a *copy* of the data.
+Therefore, we get a warning when we try to modify such as view:
+
+```python
+high_male_score = data[data["score_m"] &gt; 65]
+
+high_male_score["score_qual"] = "High"
+#&gt; [...] SettingWithCopyWarning:
+#&gt; A value is trying to be set on a copy of a slice from a DataFrame.
+```
+
+--
+
+Our operation still worked &amp;ndash;
+a column has been added to `high_male_score` but not to data:
+
+```python
+high_male_score.columns
+#&gt;Index(['latin', 'english', 'TipLabel', 'score_f', 'score_m', 'score_qual'],
+#&gt;      dtype='object')
+
+data.columns
+#&gt; Index(['latin', 'english', 'TipLabel', 'score_f', 'score_m'],
+#&gt;       dtype='object')
+```
+
+---
+
+## Copy and modify
+
+But in such case, we should instead make a copy of the data:
+
+```python
+high_male_score = data[data["score_m"] &gt; 65].copy()
+
+high_male_score["score_qual"] = "High"
+```
+
+---
+
+class: center middle inverse
+
+# BioPython (CSB 6.4)
+
+-----
+
+# IV: Querying PubMed for scientific literature information (6.4.4)
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## PubMed search
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
