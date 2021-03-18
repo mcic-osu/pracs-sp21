@@ -41,7 +41,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/18 (updated: 2021-03-17)
+### 2021/03/18 (updated: 2021-03-18)
 
 ---
 class: center middle inverse
@@ -71,9 +71,8 @@ class: center middle inverse
 
 So far, we have worked with Python:
   
-  - By typing in the Python interactive window directly.
-  
-  - Similarly, by interactively sending code from a script there.
+  - By typing in the Python interactive window directly.  
+    And similarly, by interactively sending code from a script there.
   
   - By loading a Python script as a module using `import my_module`.
 
@@ -98,10 +97,10 @@ To be able to run the script smoothly and flexibly, we will:
 
 - Add a *shebang* line (inside the script).
 
-- Make the script executable (outside of the script).
+- Make the script executable (from the shell).
 
 - Parse command-line arguments passed to the script  
-  (inside &amp; outside of the script).
+  (inside the script &amp; from the shell).
 
 - Add an `if __name__ == "__main__"` statement (inside the script).
 
@@ -113,10 +112,11 @@ Most of this is familiar from what we did running Bash scripts!
 
 ## Calling Python scripts: *shebang* line
 
-We could write a *shebang* the way we did for Bash scripts,
+We could write a *shebang* line just like we did for Bash scripts,
 directly providing the path to the interpreter,
-which in this case would be `/usr/bin/python3` (vs. `/bin/bash`).
-(This is also what CSB does in the example.)
+which in this case would be `/usr/bin/python3` (vs. `/bin/bash`).&lt;sup&gt;[1]&lt;/sup&gt;
+
+.footnote[&lt;sup&gt;[1]&lt;/sup&gt;This is also what CSB does in the example.]
 
 However, we will instead **call the `env` utility to determine the path of Python
 for us.**
@@ -179,7 +179,8 @@ $ chmod u+x simulate_drift.py
 
 ## Calling Python scripts: Parse command-line arguments
 
-Again like in our Bash scripts, we generally want scripts to take *arguments*.
+Again like we did with Bash scripts,
+we generally want our Python scripts to take *arguments*.
 
 Arguments that were passed to the script (as in `./my.py arg1 arg2`) are
 available inside the script in the list `sys.argv`.
@@ -222,6 +223,8 @@ p = float(sys.argv[2])
 
 &lt;br&gt;
 
+--
+
 Additionally, our script currently just contains a *function*.  
 We therefore also need to *call* the function in order to run it,  
 and we use `N` and `p` as parsed from the command-line arguments to do so:
@@ -241,7 +244,7 @@ A Python script can be run in two quite different ways:
   When we do this, we typically just want to load the functions that are 
   available in the script/module to use them in our own script.
 
-- It can be **run from the shell.**
+- It can be **run from the shell.**  
   In this case, we want to directly run computations,
   e.g. *call* the functions in the script. 
 
@@ -250,14 +253,14 @@ A Python script can be run in two quite different ways:
 ## Calling Python scripts: `__name__`
 
 We could create separate scripts for both use cases, but Python makes it easy
-for a single script to perform either of these functions depending on the context.
+for **a single script to perform either of these functions depending on the context.**
 
 Using the special variable `__name__`, we can tell the use case:
 
 | If the script is being: | Then the value of `__name__` is:
 |-------------------------| -----
 | Called from the shell   | `__main__`
-| Imported                | *The name of the script*
+| Imported into a Python session  | *The name of the script*
 
   
 ---
@@ -276,6 +279,12 @@ if __name__ == "__main__":
     simulate_drift(N, p)
 ```
 
+&lt;br&gt;
+
+On the other hand, when we import the script (module),
+these commands won't be executed:
+its functions will just be made available to us.
+
 ---
 
 ## Finally, calling our script
@@ -291,6 +300,7 @@ $ ./simulate_drift.py 1000 0.1
 ```
 
 ---
+background-color: #f2f5eb
 
 ## Side note I: &lt;br&gt; Standard input and standard output in scripts
 
@@ -308,6 +318,8 @@ for line in sys.stdin():
     # Process each line...
 ```
 
+--
+
 To **send output to standard out**, we can simply use the `print()` function
 as we did `simulate_drift.py`, or `sys.stdout()` (and `sys.stderr()`).
 
@@ -321,20 +333,27 @@ grep "my_gene" my.GFF | ./process_gene.py | gzip &gt; gene_output.gz
 ```
 
 ---
+background-color: #f2f5eb
 
 ## Side note II: &lt;br&gt; Using Python to orchestrate analysis pipelines
 
 We can also run external command-line programs (and shell tools) from within
 Python scripts as we can **run any run shell command** in a Python script.&lt;sup&gt;[1]&lt;/sup&gt;
 
+.footnote[&lt;sup&gt;[1]&lt;/sup&gt;This can be done e.g. with the `subprocess.check_output()` function.]
+
 Combined with Python's advanced argument parsing capabilities such as with
 the `argparse` module, this means that you can **use Python to glue together
 more complex analysis pipelines** than would be advisable with Bash scripts.
 
+&lt;br&gt;
+
+--
+
 However, we will learn about an "even more advanced" of managing workflows
 using Snakemake (which *is* a Python program!).
 
-.footnote[&lt;sup&gt;[1]&lt;/sup&gt;This can be done e.g. with the `subprocess.check_output()` function.]
+
 
 ---
 class: center middle inverse
