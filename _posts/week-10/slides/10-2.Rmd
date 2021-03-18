@@ -131,7 +131,7 @@ That loaded OSC's default Python 3 installation at `/usr/bin/python3`.
 
 ---
 
-## Running Python scripts: *shebang* line
+## Running Python scripts: *shebang* line (cont.)
 
 If we now load our Conda environment with a new version of Python,  
 and try again:
@@ -158,6 +158,16 @@ change the path depending on which Python installation we want to use.
 
 ---
 
+## Running Python scripts: *shebang* line (cont.)
+
+So, our *shebang* line, the very first line of the script, should be:
+
+```sh
+#!/usr/bin/env python3
+```
+
+---
+
 ## Running Python scripts: Make the script executable
 
 Make the script executable in the shell &ndash;
@@ -169,7 +179,7 @@ $ chmod u+x simulate_drift.py
 
 ---
 
-## Running Python scripts: Parse command-line arguments
+## Running Python scripts: <br> Parse command-line arguments
 
 Again like we did with Bash scripts,
 we generally want our Python scripts to take *arguments*.
@@ -190,8 +200,6 @@ and `$1` contained the first argument, and so on:
 
 - And so on...
 
-
-<br>
 
 .content-box-info[
 For more sophisticated argument parsing, such as accepting flags and named options,
@@ -690,7 +698,7 @@ def div(x, y):
 div(10, 5)
 #> I will divide!
 #> 2
-#> Still here?
+#> I'm done
 
 div(10, 0)
 #> I will divide!
