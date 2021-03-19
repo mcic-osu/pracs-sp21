@@ -16,8 +16,6 @@ class:inverse middle center
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = FALSE)
 
-library(icon)
-
 icon::fa("user-edit")
 ```
 
