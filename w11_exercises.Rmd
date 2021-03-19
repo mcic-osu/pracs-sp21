@@ -13,49 +13,252 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <br>
 
-## CSB Intermezzo 6.2
+## Exercise CSB-1: <br> Lord of the fruit flies
 
-[Gächter and Schulz (2016)](https://www.nature.com/articles/nature17160)
-performed a provocative experiment to study intrinsic honesty in different countries.
-Groups of students were asked to perform two rolls of a fair die,
-and to report the result of the first roll.
-They were paid an amount of money proportional to the reported number,
-with the exception that they were given no money when they reported rolling a 6.
+Suppose you need information on how to breed *Drosophila virilis* in your
+laboratory and you would like to contact an expert.
+Conduct a PubMed query on who has published most contributions on *D. virilis*.
+This person might be a good researcher to contact.
 
-The subjects knew of the monetary reward,
-and that their rolls were private — the experimenters could not determine whether
-they were telling the truth or not.
-If everybody were to tell the truth, we would expect that each claim
-(from 0 to 5 monetary units) would be equally represented in the data,
-with a proportion of 1/6 = 0.16.
-Countries where cheaters were more abundant would have a higher proportion of
-subjects claiming a reward of 5 units and a lower proportion of those claiming
-0 units.
-
-1. Load the file (`data/Gachter2016_data.csv`) using pandas.
-   Which country reported the smallest frequency of `Claim == 0`
-   (meaning fewest honest players)? Which the highest?
-
-2. Now calculate the reported frequency of rolling the number 5
-   (which would lead to a claim of 5 units) for each country.
-   Which country has the lowest frequency (most honest players)?
-   Which the highest?
+1. Identify how many papers in the PubMed database have the words
+   *Drosophila virilis* in their title or abstract.
    
-   Notice that the data report cumulative frequencies;
-   to obtain the frequency of rolling a 5,
-   you need to subtract the cumulative frequency of claiming 4 monetary units
-   from 1.0.
+   <details>
+   <summary>Hints</summary>
+   
+   - Use the `Entrez.esearch()` function and search the "pubmed" database,
+     and then save the results from the search handle in an object called
+     `record`.
+   
+   - Include `usehistory=y` in your `Entrez.esearch()` call,
+     and then assign the "WebEnv" and "QueryKey" to variables.
+     If you saved you results in the variable `record`, you could get these
+     using `record["WebEnv"]` and `record["QueryKey"]`, respectively.
+     Then, you can refer to this search in the next step.
+   
+   - Use `[Title/Abstract]` after the search term to search only in the title
+     and abstract.
+   
+   Pseudocode:
+   
+   ```
+   import the Entrez module
+   Entrez.email = "your email here"
+   
+   # Create a handle:
+   handle = Entrez.esearch(your code here)
+   
+   # Retrieve the records
+   record = Entrez.read(handle)
+   close the handle
+   
+   save WebEnv from your record
+   save QueryKey from your records
+   ```
+   </details>
+   
+   <details>
+   <summary>Solutions</summary>
+   
+   ```python
+   # Import the Entrez module:
+   from Bio import Entrez
+
+   # Tell NCBI who you are:
+   Entrez.email = "me.1@osu.edu" # EDIT TO YOUR ADDRESS
+   
+   # Perform the search:
+   handle = Entrez.esearch(db = "pubmed",
+                           term = "Drosophila virilis[Title/Abstract]",
+                           usehistory = "y")
+   # Save the results from the search handle in "record" and close the handle:                 
+   record = Entrez.read(handle)
+   handle.close()
+   
+   # Print the number of matching papers:
+   print(record["Count"])
+   
+   # Save the WebEnv and QueryKey for later use:
+   webenv = record["WebEnv"]
+   query_key = record["QueryKey"]
+   ```
+   
+   For the similar CSB solutions to all steps in this exercise, see
+   [here](https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Lord_of_the_flies_solution.ipynb).
+   </details>
+   
+2. Retrieve the PubMed entries that were identified in step 1,
+   and write them to a new file called `D_virilis_pubs.txt`.
+   
+   <details>
+   <summary>Hints</summary>
+   
+   - Use the `Entrez.efetch()` function to retrieve the records.
+     Use similar options to those we used in class,
+     but set `retmax` to be at least as high as the number of papers that you
+     found in the previous step, or you will not get all papers.
+   
+   - Read the results from your search handle to an object,
+     and then write your object to the file `D_virilis_pubs.txt`.
+   
+   Pseudocode:
+   
+   ```
+   handle = fetch records from "pubmed" db with "medline" rettype, "text" retmode,
+            600 retmax, and the saved webenv and query_key
+   data = read from handle
+   close the handle
+   
+   handle = open output file
+   write the data
+   close the handel
+   ```
+   
+   </details>
+   
+   <details>
+   <summary>Solutions</summary>
+   
+   ```python
+   # Perform the search:
+   handle = Entrez.efetch(db = "pubmed",
+                          rettype = "medline",
+                          retmode = "text",
+                          retstart = 0, retmax = 600,
+                          webenv = webenv, query_key = query_key)
+   # Save results from the search handle in "data" and close the handle:
+   data = handle.read()
+   handle.close()
+   
+   out_handle = open("D_virilis_pubs.txt", "w")
+   out_handle.write(data)
+   out_handle.close()
+   ```
+   
+   </details>
+   
+3. Count the number of contributions per author.
+
+   Start by taking a look at your `D_virilis_pubs.txt` file to see how
+   you can match lines that contain author names.
+
+   <details>
+   <summary>Hints</summary>
+   
+   - Create an empty dictionary for authors and their publication counts,
+     and then loop through each line in `D_virilis_pubs.txt` to fill in the
+     dictionary.
+     
+   - To find lines with authors,
+     use the `find()` methods and search for `AU` or even better `AU  -`,
+     since these are the lines with authors.
+    
+   - You'll want to only process lines for which you found `AU  -` as above.
+     Because `find()` returns `-1` when nothing if found, use an `if` statement
+     to test what the output of `find()` is.
+     
+   Pseudocode:
+   
+   ```
+   with open D_virilis_pubs.txt
+         initialize empty dict
+         for line in fhandle
+               if line contains "AU -"
+                  split the line by "-" and take the 2nd element
+                  strip whitespace
+                  initialize author if not in dict and add 1 to keep count
+   ```
+    </details>
+      
+   <details>
+   <summary>Solutions</summary>
+   
+   ```python
+   with open("D_virilis_pubs.txt") as fhandle:
+       
+       # Initialize an empty dictionary:
+       author_dict = {}
+       
+       # Loop through each line:
+       for line in fhandle:
+           
+           # Search for lines with "AU  -", which contain authors:
+           if line.find("AU  -") != -1:
+               
+               # The author name is after the "-",
+               # so we split by "-" and take the 2nd element:
+               author = line.split("-", 1)[1]
+               
+               # Then, we remove any leading and trailing whitespace:
+               author = author.strip()
+               
+               # If key (=author) is present, add 1, otherwise, initialize at 1:
+               author_dict[author] = author_dict.get(author, 0) + 1
+   ```
+   
+   </details>
+   
+4. For the the five authors with the most papers on *D. virilis*,
+   print each name and the corresponding number of papers.
+   
+   You'll have to use the `sorted()` in a way we have not seen yet,
+   see the Hints below for more details.
+
+   <details>
+   <summary>Hints</summary>
+   
+   To get the top authors, you can use the `sorted()` function on your
+   dictionary. You'll have two provide two additional arguments:
+   
+   - `key = author_dict.get`, which will sort by the values of the dictionary
+   - `reverse = TRUE`, so you get the highest number of papers first.
+   
+   Then, take the first 5 items in the resulting list,
+   which will be the top 5 authors.
+   
+   Finally, loop through your list of top authors and print their names (keys)
+   and number of papers (values).
+   
+   Pseudocode:
+   
+   ```
+   sorted_authors = sort dict by value in reverse order
+   top_authors = take top 5 from sorted_authors
+   for author in top authors
+       print the name and the number of papers
+   ```
+   
+   </details>
+   
+   <details>
+   <summary>Solutions</summary>
+   
+   ```python
+   sorted_authors = sorted(author_dict, key = author_dict.get, reverse = True)
+   top_authors = sorted_authors[:5]
+   
+   for author in top_authors:
+       print(author, ":", author_dict[author])
+   
+   #> Gruntenko NE : 36
+   #> Evgen'ev MB : 31
+   #> Hoikkala A : 24
+   #> Raushenbakh IIu : 24
+   #> Korochkin LI : 22
+   ```
+
+   </details>
 
 <br>
 
-## Exercise CSB-2: Number of reviewers and rejection rate
+## Exercise CSB-2: Rejection rates
 
 [Fox et al. (2016)](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2435.12587)
-studied the effects on the outcome of papers of the genders
-of the handling editors and reviewers.
+studied the effects on the outcome of papers of the genders of the handling
+editors and reviewers.
 For the study, they compiled a database including all the submissions to the
 journal Functional Ecology from 2004 to 2014.
-Their data are reported in `data/Fox2016_data.csv`.
+Their data are reported in `CSB/scientific/data/Fox2015_data.csv`.^[If necessary, download the CSB repository again using `git clone https://github.com/CSB-book/CSB.git`]
 
 Besides the effects of gender and bias in journals,
 the data can be used to investigate whether manuscripts having more reviewers are
@@ -63,19 +266,61 @@ more likely to be rejected.
 Note that this hypothesis should be tested for reviewed manuscripts,
 that is, excluding “desk rejections” without review.
 
-1. Import the data using pandas,
+1. Import the data using *pandas*,
    and count the number of reviewers (by summing `ReviewerAgreed`)
    for each manuscript (i.e., unique `MsID`).
    The column `FinalDecision` contains `1` for rejection, and `0` for acceptance.
    
    Compile a table measuring the probability of rejection given the number
    of reviewers.
-   Does having more reviewers increase the probability of being rejected?
+   Does the probability of being rejected seem to increase with the number of
+   reviewers?
+   
+   <details>
+   <summary>Hints</summary>
+   
+   With an eye on the next step, where you have to do this for each year,
+   it is convenient to write a function that takes the data and a year as input,
+   and prints the probability of rejection given the number of reviewers for that
+   given year.
+   
+   We can set the function to return the general rejection rate if "all" instead
+   of a yearis specified as an argument.
+   
+   Pseudocode:
+   
+   ```
+   import pandas
+   import numpy as np
+   
+   # read the data using pandas
+   # (assuming you are in 'CSB/scientific/sandbox')
+   fox = pandas.read_csv("../data/Fox2015_data.csv")
+   
+   use a combination of list and set() to extract the unique `MsID`
+
+   now go through each manuscript and store:
+   i) the final decision (reject/accept) in the np.array final_decision
+   ii) the number of reviewers in the np.array num_reviewers
+   iii) the submission year in the np.array year
+
+   def get_prob_rejection(my_year = "all"):
+       if my_year == "all":
+          do not subset the data
+       else:
+          subset the data to use only the specified year
+       for each number of reviewers:
+          compute probability of rejection and produce output
+   ```
+   
+   </details>
    
 2. Write a function to repeat the analysis above for each year represented
-   in the database. For example, for the year 2009, your function should return:
+   in the database.
+   
+   For example, for the year 2009, your function should return:
 
-   ```sh
+   ```
    Year: 2009
    Submissions: 626
    Overall rejection rate: 0.827
@@ -87,123 +332,193 @@ that is, excluding “desk rejections” without review.
    4   4     0.75
    ```
 
+   <details>
+   <summary>Hints</summary>
+   If your function doesn't already take a calendar year as as an argument,
+   modify your function to do so.
+   
+   Then loop through the years of 2004-2014 (inclusive) and run your function
+   for each year.
+   </details>
+   
 <br>
-
-## Bonus -- Exercise CSB-1: Lord of the fruit flies
-
-TO DO:For this exercise, you'll need to read the section ...
-
-Suppose you need information on how to breed *Drosophila virilis* in your
-laboratory and you would like to contact an expert.
-Conduct a PubMed query on who has published most contributions on D. virilis.
-This person might be a good researcher to contact.
-
-1. Identify how many papers in the PubMed database have the words
-   *Drosophila virilis* in their title or abstract.
-   Use the `usehistory` argument so you can refer to this search in the next step.
-
-2. Retrieve the PubMed entries that were identified in step 1.
-
-3. Count the number of contributions per author.
-
-4. Identify the five authors with the most contributions.
-
-<br>
-
-## Bonus -- Exercise CSB-3: The evolution of cooperation
-
-Why are some animals (including humans) cooperating?
-What gives rise to complex social organizations and reciprocity?
-These fascinating questions can be studied using game theory,
-made popular in evolutionary biology by Maynard Smith (1982).
-
-One of the most well-studied problems in game theory is the “prisoner’s dilemma”:
-two prisoners are suspected of a crime and interrogated in separate rooms;
-each prisoner is given the possibility to either betray the other, or remain silent. 
-
-If both remain silent (i.e., they cooperate), they each get 1 year in prison;
-if one remains silent (cooperates) and the other betrays (defects),
-the one who remained silent is sentenced to 3 years, while the other is let free;
-finally, if each betrays the other (defects), both receive a term of 2 years.
-
-Mathematically, one can show that if the game is played only once,
-defecting is the safest strategy (Nash equilibrium).
-But what if the game is played over and over?
-Then the mathematics becomes difficult,
-as the best choice depends on the choices of other players.
-
-Axelrod’s brilliant idea (Axelrod, 1980a) was to invite game theorists,
-sociologists, psychologists, and mathematicians to submit programs implementing
-different strategies for a game of iterated prisoner’s dilemma.
-Each program would have access to the history of the moves played so far,
-and based on this would decide a move.
-Each submission then competed against itself, as well as against each other
-program, in a round-robin tournament.
-
-1. Implement the following five strategies:
-   
-   (a) Always cooperate.
-   
-   (b) Always defect.
-   
-   (c) Random: cooperate with probability 12 , and defect otherwise.
-  
-   (d) Tit for tat: cooperate on the first turn,
-       then do whatever the other player did in the previous turn.
-       
-   (e) Tit for two tat: start by cooperating,
-       and defect only if the other player has defected twice in a row.
-       
-   Each strategy should be a function,
-   accepting as input a list storing the previous turns of the game,
-   and returning `1` for cooperate and `0` for defect.
-
-2. Write a function that accepts the names of two strategies and plays them
-   against each other in a game of iterated prisoner’s dilemma for a given
-   number of turns.
-   Who wins between `random` and `always_defect`?
-   And between `random` and `tit_for_tat`?
-   
-3. [Advanced/Bonus] Implement a round-robin tournament in which each strategy is
-   played against every other (including against itself) for 10 rounds of 1000
-   turns each. Who is the winner?
-
-<br>
-
-## Solutions
 
 <details>
-
-<summary>Intermezzo 6.2</summary>
-
-```python
-import pandas
-# read the data
-data = pandas.read_csv("../data/Gachter2016_data.csv")
-# see the structure
-data.head()
-# extract data for Claim == 0 and copy the DataFrame
-claim_0 = data[data.Claim == 0].copy()
-# country with the lowest frequency of 0s [Tanzania]
-print(claim_0.sort_values("CumulativeFrequency").head(1))
-# country with the highest frequency of 0s [Germany]
-print(claim_0.sort_values("CumulativeFrequency",ascending = False).head(1))
-# extract the data for Claim == 4 and copy the DataFrame
-claim_5 = data[data.Claim == 4].copy()
-# update values
-claim_5.Claim = 5
-claim_5.CumulativeFrequency = 1.0 - claim_5.CumulativeFrequency.values
-# country with the lowest frequency of 5s [Lithuania]
-print(claim_5.sort_values("CumulativeFrequency").head(1))
-# country with the highest frequency of 5s [Morocco]
-print(claim_5.sort_values("CumulativeFrequency", ascending = False).head(1))
-```
+<summary>Solutions for both steps</summary>
+   
+See the [CSB notebook with the solutions](https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Fox2016_solution.ipynb).
+The notebooks sometimes don't manage to load on GitHub;
+if not, try refreshing and otherwise go
+[here](https://github.com/CSB-book/CSB/tree/master/scientific/solutions)
+and look at the PDF version instead.
+   
 </details>
 
-- [Exercise CSB-2](...).
+<br>
 
-https://github.com/CSB-book/CSB/tree/master/scientific/solutions
+## Bonus: Tutorial exercise -- <br> Image processing with NumPy
 
-- [Bonus -- Exercise CSB-1: Lord of the fruit flies](https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Lord_of_the_flies_solution.ipynb). CHECK IF WORKING
+- To get started, you'll need to install `scikit-image` into your interactive
+  Python environment, which you can do as follows:
 
-- [Bonus -- Exercise CSB-3](...).
+  ```sh
+  sinteractive -A PAS1855 -t 60      # Start an interactive job
+  module load python/3.6-conda5.2    # Load the OSC Conda module
+  source activate ipy-env            # Activate your existing Conda environment
+  conda install -y scikit-image      # Install scikit-image
+  ```
+
+- We start by loading NumPy and Scikit-image:
+
+  ```python
+  import numpy as np
+  import skimage.io as io
+  ```
+
+- Next, let's save the path to the image we want to read in as a variable:
+  ```python
+  import os
+  
+  # Change "<user>" by your username:
+  # (and adjust the path otherwise if necessary)
+  CSB_dir = '/fs/ess/PAS1855/users/<user>/CSB/scientific/data'
+  
+  image_file = 'Kacsoh2013_Drosobrain.png'
+  image_path = os.path.join(CSB_dir, image_file)
+  ```
+
+:::content-box-info
+
+Plotting works out of the Box in the VS Code interactive window.  
+If you're using a Jupyter Notebook,
+you would also need to make Matplotlib image plotting available using
+the following IPython "magic function":
+
+```python
+%matplotlib inline
+```
+
+:::
+
+- Let's view the image:
+
+  ```python
+  image = io.imread(image_path)
+  io.imshow(image)
+  ```
+  
+  <p align="right">
+  <img src=img/numpy-img_red.png width="70%">
+  </p>
+
+- In what format is our image stored?
+
+  ```python
+  type(image)
+  #> numpy.ndarray
+  ```
+  
+  As a NumPy array!
+
+- Therefore, we can use the NumPy methods we have learned about.
+  Let's check the dimensions:
+  
+  ```python
+  image.shape
+  #> (1024, 1024, 4)
+  ```
+  
+  The image is 1024 x 1024 pixels, with 4 the four RGBA channels
+  along the 3rd dimension:
+    - Red (index 0)
+    - Green (index 1)
+    - Blue (index 2)
+    - Alpha (opaqueness; index 3).
+
+- The first channel is the red channel, which should be the one of interest,
+  given what our image looks like... Let's extract it and explore a bit:
+  
+  ```python
+  red = image[:, :, 0]          # All rows, all columns, red channel
+  
+  print(red.mean())
+  #> 23.181024551391602
+  print(red.std())
+  #> 30.446740821993011
+  print(red.min(), red.max())
+  #> 0 255
+  ```
+
+- It looks like we indeed *only* have variation in the red channel:
+
+  ```python
+  # Loop over the channel indices in the 3rd dimension: image.shape[3]
+  for channel_index in range(0, image.shape[2]):
+  
+        # Compute the standard deviation in the 3rd dimension:
+        print(image[:, :, channel_index].std())
+  
+  #> 30.44674082199301
+  #> 0.0
+  #> 0.0
+  #> 0.0
+  ```
+
+- Say that we are interested in examining what area in the image express the
+  *NPF* and *NPFR1* genes that were targeted by this assay.
+
+  We'll here take an overly simple approach,
+  by **setting a threshold of 100** and determining which pixels have a higher
+  value than that.
+
+  Let's check what a value of 100 looks like by modifying a copy of the image:
+
+  ```python
+  img_copy = image.copy()
+  img_copy[:, 480:500, 0] = 100  # This should create a thick vertical red line
+  io.imshow(img_copy)
+  ```
+  
+  <p align="center">
+  <img src=img/numpy-img_redline.png width="70%">
+  </p>
+
+- Next, we'll "mask" our array: with a conditional expression,
+  we produce a Boolean (`False`/`True`) array and then multiply that
+  by 1 to get `0` (for `False`) for pixels that do not pass the threshold
+  and `1` (for `True`) for pixels that do pass the threshold.
+
+  ```python
+  threshold = 100
+  mask = (red > threshold) * 1 # Recall: "red" is the 2d-array for the red channel
+  ```
+  
+- How many pixels passed this mask (filter)?
+
+  ```python
+  mask.sum()
+  #> 37037
+  ```
+
+- Plot the mask:
+
+  ```python
+  io.imshow(mask)
+  ```
+
+  <p align="left">
+  <img src=img/numpy-img_mask1.png width="70%">
+  </p>
+
+- Finally, we'll use a little trick to get the actual pixel values back for those
+  pixels that passed the threshold &ndash; we multiply the original array
+  by the 0/1 mask:
+
+  ```python
+  mask2 = red * mask
+  io.imshow(mask2)
+  ```
+
+  <p align="center">
+  <img src=img/numpy-img_mask2.png width="70%">
+  </p>
