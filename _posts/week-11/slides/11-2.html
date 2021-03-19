@@ -22,31 +22,22 @@ class:inverse middle center
 
 ----
 
-# II: Pandas and BioPython
+# II: Pandas
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/23 (updated: 2021-03-17)
+### 2021/03/25 (updated: 2021-03-19)
 
 ---
 
 ## Overview of this week
 
-.pull-left[
-**Tuesday's presentation**
+- **NumPy** (CSB 6.2) &amp;ndash; Tuesday
 
-- NumPy (CSB 6.2)
+- **Pandas** (CSB 6.3) &amp;ndash; Tuesday/Thursday
 
-]
-
-.pull-right[
-**Today's presentation:**
-
-- Pandas (CSB 6.3)
-
-- BioPython (CSB 6.4)
-]
+- **BioPython** (CSB 6.4) &amp;ndash; Thursday
 
 &lt;br&gt; &lt;br&gt;
 
@@ -65,7 +56,7 @@ class: center middle inverse
 
 Pandas is short for "Python Data Analysis Library".
 
-Like NumPy has arrays, the signature data structure of Pandas it its
+As NumPy has arrays, the signature data structure of Pandas it its
 `DataFrame`.
 With Pandas' `DataFrame`s, we can analyze tabular data much more
 smoothly in Python.
@@ -77,14 +68,12 @@ operations on tabular data.
 
 ## Pandas
 
-Panda is built on NumPy, so we typically import NumPy along with Pandas:
+Panda is built on NumPy, so one often imports NumPy along with Pandas:
 
 ```python
 import pandas as pd
 import numpy as np
 ```
-
-&lt;br&gt;
 
 Next, let's move into the CSB chapter's sandbox directory:
 
@@ -94,17 +83,19 @@ os.chdir('/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/sandbox')
 # os.chdir('../CSB/scientific/sandbox')
 ```
 
-&lt;br&gt;
-
 --
 
-Like in R (and NumPy),
-we don't read files in line-by-line but load them all at once &amp;ndash;
+Like in NumPy, we don't read files line-by-line but load them all at once &amp;ndash;  
 the standard Pandas function for this is **`read_csv()`**:
 
 ```python
 data = pd.read_csv("../data/Dale2015_data.csv")
 ```
+
+.content-box-info[
+The argument `sep` can be used to specify the delimiter, e.g. for tab-delimited
+files (`sep = '\t'`), though Pandas can typically auto-detect this too.
+]
 
 ---
 
@@ -129,9 +120,14 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   data
   ```
 
---
+---
 
-- Check the dimensions:
+## Exploring DataFrames (cont.)
+
+- Note that all NumPy functions, methods, and attributes will also work for
+  Pandas `DataFrames`!
+  
+  For instance, we can check the length along each dimension with `shape`:
 
   ```python
   data.shape
@@ -140,21 +136,9 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ---
 
-## Exploring DataFrames
+## Exploring DataFrames (cont.)
 
-- `columns` returns an `Index` object with the column names:
-
-  ```python
-  data.columns
-  #&gt; Index(['Scientific_name', 'English_name', 'TipLabel',
-  #&gt;        'Female_plumage_score', 'Male_plumage_score'],
-  #&gt;        dtype='object')
-  ```
-
---
-
-- `dtypes` returns data types by column &amp;ndash; note, strings are called
-  "object":
+- `dtypes` returns data types by column (note, strings are called `object`):
 
   ```python
   data.dtypes
@@ -167,14 +151,39 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   #&gt; dtype: object
   ```
 
---
+.content-box-info[
+Pandas `DataFrame`s can be seen as a set of *aligned* 1-dimensional NumPy arrays
+of equal length, with each `DataFrame` column representing an array.
 
-- A `DataFrame` has an explicit **rowwise index** (notice the row numbering):
+Consequently, within each column, all elements have to be of the same data type,
+but different columns can have different data types, as we see above.
+]
+
+---
+
+## Exploring DataFrames (cont.)
+
+- `columns` returns an `Index` object with the column names:
+
+  ```python
+  data.columns
+  #&gt; Index(['Scientific_name', 'English_name', 'TipLabel',
+  #&gt;        'Female_plumage_score', 'Male_plumage_score'],
+  #&gt;        dtype='object')
+  ```
+
+&lt;br&gt;
+
+- A `DataFrame` also has an explicit **rowwise index**  
+  (noticed the row numbering when we printed `data`?):
   
   ```python
   data.index
   #&gt; RangeIndex(start=0, stop=5831, step=1)
   ```
+  
+  This index can also be manipulated and could for example consist of *strings*
+  as well.
 
 ---
 
@@ -188,9 +197,9 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   
   ```python
   data = data.rename(columns={"Scientific_name": "latin",
-                              "English_name": "english",
-                              "Female_plumage_score": "score_f",
-                              "Male_plumage_score": "score_m"})
+                                "English_name": "english",
+                                "Female_plumage_score": "score_f",
+                                "Male_plumage_score": "score_m"})
   ```
 
 ---
@@ -242,10 +251,10 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ---
 
-## Indexing DataFrames
+## Indexing and slicing DataFrames
 
-- First, note that we can specify columns not just using `df["colname"]` but
-  also using `df.colname`:
+- First, note that we can specify columns not just with the syntax
+  `df["colname"]` but also with the shorthand `df.colname`:
   
   ```python
   data["latin"]
@@ -255,8 +264,8 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 &lt;br&gt;
 
-- Next, we can index the resulting `Series` (1-dimensional array) like we
-  may expect:
+- Next, we can slice the resulting `Series` (a 1-dimensional Pandas array)
+  like we may expect to:
   
   ```python
   data["latin"][:3]
@@ -272,9 +281,9 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ---
 
-## Indexing DataFrames (cont.)
+## Indexing and slicing DataFrames (cont.)
 
-- But we can't index the entire `DataFrame` the way we may expect to:
+- But we can't slice the entire `DataFrame` the way we may expect to:
 
   ```python
   data[0:3, 0:3]
@@ -301,10 +310,10 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   
 ---
 
-## Indexing DataFrames (cont.)
+## Indexing and slicing DataFrames (cont.)
 
 We can also use the **`loc` method**,
-which selects rows and columns using **labels**.  
+which selects rows and columns using **explicit labels**.  
 
 The labels for the columns are &amp;ndash;of course&amp;ndash; the column names,  
 whereas the labels for the rows are in the **row number index**.
@@ -322,10 +331,12 @@ data.loc[:3, ["latin", "english"]]
 
 ---
 
-## Indexing / filtering DataFrames
+## Masking (filtering) DataFrames
 
-- We can also index based on (a `Series` of) Booleans,
-  for instance to select the row(s) for a certain species:
+Like we've seen for NumPy arrays, we can also perform **masking**:  
+filter the data based on (a `Series` of) Booleans.
+
+- For instance, to select the row(s) for a certain species:
 
   ```python
   data.latin == "Zosterops mouroniensis"
@@ -346,10 +357,9 @@ data.loc[:3, ["latin", "english"]]
   ```python
   data[(data.score_m &gt; 70) &amp; (data.score_f &lt; 40)]
   #&gt; 	      latin	              english	TipLabel	      score_f	score_m
-#&gt; 875	   Chiroxiphia pareola	Blue-backed Manakin	     Chiroxiphia_pareola	39.305556	71.666667
-#&gt; 1355	  Cyornis hainanus	   Hainan Blue-flycatcher	  Cyornis_hainanus	37.222222	71.250000
-#&gt; 1811	  Euplectes hartlaubi	Marsh Widowbird	         Euplectes_hartlaubi	39.583333	70.555556
-#&gt; 1885	  Foudia omissa	      Forest Fody	             Foudia_omissa	37.777778	71.805556
+  #&gt; 875	   Chiroxiphia pareola	Blue-backed Manakin	     Chiroxiphia_pareola	39.305556	71.666667
+  #&gt; 1355	  Cyornis hainanus	   Hainan Blue-flycatcher	  Cyornis_hainanus	37.222222	71.250000
+  #&gt; 1811	  Euplectes hartlaubi	Marsh Widowbird	         Euplectes_hartlaubi	39.583333	70.555556
   ```
 
 ---
@@ -386,7 +396,7 @@ data.loc[:3, ["latin", "english"]]
 
 ---
 
-## Indexing / filtering DataFrames
+## Masking (filtering) DataFrames
 
 - We can even select rows based on only part of the cell content,  
   using the **`str.contains()`** method:
@@ -480,381 +490,6 @@ plumage score higher than XX.
 
 ## Intermezzo: Solutions
 
-
----
-class: center middle inverse
-
-# BioPython (CSB 6.4)
-
------
-
-# I: Retrieving sequences from NCBI (6.4.1)
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-
-## Using BioPython to inferface with NCBI databases
-
-While we already downloaded some data from NCBI manually in the exercises for
-week 7 (Bioinformatics Data),
-we can also use NCBI's **"Entrez Programming Utilities"** to do this
-programmatically.
-
-BioPython includes an Entrez module that interfaces with NCBI Entrez. 
-This is a much better method to find and download data, if you regularly need
-to do so.
-
-- We start by importing the module:
-  
-  ```python
-  from Bio import Entrez
-  ```
-
-- As another setup step,
-  we should provide our e-mail address to let NCBI know who we are:
-
-  ```python
-  Entrez.email = "me.1@osu.edu"  # Replace by your email address
-  ```
-
----
-
-## Search the database
-
-- Create a "handle" to search results:
-
-  ```python
-  handle = Entrez.esearch(db = "nuccore",
-                          term = ("Uropsilus investigator[Organism]"),
-                          RetMax = 200)
-  ```
-
-- Read the results and close the handle:
-
-  ```python
-  search_results = Entrez.read(handle)
-  handle.close()
-  ```
-
-&lt;br&gt;
-
-- Our results are returned in the form of a dictionary,
-  so let's look at the keys:
-  
-  ```python
-  search_results.keys()
-  #&gt; dict_keys(['Count', 'RetMax', 'RetStart', 'IdList',
-  #&gt;            'TranslationSet', 'TranslationStack',
-  #&gt;             'QueryTranslation'])
-  ```
-  
----
-
-## Looking at the results
-
-- How many sequences did we find?  
-  
-  ```python
-  search_results["Count"]
-  '126'   # Has increased from '71' in the book!
-  ```
-  
-- What is the list of GenBank identifiers?
-
-  ```python
-  id_list = search_results["IdList"]
-  print(id_list)
-  #&gt; ['524853022', '555947199', '555947198', ... , '555946814']
-  ```
-
-- Did we get all 126 IDs in the list? Note that the default is to only return
-  20, but because we used `RetMax = 200` in the call to `Entrez.esearch()`,
-  we got all of them:
-
-  ```python
-  len(id_list)
-  #&gt; '126'
-  search_results["RetMax"]
-  #&gt; '200'
-  ```
-
----
-
-## Downloading the sequences
-
-We'll now use the GenBank IDs to actually download some sequences:
-
-```python
-search_handle = Entrez.efetch(db = "nuccore",
-                              rettype = "fasta",
-                              retmode = "text",
-                              id = id_list)
-
-# Set up a handle to an output file:
-out_handle = open("Uropsilus_seq.fasta", "w")
-
-# Write the obtained sequence data to the output file:
-for line in handle:
-    out_handle.write(line)
-
-# Close the handles:
-out_handle.close()
-search_handle.close()
-```
-
-Next, we'll read in our FASTA file using SeqIO.
-
----
-
-class: center middle inverse
-
-# BioPython (CSB 6.4)
-
------
-
-# II: Input and output of sequence data using *SeqIO* (6.4.2)
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-
-## Reading a FASTA file with SeqIO
-
-- We start by importing the SeqIO module:
-
-  ```python
-  from Bio import SeqIO
-  ```
-
-- Let's print the ID and sequence length for each sequence:
-
-  ```python
-  in_handle = open("Uropsilus_seq.fasta", "r")
-  
-  for record in SeqIO.parse(in_handle, "fasta"):
-      print(record.description)
-      print(len(record), '\n')
-  in_handle.close()
-  
-  #&gt; KC516837.1 Uropsilus investigator isolate A11 apolipoprotein B (ApoB) gene, partial cds
-  #&gt; 573 
-  
-  #&gt; KC516819.1 Uropsilus investigator voucher mlxs331 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
-  #&gt; 912 
-  
-  #&gt; KC516818.1 Uropsilus investigator voucher mlxs022 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
-  #&gt; 912 
-  #&gt; [...]
-  ```
-
----
-
-## Selecting only sequences for the BMI1 genes
-
-```python
-# We will import the "re" module for regular expression searches:
-import re
-
-output_handle = open("Uropsilus_BMI1.fasta", "w")
-
-for record in SeqIO.parse("Uropsilus_seq.fasta", "fasta"):
-    
-    # Find the BMI1 sequences using "re.search"
-    if re.search("BMI1", record.description):
-        print(record.id)
-        short_seq = record[:100]  # Just take the first 100 bases
-        SeqIO.write(short_seq, output_handle, "fasta")
-        
-output_handle.close()
-```
-
----
-
-class: center middle inverse
-
-# BioPython (CSB 6.4)
-
------
-
-# III: Programmatic BLAST Search (6.4.3)
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-
-## BLAST
-
-The **Basic Local Alignment Search Tool (BLAST)** finds regions of similarity
-between biological sequences,
-and is one of the most widely used bioinformatics tool.
-
-You may not it from its web interface, where you can paste in or upload some
-sequences, and then "BLAST them" against a database you can specify.
-
-### screenshot?
-
-
-&lt;br&gt;
-
-Using this web interface may be convenient when you have one or a few sequences,
-but it is not very reproducible and completely unsuitable for automation.
-
----
-
-## Getting set up for BLAST
-
-Biopython provides the module `Bio.Blast` which we can use to run a BLAST search
-against the NCBI's online databases.
-
-We will import just a few of its functions: `NCBIWWW` for access to NCBI's
-BLAST server (the BLAST analysis is still being performed there!),
-and `NCBIXML` to parse the XML format that our results will be in
-
-```python
-# from Bio import SeqIO   # Should already be loaded
-# from Bio import Entrez  # Should already be loaded
-from Bio.Blast import NCBIWWW, NCBIXML
-```
-
-&lt;br&gt;
-
---
-
-We will start by parsing our FASTA file with SeqIO,
-and then converting the records into a list:
-
-```python
-handle = open("Uropsilus_BMI1.fasta", "r")
-records = list(SeqIO.parse(handle, "fasta"))
-```
-
----
-
-## Our sequence records as a named list
-
-What does this list that we created look like? Let's print the first 2 items:
-
-```python
-records[0:2]
-#&gt; [SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778086.1', name='KF778086.1', description="KF778086.1 Uropsilus investigator voucher KIZ:020539 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[]),
-#&gt; SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778085.1', name='KF778085.1', description="KF778085.1 Uropsilus investigator voucher KIZ:020527 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[])]
-```
-
-### More about this list type
-
-Say that the fourth sequence is the one we are interested in:
-
-```python
-print(records[3].id, " ", records[3].seq)
-#&gt; KF778083.1   TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTCAACAAATGGAAAGAATATGCATAGAATAATGCATTCTATGTAGCCA
-```
-
----
-
-## Run the BLAST search
-
-For our BLAST search, we will use the nucleotide database (`nt`)
-with the `blastn` algorithm, one of several BLAST variants
-(other options are `blastp`, `blastx`, `tblastn`, and `tblastx`).
-
-The `qblast()` function requires three arguments: the program (`blastn` for us),
-the database (`nt` for us), and the query sequence (our 4th record from the
-FASTA file): 
-
-```python
-Entrez.email = "me.999@osu.edu"
-
-result_handle = NCBIWWW.qblast("blastn", "nt", records[3].seq)
-```
-
-Now, we will write our results, which are in XML format, to an XML file
-and then close the result handle:
-
-```python
-save_file = open("my_blast.xml", "w")
-save_file.write(result_handle.read())
-save_file.close()
-
-result_handle.close()
-```
-
----
-
-## Parse the XML file
-
-We will now parse our XML file with blast results using the `NCBIXML` parser:
-
-```python
-result_handle = open("my_blast.xml")
-blast_records = NCBIXML.read(result_handle)
-```
-
-(Because we our query consisted only of a single sequence,
-we could use `NCBIXML.read()`.
-For multiple sequences, you should use `NCBIXML.parse`.)
-
----
-
-## Processing the BLAST results
-
-Next, we loop through the individual alignment hits and then for each hit
-through the "High-Scoring Pairs" (HSPs, subsequences with a good match).
-
-For each High-Scoring Pair, we check whether the match is good enough
-according to an arbitrary E-value (`E_VALUE_THRESH`) and length (`LEN_THRESH`)
-that we set.
-
-```python
-E_VALUE_THRESH = 0.04
-LEN_THRESH = 3000
-
-for alignment in blast_records.alignments:
-    
-    for hsp in alignment.hsps:
-        
-        if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; LEN_THRESH:
-            
-            print("****Alignment****")
-            print("sequence:", alignment.title)
-            print("length:", alignment.length)
-            print("E value:", hsp.expect)
-            print(hsp.query[0:75] + "...")
-            print(hsp.match[0:75] + "...")
-            print(hsp.sbjct[0:75] + "...")
-```
-
----
-
-## Processing the BLAST results
-
-```python
-E_VALUE_THRESH = 0.04
-LEN_THRESH = 3000
-
-for alignment in blast_records.alignments:
-    
-    for hsp in alignment.hsps:
-        
-        if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; LEN_THRESH:
-            
-            print("****Alignment****")
-            print("sequence:", alignment.title)
-            print("length:", alignment.length)
-            print("E value:", hsp.expect)
-            print(hsp.query[0:75] + "...")
-            print(hsp.match[0:75] + "...")
-            print(hsp.sbjct[0:75] + "...")
-#&gt; ****Alignment****
-#&gt; sequence: gi|1304911126|ref|XM_006933246.4| PREDICTED: Felis catus BMI1 proto-oncogene, polycomb ring finger (BMI1), transcript variant X3, mRNA
-#&gt; length: 3523
-#&gt; E value: 2.25861e-42
-#&gt; TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
-#&gt; |||||||||||||||||||||||||||||||||||||||||||||...
-#&gt; TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
-#&gt; [...]
-```
-
 ---
 class: center middle inverse
 
@@ -864,8 +499,17 @@ class: center middle inverse
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
+---
+class: center middle inverse
+
+# Bonus material
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
+background-color: #f2f5eb
 
 ## "Views" versus copies in Pandas
 
@@ -897,8 +541,9 @@ data.columns
 ```
 
 ---
+background-color: #f2f5eb
 
-## Copy and modify
+## "Views" versus copies in Pandas (cont.)
 
 But in such case, we should instead make a copy of the data:
 
@@ -907,23 +552,6 @@ high_male_score = data[data["score_m"] &gt; 65].copy()
 
 high_male_score["score_qual"] = "High"
 ```
-
----
-
-class: center middle inverse
-
-# BioPython (CSB 6.4)
-
------
-
-# IV: Querying PubMed for scientific literature information (6.4.4)
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-
-## PubMed search
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

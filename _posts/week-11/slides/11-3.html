@@ -1,28 +1,22 @@
----
-title: "Week 11 - Python: Scientific computing"
-output:
-  xaringan::moon_reader:
-    seal: false
-    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
-    lib_dir: libs
-    nature:
-      highlightStyle: rainbow
-      highlightLines: true
-      countIncrementalSlides: false
----
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 11 - Python: Scientific computing</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
 class:inverse middle center
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(eval = FALSE)
-```
 
-```{r xaringan-extra, echo=FALSE, eval=TRUE}
-#xaringanExtra::use_scribble()
-#xaringanExtra::use_panelset()
-#xaringanExtra::use_clipboard()
-#xaringanExtra::use_search(show_icon = TRUE)
-```
+
+
 
 # *Week 11 - Python: Scientific computing*
 
@@ -30,10 +24,10 @@ knitr::opts_chunk$set(eval = FALSE)
 
 # III: BioPython
 
-<br> <br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/25 (updated: `r Sys.Date()`)
+### 2021/03/25 (updated: 2021-03-19)
 
 
 ---
@@ -45,7 +39,7 @@ class: center middle inverse
 
 # I: Retrieving sequences from NCBI (6.4.1)
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -92,16 +86,16 @@ to do so.
   handle.close()
   ```
 
-<br>
+&lt;br&gt;
 
 - Our results are returned in the form of a dictionary,
   so let's look at the keys:
   
   ```python
   search_results.keys()
-  #> dict_keys(['Count', 'RetMax', 'RetStart', 'IdList',
-  #>            'TranslationSet', 'TranslationStack',
-  #>             'QueryTranslation'])
+  #&gt; dict_keys(['Count', 'RetMax', 'RetStart', 'IdList',
+  #&gt;            'TranslationSet', 'TranslationStack',
+  #&gt;             'QueryTranslation'])
   ```
   
 ---
@@ -120,7 +114,7 @@ to do so.
   ```python
   id_list = search_results["IdList"]
   print(id_list)
-  #> ['524853022', '555947199', '555947198', ... , '555946814']
+  #&gt; ['524853022', '555947199', '555947198', ... , '555946814']
   ```
 
 - Did we get all 126 IDs in the list? Note that the default is to only return
@@ -129,9 +123,9 @@ to do so.
 
   ```python
   len(id_list)
-  #> '126'
+  #&gt; '126'
   search_results["RetMax"]
-  #> '200'
+  #&gt; '200'
   ```
 
 ---
@@ -170,7 +164,7 @@ class: center middle inverse
 
 # II: Input and output of sequence data using *SeqIO* (6.4.2)
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -192,15 +186,15 @@ class: center middle inverse
       print(len(record), '\n')
   in_handle.close()
   
-  #> KC516837.1 Uropsilus investigator isolate A11 apolipoprotein B (ApoB) gene, partial cds
-  #> 573 
+  #&gt; KC516837.1 Uropsilus investigator isolate A11 apolipoprotein B (ApoB) gene, partial cds
+  #&gt; 573 
   
-  #> KC516819.1 Uropsilus investigator voucher mlxs331 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
-  #> 912 
+  #&gt; KC516819.1 Uropsilus investigator voucher mlxs331 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
+  #&gt; 912 
   
-  #> KC516818.1 Uropsilus investigator voucher mlxs022 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
-  #> 912 
-  #> [...]
+  #&gt; KC516818.1 Uropsilus investigator voucher mlxs022 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
+  #&gt; 912 
+  #&gt; [...]
   ```
 
 ---
@@ -234,7 +228,7 @@ class: center middle inverse
 
 # III: Programmatic BLAST Search (6.4.3)
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -250,7 +244,7 @@ sequences, and then "BLAST them" against a database you can specify.
 ### screenshot?
 
 
-<br>
+&lt;br&gt;
 
 Using this web interface may be convenient when you have one or a few sequences,
 but it is not very reproducible and completely unsuitable for automation.
@@ -272,7 +266,7 @@ and `NCBIXML` to parse the XML format that our results will be in
 from Bio.Blast import NCBIWWW, NCBIXML
 ```
 
-<br>
+&lt;br&gt;
 
 --
 
@@ -292,8 +286,8 @@ What does this list that we created look like? Let's print the first 2 items:
 
 ```python
 records[0:2]
-#> [SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778086.1', name='KF778086.1', description="KF778086.1 Uropsilus investigator voucher KIZ:020539 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[]),
-#> SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778085.1', name='KF778085.1', description="KF778085.1 Uropsilus investigator voucher KIZ:020527 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[])]
+#&gt; [SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778086.1', name='KF778086.1', description="KF778086.1 Uropsilus investigator voucher KIZ:020539 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[]),
+#&gt; SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778085.1', name='KF778085.1', description="KF778085.1 Uropsilus investigator voucher KIZ:020527 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[])]
 ```
 
 ### More about this list type
@@ -302,7 +296,7 @@ Say that the fourth sequence is the one we are interested in:
 
 ```python
 print(records[3].id, " ", records[3].seq)
-#> KF778083.1   TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTCAACAAATGGAAAGAATATGCATAGAATAATGCATTCTATGTAGCCA
+#&gt; KF778083.1   TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTCAACAAATGGAAAGAATATGCATAGAATAATGCATTCTATGTAGCCA
 ```
 
 ---
@@ -368,7 +362,7 @@ for alignment in blast_records.alignments:
     
     for hsp in alignment.hsps:
         
-        if hsp.expect < E_VALUE_THRESH and alignment.length > LEN_THRESH:
+        if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; LEN_THRESH:
             
             print("****Alignment****")
             print("sequence:", alignment.title)
@@ -391,7 +385,7 @@ for alignment in blast_records.alignments:
     
     for hsp in alignment.hsps:
         
-        if hsp.expect < E_VALUE_THRESH and alignment.length > LEN_THRESH:
+        if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; LEN_THRESH:
             
             print("****Alignment****")
             print("sequence:", alignment.title)
@@ -400,15 +394,34 @@ for alignment in blast_records.alignments:
             print(hsp.query[0:75] + "...")
             print(hsp.match[0:75] + "...")
             print(hsp.sbjct[0:75] + "...")
-#> ****Alignment****
-#> sequence: gi|1304911126|ref|XM_006933246.4| PREDICTED: Felis catus BMI1 proto-oncogene, polycomb ring finger (BMI1), transcript variant X3, mRNA
-#> length: 3523
-#> E value: 2.25861e-42
-#> TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
-#> |||||||||||||||||||||||||||||||||||||||||||||...
-#> TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
-#> [...]
+#&gt; ****Alignment****
+#&gt; sequence: gi|1304911126|ref|XM_006933246.4| PREDICTED: Felis catus BMI1 proto-oncogene, polycomb ring finger (BMI1), transcript variant X3, mRNA
+#&gt; length: 3523
+#&gt; E value: 2.25861e-42
+#&gt; TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
+#&gt; |||||||||||||||||||||||||||||||||||||||||||||...
+#&gt; TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
+#&gt; [...]
 ```
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+
+---
+class: center middle inverse
+
+# Bonus material
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -420,9 +433,10 @@ class: center middle inverse
 
 # IV: Querying PubMed for scientific literature information (6.4.4)
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
+background-color: #f2f5eb
 
 ## PubMed search
 
@@ -431,10 +445,7 @@ we can search any NCBI database,
 including PubMed, which contains scientific literature.
 
 By way of example, we will search for any papers on *Drosophila* that mention
-the gene "*spaetzle*" anywhere in the title or abstract:<sup>[1]</sup>
-
-.footnote[<sup>[1]</sup>See [here](https://pubmed.ncbi.nlm.nih.gov/help/#author-search)
-for PubMed search options.]
+the gene "*spaetzle*" anywhere in the title or abstract:
 
 ```python
 from Bio import Entrez
@@ -458,6 +469,7 @@ handle.close()
   ```
 
 ---
+background-color: #f2f5eb
 
 ## PubMed search (cont.)
 
@@ -465,7 +477,7 @@ handle.close()
 
   ```python
   record["Count"]
-  #> '15'
+  #&gt; '15'
   ```
   
   We found 15 records (up from 13 in the book) that contained the words
@@ -490,6 +502,7 @@ handle.close()
   ```
 
 ---
+background-color: #f2f5eb
 
 ## PubMed search (cont.)
 
@@ -505,25 +518,25 @@ handle.close()
   ```python
   !grep -i "spaetzle" -C 1 Spaetzle_abstracts.txt
   
-  #>     leading to ventrally-restricted expression of the sulfotransferase Pipe. These
-  #>    events promote the ventral processing of Spaetzle, a ligand for Toll, which
-  #>    ultimately sets up the embryonic dorsal-ventral axis. We then describe the
-  #> --
-  #> DP  - 2019 Nov 12
-  #> TI  - Dynamics of Spaetzle morphogen shuttling in the Drosophila embryo shapes
-  #>    gastrulation patterning.
-  #> --
-  #>    The dynamics indicate that a sharp extracellular gradient is formed through
-  #>    diffusion-based shuttling of the Spaetzle (Spz) morphogen that progresses through
-  #>    several nuclear divisions. Perturbed shuttling in wntD mutant embryos results in 
+  #&gt;     leading to ventrally-restricted expression of the sulfotransferase Pipe. These
+  #&gt;    events promote the ventral processing of Spaetzle, a ligand for Toll, which
+  #&gt;    ultimately sets up the embryonic dorsal-ventral axis. We then describe the
+  #&gt; --
+  #&gt; DP  - 2019 Nov 12
+  #&gt; TI  - Dynamics of Spaetzle morphogen shuttling in the Drosophila embryo shapes
+  #&gt;    gastrulation patterning.
+  #&gt; --
+  #&gt;    The dynamics indicate that a sharp extracellular gradient is formed through
+  #&gt;    diffusion-based shuttling of the Spaetzle (Spz) morphogen that progresses through
+  #&gt;    several nuclear divisions. Perturbed shuttling in wntD mutant embryos results in 
   ```
 
 ---
+background-color: #f2f5eb
 
 ## PubMed search (cont.)
 
-Alternatively, we could use regular expressions in Python to nicely get each
-*sentence* with "*Spaetzle*" along with the PubMedID for the publication:
+Alternatively, we could use regular expressions in Python to nicely get each *sentence* with "*Spaetzle*" along with the PubMedID for the publication:
 
 ```python
 import re
@@ -541,14 +554,15 @@ with open("Spaetzle_abstracts.txt") as datafile:
             spaetzle = re.findall(r"([^.]*?Spaetzle[^.]*\.)", line)
             if spaetzle:
                 print("PubMedID: ", PMID, " ", spaetzle)
-#> PubMedID:  32591083   [' These events promote the ventral processing of Spaetzle, a ligand for Toll, which ultimately sets up the embryonic dorsal-ventral axis.']
-#> PubMedID:  31719046   ['  The dynamics indicate that a sharp extracellular gradient is formed through diffusion-based shuttling of the Spaetzle (Spz) morphogen that progresses through several nuclear divisions.']
-#> PubMedID:  27314646   [' While cytokines activating immune responses,  such as Spaetzle or Unpaired-3, have been identified and
+#&gt; PubMedID:  32591083   [' These events promote the ventral processing of Spaetzle, a ligand for Toll, which ultimately sets up the embryonic dorsal-ventral axis.']
+#&gt; PubMedID:  31719046   ['  The dynamics indicate that a sharp extracellular gradient is formed through diffusion-based shuttling of the Spaetzle (Spz) morphogen that progresses through several nuclear divisions.']
+#&gt; PubMedID:  27314646   [' While cytokines activating immune responses,  such as Spaetzle or Unpaired-3, have been identified and
 ```  
   
 We will learn how to do this next week!
 
 ---
+background-color: #f2f5eb
 
 ## PubMed search (cont.)
 
@@ -557,23 +571,126 @@ search for a dozen or more genes, and possibly repeat the search periodically.
 
 In that case, using Python to do the searches and parse the results can be a
 huge time-saver!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
 
----
-class: center middle inverse
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
 
-# Questions?
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
------
-
-<br> <br> <br> <br>
-
-
----
-class: center middle inverse
-
-# Bonus material
-
------
-
-<br> <br> <br> <br>
-
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

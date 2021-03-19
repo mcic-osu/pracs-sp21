@@ -10,9 +10,9 @@ output:
 
 ### Slides
 
-- Slides: Numpy] -- Tuesday Zoom (Mar 23) -- TBA
+- Slides: Numpy -- Tuesday Zoom (Mar 23) -- TBA
 
-- Slides: Pandas] -- Thursday Zoom (Mar 25) -- TBA
+- Slides: Pandas -- Thursday Zoom (Mar 25) -- TBA
 
 - Slides: BioPython -- Thursday Zoom (Mar 25) -- TBA
 
