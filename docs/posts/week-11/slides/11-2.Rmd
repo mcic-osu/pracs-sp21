@@ -28,31 +28,22 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ----
 
-# II: Pandas and BioPython
+# II: Pandas
 
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/03/23 (updated: `r Sys.Date()`)
+### 2021/03/25 (updated: `r Sys.Date()`)
 
 ---
 
 ## Overview of this week
 
-.pull-left[
-**Tuesday's presentation**
+- **NumPy** (CSB 6.2) &ndash; Tuesday
 
-- NumPy (CSB 6.2)
+- **Pandas** (CSB 6.3) &ndash; Tuesday/Thursday
 
-]
-
-.pull-right[
-**Today's presentation:**
-
-- Pandas (CSB 6.3)
-
-- BioPython (CSB 6.4)
-]
+- **BioPython** (CSB 6.4) &ndash; Thursday
 
 <br> <br>
 
@@ -71,7 +62,7 @@ class: center middle inverse
 
 Pandas is short for "Python Data Analysis Library".
 
-Like NumPy has arrays, the signature data structure of Pandas it its
+As NumPy has arrays, the signature data structure of Pandas it its
 `DataFrame`.
 With Pandas' `DataFrame`s, we can analyze tabular data much more
 smoothly in Python.
@@ -83,14 +74,12 @@ operations on tabular data.
 
 ## Pandas
 
-Panda is built on NumPy, so we typically import NumPy along with Pandas:
+Panda is built on NumPy, so one often imports NumPy along with Pandas:
 
 ```python
 import pandas as pd
 import numpy as np
 ```
-
-<br>
 
 Next, let's move into the CSB chapter's sandbox directory:
 
@@ -100,17 +89,19 @@ os.chdir('/fs/ess/PAS1855/users/<user>/CSB/scientific/sandbox')
 # os.chdir('../CSB/scientific/sandbox')
 ```
 
-<br>
-
 --
 
-Like in R (and NumPy),
-we don't read files in line-by-line but load them all at once &ndash;
+Like in NumPy, we don't read files line-by-line but load them all at once &ndash;  
 the standard Pandas function for this is **`read_csv()`**:
 
 ```python
 data = pd.read_csv("../data/Dale2015_data.csv")
 ```
+
+.content-box-info[
+The argument `sep` can be used to specify the delimiter, e.g. for tab-delimited
+files (`sep = '\t'`), though Pandas can typically auto-detect this too.
+]
 
 ---
 
@@ -135,9 +126,14 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   data
   ```
 
---
+---
 
-- Check the dimensions:
+## Exploring DataFrames (cont.)
+
+- Note that all NumPy functions, methods, and attributes will also work for
+  Pandas `DataFrames`!
+  
+  For instance, we can check the length along each dimension with `shape`:
 
   ```python
   data.shape
@@ -146,21 +142,9 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ---
 
-## Exploring DataFrames
+## Exploring DataFrames (cont.)
 
-- `columns` returns an `Index` object with the column names:
-
-  ```python
-  data.columns
-  #> Index(['Scientific_name', 'English_name', 'TipLabel',
-  #>        'Female_plumage_score', 'Male_plumage_score'],
-  #>        dtype='object')
-  ```
-
---
-
-- `dtypes` returns data types by column &ndash; note, strings are called
-  "object":
+- `dtypes` returns data types by column (note, strings are called `object`):
 
   ```python
   data.dtypes
@@ -173,14 +157,39 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   #> dtype: object
   ```
 
---
+.content-box-info[
+Pandas `DataFrame`s can be seen as a set of *aligned* 1-dimensional NumPy arrays
+of equal length, with each `DataFrame` column representing an array.
 
-- A `DataFrame` has an explicit **rowwise index** (notice the row numbering):
+Consequently, within each column, all elements have to be of the same data type,
+but different columns can have different data types, as we see above.
+]
+
+---
+
+## Exploring DataFrames (cont.)
+
+- `columns` returns an `Index` object with the column names:
+
+  ```python
+  data.columns
+  #> Index(['Scientific_name', 'English_name', 'TipLabel',
+  #>        'Female_plumage_score', 'Male_plumage_score'],
+  #>        dtype='object')
+  ```
+
+<br>
+
+- A `DataFrame` also has an explicit **rowwise index**  
+  (noticed the row numbering when we printed `data`?):
   
   ```python
   data.index
   #> RangeIndex(start=0, stop=5831, step=1)
   ```
+  
+  This index can also be manipulated and could for example consist of *strings*
+  as well.
 
 ---
 
@@ -194,9 +203,9 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   
   ```python
   data = data.rename(columns={"Scientific_name": "latin",
-                              "English_name": "english",
-                              "Female_plumage_score": "score_f",
-                              "Male_plumage_score": "score_m"})
+                                "English_name": "english",
+                                "Female_plumage_score": "score_f",
+                                "Male_plumage_score": "score_m"})
   ```
 
 ---
@@ -248,10 +257,10 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ---
 
-## Indexing DataFrames
+## Indexing and slicing DataFrames
 
-- First, note that we can specify columns not just using `df["colname"]` but
-  also using `df.colname`:
+- First, note that we can specify columns not just with the syntax
+  `df["colname"]` but also with the shorthand `df.colname`:
   
   ```python
   data["latin"]
@@ -261,8 +270,8 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 <br>
 
-- Next, we can index the resulting `Series` (1-dimensional array) like we
-  may expect:
+- Next, we can slice the resulting `Series` (a 1-dimensional Pandas array)
+  like we may expect to:
   
   ```python
   data["latin"][:3]
@@ -278,9 +287,9 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 
 ---
 
-## Indexing DataFrames (cont.)
+## Indexing and slicing DataFrames (cont.)
 
-- But we can't index the entire `DataFrame` the way we may expect to:
+- But we can't slice the entire `DataFrame` the way we may expect to:
 
   ```python
   data[0:3, 0:3]
@@ -307,10 +316,10 @@ data = pd.read_csv("../data/Dale2015_data.csv")
   
 ---
 
-## Indexing DataFrames (cont.)
+## Indexing and slicing DataFrames (cont.)
 
 We can also use the **`loc` method**,
-which selects rows and columns using **labels**.  
+which selects rows and columns using **explicit labels**.  
 
 The labels for the columns are &ndash;of course&ndash; the column names,  
 whereas the labels for the rows are in the **row number index**.
@@ -328,10 +337,12 @@ data.loc[:3, ["latin", "english"]]
 
 ---
 
-## Indexing / filtering DataFrames
+## Masking (filtering) DataFrames
 
-- We can also index based on (a `Series` of) Booleans,
-  for instance to select the row(s) for a certain species:
+Like we've seen for NumPy arrays, we can also perform **masking**:  
+filter the data based on (a `Series` of) Booleans.
+
+- For instance, to select the row(s) for a certain species:
 
   ```python
   data.latin == "Zosterops mouroniensis"
@@ -352,10 +363,9 @@ data.loc[:3, ["latin", "english"]]
   ```python
   data[(data.score_m > 70) & (data.score_f < 40)]
   #> 	      latin	              english	TipLabel	      score_f	score_m
-#> 875	   Chiroxiphia pareola	Blue-backed Manakin	     Chiroxiphia_pareola	39.305556	71.666667
-#> 1355	  Cyornis hainanus	   Hainan Blue-flycatcher	  Cyornis_hainanus	37.222222	71.250000
-#> 1811	  Euplectes hartlaubi	Marsh Widowbird	         Euplectes_hartlaubi	39.583333	70.555556
-#> 1885	  Foudia omissa	      Forest Fody	             Foudia_omissa	37.777778	71.805556
+  #> 875	   Chiroxiphia pareola	Blue-backed Manakin	     Chiroxiphia_pareola	39.305556	71.666667
+  #> 1355	  Cyornis hainanus	   Hainan Blue-flycatcher	  Cyornis_hainanus	37.222222	71.250000
+  #> 1811	  Euplectes hartlaubi	Marsh Widowbird	         Euplectes_hartlaubi	39.583333	70.555556
   ```
 
 ---
@@ -392,7 +402,7 @@ data.loc[:3, ["latin", "english"]]
 
 ---
 
-## Indexing / filtering DataFrames
+## Masking (filtering) DataFrames
 
 - We can even select rows based on only part of the cell content,  
   using the **`str.contains()`** method:
@@ -539,7 +549,7 @@ data.columns
 ---
 background-color: #f2f5eb
 
-## Copy and modify
+## "Views" versus copies in Pandas (cont.)
 
 But in such case, we should instead make a copy of the data:
 
