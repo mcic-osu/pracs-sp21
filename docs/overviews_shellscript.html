@@ -2590,8 +2590,8 @@ Go further
 <table>
 <colgroup>
 <col style="width: 9%" />
-<col style="width: 62%" />
-<col style="width: 28%" />
+<col style="width: 63%" />
+<col style="width: 27%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2608,12 +2608,12 @@ Go further
 </tr>
 <tr class="even">
 <td><strong><code>set -u -e -o pipefail</code></strong></td>
-<td><strong>Bash strict settings</strong>: exit script with error if an unset variable is referenced (<code>-u</code>), a general error occurs (but with exceptions; <code>-e</code>), an error occurs in a shell pipeline (<code>-o pipefail</code>).</td>
+<td><strong>Bash strict settings</strong>: exit script with error if an unset variable is referenced (<code>-u</code>), if a general error occurs (but with exceptions; <code>-e</code>), or if an error occurs in a shell pipeline (<code>-o pipefail</code>).</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td><strong><code>$0</code></strong></td>
-<td><strong>Name of the script</strong> (does not work for scripts submitted as SLURM jobs).</td>
+<td><strong>Name of the script</strong> (Note: does not work for scripts submitted as SLURM jobs).</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -2629,12 +2629,12 @@ Go further
 <tr class="even">
 <td><strong><code>&gt;&amp;2</code></strong></td>
 <td><strong>Redirect standard out to standard error</strong>: e.g., “manually” designate an <code>echo</code> statement to represent standard error.</td>
-<td><code>echo "Error: Invalid line number" &gt;&amp;2</code></td>
+<td><code>echo "Error: Invalid line nr." &gt;&amp;2</code></td>
 </tr>
 <tr class="odd">
 <td><strong><code>exit 1</code></strong></td>
-<td><strong>Exit the script</strong> with exit code <code>1</code> (= failure). <br><span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
-<td><code>echo "Error: need at least 3 args" &amp;&amp; exit 1</code></td>
+<td><strong>Exit the script</strong> with exit code <code>1</code> (= failure). <br><span style="color:white">dddddddddddddddddddddddddddddddddddddddddd</span></td>
+<td><code>echo "Error: need 3+ args" &amp;&amp; exit 1</code></td>
 </tr>
 </tbody>
 </table>
@@ -2653,14 +2653,14 @@ Go further
 <tbody>
 <tr class="odd">
 <td><strong><code>bash myscript.sh</code></strong></td>
-<td>Scripts that are not executable (execute permission not set) and/or have no <em>shebang</em> line can be run by explicitly calling <code>bash</code>.</td>
+<td>Scripts that are not executable (i.e., have no execute permission) and/or have no <em>shebang</em> line should be run by explicitly calling <code>bash</code>.</td>
 </tr>
 <tr class="even">
 <td><strong><code>./myscript.sh</code></strong> <br> <strong><code>scripts/myscript.sh</code></strong></td>
-<td>Scripts that are executable and have a <em>shebang</em> line can be called directly. But if they are in the current working dir, preface with <code>./</code> (otherwise the script will be looked for only in <code>$PATH</code>).</td>
+<td>Scripts that are executable and have a <em>shebang</em> line can be called directly by name. Note: if they are in the current working dir, preface with <code>./</code> (otherwise the script will be looked for only in <code>$PATH</code>).</td>
 </tr>
 <tr class="odd">
-<td><strong><code>./myscript.sh input.txt output.txt</code></strong></td>
+<td><strong><code>./myscript.sh in.txt out.txt</code></strong></td>
 <td>Call a script with two arguments, which will be available inside the script as <code>$1</code> and <code>$2</code>.</td>
 </tr>
 </tbody>
@@ -2684,7 +2684,7 @@ Go further
 <tbody>
 <tr class="odd">
 <td><strong><code>=</code></strong></td>
-<td><strong>Assign a variable</strong>. No spaces around the <code>=</code> !</td>
+<td><strong>Assign a variable</strong>. Note: no spaces around the <code>=</code> !</td>
 <td><code>nlines=200</code> <br> <code>nlines=$(wc -l my.csv)</code></td>
 </tr>
 <tr class="even">
