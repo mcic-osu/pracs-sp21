@@ -27,8 +27,28 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/25 (updated: 2021-03-19)
+### 2021/03/25 (updated: 2021-03-20)
 
+---
+
+## What is BioPython?
+
+BioPython is a project with a set of related modules to enable the
+use of Python for various **bioinformatics tasks**, such as parsing and
+processing bioinformatics file formats, access to online services like NCBI
+Entrez and BLAST, and so on.
+
+&lt;br&gt;
+
+Today, we'll work through 4 small sample applications:
+
+1. Finding and retrieving sequences from NCBI (CSB 6.4.1)
+
+2. Reading and writing sequence data (CSB 6.4.2)
+
+3. Programmatic BLAST search (CSB 6.4.3)
+
+4. Querying PubMed (CSB 6.4.4)
 
 ---
 class: center middle inverse
@@ -45,16 +65,21 @@ class: center middle inverse
 
 ## Using BioPython to inferface with NCBI databases
 
-While we already downloaded some data from NCBI manually in the exercises for
-week 7 (Bioinformatics Data),
-we can also use NCBI's **"Entrez Programming Utilities"** to do this
-programmatically.
+We already downloaded some data from NCBI manually in the exercises for
+week 7 (Bioinformatics Data).
 
-BioPython includes an Entrez module that interfaces with NCBI Entrez. 
-This is a much better method to find and download data, if you regularly need
-to do so.
+If we would regularly need to do so, or would need to download data from many
+organisms, it would be much better to do this programmatically.
 
-- We start by importing the module:
+Luckily, we can use NCBI's **"Entrez Programming Utilities"** via 
+the `Entrez` module in BioPython. 
+
+--
+
+&lt;br&gt;
+
+- We start by importing the module &amp;ndash; note that BioPython modules are
+  imported using `from Bio import &lt;focal-module&gt;`:
   
   ```python
   from Bio import Entrez
@@ -69,17 +94,53 @@ to do so.
 
 ---
 
-## Search the database
+## The inquisitive shrew mole 
 
-- Create a "handle" to search results:
+Let's say we would like to explore available DNA sequences from the Inquisitive
+Shrew Mole, *Uropsilus investigator*.
 
-  ```python
-  handle = Entrez.esearch(db = "nuccore",
-                          term = ("Uropsilus investigator[Organism]"),
-                          RetMax = 200)
-  ```
+&lt;br&gt;
 
-- Read the results and close the handle:
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/inquisitive-shrew-mole.jpg width="55%"&gt;
+&lt;figcaption&gt;The Inquisitive Shrew Mole is endemic to Yunnan, China. (&lt;a href="https://theverybesttop10.com/rarest-species-of-moles-voles-and-shrews/"&gt;Image source&lt;/a&gt;)&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+
+## Perform the search
+
+We can perform the search using the **`Entrez.esearch()`** function:
+
+```python
+handle = Entrez.esearch(db = "nuccore",
+                        term = ("Uropsilus investigator[Organism]"),
+                        retmax = 200)
+```
+
+  - NCBI makes several databases available through Entrez,
+    and we searched the **"Nucleotide" (or `nuccore`) database**,
+    which includes GenBank and RefSeq data, using the `db` argument.
+  
+  - We created a "handle" for the results
+    (similar to *file handles* earlier).
+  
+  - For NCBI searches, we can narrow down results by adding keywords between square
+    brackets, like `[Organism]`, after our search term.&lt;sup&gt;[1]&lt;/sup&gt;
+  
+  - We set `RetMax` to 200 (default is 20) to get all the sequence identifiers
+    (this can be a bit of trial-and-error or you can start veru high).
+
+.footnote[&lt;sup&gt;[1]&lt;/sup&gt;See the Nucleotide ["Advanced Search Builder"](https://www.ncbi.nlm.nih.gov/nuccore/advanced)
+for all possible keywords.]
+
+---
+
+## Save and check the search results
+
+- Read the results and close the search handle:
 
   ```python
   search_results = Entrez.read(handle)
@@ -88,7 +149,7 @@ to do so.
 
 &lt;br&gt;
 
-- Our results are returned in the form of a dictionary,
+- Our results are returned in the form of a *dictionary*,
   so let's look at the keys:
   
   ```python
@@ -113,46 +174,42 @@ to do so.
 
   ```python
   id_list = search_results["IdList"]
+  
   print(id_list)
   #&gt; ['524853022', '555947199', '555947198', ... , '555946814']
-  ```
-
-- Did we get all 126 IDs in the list? Note that the default is to only return
-  20, but because we used `RetMax = 200` in the call to `Entrez.esearch()`,
-  we got all of them:
-
-  ```python
-  len(id_list)
-  #&gt; '126'
-  search_results["RetMax"]
-  #&gt; '200'
+  
+  len(id_list)   # Making sure we got all 126 IDs
+  #&gt; '126' 
   ```
 
 ---
 
-## Downloading the sequences
+## Downloading the sequences and &lt;br&gt; writing them to a FASTA file
 
-We'll now use the GenBank IDs to actually download some sequences:
+- We'll now use the retrieved GenBank IDs (`id = id_list`) to download the
+  sequences in FASTA format (`rettype = "fasta"`):
 
-```python
-search_handle = Entrez.efetch(db = "nuccore",
-                              rettype = "fasta",
-                              retmode = "text",
-                              id = id_list)
+  ```python
+  search_handle = Entrez.efetch(db = "nuccore",
+                                  rettype = "fasta",
+                                  id = id_list)
+  ```
 
-# Set up a handle to an output file:
-out_handle = open("Uropsilus_seq.fasta", "w")
+--
 
-# Write the obtained sequence data to the output file:
-for line in handle:
-    out_handle.write(line)
+- Next, we can write the sequences to file:
 
-# Close the handles:
-out_handle.close()
-search_handle.close()
-```
+  ```python
+  with open("Uropsilus_seq.fasta", "w") as fhandle_out:
+         for line in search_handle:
+             fhandle_out.write(line)
+  search_handle.close()
+  ```
 
-Next, we'll read in our FASTA file using SeqIO.
+&lt;br&gt;
+
+- **The next step is to read our FASTA file back in, properly parsed,
+  using the `SeqIO` module.**
 
 ---
 
@@ -162,7 +219,7 @@ class: center middle inverse
 
 -----
 
-# II: Input and output of sequence data using *SeqIO* (6.4.2)
+# II: Reading and writing sequence data &lt;br&gt; using *SeqIO* (6.4.2)
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
@@ -170,28 +227,57 @@ class: center middle inverse
 
 ## Reading a FASTA file with SeqIO
 
-- We start by importing the SeqIO module:
+- We start by importing the BioPython `SeqIO` module:
 
   ```python
   from Bio import SeqIO
   ```
 
-- Let's print the ID and sequence length for each sequence:
+&lt;br&gt;
+
+- With `SeqIO.parse()`, we can create an object called a `SeqRecord` iterator
+  that we can then loop over to retrieve our sequences.
+  
+  ```python
+  records = SeqIO.parse("Uropsilus_seq.fasta", "fasta")
+  ```
+  
+  This model is similar to the *file handles* we worked with earlier and is
+  particularly useful for very large FASTA files,
+  so we don't have to load them into memory.
+  
+---
+
+## Reading a FASTA file with SeqIO (cont.)
+
+- Each FASTA record has several attributes, including:
+  - `description` &amp;ndash; everything after the `&gt;`
+  - `name` &amp;ndash; first word after the `&gt;`
+  - `seq` &amp;ndash; the sequence
+
+&lt;br&gt;
+
+&lt;p align="center"&gt;
+&lt;img src=img/FASTA.png width="100%"&gt;
+&lt;/p&gt;
+
+---
+
+## Reading a FASTA file with SeqIO (cont.)
+
+- For each record, let's print the `description` and the length (in bp)
+  of `seq`:
 
   ```python
-  in_handle = open("Uropsilus_seq.fasta", "r")
-  
-  for record in SeqIO.parse(in_handle, "fasta"):
-      print(record.description)
-      print(len(record), '\n')
-  in_handle.close()
+  for record in records:
+        print(record.description, '\n', len(record.seq), '\n')
   
   #&gt; KC516837.1 Uropsilus investigator isolate A11 apolipoprotein B (ApoB) gene, partial cds
   #&gt; 573 
-  
+  #&gt;
   #&gt; KC516819.1 Uropsilus investigator voucher mlxs331 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
   #&gt; 912 
-  
+  #&gt;
   #&gt; KC516818.1 Uropsilus investigator voucher mlxs022 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
   #&gt; 912 
   #&gt; [...]
@@ -201,22 +287,51 @@ class: center middle inverse
 
 ## Selecting only sequences for the BMI1 genes
 
-```python
-# We will import the "re" module for regular expression searches:
-import re
+Next, say that we to:
+  - Select only records originating from a specific gene
+  - Only take the first 100 bp of sequence for each record
 
+&lt;br&gt;
+
+.content-box-info[
+This is a quite apt example because parsing and subsetting FASTA files
+with *shell tools* is not as easy as you may expect.
+
+This is because each FASTA record spans multiple lines &amp;ndash;
+and the *sequence* for an individual records may or
+may not itself also be spread across multiple lines.
+]
+
+---
+
+## Selecting only sequences for the BMI1 genes
+
+Next, say that we to:
+  - Select only records originating from a specific gene
+  - Only take the first 100 bp of sequence for each record
+
+```python
 output_handle = open("Uropsilus_BMI1.fasta", "w")
 
 for record in SeqIO.parse("Uropsilus_seq.fasta", "fasta"):
     
-    # Find the BMI1 sequences using "re.search"
-    if re.search("BMI1", record.description):
+    if record.description.find("BMI1") != -1:
         print(record.id)
-        short_seq = record[:100]  # Just take the first 100 bases
+        short_seq = record[:100]  # Take the first 100 bases
         SeqIO.write(short_seq, output_handle, "fasta")
         
 output_handle.close()
 ```
+
+We used the string method `find()` to match "*BMI1*",
+making use of the fact that it returns `-1` when no match is found.
+
+--
+
+.content-box-info[
+Next week, we'll learn how to use the
+regular expression module `re` to do this more gracefully and flexibly.
+]
 
 ---
 
@@ -226,39 +341,43 @@ class: center middle inverse
 
 -----
 
-# III: Programmatic BLAST Search (6.4.3)
+# III: Programmatic BLAST search (6.4.3)
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
-## BLAST
+## NCBI BLAST
 
 The **Basic Local Alignment Search Tool (BLAST)** finds regions of similarity
 between biological sequences,
-and is one of the most widely used bioinformatics tool.
+and is one of the most widely used bioinformatics tools.
 
-You may not it from its web interface, where you can paste in or upload some
+You may know it by its web interface, where you can paste in or upload some
 sequences, and then "BLAST them" against a database you can specify.
 
-### screenshot?
-
-
-&lt;br&gt;
-
-Using this web interface may be convenient when you have one or a few sequences,
-but it is not very reproducible and completely unsuitable for automation.
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/blast_screenshot.png width="80%"&gt;
+&lt;figcaption&gt;Screenshot from &lt;a href="https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&amp;PAGE_TYPE=BlastSearch&amp;LINK_LOC=blasthome"&gt;NCBI BLAST&lt;/a&gt;.&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
 
 ---
 
-## Getting set up for BLAST
+## Getting set up for BLAST with the Blast module
 
-Biopython provides the module `Bio.Blast` which we can use to run a BLAST search
-against the NCBI's online databases.
+Using the web interface may be convenient when you just have one or a few sequences,
+but it is not very reproducible, tedious to repeat, and unsuitable for automation.
 
-We will import just a few of its functions: `NCBIWWW` for access to NCBI's
-BLAST server (the BLAST analysis is still being performed there!),
-and `NCBIXML` to parse the XML format that our results will be in
+Luckily, Biopython provides the module `Bio.Blast` which we can use to run a
+BLAST search against the NCBI's online databases programmatically.&lt;sup&gt;[1]&lt;/sup&gt;
+
+.footnote[
+&lt;sup&gt;[1]&lt;/sup&gt; Note, there is also a *command-line* BLAST tool.
+]
+
+--
 
 ```python
 # from Bio import SeqIO   # Should already be loaded
@@ -266,23 +385,29 @@ and `NCBIXML` to parse the XML format that our results will be in
 from Bio.Blast import NCBIWWW, NCBIXML
 ```
 
-&lt;br&gt;
-
---
-
-We will start by parsing our FASTA file with SeqIO,
-and then converting the records into a list:
-
-```python
-handle = open("Uropsilus_BMI1.fasta", "r")
-records = list(SeqIO.parse(handle, "fasta"))
-```
+We imported just two of its functions:
+  
+  - `NCBIWWW` for access to NCBI's BLAST server &amp;ndash;
+     the BLAST analysis is still being performed there.
+  
+  - `NCBIXML` to parse the XML format in which our results will be returned.
 
 ---
 
-## Our sequence records as a named list
+## Storing all FASTA records in a list
 
-What does this list that we created look like? Let's print the first 2 items:
+We will start by parsing our FASTA file again with `SeqIO`.
+
+This time, however, we will read the entire file into memory at once
+by converting the `SeqRecord` iterator to a list:
+
+```python
+records = list(SeqIO.parse("Uropsilus_BMI1.fasta", "fasta"))
+```
+
+--
+
+What does this list look like? Let's print the first 2 items:
 
 ```python
 records[0:2]
@@ -290,9 +415,8 @@ records[0:2]
 #&gt; SeqRecord(seq=Seq('TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATCTTGAAATTC...CCA', SingleLetterAlphabet()), id='KF778085.1', name='KF778085.1', description="KF778085.1 Uropsilus investigator voucher KIZ:020527 polycomb ring finger oncoprotein (BMI1) gene, 3' UTR", dbxrefs=[])]
 ```
 
-### More about this list type
-
-Say that the fourth sequence is the one we are interested in:
+From this list, we can still extract record attributes &amp;ndash;
+for instance, we can print the `id` and `seq` for the 4th record:
 
 ```python
 print(records[3].id, " ", records[3].seq)
@@ -304,12 +428,15 @@ print(records[3].id, " ", records[3].seq)
 ## Run the BLAST search
 
 For our BLAST search, we will use the nucleotide database (`nt`)
-with the `blastn` algorithm, one of several BLAST variants
-(other options are `blastp`, `blastx`, `tblastn`, and `tblastx`).
+with the `blastn` algorithm, the BLAST variant for standard nucleotide to
+nucleotide searches (other options are `blastp`, `blastx`, `tblastn`, and `tblastx`).
 
-The `qblast()` function requires three arguments: the program (`blastn` for us),
-the database (`nt` for us), and the query sequence (our 4th record from the
-FASTA file): 
+&lt;br&gt;
+
+The `qblast()` function requires three arguments:
+  - The program &amp;ndash; `blastn` for us
+  - The database &amp;ndash; `nt` for us
+  - The query sequence &amp;ndash; the 4th record from our FASTA file
 
 ```python
 Entrez.email = "me.999@osu.edu"
@@ -317,13 +444,16 @@ Entrez.email = "me.999@osu.edu"
 result_handle = NCBIWWW.qblast("blastn", "nt", records[3].seq)
 ```
 
-Now, we will write our results, which are in XML format, to an XML file
-and then close the result handle:
+---
+
+## Write the results to a file
+
+Now, we will write our results, which are in XML format,
+to a file, and then close the result handle:
 
 ```python
-save_file = open("my_blast.xml", "w")
-save_file.write(result_handle.read())
-save_file.close()
+with open("my_blast.xml", "w") as fhandle:
+    fhandle.write(result_handle.read())
 
 result_handle.close()
 ```
@@ -332,16 +462,16 @@ result_handle.close()
 
 ## Parse the XML file
 
-We will now parse our XML file with blast results using the `NCBIXML` parser:
+We will parse our XML file with BLAST results using the `NCBIXML`
+parser:&lt;sup&gt;[1]&lt;/sup&gt;
+
+.footnote[&lt;sup&gt;[1]&lt;/sup&gt; Because we our query consisted only of a single sequence,
+we could use `NCBIXML.read()`. For multiple sequences, you should use `NCBIXML.parse`.]
 
 ```python
 result_handle = open("my_blast.xml")
 blast_records = NCBIXML.read(result_handle)
 ```
-
-(Because we our query consisted only of a single sequence,
-we could use `NCBIXML.read()`.
-For multiple sequences, you should use `NCBIXML.parse`.)
 
 ---
 
@@ -358,11 +488,11 @@ that we set.
 E_VALUE_THRESH = 0.04
 LEN_THRESH = 3000
 
-for alignment in blast_records.alignments:
+for align in blast_records.alignments:
     
-    for hsp in alignment.hsps:
+    for hsp in align.hsps:
         
-        if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; LEN_THRESH:
+        if hsp.expect &lt; E_VALUE_THRESH and align.length &gt; LEN_THRESH:
             
             print("****Alignment****")
             print("sequence:", alignment.title)
@@ -381,11 +511,11 @@ for alignment in blast_records.alignments:
 E_VALUE_THRESH = 0.04
 LEN_THRESH = 3000
 
-for alignment in blast_records.alignments:
+for align in blast_records.alignments:
     
-    for hsp in alignment.hsps:
+    for hsp in align.hsps:
         
-        if hsp.expect &lt; E_VALUE_THRESH and alignment.length &gt; LEN_THRESH:
+        if hsp.expect &lt; E_VALUE_THRESH and align.length &gt; LEN_THRESH:
             
             print("****Alignment****")
             print("sequence:", alignment.title)
@@ -405,25 +535,6 @@ for alignment in blast_records.alignments:
 ```
 
 ---
-class: center middle inverse
-
-# Questions?
-
------
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
-
----
-class: center middle inverse
-
-# Bonus material
-
------
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
 
 class: center middle inverse
 
@@ -431,12 +542,11 @@ class: center middle inverse
 
 -----
 
-# IV: Querying PubMed for scientific literature information (6.4.4)
+# IV: Querying PubMed (6.4.4)
 
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
-background-color: #f2f5eb
 
 ## PubMed search
 
@@ -445,7 +555,10 @@ we can search any NCBI database,
 including PubMed, which contains scientific literature.
 
 By way of example, we will search for any papers on *Drosophila* that mention
-the gene "*spaetzle*" anywhere in the title or abstract:
+the gene "*spaetzle*" anywhere in the title or abstract:&lt;sup&gt;[1]&lt;/sup&gt;
+
+.footnote[&lt;sup&gt;[1]&lt;/sup&gt;See [here](https://pubmed.ncbi.nlm.nih.gov/help/#author-search)
+for PubMed search options.]
 
 ```python
 from Bio import Entrez
@@ -458,7 +571,27 @@ record = Entrez.read(handle)
 handle.close()                        
 ```                        
 
---
+---
+
+## PubMed search
+
+Using the `Entrez.esearch()` function we saw earlier,
+we can search any NCBI database,
+including PubMed, which contains scientific literature.
+
+By way of example, we will search for any papers on *Drosophila* that mention
+the gene "*spaetzle*" anywhere in the title or abstract:&lt;sup&gt;[1]&lt;/sup&gt;
+
+```python
+from Bio import Entrez
+Entrez.email = "me.999@osu.edu"
+
+handle = Entrez.esearch(db = "pubmed",
+                        term = ("spaetzle[Title/Abstract] AND Drosophila[ALL]"),
+                        usehistory = "y")
+record = Entrez.read(handle)
+handle.close()                        
+```                        
 
 - We used `usehistory = "y"`, which will allows us to refer back to our search
   to fetch the titles and abstracts by saving `WebEnv` and `QueryKey`:
@@ -469,7 +602,6 @@ handle.close()
   ```
 
 ---
-background-color: #f2f5eb
 
 ## PubMed search (cont.)
 
@@ -482,7 +614,9 @@ background-color: #f2f5eb
   
   We found 15 records (up from 13 in the book) that contained the words
   "*spaetzle*" and "*Drosophila*".
-  
+
+--
+
 - We can now fetch the titles and abstracts:
 
   ```python
@@ -493,6 +627,8 @@ background-color: #f2f5eb
   handle.close() 
   ```
 
+--
+
 - Finally, we write the results to file:
 
   ```python
@@ -502,7 +638,6 @@ background-color: #f2f5eb
   ```
 
 ---
-background-color: #f2f5eb
 
 ## PubMed search (cont.)
 
@@ -532,19 +667,18 @@ background-color: #f2f5eb
   ```
 
 ---
-background-color: #f2f5eb
 
 ## PubMed search (cont.)
 
-Alternatively, we could use regular expressions in Python to nicely get each *sentence* with "*Spaetzle*" along with the PubMedID for the publication:
+Alternatively, we could use regular expressions in Python to nicely get each
+*sentence* with "*Spaetzle*" along with the PubMedID for the publication:
 
 ```python
 import re
-
 with open("Spaetzle_abstracts.txt") as datafile:
+    
     pubmed_input = datafile.read()
-    # Delete newlines followed by 6 white spaces
-    # ... to have titles and abstracts on one lineL
+    # Titles and abstracts on one line: delete newlines + 6 spaces:
     pubmed_input = re.sub(r"\n\s{6}", " ", pubmed_input)
 
     for line in pubmed_input.split("\n"):
@@ -559,18 +693,26 @@ with open("Spaetzle_abstracts.txt") as datafile:
 #&gt; PubMedID:  27314646   [' While cytokines activating immune responses,  such as Spaetzle or Unpaired-3, have been identified and
 ```  
   
-We will learn how to do this next week!
+**We will learn how to do this next week!**
 
 ---
-background-color: #f2f5eb
 
 ## PubMed search (cont.)
 
-While this search was relatively trivial, you may like to do this kind of
+While this PubMed search was relatively trivial, you may need to do this kind of
 search for a dozen or more genes, and possibly repeat the search periodically.
 
 In that case, using Python to do the searches and parse the results can be a
 huge time-saver!
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
