@@ -2480,7 +2480,7 @@ Modules
 <a href="posts/week-08/index.html">08: Python - First steps</a>
 <a href="posts/week-09/index.html">09: Python - Control flow &amp; files</a>
 <a href="posts/week-10/index.html">10: Python - Writing good code</a>
-<span class="nav-dropdown-header">11: Python - Scientific computing</span>
+<a href="posts/week-11/index.html">11: Python - Scientific computing</a>
 <span class="nav-dropdown-header">12: Python - Regular expressions</span>
 <span class="nav-dropdown-header">13: Snakemake</span>
 <span class="nav-dropdown-header">14: Putting it all together</span>
@@ -2581,7 +2581,12 @@ Go further
 </div>
 <h2 id="using-slurm">Using SLURM</h2>
 <h3 id="submitting-batch-non-interactive-jobs">Submitting batch (non-interactive) jobs</h3>
-<p>SLURM directives can be provided as arguments to <code>sbatch</code> when submitting the job and/or inside the script on lines starting with <code>#SBATCH</code>. If the same directive is provided in both places, the command-line (<code>sbatch</code> call) value will override the one in the script.</p>
+<p>SLURM directives can be provided:</p>
+<ul>
+<li>As arguments to <code>sbatch</code> when submitting the job (see <a href="#submitting-the-job-with-sbatch">below</a>), or</li>
+<li>Inside the script on lines starting with <code>#SBATCH</code> (see <a href="#submitting-the-job-with-sbatch">below</a>).</li>
+</ul>
+<p>If the same directive is provided in both places, the command-line (<code>sbatch</code> call) value will <strong>override</strong> the one in the script.</p>
 <h4 id="most-important-sbatch-options">Most important <code>sbatch</code> options</h4>
 <p>For more options, see the <a href="https://slurm.schedmd.com/sbatch.html">SLURM documentation</a>.</p>
 <table>
@@ -2590,7 +2595,7 @@ Go further
 <col style="width: 2%" />
 <col style="width: 6%" />
 <col style="width: 5%" />
-<col style="width: 53%" />
+<col style="width: 52%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2656,7 +2661,7 @@ Go further
 <td><code>-o</code></td>
 <td><code>--output</code></td>
 <td style="text-align: center;"><code>slurm-%j.out</code></td>
-<td><code>--output=slurm-fastqc-%j.out</code> <em>(Useful to include a descriptive name but be sure to also include <code>%j</code>, the job number.)</em></td>
+<td><code>--output=slurm-fastqc-%j.out</code> <em>(It’s useful to include a descriptive name, but be sure to also include <code>%j</code>, the job number.)</em></td>
 </tr>
 <tr class="odd">
 <td>Error output file</td>
@@ -2670,7 +2675,7 @@ Go further
 <td>-</td>
 <td><code>--job-name</code></td>
 <td style="text-align: center;"><em>N/A</em></td>
-<td><code>--job-name=fastqc</code> <br> <em>(Useful to distinguish jobs in the queue.)</em></td>
+<td><code>--job-name=fastqc</code> <br> <em>(Useful to distinguish jobs when looking at the queue.)</em></td>
 </tr>
 <tr class="odd">
 <td>Partition (queue type)</td>
@@ -2730,9 +2735,9 @@ Go further
 <p>Inside the script, SLURM environment variables will be available, such as:</p>
 <table>
 <colgroup>
-<col style="width: 21%" />
-<col style="width: 24%" />
-<col style="width: 53%" />
+<col style="width: 22%" />
+<col style="width: 25%" />
+<col style="width: 52%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2770,7 +2775,7 @@ Go further
 <tr class="even">
 <td><code>$SLURM_MEM_PER_NODE</code></td>
 <td><code>--mem</code></td>
-<td>Memory per node,</td>
+<td>Memory per node.</td>
 </tr>
 <tr class="odd">
 <td><code>$SLURMD_NODENAME</code></td>
@@ -2779,14 +2784,16 @@ Go further
 </tr>
 </tbody>
 </table>
-<p>As an example of how using these environment variables can be convenient, below we use <code>$SLURM_CPUS_ON_NODE</code> (when calling the program STAR inside our script. This way, we only have to modify the number of threads in one place, and we don’t risk having a mismatch between resources requested and resources (attempting to be) used.</p>
+<p>As an example of how these environment variables can be useful, the command below uses <code>$SLURM_CPUS_ON_NODE</code> in its call to the program STAR inside the script:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">STAR</span> --runThreadN <span class="st">&quot;</span><span class="va">$SLURM_CPUS_ON_NODE</span><span class="st">&quot;</span> --genomeDir ...</span></code></pre></div>
+<p>This way, we don’t risk having a mismatch between the resources requested and the resources (attempting to be) used, and we only have to modify the number of threads in one place (in the resource request to SLURM).</p>
+<p><br></p>
 <h3 id="submitting-interactive-jobs">Submitting interactive jobs</h3>
 <table>
 <colgroup>
 <col style="width: 6%" />
-<col style="width: 76%" />
-<col style="width: 16%" />
+<col style="width: 75%" />
+<col style="width: 17%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2808,11 +2815,12 @@ Go further
 </tr>
 </tbody>
 </table>
+<p><br></p>
 <h3 id="monitoring-and-managing-slurm-jobs">Monitoring and managing SLURM jobs</h3>
 <table>
 <colgroup>
 <col style="width: 4%" />
-<col style="width: 50%" />
+<col style="width: 49%" />
 <col style="width: 45%" />
 </colgroup>
 <thead>
@@ -2825,7 +2833,7 @@ Go further
 <tbody>
 <tr class="odd">
 <td><code>squeue</code></td>
-<td>Check the SLURM job queue: will only see queued and running jobs, no finished jobs. (Use <code>-u</code> or you will see everyone’s jobs!)</td>
+<td>Check the SLURM job queue: will only show queued and running jobs, no finished jobs. (Use <code>-u</code> or you will see everyone’s jobs!)</td>
 <td><code>squeue -u $USER</code> <em>(show all my jobs)</em> <br> <code>squeue -u $USER -l</code> <em>(long format, more info)</em></td>
 </tr>
 <tr class="even">
@@ -2905,8 +2913,8 @@ Go further
 <table>
 <colgroup>
 <col style="width: 4%" />
-<col style="width: 36%" />
-<col style="width: 58%" />
+<col style="width: 48%" />
+<col style="width: 47%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2933,8 +2941,9 @@ Go further
 </tr>
 <tr class="even">
 <td><code>activate</code></td>
-<td>Activate a specific Conda environment, so you can use the software installed in that environment.</td>
-<td><code>source activate cutadapt-env</code> <br> <code>source activate cutadapt-env</code> <br> <em>Activate -“stack”- a second environment:</em> <br> <code>conda activate --stack &lt;second-env-name&gt;</code></td>
+<td><p>Activate a specific Conda environment, so you can use the software installed in that environment.</p>
+<p><em>Note: the examples use <code>source activate</code> rather than <code>conda activate</code>, see <a href="#conda-setup-to-enable-conda-activate">below</a> for additional setup to enable <code>conda activate</code>.</em></p></td>
+<td><code>source activate cutadapt-env</code> <br> <code>source activate cutadapt-env</code> <br> <em>Activate -“stack”- a second environment:</em> <br> <code>source activate --stack &lt;second-env-name&gt;</code></td>
 </tr>
 <tr class="odd">
 <td><code>install</code></td>
@@ -2948,7 +2957,7 @@ Go further
 </tr>
 <tr class="odd">
 <td><code>export</code></td>
-<td>Export a YAML file that describes the environment</td>
+<td>Export a YAML file that describes the environment.</td>
 <td><em>Export the active environment:</em> <br> <code>conda env export &gt; environment.yml</code> <br> <em>Export any environment</em> <em>by name:</em> <code>conda env export -n multiqc-env &gt; multiqc-env.yml</code></td>
 </tr>
 <tr class="even">

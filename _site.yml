@@ -34,6 +34,7 @@ navbar:
         - text: "10: Python - Writing good code"
           href: posts/week-10/index.html
         - text: "11: Python - Scientific computing"
+          href: posts/week-11/index.html
         - text: "12: Python - Regular expressions"
         - text: "13: Snakemake"
         - text: "14: Putting it all together"

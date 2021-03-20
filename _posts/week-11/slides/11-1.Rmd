@@ -1,0 +1,926 @@
+---
+title: "Week 11 - Python: Scientific computing"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
+```
+
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
+xaringanExtra::use_scribble()
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
+```
+
+# *Week 11 - Python: Scientific computing*
+
+----
+
+# I: NumPy
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/03/23 (updated: `r Sys.Date()`)
+
+---
+
+## Overview of this week
+
+- **NumPy** (CSB 6.2) &ndash; Tuesday
+
+- **Pandas** (CSB 6.3) &ndash; Tuesday/Thursday
+
+- **BioPython** (CSB 6.4) &ndash; Thursday
+
+---
+class: center middle inverse
+
+# NumPy (CSB 6.2)
+
+-----
+
+<br> <br> <br> <br>
+
+---
+
+## What is NumPy?
+
+NumPy is the basic Python package for scientific computing,
+which includes **efficient data structures and vectorized computation
+for vectors and matrices.**
+
+We have already used NumPy a bit last week to **generate random numbers**.
+
+As we have seen, NumPy is typically imported with `as np` added,  
+so we can access its functions with a little less typing:
+
+```python
+import numpy as np
+
+# Now we access numpy functions with "np.<function-name>"
+```
+
+---
+
+## NumPy arrays
+
+**Arrays** are NumPy's main data structure,
+which can contain numerical *vectors* (1-dimensional arrays),
+*matrices* (2-dimensional arrays), and *tensors* (n-dimensional arrays).
+
+--
+
+To create a **one-dimensional array**,  
+we can use NumPy's variant on the `range()` function, `np.arange()`:
+
+```python
+a = np.arange(9)
+a
+#> array([0, 1, 2, 3, 4, 5, 6, 7, 8])
+```
+
+One of the key differences between regular Python lists and NumPy arrays is
+that **all elements in an array have to be of the same type.**  
+(And usually, but not necessarily, they will be integers or floats.)
+
+---
+
+## NumPy arrays (cont.)
+
+- Recall once again that with lists,
+  we can use operators like `*` but the operations are not done element-wise:
+
+  ```python
+  mylist = list(range(9))
+  mylist * 2
+  #>[0, 1, 2, 3, 4, 5, 6, 7, 8, 0, 1, 2, 3, 4, 5, 6, 7, 8]
+  ```
+
+--
+
+- However, with arrays, these operators do work **element-wise**:
+
+  ```python
+  # Multiply each element by 2:
+  a * 2
+  #> array([  0,  2,  4,  6,  8, 10, 12, 14, 16])
+  
+  # Multiply values element-by-element:
+  a * a
+  #> array([ 0,  1,  4,  9, 16, 25, 36, 49, 64])
+  ```
+  
+  Such operations are said to be "**vectorized**".  
+  
+  In the first example, `2` is recycled (or **_broadcast_**) as many times as
+  is necessary to multiply each element in `a` by `2`.
+
+---
+
+## Some attributes of NumPy arrays
+
+- Get the length (number of elements) along each dimension with `shape`:
+
+  ```python
+  a.shape           # NOTE: No parentheses!
+  #> (9,)           # We have only one dimension in this case
+  ```
+
+  The result is returned as a *tuple*, in this case containing only one element
+  (note the trailing comma), since we only have one dimension.
+  
+- Get the number of dimensions with `ndim`:
+
+  ```python
+  a.ndim
+  #> 1
+  ```
+
+--
+
+- Get the number of elements with the `size`:
+  
+  ```python
+  a.size
+  #> 9
+  ```
+
+---
+
+## Some attributes of NumPy arrays (cont.)
+
+Get the data type for the elements in the array with **`dtype`**:
+  
+```python
+a.dtype
+#> dtype('int64')        # 64-bit integers
+```
+
+Because all elements in the array have to be of the same type,
+the type information is stored at the array-level and not at the element-level.
+
+<br>
+
+.content-box-info[
+**Bits in data types**  
+Above, the data type was reported to be **`int64`** rather than just `int`.
+NumPy has separate data types for numbers stored with different numbers of bits,
+so there is `int8`, `int16`, `int32`, `int64`,
+and even the same sequence for "unsigned integers", integers that are positive
+only (e.g. `uint64`).
+
+For the most part, you don't have to pay attention to this &ndash;
+and when assigning data types, you can just use `int` or `float` without
+specifying bits.
+]
+
+---
+
+## Simple arithmetic and statistics for arrays
+
+- Sum of all elements with `sum()`:
+
+  ```python
+  a.sum()
+  #> 36
+  ```
+  
+- Mean and standard deviation with `mean()` and `std()`:
+  
+  ```python
+  a.mean()
+  #> 4.0
+  
+  a.std()
+  #> 2.5819888974716112
+  ```
+
+--
+
+- Lowest and highest value with `min()` and `max()`:
+
+  ```python
+  a.min()
+  #> 0
+  
+  a.max()
+  #> 8
+  ```
+
+---
+
+## Creating arrays &ndash; by converting lists
+
+**Converting a list to a one-dimensional array**
+
+- If we create an array of numbers without decimal points,  
+  they will be interpreted as integers:
+
+  ```python
+  a1 = np.array([1, 2, 3, 4])
+  print(a1)
+  #> [1 2 3 4]
+  
+  a1.dtype.name
+  #> 'int64'
+  ```
+
+--
+
+- If we include decimal points, they will be floats:
+
+  ```python
+  a1 = np.array([1.0, 2.0, 3.0, 4.0])
+  
+  print(a1)
+  #> [ 1. 2. 3. 4.]
+  a1.dtype.name
+  #> 'float64'
+  ```
+
+---
+
+## Creating arrays &ndash; by converting lists (cont.)
+
+**"List of lists" will be automatically converted to two-dimensional arrays.**
+
+- Integers into a 2 x 2 array:
+
+  ```python
+  m = np.array([[1, 2], [3, 4]])
+  m
+  #> array([[1, 2],
+  #>       [3, 4]])
+  ```
+  
+<br>
+
+--
+
+- Floats - in this case, we explicitly specify the data type:  
+  
+  ```python
+  m = np.array([[1, 2], [3, 4]], dtype = float)
+  
+  print(m)
+  #> [[ 1. 2.]
+  #> [ 3. 4.]]
+  m.dtype.name
+  #> 'float64'
+  ```
+
+---
+
+## Initialize arrays with a given structure
+
+- `np.zeros()` will create an array with 0s.
+
+  We can **specify the dimensions using a tuple** &ndash;  
+  here, we ask for a 3x2 array filled with floating-point zeros:
+
+  ```python
+  m = np.zeros((3, 2), dtype = float)
+  m
+  #> array([[ 0., 0.],
+  #>        [ 0., 0.],
+  #>        [ 0., 0.]])
+  ```
+
+--
+
+- We can also "reshape" an existing array using **`reshape()`** &ndash;  
+  let's create a 1-dimensional array containing the integers from 0 to 8,  
+  and then re-arrange it to a 3x3 array:
+  
+  ```python
+  a = np.arange(9)
+  
+  a.reshape((3, 3))
+  #> array([[0, 1, 2],
+  #>       [3, 4, 5],
+  #>       [6, 7, 8]])
+  ```
+
+---
+
+## Array indexing and slicing
+
+**With one-dimensional arrays, indexing and slicing works just as we've seen
+for lists, with some additional options.**
+
+```python
+a
+#> array([0, 1, 2, 3, 4, 5, 6, 7, 8])
+```
+  
+- Single-element indexing &ndash; e.g., get the 2nd element:
+  
+  ```python
+  a[1]
+  #> 1
+  ```
+
+- Create a slice &ndash; e.g., from the start to the 5th element (noninclusive):
+  
+  ```python
+  a[:4]
+  #> array([0, 1, 2, 3])
+  ```
+  
+- Slice with negative indices &ndash; e.g., from the 3rd-to-last to the last
+  element:
+  
+  ```python
+  a[-3:]
+  #> array([6, 7, 8])
+  ```
+
+---
+
+## Array indexing and slicing
+
+Here is a type of indexing (so-called "fancy indexing") that is possible with a
+NumPy array but not a list &ndash; providing multiple values as a list:
+
+```python
+seqlist = list('AAGCGATTAG')
+seqlist[[2, 5, 1]]
+#> TypeError: list indices must be integers or slices, not list
+```
+
+```python
+seqarray = np.array(list('AAGCGATTAG'))
+seqarray[[2, 5, 1]]
+#> array(['G', 'A', 'A'], dtype='<U1')
+```
+
+---
+
+## Two-dimensional indexing and slicing
+
+- Let's first create another two-dimensional array:
+  
+  ```python
+  m = np.arange(12).reshape((3, 4))
+  m
+  #> array([[ 0, 1, 2, 3],
+  #>        [ 4, 5, 6, 7],
+  #>        [ 8, 9, 10, 11]])
+  ```
+
+- With multiple dimensions, we can separate slices for each dimension using
+  commas &ndash; e.g., extract a submatrix with rows 1-2 and columns 2-4:
+  
+  ```python
+  m[0:2, 1:4]               # m[rows, columns]
+  #> array([[ 1, 2, 3],
+  #>        [ 5, 6, 7]])
+  ```
+
+--
+
+.pull-left[
+- Get the **second row**:
+
+  ```python
+  m[1, :]
+  #> array([4, 5, 6, 7])
+  m[1]
+  #> array([4, 5, 6, 7])
+  ```
+]
+
+.pull-right[  
+- Get the **second column**:
+
+  ```python
+  m[:, 1]
+  #> array([ 1, 5, 9])
+  ```
+]
+
+---
+
+## Masking
+
+Indexing with logical tests, which is sometimes called *masking*,
+can also be done on NumPy arrays thanks to vectorization.
+
+- For example, `a > 5` will result in an array which has `True` or `False`
+  for each element in the original array,
+  depending on whether that number is greater than 5: 
+
+  ```python
+  a > 5
+  #> array([False, False, False, False, False, False,  True,  True,  True])
+  ```
+
+- Conveniently, we can directly mask, i.e. select elements from,
+  the original array with this Boolean array:
+
+  ```python
+  a[a > 5]
+  #> array([6, 7, 8])
+  ```
+
+---
+
+## Operate on the entire array or on rows/columns
+
+- By default, methods like `sum()` will operate on the entire matrix:
+
+  ```python
+  m.sum()
+  #> 66
+  ```
+  
+<br>
+
+- To get sums for each **column**, we specify **`axis = 0`**:
+
+  ```python
+  m.sum(axis = 0)
+  #> array([12, 15, 18, 21])
+  ```
+
+- To get sums for each **row**, we specify **`axis = 1`**:
+  
+  ```python
+  m.sum(axis = 1)
+  #> array([ 6, 22, 38])
+  ```
+
+---
+
+## Load data into NumPy
+
+So far, we have mostly read data from files by creating *file handles* and then
+reading data line-by-line, which is fast and saves memory.
+
+However, NumPy typically operate on multi-line arrays at once,
+and therefore **read files into memory all at once**,
+saving them as a single array object.<sup>[1]</sup>
+
+.footnote[<sup>[1]</sup>And we'll see the same behavior for Pandas later,
+with its `DataFrame` data structure.]
+
+<br>
+
+--
+
+For instance, we could use NumPy's `loadtxt()` function as follows to
+read a CSV file:
+
+```python
+m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
+```
+
+---
+
+## <i class="fa fa-user-edit"></i> Your turn
+
+1. Create an array called `fives` with the elements 5, 10, 15, etc up to 45 
+   using the `arange()` function:
+   specify start, end, and stepsize arguments in that order.
+
+2. Select the fourth, eight and ninth elements from `fives`
+   (using "fancy indexing").
+
+2. Index/mask `fives` to only select values larger than 15.  
+   Bonus: Instead, only extract values larger than 15 and smaller than 40.
+
+---
+
+## <i class="fa fa-user-edit"></i> Your turn: solutions
+
+1. Create an array called `fives` with the elements 5, 10, 15, etc up to 45:
+   
+   ```python
+   fives = np.arange(0, 50, 5)
+   ```
+
+2. Select the fourth, eight and ninth elements from `fives`:
+
+   ```python
+   fives[[3, 7, 8]]
+   #> array([15, 35, 40])
+   ```
+
+3. Index/mask `fives` to only select values larger than 15.  
+   Bonus: Instead, only extract values larger than 15 and smaller than 40.
+
+   ```python
+   fives[fives > 15]
+   #> array([20, 25, 30, 35, 40, 45])
+   
+   fives[(fives > 15) & (fives < 40)]
+   #> array([20, 25, 30, 35])
+   ```
+  
+---
+
+## Random numbers and distributions (6.2.2)
+
+Being able to generate random numbers is useful to perform simulations,
+randomizations, and statistics &ndash; and NumPy offers a number of functions to
+get random numbers from different distributions.
+
+As we saw last week in our popgen simulation,  
+`np.random.random()` samples from a uniform distribution between 0 and 1:
+
+```python
+# import numpy as np
+
+np.random.random(2)   # The only argument is the number of samples
+#> array([ 0.31622522, 0.6173434 ])
+```
+
+---
+
+## Random numbers and distributions (cont.)
+
+Similarly, we can sample integers with `np.random.randint()`,  
+for which we can specify not only sample size but also minimum and maximum:
+
+```python
+# If one positional argument is provided, it is the maximum,
+# and sample size is 1:
+np.random.randint(5)
+#> 3
+
+# If two positional arguments are provided, they are min and max,
+# and sample size is 1:
+np.random.randint(5, 10)
+#> 8
+
+# We can also specify the sample size:
+np.random.randint(-5, -3, size = 4)
+#> array([-4, -5, -5, -3])
+```
+
+--
+
+.content-box-info[
+The CSB book uses the dreadfully lengthy function name
+`np.random.random_integers()` but this function has now thankfully been
+deprecated in favor of `np.random.randint()`.
+]
+
+---
+
+## Random numbers and distributions (cont.)
+
+- `np.random.shuffle()` can be used to randomize the order of elements in an
+  array:
+  
+  ```python
+  a = np.arange(4)
+  a
+  #> array([0, 1, 2, 3])
+  np.random.shuffle(a)     # Shuffle in place
+  a
+  #> array([1, 0, 2, 3])
+  ```
+
+--
+
+<br>
+
+- We can sample from many other distributions,
+  such as the **normal distribution**,
+  with parameters *mean*, *standard deviation*, and *sample size*:
+  
+  ```python
+  np.random.normal(10, 0.1, 4)
+  #> array([ 9.9574825 , 10.03459465, 9.93908575, 9.80264752])
+  ```
+
+---
+
+## Random numbers and distributions (cont.)
+
+Random numbers from computers are technically "pseudorandom",  
+because they are generated using a deterministic algorithm.
+
+Therefore, if we repeatedly set the **"seed"** to the same value,  
+we will generate the same sequence of values (and the same as in the book!):
+
+```python
+np.random.seed(10)
+print(np.random.random(1))
+print(np.random.random(1))
+
+np.random.seed(10)
+print(np.random.random(1))
+print(np.random.random(1))
+
+#> [0.77132064]
+#> [0.02075195]
+#> [0.77132064]
+#> [0.02075195]
+```
+
+--
+
+Setting a seed can be useful to fix bugs or when you need predictable results
+such as when creating a figure from the results of simulations.
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>
+
+---
+class: center middle inverse
+
+# Bonus material
+
+-----
+
+<br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+
+## Functions that work element-wise
+
+- Square root:
+
+  ```python
+  np.sqrt(a)
+  #> array([0., 1., 1.41421356, 1.73205081, 2., 2.23606798,
+  #>        2.44948974, 2.64575131, 2.82842712])
+```
+
+- Exponentiation:
+
+  ```python
+  np.exp(a)
+  #> array([1.00000000e+00, 2.71828183e+00, 7.38905610e+00,
+  #>        2.00855369e+01, 5.45981500e+01, 1.48413159e+02,
+  #>        4.03428793e+02, 1.09663316e+03, 2.98095799e+03])
+  ```
+
+---
+background-color: #f2f5eb
+
+## Initialize arrays with a given structure (cont.)
+
+- As we saw last week, NumPy can generate random numbers with the `np.random`
+  module &ndash; and we'll discuss several functions for this later on.
+
+  For now, let's create an array with random values drawn from the uniform
+  distribution `U[0,1]` with `np.random.random()`:
+
+  ```python
+  np.random.random((2, 3))
+  #> array([[ 0.2331427 , 0.28167952, 0.66094357],
+  #>       [0.13703488, 0.75519455, 0.08413554]])
+  ```
+  
+  Note that with the tuple `(2, 3)`, we merely specify the dimensions.
+
+---
+class: center middle inverse
+
+# Case study: Image processing with NumPy
+
+-----
+
+<br> <br> <br> <br>
+
+---
+background-color: #f2f5eb
+
+## Getting set up
+
+- To get started, you'll need to install `scikit-image` into your interactive
+  Python environment, which you can do as follows:
+
+  ```sh
+  sinteractive -A PAS1855 -t 60      # Start an interactive job
+  module load python/3.6-conda5.2    # Load the OSC Conda module
+  source activate ipy-env            # Activate your existing Conda environment
+  conda install -y scikit-image      # Install scikit-image
+  ```
+
+---
+background-color: #f2f5eb
+
+## Getting set up (cont.)
+
+- We start by loading NumPy and Scikit-image:
+
+  ```python
+  #import numpy as np        # Should be loaded already
+  import skimage.io as io
+  ```
+
+- Next, let's save the path to the image we want to read in as a variable:
+  ```python
+  import os
+  
+  CSB_dir = '/fs/ess/PAS1855/users/<user>/CSB/scientific/data'
+  # CSB_dir = '../CSB/scientific/data'
+  
+  image_file = 'Kacsoh2013_Drosobrain.png'
+  image_path = os.path.join(CSB_dir, image_file)
+  ```
+
+--
+
+.content-box-info[
+If using a Jupyter Notebook, we would also need to make Matplotlib image plotting
+available using this IPython "magic function":
+
+```python
+%matplotlib inline
+```
+]
+
+---
+background-color: #f2f5eb
+
+## Viewing the original image
+
+Let's view the image:
+
+```python
+image = io.imread(image_path)
+io.imshow(image)
+```
+
+<p align="center">
+<img src=img/numpy-img_red.png width="55%">
+</p>
+
+---
+background-color: #f2f5eb
+
+## Exploring the image as a NumPy array
+
+- In what format is our image stored?
+
+  ```python
+  type(image)
+  #> numpy.ndarray
+  ```
+  
+  As a NumPy array!
+
+<br>
+
+--
+
+- Therefore, we can use the NumPy methods we have learned about.
+  Let's check the dimensions:
+  
+  ```python
+  image.shape
+  #> (1024, 1024, 4)
+  ```
+  
+  The image is 1024 x 1024 pixels,
+  with the four RGBA channels along the 3rd dimension:
+    - Red (index 0)
+    - Green (index 1)
+    - Blue (index 2)
+    - Alpha (opaqueness; index 3).
+
+---
+background-color: #f2f5eb
+
+## Exploring the image as a NumPy array (cont.)
+
+- The first channel is the red channel, which should be the one of interest,
+  given what our image looks like... Let's extract it and explore a bit:
+  
+  ```python
+  red = image[:, :, 0]
+  
+  print(red.mean())
+  #> 23.181024551391602
+  print(red.std())
+  #> 30.446740821993011
+  print(red.min(), red.max())
+  #> 0 255
+  ```
+
+--
+
+- It looks like we indeed *only* have variation in the red channel:
+
+  ```python
+  for channel_index in range(0, image.shape[2]):
+        print(image[:, :, channel_index].std())
+  #> 30.44674082199301
+  #> 0.0
+  #> 0.0
+  #> 0.0
+  ```
+
+---
+background-color: #f2f5eb
+
+## Setting a masking threshold
+
+Say that we are interested in examining what area in the image express the
+*NPF* and *NPFR1* genes that were targeted by this assay.
+
+We'll here take an overly simple approach,
+by **setting a threshold of 100** and determining which pixels have a higher
+value than that.
+
+---
+background-color: #f2f5eb
+
+## Setting a masking threshold (cont.)
+
+Let's check what a value of 100 looks like by modifying a copy of the image:
+
+  ```python
+  img_copy = image.copy()
+  img_copy[:, 480:500, 0] = 100
+  io.imshow(img_copy)
+  ```
+  
+<p align="center">
+<img src=img/numpy-img_redline.png width="50%">
+</p>
+
+---
+background-color: #f2f5eb
+
+## Mask the array
+
+- Next, we'll "mask" our array: with a conditional expression,
+  we produce a Boolean (`False`/`True`) array and then multiply that
+  by 1 to get `0` (for `False`) for pixels that do not pass the threshold
+  and `1` (for `True`) for pixels that do pass the threshold.
+
+  ```python
+  threshold = 100
+  mask = (red > threshold) * 1
+  ```
+
+--
+
+.pull-left[
+
+How many pixels pass?
+
+```python
+mask.sum()
+#> 37037
+```
+
+Plot the mask:
+
+```python
+io.imshow(mask)
+```
+
+]
+
+.pull-right[
+<p align="left">
+<img src=img/numpy-img_mask1.png width="100%">
+</p>
+]
+
+---
+background-color: #f2f5eb
+
+## Modifying the mask
+
+Finally, we'll use a little trick to get the actual pixel values back for those
+pixels that passed the threshold &ndash; we multiply the original array
+by the 0/1 mask:
+
+```python
+mask2 = red * mask
+io.imshow(mask2)
+```
+
+<p align="center">
+<img src=img/numpy-img_mask2.png width="60%">
+</p>

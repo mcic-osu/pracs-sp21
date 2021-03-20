@@ -2480,7 +2480,7 @@ Modules
 <a href="posts/week-08/index.html">08: Python - First steps</a>
 <a href="posts/week-09/index.html">09: Python - Control flow &amp; files</a>
 <a href="posts/week-10/index.html">10: Python - Writing good code</a>
-<span class="nav-dropdown-header">11: Python - Scientific computing</span>
+<a href="posts/week-11/index.html">11: Python - Scientific computing</a>
 <span class="nav-dropdown-header">12: Python - Regular expressions</span>
 <span class="nav-dropdown-header">13: Snakemake</span>
 <span class="nav-dropdown-header">14: Putting it all together</span>
@@ -2570,7 +2570,7 @@ Go further
 <li><a href="#miscellaneae">Miscellaneae</a></li>
 <li><a href="#shell-wildcards">Shell wildcards</a></li>
 <li><a href="#regular-expressions">Regular expressions</a></li>
-<li><a href="#details-for-selected-commands">Details for selected commands</a>
+<li><a href="#more-details-for-a-few-commands">More details for a few commands</a>
 <ul>
 <li><a href="#less"><code>less</code></a></li>
 <li><a href="#sed"><code>sed</code></a></li>
@@ -2601,7 +2601,7 @@ Go further
 <tbody>
 <tr class="odd">
 <td><strong><code>pwd</code></strong></td>
-<td><strong>Print current working dir.</strong></td>
+<td><strong>Print current working directory (dir).</strong></td>
 <td><code>pwd</code></td>
 </tr>
 <tr class="even">
@@ -2611,13 +2611,13 @@ Go further
 </tr>
 <tr class="odd">
 <td><strong><code>cd</code></strong></td>
-<td><strong>Change working dir.</strong></td>
-<td><code>cd /fs/ess/PAS1855</code> <br> <code>cd ../..</code> (<em>Two levels up)</em> <br> <em><code>cd -</code></em> <em>(To previous dir)</em></td>
+<td><strong>Change working dir.</strong> As with all commands, you can use an <em>absolute</em> path (starting from the root dir <code>/</code>) or a <em>relative</em> path (starting from the current working dir).</td>
+<td><code>cd /fs/ess/PAS1855</code> <em>(With absolute path)</em> <br> <code>cd ../..</code> (<em>Two levels up)</em> <br> <em><code>cd -</code></em> <em>(To previous dir)</em></td>
 </tr>
 <tr class="even">
 <td><strong><code>cp</code></strong></td>
-<td><strong>Copy files</strong> or dirs/recursively (with <code>-r</code>). <br> If target is a dir, file will keep same name; otherwise a new name can be provided.</td>
-<td><code>cp *.fq data/</code> <em>(All .fq files into dir data)</em> <br> <code>cp my.fq data/new.fq</code> <em>(With new name)</em> <br> <code>cp -r data/ ~</code> <em>(Copy dir and contents)</em> <br></td>
+<td><strong>Copy files</strong> or, with <code>-r</code>, dirs and their contents (i.e., <em>recursively</em>). <br> If target is a dir, file will keep same name; otherwise, a new name can be provided.</td>
+<td><code>cp *.fq data/</code> <em>(All .fq files into dir data)</em> <br> <code>cp my.fq data/new.fq</code> <em>(With new name)</em> <br> <code>cp -r data/ ~</code> <em>(Copy dir and contents to home dir)</em> <br></td>
 </tr>
 <tr class="odd">
 <td><strong><code>mv</code></strong></td>
@@ -2652,7 +2652,7 @@ Go further
 <tr class="odd">
 <td><strong><code>tail</code></strong></td>
 <td>Like <code>head</code> but <strong>print the <em>last</em> lines</strong>.</td>
-<td><code>tail -n +2 my.csv</code> <em>(skip first line)</em> <br> <code>tail -f slurm.out</code> <em>(“follow” file)</em></td>
+<td><code>tail -n +2 my.csv</code> <em>(“trick” to skip first line)</em> <br> <code>tail -f slurm.out</code> <em>(“follow” file)</em></td>
 </tr>
 <tr class="even">
 <td><strong><code>less</code></strong></td>
@@ -2700,7 +2700,7 @@ Go further
 <tr class="even">
 <td><strong><code>cut</code></strong></td>
 <td><strong>Select one or more columns</strong> from a file.</td>
-<td><em>Select columns 1-4:</em> <br> <code>cut -f 1-4 my.csv</code> <br> <br>     <code>-d ","</code> <em>comma as delimiter</em></td>
+<td><em>Select columns 1-4:</em> <br> <code>cut -f 1-4 my.csv</code> <br>     <code>-d ","</code> <em>comma as delimiter</em></td>
 </tr>
 <tr class="odd">
 <td><strong><code>sort</code></strong></td>
@@ -2710,7 +2710,7 @@ Go further
 </tr>
 <tr class="even">
 <td><strong><code>uniq</code></strong></td>
-<td><strong>Remove <em>consecutive</em> duplicate lines</strong> (often from single-column selection): removes all duplicates if input is sorted.</td>
+<td><strong>Remove <em>consecutive</em> duplicate lines</strong> (often from single-column selection): i.e., removes all duplicates if input is sorted.</td>
 <td><em>Unique values for column 2:</em> <br> <code>cut -f2 my.tsv | sort | uniq</code></td>
 </tr>
 <tr class="odd">
@@ -2728,8 +2728,8 @@ Go further
 <td><strong><code>grep</code></strong></td>
 <td><p><strong>Search files for a pattern</strong> and print matching lines (or only the matching string with <code>-o</code>).</p>
 <p>Default regex is basic (GNU BRE): use <code>-E</code> for extended regex (GNU ERE) and <code>-P</code> for Perl-like regex.</p>
-<p>To print lines surrounding a match, use <code>-A n</code> (<code>n</code> lines after match) or <code>-B n</code> (<code>n</code> lines after match) or <code>-C n</code> (<code>n</code> lines before and after match).</p>
-<p><span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></p></td>
+<p>To print lines surrounding a match, use <code>-A n</code> (<code>n</code> lines <em>after</em> match) or <code>-B n</code> (<code>n</code> lines <em>before</em> match) or <code>-C n</code> (<code>n</code> lines before and after match).</p>
+<p><span style="color:white">ddddddddddddddddddddddddddddddddddddddd</span></p></td>
 <td><em>Match AAC or AGC:</em> <br> <code>grep "A[AG]C" my.fa</code> <br> <em>Omit comment lines:</em> <br> <code>grep -v "^# my.gff</code> <br><br>     <code>-c</code> <em>count</em> <br>     <code>-i</code> <em>ignore case</em> <br>     <code>-r</code> <em>recursive</em> <br>     <code>-v</code> <em>invert</em> <br>     <code>-o</code> <em>print match only</em></td>
 </tr>
 </tbody>
@@ -2788,7 +2788,7 @@ Go further
 <tr class="even">
 <td><strong><code>2&gt;</code></strong></td>
 <td><strong>Redirect standard error</strong> to a file.</td>
-<td><code>myscript.sh &gt;log.txt 2&gt; err.txt</code></td>
+<td><em>Send standard out and standard error for a script to separate files:</em> <br> <code>myscript.sh &gt;log.txt 2&gt; err.txt</code></td>
 </tr>
 <tr class="odd">
 <td><strong><code>&amp;&gt;</code></strong></td>
@@ -2798,7 +2798,7 @@ Go further
 <tr class="even">
 <td><strong><code>|</code></strong></td>
 <td><strong>Pipe</strong> standard out (output) of one command into standard in (input) of a second command</td>
-<td><code>sort myfile.txt | head</code></td>
+<td><em>The output of the <code>sort</code> command will be piped into head to show the first lines:</em> <br> <code>sort myfile.txt | head</code></td>
 </tr>
 <tr class="odd">
 <td><strong><code>{}</code></strong></td>
@@ -2821,9 +2821,9 @@ Go further
 <h2 id="shell-wildcards">Shell wildcards</h2>
 <table>
 <colgroup>
-<col style="width: 10%" />
-<col style="width: 48%" />
-<col style="width: 41%" />
+<col style="width: 3%" />
+<col style="width: 32%" />
+<col style="width: 63%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2835,30 +2835,30 @@ Go further
 <tbody>
 <tr class="odd">
 <td>*</td>
-<td>Any number of any character, including nothing</td>
-<td><code>ls data/*fastq.gz</code> <br> <code>ls *R1*</code></td>
+<td>Any number of any character, including nothing.</td>
+<td><code>ls data/*fastq.gz</code> <em>(Matches any file ending in “fastq.gz”)</em> <br> <code>ls *R1*</code> <em>(Matches any file containing “R1” somewhere in the name.)</em></td>
 </tr>
 <tr class="even">
 <td>?</td>
-<td>Any single character</td>
-<td><code>ls sample1_?.fastq.gz</code></td>
+<td>Any single character.</td>
+<td><code>ls sample1_?.fastq.gz</code> <em>(Matches <code>sample1_A.fastq.gz</code> but not <code>sample1_AA.fastq.gz</code>)</em></td>
 </tr>
 <tr class="odd">
 <td>[] and [^]</td>
-<td>One or none (<code>^</code>) of the “character set” within the brackets</td>
-<td><code>ls fig1[A-G]</code> <br> <code>ls fig[0-9]</code> <br> <code>ls fig[^4]*</code></td>
+<td>One or none (<code>^</code>) of the “character set” within the brackets. <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+<td><code>ls fig1[A-C]</code> <em>(Matches <code>fig1A</code>, <code>fig1B</code>, <code>fig1C</code>)</em> <br> <code>ls fig[0-3]</code> <em>(Matches <code>fig0</code>, <code>fig1</code>, <code>fig2</code>, <code>fig3</code>)</em> <br> <code>ls fig[^4]*</code> <em>(Does not match files with a “4” after “fig”)</em> <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddddd</span></td>
 </tr>
 </tbody>
 </table>
 <p><br></p>
 <h2 id="regular-expressions">Regular expressions</h2>
-<p>Note: ERE = GNU “Extended Regular Expressions”. If “yes” in ERE column, symbol needs <code>-E</code> flag for <code>grep</code> and <code>sed</code> (note that <code>awk</code> uses ERE by default) to turn on ERE. (When using the default in <code>grep</code> and <code>sed</code>, Basic Regular Expressions (BRE), symbol would need to be preceded by a backslash to work.)</p>
+<p><em>Note:</em> <strong><em>ERE</em></strong> = GNU “Extended Regular Expressions”. If “yes” in ERE column, then the symbol needs ERE to work<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>: use a <code>-E</code> flag for <code>grep</code> and <code>sed</code> (note that <code>awk</code> uses ERE by default) to turn on ERE.</p>
 <table>
 <colgroup>
-<col style="width: 12%" />
+<col style="width: 11%" />
 <col style="width: 2%" />
-<col style="width: 51%" />
-<col style="width: 34%" />
+<col style="width: 45%" />
+<col style="width: 40%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2873,7 +2873,7 @@ Go further
 <td><strong><code>.</code></strong></td>
 <td></td>
 <td>Any single character</td>
-<td><em>Capture anything following “Olfr”:</em> <br> <code>grep -o "Olfr.*"</code></td>
+<td><em>Match <code>Olfr</code> with none or any characters after it:</em> <br> <code>grep -o "Olfr.*"</code></td>
 </tr>
 <tr class="even">
 <td><strong><code>*</code></strong></td>
@@ -2920,31 +2920,31 @@ Go further
 <tr class="odd">
 <td><strong><code>\w</code></strong></td>
 <td>(yes)</td>
-<td><strong>“Word” character</strong>: any alphanumeric character or “_”. Needs <code>-E</code> (ERE) in <code>grep</code> but not in <code>sed</code> (…).</td>
-<td><code>grep -E -o 'gene_id "\w+"'</code> <br> <code>sed s/\w/X/</code> (c<em>hange any word character to X)</em></td>
+<td><strong>“Word” character</strong>: any alphanumeric character or “_”. Needs <code>-E</code> (ERE) in <code>grep</code> but not in <code>sed</code>.</td>
+<td>Match <code>gene_id</code> followed by a space and a “word”: <br> <code>grep -E -o 'gene_id "\w+"'</code> <br> C<em>hange any word character to X:</em> <br> <code>sed s/\w/X/</code></td>
 </tr>
 <tr class="even">
 <td><strong><code>|</code></strong></td>
 <td>yes</td>
 <td><strong>Alternation / logical or</strong>: match either the string before or after the <code>|</code></td>
-<td><em>Find lines with either “intron” or “exon”:</em> <br> <code>grep -E "intron|exon"</code></td>
+<td><em>Find lines with either <code>intron</code> or <code>exon</code>:</em> <br> <code>grep -E "intron|exon"</code></td>
 </tr>
 <tr class="odd">
 <td><code>()</code></td>
 <td>yes</td>
 <td>Grouping</td>
-<td><em>Find “AAG” repeated 10x:</em> <br> <code>grep (AAG){10}</code></td>
+<td><em>Find “AAG” repeated 10 times:</em> <br> <code>grep (AAG){10}</code></td>
 </tr>
 <tr class="even">
 <td><code>\1</code>, <code>\2</code>, etc.</td>
 <td>yes</td>
 <td>Backreferences to groups captured with <code>()</code>: first group is <code>\1</code>, second group is <code>\2</code>, etc. <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
-<td><em>Invert order of two words:</em> <br> <code>sed -E 's/(\w+) (\w+)/\2 \1/'</code></td>
+<td><em>Invert order of two words:</em> <br> <code>sed -E 's/(\w+) (\w+)/\2 \1/'</code> <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
 </tr>
 </tbody>
 </table>
 <p><br></p>
-<h2 id="details-for-selected-commands">Details for selected commands</h2>
+<h2 id="more-details-for-a-few-commands">More details for a few commands</h2>
 <h3 id="less"><code>less</code></h3>
 <table>
 <colgroup>
@@ -3274,11 +3274,11 @@ Go further
 </tr>
 <tr class="even">
 <td><kbd>Ctrl</kbd>+<kbd>U</kbd> / <kbd>Ctrl</kbd>+<kbd>K</kbd></td>
-<td>Cut from cursor to beginning / end of line<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></td>
+<td>Cut from cursor to beginning / end of line<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></td>
 </tr>
 <tr class="odd">
 <td><kbd>Ctrl</kbd>+<kbd>W</kbd></td>
-<td>Cut word before before cursor<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></td>
+<td>Cut word before before cursor<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></td>
 </tr>
 <tr class="even">
 <td><kbd>Ctrl</kbd>+<kbd>Y</kbd></td>
@@ -3309,10 +3309,11 @@ Go further
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p><kbd>Ctrl</kbd>+<kbd>K</kbd> doesn’t work by default in VS Code, but can be set there.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>Doesn’t work by default in VS Code, but can be set there.</p>
+<li id="fn1" role="doc-endnote"><p>When using the default regular expressions in <code>grep</code> and <code>sed</code>, Basic Regular Expressions (BRE), the symbol would need to be preceded by a backslash to work.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p><kbd>Ctrl</kbd>+<kbd>K</kbd> doesn’t work by default in VS Code, but can be set there.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Doesn’t work by default in VS Code, but can be set there.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></li>
+<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></li>
 </ol>
 </section>
 <!--radix_placeholder_article_footer-->
