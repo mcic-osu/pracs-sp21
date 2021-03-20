@@ -6,6 +6,21 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
     <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
@@ -28,18 +43,6 @@ class:inverse middle center
 
 ### Jelmer Poelstra
 ### 2021/03/25 (updated: 2021-03-19)
-
----
-
-## Overview of this week
-
-- **NumPy** (CSB 6.2) &amp;ndash; Tuesday
-
-- **Pandas** (CSB 6.3) &amp;ndash; Tuesday/Thursday
-
-- **BioPython** (CSB 6.4) &amp;ndash; Thursday
-
-&lt;br&gt; &lt;br&gt;
 
 ---
 class: center middle inverse
@@ -66,7 +69,7 @@ operations on tabular data.
 
 ---
 
-## Pandas
+## Getting set up
 
 Panda is built on NumPy, so one often imports NumPy along with Pandas:
 
@@ -83,7 +86,9 @@ os.chdir('/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/sandbox')
 # os.chdir('../CSB/scientific/sandbox')
 ```
 
---
+---
+
+## Reading in tabular data
 
 Like in NumPy, we don't read files line-by-line but load them all at once &amp;ndash;  
 the standard Pandas function for this is **`read_csv()`**:
@@ -91,6 +96,8 @@ the standard Pandas function for this is **`read_csv()`**:
 ```python
 data = pd.read_csv("../data/Dale2015_data.csv")
 ```
+
+&lt;br&gt;
 
 .content-box-info[
 The argument `sep` can be used to specify the delimiter, e.g. for tab-delimited
@@ -481,15 +488,47 @@ data[["score_m", "score_f"]].plot.box()
 
 ---
 
-## Intermezzo
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Your turn
 
-Get the English names of species for which both males and females have a
-plumage score higher than XX.
+1. Retrieve the English names of species for which both males and females have a
+   plumage score higher than 70.
+   
+2. For how many species do either males, females, or both have plumage scores
+   lower than 50?
+
+3. Bonus: How many "Warbler" species are in the dataset?
 
 ---
 
-## Intermezzo: Solutions
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Your turn: Solutions
 
+1. Retrieve the English names of species for which both males and females have a
+   plumage score higher than 70.
+   
+   ```python
+   data[(data.score_m &gt; 70) &amp; (data.score_f &gt; 70)].english
+   #&gt; 363            Unicoloured Jay
+   #&gt; 1520      Indigo Flowerpiercer
+   #&gt; 1717               Red Warbler
+   #&gt; 1736    Red-headed Parrotfinch
+   #&gt; 2739        Red-headed Malimbe
+   #&gt; Name: english, dtype: object
+   ```
+
+2. For how many species do either males, females, or both have plumage scores
+   lower than 50?
+
+   ```python
+   data[(data.score_m &gt; 50) | (data.score_f &gt; 50)].shape[0]
+   #&gt; 3013
+   ```
+
+3. Bonus: How many "Warbler" species are in the dataset?
+
+  ```python
+  data[data.english.str.contains("Warbler")].shape[0]
+  ```
+  
 ---
 class: center middle inverse
 

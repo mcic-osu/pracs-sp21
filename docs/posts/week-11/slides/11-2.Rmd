@@ -15,13 +15,15 @@ class:inverse middle center
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
 ```
 
 ```{r xaringan-extra, echo=FALSE, eval=TRUE}
-#xaringanExtra::use_scribble()
-#xaringanExtra::use_panelset()
-#xaringanExtra::use_clipboard()
-#xaringanExtra::use_search(show_icon = TRUE)
+xaringanExtra::use_scribble()
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
 ```
 
 # *Week 11 - Python: Scientific computing*
@@ -34,18 +36,6 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ### Jelmer Poelstra
 ### 2021/03/25 (updated: `r Sys.Date()`)
-
----
-
-## Overview of this week
-
-- **NumPy** (CSB 6.2) &ndash; Tuesday
-
-- **Pandas** (CSB 6.3) &ndash; Tuesday/Thursday
-
-- **BioPython** (CSB 6.4) &ndash; Thursday
-
-<br> <br>
 
 ---
 class: center middle inverse
@@ -72,7 +62,7 @@ operations on tabular data.
 
 ---
 
-## Pandas
+## Getting set up
 
 Panda is built on NumPy, so one often imports NumPy along with Pandas:
 
@@ -89,7 +79,9 @@ os.chdir('/fs/ess/PAS1855/users/<user>/CSB/scientific/sandbox')
 # os.chdir('../CSB/scientific/sandbox')
 ```
 
---
+---
+
+## Reading in tabular data
 
 Like in NumPy, we don't read files line-by-line but load them all at once &ndash;  
 the standard Pandas function for this is **`read_csv()`**:
@@ -97,6 +89,8 @@ the standard Pandas function for this is **`read_csv()`**:
 ```python
 data = pd.read_csv("../data/Dale2015_data.csv")
 ```
+
+<br>
 
 .content-box-info[
 The argument `sep` can be used to specify the delimiter, e.g. for tab-delimited
@@ -487,15 +481,47 @@ data[["score_m", "score_f"]].plot.box()
 
 ---
 
-## Intermezzo
+## <i class="fa fa-user-edit"></i> Your turn
 
-Get the English names of species for which both males and females have a
-plumage score higher than XX.
+1. Retrieve the English names of species for which both males and females have a
+   plumage score higher than 70.
+   
+2. For how many species do either males, females, or both have plumage scores
+   lower than 50?
+
+3. Bonus: How many "Warbler" species are in the dataset?
 
 ---
 
-## Intermezzo: Solutions
+## <i class="fa fa-user-edit"></i> Your turn: Solutions
 
+1. Retrieve the English names of species for which both males and females have a
+   plumage score higher than 70.
+   
+   ```python
+   data[(data.score_m > 70) & (data.score_f > 70)].english
+   #> 363            Unicoloured Jay
+   #> 1520      Indigo Flowerpiercer
+   #> 1717               Red Warbler
+   #> 1736    Red-headed Parrotfinch
+   #> 2739        Red-headed Malimbe
+   #> Name: english, dtype: object
+   ```
+
+2. For how many species do either males, females, or both have plumage scores
+   lower than 50?
+
+   ```python
+   data[(data.score_m > 50) | (data.score_f > 50)].shape[0]
+   #> 3013
+   ```
+
+3. Bonus: How many "Warbler" species are in the dataset?
+
+  ```python
+  data[data.english.str.contains("Warbler")].shape[0]
+  ```
+  
 ---
 class: center middle inverse
 
