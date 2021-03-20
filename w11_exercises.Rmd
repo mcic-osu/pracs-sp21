@@ -13,6 +13,24 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <br>
 
+The first exercise uses BioPython, the second Pandas, and the third
+(which is more of a tutorial) NumPy.
+As we're getting into more advanced and specialized material,
+you may be much more interested in some approaches/packages than others,
+and it is fine if you direct your attention accordingly.
+
+For example, if you are interested in one of these three but not so much the
+other two, feel free to skip the other two exercises. And if you have time to
+spare, I would rather recommend digging a bit deeper into your topic of interest:
+
+- For more BioPython, see this [BioPython workshop](https://github.com/peterjc/biopython_workshop)
+  (and for much more, [the BioPython tutorial](http://biopython.org/DIST/docs/tutorial/Tutorial.html)).
+
+- For more NumPy, see the official [NumPy tutorial](https://numpy.org/doc/stable/user/absolute_beginners.html).
+
+- For more Pandas, see [this overview of tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/).
+
+
 ## Exercise CSB-1: <br> Lord of the fruit flies
 
 Suppose you need information on how to breed *Drosophila virilis* in your
