@@ -2575,7 +2575,7 @@ Go further
 
 </div>
 <p><br></p>
-<p>The first exercise uses BioPython, the second Pandas, and the third (which is more of a tutorial) NumPy. As we’re getting into more advanced and specialized material, you may be much more interested in some approaches/packages than others, and it is fine if you direct your attention accordingly.</p>
+<p>The first exercise uses <em>BioPython</em>, the second <em>Pandas</em>, and the third (which is more of a tutorial) <em>NumPy</em>. As we’re getting into more advanced and specialized material, you may be much more interested in some approaches/packages than others, and it is fine if you direct your attention accordingly.</p>
 <p>For example, if you are interested in one of these three but not so much the other two, feel free to skip the other two exercises. And if you have time to spare, I would rather recommend digging a bit deeper into your topic of interest:</p>
 <ul>
 <li><p>For more BioPython, see this <a href="https://github.com/peterjc/biopython_workshop">BioPython workshop</a> (and for much more, <a href="http://biopython.org/DIST/docs/tutorial/Tutorial.html">the BioPython tutorial</a>).</p></li>
@@ -2640,29 +2640,27 @@ save QueryKey from your records</code></pre>
 </ul>
 <p>Pseudocode:</p>
 <pre><code>handle = fetch records from &quot;pubmed&quot; db with &quot;medline&quot; rettype, &quot;text&quot; retmode,
-         600 retmax, and the saved webenv and query_key
+          600 retmax, and the saved webenv and query_key
 data = read from handle
 close the handle
 
-handle = open output file
-write the data
-close the handel</code></pre>
+with open output file as handle
+    write the data</code></pre>
 </details>
 <details>
 <p><summary>Solutions</summary></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Perform the search:</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>handle <span class="op">=</span> Entrez.efetch(db <span class="op">=</span> <span class="st">&quot;pubmed&quot;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3"></a>                       rettype <span class="op">=</span> <span class="st">&quot;medline&quot;</span>,</span>
-<span id="cb4-4"><a href="#cb4-4"></a>                       retmode <span class="op">=</span> <span class="st">&quot;text&quot;</span>,</span>
-<span id="cb4-5"><a href="#cb4-5"></a>                       retstart <span class="op">=</span> <span class="dv">0</span>, retmax <span class="op">=</span> <span class="dv">600</span>,</span>
-<span id="cb4-6"><a href="#cb4-6"></a>                       webenv <span class="op">=</span> webenv, query_key <span class="op">=</span> query_key)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>shandle <span class="op">=</span> Entrez.efetch(db <span class="op">=</span> <span class="st">&quot;pubmed&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3"></a>                        rettype <span class="op">=</span> <span class="st">&quot;medline&quot;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4"></a>                        retmode <span class="op">=</span> <span class="st">&quot;text&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5"></a>                        retstart <span class="op">=</span> <span class="dv">0</span>, retmax <span class="op">=</span> <span class="dv">600</span>,</span>
+<span id="cb4-6"><a href="#cb4-6"></a>                        webenv <span class="op">=</span> webenv, query_key <span class="op">=</span> query_key)</span>
 <span id="cb4-7"><a href="#cb4-7"></a><span class="co"># Save results from the search handle in &quot;data&quot; and close the handle:</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>data <span class="op">=</span> handle.read()</span>
-<span id="cb4-9"><a href="#cb4-9"></a>handle.close()</span>
+<span id="cb4-8"><a href="#cb4-8"></a>data <span class="op">=</span> shandle.read()</span>
+<span id="cb4-9"><a href="#cb4-9"></a>shandle.close()</span>
 <span id="cb4-10"><a href="#cb4-10"></a></span>
-<span id="cb4-11"><a href="#cb4-11"></a>out_handle <span class="op">=</span> <span class="bu">open</span>(<span class="st">&quot;D_virilis_pubs.txt&quot;</span>, <span class="st">&quot;w&quot;</span>)</span>
-<span id="cb4-12"><a href="#cb4-12"></a>out_handle.write(data)</span>
-<span id="cb4-13"><a href="#cb4-13"></a>out_handle.close()</span></code></pre></div>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;D_virilis_pubs.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> fhandle:</span>
+<span id="cb4-12"><a href="#cb4-12"></a>    fhandle.write(data)</span></code></pre></div>
 </details></li>
 <li><p>Count the number of contributions per author.</p>
 <p>Start by taking a look at your <code>D_virilis_pubs.txt</code> file to see how you can match lines that contain author names.</p>
@@ -2742,12 +2740,12 @@ for author in top authors
 <p><a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2435.12587">Fox et al. (2016)</a> studied the effects on the outcome of papers of the genders of the handling editors and reviewers. For the study, they compiled a database including all the submissions to the journal Functional Ecology from 2004 to 2014. Their data are reported in <code>CSB/scientific/data/Fox2015_data.csv</code>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <p>Besides the effects of gender and bias in journals, the data can be used to investigate whether manuscripts having more reviewers are more likely to be rejected. Note that this hypothesis should be tested for reviewed manuscripts, that is, excluding “desk rejections” without review.</p>
 <ol type="1">
-<li><p>Import the data using <em>pandas</em>, and count the number of reviewers (by summing <code>ReviewerAgreed</code>) for each manuscript (i.e., unique <code>MsID</code>). The column <code>FinalDecision</code> contains <code>1</code> for rejection, and <code>0</code> for acceptance.</p>
+<li><p>Import the data using <em>Pandas</em>, and count the number of reviewers (by summing <code>ReviewerAgreed</code>) for each manuscript (i.e., unique <code>MsID</code>). The column <code>FinalDecision</code> contains <code>1</code> for rejection, and <code>0</code> for acceptance.</p>
 <p>Compile a table measuring the probability of rejection given the number of reviewers. Does the probability of being rejected seem to increase with the number of reviewers?</p>
 <details>
 <p><summary>Hints</summary></p>
-<p>With an eye on the next step, where you have to do this for each year, it is convenient to write a function that takes the data and a year as input, and prints the probability of rejection given the number of reviewers for that given year.</p>
-<p>We can set the function to return the general rejection rate if “all” instead of a yearis specified as an argument.</p>
+<p>With an eye on the next step, where you have to do the same thing for each year, it is convenient to write a function that takes the data and a calendar year as input, and prints the probability of rejection given the number of reviewers for that given year.</p>
+<p>We can set the function to return the general rejection rate if “all” instead of a year is specified as an argument.</p>
 <p>Pseudocode:</p>
 <pre><code>import pandas
 import numpy as np
@@ -2790,12 +2788,15 @@ NumRev    NumMs   rejection rate
 <p><br></p>
 <details>
 <p><summary>Solutions for both steps</summary></p>
-<p>See the <a href="https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Fox2016_solution.ipynb">CSB notebook with the solutions</a>. The notebooks sometimes don’t manage to load on GitHub; if not, try refreshing and otherwise go <a href="https://github.com/CSB-book/CSB/tree/master/scientific/solutions">here</a> and look at the PDF version instead.</p>
+<p>See the <a href="https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Fox2016_solution.ipynb">CSB notebook with the solutions</a>.</p>
+<p>The notebooks sometimes don’t manage to load on GitHub; if not, try refreshing and otherwise go <a href="https://github.com/CSB-book/CSB/tree/master/scientific/solutions">here</a> and look at the PDF version instead.</p>
+<p><em><strong>Note:</strong> The solution uses some “plain Python” approaches where specialized Pandas functions are also available to do the same thing more succinctly. That is fine, and makes sense given that we have only had a quick introduction to Pandas and did not learn about these more advanced functions — but it may be good to be aware of this.</em></p>
+<p><em>If you want to try out specialized Pandas approaches for this exercise, look into the <code>groupby</code> method in particular.</em></p>
 </details>
 <p><br></p>
 <h2 id="bonus-tutorial-exercise-image-processing-with-numpy">Bonus: Tutorial exercise – <br> Image processing with NumPy</h2>
 <ul>
-<li><p>To get started, you’ll need to install <code>scikit-image</code> into your interactive Python environment, which you can do as follows:</p>
+<li><p>To get started, you will need to install <code>scikit-image</code> into your interactive Python Conda environment, which you can do as follows:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="ex">sinteractive</span> -A PAS1855 -t 60      <span class="co"># Start an interactive job</span></span>
 <span id="cb11-2"><a href="#cb11-2"></a><span class="ex">module</span> load python/3.6-conda5.2    <span class="co"># Load the OSC Conda module</span></span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="bu">source</span> activate ipy-env            <span class="co"># Activate your existing Conda environment</span></span>

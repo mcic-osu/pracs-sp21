@@ -13,8 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <br>
 
-The first exercise uses BioPython, the second Pandas, and the third
-(which is more of a tutorial) NumPy.
+The first exercise uses *BioPython*, the second *Pandas*, and the third
+(which is more of a tutorial) *NumPy*.
 As we're getting into more advanced and specialized material,
 you may be much more interested in some approaches/packages than others,
 and it is fine if you direct your attention accordingly.
@@ -123,13 +123,12 @@ This person might be a good researcher to contact.
    
    ```
    handle = fetch records from "pubmed" db with "medline" rettype, "text" retmode,
-            600 retmax, and the saved webenv and query_key
+             600 retmax, and the saved webenv and query_key
    data = read from handle
    close the handle
    
-   handle = open output file
-   write the data
-   close the handel
+   with open output file as handle
+       write the data
    ```
    
    </details>
@@ -139,18 +138,17 @@ This person might be a good researcher to contact.
    
    ```python
    # Perform the search:
-   handle = Entrez.efetch(db = "pubmed",
-                          rettype = "medline",
-                          retmode = "text",
-                          retstart = 0, retmax = 600,
-                          webenv = webenv, query_key = query_key)
+   shandle = Entrez.efetch(db = "pubmed",
+                           rettype = "medline",
+                           retmode = "text",
+                           retstart = 0, retmax = 600,
+                           webenv = webenv, query_key = query_key)
    # Save results from the search handle in "data" and close the handle:
-   data = handle.read()
-   handle.close()
+   data = shandle.read()
+   shandle.close()
    
-   out_handle = open("D_virilis_pubs.txt", "w")
-   out_handle.write(data)
-   out_handle.close()
+   with open("D_virilis_pubs.txt", "w") as fhandle:
+       fhandle.write(data)
    ```
    
    </details>
@@ -284,7 +282,7 @@ more likely to be rejected.
 Note that this hypothesis should be tested for reviewed manuscripts,
 that is, excluding “desk rejections” without review.
 
-1. Import the data using *pandas*,
+1. Import the data using *Pandas*,
    and count the number of reviewers (by summing `ReviewerAgreed`)
    for each manuscript (i.e., unique `MsID`).
    The column `FinalDecision` contains `1` for rejection, and `0` for acceptance.
@@ -297,13 +295,14 @@ that is, excluding “desk rejections” without review.
    <details>
    <summary>Hints</summary>
    
-   With an eye on the next step, where you have to do this for each year,
-   it is convenient to write a function that takes the data and a year as input,
+   With an eye on the next step, where you have to do the same thing for each year,
+   it is convenient to write a function that takes the data and a calendar year
+   as input,
    and prints the probability of rejection given the number of reviewers for that
    given year.
    
    We can set the function to return the general rejection rate if "all" instead
-   of a yearis specified as an argument.
+   of a year is specified as an argument.
    
    Pseudocode:
    
@@ -365,10 +364,20 @@ that is, excluding “desk rejections” without review.
 <summary>Solutions for both steps</summary>
    
 See the [CSB notebook with the solutions](https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Fox2016_solution.ipynb).
+
 The notebooks sometimes don't manage to load on GitHub;
 if not, try refreshing and otherwise go
 [here](https://github.com/CSB-book/CSB/tree/master/scientific/solutions)
 and look at the PDF version instead.
+
+***Note:** The solution uses some "plain Python" approaches where specialized Pandas
+functions are also available to do the same thing more succinctly.
+That is fine, and makes sense given that we have only had a quick introduction
+to Pandas and did not learn about these more
+advanced functions &mdash; but it may be good to be aware of this.*
+
+*If you want to try out specialized Pandas approaches for this exercise,
+look into the `groupby` method in particular.*
    
 </details>
 
@@ -376,8 +385,8 @@ and look at the PDF version instead.
 
 ## Bonus: Tutorial exercise -- <br> Image processing with NumPy
 
-- To get started, you'll need to install `scikit-image` into your interactive
-  Python environment, which you can do as follows:
+- To get started, you will need to install `scikit-image` into your interactive
+  Python Conda environment, which you can do as follows:
 
   ```sh
   sinteractive -A PAS1855 -t 60      # Start an interactive job
