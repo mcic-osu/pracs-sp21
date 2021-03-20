@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Markdown syntax
 
-Mentioned extended syntax is not supported by all interpreters, but it is by GitHub-flavored Markdown among others.
+The "extended syntax" options below are not supported by all interpreters, but they are by most, such as GitHub-flavored Markdown.
 
 +------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
 | Syntax                                                     | Result                                                                                        |
