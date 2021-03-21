@@ -42,7 +42,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/23 (updated: 2021-03-19)
+### 2021/03/23 (updated: 2021-03-21)
 
 ---
 
@@ -67,11 +67,21 @@ class: center middle inverse
 
 ## What is NumPy?
 
-NumPy is the basic Python package for scientific computing,
-which includes **efficient data structures and vectorized computation
-for vectors and matrices.**
+NumPy is the basic Python package for scientific computing.
 
-We have already used NumPy a bit last week to **generate random numbers**.
+- NumPy makes working with **numeric data** in Python a lot easier.
+
+- It has an efficient data structure, the **NumPy array**,
+  for vectors, matrices, and multidimensional arrays.
+
+- These NumPy arrays allow for **vectorized computation**.
+
+- Some other functionality includes the ability to **generate random numbers**,
+  for which we have already used NumPy a bit last week.
+
+--
+
+&lt;br&gt;
 
 As we have seen, NumPy is typically imported with `as np` added,  
 so we can access its functions with a little less typing:
@@ -86,13 +96,17 @@ import numpy as np
 
 ## NumPy arrays
 
-**Arrays** are NumPy's main data structure,
-which can contain numerical *vectors* (1-dimensional arrays),
-*matrices* (2-dimensional arrays), and *tensors* (n-dimensional arrays).
+**Arrays** are NumPy's main data structure, which can contain:
+
+- Numerical *vectors* &amp;ndash; 1-dimensional arrays
+- *Matrices* &amp;ndash; 2-dimensional arrays
+- *Tensors* &amp;ndash; n-dimensional arrays
 
 --
 
-To create a **one-dimensional array**,  
+&lt;br&gt;
+
+For example, to create a **one-dimensional array**,  
 we can use NumPy's variant on the `range()` function, `np.arange()`:
 
 ```python
@@ -100,6 +114,8 @@ a = np.arange(9)
 a
 #&gt; array([0, 1, 2, 3, 4, 5, 6, 7, 8])
 ```
+
+&lt;br&gt;
 
 One of the key differences between regular Python lists and NumPy arrays is
 that **all elements in an array have to be of the same type.**  
@@ -144,13 +160,15 @@ that **all elements in an array have to be of the same type.**
 - Get the length (number of elements) along each dimension with `shape`:
 
   ```python
-  a.shape           # NOTE: No parentheses!
-  #&gt; (9,)           # We have only one dimension in this case
+  a.shape   # This is an attribute, not a method - no parentheses!
+  #&gt; (9,)       
   ```
 
   The result is returned as a *tuple*, in this case containing only one element
   (note the trailing comma), since we only have one dimension.
   
+--
+
 - Get the number of dimensions with `ndim`:
 
   ```python
@@ -158,9 +176,7 @@ that **all elements in an array have to be of the same type.**
   #&gt; 1
   ```
 
---
-
-- Get the number of elements with the `size`:
+- Get the number of elements with `size`:
   
   ```python
   a.size
@@ -191,7 +207,7 @@ so there is `int8`, `int16`, `int32`, `int64`,
 and even the same sequence for "unsigned integers", integers that are positive
 only (e.g. `uint64`).
 
-For the most part, you don't have to pay attention to this &amp;ndash;
+*For the most part, you don't have to pay attention to this* &amp;ndash;  
 and when assigning data types, you can just use `int` or `float` without
 specifying bits.
 ]
@@ -361,8 +377,9 @@ a
 
 ## Array indexing and slicing
 
-Here is a type of indexing (so-called "fancy indexing") that is possible with a
-NumPy array but not a list &amp;ndash; providing multiple values as a list:
+With so-called "**fancy indexing**",
+which is possible with a NumPy array but not with a regular list,
+we provide multiple values as a list:
 
 ```python
 seqlist = list('AAGCGATTAG')
@@ -375,6 +392,30 @@ seqarray = np.array(list('AAGCGATTAG'))
 seqarray[[2, 5, 1]]
 #&gt; array(['G', 'A', 'A'], dtype='&lt;U1')
 ```
+
+---
+
+## Masking
+
+Indexing with logical tests, which is sometimes called **masking**,  
+can also be done on NumPy arrays thanks to vectorization.
+
+- For example, `a &gt; 5` will result in an array which has `True` or `False`
+  for each element in the original array,
+  depending on whether that number is greater than 5: 
+
+  ```python
+  a &gt; 5
+  #&gt; array([False, False, False, False, False, False,  True,  True,  True])
+  ```
+
+- Conveniently, we can directly mask, i.e. select elements from,
+  the original array with this Boolean array:
+
+  ```python
+  a[a &gt; 5]
+  #&gt; array([6, 7, 8])
+  ```
 
 ---
 
@@ -423,41 +464,20 @@ seqarray[[2, 5, 1]]
 
 ---
 
-## Masking
-
-Indexing with logical tests, which is sometimes called *masking*,
-can also be done on NumPy arrays thanks to vectorization.
-
-- For example, `a &gt; 5` will result in an array which has `True` or `False`
-  for each element in the original array,
-  depending on whether that number is greater than 5: 
-
-  ```python
-  a &gt; 5
-  #&gt; array([False, False, False, False, False, False,  True,  True,  True])
-  ```
-
-- Conveniently, we can directly mask, i.e. select elements from,
-  the original array with this Boolean array:
-
-  ```python
-  a[a &gt; 5]
-  #&gt; array([6, 7, 8])
-  ```
-
----
-
 ## Operate on the entire array or on rows/columns
 
 - By default, methods like `sum()` will operate on the entire matrix:
 
   ```python
+  m
+  #&gt; array([[ 0, 1, 2, 3],
+  #&gt;        [ 4, 5, 6, 7],
+  #&gt;        [ 8, 9, 10, 11]])
+  
   m.sum()
   #&gt; 66
   ```
   
-&lt;br&gt;
-
 - To get sums for each **column**, we specify **`axis = 0`**:
 
   ```python
@@ -479,8 +499,8 @@ can also be done on NumPy arrays thanks to vectorization.
 So far, we have mostly read data from files by creating *file handles* and then
 reading data line-by-line, which is fast and saves memory.
 
-However, NumPy typically operate on multi-line arrays at once,
-and therefore **read files into memory all at once**,
+However, with NumPy, we typically operate on multi-line arrays at once,
+and therefore usually **read files into memory all at once**,
 saving them as a single array object.&lt;sup&gt;[1]&lt;/sup&gt;
 
 .footnote[&lt;sup&gt;[1]&lt;/sup&gt;And we'll see the same behavior for Pandas later,
@@ -506,10 +526,10 @@ m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
    specify start, end, and stepsize arguments in that order.
 
 2. Select the fourth, eight and ninth elements from `fives`
-   (using "fancy indexing").
+   using "fancy indexing".
 
 2. Index/mask `fives` to only select values larger than 15.  
-   Bonus: Instead, only extract values larger than 15 and smaller than 40.
+   Bonus: Instead, only extract values larger than 15 *and* smaller than 40.
 
 ---
 
@@ -538,8 +558,52 @@ m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
    fives[(fives &gt; 15) &amp; (fives &lt; 40)]
    #&gt; array([20, 25, 30, 35])
    ```
+
+---
+
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; NumPy exercise
+
+I have included the CSB section on image analysis as a "tutorial exercise" in
+this week's exercises.
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class: center middle inverse
+
+# Bonus material
+
+-----
+
+.left[
+### - Random numbers and distributions (6.2.2)
+
+### - Miscellaneous
+]
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+class: center middle inverse
+name: rand
+
+# Random numbers and distributions (6.2.2)
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
   
 ---
+background-color: #f2f5eb
 
 ## Random numbers and distributions (6.2.2)
 
@@ -558,6 +622,7 @@ np.random.random(2)   # The only argument is the number of samples
 ```
 
 ---
+background-color: #f2f5eb
 
 ## Random numbers and distributions (cont.)
 
@@ -589,6 +654,7 @@ deprecated in favor of `np.random.randint()`.
 ]
 
 ---
+background-color: #f2f5eb
 
 ## Random numbers and distributions (cont.)
 
@@ -618,6 +684,7 @@ deprecated in favor of `np.random.randint()`.
   ```
 
 ---
+background-color: #f2f5eb
 
 ## Random numbers and distributions (cont.)
 
@@ -649,17 +716,9 @@ such as when creating a figure from the results of simulations.
 
 ---
 class: center middle inverse
+name: misc
 
-# Questions?
-
------
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-class: center middle inverse
-
-# Bonus material
+# Miscellaneous
 
 -----
 
@@ -690,7 +749,7 @@ background-color: #f2f5eb
 ---
 background-color: #f2f5eb
 
-## Initialize arrays with a given structure (cont.)
+## Initialize another array with a given structure
 
 - As we saw last week, NumPy can generate random numbers with the `np.random`
   module &amp;ndash; and we'll discuss several functions for this later on.
@@ -705,232 +764,6 @@ background-color: #f2f5eb
   ```
   
   Note that with the tuple `(2, 3)`, we merely specify the dimensions.
-
----
-class: center middle inverse
-
-# Case study: Image processing with NumPy
-
------
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
-
----
-background-color: #f2f5eb
-
-## Getting set up
-
-- To get started, you'll need to install `scikit-image` into your interactive
-  Python environment, which you can do as follows:
-
-  ```sh
-  sinteractive -A PAS1855 -t 60      # Start an interactive job
-  module load python/3.6-conda5.2    # Load the OSC Conda module
-  source activate ipy-env            # Activate your existing Conda environment
-  conda install -y scikit-image      # Install scikit-image
-  ```
-
----
-background-color: #f2f5eb
-
-## Getting set up (cont.)
-
-- We start by loading NumPy and Scikit-image:
-
-  ```python
-  #import numpy as np        # Should be loaded already
-  import skimage.io as io
-  ```
-
-- Next, let's save the path to the image we want to read in as a variable:
-  ```python
-  import os
-  
-  CSB_dir = '/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/data'
-  # CSB_dir = '../CSB/scientific/data'
-  
-  image_file = 'Kacsoh2013_Drosobrain.png'
-  image_path = os.path.join(CSB_dir, image_file)
-  ```
-
---
-
-.content-box-info[
-If using a Jupyter Notebook, we would also need to make Matplotlib image plotting
-available using this IPython "magic function":
-
-```python
-%matplotlib inline
-```
-]
-
----
-background-color: #f2f5eb
-
-## Viewing the original image
-
-Let's view the image:
-
-```python
-image = io.imread(image_path)
-io.imshow(image)
-```
-
-&lt;p align="center"&gt;
-&lt;img src=img/numpy-img_red.png width="55%"&gt;
-&lt;/p&gt;
-
----
-background-color: #f2f5eb
-
-## Exploring the image as a NumPy array
-
-- In what format is our image stored?
-
-  ```python
-  type(image)
-  #&gt; numpy.ndarray
-  ```
-  
-  As a NumPy array!
-
-&lt;br&gt;
-
---
-
-- Therefore, we can use the NumPy methods we have learned about.
-  Let's check the dimensions:
-  
-  ```python
-  image.shape
-  #&gt; (1024, 1024, 4)
-  ```
-  
-  The image is 1024 x 1024 pixels,
-  with the four RGBA channels along the 3rd dimension:
-    - Red (index 0)
-    - Green (index 1)
-    - Blue (index 2)
-    - Alpha (opaqueness; index 3).
-
----
-background-color: #f2f5eb
-
-## Exploring the image as a NumPy array (cont.)
-
-- The first channel is the red channel, which should be the one of interest,
-  given what our image looks like... Let's extract it and explore a bit:
-  
-  ```python
-  red = image[:, :, 0]
-  
-  print(red.mean())
-  #&gt; 23.181024551391602
-  print(red.std())
-  #&gt; 30.446740821993011
-  print(red.min(), red.max())
-  #&gt; 0 255
-  ```
-
---
-
-- It looks like we indeed *only* have variation in the red channel:
-
-  ```python
-  for channel_index in range(0, image.shape[2]):
-        print(image[:, :, channel_index].std())
-  #&gt; 30.44674082199301
-  #&gt; 0.0
-  #&gt; 0.0
-  #&gt; 0.0
-  ```
-
----
-background-color: #f2f5eb
-
-## Setting a masking threshold
-
-Say that we are interested in examining what area in the image express the
-*NPF* and *NPFR1* genes that were targeted by this assay.
-
-We'll here take an overly simple approach,
-by **setting a threshold of 100** and determining which pixels have a higher
-value than that.
-
----
-background-color: #f2f5eb
-
-## Setting a masking threshold (cont.)
-
-Let's check what a value of 100 looks like by modifying a copy of the image:
-
-  ```python
-  img_copy = image.copy()
-  img_copy[:, 480:500, 0] = 100
-  io.imshow(img_copy)
-  ```
-  
-&lt;p align="center"&gt;
-&lt;img src=img/numpy-img_redline.png width="50%"&gt;
-&lt;/p&gt;
-
----
-background-color: #f2f5eb
-
-## Mask the array
-
-- Next, we'll "mask" our array: with a conditional expression,
-  we produce a Boolean (`False`/`True`) array and then multiply that
-  by 1 to get `0` (for `False`) for pixels that do not pass the threshold
-  and `1` (for `True`) for pixels that do pass the threshold.
-
-  ```python
-  threshold = 100
-  mask = (red &gt; threshold) * 1
-  ```
-
---
-
-.pull-left[
-
-How many pixels pass?
-
-```python
-mask.sum()
-#&gt; 37037
-```
-
-Plot the mask:
-
-```python
-io.imshow(mask)
-```
-
-]
-
-.pull-right[
-&lt;p align="left"&gt;
-&lt;img src=img/numpy-img_mask1.png width="100%"&gt;
-&lt;/p&gt;
-]
-
----
-background-color: #f2f5eb
-
-## Modifying the mask
-
-Finally, we'll use a little trick to get the actual pixel values back for those
-pixels that passed the threshold &amp;ndash; we multiply the original array
-by the 0/1 mask:
-
-```python
-mask2 = red * mask
-io.imshow(mask2)
-```
-
-&lt;p align="center"&gt;
-&lt;img src=img/numpy-img_mask2.png width="60%"&gt;
-&lt;/p&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

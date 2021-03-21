@@ -105,7 +105,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Exercises: Week 11"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","editor_options"]}},"value":[{"type":"character","attributes":{},"value":["Exercises: Week 11"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["markdown"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["wrap"]}},"value":[{"type":"integer","attributes":{},"value":[78]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2565,9 +2565,10 @@ Go further
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#exercise-csb-1-lord-of-the-fruit-flies">Exercise CSB-1: <br> Lord of the fruit flies</a></li>
-<li><a href="#exercise-csb-2-rejection-rates">Exercise CSB-2: Rejection rates</a></li>
-<li><a href="#bonus-tutorial-exercise-image-processing-with-numpy">Bonus: Tutorial exercise – <br> Image processing with NumPy</a></li>
+<li><a href="#tutorial-exercise-querying-pubmed-csb-6.4.4">1: Tutorial exercise <br> Querying PubMed (CSB 6.4.4)</a></li>
+<li><a href="#exercise-csb-1-lord-of-the-fruit-flies">2: Exercise CSB-1: <br> Lord of the fruit flies</a></li>
+<li><a href="#exercise-csb-2-rejection-rates">3: Exercise CSB-2: Rejection rates</a></li>
+<li><a href="#tutorial-exercise-image-processing-with-numpy">4: Tutorial exercise <br> Image processing with NumPy</a></li>
 </ul>
 </nav>
 </div>
@@ -2575,14 +2576,107 @@ Go further
 
 </div>
 <p><br></p>
-<p>The first exercise uses <em>BioPython</em>, the second <em>Pandas</em>, and the third (which is more of a tutorial) <em>NumPy</em>. As we’re getting into more advanced and specialized material, you may be much more interested in some approaches/packages than others, and it is fine if you direct your attention accordingly.</p>
-<p>For example, if you are interested in one of these three but not so much the other two, feel free to skip the other two exercises. And if you have time to spare, I would rather recommend digging a bit deeper into your topic of interest:</p>
+<p>The first and last of these exercises are more short tutorials working through two of the examples in the book.</p>
+<p>The first two exercises use <em>BioPython</em>, the third uses <em>Pandas</em>, and the last uses <em>NumPy</em>. As we’re getting into more advanced and specialized material, you may be much more interested in some approaches/packages than others, and it is fine if you direct your attention accordingly.</p>
+<p>For example, if you are interested in one of these three but not so much the other two, feel free to skip the other exercises. And if you have time to spare, I would rather recommend digging a bit deeper into your topic of interest:</p>
 <ul>
 <li><p>For more BioPython, see this <a href="https://github.com/peterjc/biopython_workshop">BioPython workshop</a> (and for much more, <a href="http://biopython.org/DIST/docs/tutorial/Tutorial.html">the BioPython tutorial</a>).</p></li>
 <li><p>For more NumPy, see the official <a href="https://numpy.org/doc/stable/user/absolute_beginners.html">NumPy tutorial</a>.</p></li>
 <li><p>For more Pandas, see <a href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/">this overview of tutorials</a>.</p></li>
 </ul>
-<h2 id="exercise-csb-1-lord-of-the-fruit-flies">Exercise CSB-1: <br> Lord of the fruit flies</h2>
+<p><br></p>
+<h2 id="tutorial-exercise-querying-pubmed-csb-6.4.4">1: Tutorial exercise <br> Querying PubMed (CSB 6.4.4)</h2>
+<p>Using the <code>Entrez.esearch()</code> function we used in class, we can search any NCBI database, including <strong>PubMed</strong>, which is a comprehensive scientific literature database.</p>
+<p>By way of example, we will search for any papers on <em>Drosophila</em> that mention the gene “<em>spaetzle</em>” anywhere in the title or abstract.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<ul>
+<li><p>As always, we start by importing the <code>Entrez</code> module and providing our email address:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez</span>
+<span id="cb1-2"><a href="#cb1-2"></a>Entrez.email <span class="op">=</span> <span class="st">&quot;me.999@osu.edu&quot;</span>  <span class="co"># Replace with your actual email address!</span></span></code></pre></div></li>
+<li><p>Now, we can run the search. We will match “<em>spaetzle</em>” only in the title or abstract, and we will match <em>Drosophila</em> anywhere (<code>[ALL]</code>):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>handle <span class="op">=</span> Entrez.esearch(db <span class="op">=</span> <span class="st">&quot;pubmed&quot;</span>,</span>
+<span id="cb2-2"><a href="#cb2-2"></a>                        term <span class="op">=</span> (<span class="st">&quot;spaetzle[Title/Abstract] AND Drosophila[ALL]&quot;</span>),</span>
+<span id="cb2-3"><a href="#cb2-3"></a>                        usehistory <span class="op">=</span> <span class="st">&quot;y&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a>record <span class="op">=</span> Entrez.read(handle)</span>
+<span id="cb2-5"><a href="#cb2-5"></a>handle.close()                        </span></code></pre></div>
+<p>Note that these search keywords are NCBI’s. For a list of all of them go <a href="https://pubmed.ncbi.nlm.nih.gov/help/">NCBI’s PubMed help page</a> and search for “Search Field descriptions and tags”.</p></li>
+<li><p>We used <code>usehistory = "y"</code>, which will allows us to refer back to our search to fetch the titles and abstracts by saving <code>WebEnv</code> and <code>QueryKey</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>webenv <span class="op">=</span> record[<span class="st">&quot;WebEnv&quot;</span>]</span>
+<span id="cb3-2"><a href="#cb3-2"></a>query_key <span class="op">=</span> record[<span class="st">&quot;QueryKey&quot;</span>]</span></code></pre></div></li>
+<li><p>How many hits did we get?</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>record[<span class="st">&quot;Count&quot;</span>]</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; &#39;15&#39;</span></span></code></pre></div>
+<p>We found 15 records (up from 13 in the book) that contained the words “<em>spaetzle</em>” and “<em>Drosophila</em>”.</p></li>
+<li><p>We can now fetch the titles and abstracts:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>handle <span class="op">=</span> Entrez.efetch(db <span class="op">=</span> <span class="st">&quot;pubmed&quot;</span>,</span>
+<span id="cb5-2"><a href="#cb5-2"></a>                         rettype <span class="op">=</span> <span class="st">&quot;medline&quot;</span>, retmode <span class="op">=</span> <span class="st">&quot;text&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3"></a>                         webenv <span class="op">=</span> webenv, query_key <span class="op">=</span> query_key)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>data <span class="op">=</span> handle.read()</span>
+<span id="cb5-5"><a href="#cb5-5"></a>handle.close() </span></code></pre></div></li>
+<li><p>Finally, we write the results to file:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>out_handle <span class="op">=</span> <span class="bu">open</span>(<span class="st">&quot;Spaetzle_abstracts.txt&quot;</span>, <span class="st">&quot;w&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>out_handle.write(data)</span>
+<span id="cb6-3"><a href="#cb6-3"></a>out_handle.close()</span></code></pre></div></li>
+<li><p>Let’s have a look at the results – here, I am using <code>!</code> to execite shell commands from within Python (alternatively, you can open a shell):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="op">!</span>cat Spaetzle_abstracts.txt</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt; [Output not shown.]</span></span></code></pre></div></li>
+<li><p>With a simple <code>grep</code> command, we can select just those lines that contain the word “<em>Spaetzle</em>”. We’ll use <code>-C 1</code> to also see 1 line before and 1 lines after each match, to get a bit more context:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">!</span>grep <span class="op">-</span>i <span class="st">&quot;spaetzle&quot;</span> <span class="op">-</span>C <span class="dv">1</span> Spaetzle_abstracts.txt</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt;     leading to ventrally-restricted expression of the sulfotransferase Pipe. These</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt;    events promote the ventral processing of Spaetzle, a ligand for Toll, which</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt;    ultimately sets up the embryonic dorsal-ventral axis. We then describe the</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; --</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; DP  - 2019 Nov 12</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; TI  - Dynamics of Spaetzle morphogen shuttling in the Drosophila embryo shapes</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt;    gastrulation patterning.</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; --</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt;    The dynamics indicate that a sharp extracellular gradient is formed through</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt;    diffusion-based shuttling of the Spaetzle (Spz) morphogen that progresses through</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt;    several nuclear divisions. Perturbed shuttling in wntD mutant embryos results in</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="co">#&gt; [And so on, first three matches shown.]</span></span></code></pre></div></li>
+</ul>
+<details>
+<p><summary>Bonus using regular expressions in Python</summary></p>
+<p>Alternatively, we could use regular expressions in Python to nicely retrieve each <em>sentence</em> (rather than each line) that contains “<em>Spaetzle</em>”, and also print the PubMedID (“PMID”) for the publication. You will learn how to use regular expressions like this in Python next week!</p>
+<pre><code>``` {.python}
+import re   # re is Python&#39;r regular expression module
+
+with open(&quot;Spaetzle_abstracts.txt&quot;) as datafile:
+
+    pubmed_input = datafile.read()
+
+    # To get titles and abstracts on one line: delete newlines + 6 spaces:
+    pubmed_input = re.sub(r&quot;\n\s{6}&quot;, &quot; &quot;, pubmed_input)
+
+    for line in pubmed_input.split(&quot;\n&quot;):
+
+        # re.match()&#39;s output will be interpreted as True only if a match is found:
+        # (Here we just use a literal search from &quot;PMID&quot;)
+        if re.match(&quot;PMID&quot;, line):
+
+            # We find and extract the PubMed ID by matching one or more digits;
+            # group() will return the match:
+            PMID = re.search(r&quot;\d+&quot;, line).group()
+
+        if re.match(&quot;AB&quot;, line):
+
+            # We look for *all* sententces that contain &quot;Spaetzle&quot; using findall():
+            if re.findall(r&quot;([^.]*?Spaetzle[^.]*\.)&quot;, line):
+                print(&quot;PubMedID: &quot;, PMID, &quot; &quot;, spaetzle)
+
+#&gt; PubMedID:  32591083   [&#39; These events promote the ventral processing of Spaetzle, a ligand for Toll,   which ultimately sets up the embryonic dorsal-ventral axis.&#39;]
+#&gt; PubMedID:  31719046   [&#39;  The dynamics indicate that a sharp extracellular gradient is formed through   diffusion-based shuttling of the Spaetzle (Spz) morphogen that progresses through several nuclear   divisions.&#39;]
+#&gt; PubMedID:  27314646   [&#39; While cytokines activating immune responses,  such as Spaetzle or Unpaired-3,   have been identified and
+```</code></pre>
+</details>
+<p><br></p>
+<ul>
+<li>While this PubMed search was relatively trivial, you may need to do this kind of search for a dozen or more genes, and possibly repeat the search periodically. In that case, using Python to do the searches and parse the results can be a huge time-saver!</li>
+</ul>
+<h2 id="exercise-csb-1-lord-of-the-fruit-flies">2: Exercise CSB-1: <br> Lord of the fruit flies</h2>
+<p><em>(You will need to have run through the previous tutorial exercise to be able to do this one.)</em></p>
 <p>Suppose you need information on how to breed <em>Drosophila virilis</em> in your laboratory and you would like to contact an expert. Conduct a PubMed query on who has published most contributions on <em>D. virilis</em>. This person might be a good researcher to contact.</p>
 <ol type="1">
 <li><p>Identify how many papers in the PubMed database have the words <em>Drosophila virilis</em> in their title or abstract.</p>
@@ -2609,26 +2703,26 @@ save QueryKey from your records</code></pre>
 </details>
 <details>
 <p><summary>Solutions</summary></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Import the Entrez module:</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># Tell NCBI who you are:</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>Entrez.email <span class="op">=</span> <span class="st">&quot;me.1@osu.edu&quot;</span> <span class="co"># EDIT TO YOUR ADDRESS</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># Perform the search:</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>handle <span class="op">=</span> Entrez.esearch(db <span class="op">=</span> <span class="st">&quot;pubmed&quot;</span>,</span>
-<span id="cb2-9"><a href="#cb2-9"></a>                        term <span class="op">=</span> <span class="st">&quot;Drosophila virilis[Title/Abstract]&quot;</span>,</span>
-<span id="cb2-10"><a href="#cb2-10"></a>                        usehistory <span class="op">=</span> <span class="st">&quot;y&quot;</span>)</span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co"># Save the results from the search handle in &quot;record&quot; and close the handle:                 </span></span>
-<span id="cb2-12"><a href="#cb2-12"></a>record <span class="op">=</span> Entrez.read(handle)</span>
-<span id="cb2-13"><a href="#cb2-13"></a>handle.close()</span>
-<span id="cb2-14"><a href="#cb2-14"></a></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co"># Print the number of matching papers:</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="bu">print</span>(record[<span class="st">&quot;Count&quot;</span>])</span>
-<span id="cb2-17"><a href="#cb2-17"></a></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="co"># Save the WebEnv and QueryKey for later use:</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a>webenv <span class="op">=</span> record[<span class="st">&quot;WebEnv&quot;</span>]</span>
-<span id="cb2-20"><a href="#cb2-20"></a>query_key <span class="op">=</span> record[<span class="st">&quot;QueryKey&quot;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Import the Entrez module:</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co"># Tell NCBI who you are:</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>Entrez.email <span class="op">=</span> <span class="st">&quot;me.1@osu.edu&quot;</span> <span class="co"># EDIT TO YOUR ADDRESS</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co"># Perform the search:</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>handle <span class="op">=</span> Entrez.esearch(db <span class="op">=</span> <span class="st">&quot;pubmed&quot;</span>,</span>
+<span id="cb11-9"><a href="#cb11-9"></a>                        term <span class="op">=</span> <span class="st">&quot;Drosophila virilis[Title/Abstract]&quot;</span>,</span>
+<span id="cb11-10"><a href="#cb11-10"></a>                        usehistory <span class="op">=</span> <span class="st">&quot;y&quot;</span>)</span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="co"># Save the results from the search handle in &quot;record&quot; and close the handle:                 </span></span>
+<span id="cb11-12"><a href="#cb11-12"></a>record <span class="op">=</span> Entrez.read(handle)</span>
+<span id="cb11-13"><a href="#cb11-13"></a>handle.close()</span>
+<span id="cb11-14"><a href="#cb11-14"></a></span>
+<span id="cb11-15"><a href="#cb11-15"></a><span class="co"># Print the number of matching papers:</span></span>
+<span id="cb11-16"><a href="#cb11-16"></a><span class="bu">print</span>(record[<span class="st">&quot;Count&quot;</span>])</span>
+<span id="cb11-17"><a href="#cb11-17"></a></span>
+<span id="cb11-18"><a href="#cb11-18"></a><span class="co"># Save the WebEnv and QueryKey for later use:</span></span>
+<span id="cb11-19"><a href="#cb11-19"></a>webenv <span class="op">=</span> record[<span class="st">&quot;WebEnv&quot;</span>]</span>
+<span id="cb11-20"><a href="#cb11-20"></a>query_key <span class="op">=</span> record[<span class="st">&quot;QueryKey&quot;</span>]</span></code></pre></div>
 <p>For the similar CSB solutions to all steps in this exercise, see <a href="https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Lord_of_the_flies_solution.ipynb">here</a>.</p>
 </details></li>
 <li><p>Retrieve the PubMed entries that were identified in step 1, and write them to a new file called <code>D_virilis_pubs.txt</code>.</p>
@@ -2649,18 +2743,18 @@ with open output file as handle
 </details>
 <details>
 <p><summary>Solutions</summary></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Perform the search:</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>shandle <span class="op">=</span> Entrez.efetch(db <span class="op">=</span> <span class="st">&quot;pubmed&quot;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3"></a>                        rettype <span class="op">=</span> <span class="st">&quot;medline&quot;</span>,</span>
-<span id="cb4-4"><a href="#cb4-4"></a>                        retmode <span class="op">=</span> <span class="st">&quot;text&quot;</span>,</span>
-<span id="cb4-5"><a href="#cb4-5"></a>                        retstart <span class="op">=</span> <span class="dv">0</span>, retmax <span class="op">=</span> <span class="dv">600</span>,</span>
-<span id="cb4-6"><a href="#cb4-6"></a>                        webenv <span class="op">=</span> webenv, query_key <span class="op">=</span> query_key)</span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co"># Save results from the search handle in &quot;data&quot; and close the handle:</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>data <span class="op">=</span> shandle.read()</span>
-<span id="cb4-9"><a href="#cb4-9"></a>shandle.close()</span>
-<span id="cb4-10"><a href="#cb4-10"></a></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;D_virilis_pubs.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> fhandle:</span>
-<span id="cb4-12"><a href="#cb4-12"></a>    fhandle.write(data)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Perform the search:</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>shandle <span class="op">=</span> Entrez.efetch(db <span class="op">=</span> <span class="st">&quot;pubmed&quot;</span>,</span>
+<span id="cb13-3"><a href="#cb13-3"></a>                        rettype <span class="op">=</span> <span class="st">&quot;medline&quot;</span>,</span>
+<span id="cb13-4"><a href="#cb13-4"></a>                        retmode <span class="op">=</span> <span class="st">&quot;text&quot;</span>,</span>
+<span id="cb13-5"><a href="#cb13-5"></a>                        retstart <span class="op">=</span> <span class="dv">0</span>, retmax <span class="op">=</span> <span class="dv">600</span>,</span>
+<span id="cb13-6"><a href="#cb13-6"></a>                        webenv <span class="op">=</span> webenv, query_key <span class="op">=</span> query_key)</span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="co"># Save results from the search handle in &quot;data&quot; and close the handle:</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>data <span class="op">=</span> shandle.read()</span>
+<span id="cb13-9"><a href="#cb13-9"></a>shandle.close()</span>
+<span id="cb13-10"><a href="#cb13-10"></a></span>
+<span id="cb13-11"><a href="#cb13-11"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;D_virilis_pubs.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> fhandle:</span>
+<span id="cb13-12"><a href="#cb13-12"></a>    fhandle.write(data)</span></code></pre></div>
 </details></li>
 <li><p>Count the number of contributions per author.</p>
 <p>Start by taking a look at your <code>D_virilis_pubs.txt</code> file to see how you can match lines that contain author names.</p>
@@ -2682,26 +2776,26 @@ with open output file as handle
 </details>
 <details>
 <p><summary>Solutions</summary></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;D_virilis_pubs.txt&quot;</span>) <span class="im">as</span> fhandle:</span>
-<span id="cb6-2"><a href="#cb6-2"></a></span>
-<span id="cb6-3"><a href="#cb6-3"></a>    <span class="co"># Initialize an empty dictionary:</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>    author_dict <span class="op">=</span> {}</span>
-<span id="cb6-5"><a href="#cb6-5"></a></span>
-<span id="cb6-6"><a href="#cb6-6"></a>    <span class="co"># Loop through each line:</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a>    <span class="cf">for</span> line <span class="kw">in</span> fhandle:</span>
-<span id="cb6-8"><a href="#cb6-8"></a></span>
-<span id="cb6-9"><a href="#cb6-9"></a>        <span class="co"># Search for lines with &quot;AU  -&quot;, which contain authors:</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a>        <span class="cf">if</span> line.find(<span class="st">&quot;AU  -&quot;</span>) <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span>:</span>
-<span id="cb6-11"><a href="#cb6-11"></a></span>
-<span id="cb6-12"><a href="#cb6-12"></a>            <span class="co"># The author name is after the &quot;-&quot;,</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a>            <span class="co"># so we split by &quot;-&quot; and take the 2nd element:</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a>            author <span class="op">=</span> line.split(<span class="st">&quot;-&quot;</span>, <span class="dv">1</span>)[<span class="dv">1</span>]</span>
-<span id="cb6-15"><a href="#cb6-15"></a></span>
-<span id="cb6-16"><a href="#cb6-16"></a>            <span class="co"># Then, we remove any leading and trailing whitespace:</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a>            author <span class="op">=</span> author.strip()</span>
-<span id="cb6-18"><a href="#cb6-18"></a></span>
-<span id="cb6-19"><a href="#cb6-19"></a>            <span class="co"># If key (=author) is present, add 1, otherwise, initialize at 1:</span></span>
-<span id="cb6-20"><a href="#cb6-20"></a>            author_dict[author] <span class="op">=</span> author_dict.get(author, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;D_virilis_pubs.txt&quot;</span>) <span class="im">as</span> fhandle:</span>
+<span id="cb15-2"><a href="#cb15-2"></a></span>
+<span id="cb15-3"><a href="#cb15-3"></a>    <span class="co"># Initialize an empty dictionary:</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>    author_dict <span class="op">=</span> {}</span>
+<span id="cb15-5"><a href="#cb15-5"></a></span>
+<span id="cb15-6"><a href="#cb15-6"></a>    <span class="co"># Loop through each line:</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a>    <span class="cf">for</span> line <span class="kw">in</span> fhandle:</span>
+<span id="cb15-8"><a href="#cb15-8"></a></span>
+<span id="cb15-9"><a href="#cb15-9"></a>        <span class="co"># Search for lines with &quot;AU  -&quot;, which contain authors:</span></span>
+<span id="cb15-10"><a href="#cb15-10"></a>        <span class="cf">if</span> line.find(<span class="st">&quot;AU  -&quot;</span>) <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span>:</span>
+<span id="cb15-11"><a href="#cb15-11"></a></span>
+<span id="cb15-12"><a href="#cb15-12"></a>            <span class="co"># The author name is after the &quot;-&quot;,</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a>            <span class="co"># so we split by &quot;-&quot; and take the 2nd element:</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a>            author <span class="op">=</span> line.split(<span class="st">&quot;-&quot;</span>, <span class="dv">1</span>)[<span class="dv">1</span>]</span>
+<span id="cb15-15"><a href="#cb15-15"></a></span>
+<span id="cb15-16"><a href="#cb15-16"></a>            <span class="co"># Then, we remove any leading and trailing whitespace:</span></span>
+<span id="cb15-17"><a href="#cb15-17"></a>            author <span class="op">=</span> author.strip()</span>
+<span id="cb15-18"><a href="#cb15-18"></a></span>
+<span id="cb15-19"><a href="#cb15-19"></a>            <span class="co"># If key (=author) is present, add 1, otherwise, initialize at 1:</span></span>
+<span id="cb15-20"><a href="#cb15-20"></a>            author_dict[author] <span class="op">=</span> author_dict.get(author, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
 </details></li>
 <li><p>For the the five authors with the most papers on <em>D. virilis</em>, print each name and the corresponding number of papers.</p>
 <p>You’ll have to use the <code>sorted()</code> in a way we have not seen yet, see the Hints below for more details.</p>
@@ -2722,22 +2816,22 @@ for author in top authors
 </details>
 <details>
 <p><summary>Solutions</summary></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>sorted_authors <span class="op">=</span> <span class="bu">sorted</span>(author_dict, key <span class="op">=</span> author_dict.get, reverse <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>top_authors <span class="op">=</span> sorted_authors[:<span class="dv">5</span>]</span>
-<span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="cf">for</span> author <span class="kw">in</span> top_authors:</span>
-<span id="cb8-5"><a href="#cb8-5"></a>    <span class="bu">print</span>(author, <span class="st">&quot;:&quot;</span>, author_dict[author])</span>
-<span id="cb8-6"><a href="#cb8-6"></a></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; Gruntenko NE : 36</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; Evgen&#39;ev MB : 31</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#&gt; Hoikkala A : 24</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="co">#&gt; Raushenbakh IIu : 24</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt; Korochkin LI : 22</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>sorted_authors <span class="op">=</span> <span class="bu">sorted</span>(author_dict, key <span class="op">=</span> author_dict.get, reverse <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb17-2"><a href="#cb17-2"></a>top_authors <span class="op">=</span> sorted_authors[:<span class="dv">5</span>]</span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="cf">for</span> author <span class="kw">in</span> top_authors:</span>
+<span id="cb17-5"><a href="#cb17-5"></a>    <span class="bu">print</span>(author, <span class="st">&quot;:&quot;</span>, author_dict[author])</span>
+<span id="cb17-6"><a href="#cb17-6"></a></span>
+<span id="cb17-7"><a href="#cb17-7"></a><span class="co">#&gt; Gruntenko NE : 36</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="co">#&gt; Evgen&#39;ev MB : 31</span></span>
+<span id="cb17-9"><a href="#cb17-9"></a><span class="co">#&gt; Hoikkala A : 24</span></span>
+<span id="cb17-10"><a href="#cb17-10"></a><span class="co">#&gt; Raushenbakh IIu : 24</span></span>
+<span id="cb17-11"><a href="#cb17-11"></a><span class="co">#&gt; Korochkin LI : 22</span></span></code></pre></div>
 </details></li>
 </ol>
 <p><br></p>
-<h2 id="exercise-csb-2-rejection-rates">Exercise CSB-2: Rejection rates</h2>
-<p><a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2435.12587">Fox et al. (2016)</a> studied the effects on the outcome of papers of the genders of the handling editors and reviewers. For the study, they compiled a database including all the submissions to the journal Functional Ecology from 2004 to 2014. Their data are reported in <code>CSB/scientific/data/Fox2015_data.csv</code>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<h2 id="exercise-csb-2-rejection-rates">3: Exercise CSB-2: Rejection rates</h2>
+<p><a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2435.12587">Fox et al. (2016)</a> studied the effects on the outcome of papers of the genders of the handling editors and reviewers. For the study, they compiled a database including all the submissions to the journal Functional Ecology from 2004 to 2014. Their data are reported in <code>CSB/scientific/data/Fox2015_data.csv</code>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p>Besides the effects of gender and bias in journals, the data can be used to investigate whether manuscripts having more reviewers are more likely to be rejected. Note that this hypothesis should be tested for reviewed manuscripts, that is, excluding “desk rejections” without review.</p>
 <ol type="1">
 <li><p>Import the data using <em>Pandas</em>, and count the number of reviewers (by summing <code>ReviewerAgreed</code>) for each manuscript (i.e., unique <code>MsID</code>). The column <code>FinalDecision</code> contains <code>1</code> for rejection, and <code>0</code> for acceptance.</p>
@@ -2794,45 +2888,45 @@ NumRev    NumMs   rejection rate
 <p><em>If you want to try out specialized Pandas approaches for this exercise, look into the <code>groupby</code> method in particular.</em></p>
 </details>
 <p><br></p>
-<h2 id="bonus-tutorial-exercise-image-processing-with-numpy">Bonus: Tutorial exercise – <br> Image processing with NumPy</h2>
+<h2 id="tutorial-exercise-image-processing-with-numpy">4: Tutorial exercise <br> Image processing with NumPy</h2>
 <ul>
 <li><p>To get started, you will need to install <code>scikit-image</code> into your interactive Python Conda environment, which you can do as follows:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="ex">sinteractive</span> -A PAS1855 -t 60      <span class="co"># Start an interactive job</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="ex">module</span> load python/3.6-conda5.2    <span class="co"># Load the OSC Conda module</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="bu">source</span> activate ipy-env            <span class="co"># Activate your existing Conda environment</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="ex">conda</span> install -y scikit-image      <span class="co"># Install scikit-image</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1"></a><span class="ex">sinteractive</span> -A PAS1855 -t 60      <span class="co"># Start an interactive job</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="ex">module</span> load python/3.6-conda5.2    <span class="co"># Load the OSC Conda module</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="bu">source</span> activate ipy-env            <span class="co"># Activate your existing Conda environment</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="ex">conda</span> install -y scikit-image      <span class="co"># Install scikit-image</span></span></code></pre></div></li>
 <li><p>We start by loading NumPy and Scikit-image:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="im">import</span> skimage.io <span class="im">as</span> io</span></code></pre></div></li>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="im">import</span> skimage.io <span class="im">as</span> io</span></code></pre></div></li>
 <li><p>Next, let’s save the path to the image we want to read in as a variable:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="im">import</span> os</span>
-<span id="cb13-2"><a href="#cb13-2"></a></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># Change &quot;&lt;user&gt;&quot; by your username:</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="co"># (and adjust the path otherwise if necessary)</span></span>
-<span id="cb13-5"><a href="#cb13-5"></a>CSB_dir <span class="op">=</span> <span class="st">&#39;/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/data&#39;</span></span>
-<span id="cb13-6"><a href="#cb13-6"></a></span>
-<span id="cb13-7"><a href="#cb13-7"></a>image_file <span class="op">=</span> <span class="st">&#39;Kacsoh2013_Drosobrain.png&#39;</span></span>
-<span id="cb13-8"><a href="#cb13-8"></a>image_path <span class="op">=</span> os.path.join(CSB_dir, image_file)</span></code></pre></div></li>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="im">import</span> os</span>
+<span id="cb22-2"><a href="#cb22-2"></a></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="co"># Change &quot;&lt;user&gt;&quot; by your username:</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="co"># (and adjust the path otherwise if necessary)</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>CSB_dir <span class="op">=</span> <span class="st">&#39;/fs/ess/PAS1855/users/&lt;user&gt;/CSB/scientific/data&#39;</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a></span>
+<span id="cb22-7"><a href="#cb22-7"></a>image_file <span class="op">=</span> <span class="st">&#39;Kacsoh2013_Drosobrain.png&#39;</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a>image_path <span class="op">=</span> os.path.join(CSB_dir, image_file)</span></code></pre></div></li>
 </ul>
 <div class="content-box-info">
 <p>Plotting works out of the Box in the VS Code interactive window.<br />
 If you’re using a Jupyter Notebook, you would also need to make Matplotlib image plotting available using the following IPython “magic function”:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="op">%</span>matplotlib inline</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="op">%</span>matplotlib inline</span></code></pre></div>
 </div>
 <ul>
 <li><p>Let’s view the image:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>image <span class="op">=</span> io.imread(image_path)</span>
-<span id="cb15-2"><a href="#cb15-2"></a>io.imshow(image)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>image <span class="op">=</span> io.imread(image_path)</span>
+<span id="cb24-2"><a href="#cb24-2"></a>io.imshow(image)</span></code></pre></div>
 <p align="right">
-<p><img src=img/numpy-img_red.png width="70%"></p>
+<p><img src="img/numpy-img_red.png" width="70%"/></p>
 </p></li>
 <li><p>In what format is our image stored?</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="bu">type</span>(image)</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="co">#&gt; numpy.ndarray</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="bu">type</span>(image)</span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="co">#&gt; numpy.ndarray</span></span></code></pre></div>
 <p>As a NumPy array!</p></li>
 <li><p>Therefore, we can use the NumPy methods we have learned about. Let’s check the dimensions:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>image.shape</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co">#&gt; (1024, 1024, 4)</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>image.shape</span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="co">#&gt; (1024, 1024, 4)</span></span></code></pre></div>
 <p>The image is 1024 x 1024 pixels, with 4 the four RGBA channels along the 3rd dimension:</p>
 <ul>
 <li>Red (index 0)</li>
@@ -2841,57 +2935,58 @@ If you’re using a Jupyter Notebook, you would also need to make Matplotlib ima
 <li>Alpha (opaqueness; index 3).</li>
 </ul></li>
 <li><p>The first channel is the red channel, which should be the one of interest, given what our image looks like… Let’s extract it and explore a bit:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>red <span class="op">=</span> image[:, :, <span class="dv">0</span>]          <span class="co"># All rows, all columns, red channel</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="bu">print</span>(red.mean())</span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="co">#&gt; 23.181024551391602</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="bu">print</span>(red.std())</span>
-<span id="cb18-6"><a href="#cb18-6"></a><span class="co">#&gt; 30.446740821993011</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a><span class="bu">print</span>(red.<span class="bu">min</span>(), red.<span class="bu">max</span>())</span>
-<span id="cb18-8"><a href="#cb18-8"></a><span class="co">#&gt; 0 255</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>red <span class="op">=</span> image[:, :, <span class="dv">0</span>]          <span class="co"># All rows, all columns, red channel</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a></span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="bu">print</span>(red.mean())</span>
+<span id="cb27-4"><a href="#cb27-4"></a><span class="co">#&gt; 23.181024551391602</span></span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="bu">print</span>(red.std())</span>
+<span id="cb27-6"><a href="#cb27-6"></a><span class="co">#&gt; 30.446740821993011</span></span>
+<span id="cb27-7"><a href="#cb27-7"></a><span class="bu">print</span>(red.<span class="bu">min</span>(), red.<span class="bu">max</span>())</span>
+<span id="cb27-8"><a href="#cb27-8"></a><span class="co">#&gt; 0 255</span></span></code></pre></div></li>
 <li><p>It looks like we indeed <em>only</em> have variation in the red channel:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Loop over the channel indices in the 3rd dimension: image.shape[3]</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="cf">for</span> channel_index <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, image.shape[<span class="dv">2</span>]):</span>
-<span id="cb19-3"><a href="#cb19-3"></a></span>
-<span id="cb19-4"><a href="#cb19-4"></a>      <span class="co"># Compute the standard deviation in the 3rd dimension:</span></span>
-<span id="cb19-5"><a href="#cb19-5"></a>      <span class="bu">print</span>(image[:, :, channel_index].std())</span>
-<span id="cb19-6"><a href="#cb19-6"></a></span>
-<span id="cb19-7"><a href="#cb19-7"></a><span class="co">#&gt; 30.44674082199301</span></span>
-<span id="cb19-8"><a href="#cb19-8"></a><span class="co">#&gt; 0.0</span></span>
-<span id="cb19-9"><a href="#cb19-9"></a><span class="co">#&gt; 0.0</span></span>
-<span id="cb19-10"><a href="#cb19-10"></a><span class="co">#&gt; 0.0</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># Loop over the channel indices in the 3rd dimension: image.shape[3]</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="cf">for</span> channel_index <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, image.shape[<span class="dv">2</span>]):</span>
+<span id="cb28-3"><a href="#cb28-3"></a></span>
+<span id="cb28-4"><a href="#cb28-4"></a>      <span class="co"># Compute the standard deviation in the 3rd dimension:</span></span>
+<span id="cb28-5"><a href="#cb28-5"></a>      <span class="bu">print</span>(image[:, :, channel_index].std())</span>
+<span id="cb28-6"><a href="#cb28-6"></a></span>
+<span id="cb28-7"><a href="#cb28-7"></a><span class="co">#&gt; 30.44674082199301</span></span>
+<span id="cb28-8"><a href="#cb28-8"></a><span class="co">#&gt; 0.0</span></span>
+<span id="cb28-9"><a href="#cb28-9"></a><span class="co">#&gt; 0.0</span></span>
+<span id="cb28-10"><a href="#cb28-10"></a><span class="co">#&gt; 0.0</span></span></code></pre></div></li>
 <li><p>Say that we are interested in examining what area in the image express the <em>NPF</em> and <em>NPFR1</em> genes that were targeted by this assay.</p>
 <p>We’ll here take an overly simple approach, by <strong>setting a threshold of 100</strong> and determining which pixels have a higher value than that.</p>
 <p>Let’s check what a value of 100 looks like by modifying a copy of the image:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>img_copy <span class="op">=</span> image.copy()</span>
-<span id="cb20-2"><a href="#cb20-2"></a>img_copy[:, <span class="dv">480</span>:<span class="dv">500</span>, <span class="dv">0</span>] <span class="op">=</span> <span class="dv">100</span>  <span class="co"># This should create a thick vertical red line</span></span>
-<span id="cb20-3"><a href="#cb20-3"></a>io.imshow(img_copy)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>img_copy <span class="op">=</span> image.copy()</span>
+<span id="cb29-2"><a href="#cb29-2"></a>img_copy[:, <span class="dv">480</span>:<span class="dv">500</span>, <span class="dv">0</span>] <span class="op">=</span> <span class="dv">100</span>  <span class="co"># This should create a thick vertical red line</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a>io.imshow(img_copy)</span></code></pre></div>
 <p align="center">
-<p><img src=img/numpy-img_redline.png width="70%"></p>
+<p><img src="img/numpy-img_redline.png" width="70%"/></p>
 </p></li>
 <li><p>Next, we’ll “mask” our array: with a conditional expression, we produce a Boolean (<code>False</code>/<code>True</code>) array and then multiply that by 1 to get <code>0</code> (for <code>False</code>) for pixels that do not pass the threshold and <code>1</code> (for <code>True</code>) for pixels that do pass the threshold.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>threshold <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a>mask <span class="op">=</span> (red <span class="op">&gt;</span> threshold) <span class="op">*</span> <span class="dv">1</span> <span class="co"># Recall: &quot;red&quot; is the 2d-array for the red channel</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a>threshold <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>mask <span class="op">=</span> (red <span class="op">&gt;</span> threshold) <span class="op">*</span> <span class="dv">1</span> <span class="co"># Recall: &quot;red&quot; is the 2d-array for the red channel</span></span></code></pre></div></li>
 <li><p>How many pixels passed this mask (filter)?</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>mask.<span class="bu">sum</span>()</span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="co">#&gt; 37037</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>mask.<span class="bu">sum</span>()</span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="co">#&gt; 37037</span></span></code></pre></div></li>
 <li><p>Plot the mask:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>io.imshow(mask)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a>io.imshow(mask)</span></code></pre></div>
 <p align="left">
-<p><img src=img/numpy-img_mask1.png width="70%"></p>
+<p><img src="img/numpy-img_mask1.png" width="70%"/></p>
 </p></li>
 <li><p>Finally, we’ll use a little trick to get the actual pixel values back for those pixels that passed the threshold – we multiply the original array by the 0/1 mask:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>mask2 <span class="op">=</span> red <span class="op">*</span> mask</span>
-<span id="cb24-2"><a href="#cb24-2"></a>io.imshow(mask2)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>mask2 <span class="op">=</span> red <span class="op">*</span> mask</span>
+<span id="cb33-2"><a href="#cb33-2"></a>io.imshow(mask2)</span></code></pre></div>
 <p align="center">
-<p><img src=img/numpy-img_mask2.png width="70%"></p>
+<p><img src="img/numpy-img_mask2.png" width="70%"/></p>
 </p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div></li>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div></li>
 </ul>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>If necessary, download the CSB repository again using <code>git clone https://github.com/CSB-book/CSB.git</code><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1" role="doc-endnote"><p>See <a href="https://pubmed.ncbi.nlm.nih.gov/help/#author-search">here</a> for PubMed search options.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>If necessary, download the CSB repository again using <code>git clone https://github.com/CSB-book/CSB.git</code><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 <!--radix_placeholder_article_footer-->
