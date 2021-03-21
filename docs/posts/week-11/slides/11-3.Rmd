@@ -46,15 +46,13 @@ Entrez and BLAST, and so on.
 
 <br>
 
-Today, we'll work through 4 small sample applications:
+Today, we'll work through 3 small sample applications:
 
 1. Finding and retrieving sequences from NCBI (CSB 6.4.1)
 
 2. Reading and writing sequence data (CSB 6.4.2)
 
 3. Programmatic BLAST search (CSB 6.4.3)
-
-4. Querying PubMed (CSB 6.4.4)
 
 ---
 class: center middle inverse
@@ -542,174 +540,8 @@ for align in blast_records.alignments:
 
 ---
 
-class: center middle inverse
+## Exercises
 
-# BioPython (CSB 6.4)
-
------
-
-# IV: Querying PubMed (6.4.4)
-
-<br> <br> <br> <br>
-
----
-
-## PubMed search
-
-Using the `Entrez.esearch()` function we saw earlier,
-we can search any NCBI database,
-including PubMed, which contains scientific literature.
-
-By way of example, we will search for any papers on *Drosophila* that mention
-the gene "*spaetzle*" anywhere in the title or abstract:<sup>[1]</sup>
-
-.footnote[<sup>[1]</sup>See [here](https://pubmed.ncbi.nlm.nih.gov/help/#author-search)
-for PubMed search options.]
-
-```python
-from Bio import Entrez
-Entrez.email = "me.999@osu.edu"
-
-handle = Entrez.esearch(db = "pubmed",
-                        term = ("spaetzle[Title/Abstract] AND Drosophila[ALL]"),
-                        usehistory = "y")
-record = Entrez.read(handle)
-handle.close()                        
-```                        
-
----
-
-## PubMed search
-
-Using the `Entrez.esearch()` function we saw earlier,
-we can search any NCBI database,
-including PubMed, which contains scientific literature.
-
-By way of example, we will search for any papers on *Drosophila* that mention
-the gene "*spaetzle*" anywhere in the title or abstract:<sup>[1]</sup>
-
-```python
-from Bio import Entrez
-Entrez.email = "me.999@osu.edu"
-
-handle = Entrez.esearch(db = "pubmed",
-                        term = ("spaetzle[Title/Abstract] AND Drosophila[ALL]"),
-                        usehistory = "y")
-record = Entrez.read(handle)
-handle.close()                        
-```                        
-
-- We used `usehistory = "y"`, which will allows us to refer back to our search
-  to fetch the titles and abstracts by saving `WebEnv` and `QueryKey`:
-
-  ```python
-  webenv = record["WebEnv"]
-  query_key = record["QueryKey"]
-  ```
-
----
-
-## PubMed search (cont.)
-
-- How many hits did we get?
-
-  ```python
-  record["Count"]
-  #> '15'
-  ```
-  
-  We found 15 records (up from 13 in the book) that contained the words
-  "*spaetzle*" and "*Drosophila*".
-
---
-
-- We can now fetch the titles and abstracts:
-
-  ```python
-  handle = Entrez.efetch(db = "pubmed",
-                           rettype = "medline", retmode = "text",
-                           webenv = webenv, query_key = query_key)
-  data = handle.read()
-  handle.close() 
-  ```
-
---
-
-- Finally, we write the results to file:
-
-  ```python
-  out_handle = open("Spaetzle_abstracts.txt", "w")
-  out_handle.write(data)
-  out_handle.close()
-  ```
-
----
-
-## PubMed search (cont.)
-
-- Let's have a look at the results:
-
-  ```python
-  !cat Spaetzle_abstracts.txt
-  ```
-  
-- With a simply `grep` command, we can just see lines
-  (and some context with `-C 1`) with the word "*Spaetzle*":  
-
-  ```python
-  !grep -i "spaetzle" -C 1 Spaetzle_abstracts.txt
-  
-  #>     leading to ventrally-restricted expression of the sulfotransferase Pipe. These
-  #>    events promote the ventral processing of Spaetzle, a ligand for Toll, which
-  #>    ultimately sets up the embryonic dorsal-ventral axis. We then describe the
-  #> --
-  #> DP  - 2019 Nov 12
-  #> TI  - Dynamics of Spaetzle morphogen shuttling in the Drosophila embryo shapes
-  #>    gastrulation patterning.
-  #> --
-  #>    The dynamics indicate that a sharp extracellular gradient is formed through
-  #>    diffusion-based shuttling of the Spaetzle (Spz) morphogen that progresses through
-  #>    several nuclear divisions. Perturbed shuttling in wntD mutant embryos results in 
-  ```
-
----
-
-## PubMed search (cont.)
-
-Alternatively, we could use regular expressions in Python to nicely get each
-*sentence* with "*Spaetzle*" along with the PubMedID for the publication:
-
-```python
-import re
-with open("Spaetzle_abstracts.txt") as datafile:
-    
-    pubmed_input = datafile.read()
-    # Titles and abstracts on one line: delete newlines + 6 spaces:
-    pubmed_input = re.sub(r"\n\s{6}", " ", pubmed_input)
-
-    for line in pubmed_input.split("\n"):
-        if re.match("PMID", line):
-            PMID = re.search(r"\d+", line).group()
-        if re.match("AB", line):
-            spaetzle = re.findall(r"([^.]*?Spaetzle[^.]*\.)", line)
-            if spaetzle:
-                print("PubMedID: ", PMID, " ", spaetzle)
-#> PubMedID:  32591083   [' These events promote the ventral processing of Spaetzle, a ligand for Toll, which ultimately sets up the embryonic dorsal-ventral axis.']
-#> PubMedID:  31719046   ['  The dynamics indicate that a sharp extracellular gradient is formed through diffusion-based shuttling of the Spaetzle (Spz) morphogen that progresses through several nuclear divisions.']
-#> PubMedID:  27314646   [' While cytokines activating immune responses,  such as Spaetzle or Unpaired-3, have been identified and
-```  
-  
-**We will learn how to do this next week!**
-
----
-
-## PubMed search (cont.)
-
-While this PubMed search was relatively trivial, you may need to do this kind of
-search for a dozen or more genes, and possibly repeat the search periodically.
-
-In that case, using Python to do the searches and parse the results can be a
-huge time-saver!
 
 ---
 class: center middle inverse

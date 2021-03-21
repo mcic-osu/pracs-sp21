@@ -54,11 +54,22 @@ Pandas is short for "Python Data Analysis Library".
 
 As NumPy has arrays, the signature data structure of Pandas it its
 `DataFrame`.
-With Pandas' `DataFrame`s, we can analyze tabular data much more
-smoothly in Python.
+**With Pandas' `DataFrame`s, we can analyze tabular data much more
+smoothly in Python.**
 
-If you are familiar with R's *tidyverse*, Pandas allows for similar types of
-operations on tabular data.
+If you are familiar with R's *tidyverse*,
+Pandas allows for similar types of operations on tabular data:
+
+- Basic manipulations such as removing and adding columns, filtering data.
+
+- Merging (joining) data sets based on shared columns.
+
+- Summarize data including with "split-apply-combine":
+  compute statistics for multiple groups at once.
+
+- Pivoting from "wide" to "long" data.
+
+- Integration with a plotting library, Matplotlib.
 
 ---
 
@@ -114,7 +125,8 @@ files (`sep = '\t'`), though Pandas can typically auto-detect this too.
   #> 4	Acanthidops bairdii	     Peg-billed Finch	        Acanthidops_bairdii	40.555556	54.166667
   ```
 
-- Just typing the name of the dataframe will also return a very useful view:
+- Just typing the name of the dataframe will also return a very useful view
+  in our interactive Python window:
 
   ```python
   data
@@ -124,8 +136,8 @@ files (`sep = '\t'`), though Pandas can typically auto-detect this too.
 
 ## Exploring DataFrames (cont.)
 
-- Note that all NumPy functions, methods, and attributes will also work for
-  Pandas `DataFrames`!
+- **Note that NumPy functions, methods, and attributes will also work for
+  Pandas `DataFrames`!**
   
   For instance, we can check the length along each dimension with `shape`:
 
@@ -152,11 +164,11 @@ files (`sep = '\t'`), though Pandas can typically auto-detect this too.
   ```
 
 .content-box-info[
-Pandas `DataFrame`s can be seen as a set of *aligned* 1-dimensional NumPy arrays
-of equal length, with each `DataFrame` column representing an array.
+Pandas `DataFrame`s can be seen as **a set of *aligned* 1-dimensional NumPy arrays
+of equal length**, with each `DataFrame` column representing an array.
 
-Consequently, within each column, all elements have to be of the same data type,
-but different columns can have different data types, as we see above.
+As a consequence, all elements have to be of the same data type within each column,
+but different columns can have different data types, as we have seen above.
 ]
 
 ---
@@ -261,22 +273,25 @@ but different columns can have different data types, as we see above.
   
   data.latin
   ```
+  
+  When we extract a single column,
+  the resulting 1-dimensional Pandas array is called a `Series`
+  which keeps the rowwise index as you can see.
+  
+--
 
-<br>
-
-- Next, we can slice the resulting `Series` (a 1-dimensional Pandas array)
-  like we may expect to:
+- Next, we can slice the `Series` like we may expect to:
   
   ```python
-  data["latin"][:3]
+  data["latin"][:3]                  # First three  
   #> 0 Abroscopus albogularis
   #> 1 Abroscopus schisticeps
   #> 2 Abroscopus superciliaris
   
-  data.latin[:3]
-  #> 0 Abroscopus albogularis
-  #> 1 Abroscopus schisticeps
-  #> 2 Abroscopus superciliaris
+  data.latin[-3:]                    # Last three
+  #> 5828    Zosterops vellalavella
+  #> 5829        Zosterops wallacei
+  #> 5830     Zosterops xanthochroa
   ```
 
 ---
@@ -292,7 +307,7 @@ but different columns can have different data types, as we see above.
 
 <br>
 
-- Instead we need to use the **`iloc()` method**:
+- Instead, we need to use the **`iloc()` method**:
   
   ```python
   data.iloc[2, 1]
