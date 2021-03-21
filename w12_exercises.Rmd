@@ -1,0 +1,151 @@
+---
+title: "Exercises: Week 12 -- Regular expressions"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+## Exercise CSB-1 (5.9.1): Bee checklist
+
+Michael Ruggiero of the
+[Integrated Taxonomic Information System](https://itis.gov/)
+has led the World Bee Checklist project,
+aiming to collect taxonomic information on all the bee species in the world.
+
+In the file `regex/data/bee_list.txt`,
+you can find a list of about 20,000 species,
+along with their `TSN` (the identifier in the ITIS database),
+and a column detailing the authors and year of
+publication of documents describing the species.
+
+1. What is the name of the author with the most entries in the database?
+   To find out, you'll need to parse the citations in the file.
+   
+   Note that you need to account for different citation formats that occur
+   in the file, such as:
+   
+   ```
+   (Morawitz, 1877)
+   Cockerell, 1901
+   (W. F. Kirby, 1900)
+   Meade-Waldo, 1914
+   Eardley & Brooks, 1989
+   Lepeletier & Audinet-Serville, 1828
+   Michener, LaBerge & Moure, 1955
+   ```
+   
+   <details>
+   <summary>Hints</summary>
+   
+   Pseudocode:
+   
+   ```
+   ...
+   ```
+   </details>
+   
+  
+2. Which year of publication occurs most often in the database?
+
+   <details>
+   <summary>Hints</summary>
+   
+   Pseudocode:
+   
+   ```
+   ...
+   ```
+   </details>
+
+<br>
+
+## Exercise CSB-2 (5.9.2): A map of science
+
+Where does science come from?
+This question has fascinated researchers for decades,
+and has even led to the birth of the field of the “science of science,”
+where researchers use the same tools they invented to investigate nature to gain
+insights into the development of science itself.
+In this exercise, you will build a “map of Science,” showing where articles published in Science magazine have originated.
+
+You will find two files in the directory `regex/data/MapOfScience`.
+The first, `pubmed_results.txt`, is the output of a query to PubMed,
+listing all the papers published in Science in 2015.
+You will extract the US ZIP codes from this file, and then use the file
+`zipcodes_coordinates.txt` to extract the geographic coordinates for each
+ZIP code.
+
+1. Read the file `pubmed_results.txt`, and extract all the US ZIP codes.
+
+   <details>
+   <summary>Hints</summary>
+   
+   Pseudocode:
+   
+   ```
+   ...
+   ```
+   </details>
+   
+2. Create the lists `zip_code`, `zip_long`, `zip_lat`, and `zip_count` ,
+   containing the unique ZIP codes, their longitudes, latitudes,
+   and counts (number of occurrences in Science), respectively.
+
+   <details>
+   <summary>Hints</summary>
+   
+   Pseudocode:
+   
+   ```
+   ...
+   ```
+   </details>
+
+3. To visualize the data you've generated, use the code below.
+
+   <details>
+   <summary>Code for the plot</summary>
+   
+   ```python
+   import matplotlib.pyplot as plt
+   %matplotlib inline
+   
+   plt.scatter(zip_long, zip_lat, s = zip_count, c= zip_count)
+   plt.colorbar()
+   
+   # Only plot the continental US without Alaska:
+   plt.xlim(-125,-65)
+   plt.ylim(23, 50)
+   
+   # Add a few cities for reference (optional):
+   ard = dict(arrowstyle="->")
+   plt.annotate('Los Angeles', xy = (-118.25, 34.05), 
+                  xytext = (-108.25, 34.05), arrowprops = ard)
+   plt.annotate('Palo Alto', xy = (-122.1381, 37.4292), 
+                  xytext = (-112.1381, 37.4292), arrowprops= ard)
+   plt.annotate('Cambridge', xy = (-71.1106, 42.3736), 
+                  xytext = (-73.1106, 48.3736), arrowprops= ard)
+   plt.annotate('Chicago', xy = (-87.6847, 41.8369), 
+                  xytext = (-87.6847, 46.8369), arrowprops= ard)
+   plt.annotate('Seattle', xy = (-122.33, 47.61), 
+                  xytext = (-116.33, 47.61), arrowprops= ard)
+   plt.annotate('Miami', xy = (-80.21, 25.7753), 
+                  xytext = (-80.21, 30.7753), arrowprops= ard)
+   
+   params = plt.gcf()
+   plSize = params.get_size_inches()
+   params.set_size_inches( (plSize[0] * 3, plSize[1] * 3) )
+   plt.show()
+   ```
+   
+   </details>
+
+<br>
