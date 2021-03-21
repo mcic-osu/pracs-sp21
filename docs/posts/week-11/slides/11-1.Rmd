@@ -556,8 +556,9 @@ m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
 
 ## <i class="fa fa-user-edit"></i> NumPy exercise
 
-I have included the CSB section on image analysis as a "tutorial exercise" in
-this week's exercises.
+I have included the CSB section on image analysis with NumPy,
+which looks at an image showing gene expression in *Drosophila* brains, 
+as a "tutorial exercise" in this week's exercises.
 
 ---
 class: center middle inverse

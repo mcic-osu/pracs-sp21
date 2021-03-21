@@ -536,7 +536,15 @@ data[["score_m", "score_f"]].plot.box()
   ```python
   data[data.english.str.contains("Warbler")].shape[0]
   ```
-  
+
+---
+
+## <i class="fa fa-user-edit"></i> Pandas exercise for homework
+
+The third exercise for this week uses Pandas to investigate whether
+scientific manuscript rejection rates are higher when the manuscript gets
+more reviewers.
+
 ---
 class: center middle inverse
 
