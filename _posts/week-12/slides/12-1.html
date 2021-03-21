@@ -1,40 +1,32 @@
----
-title: "Week 12 - Python: Regular expression"
-output:
-  xaringan::moon_reader:
-    seal: false
-    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
-    lib_dir: libs
-    nature:
-      highlightStyle: rainbow
-      highlightLines: true
-      countIncrementalSlides: false
----
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 12 - Python: Regular expression</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
 class:inverse middle center
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
 
-knitr::opts_chunk$set(eval = FALSE)
-```
 
-```{r xaringan-extra, echo=FALSE, eval=TRUE}
-#xaringanExtra::use_scribble()
-#xaringanExtra::use_panelset()
-#xaringanExtra::use_clipboard()
-#xaringanExtra::use_search(show_icon = TRUE)
-
-icon::fa("user-edit")
-```
+`&lt;i class="fas  fa-user-edit "&gt;&lt;/i&gt;`{=html}
 
 # *Week 11 - Python: Regular expressions*
 
 ----
 
-<br> <br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/30 (updated: `r Sys.Date()`)
+### 2021/03/30 (updated: 2021-03-20)
 
 ---
 
@@ -48,18 +40,18 @@ icon::fa("user-edit")
 
 ## What are regular expressions?
 
-> *Often, it is not feasible to search for all possible occurrences exactly as*
-> *they appear in the text, but you can describe the pattern you’re looking for*
-> *in your own words (e.g., find all words starting with 3 uppercase letters,*
-> *followed by 4 digits).*
-> *The question is how to explain such a pattern to a computer.*
-> *The answer is to use regular expressions.*
-> CSB 5.1
+&gt; *Often, it is not feasible to search for all possible occurrences exactly as*
+&gt; *they appear in the text, but you can describe the pattern you’re looking for*
+&gt; *in your own words (e.g., find all words starting with 3 uppercase letters,*
+&gt; *followed by 4 digits).*
+&gt; *The question is how to explain such a pattern to a computer.*
+&gt; *The answer is to use regular expressions.*
+&gt; CSB 5.1
 
 - In other words:
   **strings that (may) include special symbols to describe patterns succinctly.**
 
-<br>
+&lt;br&gt;
 
 ### Use example from Unix regex
 
@@ -119,7 +111,7 @@ our regular expression.
 --
 
 This can be a bit confusing because you *do* want the regular expression to be
-parsed, after all &ndash; but the problem is that with the raw string notation,
+parsed, after all &amp;ndash; but the problem is that with the raw string notation,
 Python will interpret special characters before they are passed on to the
 regular expression parser in, e.g., the `re.search()` function.
 
@@ -127,11 +119,11 @@ For instance:
 
 ```python
 print("my long \n line")
-#> my long
-#>  line
+#&gt; my long
+#&gt;  line
 
 print(r"my long \n line")
-#> my long \n line
+#&gt; my long \n line
 ```
 
 --
@@ -150,7 +142,7 @@ interpretation of regex symbols.
 
   ```python
   print(m)
-  #> <_sre.SRE_Match object; span=(2, 7), match= 'given' >
+  #&gt; &lt;_sre.SRE_Match object; span=(2, 7), match= 'given' &gt;
   ```
 
 - From the match object, we can use the `group()` method to extract the actual
@@ -159,17 +151,17 @@ interpretation of regex symbols.
   
   ```python
   m.group()
-  #> 'given'
+  #&gt; 'given'
   ```
 
 - We can also get the start and end positions (indices) of the match:
 
   ```python
   m.start()
-  #> 2
+  #&gt; 2
   
   m.end()
-  #> 7
+  #&gt; 7
   ```
 
 ---
@@ -181,10 +173,10 @@ If no matches are found, `re.search()` returns `None`:
 ```python
 m = re.search(r"9", my_string)
 print(m)
-#> None
+#&gt; None
 ```
 
-<br>
+&lt;br&gt;
 
 --
 
@@ -235,9 +227,9 @@ but this is not very powerful.
   m = re.search(r"\s", my_string)
   
   m.group()
-  #> ' '
+  #&gt; ' '
   m.start()
-  #> 1
+  #&gt; 1
   ```
 
 --
@@ -249,7 +241,7 @@ but this is not very powerful.
   m = re.search(r"\s\w\w\w\w\w", my_string)
   
   m.group()
-  #> ' given'
+  #&gt; ' given'
   ```
 
 .content-box-info[
@@ -266,7 +258,7 @@ where we used constructs like `[0-9]` to represent any single digit,
 or `[AB]` to represent either an A or a B.
 **Character classes function the same in Python.**
 
-<br>
+&lt;br&gt;
 
 - For example, we can search for a word that starts with a lower- *or*
   uppercase `s`,
@@ -277,7 +269,7 @@ or `[AB]` to represent either an A or a B.
   
   m = re.search(r"[sS]\w\w", my_string)
   m.group()
-  #> 'sun'
+  #&gt; 'sun'
   ```
 
 ---
@@ -289,7 +281,7 @@ or `[AB]` to represent either an A or a B.
   ```python
   m = re.search(r"[7-9][7-9]", my_string)
   m.group()
-  #> '89'
+  #&gt; '89'
   ```
 
 --
@@ -329,7 +321,7 @@ the square brackets:
 ```python
 m = re.search(r"[^s-z]\w\w\w\w\w\w", my_string)
 m.group()
-#> 'nflower'
+#&gt; 'nflower'
 ```
 
 ---
@@ -339,7 +331,7 @@ m.group()
 Instead of typing `\w` 5 times, like above, we can use *quantifiers* to match
 multiple consecutive matching characters more succinctly and flexibly.
 
-<br>
+&lt;br&gt;
 
 | Quantifier  | Matches |
 |-------------|---------|
@@ -359,10 +351,10 @@ multiple consecutive matching characters more succinctly and flexibly.
   
   ```python
   re.search(r"[ACGT]+","A motif like ATTCGT.").group()
-  #> 'A'
+  #&gt; 'A'
   ```
 
-<br>
+&lt;br&gt;
 
 - This is not stringent enough, so let's instead require at least
   three consecutive bases using `[ACGT]{3,}`:
@@ -391,18 +383,18 @@ possible here:
 my_string = "once upon a time"
 re.search(r".*\s", my_string)
 m.group()
-#> 'once upon a '
+#&gt; 'once upon a '
 ```
 
 --
 
 Appending a question mark to the quantifier (i.e., `??`, `*?`, or `+?`)
-makes the quantifier **"reluctant" or "non-greedy"** &ndash;
+makes the quantifier **"reluctant" or "non-greedy"** &amp;ndash;
 it will match as little as possible:
 
 ```python
 re.search(r".*?\s", "once upon a time").group()
-#> 'once '
+#&gt; 'once '
 ```
 
 ---
@@ -424,7 +416,7 @@ my_string = "ATATA"
 
 m = re.search(r"^TATA", my_string)
 print(m)
-#> None
+#&gt; None
 
 m = re.search(r"TATA$", my_string)
 m.group()
@@ -433,13 +425,13 @@ m.group()
 
 ---
 
-## <i class="fa fa-user-edit"></i> Intermezzo 5.1
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.1
 
 Describe the following regular expressions in plain English.
 
 And what does it actually match in the `re.search()` call?
 
-<br>
+&lt;br&gt;
 
 ```python
 re.search(r"\d" , "it takes 2 to tango").group()
@@ -476,7 +468,7 @@ flanked by a white space on both sides: `" upon "`.
 
 ---
 
-## <i class="fa fa-user-edit"></i> Intermezzo 5.1
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.1
 
 ```python
 re.search(r"\s\w{1,3}\s", "once upon a time").group()
@@ -489,7 +481,7 @@ flanked by two white spaces: `" a "`.
 
 --
 
-<br>
+&lt;br&gt;
 
 ```python
 re.search(r"\s\w*$", "once upon a time").group()
@@ -508,12 +500,12 @@ Matches the last word in the target string (preceded by a white space):
 my_string = "I found my cat!"
 m = re.search(r"cat|mouse", my_string)
 m.group()
-#> 'cat'
+#&gt; 'cat'
 ```
 
 ---
 
-## <i class="fa fa-user-edit"></i> Intermezzo 5.2
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.2
 
 Let’s practice translating from plain English to regular expressions.
 
@@ -530,21 +522,21 @@ The following table describes the construction of sequence identifiers in plain 
 
 ---
 
-## <i class="fa fa-user-edit"></i> Intermezzo 5.2: Solutions
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.2: Solutions
 
 1. 
 ```python
 r"[A-Za-z]{3}\d{5}"
 ```
 
-<br>
+&lt;br&gt;
 
 2. 
 ```python
 r"[A-Za-z]{4}\d{8,10}"
 ```
 
-<br>
+&lt;br&gt;
 
 3. 
 ```python
@@ -571,4 +563,127 @@ class: center middle inverse
 
 -----
 
-<br> <br> <br> <br>
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
