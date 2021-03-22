@@ -1,5 +1,5 @@
 ---
-title: "Exercises: Week 10"
+title: "Exercises for week 10: Writing good code"
 output:
   distill::distill_article:
     self_contained: false
@@ -246,11 +246,11 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
    <details> 
    <summary>Hints</summary>
    
-   - Part 3 of the exercise will be to repeat this procedure,
-     so it will be a good idea to create a function here.
+   - In part 3 of this exercise, you will repeat this procedure for other taxa,
+     so it will be a good idea to create a *function* here.
      
      Your function should take as input the target taxon name,
-     the lists of taxa and of `r`-values that you created earlier,
+     the lists with taxa and `r`-values that you created in the first step,
      and the number of repetitions (randomizations).
    
    In the function:
@@ -274,7 +274,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
    
    Pseudocode:
    
-   ```python
+   ```
    def compute_pvalue(taxa, r_values, target_taxon = "Fish", num_rep = 1000):
        observed_r = compute the mean for the observed average r value
        count_random_is_higher = 0.0
@@ -300,6 +300,12 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
    
    </details>
 
+<details>
+<summary>Solutions for all steps</summary>
+
+See [this Jupyter Notebook](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_solution.ipynb) by the authors of the CSB book.
+
+</details>
 
 <br>
 
@@ -352,7 +358,7 @@ The data used in this study are contained in the directory
       
     Pseudocode:
     
-    ```python
+    ```
     def get_BMI_count(dict_constr):
         open the file and set up the csv reader
        for each row:
@@ -423,7 +429,7 @@ The data used in this study are contained in the directory
     
     Pseudocode:
     
-    ```python
+    ```
     def get_abundance_by_BMI(dict_constraints, genus = 'Aerococcus'):
         open the file Metadata.tab extract matching IDs using the same 
         approach as in exercise 1
@@ -449,10 +455,11 @@ The data used in this study are contained in the directory
     
     </details>
 
+<details>
+<summary>Solutions for all steps</summary>
+
+See [this Jupyter Notebook](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_solution_detailed.ipynb) by the authors of the CSB book.
+
+</details>
+
 <br>
-
-## CSB Solutions
-
--   [Solutions for exercise CSB-1](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_solution.ipynb).
-
--   [Solutions for exercise CSB-2](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_solution_detailed.ipynb).
