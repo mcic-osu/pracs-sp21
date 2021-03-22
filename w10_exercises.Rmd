@@ -188,7 +188,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
 [Jiang et al. (2013)](https://www.journals.uchicago.edu/doi/10.1086/670160) studied assortative mating in animals. They compiled a large database, reporting the results of many experiments on mating. In particular, for several taxa they provide the value of correlation among the sizes of the mates. A positive value of `r` stands for assortative mating (large animals tend to mate with large animals), and a negative value for disassortative mating.
 
-1. You can find the data in `good_code/data/Jiang2013_data.csv`.
+1. You can find the data in `CSB/good_code/data/Jiang2013_data.csv`[^1].
    Write a function that takes as input the desired Taxon and returns the mean value of `r`.
    Then, apply that function to all taxa in the file.
     
@@ -316,8 +316,11 @@ They found that bacterial strains tend to be either absent or abundant,
 and posit that this would reflect bistability in these bacterial assemblages.
 
 The data used in this study are contained in the directory
-`good_code/data/Lahti2014`. The directory contains:
+`CSB/good_code/data/Lahti2014`[^1]. The directory contains:
 
+[^1]: If necessary, download the CSB repository again using
+    `git clone https://github.com/CSB-book/CSB.git`
+    
 - The file `HITChip.tab` containing estimates of microbial abundance for each
   sample, as obtained by HITChip signal.
 

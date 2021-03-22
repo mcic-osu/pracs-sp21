@@ -2680,7 +2680,7 @@ Remember how we can turn a list into a string with <code>join()</code>? If you s
 First, turn the list into a string using <code>"".join</code>. Then, call <code>set()</code> on the string to get a list of unique items (= characters).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="bu">set</span>(<span class="st">&quot;&quot;</span>.join(diseases))</span></code></pre></div>
-<pre><code>{&#39;f&#39;, &#39;p&#39;, &#39;u&#39;, &#39;g&#39;, &#39;e&#39;, &#39;_&#39;, &#39;b&#39;, &#39;r&#39;, &#39;h&#39;, &#39;t&#39;, &#39;n&#39;, &#39;o&#39;, &#39;a&#39;, &#39;i&#39;, &#39;s&#39;, &#39;l&#39;, &#39;k&#39;, &#39;m&#39;, &#39;c&#39;, &#39;w&#39;}</code></pre>
+<pre><code>{&#39;s&#39;, &#39;a&#39;, &#39;t&#39;, &#39;r&#39;, &#39;o&#39;, &#39;e&#39;, &#39;c&#39;, &#39;g&#39;, &#39;_&#39;, &#39;w&#39;, &#39;m&#39;, &#39;f&#39;, &#39;u&#39;, &#39;b&#39;, &#39;k&#39;, &#39;n&#39;, &#39;p&#39;, &#39;l&#39;, &#39;h&#39;, &#39;i&#39;}</code></pre>
 </div>
 </details></li>
 </ol>
@@ -2688,7 +2688,7 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 <h2 id="exercise-csb-1-assortative-mating">Exercise CSB-1: Assortative mating</h2>
 <p><a href="https://www.journals.uchicago.edu/doi/10.1086/670160">Jiang et al. (2013)</a> studied assortative mating in animals. They compiled a large database, reporting the results of many experiments on mating. In particular, for several taxa they provide the value of correlation among the sizes of the mates. A positive value of <code>r</code> stands for assortative mating (large animals tend to mate with large animals), and a negative value for disassortative mating.</p>
 <ol type="1">
-<li><p>You can find the data in <code>good_code/data/Jiang2013_data.csv</code>. Write a function that takes as input the desired Taxon and returns the mean value of <code>r</code>. Then, apply that function to all taxa in the file.</p>
+<li><p>You can find the data in <code>CSB/good_code/data/Jiang2013_data.csv</code><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Write a function that takes as input the desired Taxon and returns the mean value of <code>r</code>. Then, apply that function to all taxa in the file.</p>
 <details>
 <p><summary>Hints</summary></p>
 <ul>
@@ -2754,7 +2754,7 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 <p><br></p>
 <h2 id="bonus-exercise-csb-2-human-intestinal-ecosystems">Bonus: Exercise CSB-2: Human intestinal ecosystems</h2>
 <p><a href="https://www.nature.com/articles/ncomms5344">Lahti et al. (2014)</a> studied the microbial communities living in the intestines of 1,000 human individuals. They found that bacterial strains tend to be either absent or abundant, and posit that this would reflect bistability in these bacterial assemblages.</p>
-<p>The data used in this study are contained in the directory <code>good_code/data/Lahti2014</code>. The directory contains:</p>
+<p>The data used in this study are contained in the directory <code>CSB/good_code/data/Lahti2014</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The directory contains:</p>
 <ul>
 <li><p>The file <code>HITChip.tab</code> containing estimates of microbial abundance for each sample, as obtained by HITChip signal.</p></li>
 <li><p>The file <code>Metadata.tab</code>, providing metadata about each of the 1,006 human records.</p></li>
@@ -2843,6 +2843,13 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 </details>
 <p><br></p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>If necessary, download the CSB repository again using <code>git clone https://github.com/CSB-book/CSB.git</code><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>If necessary, download the CSB repository again using <code>git clone https://github.com/CSB-book/CSB.git</code><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
