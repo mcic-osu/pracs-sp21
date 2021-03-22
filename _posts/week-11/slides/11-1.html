@@ -42,7 +42,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/23 (updated: 2021-03-21)
+### 2021/03/23 (updated: 2021-03-22)
 
 ---
 
@@ -157,7 +157,7 @@ that **all elements in an array have to be of the same type.**
 
 ## Some attributes of NumPy arrays
 
-- Get the length (number of elements) along each dimension with `shape`:
+- Get the length (number of elements) along each axis with `shape`:
 
   ```python
   a.shape   # This is an attribute, not a method - no parentheses!
@@ -169,7 +169,7 @@ that **all elements in an array have to be of the same type.**
   
 --
 
-- Get the number of dimensions with `ndim`:
+- Get the number of dimensions (axes) with `ndim`:
 
   ```python
   a.ndim
@@ -401,8 +401,7 @@ Indexing with logical tests, which is sometimes called **masking**,
 can also be done on NumPy arrays thanks to vectorization.
 
 - For example, `a &gt; 5` will result in an array which has `True` or `False`
-  for each element in the original array,
-  depending on whether that number is greater than 5: 
+  for each element in the original array:
 
   ```python
   a &gt; 5
@@ -415,6 +414,17 @@ can also be done on NumPy arrays thanks to vectorization.
   ```python
   a[a &gt; 5]
   #&gt; array([6, 7, 8])
+  ```
+
+--
+
+- Masking works the same for multidimensional arrays,
+  and we can also use assignments.
+  Consider the following code which will convert all values in an array that
+  are larger than the mean value, to the mean value:
+  
+  ```python
+  a[a &gt; a.mean()] = a.mean()
   ```
 
 ---
@@ -494,28 +504,18 @@ can also be done on NumPy arrays thanks to vectorization.
 
 ---
 
-## Load data into NumPy
+## Reading and writing data with NumPy
 
 So far, we have mostly read data from files by creating *file handles* and then
 reading data line-by-line, which is fast and saves memory.
 
 However, with NumPy, we typically operate on multi-line arrays at once,
 and therefore usually **read files into memory all at once**,
-saving them as a single array object.&lt;sup&gt;[1]&lt;/sup&gt;
+saving them as a single array object.
 
-.footnote[&lt;sup&gt;[1]&lt;/sup&gt;And we'll see the same behavior for Pandas later,
-with its `DataFrame` data structure.]
-
-&lt;br&gt;
-
---
-
-For instance, we could use NumPy's `loadtxt()` function as follows to
-read a CSV file:
-
-```python
-m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
-```
+While NumPy does have its own functions to read and write data,
+such as `np.loadtxt()` /  `np.savetxt()`
+it is more common to use those of Pandas, the library we will learn about next.
 
 ---
 
@@ -563,8 +563,9 @@ m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
 
 ## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; NumPy exercise
 
-I have included the CSB section on image analysis as a "tutorial exercise" in
-this week's exercises.
+I have included the CSB section on image analysis with NumPy,
+which looks at an image showing gene expression in *Drosophila* brains, 
+as a "tutorial exercise" in this week's exercises.
 
 ---
 class: center middle inverse
