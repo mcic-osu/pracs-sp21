@@ -317,9 +317,12 @@ and posit that this would reflect bistability in these bacterial assemblages.
 
 The data used in this study are contained in the directory
 `good_code/data/Lahti2014`. The directory contains:
+
 - The file `HITChip.tab` containing estimates of microbial abundance for each
   sample, as obtained by HITChip signal.
+
 - The file `Metadata.tab`, providing metadata about each of the 1,006 human records.
+
 - `README`, a description of the data by the study's authors.
 
 1.  Write a function that takes as input a dictionary of constraints
