@@ -20,12 +20,15 @@ Michael Ruggiero of the
 has led the World Bee Checklist project,
 aiming to collect taxonomic information on all the bee species in the world.
 
-In the file `regex/data/bee_list.txt`,
-you can find a list of about 20,000 species,
+In the file `CSB/regex/data/bee_list.txt`[^1],
+you can find a list of about 20,000 species (!),
 along with their `TSN` (the identifier in the ITIS database),
 and a column detailing the authors and year of
 publication of documents describing the species.
 
+[^1]: If necessary, download the CSB repository again using
+      `git clone https://github.com/CSB-book/CSB.git`
+    
 1. What is the name of the author with the most entries in the database?
    To find out, you'll need to parse the citations in the file.
    
@@ -45,11 +48,61 @@ publication of documents describing the species.
    <details>
    <summary>Hints</summary>
    
-   Pseudocode:
+   - The difficult part of the exercise is to write a regular expression capable
+     of capturing a wide variety of styles used to store the authors' names:
+     there may or may not be a parenthesis at the beginning/end of the string;
+     the initials for the authors may or may not be reported,
+     author names can be split using commas or ampersands;
+     some names are hyphenated.
+   
+     Alternatively, it is also possible to match the author names quite generically
+     (non-specifically), and instead make use of the fact that author names are
+     consistently followed by a comma and a 4-digit year.
+
+   - In your regular expression, capture the author name(s) and the year as
+     separate *groups* (with `()`).
+     Then, you can retrieve the author names and year from your match using
+     the `group()` method. 
+   
+     Start by testing your regular expression on one or a few citation strings.
+     
+   - To make sure you've captured all authors,
+     check that the number of names matches the number of records.
+   
+   - Because we want to count publications for individual authors and not for
+     combinations of authors, you will need to write **a second regular expression
+     that splits the list of authors using commas *or* `&`.**
+     Also be sure to include any necessary spaces in the splitting pattern!
+    
+   - Next, you want to create a dictionary and count the number of occurrences
+     of each author.
+   
+   - To get the author with the most occurrences, the CSB solution finds the
+     maximum value with `max_value_author = max(dict_authors.values())`,
+     then turns the dictionary values into a list and gets the index for the maximum value,
+     and finally turns the dictionary keys into a list and extracts the key
+     associated with the maximum value.
+     
+     However, in last week's exercises, we saw that we can use the `sorted()`
+     function to do this a little more easily: get a sorted list of keys
+     using `sorted(author_dict, key=author_dict.get, reverse=True)` and then
+     print the first value in this sorted list.
+     (Note that in the sorted function, the `key` argument expects a *function*
+     to be applied: `author_dict.get` gets the values, and then `sorted()` will
+     sort the keys by those values.)
+     
+   - Pseudocode:
    
    ```
-   ...
+   open the file
+      extract species name
+      extract author/date string
+      use re.match to extract i) author list, ii) date
+      now go through each author list, and split the authors
+      create a dictionary for authors to count the number of occurences for each author 
+      get the author with the highest number of occurences   
    ```
+   
    </details>
    
   
@@ -58,55 +111,106 @@ publication of documents describing the species.
    <details>
    <summary>Hints</summary>
    
-   Pseudocode:
+   You should be able to extract the year for each publication with `group()`
+   just like you did above for the authors, provided you created a group with `()`
+   that captures the year in your regular expression.
    
-   ```
-   ...
-   ```
+   Then, you should build a dictionary with counts for each year,
+   just like you did for authors above -- though here, you don't need to
+   preprocess the regular expression match since there is only year in each citation.
+   
+   The last step is also very similar to what you did above:
+   you'll need to extract the year with the highest number of occurrences
+   from your dictionary.
+   
    </details>
+
+<details>
+<summary>Solutions for both steps</summary>
+
+See the [CSB notebook with the
+solutions](https://github.com/CSB-book/CSB/blob/master/regex/solutions/BeeChecklist_solution.ipynb).
+
+</details>
 
 <br>
 
-## Exercise CSB-2 (5.9.2): A map of science
+## Bonus -- Exercise CSB-2 (5.9.2): A map of science
 
 Where does science come from?
 This question has fascinated researchers for decades,
 and has even led to the birth of the field of the “science of science,”
 where researchers use the same tools they invented to investigate nature to gain
 insights into the development of science itself.
-In this exercise, you will build a “map of Science,” showing where articles published in Science magazine have originated.
+In this exercise, you will build a “map of Science,”
+showing where articles published in the magazine Science have originated.
 
-You will find two files in the directory `regex/data/MapOfScience`.
+You will find two files in the directory `CSB/regex/data/MapOfScience`[^1].
 The first, `pubmed_results.txt`, is the output of a query to PubMed,
 listing all the papers published in Science in 2015.
 You will extract the US ZIP codes from this file, and then use the file
 `zipcodes_coordinates.txt` to extract the geographic coordinates for each
 ZIP code.
 
-1. Read the file `pubmed_results.txt`, and extract all the US ZIP codes.
+1. Read the file `pubmed_results.txt`, and extract all the US ZIP codes
+   (5-digit numbers).
 
    <details>
    <summary>Hints</summary>
    
-   Pseudocode:
+   - While you may be able to match only ZIP codes by creating a pattern that
+     just matches 5 digits, it will be safer to match them using a more extensive
+     pattern: *two-letter state code => space => 5 digits => comma and space =>
+     USA*.
+     
+   - To be able to match the pattern above, you need to account for the fact
+     that the pattern may be split across two lines.
+     Therefore, it's best to **read the entire file into a single string**
+     using the `read()` function (`<my_file_handle>.read()`),
+     and then **replacing newlines (`\n`) followed by six spaces by a single space**
+     using the `re.sub()` function.
+     
+   - Next, you will need a `re` function that returns all matches and not just a single
+     match, since the entire file is now a single string.
+     Recall that `re.findall()` will simply return a list of matches and not
+     a match object.
+     
+     Note also that with `re.findall()`, if you use parentheses to group a match
+     (i.e. the 5 digits of the ZIP code),
+     it will return the group(s) only, which is exactly what you want!
    
-   ```
-   ...
-   ```
+   - Pseudocode:
+   
+     ```
+     open the file and read all of the text using f.read()
+     my_text = re.sub(your regex here, ' ', my_text)
+     use re.findall to extract all ZIP codes
+     zipcodes = re.findall(another regex here, my_text)
+     ```
+   
    </details>
    
-2. Create the lists `zip_code`, `zip_long`, `zip_lat`, and `zip_count` ,
+2. Create the lists `zip_code`, `zip_long`, `zip_lat`, and `zip_count`,
    containing the unique ZIP codes, their longitudes, latitudes,
    and counts (number of occurrences in Science), respectively.
 
    <details>
    <summary>Hints</summary>
    
-   Pseudocode:
+   - You need to first save and count the number of unique ZIP codes,
+     and then extract the corresponding longitude and latitude from the file
+     for each ZIP code from the file `zipcodes_coordinates.txt`.
+   
+   - Pseudocode:
    
    ```
-   ...
+   # list of distinct zipcodes
+   unique_zipcodes = list(set(zipcodes))
+   for each zipcode:
+       extract number of occurrences
+       extract latitude and longitude from zipcodes_coordinates.txt
    ```
+   
    </details>
 
 3. To visualize the data you've generated, use the code below.
@@ -147,5 +251,13 @@ ZIP code.
    ```
    
    </details>
+
+<details>
+<summary>Solutions for all steps</summary>
+
+See the [CSB notebook with the
+solutions](https://github.com/CSB-book/CSB/blob/master/regex/solutions/MapOfScience_solution.ipynb).
+
+</details>
 
 <br>
