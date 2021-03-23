@@ -85,27 +85,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Exercises: Week 10</title>
+  <title>pracs-sp21: Exercises for week 10: Writing good code</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Exercises: Week 10"/>
+  <meta property="og:title" content="pracs-sp21: Exercises for week 10: Writing good code"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Exercises: Week 10"/>
+  <meta property="twitter:title" content="pracs-sp21: Exercises for week 10: Writing good code"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Exercises: Week 10"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Exercises for week 10: Writing good code"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2451,7 +2451,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Exercises: Week 10","authors":[]}
+{"title":"Exercises for week 10: Writing good code","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2553,7 +2553,7 @@ Go further
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Exercises: Week 10</h1>
+<h1>Exercises for week 10: Writing good code</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2568,7 +2568,6 @@ Go further
 <li><a href="#exercise-1-more-lists">Exercise 1: More lists</a></li>
 <li><a href="#exercise-csb-1-assortative-mating">Exercise CSB-1: Assortative mating</a></li>
 <li><a href="#bonus-exercise-csb-2-human-intestinal-ecosystems">Bonus: Exercise CSB-2: Human intestinal ecosystems</a></li>
-<li><a href="#csb-solutions">CSB Solutions</a></li>
 </ul>
 </nav>
 </div>
@@ -2681,7 +2680,7 @@ Remember how we can turn a list into a string with <code>join()</code>? If you s
 First, turn the list into a string using <code>"".join</code>. Then, call <code>set()</code> on the string to get a list of unique items (= characters).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="bu">set</span>(<span class="st">&quot;&quot;</span>.join(diseases))</span></code></pre></div>
-<pre><code>{&#39;h&#39;, &#39;t&#39;, &#39;a&#39;, &#39;n&#39;, &#39;g&#39;, &#39;m&#39;, &#39;f&#39;, &#39;w&#39;, &#39;c&#39;, &#39;e&#39;, &#39;s&#39;, &#39;l&#39;, &#39;_&#39;, &#39;k&#39;, &#39;o&#39;, &#39;u&#39;, &#39;p&#39;, &#39;r&#39;, &#39;i&#39;, &#39;b&#39;}</code></pre>
+<pre><code>{&#39;i&#39;, &#39;l&#39;, &#39;e&#39;, &#39;w&#39;, &#39;b&#39;, &#39;o&#39;, &#39;n&#39;, &#39;f&#39;, &#39;a&#39;, &#39;m&#39;, &#39;g&#39;, &#39;s&#39;, &#39;c&#39;, &#39;k&#39;, &#39;r&#39;, &#39;t&#39;, &#39;_&#39;, &#39;u&#39;, &#39;p&#39;, &#39;h&#39;}</code></pre>
 </div>
 </details></li>
 </ol>
@@ -2689,7 +2688,7 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 <h2 id="exercise-csb-1-assortative-mating">Exercise CSB-1: Assortative mating</h2>
 <p><a href="https://www.journals.uchicago.edu/doi/10.1086/670160">Jiang et al. (2013)</a> studied assortative mating in animals. They compiled a large database, reporting the results of many experiments on mating. In particular, for several taxa they provide the value of correlation among the sizes of the mates. A positive value of <code>r</code> stands for assortative mating (large animals tend to mate with large animals), and a negative value for disassortative mating.</p>
 <ol type="1">
-<li><p>You can find the data in <code>good_code/data/Jiang2013_data.csv</code>. Write a function that takes as input the desired Taxon and returns the mean value of <code>r</code>. Then, apply that function to all taxa in the file.</p>
+<li><p>You can find the data in <code>CSB/good_code/data/Jiang2013_data.csv</code><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Write a function that takes as input the desired Taxon and returns the mean value of <code>r</code>. Then, apply that function to all taxa in the file.</p>
 <details>
 <p><summary>Hints</summary></p>
 <ul>
@@ -2719,8 +2718,8 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 <details>
 <p><summary>Hints</summary></p>
 <ul>
-<li><p>Part 3 of the exercise will be to repeat this procedure, so it will be a good idea to create a function here.</p>
-<p>Your function should take as input the target taxon name, the lists of taxa and of <code>r</code>-values that you created earlier, and the number of repetitions (randomizations).</p></li>
+<li><p>In part 3 of this exercise, you will repeat this procedure for other taxa, so it will be a good idea to create a <em>function</em> here.</p>
+<p>Your function should take as input the target taxon name, the lists with taxa and <code>r</code>-values that you created in the first step, and the number of repetitions (randomizations).</p></li>
 </ul>
 <p>In the function:</p>
 <ul>
@@ -2732,15 +2731,15 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 <li><p>The p-value will simply be the proportion (~= probability) of times you got a higher mean value of <code>r</code> among randomized sets of 37.</p></li>
 </ul>
 <p>Pseudocode:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">def</span> compute_pvalue(taxa, r_values, target_taxon <span class="op">=</span> <span class="st">&quot;Fish&quot;</span>, num_rep <span class="op">=</span> <span class="dv">1000</span>):</span>
-<span id="cb19-2"><a href="#cb19-2"></a>    observed_r <span class="op">=</span> compute the mean <span class="cf">for</span> the observed average r value</span>
-<span id="cb19-3"><a href="#cb19-3"></a>    count_random_is_higher <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_rep):</span>
-<span id="cb19-5"><a href="#cb19-5"></a>        shuffle the r values</span>
-<span id="cb19-6"><a href="#cb19-6"></a>        random_r <span class="op">=</span> compute the mean using the shuffled values</span>
-<span id="cb19-7"><a href="#cb19-7"></a>        <span class="cf">if</span> random_r <span class="op">&gt;=</span> observed_r:</span>
-<span id="cb19-8"><a href="#cb19-8"></a>           increment count_random_is_higher</span>
-<span id="cb19-9"><a href="#cb19-9"></a>    now divide count_random_is_higher by num_rep (<span class="op">=</span> the p<span class="op">-</span>value) <span class="kw">and</span> <span class="cf">return</span></span></code></pre></div>
+<pre><code>def compute_pvalue(taxa, r_values, target_taxon = &quot;Fish&quot;, num_rep = 1000):
+    observed_r = compute the mean for the observed average r value
+    count_random_is_higher = 0.0
+    for i in range(num_rep):
+        shuffle the r values
+        random_r = compute the mean using the shuffled values
+        if random_r &gt;= observed_r:
+           increment count_random_is_higher
+    now divide count_random_is_higher by num_rep (= the p-value) and return</code></pre>
 </details></li>
 <li><p>Repeat the procedure for all taxa.</p>
 <details>
@@ -2748,10 +2747,19 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 <p>Loop over all taxa, and call the function you created in the previous part of the exercise in every iteration.</p>
 </details></li>
 </ol>
+<details>
+<p><summary>Solutions for all steps</summary></p>
+<p>See <a href="https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_solution.ipynb">this Jupyter Notebook</a> by the authors of the CSB book.</p>
+</details>
 <p><br></p>
 <h2 id="bonus-exercise-csb-2-human-intestinal-ecosystems">Bonus: Exercise CSB-2: Human intestinal ecosystems</h2>
 <p><a href="https://www.nature.com/articles/ncomms5344">Lahti et al. (2014)</a> studied the microbial communities living in the intestines of 1,000 human individuals. They found that bacterial strains tend to be either absent or abundant, and posit that this would reflect bistability in these bacterial assemblages.</p>
-<p>The data used in this study are contained in the directory <code>good_code/data/Lahti2014</code>. The directory contains: - The file <code>HITChip.tab</code> containing estimates of microbial abundance for each sample, as obtained by HITChip signal. - The file <code>Metadata.tab</code>, providing metadata about each of the 1,006 human records. - <code>README</code>, a description of the data by the study’s authors.</p>
+<p>The data used in this study are contained in the directory <code>CSB/good_code/data/Lahti2014</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The directory contains:</p>
+<ul>
+<li><p>The file <code>HITChip.tab</code> containing estimates of microbial abundance for each sample, as obtained by HITChip signal.</p></li>
+<li><p>The file <code>Metadata.tab</code>, providing metadata about each of the 1,006 human records.</p></li>
+<li><p><code>README</code>, a description of the data by the study’s authors.</p></li>
+</ul>
 <ol type="1">
 <li><p>Write a function that takes as input a dictionary of constraints (i.e., selecting a specific group of records) and returns a dictionary tabulating the values for the column <code>BMI_group</code> for all records matching the constraints.</p>
 <p>For example, calling:</p>
@@ -2761,23 +2769,23 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 <details>
 <p><summary>Hints</summary></p>
 <ul>
-<li><p>Several strategies are again possible, but the solution here will have all code in the function, including reading in the file.</p></li>
+<li><p>Several strategies are again possible, but the CSB solution linked to below creates a single function will all code, including reading in the file.</p></li>
 <li><p>Once again, <code>DictReader()</code> from the <code>csv</code> module is a useful way to read in the data.</p></li>
 <li><p>Loop over the lines (rows) and for each row, you’ll want to check whether all conditions are satisfied.</p></li>
 <li><p>Your output dictionary will basically be a count table of the values found for the <code>BMI_group</code>, column, so for each matching row, add 1 to the value for the key that represents the group (<code>lean</code>, etc).</p></li>
 </ul>
 <p>Pseudocode:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">def</span> get_BMI_count(dict_constr):</span>
-<span id="cb22-2"><a href="#cb22-2"></a>    <span class="bu">open</span> the <span class="bu">file</span> <span class="kw">and</span> <span class="bu">set</span> up the csv reader</span>
-<span id="cb22-3"><a href="#cb22-3"></a>   <span class="cf">for</span> each row:</span>
-<span id="cb22-4"><a href="#cb22-4"></a>        add_to_count <span class="op">=</span> <span class="va">True</span></span>
-<span id="cb22-5"><a href="#cb22-5"></a>        <span class="cf">for</span> each constrain <span class="kw">in</span> dict_constr:</span>
-<span id="cb22-6"><a href="#cb22-6"></a>              <span class="cf">if</span> constraint <span class="kw">is</span> <span class="kw">not</span> met:</span>
-<span id="cb22-7"><a href="#cb22-7"></a>                  add_to_count <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb22-8"><a href="#cb22-8"></a>        <span class="cf">if</span> add_to_count:</span>
-<span id="cb22-9"><a href="#cb22-9"></a>              <span class="bu">all</span> the constraints are respected</span>
-<span id="cb22-10"><a href="#cb22-10"></a>              add to the tally</span>
-<span id="cb22-11"><a href="#cb22-11"></a>   <span class="cf">return</span> the result</span></code></pre></div>
+<pre><code>def get_BMI_count(dict_constr):
+    open the file and set up the csv reader
+   for each row:
+        add_to_count = True
+        for each constrain in dict_constr:
+              if constraint is not met:
+                  add_to_count = False
+        if add_to_count:
+              all the constraints are respected
+              add to the tally
+   return the result</code></pre>
 </details></li>
 <li><p>Write a function that takes as input the constraints (as above) and a bacterial “genus.” The function returns the average abundance (in logarithm base 10) of the genus for each BMI group in the subpopulation.</p>
 <p>For example, calling:</p>
@@ -2812,15 +2820,16 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 <li><p>Open the file <code>Metadata.tab</code>, and extract the <code>SampleID</code> corresponding to the constraints specified by the user (you can use a list to keep track of all IDs).</p></li>
 <li><p>Open the file <code>HITChip.tab</code> to extract the abundances matching the genus specified by the user (and for the ID stored in step 1).</p></li>
 </ol>
-<p>You can use the <code>log10</code> function from the <code>scipy</code> module to calculate the log value (though you may get a deprecation warning; this is now supposed to be called from the <code>numpy</code> module, but we haven’t installed that yet.)</p>
+<p>To calculate the log value, you can use the <code>log10</code> function from the <code>scipy</code> module (though you may get a deprecation warning; this is now supposed to be called from the <code>numpy</code> module, but we haven’t installed that yet.)</p>
 <p>Pseudocode:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">def</span> get_abundance_by_BMI(dict_constraints, genus <span class="op">=</span> <span class="st">&#39;Aerococcus&#39;</span>):</span>
-<span id="cb25-2"><a href="#cb25-2"></a>    <span class="bu">open</span> the <span class="bu">file</span> Metadata.tab extract matching IDs using the same </span>
-<span id="cb25-3"><a href="#cb25-3"></a>    approach <span class="im">as</span> <span class="kw">in</span> exercise <span class="dv">1</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>    these IDs are stored <span class="kw">in</span> BMI_IDs</span>
-<span id="cb25-5"><a href="#cb25-5"></a></span>
-<span id="cb25-6"><a href="#cb25-6"></a>    Now <span class="bu">open</span> HITChip.tab, <span class="kw">and</span> keep track of the abundance of the genus <span class="cf">for</span> each BMI group</span>
-<span id="cb25-7"><a href="#cb25-7"></a>    Calculate means, <span class="kw">and</span> <span class="bu">print</span> results</span></code></pre></div>
+<pre><code>def get_abundance_by_BMI(dict_constraints, genus = &#39;Aerococcus&#39;):
+    open the file Metadata.tab extract matching IDs using the same 
+    approach as in exercise 1
+    these IDs are stored in BMI_IDs
+
+    Now open HITChip.tab, and keep track of the abundance
+    of the genus for each BMI group
+    Calculate means, and print results</code></pre>
 </details></li>
 <li><p>Repeat this analysis for all genera, and for the records having <code>Time = 0</code>.</p>
 <details>
@@ -2829,13 +2838,19 @@ First, turn the list into a string using <code>"".join</code>. Then, call <code>
 <p>Then, you can call the function <code>get_abundance_by_BMI({'Time': '0'}, g)</code>, where g is the genus; cycle through all genera.</p>
 </details></li>
 </ol>
+<details>
+<p><summary>Solutions for all steps</summary></p>
+<p>See <a href="https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_solution_detailed.ipynb">this Jupyter Notebook</a> by the authors of the CSB book.</p>
+</details>
 <p><br></p>
-<h2 id="csb-solutions">CSB Solutions</h2>
-<ul>
-<li><p><a href="https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_solution.ipynb">Solutions for exercise CSB-1</a>.</p></li>
-<li><p><a href="https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_solution_detailed.ipynb">Solutions for exercise CSB-2</a>.</p></li>
-</ul>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>If necessary, download the CSB repository again using <code>git clone https://github.com/CSB-book/CSB.git</code><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>If necessary, download the CSB repository again using <code>git clone https://github.com/CSB-book/CSB.git</code><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

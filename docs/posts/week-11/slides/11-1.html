@@ -42,7 +42,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/23 (updated: 2021-03-21)
+### 2021/03/23 (updated: 2021-03-22)
 
 ---
 
@@ -53,15 +53,6 @@ class:inverse middle center
 - **Pandas** (CSB 6.3) &amp;ndash; Tuesday/Thursday
 
 - **BioPython** (CSB 6.4) &amp;ndash; Thursday
-
----
-class: center middle inverse
-
-# NumPy (CSB 6.2)
-
------
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
 
@@ -76,8 +67,7 @@ NumPy is the basic Python package for scientific computing.
 
 - These NumPy arrays allow for **vectorized computation**.
 
-- Some other functionality includes the ability to **generate random numbers**,
-  for which we have already used NumPy a bit last week.
+- Some other functionality includes **generating random numbers**.
 
 --
 
@@ -157,7 +147,7 @@ that **all elements in an array have to be of the same type.**
 
 ## Some attributes of NumPy arrays
 
-- Get the length (number of elements) along each dimension with `shape`:
+- Get the number of elements along each dimension (axis) with `shape`:
 
   ```python
   a.shape   # This is an attribute, not a method - no parentheses!
@@ -176,7 +166,7 @@ that **all elements in an array have to be of the same type.**
   #&gt; 1
   ```
 
-- Get the number of elements with `size`:
+- Get the total number of elements with `size`:
   
   ```python
   a.size
@@ -194,7 +184,7 @@ a.dtype
 #&gt; dtype('int64')        # 64-bit integers
 ```
 
-Because all elements in the array have to be of the same type,
+Because all elements in the array have to be of the same type,  
 the type information is stored at the array-level and not at the element-level.
 
 &lt;br&gt;
@@ -203,9 +193,7 @@ the type information is stored at the array-level and not at the element-level.
 **Bits in data types**  
 Above, the data type was reported to be **`int64`** rather than just `int`.
 NumPy has separate data types for numbers stored with different numbers of bits,
-so there is `int8`, `int16`, `int32`, `int64`,
-and even the same sequence for "unsigned integers", integers that are positive
-only (e.g. `uint64`).
+so there is `int8`, `int16`, `int32`, and `int64`, and others!
 
 *For the most part, you don't have to pay attention to this* &amp;ndash;  
 and when assigning data types, you can just use `int` or `float` without
@@ -278,37 +266,6 @@ specifying bits.
 
 ---
 
-## Creating arrays &amp;ndash; by converting lists (cont.)
-
-**"List of lists" will be automatically converted to two-dimensional arrays.**
-
-- Integers into a 2 x 2 array:
-
-  ```python
-  m = np.array([[1, 2], [3, 4]])
-  m
-  #&gt; array([[1, 2],
-  #&gt;       [3, 4]])
-  ```
-  
-&lt;br&gt;
-
---
-
-- Floats - in this case, we explicitly specify the data type:  
-  
-  ```python
-  m = np.array([[1, 2], [3, 4]], dtype = float)
-  
-  print(m)
-  #&gt; [[ 1. 2.]
-  #&gt; [ 3. 4.]]
-  m.dtype.name
-  #&gt; 'float64'
-  ```
-
----
-
 ## Initialize arrays with a given structure
 
 - `np.zeros()` will create an array with 0s.
@@ -322,21 +279,6 @@ specifying bits.
   #&gt; array([[ 0., 0.],
   #&gt;        [ 0., 0.],
   #&gt;        [ 0., 0.]])
-  ```
-
---
-
-- We can also "reshape" an existing array using **`reshape()`** &amp;ndash;  
-  let's create a 1-dimensional array containing the integers from 0 to 8,  
-  and then re-arrange it to a 3x3 array:
-  
-  ```python
-  a = np.arange(9)
-  
-  a.reshape((3, 3))
-  #&gt; array([[0, 1, 2],
-  #&gt;       [3, 4, 5],
-  #&gt;       [6, 7, 8]])
   ```
 
 ---
@@ -401,27 +343,38 @@ Indexing with logical tests, which is sometimes called **masking**,
 can also be done on NumPy arrays thanks to vectorization.
 
 - For example, `a &gt; 5` will result in an array which has `True` or `False`
-  for each element in the original array,
-  depending on whether that number is greater than 5: 
+  for each element in the original array:
 
   ```python
   a &gt; 5
   #&gt; array([False, False, False, False, False, False,  True,  True,  True])
   ```
 
-- Conveniently, we can directly mask, i.e. select elements from,
-  the original array with this Boolean array:
+- **We can directly select elements from the original array with this Boolean
+  array** (and this would also work for multidimensional arrays!):
 
   ```python
   a[a &gt; 5]
   #&gt; array([6, 7, 8])
   ```
 
+--
+
+- We can also apply assignments to mask selections:
+  
+  ```python
+  a[a &gt; a.mean()] = a.mean()
+  ```
+
+--
+
+  The above converts all values larger than the mean to the mean!
+  
 ---
 
 ## Two-dimensional indexing and slicing
 
-- Let's first create another two-dimensional array:
+- Let's first create another two-dimensional array using `reshape()`:
   
   ```python
   m = np.arange(12).reshape((3, 4))
@@ -430,6 +383,8 @@ can also be done on NumPy arrays thanks to vectorization.
   #&gt;        [ 4, 5, 6, 7],
   #&gt;        [ 8, 9, 10, 11]])
   ```
+
+--
 
 - With multiple dimensions, we can separate slices for each dimension using
   commas &amp;ndash; e.g., extract a submatrix with rows 1-2 and columns 2-4:
@@ -494,28 +449,18 @@ can also be done on NumPy arrays thanks to vectorization.
 
 ---
 
-## Load data into NumPy
+## Reading and writing data with NumPy
 
 So far, we have mostly read data from files by creating *file handles* and then
 reading data line-by-line, which is fast and saves memory.
 
 However, with NumPy, we typically operate on multi-line arrays at once,
 and therefore usually **read files into memory all at once**,
-saving them as a single array object.&lt;sup&gt;[1]&lt;/sup&gt;
+saving them as a single array object.
 
-.footnote[&lt;sup&gt;[1]&lt;/sup&gt;And we'll see the same behavior for Pandas later,
-with its `DataFrame` data structure.]
-
-&lt;br&gt;
-
---
-
-For instance, we could use NumPy's `loadtxt()` function as follows to
-read a CSV file:
-
-```python
-m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
-```
+While NumPy does have its own functions to read and write data,
+such as `np.loadtxt()` /  `np.savetxt()`
+it is more common to use those of Pandas, the library we will learn about next.
 
 ---
 
@@ -535,26 +480,34 @@ m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
 
 ## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Your turn: solutions
 
-1. Create an array called `fives` with the elements 5, 10, 15, etc up to 45:
+1\. Create an array called `fives` with the elements 5, 10, 15, etc up to 45:
    
-   ```python
-   fives = np.arange(0, 50, 5)
-   ```
+```python
+fives = np.arange(0, 50, 5)
+```
 
-2. Select the fourth, eight and ninth elements from `fives`:
+2\. Select the fourth, eight and ninth elements from `fives`:
+
+--
 
    ```python
    fives[[3, 7, 8]]
    #&gt; array([15, 35, 40])
    ```
 
-3. Index/mask `fives` to only select values larger than 15.  
+3\. Index/mask `fives` to only select values larger than 15.  
    Bonus: Instead, only extract values larger than 15 and smaller than 40.
+
+--
 
    ```python
    fives[fives &gt; 15]
    #&gt; array([20, 25, 30, 35, 40, 45])
-   
+   ```
+
+--
+
+   ```python
    fives[(fives &gt; 15) &amp; (fives &lt; 40)]
    #&gt; array([20, 25, 30, 35])
    ```
@@ -563,8 +516,9 @@ m = np.loadtxt("my_matrix_file.csv", delimiter = ",")
 
 ## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; NumPy exercise
 
-I have included the CSB section on image analysis as a "tutorial exercise" in
-this week's exercises.
+I have included the CSB section on image analysis with NumPy,
+which looks at an image showing gene expression in *Drosophila* brains, 
+as a "tutorial exercise" in this week's exercises.
 
 ---
 class: center middle inverse
@@ -749,6 +703,56 @@ background-color: #f2f5eb
 ---
 background-color: #f2f5eb
 
+## Creating arrays &amp;ndash; by converting lists
+
+**"List of lists" will be automatically converted to two-dimensional arrays.**
+
+- Integers into a 2 x 2 array:
+
+  ```python
+  m = np.array([[1, 2], [3, 4]])
+  m
+  #&gt; array([[1, 2],
+  #&gt;       [3, 4]])
+  ```
+  
+&lt;br&gt;
+
+--
+
+- Floats - in this case, we explicitly specify the data type:  
+  
+  ```python
+  m = np.array([[1, 2], [3, 4]], dtype = float)
+  
+  print(m)
+  #&gt; [[ 1. 2.]
+  #&gt; [ 3. 4.]]
+  m.dtype.name
+  #&gt; 'float64'
+  ```
+
+---
+background-color: #f2f5eb
+
+## Reshaping arrays 
+
+- We can also "reshape" an existing array using **`reshape()`** &amp;ndash;  
+  let's create a 1-dimensional array containing the integers from 0 to 8,  
+  and then re-arrange it to a 3x3 array:
+  
+  ```python
+  a = np.arange(9)
+  
+  a.reshape((3, 3))
+  #&gt; array([[0, 1, 2],
+  #&gt;       [3, 4, 5],
+  #&gt;       [6, 7, 8]])
+  ```
+
+---
+background-color: #f2f5eb
+
 ## Initialize another array with a given structure
 
 - As we saw last week, NumPy can generate random numbers with the `np.random`
@@ -764,6 +768,7 @@ background-color: #f2f5eb
   ```
   
   Note that with the tuple `(2, 3)`, we merely specify the dimensions.
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

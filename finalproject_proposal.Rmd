@@ -26,6 +26,6 @@ Some pointers:
 
 -   Check the list of graded aspects on the [page with general information about the project](final_project.html). If you are not sure you will be able to fulfill one of these, or intend to skip something (e.g. OSC SLURM jobs), mention that here.
 
--   Briefly mention which aspects of your project you are uncertain about, for instance because you intend to include some topics that we have yet to cover in the course, or because something will depend on how other things go. <span style="color:coral"><i>[1]</i></span>
+-   Briefly mention which aspects of your project you are uncertain about, for instance because you intend to include some topics that we have yet to cover in the course, or because something will depend on how other things go. <span style="color:coral"><i>[2]</i></span>
 
--   Finally, briefly describe why you chose to pick this project. Because it will be useful for your research? Because it gives you practice with coding topics you like or that you want to / need to get better with? All of the above and/or something else? <span style="color:coral"><i>[1]</i></span>
+-   Finally, briefly describe why you chose to pick this project. Because it will be useful for your research? Because it gives you practice with coding topics you like or that you want to / need to get better with? All of the above and/or something else? <span style="color:coral"><i>[2]</i></span>

@@ -1,5 +1,5 @@
 ---
-title: "Exercises: Week 10"
+title: "Exercises for week 10: Writing good code"
 output:
   distill::distill_article:
     self_contained: false
@@ -188,7 +188,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 
 [Jiang et al. (2013)](https://www.journals.uchicago.edu/doi/10.1086/670160) studied assortative mating in animals. They compiled a large database, reporting the results of many experiments on mating. In particular, for several taxa they provide the value of correlation among the sizes of the mates. A positive value of `r` stands for assortative mating (large animals tend to mate with large animals), and a negative value for disassortative mating.
 
-1. You can find the data in `good_code/data/Jiang2013_data.csv`.
+1. You can find the data in `CSB/good_code/data/Jiang2013_data.csv`[^1].
    Write a function that takes as input the desired Taxon and returns the mean value of `r`.
    Then, apply that function to all taxa in the file.
     
@@ -246,11 +246,11 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
    <details> 
    <summary>Hints</summary>
    
-   - Part 3 of the exercise will be to repeat this procedure,
-     so it will be a good idea to create a function here.
+   - In part 3 of this exercise, you will repeat this procedure for other taxa,
+     so it will be a good idea to create a *function* here.
      
      Your function should take as input the target taxon name,
-     the lists of taxa and of `r`-values that you created earlier,
+     the lists with taxa and `r`-values that you created in the first step,
      and the number of repetitions (randomizations).
    
    In the function:
@@ -274,7 +274,7 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
    
    Pseudocode:
    
-   ```python
+   ```
    def compute_pvalue(taxa, r_values, target_taxon = "Fish", num_rep = 1000):
        observed_r = compute the mean for the observed average r value
        count_random_is_higher = 0.0
@@ -300,6 +300,12 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
    
    </details>
 
+<details>
+<summary>Solutions for all steps</summary>
+
+See [this Jupyter Notebook](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_solution.ipynb) by the authors of the CSB book.
+
+</details>
 
 <br>
 
@@ -310,10 +316,16 @@ They found that bacterial strains tend to be either absent or abundant,
 and posit that this would reflect bistability in these bacterial assemblages.
 
 The data used in this study are contained in the directory
-`good_code/data/Lahti2014`. The directory contains:
+`CSB/good_code/data/Lahti2014`[^1]. The directory contains:
+
+[^1]: If necessary, download the CSB repository again using
+    `git clone https://github.com/CSB-book/CSB.git`
+    
 - The file `HITChip.tab` containing estimates of microbial abundance for each
   sample, as obtained by HITChip signal.
+
 - The file `Metadata.tab`, providing metadata about each of the 1,006 human records.
+
 - `README`, a description of the data by the study's authors.
 
 1.  Write a function that takes as input a dictionary of constraints
@@ -337,8 +349,8 @@ The data used in this study are contained in the directory
 
     <summary>Hints</summary>
     
-    - Several strategies are again possible, but the solution here will have
-      all code in the function, including reading in the file.
+    - Several strategies are again possible, but the CSB solution linked to
+      below creates a single function will all code, including reading in the file.
       
     - Once again, `DictReader()` from the `csv` module is a useful way to read
       in the data.
@@ -352,7 +364,7 @@ The data used in this study are contained in the directory
       
     Pseudocode:
     
-    ```python
+    ```
     def get_BMI_count(dict_constr):
         open the file and set up the csv reader
        for each row:
@@ -417,19 +429,20 @@ The data used in this study are contained in the directory
     2. Open the file `HITChip.tab` to extract the abundances matching the genus
        specified by the user (and for the ID stored in step 1).
         
-    You can use the `log10` function from the `scipy` module to calculate the
-    log value (though you may get a deprecation warning; this is now supposed
+    To calculate the log value, you can use the `log10` function from the `scipy` module
+    (though you may get a deprecation warning; this is now supposed
     to be called from the `numpy` module, but we haven't installed that yet.)
     
     Pseudocode:
     
-    ```python
+    ```
     def get_abundance_by_BMI(dict_constraints, genus = 'Aerococcus'):
         open the file Metadata.tab extract matching IDs using the same 
         approach as in exercise 1
         these IDs are stored in BMI_IDs
 
-        Now open HITChip.tab, and keep track of the abundance of the genus for each BMI group
+        Now open HITChip.tab, and keep track of the abundance
+        of the genus for each BMI group
         Calculate means, and print results
     ```
     
@@ -449,10 +462,11 @@ The data used in this study are contained in the directory
     
     </details>
 
+<details>
+<summary>Solutions for all steps</summary>
+
+See [this Jupyter Notebook](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_solution_detailed.ipynb) by the authors of the CSB book.
+
+</details>
+
 <br>
-
-## CSB Solutions
-
--   [Solutions for exercise CSB-1](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_solution.ipynb).
-
--   [Solutions for exercise CSB-2](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_solution_detailed.ipynb).
