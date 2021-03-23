@@ -349,8 +349,8 @@ The data used in this study are contained in the directory
 
     <summary>Hints</summary>
     
-    - Several strategies are again possible, but the solution here will have
-      all code in the function, including reading in the file.
+    - Several strategies are again possible, but the CSB solution linked to
+      below creates a single function will all code, including reading in the file.
       
     - Once again, `DictReader()` from the `csv` module is a useful way to read
       in the data.
@@ -429,8 +429,8 @@ The data used in this study are contained in the directory
     2. Open the file `HITChip.tab` to extract the abundances matching the genus
        specified by the user (and for the ID stored in step 1).
         
-    You can use the `log10` function from the `scipy` module to calculate the
-    log value (though you may get a deprecation warning; this is now supposed
+    To calculate the log value, you can use the `log10` function from the `scipy` module
+    (though you may get a deprecation warning; this is now supposed
     to be called from the `numpy` module, but we haven't installed that yet.)
     
     Pseudocode:
@@ -441,7 +441,8 @@ The data used in this study are contained in the directory
         approach as in exercise 1
         these IDs are stored in BMI_IDs
 
-        Now open HITChip.tab, and keep track of the abundance of the genus for each BMI group
+        Now open HITChip.tab, and keep track of the abundance
+        of the genus for each BMI group
         Calculate means, and print results
     ```
     
