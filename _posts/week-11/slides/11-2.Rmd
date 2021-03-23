@@ -38,15 +38,6 @@ xaringanExtra::use_search(show_icon = TRUE)
 ### 2021/03/25 (updated: `r Sys.Date()`)
 
 ---
-class: center middle inverse
-
-# Pandas (CSB 6.3)
-
------
-
-<br> <br> <br> <br>
-
----
 
 ## Pandas
 
@@ -56,6 +47,8 @@ As NumPy has arrays, the signature data structure of Pandas it its
 `DataFrame`.
 **With Pandas' `DataFrame`s, we can analyze tabular data much more
 smoothly in Python.**
+
+--
 
 If you are familiar with R's *tidyverse*,
 Pandas allows for similar types of operations on tabular data:
@@ -109,7 +102,8 @@ data = pd.read_csv("../data/Dale2015_data.csv")
 The argument `sep` can be used to specify the delimiter, e.g. for tab-delimited
 files (`sep = '\t'`), though Pandas can typically auto-detect this too.
 
-There are corresponding functions to read in Excel and JSON files, among others.
+There are corresponding functions to read in **Excel** and **JSON** files,
+among others.
 ]
 
 ---
@@ -172,11 +166,11 @@ Pandas `DataFrame`s can be thought of as
 **a set of *aligned* 1-dimensional NumPy arrays of equal length**,
 with each `DataFrame` column representing an array.
 
-As a consequence, within each column elements are of the same data type,
-but different columns can have different data types, as we have seen above.
+Each column contains elements of the same data type while different columns
+typically have different data types.
 
-(Another way to think of `DataFrame`s is as a special kind of diction-
-ary, with each column as an item, and column names as keys.)
+(You can also think of `DataFrame`s is as a **special kind of dictionary**:
+each column is an item with column names as keys.)
 ]
 
 ---
@@ -228,7 +222,7 @@ data.describe()
 
 ## Exploring DataFrames (cont.)
 
-And `info()` gives another type of overview for all columns:
+And `info()` gives another type of useful overview, for all columns:
 
 ```python
 #> data_raw.info()
@@ -286,13 +280,6 @@ And `info()` gives another type of overview for all columns:
   data["Study"] = 1
   ```
 
-- Or we could add a column of random numbers &ndash;
-  note that we can get the number of rows on the fly using `data.shape[0]`:
-  
-  ```python
-  data["Rnd"] = np.random.random(data.shape[0])
-  ```
-
 ---
 
 ## Manipulating DataFrames: removing columns
@@ -315,7 +302,7 @@ And `info()` gives another type of overview for all columns:
 ## Indexing and slicing DataFrames
 
 - First, note that we can specify columns not just with the syntax
-  `df["colname"]` but also with the shorthand `df.colname`:
+  `df["colname"]` (think dictionary!), but also with the shorthand `df.colname`:
   
   ```python
   data["latin"]
@@ -324,12 +311,11 @@ And `info()` gives another type of overview for all columns:
   ```
   
   When we extract a single column,
-  the resulting 1-dimensional Pandas array is called a `Series`
-  which keeps the rowwise index as you can see.
+  the resulting 1-dimensional Pandas array is called a `Series`.
   
 --
 
-- Next, we can slice the `Series` like we may expect to:
+- Next, we can slice the `Series` like we may expect to for an array/list:
   
   ```python
   data["latin"][:3]                  # First three  
@@ -347,7 +333,8 @@ And `info()` gives another type of overview for all columns:
 
 ## Indexing and slicing DataFrames (cont.)
 
-- But we can't slice the entire `DataFrame` the way we may expect to:
+- But we can't slice the entire `DataFrame` as we may have expected
+  after learning about NumPu:
 
   ```python
   data[0:3, 0:3]
@@ -403,13 +390,13 @@ filter the data based on (a `Series` of) Booleans.
 - For instance, to select the row(s) for a certain species:
 
   ```python
-  data.latin == "Zosterops mouroniensis"
+  data["latin"] == "Zosterops mouroniensis"
   #> 0       False
   #> 1       False
   #> 2       False
   #> ...
   
-  data.loc[data.latin == "Zosterops mouroniensis"]
+  data.loc[data["latin"] == "Zosterops mouroniensis"]
   #         Scientific_name	       English_name	            TipLabel	Female_plumage_score	Male_plumage_score	Sum_scores	Study
   # 5801	Zosterops mouroniensis	Mount Karthala White-eye	Zosterops_mouroniensis	47.916667	47.5	95.416667	1
   ```
@@ -419,7 +406,7 @@ filter the data based on (a `Series` of) Booleans.
 - Or get only the most highly dimorphic species:
 
   ```python
-  data[(data.score_m > 70) & (data.score_f < 40)]
+  data[(data["score_m"] > 70) & (data["score_f"] < 40)]
   #> 	      latin	              english	TipLabel	      score_f	score_m
   #> 875	   Chiroxiphia pareola	Blue-backed Manakin	     Chiroxiphia_pareola	39.305556	71.666667
   #> 1355	  Cyornis hainanus	   Hainan Blue-flycatcher	  Cyornis_hainanus	37.222222	71.250000
@@ -457,38 +444,6 @@ filter the data based on (a `Series` of) Booleans.
 <figcaption>Marsh Widowbird - female (<a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg">Figure source</a>)</figcaption>
 </p>
 </figure>
-
----
-
-## Masking (filtering) DataFrames
-
-- We can even select rows based on only part of the cell content,  
-  using the **`str.contains()`** method:
-
-  ```python
-  data[data.english.str.contains("Bower")]
-  #> [All rows containing "Bower" in the "english" column]
-  
-  data[data.english.str.contains("Bower")]["latin"][:3]
-  #> 188 Amblyornis flavifrons
-  #> 189 Amblyornis inornata
-  #> 190 Amblyornis macgregoriae
-  #> Name: Scientific_name, dtype: object
-  ```
-
-<br>
-
---
-
-.content-box-diy[
-Try this:
-
-```python
-data[data.english.str.contains("Bower")].loc[:2, "latin"]
-```
-
-Why is it not returning any rows?
-]
 
 ---
 
@@ -553,17 +508,15 @@ data[["score_m", "score_f"]].plot.box()
 2. For how many species do either males, females, or both have plumage scores
    lower than 50?
 
-3. Bonus: How many "Warbler" species are in the dataset?
-
 ---
 
 ## <i class="fa fa-user-edit"></i> Your turn: Solutions
 
-1. Retrieve the English names of species for which both males and females have a
-   plumage score higher than 70.
+1\. Retrieve the English names of species for which both males and females have a
+    plumage score higher than 70.
    
    ```python
-   data[(data.score_m > 70) & (data.score_f > 70)].english
+   data[(data["score_m"] > 70) & (data["score_f"] > 70)].english
    #> 363            Unicoloured Jay
    #> 1520      Indigo Flowerpiercer
    #> 1717               Red Warbler
@@ -572,19 +525,17 @@ data[["score_m", "score_f"]].plot.box()
    #> Name: english, dtype: object
    ```
 
-2. For how many species do either males, females, or both have plumage scores
-   lower than 50?
+--
+
+2\. For how many species do either males, females, or both have plumage scores
+    lower than 50?
+
+--
 
    ```python
-   data[(data.score_m > 50) | (data.score_f > 50)].shape[0]
-   #> 3013
+   data[(data["score_m"] < 50) | (data["score_f"] < 50)].shape[0]
+   #> 4246
    ```
-
-3. Bonus: How many "Warbler" species are in the dataset?
-
-  ```python
-  data[data.english.str.contains("Warbler")].shape[0]
-  ```
 
 ---
 
@@ -656,3 +607,32 @@ high_male_score = data[data["score_m"] > 65].copy()
 
 high_male_score["score_qual"] = "High"
 ```
+
+---
+background-color: #f2f5eb
+
+## Masking (filtering) DataFrames
+
+- We can even select rows based on only part of the cell content,  
+  using the **`str.contains()`** method:
+
+  ```python
+  data[data.english.str.contains("Bower")]
+  #> [All rows containing "Bower" in the "english" column]
+  
+  data[data.english.str.contains("Bower")]["latin"][:3]
+  #> 188 Amblyornis flavifrons
+  #> 189 Amblyornis inornata
+  #> 190 Amblyornis macgregoriae
+  #> Name: Scientific_name, dtype: object
+  ```
+
+.content-box-q[
+Try this:
+
+```python
+data[data.english.str.contains("Bower")].loc[:2, "latin"]
+```
+
+Why is it not returning any rows?
+]
