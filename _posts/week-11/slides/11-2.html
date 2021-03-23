@@ -42,7 +42,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/25 (updated: 2021-03-22)
+### 2021/03/25 (updated: 2021-03-23)
 
 ---
 
@@ -139,7 +139,7 @@ among others.
 
 ---
 
-## Exploring DataFrames (cont.)
+## Exploring DataFrames: attributes
 
 - **Note that NumPy functions, methods, and attributes will also work for
   Pandas `DataFrames`!**
@@ -153,7 +153,7 @@ among others.
 
 ---
 
-## Exploring DataFrames (cont.)
+## Exploring DataFrames: data types
 
 - `dtypes` returns data types by column (note, strings are called `object`):
 
@@ -182,7 +182,7 @@ each column is an item with column names as keys.)
 
 ---
 
-## Exploring DataFrames (cont.)
+## Exploring DataFrames: indices
 
 - `columns` returns an `Index` object with the column names:
 
@@ -208,12 +208,13 @@ each column is an item with column names as keys.)
 
 ---
 
-## Exploring DataFrames (cont.)
+## Exploring DataFrames: describe()
 
 The method `describe()` gives an overview of the numerical columns:
 
 ```python
 data.describe()
+
 #&gt; 	     Female_plumage_score	  Male_plumage_score
 #&gt; count	        5831.000000	         5831.000000
 #&gt; mean	           47.527630	           51.009189
@@ -227,12 +228,13 @@ data.describe()
 
 ---
 
-## Exploring DataFrames (cont.)
+## Exploring DataFrames: info()
 
 And `info()` gives another type of useful overview, for all columns:
 
 ```python
-#&gt; data_raw.info()
+data.info()
+
 #&gt; &lt;class 'pandas.core.frame.DataFrame'&gt;
 #&gt; RangeIndex: 5831 entries, 0 to 5830
 #&gt; Data columns (total 5 columns):
@@ -247,6 +249,34 @@ And `info()` gives another type of useful overview, for all columns:
 #&gt; memory usage: 227.9+ KB
 ```
 
+---
+
+## Exploring DataFrames: selecting columns
+
+We can specify columns not with the syntax `df["colname"]` (think dictionary!), as well as with the shorthand `df.colname`:
+  
+```python
+data["Scientific_name"]
+
+data.Scientific_name
+
+#&gt; 0         Abroscopus albogularis
+#&gt; 1         Abroscopus schisticeps
+#&gt; 2       Abroscopus superciliaris
+#&gt; 3       Acanthagenys rufogularis
+#&gt; 4            Acanthidops bairdii
+#&gt;                   ...           
+#&gt; 5826       Zosterops uropygialis
+#&gt; 5827          Zosterops vaughani
+#&gt; 5828      Zosterops vellalavella
+#&gt; 5829          Zosterops wallacei
+#&gt; 5830       Zosterops xanthochroa
+#&gt; Name: latin, Length: 5831, dtype: object
+```
+  
+When we extract a single column,
+the resulting 1-dimensional Pandas array is called a `Series`.
+  
 ---
 
 ## Manipulating DataFrames: renaming columns
@@ -285,6 +315,8 @@ And `info()` gives another type of useful overview, for all columns:
   
   ```python
   data["Study"] = 1
+  
+  data.head()
   ```
 
 ---
@@ -297,58 +329,41 @@ And `info()` gives another type of useful overview, for all columns:
   ```python
   del(data["score_sum"])
   
-  data.drop(["Rnd", "Study"], axis = 1, inplace = True)
+  data.drop(["TipLabel", "Study"], axis = 1, inplace = True)
   ```
   
   - `axis = 0` acts along rows, and `axis = 1` along columns.
   
   - `inplace` means that the `DataFrame` is modified in place.
 
+
 ---
 
 ## Indexing and slicing DataFrames
 
-- First, note that we can specify columns not just with the syntax
-  `df["colname"]` (think dictionary!), but also with the shorthand `df.colname`:
-  
-  ```python
-  data["latin"]
-  
-  data.latin
-  ```
-  
-  When we extract a single column,
-  the resulting 1-dimensional Pandas array is called a `Series`.
-  
---
-
-- Next, we can slice the `Series` like we may expect to for an array/list:
+- After selection a column, we can slice this the way we may expect to
+  for an array/list:
   
   ```python
   data["latin"][:3]                  # First three  
   #&gt; 0 Abroscopus albogularis
   #&gt; 1 Abroscopus schisticeps
   #&gt; 2 Abroscopus superciliaris
-  
-  data.latin[-3:]                    # Last three
-  #&gt; 5828    Zosterops vellalavella
-  #&gt; 5829        Zosterops wallacei
-  #&gt; 5830     Zosterops xanthochroa
+  ```
+
+&lt;br&gt;
+
+- But we can't slice the entire `DataFrame` as we may have expected
+  after learning NumPy:
+
+  ```python
+  data[:3, :3]
+  #&gt; TypeError: '(slice(None, 3, None), slice(None, 3, None))' is an invalid key
   ```
 
 ---
 
 ## Indexing and slicing DataFrames (cont.)
-
-- But we can't slice the entire `DataFrame` as we may have expected
-  after learning about NumPu:
-
-  ```python
-  data[0:3, 0:3]
-  #&gt; TypeError: '(slice(0, 3, None), slice(0, 3, None))' is an invalid key
-  ```
-
-&lt;br&gt;
 
 - Instead, we need to use the **`iloc()` method**:
   
@@ -363,7 +378,7 @@ And `info()` gives another type of useful overview, for all columns:
   data.iloc[:2, [1, 3]]
   
   # Last 5 rows, all columns:
-  data.iloc[-5:, ]
+  data.iloc[-5:, :]
   ```
   
 ---
@@ -522,27 +537,29 @@ data[["score_m", "score_f"]].plot.box()
 1\. Retrieve the English names of species for which both males and females have a
     plumage score higher than 70.
    
-   ```python
-   data[(data["score_m"] &gt; 70) &amp; (data["score_f"] &gt; 70)].english
-   #&gt; 363            Unicoloured Jay
-   #&gt; 1520      Indigo Flowerpiercer
-   #&gt; 1717               Red Warbler
-   #&gt; 1736    Red-headed Parrotfinch
-   #&gt; 2739        Red-headed Malimbe
-   #&gt; Name: english, dtype: object
-   ```
+```python
+data[(data["score_m"] &gt; 70) &amp; (data["score_f"] &gt; 70)].english
+#&gt; 363            Unicoloured Jay
+#&gt; 1520      Indigo Flowerpiercer
+#&gt; 1717               Red Warbler
+#&gt; 1736    Red-headed Parrotfinch
+#&gt; 2739        Red-headed Malimbe
+#&gt; Name: english, dtype: object
+```
 
 --
+
+&lt;br&gt;
 
 2\. For how many species do either males, females, or both have plumage scores
     lower than 50?
 
 --
 
-   ```python
-   data[(data["score_m"] &lt; 50) | (data["score_f"] &lt; 50)].shape[0]
-   #&gt; 4246
-   ```
+```python
+data[(data["score_m"] &lt; 50) | (data["score_f"] &lt; 50)].shape[0]
+#&gt; 4246
+```
 
 ---
 
