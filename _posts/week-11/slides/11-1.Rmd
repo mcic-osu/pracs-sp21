@@ -514,7 +514,7 @@ it is more common to use those of Pandas, the library we will learn about next.
 1\. Create an array called `fives` with the elements 5, 10, 15, etc up to 45:
    
 ```python
-fives = np.arange(0, 50, 5)
+fives = np.arange(5, 50, 5)
 ```
 
 2\. Select the fourth, eight and ninth elements from `fives`:
@@ -523,7 +523,7 @@ fives = np.arange(0, 50, 5)
 
 ```python
 fives[[3, 7, 8]]
-#> array([15, 35, 40])
+#> array([20, 40, 45])
 ```
 
 3\. Index/mask `fives` to only select values larger than 15.  

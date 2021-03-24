@@ -332,6 +332,28 @@ the resulting 1-dimensional Pandas array is called a `Series`.
 
 ---
 
+## Thursday setup
+
+```python
+import pandas as pd
+import numpy as np
+import os
+
+username = os.environ.get('USER')
+os.chdir('/fs/ess/PAS1855/users/' + username + '/CSB/scientific/sandbox')
+```
+
+```python
+data = pd.read_csv("../data/Dale2015_data.csv")
+
+data = data.rename(columns={"Scientific_name": "latin",
+                            "English_name": "english",
+                            "Female_plumage_score": "score_f",
+                            "Male_plumage_score": "score_m"})
+```
+
+---
+
 ## Indexing and slicing DataFrames
 
 - After selection a column, we can slice this the way we may expect to
