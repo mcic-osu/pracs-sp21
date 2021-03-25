@@ -1,5 +1,17 @@
 [
   {
+    "path": "posts/week-12/",
+    "title": "Week 12",
+    "description": "Python: Regular expressions (half-module)",
+    "author": [],
+    "date": "2021-03-29",
+    "categories": [],
+    "contents": "\nSlides\nSlides: Regex – Tuesday Zoom (Mar 30)\nUngraded assignments\nExercises for week 12\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-03-25T17:30:16-04:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/week-11/",
     "title": "Week 11",
     "description": "Python: Scientific computing",

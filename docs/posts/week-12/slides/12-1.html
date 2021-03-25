@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 12 - Python: Regular expressions</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+
+
+# *Week 11 - Python: Regular expressions*
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/03/30 (updated: 2021-03-21)
+
+---
+
+## Overview of this week
+
+- Today: Regular expressions
+
+- No meeting on Thursday!
+
+---
+
+## What are regular expressions?
+
+&gt; *Often, it is not feasible to search for all possible occurrences exactly as*
+&gt; *they appear in the text, but you can describe the pattern you’re looking for*
+&gt; *in your own words (e.g., find all words starting with 3 uppercase letters,*
+&gt; *followed by 4 digits).*
+&gt; *The question is how to explain such a pattern to a computer.*
+&gt; *The answer is to use regular expressions.*
+&gt; CSB 5.1
+
+In other words, regular expressions are
+**strings that (may) include special symbols to describe patterns succinctly.**
+
+&lt;br&gt;
+
+We have already worked with regular expressions a fair but with shell tools
+like `grep` and `sed` &amp;ndash; for example:
+
+```sh
+# ...
+grep -v "^#" my.gff
+
+# ...
+echo "word1 word2" | sed -E 's/(\w+) (\w+)/\2 \1/'
+```
+
+---
+
+## What are regular expressions?
+
+&gt; *Often, it is not feasible to search for all possible occurrences exactly as*
+&gt; *they appear in the text, but you can describe the pattern you’re looking for*
+&gt; *in your own words (e.g., find all words starting with 3 uppercase letters,*
+&gt; *followed by 4 digits).*
+&gt; *The question is how to explain such a pattern to a computer.*
+&gt; *The answer is to use regular expressions.*
+&gt; CSB 5.1
+
+In other words, regular expressions are
+**strings that (may) include special symbols to describe patterns succinctly.**
+
+&lt;br&gt;
+
+We have already worked with regular expressions a fair but with shell tools
+like `grep` and `sed` &amp;ndash; for example:
+
+```sh
+# Exclude lines beginning with a '#', i.e. header lines in GFF:
+grep -v "^#" my.gff
+
+# Capture each word and use backreferences (\1) to invert them:
+echo "word1 word2" | sed -E 's/(\w+) (\w+)/\2 \1/'
+```
+
+---
+
+## Why use regular expressions?
+
+- **To collect information:**  
+  Match degenerate primer sequences, transcription
+  factor binding sites, find accession and gene numbers, extract references
+  from a manuscript.
+
+- **To navigate and parse text files:**  
+  Parse (semi-)structured output that
+  doesn't adhere to formats for which you can use a specialized tool directly.
+
+- **As a more sophisticated replace:**  
+  Replace multiple variations of a string at the same time.
+
+---
+
+## The `re` module in Python
+
+- You may recall that we used the `find()` method earlier to search strings,
+  but `find()` only works for literal strings.
+  
+- To use regular expressions, we will need to import the `re` module from
+  the Python Standard Library
+  (recall, no installation is needed for such modules):
+  
+  ```python
+  import re
+  ```
+
+---
+
+## Our first match
+
+- We start with using `re.search()` to search for a *literal string* after all:
+
+  ```python
+  # We define a string that we will query:
+  my_string = "a given string"
+  
+  # We search my_string for the regex pattern "given":
+  m = re.search(r"given", my_string)
+  ```
+
+---
+
+## "Raw string" notation
+
+The `r"my_string"` syntax denotes a **raw string**,
+which will tell Python **not** to (prematurely) interpret special characters in
+our regular expression.
+
+--
+
+This can be a bit confusing because you *do* want the regular expression to be
+parsed, after all.
+
+But the problem is that with the raw string notation,
+Python will interpret special characters before they are passed on to the
+regular expression parser in, e.g., the `re.search()` function.
+For instance:
+
+```python
+print("my long \n line")
+#&gt; my long
+#&gt;  line
+
+print(r"my long \n line")
+#&gt; my long \n line
+```
+
+--
+
+.content-box-info[
+The raw string notation is a nice solution compared to that in R, for instance,
+where you need two (and sometimes more) backslashes to prevent premature
+interpretation of regex symbols.
+]
+
+---
+
+## The match object
+
+- Back to the `re.search()` function, which returns a *match object*:
+
+  ```python
+  print(m)
+  #&gt; &lt;_sre.SRE_Match object; span=(2, 7), match= 'given' &gt;
+  ```
+
+- On the match object, we can use the **`group()`** method to extract the
+  substring that was found to match our pattern:
+  
+  ```python
+  m.group()
+  #&gt; 'given'  # We matched a literal string so no surprises here
+  ```
+
+--
+
+- We can also get the start and end positions (indices) of the match:
+
+  ```python
+  m.start()
+  #&gt; 2
+  
+  m.end()
+  #&gt; 7
+  ```
+
+---
+
+## Failing to match
+
+- If no matches are found, `re.search()` returns `None`:
+  
+  ```python
+  m = re.search(r"9", my_string)
+  print(m)
+  #&gt; None
+  ```
+
+&lt;br&gt;
+
+--
+
+- Since `None` is "**falsy**" (it will be interpreted as `False`),
+  we can create a straightforward test to see if a match was made:
+
+  ```python
+  if re.search(r"9", my_string):
+      # Additional processing if a match was found
+  ```
+
+  (This is a little easier than we did last week with the `str.find()` method.)
+
+---
+class: center middle inverse
+
+# Components of regular expressions
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Literal characters
+
+The first possible component of regular expressions are literal characters.
+
+As we saw, a search pattern can consist of only literal characters,
+but this is not very powerful.
+
+---
+
+## Metacharacters
+
+| Symbol | Negation  | Matches:
+|---------------|-----------|--------
+| `\n`          |           | A newline.
+| `\t`          |           | A tab.    
+| `\s`          | `\S`      | Any/no white space: space, tab, newline, carriage return.
+| `\w`          | `\W`      | Any/no word character: alphanumeric and underscore.
+| `\d`          | `\D`      | Any/no digit.
+| `.`           |           | Any character
+
+---
+
+## Match whitespace
+
+- For example, to match whitespace, we can use `\s`:
+
+  ```python
+  # my_string = "a given string"
+  m = re.search(r"\s", my_string)
+  
+  m.group()
+  #&gt; ' '
+  m.start()
+  #&gt; 1
+  ```
+
+--
+
+- Or we can match a whitespace character followed by five "word" characters
+  (alphanumeric and underscore):
+
+  ```python
+  m = re.search(r"\s\w\w\w\w\w", my_string)
+  
+  m.group()
+  #&gt; ' given'
+  ```
+
+.content-box-info[
+Note that `re.search()` only returns the first match.
+We'll see two functions later that will return all matches.
+]
+
+---
+
+## Character classes
+
+You hopefully recall **character classes** from our material on the shell,
+where we used constructs like `[0-9]` to represent any single digit,
+or `[AB]` to represent either an A or a B.&lt;sup&gt;[1]&lt;/sup&gt;
+**Character classes function the same in Python.**
+
+&lt;br&gt;
+
+- For example, we can search for a word that starts with a lower- *or*
+  uppercase `s`,
+  followed by two word (`\w`) characters:
+
+  ```python
+  my_string = "sunflowers are described on page 89"
+  
+  m = re.search(r"[sS]\w\w", my_string)
+  m.group()
+  #&gt; 'sun'
+  ```
+
+.footnote[
+&lt;sup&gt;[1]&lt;/sup&gt; Note that these are called "*sets*" in CSB.
+]
+
+---
+
+## Character classes (cont.)
+
+- Or we can search for a number consisting of two digits between 7 and 9:
+
+  ```python
+  m = re.search(r"[7-9][7-9]", my_string)
+  m.group()
+  #&gt; '89'
+  ```
+
+--
+
+.content-box-q[
+What would happen if the string contained `898` instead of `89`?
+]
+
+--
+
+.content-box-answer[
+The match would be exactly the same.
+]
+  
+--
+
+.content-box-q[
+What if we did not want to match such a number with three digits? 
+]
+
+--
+
+.content-box-answer[
+```python
+m = re.search(r"[7-9][7-9]\D", my_string) # Or:
+m = re.search(r"[7-9][7-9][^0-9]", my_string)
+```
+]
+
+---
+
+## Negating a character class
+
+We can negate a character class by using a caret `^` as the first symbol within
+the square brackets:
+  
+```python
+# [^s-z] matches anything but a letter from s-z in the alphabet: 
+m = re.search(r"[^s-z]\w\w\w\w\w\w", my_string)
+m.group()
+#&gt; 'nflower'
+```
+
+---
+
+## Quantifiers
+
+Instead of typing `\w` 5 times, like above, we can use *quantifiers* to match
+multiple consecutive matching characters more succinctly and flexibly.
+
+&lt;br&gt;
+
+| Quantifier  | Matches |
+|-------------|---------|
+| **`*`**     | Preceding character *any number of times* (including 0).
+| **`?`**     | Preceding character *at most* once.
+| **`+`**     | Preceding character *at least* once.
+| **`{n}`**   | Preceding character *exactly `n` times*.
+| **`{n,}`**  | Preceding character *at least `n` times*.
+| **`{n,m}`** | Preceding character *at least `n` and at most `m` times*.
+
+---
+
+## Using quantifiers
+
+- From some text, we could attempt to extract a DNA sequence:
+  at least one capital `A`/`C`/`G`/`T` using `[ACGT]+`:
+  
+  ```python
+  re.search(r"[ACGT]+","A motif like ATTCGT.").group()
+  #&gt; 'A'
+  ```
+
+&lt;br&gt;
+
+- It looks like that was not stringent enough,
+  so let's instead require at least three consecutive bases using `[ACGT]{3,}`:
+  
+  ```python
+  re.search(r"[ACGT]{3,}", "the motif ATTCGT").group()
+  'ATTCGT'
+  ```
+
+---
+
+## Greedy vs. non-greedy matching
+
+The quantifiers `?`, `*` and `+` are said to be "**greedy**":
+when faced with multiple possible endpoints of a match,
+they will use the last possible endpoint.
+
+In other words, they will **match as much text as possible**.
+
+--
+
+For example, when matching any number of characters followed by a white space below, instead of matching `"once "`, we get the most expansive match
+possible here:
+
+```python
+my_string = "once upon a time"
+re.search(r".*\s", my_string)
+m.group()
+#&gt; 'once upon a '
+```
+
+--
+
+Appending a question mark to the quantifier (i.e., `??`, `*?`, or `+?`)
+makes the quantifier **"reluctant" or "non-greedy"** &amp;ndash;
+it will match as little as possible:
+
+```python
+re.search(r".*?\s", "once upon a time").group()
+#&gt; 'once '
+```
+
+---
+
+## Anchors
+
+Often, we want to require that any match be made at the end or the beginning
+of a string (or equivalently, of a *line* in a file):
+
+Anchor | Matches
+-------|--------
+`^`    | Beginning of the string/line (Note re-usage: cf. `[^0-9]`)
+`$`    | End of the string/line
+
+For example:
+
+```python
+my_string = "ATATA"
+
+m = re.search(r"^TATA", my_string)
+print(m)
+#&gt; None
+
+m = re.search(r"TATA$", my_string)
+m.group()
+'TATA'
+```
+
+---
+
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.1
+
+Describe the following regular expressions in plain English.
+
+And what does it actually match in the `re.search()` call?
+
+&lt;br&gt;
+
+```python
+re.search(r"\d" , "it takes 2 to tango").group()
+```
+
+--
+
+Matches one digit: `2`.
+
+--
+
+```python
+re.search(r"\w*\s\d.*\d", "take 2 grams of H2O").group()
+```
+
+--
+
+Matches zero or more word characters (`\w*`),
+followed by a white space (`\s`),
+followed by a digit (`\d`),
+zero or more characters (`.*`),
+and ending with a digit (`\d`): `take 2 grams of H2`.
+
+---
+
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.1
+
+```python
+re.search(r"\s\w*\s", "once upon a time").group()
+```
+
+--
+
+Matches any sequence of word characters (zero or more),
+flanked by a white space on both sides: `" upon "`.
+
+&lt;br&gt;
+
+```python
+re.search(r"\s\w{1,3}\s", "once upon a time").group()
+```
+
+--
+
+Matches a sequence of one to three word characters,
+flanked by two white spaces: `" a "`.
+
+--
+
+&lt;br&gt;
+
+```python
+re.search(r"\s\w*$", "once upon a time").group()
+```
+
+--
+
+Matches the last word in the target string (preceded by a white space):
+`" time"`.
+
+---
+
+## Alternations
+
+Finally, a symbol we have also already seen is the `|` for *alternation*,
+functioning as a logical or: 
+
+```python
+m = re.search(r"cat|mouse", "I found my cat!")
+m.group()
+#&gt; 'cat'
+
+m = re.search(r"cat|mouse", "I found my mouse!")
+m.group()
+#&gt; 'mouse'
+```
+
+---
+
+## What if I need to match a literal `*`?
+
+Sometimes, you need to literally match a special character like a `*`.
+That is, you want to take away its special meaning.
+
+Just like we give some regular character specials meaning with a backslash
+(`\n` =&gt; newline character), doing the opposite also requires prepending a
+backslash. For example, to match a literal `*`:
+
+```python
+re.search('*', 'my*string')
+#&gt; error: nothing to repeat at position 0
+
+re.search('*', 'my*string')
+#&gt; &lt;re.Match object; span=(2, 3), match='*'&gt;
+```
+
+--
+
+.content-box-info[
+We already saw this in the shell where one way to match a file name with a space, other than quoting, is to escape the space:
+
+```sh
+ls my\ bad\ file
+'my bad file'
+```
+]
+
+---
+
+## Example: finding names of MHC alleles in BLAST results
+
+The file `Marra2014_BLAST_data.txt` has some BLAST results in tabular format.
+We are looking for MHC alleles and we happen to know that their names are 
+unique in containing an asterisk `*`.
+
+We start by moving to the right directory and peeking at the file:
+
+```python
+import os
+os.chdir('/fs/ess/PAS1855/users/&lt;user&gt;/CSB/regex/sandbox')
+
+!head ../data/Marra2014_BLAST_data.txt
+#&gt; Seq. Name	Seq. Description	Seq. Length	#Hits	min. eValue	mean Similarity
+#&gt; contig00001	---NA---	112	0		
+#&gt; contig00002	pol2_mouse ame: full=retrovirus-related pol polyprotein line-1 ame: full=long interspersed element-1 short=l1 includes: ame: full=reverse transcriptase includes: ame: full=endonuclease	932	3	6.53E-113	79.67%
+#&gt; contig00003	lin1_nycco ame: full=line-1 reverse transcriptase homolog	2070	5	0	59.60%
+#&gt; contig00004	lin1_nycco ame: full=line-1 reverse transcriptase homolog	3074	5	6.92E-68	64.80%
+#&gt; contig00005	---NA---	190	0
+```
+
+---
+
+## Example: finding names of MHC alleles in BLAST results
+
+Let's first find, print and count lines with an `*`:
+
+```python
+with open("../data/Marra2014_BLAST_data.txt") as f:
+    counter = 0
+    for line in f:
+        m = re.search(r"\*", line) # Search for '*' in each line
+        if m:             # If a match was found:
+            counter += 1  # Increment counter
+            print(line)   # Print the line
+            
+#&gt; contig01987	2b14_human ame: full=hla class ii histocompatibility drb1-4 beta chain ame: full=mhc class ii antigen drb1*4 short=dr-4 short=dr4 flags: precursor	112	5	5.07E-10	78.60%
+#&gt; contig05816	1c08_human ame: full=hla class i histocompatibility cw-8 alpha chain ame: full=mhc class i antigen cw*8 flags: precursor	825	5	1.06E-97	67.80%
+#&gt; contig05821	1b46_human ame: full=hla class i histocompatibility b-46 alpha chain ame: full=bw-46 ame: full=mhc class i antigen b*46 flags: precursor	606	5	9.86E-09	67.60%
+#&gt; contig22120	2b11_human ame: full=hla class ii histocompatibility drb1-1 beta chain ame: full=mhc class ii antigen drb1*1 short=dr-1 short=dr1 flags: precursor	137	5	5.05E-11	76.80%
+#&gt; contig23154	mmrn1_human ame: full=multimerin-1 ame: full=emilin-4 ame: full=elastin microfibril interface located protein 4 short=elastin microfibril interfacer 4 ame: full=endothelial cell multimerin contains: ame: full=platelet glycoprotein ia* contains: ame: full=155 kda platelet multimerin short=p-155 short=p155 flags: precursor	4524	5	0	62.00%
+#&gt; contig27667	ud13_human ame: full=udp-glucuronosyltransferase 1-3 short=udpgt 1-3 short=ugt1*3 short=ugt1-03 short= ame: full=udp-glucuronosyltransferase 1-c short=ugt-1c short=ugt1c ame: full=udp-glucuronosyltransferase 1a3 flags: precursor	1818	5	0	84.40%
+```
+
+&lt;br&gt;
+
+```python
+print("The pattern was matched in", counter, "lines")
+#&gt; The pattern was matched in 6 lines
+```
+
+---
+
+## Example: finding names of MHC alleles in BLAST results
+
+```sh
+#&gt; [...] full=mhc class ii antigen drb1*1 short=dr-1 [...]
+#&gt; [...] full=mhc class i antigen cw*8 flags: precursor 606 [...]
+```
+
+From looking at those lines, if we want to extract just the names of the MHC
+alleles, we should start matching at `mhc` and stop matching after the *word*
+that contains the asterisk `*`.
+
+So, our regex could be: `mhc[\s\w*]+\*\w*`:
+
+Component    | Meaning 
+-------------|---------
+`mhc`        | Match the literal characters mhc .
+`[\s\w*]+`   | Match a white space or zero or more word characters, one or more times
+`\*`         | Match a (literal) asterisk.
+`\w*`        | Match zero or more word characters.
+
+
+
+---
+
+## Example: finding names of MHC alleles in BLAST results
+
+Let's try it:
+
+```python
+with open("../data/Marra2014_BLAST_data.txt") as f:
+    for line in f:
+        m = re.search(r"mhc[\s\w*]+\*\w*", line)
+        if m:
+            print(m.group())
+
+#&gt; mhc class ii antigen drb1*4
+#&gt; mhc class i antigen cw*8
+#&gt; mhc class i antigen b*46
+#&gt; mhc class ii antigen drb1*1
+```
+
+---
+
+## Other functions of the *re* module
+
+Function     | Behavior 
+-------------|---------
+`re.findall(reg,target)`  | As `re.search`, but return a **list** of all the matches.
+`re.finditer(reg,target)` | As `re.findall`, but return an **iterator**.
+`re.compile(reg)`          | Compile a regular expression. &lt;br&gt; This stores the pattern for repeated use, improving the speed.
+`re.split(reg,target)`    | Split the text by the occurrence of the pattern described by the regular expression.
+`re.sub(reg,repl,target)` | Substitute each non-overlapping occurrence of the match with the text in `repl`.
+
+---
+
+## Example: Querying a FASTA file
+
+Say that we want to find methylation sites in nucleotide sequences from
+*Escherichia coli* that are stored in the file `CSB/regex/data/Ecoli.fasta`.
+
+There are several methylases in *E. coli*.
+The *EcoKI* methylase, for example, modifies the sequences `AACNNNNNNGTGC` *and*
+`GCACNNNNNNGTT`.
+
+Let's take a look at the file:
+
+```python
+fafile="../data/Ecoli.fasta"
+
+!head -5 {fafile}
+#&gt; &gt;gi|556503834|ref|NC_000913.3|:1978338-2028069 Escherichia coli str. K-12 substr. #&gt; MG1655, complete genome
+#&gt; AATATGTCCTTACAAATAGAAATGGGTCTTTACACTTATCTAAGATTTTTCCTAAATCGACGCAACTGTA
+#&gt; CTCGTCACTACACGCACATACAACGGAGGGGGGCTGCGATTTTCAATAATGCGTGATGCAGATCACACAA
+#&gt; AACACTCAATTACTTAACATAAATGGGTAATGACTCCAACTTATTGATAGTGTTTTATGTTCAGATAATG
+#&gt; CCCGATGACTTTGTCATGCAGCTCCACCGATTTTGAGAACGACAGCGACTTCCGTCCCAGCCGTGCCAGG
+
+!grep "&gt;" {fafile}
+#&gt; &gt;gi|556503834|ref|NC_000913.3|:1978338-2028069 Escherichia coli str. K-12 substr. MG1655, complete genome
+#&gt; &gt;gi|556503834|ref|NC_000913.3|:4035299-4037302 Escherichia coli str. K-12 substr. MG1655, complete genome
+```
+
+---
+
+## Example: Querying a FASTA file (cont.)
+
+Let's read the FASTA file, and take the sequence for the first of the two
+records in the file:
+
+```python
+from Bio import SeqIO
+genes = list(SeqIO.parse(fafile))
+seq1 = str(records[0].seq)
+```
+
+```python
+len(seq1)
+#&gt; 49732
+seq1[:40]
+#&gt; 'AATATGTCCTTACAAATAGAAATGGGTCTTTACACTTATC'
+```
+
+&lt;br&gt; &lt;br&gt;
+
+.content-box-info[
+Note, we used with `SeqIO` instead of `pyfaidx` (as in CSB) here to simplify
+the sequence parsing and not introduce a new module.
+]
+
+---
+
+## Example: Querying a FASTA file (cont.)
+
+Since our regular expression is quite complicated,
+we will first save it using the `re.compile()` function:
+
+```python
+EcoKI = re.compile(r"AAC[ATCG]{6}GTGC|GCAC[ATCG]{6}GTT")
+```
+
+---
+
+## Example: Querying a FASTA file (cont.)
+
+Also, we will need a different `re` function to get *all* matches
+and not just one, like we did previously with `re.search()`.
+Let's first try **`re.findall()`**:
+
+```python
+m = re.findall(r"AAC[ATCG]{6}GTGC|GCAC[ATCG]{6}GTT", seq1)
+
+m
+#&gt; ['AACAGCATCGTGC', 'AACTGGCGGGTGC', 'GCACCACCGCGTT',
+#&gt;  'GCACAACAAGGTT', 'GCACCGCTGGGTT', 'AACCTGCCGGTGC']
+```
+
+That simply returned a list of matches, but we want the *positions* too!
+
+--
+
+Instead, we can use **`re.finditer()`**,
+which will get us match objects like we got for `re.search()` earlier:
+
+```python
+for match in re.finditer(EcoKI, seq1):
+    print(match.start() + 1, match.group())
+#&gt; 18452 AACAGCATCGTGC
+#&gt; 18750 AACTGGCGGGTGC
+#&gt; 25767 GCACCACCGCGTT
+#&gt; 35183 GCACAACAAGGTT
+#&gt; 40745 GCACCGCTGGGTT
+#&gt; 42032 AACCTGCCGGTGC
+```
+
+---
+
+## Groups and backreferences in regular expressions
+
+Using parentheses, we can create **groups** in regular expressions.
+
+We have already seen the use of such groups with backreferences in `sed`,
+and another feature of groups is that **quantifiers will operate on the entire
+group**:
+
+```python
+re.search(r"GT{2}", "ATGGTGTCCGTGTT").group()
+#&gt; 'GTT'
+re.search(r"(GT){2}", "ATGGTGTCCGTGTT").group()
+#&gt; 'GTGT'
+```
+
+---
+
+## Example: retrieving the sequence between primers
+
+Say that we want to identify the variable region that
+is flanked by the bacterial ribosomal RNA primers 799F and 904R.
+
+We can build a regular expression with the two primers,
+each of which we capture with `()`, and the unknown sequence which we also
+capture:
+
+```python
+primer1 = 'AAC[AC]GGATTAGATACCC[GT]G'
+primer2 = '[CT]T[AG]AAACTCAAATGAATTGACGGGG'
+regpat = '(' + primer1 + ')' + '([ATCG]+)' + '(' + primer2 + ')'
+
+regpat
+#&gt; '(AAC[AC]GGATTAGATACCC[GT]G)([ATCG]+)([CT]T[AG]AAACTCAAATGAATTGACGGGG)'
+```
+
+--
+
+We will search for this pattern in the second sequence of `Ecoli.fasta`:
+
+```python
+# from Bio import SeqIO 
+# genes = list(SeqIO.parse("../data/Ecoli.fasta", "fasta"))
+seq2 = str(genes[1].seq)
+
+m = re.search(regpat, seq2)
+```
+
+---
+
+## Example: retrieving the sequence between primers
+
+Thanks to our groupings, we can now refer back to these separately:
+
+- The entire match with `group(0)`:
+
+  ```python
+  len(m.group(0))
+  #&gt; 148
+  ```
+
+- Our forward and reverse primers with `group(1)` and `group(3)`
+
+  ```python
+  m.group(1)
+  #&gt; 'AACAGGATTAGATACCCTG'
+  m.group(3)
+  #&gt; 'TTAAAACTCAAATGAATTGACGGGG'
+  ```
+
+- And the sequence of interest with `group(2)`:
+
+  ```python
+  m.group(2)
+  #&gt; 'GTAGTCCACGCCGTAAACGATGTCGACTTGGAGGTTGTGCCCTTGAGGCGTGGCTTCCGGAGCTAACGCGTTAAGTCGACCGCCTGGGGAGTACGGCCGCAAGG'
+  len(m.group(2))
+  #&gt; 104
+  ```
+  
+---
+
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.2
+
+Let’s practice translating from plain English to regular expressions.
+
+The NCBI GenBank contains information on nucleotide sequences, protein sequences,
+and whole genome sequences (WGS). 
+
+The following table describes the construction of sequence identifiers in plain English. Construct the appropriate regular expression to match either protein, WGS or nucleotide IDs:
+
+1. **Protein**: 3 letters + 5 numerals
+
+2. **WGS**: 4 letters + 2 numerals for WGS assembly version + 6–8 numerals
+
+3. **Nucleotide**: 1 letter + 5 numerals OR 2 letters + 6 numerals
+
+---
+
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Intermezzo 5.2: Solutions
+
+1. 
+```python
+r"[A-Za-z]{3}\d{5}"
+```
+
+&lt;br&gt;
+
+2. 
+```python
+r"[A-Za-z]{4}\d{8,10}"
+```
+
+&lt;br&gt;
+
+3. 
+```python
+r"([A-Z]{1}\d{5}|[A-Z]{2}\d{6})"
+```
+
+---
+
+## This week's exercises
+
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

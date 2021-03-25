@@ -2571,9 +2571,6 @@ Go further
 </ul>
 </nav>
 </div>
-<div class="layout-chunk" data-layout="l-body">
-
-</div>
 <p><br></p>
 <h2 id="exercise-csb-1-5.9.1-bee-checklist">Exercise CSB-1 (5.9.1): Bee checklist</h2>
 <p>Michael Ruggiero of the <a href="https://itis.gov/">Integrated Taxonomic Information System</a> has led the World Bee Checklist project, aiming to collect taxonomic information on all the bee species in the world.</p>
@@ -2587,10 +2584,11 @@ Cockerell, 1901
 Meade-Waldo, 1914
 Eardley &amp; Brooks, 1989
 Lepeletier &amp; Audinet-Serville, 1828
-Michener, LaBerge &amp; Moure, 1955</code></pre>
+Michener, LaBerge &amp; Moure, 1955</code></pre></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <ul>
 <li><p>The difficult part of the exercise is to write a regular expression capable of capturing a wide variety of styles used to store the authors’ names: there may or may not be a parenthesis at the beginning/end of the string; the initials for the authors may or may not be reported, author names can be split using commas or ampersands; some names are hyphenated.</p>
@@ -2611,17 +2609,20 @@ Michener, LaBerge &amp; Moure, 1955</code></pre>
    now go through each author list, and split the authors
    create a dictionary for authors to count the number of occurences for each author 
    get the author with the highest number of occurences   </code></pre>
-</details></li>
-<li><p>Which year of publication occurs most often in the database?</p>
+</details>
+<p><br></p>
+<ol start="2" type="1">
+<li>Which year of publication occurs most often in the database?</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>You should be able to extract the year for each publication with <code>group()</code> just like you did above for the authors, provided you created a group with <code>()</code> that captures the year in your regular expression.</p>
 <p>Then, you should build a dictionary with counts for each year, just like you did for authors above – though here, you don’t need to preprocess the regular expression match since there is only year in each citation.</p>
 <p>The last step is also very similar to what you did above: you’ll need to extract the year with the highest number of occurrences from your dictionary.</p>
-</details></li>
-</ol>
+</details>
+<p><br></p>
 <details>
 <summary>
 Solutions for both steps
@@ -2633,10 +2634,11 @@ Solutions for both steps
 <p>Where does science come from? This question has fascinated researchers for decades, and has even led to the birth of the field of the “science of science,” where researchers use the same tools they invented to investigate nature to gain insights into the development of science itself. In this exercise, you will build a “map of Science,” showing where articles published in the magazine Science have originated.</p>
 <p>You will find two files in the directory <code>CSB/regex/data/MapOfScience</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. The first, <code>pubmed_results.txt</code>, is the output of a query to PubMed, listing all the papers published in Science in 2015. You will extract the US ZIP codes from this file, and then use the file <code>zipcodes_coordinates.txt</code> to extract the geographic coordinates for each ZIP code.</p>
 <ol type="1">
-<li><p>Read the file <code>pubmed_results.txt</code>, and extract all the US ZIP codes (5-digit numbers).</p>
+<li>Read the file <code>pubmed_results.txt</code>, and extract all the US ZIP codes (5-digit numbers).</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <ul>
 <li><p>While you may be able to match only ZIP codes by creating a pattern that just matches 5 digits, it will be safer to match them using a more extensive pattern: <em>two-letter state code =&gt; space =&gt; 5 digits =&gt; comma and space =&gt; USA</em>.</p></li>
@@ -2649,11 +2651,14 @@ my_text = re.sub(your regex here, &#39; &#39;, my_text)
 use re.findall to extract all ZIP codes
 zipcodes = re.findall(another regex here, my_text)</code></pre></li>
 </ul>
-</details></li>
-<li><p>Create the lists <code>zip_code</code>, <code>zip_long</code>, <code>zip_lat</code>, and <code>zip_count</code>, containing the unique ZIP codes, their longitudes, latitudes, and counts (number of occurrences in Science), respectively.</p>
+</details>
+<p><br></p>
+<ol start="2" type="1">
+<li>Create the lists <code>zip_code</code>, <code>zip_long</code>, <code>zip_lat</code>, and <code>zip_count</code>, containing the unique ZIP codes, their longitudes, latitudes, and counts (number of occurrences in Science), respectively.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <ul>
 <li><p>You need to first save and count the number of unique ZIP codes, and then extract the corresponding longitude and latitude from the file for each ZIP code from the file <code>zipcodes_coordinates.txt</code>.</p></li>
@@ -2664,11 +2669,14 @@ unique_zipcodes = list(set(zipcodes))
 for each zipcode:
     extract number of occurrences
     extract latitude and longitude from zipcodes_coordinates.txt</code></pre>
-</details></li>
-<li><p>To visualize the data you’ve generated, use the code below.</p>
+</details>
+<p><br></p>
+<ol start="3" type="1">
+<li>To visualize the data you’ve generated, use the code below.</li>
+</ol>
 <details>
 <summary>
-<p>Code for the plot</p>
+Code for the plot
 </summary>
 <div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
@@ -2699,8 +2707,7 @@ for each zipcode:
 <span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>plSize <span class="op">=</span> params.get_size_inches()</span>
 <span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>params.set_size_inches( (plSize[<span class="dv">0</span>] <span class="op">*</span> <span class="dv">3</span>, plSize[<span class="dv">1</span>] <span class="op">*</span> <span class="dv">3</span>) )</span>
 <span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
-</details></li>
-</ol>
+</details>
 <details>
 <summary>
 Solutions for all steps

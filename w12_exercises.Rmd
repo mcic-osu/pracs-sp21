@@ -7,10 +7,6 @@ output:
     toc_depth: 3
 ---
 
-```{r}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 <br>
 
 ## Exercise CSB-1 (5.9.1): Bee checklist
@@ -45,85 +41,86 @@ publication of documents describing the species.
    Michener, LaBerge & Moure, 1955
    ```
    
-   <details>
-   <summary>Hints</summary>
-   
-   - The difficult part of the exercise is to write a regular expression capable
-     of capturing a wide variety of styles used to store the authors' names:
-     there may or may not be a parenthesis at the beginning/end of the string;
-     the initials for the authors may or may not be reported,
-     author names can be split using commas or ampersands;
-     some names are hyphenated.
-   
-     Alternatively, it is also possible to match the author names quite generically
-     (non-specifically), and instead make use of the fact that author names are
-     consistently followed by a comma and a 4-digit year.
+<details>
+<summary>Hints</summary>
 
-   - In your regular expression, capture the author name(s) and the year as
-     separate *groups* (with `()`).
-     Then, you can retrieve the author names and year from your match using
-     the `group()` method. 
-   
-     Start by testing your regular expression on one or a few citation strings.
-     
-   - To make sure you've captured all authors,
-     check that the number of names matches the number of records.
-   
-   - Because we want to count publications for individual authors and not for
-     combinations of authors, you will need to write **a second regular expression
-     that splits the list of authors using commas *or* `&`.**
-     Also be sure to include any necessary spaces in the splitting pattern!
-    
-   - Next, you want to create a dictionary and count the number of occurrences
-     of each author.
-   
-   - To get the author with the most occurrences, the CSB solution finds the
-     maximum value with `max_value_author = max(dict_authors.values())`,
-     then turns the dictionary values into a list and gets the index for the maximum value,
-     and finally turns the dictionary keys into a list and extracts the key
-     associated with the maximum value.
-     
-     However, in last week's exercises, we saw that we can use the `sorted()`
-     function to do this a little more easily: get a sorted list of keys
-     using `sorted(author_dict, key=author_dict.get, reverse=True)` and then
-     print the first value in this sorted list.
-     (Note that in the sorted function, the `key` argument expects a *function*
-     to be applied: `author_dict.get` gets the values, and then `sorted()` will
-     sort the keys by those values.)
-     
-   - Pseudocode:
-   
-   ```
-   open the file
-      extract species name
-      extract author/date string
-      use re.match to extract i) author list, ii) date
-      now go through each author list, and split the authors
-      create a dictionary for authors to count the number of occurences for each author 
-      get the author with the highest number of occurences   
-   ```
-   
-   </details>
-   
+- The difficult part of the exercise is to write a regular expression capable
+  of capturing a wide variety of styles used to store the authors' names:
+  there may or may not be a parenthesis at the beginning/end of the string;
+  the initials for the authors may or may not be reported,
+  author names can be split using commas or ampersands;
+  some names are hyphenated.
+
+  Alternatively, it is also possible to match the author names quite generically
+  (non-specifically), and instead make use of the fact that author names are
+  consistently followed by a comma and a 4-digit year.
+- In your regular expression, capture the author name(s) and the year as
+  separate *groups* (with `()`).
+  Then, you can retrieve the author names and year from your match using
+  the `group()` method. 
+
+  Start by testing your regular expression on one or a few citation strings.
+  
+- To make sure you've captured all authors,
+  check that the number of names matches the number of records.
+
+- Because we want to count publications for individual authors and not for
+  combinations of authors, you will need to write **a second regular expression
+  that splits the list of authors using commas *or* `&`.**
+  Also be sure to include any necessary spaces in the splitting pattern!
+ 
+- Next, you want to create a dictionary and count the number of occurrences
+  of each author.
+
+- To get the author with the most occurrences, the CSB solution finds the
+  maximum value with `max_value_author = max(dict_authors.values())`,
+  then turns the dictionary values into a list and gets the index for the maximum value,
+  and finally turns the dictionary keys into a list and extracts the key
+  associated with the maximum value.
+  
+  However, in last week's exercises, we saw that we can use the `sorted()`
+  function to do this a little more easily: get a sorted list of keys
+  using `sorted(author_dict, key=author_dict.get, reverse=True)` and then
+  print the first value in this sorted list.
+  (Note that in the sorted function, the `key` argument expects a *function*
+  to be applied: `author_dict.get` gets the values, and then `sorted()` will
+  sort the keys by those values.)
+  
+- Pseudocode:
+
+```
+open the file
+   extract species name
+   extract author/date string
+   use re.match to extract i) author list, ii) date
+   now go through each author list, and split the authors
+   create a dictionary for authors to count the number of occurences for each author 
+   get the author with the highest number of occurences   
+```
+</details>
+
+<br>   
   
 2. Which year of publication occurs most often in the database?
 
-   <details>
-   <summary>Hints</summary>
-   
-   You should be able to extract the year for each publication with `group()`
-   just like you did above for the authors, provided you created a group with `()`
-   that captures the year in your regular expression.
-   
-   Then, you should build a dictionary with counts for each year,
-   just like you did for authors above -- though here, you don't need to
-   preprocess the regular expression match since there is only year in each citation.
-   
-   The last step is also very similar to what you did above:
-   you'll need to extract the year with the highest number of occurrences
-   from your dictionary.
-   
-   </details>
+<details>
+<summary>Hints</summary>
+
+You should be able to extract the year for each publication with `group()`
+just like you did above for the authors, provided you created a group with `()`
+that captures the year in your regular expression.
+
+Then, you should build a dictionary with counts for each year,
+just like you did for authors above -- though here, you don't need to
+preprocess the regular expression match since there is only year in each citation.
+
+The last step is also very similar to what you did above:
+you'll need to extract the year with the highest number of occurrences
+from your dictionary.
+
+</details>
+
+<br>
 
 <details>
 <summary>Solutions for both steps</summary>
@@ -155,102 +152,106 @@ ZIP code.
 1. Read the file `pubmed_results.txt`, and extract all the US ZIP codes
    (5-digit numbers).
 
-   <details>
-   <summary>Hints</summary>
-   
-   - While you may be able to match only ZIP codes by creating a pattern that
-     just matches 5 digits, it will be safer to match them using a more extensive
-     pattern: *two-letter state code => space => 5 digits => comma and space =>
-     USA*.
-     
-   - To be able to match the pattern above, you need to account for the fact
-     that the pattern may be split across two lines.
-     Therefore, it's best to **read the entire file into a single string**
-     using the `read()` function (`<my_file_handle>.read()`),
-     and then **replacing newlines (`\n`) followed by six spaces by a single space**
-     using the `re.sub()` function.
-     
-   - Next, you will need a `re` function that returns all matches and not just a single
-     match, since the entire file is now a single string.
-     Recall that `re.findall()` will simply return a list of matches and not
-     a match object.
-     
-     Note also that with `re.findall()`, if you use parentheses to group a match
-     (i.e. the 5 digits of the ZIP code),
-     it will return the group(s) only, which is exactly what you want!
-   
-   - Pseudocode:
-   
-     ```
-     open the file and read all of the text using f.read()
-     my_text = re.sub(your regex here, ' ', my_text)
-     use re.findall to extract all ZIP codes
-     zipcodes = re.findall(another regex here, my_text)
-     ```
-   
-   </details>
-   
+<details>
+<summary>Hints</summary>
+
+- While you may be able to match only ZIP codes by creating a pattern that
+  just matches 5 digits, it will be safer to match them using a more extensive
+  pattern: *two-letter state code => space => 5 digits => comma and space =>
+  USA*.
+  
+- To be able to match the pattern above, you need to account for the fact
+  that the pattern may be split across two lines.
+  Therefore, it's best to **read the entire file into a single string**
+  using the `read()` function (`<my_file_handle>.read()`),
+  and then **replacing newlines (`\n`) followed by six spaces by a single space**
+  using the `re.sub()` function.
+  
+- Next, you will need a `re` function that returns all matches and not just a single
+  match, since the entire file is now a single string.
+  Recall that `re.findall()` will simply return a list of matches and not
+  a match object.
+  
+  Note also that with `re.findall()`, if you use parentheses to group a match
+  (i.e. the 5 digits of the ZIP code),
+  it will return the group(s) only, which is exactly what you want!
+
+- Pseudocode:
+
+  ```
+  open the file and read all of the text using f.read()
+  my_text = re.sub(your regex here, ' ', my_text)
+  use re.findall to extract all ZIP codes
+  zipcodes = re.findall(another regex here, my_text)
+  ```
+
+</details>
+
+<br>
+ 
 2. Create the lists `zip_code`, `zip_long`, `zip_lat`, and `zip_count`,
    containing the unique ZIP codes, their longitudes, latitudes,
    and counts (number of occurrences in Science), respectively.
 
-   <details>
-   <summary>Hints</summary>
-   
-   - You need to first save and count the number of unique ZIP codes,
-     and then extract the corresponding longitude and latitude from the file
-     for each ZIP code from the file `zipcodes_coordinates.txt`.
-   
-   - Pseudocode:
-   
-   ```
-   # list of distinct zipcodes
-   unique_zipcodes = list(set(zipcodes))
-   for each zipcode:
-       extract number of occurrences
-       extract latitude and longitude from zipcodes_coordinates.txt
-   ```
-   
-   </details>
+<details>
+<summary>Hints</summary>
+
+- You need to first save and count the number of unique ZIP codes,
+  and then extract the corresponding longitude and latitude from the file
+  for each ZIP code from the file `zipcodes_coordinates.txt`.
+
+- Pseudocode:
+
+```
+# list of distinct zipcodes
+unique_zipcodes = list(set(zipcodes))
+for each zipcode:
+    extract number of occurrences
+    extract latitude and longitude from zipcodes_coordinates.txt
+```
+
+</details>
+
+<br>
 
 3. To visualize the data you've generated, use the code below.
 
-   <details>
-   <summary>Code for the plot</summary>
-   
-   ```python
-   import matplotlib.pyplot as plt
-   %matplotlib inline
-   
-   plt.scatter(zip_long, zip_lat, s = zip_count, c= zip_count)
-   plt.colorbar()
-   
-   # Only plot the continental US without Alaska:
-   plt.xlim(-125,-65)
-   plt.ylim(23, 50)
-   
-   # Add a few cities for reference (optional):
-   ard = dict(arrowstyle="->")
-   plt.annotate('Los Angeles', xy = (-118.25, 34.05), 
-                  xytext = (-108.25, 34.05), arrowprops = ard)
-   plt.annotate('Palo Alto', xy = (-122.1381, 37.4292), 
-                  xytext = (-112.1381, 37.4292), arrowprops= ard)
-   plt.annotate('Cambridge', xy = (-71.1106, 42.3736), 
-                  xytext = (-73.1106, 48.3736), arrowprops= ard)
-   plt.annotate('Chicago', xy = (-87.6847, 41.8369), 
-                  xytext = (-87.6847, 46.8369), arrowprops= ard)
-   plt.annotate('Seattle', xy = (-122.33, 47.61), 
-                  xytext = (-116.33, 47.61), arrowprops= ard)
-   plt.annotate('Miami', xy = (-80.21, 25.7753), 
-                  xytext = (-80.21, 30.7753), arrowprops= ard)
-   
-   params = plt.gcf()
-   plSize = params.get_size_inches()
-   params.set_size_inches( (plSize[0] * 3, plSize[1] * 3) )
-   plt.show()
-   ```
-   
-   </details>
+<details>
+<summary>Code for the plot</summary>
+
+```python
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+plt.scatter(zip_long, zip_lat, s = zip_count, c= zip_count)
+plt.colorbar()
+
+# Only plot the continental US without Alaska:
+plt.xlim(-125,-65)
+plt.ylim(23, 50)
+
+# Add a few cities for reference (optional):
+ard = dict(arrowstyle="->")
+plt.annotate('Los Angeles', xy = (-118.25, 34.05), 
+               xytext = (-108.25, 34.05), arrowprops = ard)
+plt.annotate('Palo Alto', xy = (-122.1381, 37.4292), 
+               xytext = (-112.1381, 37.4292), arrowprops= ard)
+plt.annotate('Cambridge', xy = (-71.1106, 42.3736), 
+               xytext = (-73.1106, 48.3736), arrowprops= ard)
+plt.annotate('Chicago', xy = (-87.6847, 41.8369), 
+               xytext = (-87.6847, 46.8369), arrowprops= ard)
+plt.annotate('Seattle', xy = (-122.33, 47.61), 
+               xytext = (-116.33, 47.61), arrowprops= ard)
+plt.annotate('Miami', xy = (-80.21, 25.7753), 
+               xytext = (-80.21, 30.7753), arrowprops= ard)
+
+params = plt.gcf()
+plSize = params.get_size_inches()
+params.set_size_inches( (plSize[0] * 3, plSize[1] * 3) )
+plt.show()
+```
+
+</details>
 
 <details>
 <summary>Solutions for all steps</summary>
