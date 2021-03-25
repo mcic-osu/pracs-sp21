@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -2733,82 +2734,82 @@ Go further
 </table>
 <h3 id="for-loops"><code>for</code> loops</h3>
 <p><strong>Basic example showing the syntax:</strong></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">for</span> <span class="ex">i</span> in 1 2 3<span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>    <span class="bu">echo</span> <span class="st">&quot;Now the variable &#39;i&#39; is: </span><span class="va">$i</span><span class="st">&quot;</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">done</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; Now the variable &#39;i&#39; is: 1</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt; Now the variable &#39;i&#39; is: 2</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; Now the variable &#39;i&#39; is: 3</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> 1 2 3<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Now the variable &#39;i&#39; is: </span><span class="va">$i</span><span class="st">&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Now the variable &#39;i&#39; is: 1</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Now the variable &#39;i&#39; is: 2</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Now the variable &#39;i&#39; is: 3</span></span></code></pre></div>
 <p>In each iteration, one of the items provided after <code>in</code> will be <strong>assigned</strong> to the variable name provided after <code>for</code>, which can then be used inside the loop.</p>
 <p><strong>Practical examples:</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Loop over files using globbing - better than using `ls`:</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">for</span> <span class="ex">fastq_file</span> in data/raw/*fastq.gz<span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>      <span class="bu">echo</span> <span class="st">&quot;File </span><span class="va">$fastq_file</span><span class="st"> has </span><span class="va">$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span> <span class="va">$fastq_file)</span><span class="st"> lines.&quot;</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a>      <span class="co"># More processing...</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">done</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>  </span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># Loop to rename files:</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="kw">for</span> <span class="ex">oldname</span> in *.fastq<span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>    <span class="va">newname=$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> _001.fastq<span class="va">)</span>.fq</span>
-<span id="cb2-10"><a href="#cb2-10"></a>    <span class="bu">echo</span> <span class="st">&quot;Old/new name: </span><span class="va">$oldname</span><span class="st"> </span><span class="va">$newname</span><span class="st">&quot;</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a>    <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$newname</span><span class="st">&quot;</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="kw">done</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co"># Loop using an array to submit a script for each sample:</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="va">my_samples=($(</span><span class="fu">cut</span> -f1 my_metadata.txt<span class="va">))</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="kw">for</span> <span class="ex">my_sample</span> in <span class="va">${my_samples[@]}</span><span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a>    <span class="ex">my_script.sh</span> <span class="va">$my_sample</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop over files using globbing - better than using `ls`:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> fastq_file <span class="kw">in</span> data/raw/<span class="pp">*</span>fastq.gz<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      <span class="bu">echo</span> <span class="st">&quot;File </span><span class="va">$fastq_file</span><span class="st"> has </span><span class="va">$(</span><span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span> <span class="va">$fastq_file)</span><span class="st"> lines.&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="co"># More processing...</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop to rename files:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> oldname <span class="kw">in</span> <span class="pp">*</span>.fastq<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">newname=$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> _001.fastq<span class="va">)</span>.fq</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Old/new name: </span><span class="va">$oldname</span><span class="st"> </span><span class="va">$newname</span><span class="st">&quot;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$oldname</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$newname</span><span class="st">&quot;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop using an array to submit a script for each sample:</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="va">my_samples=($(</span><span class="fu">cut</span> <span class="at">-f1</span> my_metadata.txt<span class="va">))</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> my_sample <span class="kw">in</span> <span class="va">${my_samples</span><span class="op">[@]</span><span class="va">}</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="ex">my_script.sh</span> <span class="va">$my_sample</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <h3 id="if-statements"><code>if</code> statements</h3>
 <p><strong>Basic syntax:</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">if</span> <span class="op">&lt;</span><span class="ex">some_test</span><span class="op">&gt;</span><span class="kw">;</span> <span class="kw">then</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>    <span class="co"># Commands to run if test evaluated to true</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">fi</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>  </span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">if</span> <span class="op">&lt;</span><span class="ex">some_test</span><span class="op">&gt;</span><span class="kw">;</span> <span class="kw">then</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>    <span class="co"># Commands to run if test evaluated to true</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="kw">else</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a>    <span class="co"># Commands to run if test evaluated to false</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="kw">fi</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">&lt;</span>some_test<span class="op">&gt;</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Commands to run if test evaluated to true</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">&lt;</span>some_test<span class="op">&gt;</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Commands to run if test evaluated to true</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Commands to run if test evaluated to false</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div>
 <p>The test is usually done with the <code>[]</code> syntax for a test, e.g. <code>[ -d my_dir ]</code> which will evaluate to true is <code>my_dir</code> is an existing directory.</p>
 <p><strong>Practical examples:</strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Differential processing based on (e.g.) the number of samples:</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="va">n_samples=$(</span><span class="fu">wc</span> -l <span class="op">&lt;</span> samples.txt<span class="va">)</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">if</span><span class="bu"> [</span> <span class="st">&quot;</span><span class="va">$n_samples</span><span class="st">&quot;</span> <span class="ot">-gt</span> 9<span class="bu"> ]</span>; <span class="kw">then</span>  <span class="co"># If the nr of samples is &gt;9</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>    <span class="bu">echo</span> <span class="st">&quot;&gt;9 samples: processing files with algorithm A...&quot;</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="kw">else</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>    <span class="bu">echo</span> <span class="st">&quot;&lt;= 9 samples: processing files with algorithm B...&quot;</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="kw">fi</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co"># Test whether the correct number of arguments (here: 2)</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co"># were provided to the script:</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="st">&quot;</span><span class="va">$#</span><span class="st">&quot;</span> <span class="ot">-eq</span> 2<span class="bu"> ]</span>; <span class="kw">then</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a>      <span class="bu">echo</span> <span class="st">&quot;Error: wrong number of arguments&quot;</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a>      <span class="bu">echo</span> <span class="st">&quot;You provided </span><span class="va">$#</span><span class="st"> arguments, while 2 are required.&quot;</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a>      <span class="bu">echo</span> <span class="st">&quot;Usage: line.sh &lt;line-number&gt; &lt;file&gt;&quot;</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a>      <span class="bu">exit</span> 1</span>
-<span id="cb4-16"><a href="#cb4-16"></a><span class="kw">fi</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a></span>
-<span id="cb4-18"><a href="#cb4-18"></a><span class="co"># Test whether the input file is a regular file (-f) and can be read (-r):</span></span>
-<span id="cb4-19"><a href="#cb4-19"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="va">$file</span><span class="bu"> ]</span> <span class="kw">||</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-r</span> <span class="va">$file</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
-<span id="cb4-20"><a href="#cb4-20"></a>    <span class="bu">echo</span> <span class="st">&quot;Error: can&#39;t open file&quot;</span></span>
-<span id="cb4-21"><a href="#cb4-21"></a>    <span class="bu">echo</span> <span class="st">&quot;Second argument should be a readable file&quot;</span></span>
-<span id="cb4-22"><a href="#cb4-22"></a>    <span class="bu">echo</span> <span class="st">&quot;You provided: </span><span class="va">$file</span><span class="st">&quot;</span></span>
-<span id="cb4-23"><a href="#cb4-23"></a>    <span class="bu">exit</span> 1</span>
-<span id="cb4-24"><a href="#cb4-24"></a><span class="kw">fi</span></span>
-<span id="cb4-25"><a href="#cb4-25"></a></span>
-<span id="cb4-26"><a href="#cb4-26"></a><span class="co"># Use a command&#39;s exit status - for grep, a match is success is true:</span></span>
-<span id="cb4-27"><a href="#cb4-27"></a><span class="kw">if</span> <span class="fu">grep</span> <span class="st">&quot;AGATCGG&quot;</span> contimated.fasta <span class="op">&gt;</span> /dev/null<span class="kw">;</span> <span class="kw">then</span></span>
-<span id="cb4-28"><a href="#cb4-28"></a>    <span class="bu">echo</span> <span class="st">&quot;OH NO! File is contaminated!&quot;</span></span>
-<span id="cb4-29"><a href="#cb4-29"></a>    <span class="bu">exit</span> 1</span>
-<span id="cb4-30"><a href="#cb4-30"></a><span class="kw">fi</span></span>
-<span id="cb4-31"><a href="#cb4-31"></a></span>
-<span id="cb4-32"><a href="#cb4-32"></a><span class="co"># Remove all empty files from a directory:</span></span>
-<span id="cb4-33"><a href="#cb4-33"></a><span class="kw">for</span> <span class="fu">file</span> in *<span class="kw">;</span> <span class="kw">do</span></span>
-<span id="cb4-34"><a href="#cb4-34"></a>    <span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-s</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
-<span id="cb4-35"><a href="#cb4-35"></a>        <span class="fu">rm</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
-<span id="cb4-36"><a href="#cb4-36"></a>    <span class="kw">fi</span></span>
-<span id="cb4-37"><a href="#cb4-37"></a><span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Differential processing based on (e.g.) the number of samples:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">n_samples=$(</span><span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span> samples.txt<span class="va">)</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$n_samples</span><span class="st">&quot;</span> <span class="ot">-gt</span> 9 <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span>  <span class="co"># If the nr of samples is &gt;9</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;&gt;9 samples: processing files with algorithm A...&quot;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;&lt;= 9 samples: processing files with algorithm B...&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Test whether the correct number of arguments (here: 2)</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># were provided to the script:</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="st">&quot;</span><span class="va">$#</span><span class="st">&quot;</span> <span class="ot">-eq</span> 2 <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="bu">echo</span> <span class="st">&quot;Error: wrong number of arguments&quot;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      <span class="bu">echo</span> <span class="st">&quot;You provided </span><span class="va">$#</span><span class="st"> arguments, while 2 are required.&quot;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="bu">echo</span> <span class="st">&quot;Usage: line.sh &lt;line-number&gt; &lt;file&gt;&quot;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="bu">exit</span> 1</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Test whether the input file is a regular file (-f) and can be read (-r):</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="va">$file</span> <span class="bu">]</span> <span class="kw">||</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-r</span> <span class="va">$file</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Error: can&#39;t open file&quot;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;Second argument should be a readable file&quot;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;You provided: </span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">exit</span> 1</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Use a command&#39;s exit status - for grep, a match is success is true:</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="fu">grep</span> <span class="st">&quot;AGATCGG&quot;</span> contimated.fasta <span class="op">&gt;</span> /dev/null<span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;OH NO! File is contaminated!&quot;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="bu">exit</span> 1</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove all empty files from a directory:</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> file <span class="kw">in</span> <span class="pp">*</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-s</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rm</span> <span class="st">&quot;</span><span class="va">$file</span><span class="st">&quot;</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <h3 id="file-test-operators">File test operators</h3>
 <table>
 <thead>

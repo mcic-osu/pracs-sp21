@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -3014,65 +3015,65 @@ Go further
 </tbody>
 </table>
 <h4 id="sed-examples"><code>sed</code> examples</h4>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Replace &quot;chrom&quot; by &quot;chr&quot; in every line,</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># with &quot;i&quot;: case insensitive, and &quot;g&quot;: global (&gt;1 replacements per line)</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">sed</span> <span class="st">&#39;s/chrom/chr/ig&#39;</span> chroms.txt</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Only print lines matching &quot;abc&quot;:</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="fu">sed</span> -n <span class="st">&#39;/abc/p&#39;</span> my.txt</span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># Print lines 20-50:</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="fu">sed</span> -n <span class="st">&#39;20,50p&#39;</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co"># Change the genomic coordinates format chr1:431-874 (&quot;chrom:start-end&quot;)</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co"># ...to one that has a tab (&quot;\t&quot;) between each field:</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="bu">echo</span> <span class="st">&quot;chr1:431-874&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> -e <span class="st">&#39;s/:/\t/&#39;</span> -e <span class="st">&#39;s/-/\t/&#39;</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#&gt; chr1    431     874</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co"># Invert the order of two words:</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="bu">echo</span> <span class="st">&quot;inverted words&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> -E <span class="st">&#39;s/(\w+) (\w+)/\2 \1/&#39;</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a><span class="co">#&gt; words inverted</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a></span>
-<span id="cb1-20"><a href="#cb1-20"></a><span class="co"># Capture transcript IDs from a GTF file (format &#39;transcript_id &quot;ID_I_WANT&quot;&#39;):</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a><span class="co"># (Needs &quot;-n&quot; and &quot;p&quot; so lines with no transcript_id are not printed.) </span></span>
-<span id="cb1-22"><a href="#cb1-22"></a><span class="fu">grep</span> -v <span class="st">&quot;^#&quot;</span> my.gtf <span class="kw">|</span> <span class="fu">sed</span> -E -n <span class="st">&#39;s/.*transcript_id &quot;([^&quot;]+)&quot;.*/\1/p&#39;</span></span>
-<span id="cb1-23"><a href="#cb1-23"></a></span>
-<span id="cb1-24"><a href="#cb1-24"></a><span class="co"># When a pattern contains a `/`, use a different expression delimiter:</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a><span class="bu">echo</span> <span class="st">&quot;data/fastq/sampleA.fastq&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s#data/fastq/##&#39;</span></span>
-<span id="cb1-26"><a href="#cb1-26"></a><span class="co">#&gt; sampleA.fastq</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace &quot;chrom&quot; by &quot;chr&quot; in every line,</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># with &quot;i&quot;: case insensitive, and &quot;g&quot;: global (&gt;1 replacements per line)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;s/chrom/chr/ig&#39;</span> chroms.txt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Only print lines matching &quot;abc&quot;:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;/abc/p&#39;</span> my.txt</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print lines 20-50:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;20,50p&#39;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Change the genomic coordinates format chr1:431-874 (&quot;chrom:start-end&quot;)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># ...to one that has a tab (&quot;\t&quot;) between each field:</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;chr1:431-874&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-e</span> <span class="st">&#39;s/:/\t/&#39;</span> <span class="at">-e</span> <span class="st">&#39;s/-/\t/&#39;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; chr1    431     874</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Invert the order of two words:</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;inverted words&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-E</span> <span class="st">&#39;s/(\w+) (\w+)/\2 \1/&#39;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; words inverted</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Capture transcript IDs from a GTF file (format &#39;transcript_id &quot;ID_I_WANT&quot;&#39;):</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># (Needs &quot;-n&quot; and &quot;p&quot; so lines with no transcript_id are not printed.) </span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> my.gtf <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-E</span> <span class="at">-n</span> <span class="st">&#39;s/.*transcript_id &quot;([^&quot;]+)&quot;.*/\1/p&#39;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># When a pattern contains a `/`, use a different expression delimiter:</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;data/fastq/sampleA.fastq&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s#data/fastq/##&#39;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sampleA.fastq</span></span></code></pre></div>
 <h3 id="awk"><code>awk</code></h3>
 <ul>
 <li><p><strong>Records and fields</strong>: by default, each line is a record (assigned to <code>$0</code>). Each column is a field (assigned to <code>$1</code>, <code>$2</code>, etc).</p></li>
 <li><p><strong>Patterns and actions</strong>: A pattern is a condition to be tested, and an action is something to do when the pattern evaluates to true.</p>
 <ul>
 <li><p>Omit the pattern: action applies to every record.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">awk</span> <span class="st">&#39;{ print $0 }&#39;</span> my.txt     <span class="co"># Print entire file</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">awk</span> <span class="st">&#39;{ print $3,$2 }&#39;</span> my.txt  <span class="co"># Print columns 3 and 2 for each line</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{ print $0 }&#39;</span> my.txt     <span class="co"># Print entire file</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{ print $3,$2 }&#39;</span> my.txt  <span class="co"># Print columns 3 and 2 for each line</span></span></code></pre></div></li>
 <li><p>Omit the action: print full records that match the pattern.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Print all lines for which:</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">awk</span> <span class="st">&#39;$3 &lt; 10&#39;</span> my.bed          <span class="co"># Column 3 is less than 10</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">awk</span> <span class="st">&#39;$1 == &quot;chr1&quot;&#39;</span> my.bed     <span class="co"># Column 1 is &quot;chr1&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">awk</span> <span class="st">&#39;/chr1/&#39;</span> my.bed           <span class="co"># Regex pattern &quot;chr1&quot; matches</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="fu">awk</span> <span class="st">&#39;$1 ~ /chr1/&#39;</span> my.bed      <span class="co"># Column 1 _matches_ &quot;chr1&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print all lines for which:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;$3 &lt; 10&#39;</span> my.bed          <span class="co"># Column 3 is less than 10</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;$1 == &quot;chr1&quot;&#39;</span> my.bed     <span class="co"># Column 1 is &quot;chr1&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/chr1/&#39;</span> my.bed           <span class="co"># Regex pattern &quot;chr1&quot; matches</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;$1 ~ /chr1/&#39;</span> my.bed      <span class="co"># Column 1 _matches_ &quot;chr1&quot;</span></span></code></pre></div></li>
 </ul></li>
 </ul>
 <h4 id="awk-examples"><code>awk</code> examples</h4>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Count columns in a GTF file after excluding the header</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co"># (lines starting with &quot;#&quot;):</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">awk</span> -F <span class="st">&quot;\t&quot;</span> <span class="st">&#39;!/^#/ {print NF; exit}&#39;</span> my.gtf</span>
-<span id="cb4-4"><a href="#cb4-4"></a></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co"># Print all lines for which column 1 matches &quot;chr1&quot; and the difference</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co"># ...between columns 3 and 2 (feature length) is less than 10:</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="fu">awk</span> <span class="st">&#39;$1 ~ /chr1/ &amp;&amp; $3 - $2 &gt; 10&#39;</span> my.bed</span>
-<span id="cb4-8"><a href="#cb4-8"></a></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co"># Select lines with &quot;chr2&quot; or &quot;chr3&quot;, print all columns and add a column </span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co"># ...with the difference between column 3 and 2 (feature length):</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="fu">awk</span> <span class="st">&#39;$1 ~ /chr2|chr3/ { print $0 &quot;\t&quot; $3 - $2 }&#39;</span> my.bed</span>
-<span id="cb4-12"><a href="#cb4-12"></a></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co"># Caclulate the mean value for a column:</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="fu">awk</span> <span class="st">&#39;BEGIN{ sum = 0 };            </span></span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="st">     { sum += ($3 - $2) };             </span></span>
-<span id="cb4-16"><a href="#cb4-16"></a><span class="st">     END{ print &quot;mean: &quot; sum/NR };&#39;</span> my.bed</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count columns in a GTF file after excluding the header</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (lines starting with &quot;#&quot;):</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F</span> <span class="st">&quot;\t&quot;</span> <span class="st">&#39;!/^#/ {print NF; exit}&#39;</span> my.gtf</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print all lines for which column 1 matches &quot;chr1&quot; and the difference</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ...between columns 3 and 2 (feature length) is less than 10:</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;$1 ~ /chr1/ &amp;&amp; $3 - $2 &gt; 10&#39;</span> my.bed</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Select lines with &quot;chr2&quot; or &quot;chr3&quot;, print all columns and add a column </span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># ...with the difference between column 3 and 2 (feature length):</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;$1 ~ /chr2|chr3/ { print $0 &quot;\t&quot; $3 - $2 }&#39;</span> my.bed</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Caclulate the mean value for a column:</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;BEGIN{ sum = 0 };            </span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st">     { sum += ($3 - $2) };             </span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="st">     END{ print &quot;mean: &quot; sum/NR };&#39;</span> my.bed</span></code></pre></div>
 <h4 id="awk-comparison-and-logical-operators"><code>awk</code> comparison and logical operators</h4>
 <table>
 <thead>

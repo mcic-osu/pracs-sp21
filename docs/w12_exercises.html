@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -2588,7 +2589,9 @@ Eardley &amp; Brooks, 1989
 Lepeletier &amp; Audinet-Serville, 1828
 Michener, LaBerge &amp; Moure, 1955</code></pre>
 <details>
-<p><summary>Hints</summary></p>
+<summary>
+<p>Hints</p>
+</summary>
 <ul>
 <li><p>The difficult part of the exercise is to write a regular expression capable of capturing a wide variety of styles used to store the authors’ names: there may or may not be a parenthesis at the beginning/end of the string; the initials for the authors may or may not be reported, author names can be split using commas or ampersands; some names are hyphenated.</p>
 <p>Alternatively, it is also possible to match the author names quite generically (non-specifically), and instead make use of the fact that author names are consistently followed by a comma and a 4-digit year.</p></li>
@@ -2611,14 +2614,18 @@ Michener, LaBerge &amp; Moure, 1955</code></pre>
 </details></li>
 <li><p>Which year of publication occurs most often in the database?</p>
 <details>
-<p><summary>Hints</summary></p>
+<summary>
+<p>Hints</p>
+</summary>
 <p>You should be able to extract the year for each publication with <code>group()</code> just like you did above for the authors, provided you created a group with <code>()</code> that captures the year in your regular expression.</p>
 <p>Then, you should build a dictionary with counts for each year, just like you did for authors above – though here, you don’t need to preprocess the regular expression match since there is only year in each citation.</p>
 <p>The last step is also very similar to what you did above: you’ll need to extract the year with the highest number of occurrences from your dictionary.</p>
 </details></li>
 </ol>
 <details>
-<p><summary>Solutions for both steps</summary></p>
+<summary>
+Solutions for both steps
+</summary>
 <p>See the <a href="https://github.com/CSB-book/CSB/blob/master/regex/solutions/BeeChecklist_solution.ipynb">CSB notebook with the solutions</a>.</p>
 </details>
 <p><br></p>
@@ -2628,7 +2635,9 @@ Michener, LaBerge &amp; Moure, 1955</code></pre>
 <ol type="1">
 <li><p>Read the file <code>pubmed_results.txt</code>, and extract all the US ZIP codes (5-digit numbers).</p>
 <details>
-<p><summary>Hints</summary></p>
+<summary>
+<p>Hints</p>
+</summary>
 <ul>
 <li><p>While you may be able to match only ZIP codes by creating a pattern that just matches 5 digits, it will be safer to match them using a more extensive pattern: <em>two-letter state code =&gt; space =&gt; 5 digits =&gt; comma and space =&gt; USA</em>.</p></li>
 <li><p>To be able to match the pattern above, you need to account for the fact that the pattern may be split across two lines. Therefore, it’s best to <strong>read the entire file into a single string</strong> using the <code>read()</code> function (<code>&lt;my_file_handle&gt;.read()</code>), and then <strong>replacing newlines (<code>\n</code>) followed by six spaces by a single space</strong> using the <code>re.sub()</code> function.</p></li>
@@ -2643,7 +2652,9 @@ zipcodes = re.findall(another regex here, my_text)</code></pre></li>
 </details></li>
 <li><p>Create the lists <code>zip_code</code>, <code>zip_long</code>, <code>zip_lat</code>, and <code>zip_count</code>, containing the unique ZIP codes, their longitudes, latitudes, and counts (number of occurrences in Science), respectively.</p>
 <details>
-<p><summary>Hints</summary></p>
+<summary>
+<p>Hints</p>
+</summary>
 <ul>
 <li><p>You need to first save and count the number of unique ZIP codes, and then extract the corresponding longitude and latitude from the file for each ZIP code from the file <code>zipcodes_coordinates.txt</code>.</p></li>
 <li><p>Pseudocode:</p></li>
@@ -2656,40 +2667,44 @@ for each zipcode:
 </details></li>
 <li><p>To visualize the data you’ve generated, use the code below.</p>
 <details>
-<p><summary>Code for the plot</summary></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="op">%</span>matplotlib inline</span>
-<span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a>plt.scatter(zip_long, zip_lat, s <span class="op">=</span> zip_count, c<span class="op">=</span> zip_count)</span>
-<span id="cb5-5"><a href="#cb5-5"></a>plt.colorbar()</span>
-<span id="cb5-6"><a href="#cb5-6"></a></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co"># Only plot the continental US without Alaska:</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>plt.xlim(<span class="op">-</span><span class="dv">125</span>,<span class="op">-</span><span class="dv">65</span>)</span>
-<span id="cb5-9"><a href="#cb5-9"></a>plt.ylim(<span class="dv">23</span>, <span class="dv">50</span>)</span>
-<span id="cb5-10"><a href="#cb5-10"></a></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co"># Add a few cities for reference (optional):</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a>ard <span class="op">=</span> <span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">&quot;-&gt;&quot;</span>)</span>
-<span id="cb5-13"><a href="#cb5-13"></a>plt.annotate(<span class="st">&#39;Los Angeles&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">118.25</span>, <span class="fl">34.05</span>), </span>
-<span id="cb5-14"><a href="#cb5-14"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">108.25</span>, <span class="fl">34.05</span>), arrowprops <span class="op">=</span> ard)</span>
-<span id="cb5-15"><a href="#cb5-15"></a>plt.annotate(<span class="st">&#39;Palo Alto&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">122.1381</span>, <span class="fl">37.4292</span>), </span>
-<span id="cb5-16"><a href="#cb5-16"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">112.1381</span>, <span class="fl">37.4292</span>), arrowprops<span class="op">=</span> ard)</span>
-<span id="cb5-17"><a href="#cb5-17"></a>plt.annotate(<span class="st">&#39;Cambridge&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">71.1106</span>, <span class="fl">42.3736</span>), </span>
-<span id="cb5-18"><a href="#cb5-18"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">73.1106</span>, <span class="fl">48.3736</span>), arrowprops<span class="op">=</span> ard)</span>
-<span id="cb5-19"><a href="#cb5-19"></a>plt.annotate(<span class="st">&#39;Chicago&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">87.6847</span>, <span class="fl">41.8369</span>), </span>
-<span id="cb5-20"><a href="#cb5-20"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">87.6847</span>, <span class="fl">46.8369</span>), arrowprops<span class="op">=</span> ard)</span>
-<span id="cb5-21"><a href="#cb5-21"></a>plt.annotate(<span class="st">&#39;Seattle&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">122.33</span>, <span class="fl">47.61</span>), </span>
-<span id="cb5-22"><a href="#cb5-22"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">116.33</span>, <span class="fl">47.61</span>), arrowprops<span class="op">=</span> ard)</span>
-<span id="cb5-23"><a href="#cb5-23"></a>plt.annotate(<span class="st">&#39;Miami&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">80.21</span>, <span class="fl">25.7753</span>), </span>
-<span id="cb5-24"><a href="#cb5-24"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">80.21</span>, <span class="fl">30.7753</span>), arrowprops<span class="op">=</span> ard)</span>
-<span id="cb5-25"><a href="#cb5-25"></a></span>
-<span id="cb5-26"><a href="#cb5-26"></a>params <span class="op">=</span> plt.gcf()</span>
-<span id="cb5-27"><a href="#cb5-27"></a>plSize <span class="op">=</span> params.get_size_inches()</span>
-<span id="cb5-28"><a href="#cb5-28"></a>params.set_size_inches( (plSize[<span class="dv">0</span>] <span class="op">*</span> <span class="dv">3</span>, plSize[<span class="dv">1</span>] <span class="op">*</span> <span class="dv">3</span>) )</span>
-<span id="cb5-29"><a href="#cb5-29"></a>plt.show()</span></code></pre></div>
+<summary>
+<p>Code for the plot</p>
+</summary>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>plt.scatter(zip_long, zip_lat, s <span class="op">=</span> zip_count, c<span class="op">=</span> zip_count)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Only plot the continental US without Alaska:</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">125</span>,<span class="op">-</span><span class="dv">65</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">23</span>, <span class="dv">50</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a few cities for reference (optional):</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>ard <span class="op">=</span> <span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">&quot;-&gt;&quot;</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.annotate(<span class="st">&#39;Los Angeles&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">118.25</span>, <span class="fl">34.05</span>), </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">108.25</span>, <span class="fl">34.05</span>), arrowprops <span class="op">=</span> ard)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>plt.annotate(<span class="st">&#39;Palo Alto&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">122.1381</span>, <span class="fl">37.4292</span>), </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">112.1381</span>, <span class="fl">37.4292</span>), arrowprops<span class="op">=</span> ard)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>plt.annotate(<span class="st">&#39;Cambridge&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">71.1106</span>, <span class="fl">42.3736</span>), </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">73.1106</span>, <span class="fl">48.3736</span>), arrowprops<span class="op">=</span> ard)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>plt.annotate(<span class="st">&#39;Chicago&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">87.6847</span>, <span class="fl">41.8369</span>), </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">87.6847</span>, <span class="fl">46.8369</span>), arrowprops<span class="op">=</span> ard)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>plt.annotate(<span class="st">&#39;Seattle&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">122.33</span>, <span class="fl">47.61</span>), </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">116.33</span>, <span class="fl">47.61</span>), arrowprops<span class="op">=</span> ard)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>plt.annotate(<span class="st">&#39;Miami&#39;</span>, xy <span class="op">=</span> (<span class="op">-</span><span class="fl">80.21</span>, <span class="fl">25.7753</span>), </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>               xytext <span class="op">=</span> (<span class="op">-</span><span class="fl">80.21</span>, <span class="fl">30.7753</span>), arrowprops<span class="op">=</span> ard)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> plt.gcf()</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>plSize <span class="op">=</span> params.get_size_inches()</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>params.set_size_inches( (plSize[<span class="dv">0</span>] <span class="op">*</span> <span class="dv">3</span>, plSize[<span class="dv">1</span>] <span class="op">*</span> <span class="dv">3</span>) )</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
 </details></li>
 </ol>
 <details>
-<p><summary>Solutions for all steps</summary></p>
+<summary>
+Solutions for all steps
+</summary>
 <p>See the <a href="https://github.com/CSB-book/CSB/blob/master/regex/solutions/MapOfScience_solution.ipynb">CSB notebook with the solutions</a>.</p>
 </details>
 <p><br></p>

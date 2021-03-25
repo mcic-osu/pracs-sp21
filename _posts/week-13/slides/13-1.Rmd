@@ -10,7 +10,7 @@ nature:
 highlightLines: true
 countIncrementalSlides: false
 ---
-  class:inverse middle center
+class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)

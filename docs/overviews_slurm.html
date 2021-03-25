@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -2709,28 +2710,28 @@ Go further
 </table>
 <h4 id="submitting-the-job-with-sbatch">Submitting the job with <code>sbatch</code></h4>
 <p>To submit a script to the queue with <code>sbatch</code>, simply prepend <code>sbatch</code>, optionally with sbatch options, before the call to the script:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">sbatch</span> [sbatch-options] <span class="op">&lt;</span>script<span class="op">&gt;</span> [script-arguments]</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> [sbatch-options] <span class="op">&lt;</span>script<span class="op">&gt;</span> [script-arguments]</span></code></pre></div>
 <p>Some examples with and without sbatch options and script arguments:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># No sbatch options (must be provided in script) and no script arguments:</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="ex">sbatch</span> myscript.sh</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># No sbatch options, one script argument:</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="ex">sbatch</span> myscript.sh sampleA.fastq.gz</span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co"># Two sbatch options, no script arguments:</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="ex">sbatch</span> -t 60 -A PAS1855 --mem=20G myscript.sh</span>
-<span id="cb2-9"><a href="#cb2-9"></a></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co"># Two sbatch options, one script argument:</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="ex">sbatch</span> -t 60 -A PAS1855 --mem=20G myscript.sh sampleA.fastq.gz</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No sbatch options (must be provided in script) and no script arguments:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> myscript.sh</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># No sbatch options, one script argument:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> myscript.sh sampleA.fastq.gz</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Two sbatch options, no script arguments:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> <span class="at">-t</span> 60 <span class="at">-A</span> PAS1855 <span class="at">--mem</span><span class="op">=</span>20G myscript.sh</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Two sbatch options, one script argument:</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> <span class="at">-t</span> 60 <span class="at">-A</span> PAS1855 <span class="at">--mem</span><span class="op">=</span>20G myscript.sh sampleA.fastq.gz</span></code></pre></div>
 <h4 id="example-script-header-with-slurm-directives">Example script header with SLURM directives</h4>
 <p>Note: Because SLURM directives are a special type of comments, they need to occur <em>before</em> any lines that are executed in order to be parsed. For instance, they should be placed above the <code>set</code> header below:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#SBATCH --account=PAS1855</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#SBATCH --time=00:45:00</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#SBATCH --mem=8G</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="kw">set</span> <span class="ex">-e</span> -u -o pipefail</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=PAS1855</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:45:00</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=8G</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span></code></pre></div>
 <h4 id="slurm-environment-variables">SLURM environment variables</h4>
 <p>Inside the script, SLURM environment variables will be available, such as:</p>
 <table>
@@ -2785,7 +2786,7 @@ Go further
 </tbody>
 </table>
 <p>As an example of how these environment variables can be useful, the command below uses <code>$SLURM_CPUS_ON_NODE</code> in its call to the program STAR inside the script:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="ex">STAR</span> --runThreadN <span class="st">&quot;</span><span class="va">$SLURM_CPUS_ON_NODE</span><span class="st">&quot;</span> --genomeDir ...</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">STAR</span> <span class="at">--runThreadN</span> <span class="st">&quot;</span><span class="va">$SLURM_CPUS_ON_NODE</span><span class="st">&quot;</span> <span class="at">--genomeDir</span> ...</span></code></pre></div>
 <p>This way, we don’t risk having a mismatch between the resources requested and the resources (attempting to be) used, and we only have to modify the number of threads in one place (in the resource request to SLURM).</p>
 <p><br></p>
 <h3 id="submitting-interactive-jobs">Submitting interactive jobs</h3>
@@ -2989,20 +2990,20 @@ Go further
 </table>
 <h4 id="conda-channels">Conda channels</h4>
 <p>Conda “channels” are like repositories, each of which carry overlapping sets of software. A one-time setup step to set the channel priorities in the order that is generally desired – run these lines in the following order:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="ex">conda</span> config --add channels defaults</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="ex">conda</span> config --add channels bioconda</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="ex">conda</span> config --add channels conda-forge  <span class="co"># Highest priority</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--add</span> channels defaults</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--add</span> channels bioconda</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--add</span> channels conda-forge  <span class="co"># Highest priority</span></span></code></pre></div>
 <p>Channels can also be specified for individual installations, in order to override these defaults:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="ex">conda</span> install -c bioconda cutadapt</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> bioconda cutadapt</span></code></pre></div>
 <h4 id="conda-setup-to-enable-conda-activate">Conda setup to enable <code>conda activate</code></h4>
 <p>To enable <code>conda activate</code> to work (in addition to <code>source activate</code>), add the following lines to your Bash configuration file at <code>~/.bashrc</code> (which you can open with VS Code or Nano and edit):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> /apps/python/3.6-conda5.2/etc/profile.d/conda.sh<span class="bu"> ]</span>; <span class="kw">then</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>      <span class="bu">source</span> /apps/python/3.6-conda5.2/etc/profile.d/conda.sh</span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">elif</span><span class="bu"> [</span> <span class="ot">-f</span> /usr/local/python/3.6-conda5.2/etc/profile.d/conda.sh<span class="bu"> ]</span>; <span class="kw">then</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>      <span class="bu">source</span> /usr/local/python/3.6-conda5.2/etc/profile.d/conda.sh</span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">fi</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-f</span> /apps/python/3.6-conda5.2/etc/profile.d/conda.sh <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>      <span class="bu">source</span> /apps/python/3.6-conda5.2/etc/profile.d/conda.sh</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="bu">[</span> <span class="ot">-f</span> /usr/local/python/3.6-conda5.2/etc/profile.d/conda.sh <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="bu">source</span> /usr/local/python/3.6-conda5.2/etc/profile.d/conda.sh</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div>
 <p>For immediate effects, you’ll need to run the <code>~/.bashrc</code> file:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="bu">source</span> ~/.bashrc</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/.bashrc</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

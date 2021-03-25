@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -2572,30 +2573,30 @@ You can do this after logging in at <a href="https://ondemand.osc.edu" class="ur
 </ul></li>
 <li><p><strong>Load the OSC Git module.</strong><br />
 (<em>Note</em>: Git is available in any OSC shell without loading any modules, but that is a rather old version – so we load a newer one.)</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="ex">module</span> load git/2.18.0</span></code></pre></div></li>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load git/2.18.0</span></code></pre></div></li>
 <li><p><strong>Use <code>git config</code> to make your name known to Git.</strong><br />
 Somewhat confusingly, mote that this should be your <em>actual name</em>, and not your GitHub username:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="fu">git</span> config --global user.name <span class="st">&#39;John Doe&#39;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">&#39;John Doe&#39;</span></span></code></pre></div></li>
 <li><p><strong>Use <code>git config</code> to make your email address known to Git.</strong><br />
 <em>Make sure that you use the same email address you used to sign up for GitHub</em>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">git</span> config --global user.email <span class="st">&#39;doe.391@osu.edu&#39;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">&#39;doe.391@osu.edu&#39;</span></span></code></pre></div></li>
 <li><p><strong>Use <code>git config</code> to set a default text editor for Git</strong>.<br />
 Occasionally, when you need to provide Git with a “commit message” to Git and you haven’t entered one on the command line, Git will open up a text editor for you. Even though we’ll be mostly be working in VS Code during this course, in this case, it is better to select a text editor that can be run within the terminal, like <code>nano</code> (or <code>vim</code>, if you are familiar with it). To specify Nano as your default text editor for Git:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">git</span> config --global core.editor <span class="st">&quot;nano -w&quot;</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># You could set VS Code as your editor on your local computer,</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># if you use it there:</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co"># git config --global core.editor &quot;code --wait&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> core.editor <span class="st">&quot;nano -w&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># You could set VS Code as your editor on your local computer,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># if you use it there:</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># git config --global core.editor &quot;code --wait&quot;</span></span></code></pre></div></li>
 <li><p><strong>Check whether you successfully changed the settings:</strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">git</span> config --global --list</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co"># user.name=John Doe</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co"># user.email=doe.39@osu.edu</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co"># colour.ui=true</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co"># core.editor=nano -w</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> <span class="at">--list</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># user.name=John Doe</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># user.email=doe.39@osu.edu</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># colour.ui=true</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># core.editor=nano -w</span></span></code></pre></div></li>
 <li><p><strong>Set colors if needed.</strong><br />
 Make sure you see <code>colour.ui=true</code> in the list (like above), so Git output in the terminal will use colors. If you don’t see this line, set it using:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">git</span> config --global color.ui true</span></code></pre></div></li>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> color.ui true</span></code></pre></div></li>
 </ol>
 <p><br></p>
 <h2 id="part-2-github-authentication">Part 2: GitHub authentication</h2>
@@ -2604,23 +2605,23 @@ Make sure you see <code>colour.ui=true</code> in the list (like above), so Git o
 <p>Regular password access (over <code>HTTP</code>/<code>HTTPS</code>) is now “deprecated” by GitHub, and two better options are to set up <code>SSH</code> access with an <em>SSH key</em>, or <code>HTTPS</code> access with a <em>Public Access Token</em>.</p>
 <p>We’ll use <code>SSH</code>, as it is easier – though still a bit of drag – and because learning this procedure will also be useful for when you’ll be setting up SSH access to the Ohio Supercomputer Center. (But note that GitHub now labels <code>HTTPS</code> access as the “preferred” method.)</p>
 <p>For everything on GitHub, there are separate SSH and HTTPS URLs, and GitHub will always show you both types of URLs. When using <code>SSH</code>, we need to use URLs with the following format:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1"></a><span class="ex">git@github.com</span>:<span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>/<span class="op">&lt;</span>REPOSITORY<span class="op">&gt;</span>.git</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">git@github.com:</span><span class="op">&lt;</span>USERNAME<span class="op">&gt;</span>/<span class="op">&lt;</span>REPOSITORY<span class="op">&gt;</span>.git</span></code></pre></div>
 <p>(And when using <code>HTTPS</code>, you would use URLS like <code>https://github.com/&lt;USERNAME&gt;/&lt;REPOSITORY&gt;.git</code>)</p>
 <h3 id="setting-up-github-ssh-authentication">Setting up GitHub SSH authentication</h3>
 <p><em>These instructions are for setting up authentication at OSC, but you can repeat the same steps to set up authentication for your local computer.</em></p>
 <ol type="1">
 <li><p>In a terminal at OSC, use the <code>ssh-keygen</code> command to generate a public-private <em>SSH key pair</em> like so:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">ssh-keygen</span> -t rsa</span></code></pre></div></li>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh-keygen</span> <span class="at">-t</span> rsa</span></code></pre></div></li>
 <li><p>You’ll be asked three questions, and for all three, you can accept the default by just pressing <code>Enter</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Enter file in which to save the key (&lt;default path&gt;):</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co"># Enter passphrase (empty for no passphrase):</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co"># Enter same passphrase again: </span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Enter file in which to save the key (&lt;default path&gt;):</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Enter passphrase (empty for no passphrase):</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Enter same passphrase again: </span></span></code></pre></div>
 <p align="left">
 <p><img src=img/ssh-key-randomart2.png width="90%"></p>
 </p></li>
 <li><p>Now, you have a file called <code>id_rsa.pub</code> in your <code>~/.ssh</code> folder, which is your <strong>public key</strong>. To enable authentication, we will put this public key on GitHub – our public key interacts with our <em>private key</em>, which we do <em>not</em> share.<br />
 Print the public key to screen using <code>cat</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">cat</span> ~/.ssh/id_rsa.pub</span></code></pre></div></li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ~/.ssh/id_rsa.pub</span></code></pre></div></li>
 <li><p>Copy the public key, i.e. the contents of the public key file, to your clipboard. Make sure you get all of it, including the “<code>ssh-rsa</code>” part (but beware that your new prompt may start on the same line as the end the key):</p>
 <p align="left">
 <p><img src=img/ssh-copy-key.png width="90%"></p>

@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -2615,12 +2616,17 @@ Include an appropriate commit message.</p></li>
 <p>As long as you are not writing minimalistic dummy text without any meaning (like “<em>Item 1, Item 2</em>”), you will not be graded for what you are writing about, so feel free to pick something you like – and don’t worry about the details.</p>
 <p>(If you’re not feeling inspired, here are some suggestions: lecture and reading notes for this week; a table of Unix and/or Git commands that we’ve covered; things that you so far find challenging or interesting about Git; how computational skills may help you with your research.)</p>
 <details>
-<p><summary>Hints</summary> In VS Code, open the Markdown preview on the side, so you can experiment and see whether your formatting is working the way you intend.</p>
+<summary>
+<p>Hints</p>
+</summary>
+<p>In VS Code, open the Markdown preview on the side, so you can experiment and see whether your formatting is working the way you intend.</p>
 </details></li>
 <li><p><strong>Create at least two commits while you work on the Markdown file.</strong> <em>[0.5]</em><br />
 Try to break your progress up into logical units that can be summarized with a descriptive commit message.</p>
 <details>
-<p><summary>Hints</summary></p>
+<summary>
+<p>Hints</p>
+</summary>
 <p>
 <ul>
 <li><strong>Bad</strong> commits/commit messages:<br />
@@ -2653,7 +2659,9 @@ You can keep it as simple as switching the file extension to <code>.csv</code>, 
 <p>Because these files are being tracked by Git, recall that there is a Git-friendly modification to the command to rename files: use that in the loop.</p></li>
 </ol>
 <details>
-<summary>Hints</summary>
+<summary>
+Hints
+</summary>
 <p>
 <ul>
 <li><p><a href="https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-shfiles.html#27">These slides</a> from last week have a similar renaming loop example.</p>
@@ -2701,7 +2709,9 @@ With your repo created, follow the instructions that Github now gives you, under
 <p>These instructions will comprise three commands: <code>git remote add</code> to add the “remote” (online) connection, <code>git branch</code> to rename the default branch from <code>master</code> to <code>main</code>, and <code>git push</code> to actually “push” (upload) your local repo.</p>
 <p>When you’re done, click the <code>Code</code> button, and admire the nicely rendered README on the front page of your Github repo.</p>
 <details>
-<p><summary>Hints</summary></p>
+<summary>
+<p>Hints</p>
+</summary>
 <p>
 <p>Assuming that you’re using SSH authentication, which you should have set up in this week’s ungraded assignment, make sure you use the SSH link type: starting with <code>git@github.com</code> rather than <code>HTTPS</code>.</p>
 </p>

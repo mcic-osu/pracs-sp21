@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -2581,7 +2582,10 @@ Go further
 <li><p>Open a new file and save it as <code>week08_exercises.py</code> or something along those lines.</p></li>
 <li><p>Type your commands in the script and send them to the prompt in the Python interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.</p>
 <details>
-<p><summary>Problems with the keyboard shortcut?</summary><br />
+<summary>
+<p>Problems with the keyboard shortcut?</p>
+</summary>
+<p><br />
 If this doesn’t work, check your keyboard shortcut by right-clicking in the script and looking for “Run Selection/Line In Python Interactive Window”.<br />
 <br />
 Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and look for that shortcut there, and change it if you want.</p>
@@ -2594,70 +2598,89 @@ Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P<
 <li><p>Print the type of the value <code>4.88</code>.<br />
 </p>
 <details>
-<p><summary>Solution</summary></p>
+<summary>
+<p>Solution</p>
+</summary>
 <p>We can use the function <code>type()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="bu">type</span>(<span class="fl">4.88</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(<span class="fl">4.88</span>)</span></code></pre></div>
 <pre><code>&lt;class &#39;float&#39;&gt;</code></pre>
 </div>
 <p>The result would be the same if we first assigned it as a variable:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>num <span class="op">=</span> <span class="fl">4.88</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="bu">type</span>(num)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>num <span class="op">=</span> <span class="fl">4.88</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(num)</span></code></pre></div>
 <pre><code>&lt;class &#39;float&#39;&gt;</code></pre>
 </div>
 </details></li>
 <li><p>Assign the variable <code>n_samples = 658</code>, and then extract the third character from <code>n_samples</code>.</p>
 <details>
-<p><summary>Hints</summary><br />
+<summary>
+<p>Hints</p>
+</summary>
+<p><br />
 You can’t index a number like <code>n_samples[index]</code>, so you’ll first have to convert <code>n_samples</code> to a string. Also, recall that Python starts counting from 0!</p>
 </details>
 <details>
-<p><summary>Solution</summary></p>
+<summary>
+<p>Solution</p>
+</summary>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>n_samples <span class="op">=</span> <span class="dv">658</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="bu">str</span>(n_samples)[<span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="dv">658</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">str</span>(n_samples)[<span class="dv">2</span>]</span></code></pre></div>
 <pre><code>&#39;8&#39;</code></pre>
 </div>
 </details></li>
 <li><p>Assign the string ‘CTTATGGAAT’ to a variable called <code>adapter</code>. Print the number of characters in <code>adapter</code>.<br />
 </p>
 <details>
-<p><summary>Solution</summary></p>
+<summary>
+<p>Solution</p>
+</summary>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>adapter <span class="op">=</span> <span class="st">&#39;CTTATGGAAT&#39;</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="bu">len</span>(adapter)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>adapter <span class="op">=</span> <span class="st">&#39;CTTATGGAAT&#39;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(adapter)</span></code></pre></div>
 <pre><code>10</code></pre>
 </div>
 </details></li>
 <li><p>Replace all <code>A</code>s by <code>N</code>s in <code>adapter</code> and assign the resulting string to a new variable. Print the new variable.<br />
 </p>
 <details>
-<p><summary>Hints</summary><br />
+<summary>
+<p>Hints</p>
+</summary>
+<p><br />
 Use the string method <code>replace()</code>, and recall that methods are called using the <code>&lt;object_name&gt;.&lt;method_name&gt;()</code> syntax.</p>
 </details>
 <details>
-<p><summary>Solution</summary></p>
+<summary>
+<p>Solution</p>
+</summary>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>bad_seq <span class="op">=</span> adapter.replace(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;N&#39;</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a>bad_seq</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bad_seq <span class="op">=</span> adapter.replace(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;N&#39;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bad_seq</span></code></pre></div>
 <pre><code>&#39;CTTNTGGNNT&#39;</code></pre>
 </div>
 </details></li>
 <li><p>Find out what the third argument to the <code>replace()</code> method does by using the built-in help.<br />
 </p>
 <details>
-<p><summary>Hints</summary><br />
+<summary>
+<p>Hints</p>
+</summary>
+<p><br />
 If you are typing your commands in a script rather than straight in the console, you will get some more information already when typing the opening parenthesis of the method (briefly pause if necessary).<br />
 <br />
 To get more help, you can use a notation with a <code>?</code>, or <code>help(object.method)</code>.</p>
 </details>
 <details>
-<p><summary>Solution</summary></p>
+<summary>
+<p>Solution</p>
+</summary>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="bu">help</span>(adapter.replace)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co"># Or: &quot;adapter.replace?&quot;</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="co"># Or: &quot;?adapter.replace&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(adapter.replace)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: &quot;adapter.replace?&quot;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: &quot;?adapter.replace&quot;</span></span></code></pre></div>
 <pre><code>Help on built-in function replace:
 
 replace(old, new, count=-1, /) method of builtins.str instance
@@ -2676,78 +2699,93 @@ replace(old, new, count=-1, /) method of builtins.str instance
 <li><p>Using what you found out in the previous steps, replace just the first two <code>A</code>s in <code>adapter</code> by <code>N</code>s.<br />
 </p>
 <details>
-<p><summary>Solution</summary><br />
+<summary>
+<p>Solution</p>
+</summary>
+<p><br />
 We specify <code>2</code> as the third argument, which is the number of instances of the substring that will be replaced:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>adapter.replace(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;N&#39;</span>, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>adapter.replace(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;N&#39;</span>, <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>&#39;CTTNTGGNAT&#39;</code></pre>
 </div>
 </details></li>
 <li><p>Convert the following strings and numbers to a Boolean value to see what the resulting Boolean is (True or False): <code>"False"</code> (with quotes), <code>0</code>, <code>1</code>, <code>-1</code>, <code>""</code>, <code>None</code>, and see if you can make sense of these results.<br />
 </p>
 <details>
-<p><summary>Solution</summary></p>
+<summary>
+<p>Solution</p>
+</summary>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="bu">bool</span>(<span class="st">&quot;False&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="st">&quot;False&quot;</span>)</span></code></pre></div>
 <pre><code>True</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="bu">bool</span>(<span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="dv">1</span>)</span></code></pre></div>
 <pre><code>True</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="bu">bool</span>(<span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="dv">0</span>)</span></code></pre></div>
 <pre><code>False</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="bu">bool</span>(<span class="op">-</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="op">-</span><span class="dv">1</span>)</span></code></pre></div>
 <pre><code>True</code></pre>
 </div>
 <p>As it turns out, among numbers and strings, <em>only</em> 0 is interpreted as <code>False</code>, whereas <em>anything else</em> is interpreted as <code>True</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="bu">bool</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <pre><code>False</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="bu">bool</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>()</span></code></pre></div>
 <pre><code>False</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="bu">bool</span>(<span class="va">None</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="va">None</span>)</span></code></pre></div>
 <pre><code>False</code></pre>
 </div>
 <p>But an empty string, nothing at all between parenthesis, and <code>None</code> (Python’s keyword to define a null value or the lack of a value), are also interpreted as <code>False</code>.</p>
 <p>Note that as soon as you quote <code>"None"</code>, it is a string again and will be interpreted as <code>True</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a><span class="bu">bool</span>(<span class="st">&quot;None&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="st">&quot;None&quot;</span>)</span></code></pre></div>
 <pre><code>True</code></pre>
 </div>
 </details></li>
 <li><p>Have a look at the names of the methods that appear when you type <code>adapter.</code> (note the <code>.</code>). Can you find a method that will print the <em>last</em> occurrence of a <code>T</code> in <code>adapter</code>?<br />
 </p>
 <details>
-<p><summary>Hints</summary><br />
+<summary>
+<p>Hints</p>
+</summary>
+<p><br />
 The method <code>rfind</code> will search from the right-hand side (hence <code>r</code>), and will therefore print the last occurrence of the specified substring.</p>
 </details>
 <details>
-<p><summary>Solution</summary></p>
+<summary>
+<p>Solution</p>
+</summary>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>adapter.rfind(<span class="st">&quot;T&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>adapter.rfind(<span class="st">&quot;T&quot;</span>)</span></code></pre></div>
 <pre><code>9</code></pre>
 </div>
 </details></li>
 <li><p>Split the sequence by <code>GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN</code> by <code>N</code>s.<br />
 </p>
 <details>
-<p><summary>Hints</summary><br />
+<summary>
+<p>Hints</p>
+</summary>
+<p><br />
 Use the <code>split()</code> method for strings.</p>
 </details>
 <details>
-<p><summary>Solution</summary></p>
+<summary>
+<p>Solution</p>
+</summary>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>seq <span class="op">=</span> <span class="st">&quot;GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN&quot;</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a>split_seq <span class="op">=</span> seq.split(<span class="st">&#39;N&#39;</span>)</span>
-<span id="cb33-3"><a href="#cb33-3"></a>split_seq</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>seq <span class="op">=</span> <span class="st">&quot;GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN&quot;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>split_seq <span class="op">=</span> seq.split(<span class="st">&#39;N&#39;</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>split_seq</span></code></pre></div>
 <pre><code>[&#39;GAGTCCCT&#39;, &#39;&#39;, &#39;&#39;, &#39;AGCAACGTT&#39;, &#39;&#39;, &#39;TTCGTCATTA&#39;, &#39;&#39;]</code></pre>
 </div>
 </details></li>
@@ -2758,61 +2796,80 @@ Use the <code>split()</code> method for strings.</p>
 <li><p>Assign a list <code>plant_diseases</code> that contains the items <code>fruit_rot</code>, <code>leaf_blight</code>, <code>leaf_spots</code>, <code>stem_blight</code>, <code>canker</code>, <code>wilt</code>, <code>root_knot</code> and <code>root_rot</code>.<br />
 </p>
 <details>
-<p><summary>Solution</summary></p>
+<summary>
+<p>Solution</p>
+</summary>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a>diseases <span class="op">=</span> [<span class="st">&#39;fruit_rot&#39;</span>, <span class="st">&#39;leaf_blight&#39;</span>, <span class="st">&#39;leaf_spots&#39;</span>, <span class="st">&#39;stem_blight&#39;</span>,</span>
-<span id="cb35-2"><a href="#cb35-2"></a>            <span class="st">&#39;canker&#39;</span>, <span class="st">&#39;wilt&#39;</span>, <span class="st">&#39;root_knot&#39;</span>, <span class="st">&#39;root_rot&#39;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>diseases <span class="op">=</span> [<span class="st">&#39;fruit_rot&#39;</span>, <span class="st">&#39;leaf_blight&#39;</span>, <span class="st">&#39;leaf_spots&#39;</span>, <span class="st">&#39;stem_blight&#39;</span>,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;canker&#39;</span>, <span class="st">&#39;wilt&#39;</span>, <span class="st">&#39;root_knot&#39;</span>, <span class="st">&#39;root_rot&#39;</span>]</span></code></pre></div>
 </div>
 </details></li>
 <li><p>Extract <code>stem_blight</code> from <code>diseases</code> by its index (position).<br />
 </p>
 <details>
-<p><summary>Solution</summary><br />
+<summary>
+<p>Solution</p>
+</summary>
+<p><br />
 <code>stem_blight</code> is the fourth item and because Python starts counting at 0, this is index number 3.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a>diseases[<span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>diseases[<span class="dv">3</span>]</span></code></pre></div>
 <pre><code>&#39;stem_blight&#39;</code></pre>
 </div>
 </details></li>
 <li><p>Extract the first 5 items from <code>diseases</code>.<br />
 </p>
 <details>
-<p><summary>Hints</summary><br />
+<summary>
+<p>Hints</p>
+</summary>
+<p><br />
 Recall that when using ranges, Python does <em>not</em> include the item corresponding to the last index.</p>
 </details>
 <details>
-<p><summary>Solution</summary><br />
+<summary>
+<p>Solution</p>
+</summary>
+<p><br />
 While index 5 is the <em>sixth</em> item, it is not included, so we specify <code>0:5</code> or <code>:5</code> to extract elements up to and including the fifth one:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a>diseases[<span class="dv">0</span>:<span class="dv">5</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>diseases[<span class="dv">0</span>:<span class="dv">5</span>]</span></code></pre></div>
 <pre><code>[&#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;stem_blight&#39;, &#39;canker&#39;]</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a>diseases[:<span class="dv">5</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>diseases[:<span class="dv">5</span>]</span></code></pre></div>
 <pre><code>[&#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;stem_blight&#39;, &#39;canker&#39;]</code></pre>
 </div>
 </details></li>
 <li><p>Extract the last item from <code>diseases</code>.<br />
 </p>
 <details>
-<p><summary>Hints</summary><br />
+<summary>
+<p>Hints</p>
+</summary>
+<p><br />
 Recall that you can use negative numbers to start counting from the end. Also, while <code>0</code> is the first index, “-0” (or something along those lines) is <em>not</em> the last index.</p>
 </details>
 <details>
-<p><summary>Solution</summary></p>
+<summary>
+<p>Solution</p>
+</summary>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a>diseases[<span class="op">-</span><span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>diseases[<span class="op">-</span><span class="dv">1</span>]</span></code></pre></div>
 <pre><code>&#39;root_rot&#39;</code></pre>
 </div>
 </details></li>
 <li><p>Extract the last 3 items from <code>diseases</code>.<br />
 </p>
 <details>
-<p><summary>Solution</summary><br />
+<summary>
+<p>Solution</p>
+</summary>
+<p><br />
 Note that you’ll <em>have to</em> omit a number after the colon in this case, because <code>[-3:-1]</code> would not include the last number, and <code>[-3:0]</code> does not work either.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a>diseases[<span class="op">-</span><span class="dv">3</span>:]</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>diseases[<span class="op">-</span><span class="dv">3</span>:]</span></code></pre></div>
 <pre><code>[&#39;wilt&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;]</code></pre>
 </div>
 </details>
