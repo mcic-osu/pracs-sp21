@@ -1,0 +1,81 @@
+---
+  title: "Week 13 - Reproducible workflows with Snakemake"
+output:
+  xaringan::moon_reader:
+  seal: false
+css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+lib_dir: libs
+nature:
+  highlightStyle: rainbow
+highlightLines: true
+countIncrementalSlides: false
+---
+  class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
+```
+
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
+xaringanExtra::use_scribble()
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
+```
+
+# *Week 13 - Reproducible workflows with Snakemake*
+
+----
+
+# I: ...
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/03/23 (updated: `r Sys.Date()`)
+
+---
+
+## Overview of this week
+
+---
+
+## The need for "formal" workflow management
+
+> The essence of what we're trying to do:
+>
+> - Automate a workflow
+> - Document the workflow
+> - Document the dependencies among data files, code
+> - Re-run only the necessary code, based on what has changed
+> [Karl Broman](http://kbroman.org/Tools4RR/assets/lectures/01_intro.pdf)
+
+---
+
+## The need for "formal" workflow management
+
+<p align="center">
+<img src=nature-feature.png width=100%>
+</p>
+
+
+> Typically, researchers codify workflows using general scripting languages such as Python or Bash. But these often lack the necessary flexibility. Workflows can involve hundreds to thousands of data files; a pipeline must be able to monitor their progress and exit gracefully if any step fails. And pipelines must be smart enough to work out which tasks need to be re-executed and which do not.
+
+---
+
+## The need for "formal" workflow management
+
+<p align="center">
+<img src=img/nature-feature.png width=100%>
+</p>
+
+> Bioinformatician Davis McCarthy at St Vincent’s Institute of Medical Research in Fitzroy, Australia, says Python and R were more than enough for the relatively simple workflows he used as a PhD student.
+
+---
+
+<p align="center">
+<img src=img/giaa140fig1.jpeg width=100%>
+</p>

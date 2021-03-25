@@ -344,6 +344,13 @@ os.chdir('/fs/ess/PAS1855/users/' + username + '/CSB/scientific/sandbox')
 ```
 
 ```python
+!head "../data/Dale2015_data.csv"
+#> Scientific_name,English_name,TipLabel,Female_plumage_score,Male_plumage_score
+#> Abroscopus albogularis,Rufous-faced Warbler,Abroscopus_albogularis,45.83333333,51.94444444
+#> Abroscopus schisticeps,Black-faced Warbler,Abroscopus_schisticeps,48.88888889,47.77777778
+#> Abroscopus superciliaris,Yellow-bellied Warbler,Abroscopus_superciliaris,43.19444444,43.61111111
+```
+```python
 data = pd.read_csv("../data/Dale2015_data.csv")
 
 data = data.rename(columns={"Scientific_name": "latin",
@@ -356,11 +363,11 @@ data = data.rename(columns={"Scientific_name": "latin",
 
 ## Indexing and slicing DataFrames
 
-- After selection a column, we can slice this the way we may expect to
-  for an array/list:
+- After selecting a column,
+  we can slice it just like we would expect to for an array/list:
   
   ```python
-  data["latin"][:3]                  # First three  
+  data["latin"][:3]                  # First three items
   #> 0 Abroscopus albogularis
   #> 1 Abroscopus schisticeps
   #> 2 Abroscopus superciliaris
@@ -422,7 +429,7 @@ data.loc[:3, ["latin", "english"]]
 ## Masking (filtering) DataFrames
 
 Like we've seen for NumPy arrays, we can also perform **masking**:  
-filter the data based on (a `Series` of) Booleans.
+filter the data based on Booleans retrieved after a test.
 
 - For instance, to select the row(s) for a certain species:
 
@@ -433,7 +440,7 @@ filter the data based on (a `Series` of) Booleans.
   #> 2       False
   #> ...
   
-  data.loc[data["latin"] == "Zosterops mouroniensis"]
+  data[data["latin"] == "Zosterops mouroniensis"]
   #         Scientific_name	       English_name	            TipLabel	Female_plumage_score	Male_plumage_score	Sum_scores	Study
   # 5801	Zosterops mouroniensis	Mount Karthala White-eye	Zosterops_mouroniensis	47.916667	47.5	95.416667	1
   ```
@@ -455,14 +462,14 @@ filter the data based on (a `Series` of) Booleans.
 <figure>
 <p align="center">
 <img src=img/Blue-backedManakin.jpeg width="62%">
-<figcaption>Blue-backed Manakin - males (<a href="http://www.arctracer.com/photos/trinidad/birds/Blue-backedManakin.html">Figure source</a>)</figcaption>
+<figcaption>Blue-backed Manakin - males (<a href="http://www.arctracer.com/photos/trinidad/birds/Blue-backedManakin.html">Image source</a>)</figcaption>
 </p>
 </figure>
 
 <figure>
 <p align="center">
 <img src=img/manakin_female.jpg width="62%">
-<figcaption>Blue-backed Manakin - female (<a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg">Figure source</a>)</figcaption>
+<figcaption>Blue-backed Manakin - female (<a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg">Image source</a>)</figcaption>
 </p>
 </figure>
 
@@ -471,14 +478,14 @@ filter the data based on (a `Series` of) Booleans.
 <figure>
 <p align="center">
 <img src=img/marsh_widowbird.jpg width="60%">
-<figcaption>Marsh Widowbird - male (<a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg">Figure source</a>)</figcaption>
+<figcaption>Marsh Widowbird - male (<a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg">Image source</a>)</figcaption>
 </p>
 </figure>
 
 <figure>
 <p align="center">
 <img src=img/marsh_widowbird_female.jpg width="60%">
-<figcaption>Marsh Widowbird - female (<a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg">Figure source</a>)</figcaption>
+<figcaption>Marsh Widowbird - female (<a href="http://www.arthurgrosset.com/sabirds/photos/chipar28910.jpg">Image source</a>)</figcaption>
 </p>
 </figure>
 
@@ -489,22 +496,30 @@ filter the data based on (a `Series` of) Booleans.
 Like we have seen with NumPy, we can also easily get summary statistics:
 
 ```python
-data.score_m.mean()
+data["score_m"].mean()
 #> 51.009189390042877
 
-data.score_m.median()
+data["score_m"].median()
 #> 49.72222222
 
-data.score_m.std()
+data["score_m"].std()
 #> 8.2006629346736908
 ```
+
+<br>
+
+.content-box-info[
+There are many more possibilities to summarize (and manuipulate) `DataFrame`s
+&ndash; for instance, statistics can be computer separately for multiple groups
+at once using `groupby()`
+]
 
 ---
 
 ## Some simple plots with Matplotlib &ndash; histogram:
 
 ```python
-data.score_m.hist()
+data["score_m"].hist()
 ```
 
 <p align="center">
@@ -539,21 +554,17 @@ data[["score_m", "score_f"]].plot.box()
 
 ## <i class="fa fa-user-edit"></i> Your turn
 
-1. Retrieve the English names of species for which both males and females have a
-   plumage score higher than 70.
-   
-2. For how many species do either males, females, or both have plumage scores
-   lower than 50?
+1. For how many species do both males and females have a plumage score higher
+   than 70? And what are their English names?
 
 ---
 
 ## <i class="fa fa-user-edit"></i> Your turn: Solutions
 
-1\. Retrieve the English names of species for which both males and females have a
-    plumage score higher than 70.
-   
 ```python
-data[(data["score_m"] > 70) & (data["score_f"] > 70)].english
+data[(data["score_m"] > 70) & (data["score_f"] > 70)].shape[0]
+#> 5
+data[(data["score_m"] > 70) & (data["score_f"] > 70)]["english"]
 #> 363            Unicoloured Jay
 #> 1520      Indigo Flowerpiercer
 #> 1717               Red Warbler
@@ -562,23 +573,18 @@ data[(data["score_m"] > 70) & (data["score_f"] > 70)].english
 #> Name: english, dtype: object
 ```
 
---
-
-<br>
-
-2\. For how many species do either males, females, or both have plumage scores
-    lower than 50?
-
---
-
-```python
-data[(data["score_m"] < 50) | (data["score_f"] < 50)].shape[0]
-#> 4246
-```
+<figure>
+<p align="center">
+<img src=img/red_warbler.jpg width="45%">
+<figcaption>Red Warbler of unknown sex (<a href="https://ebird.org/species/redwar1">Image source</a>)</figcaption>
+</p>
+</figure>
 
 ---
 
 ## <i class="fa fa-user-edit"></i> Pandas exercise for homework
+
+<br>
 
 The third exercise for this week uses Pandas to investigate whether
 scientific manuscript rejection rates are higher when the manuscript gets

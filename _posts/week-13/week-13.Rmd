@@ -1,0 +1,19 @@
+---
+title: "Week 13"
+description: |
+  Reproducible workflows with Snakemake
+date: 2021-03-22
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+### Slides
+
+- Slides: Snakemake part 1 -- Tuesday Zoom (Apr 06) -- TBA
+ 
+- Slides: Snakemake part 2 -- Thursday Zoom (Apr 06) -- TBA
+
+### Ungraded assignments
+
+- [Exercises for week 13](../../w13_exercises.html)

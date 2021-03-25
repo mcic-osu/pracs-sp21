@@ -7,6 +7,20 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
     <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
@@ -28,7 +42,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/25 (updated: 2021-03-21)
+### 2021/03/25 (updated: 2021-03-25)
 
 ---
 
@@ -41,7 +55,7 @@ Entrez and BLAST, and so on.
 
 &lt;br&gt;
 
-Today, we'll work through 3 small sample applications:
+Today, we'll work through 2 or 3 small sample applications:
 
 1. Finding and retrieving sequences from NCBI (CSB 6.4.1)
 
@@ -64,18 +78,19 @@ class: center middle inverse
 
 ## Using BioPython to inferface with NCBI databases
 
-We already downloaded some data from NCBI manually in the exercises for
-week 7 (Bioinformatics Data).
+In the exercises for week 7 (Bioinformatics Data),
+you manually located some data on the NCBI's website,
+and then used the address you found to download it using `wget`.
 
-If we would regularly need to do so, or would need to download data from many
-organisms, it would be much better to do this programmatically.
+If we would regularly need to do download NCBI data,
+or would need to download data from many organisms,
+it would be much better to do this entire process programmatically.
 
-Luckily, we can use NCBI's **"Entrez Programming Utilities"** via 
-the `Entrez` module in BioPython. 
+To do so, we can use NCBI's **"Entrez Programming Utilities"** via the `Entrez` module in BioPython.
 
---
+---
 
-&lt;br&gt;
+## Setting up Entres
 
 - We start by importing the module &amp;ndash; note that BioPython modules are
   imported using `from Bio import &lt;focal-module&gt;`:
@@ -88,7 +103,7 @@ the `Entrez` module in BioPython.
   we should provide our e-mail address to let NCBI know who we are:
 
   ```python
-  Entrez.email = "me.1@osu.edu"  # Replace by your email address
+  Entrez.email = "me.999@osu.edu"  # Replace by your email address
   ```
 
 ---
@@ -114,9 +129,11 @@ Let's say we would like to find DNA sequences for the Inquisitive Shrew Mole,
 We can perform the search using the **`Entrez.esearch()`** function:
 
 ```python
-handle = Entrez.esearch(db = "nuccore",
-                        term = ("Uropsilus investigator[Organism]"),
-                        retmax = 200)
+search_handle = Entrez.esearch(
+                  db = "nuccore",
+                  term = ("Uropsilus investigator[Organism]"),
+                  retmax = 200
+                  )
 ```
 
   - NCBI makes several databases available through Entrez,
@@ -129,8 +146,7 @@ handle = Entrez.esearch(db = "nuccore",
   - For NCBI searches, we can narrow down results by adding keywords between square
     brackets, like `[Organism]`, after our search term.&lt;sup&gt;[1]&lt;/sup&gt;
   
-  - We set `RetMax` to 200 to get all the sequence identifiers rather than
-    the default of 20.
+  - We set `retmax = 200` to get all the sequence IDs (default: 20).
 
 .footnote[&lt;sup&gt;[1]&lt;/sup&gt;See the Nucleotide ["Advanced Search Builder"](https://www.ncbi.nlm.nih.gov/nuccore/advanced)
 for all possible keywords.]
@@ -142,8 +158,8 @@ for all possible keywords.]
 - Read the results and close the search handle:
 
   ```python
-  search_results = Entrez.read(handle)
-  handle.close()
+  search_results = Entrez.read(search_handle)
+  search_handle.close()
   ```
 
 &lt;br&gt;
@@ -227,6 +243,29 @@ class: center middle inverse
 
 ---
 
+## Our FASTA file
+
+- First, let's take a look at the FASTA file we saved:
+
+  ```python
+  !head Uropsilus_seq.fasta
+  #&gt; &gt;KC516837.1 Uropsilus investigator isolate A11 apolipoprotein B (ApoB) gene,   #&gt; partial cds
+  #&gt; TTAAGTGTAAAGACTCAGTATAAGAAAAACAAAGACAAGCATTCCATCCCAATTCCTTTGGATGCATTTT
+  #&gt; ATGTGTTTATCAATCATAACATCAATTCTTTCATCAGGCAATTTGAGAATGGCAGACAGAAGGCTTTAGT
+  #&gt; TTTTGTTACCAATGTGTACAATGAAACAAAAAATAAGTTTGATCAGCACAAGGCTGAAAAGTCTCTCGAC
+  #&gt; AAGCAACCTAGGATCTTTCAAATCCCTGGATACTCCATTCCTGTCCTCAACATTGAAGTGTCTCCATTCA
+  #&gt; CAGTAAAGATGCTACCATTTGGCTATGTGATACCGGAAGAGATCAGCACCCCTAGCTTCACCATCTGGGA
+  #&gt; TTCTGACTTATATGTGCCCTCCTATACATTAGCCCTGCCATCCCTAGAGCTGCCAGTCCTCTCTATCCCT
+  #&gt; ACAACCCCTCTCAAGTTTTCTCTTCCAGAATGCAAGATGTTGAGTAACTCACAGAATATCTTAATTCCTG
+  #&gt; CCCTGGGCAATATTACCTATGATTTTTCCTTTAAATCAAGTGTCATCACACTGAATACCAATGTCGGCCT
+  #&gt; TTATAACCAATCA
+
+  !wc -l Uropsilus_seq.fasta
+  #&gt; 1853
+  ```
+
+---
+
 ## Reading a FASTA file with SeqIO
 
 - We start by importing the BioPython `SeqIO` module:
@@ -235,6 +274,8 @@ class: center middle inverse
   from Bio import SeqIO
   ```
 
+&lt;br&gt;
+
 - With `SeqIO.parse()`, we can create an *iterator* called a `SeqRecord`,  
   which we will loop over to retrieve our sequences.
   
@@ -242,7 +283,7 @@ class: center middle inverse
   records = SeqIO.parse("Uropsilus_seq.fasta", "fasta")
   ```
   
-  This model is similar to the *file handles* we worked with earlier and is
+  The principle is similar to the *file handles* we worked with earlier and is
   particularly useful for very large FASTA files,
   so we don't have to load them into memory.
 
@@ -307,10 +348,19 @@ for i in my_range:
   #&gt; KC516819.1 Uropsilus investigator voucher mlxs331 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
   #&gt; 912 
   #&gt;
-  #&gt; KC516818.1 Uropsilus investigator voucher mlxs022 cytochrome c oxidase subunit I (COI) gene, partial cds, alternatively spliced; mitochondrial
-  #&gt; 912 
   #&gt; [...]
   ```
+
+--
+
+.content-box-info[
+We can only iterate through the SeqRecord once:
+```python
+for record in records:
+      print(record.description, '\n', len(record.seq), '\n')
+#&gt;
+```
+]
 
 ---
 
@@ -323,8 +373,8 @@ Next, say that we want to:
 &lt;br&gt;
 
 .content-box-info[
-This is a quite apt example because parsing and subsetting FASTA files
-with *shell tools* is not as easy as you may expect.
+This is quite an apt example because **parsing and subsetting FASTA files
+with *shell tools* is not as easy as you may expect.**
 
 This is because each FASTA record spans multiple lines &amp;ndash;
 and the *sequence* for an individual records may or
@@ -396,11 +446,12 @@ and then "BLAST them" against one of the NCBI databases:
 
 ## Getting set up for BLAST with the Blast module
 
-Using the web interface may be convenient when you just have one or a few sequences,
-but it is **not very reproducible, tedious to repeat, and unsuitable for automation.**
+Using the web interface may be convenient when you just have one or a few sequences, but it is
+**not very reproducible, tedious to repeat, and unsuitable for automation.**
 
-Luckily, Biopython provides the `Bio.Blast` package which we can use to run a
-BLAST search against the NCBI's online databases programmatically.&lt;sup&gt;[1]&lt;/sup&gt;
+Luckily, BioPython provides the `Bio.Blast` package with which we can
+programmatically run BLAST searches against the NCBI's online
+databases.&lt;sup&gt;[1]&lt;/sup&gt;
 
 .footnote[
 &lt;sup&gt;[1]&lt;/sup&gt; Note, there is also a *command-line* BLAST tool to do these things in the shell.
@@ -436,7 +487,8 @@ records = list(SeqIO.parse("Uropsilus_BMI1.fasta", "fasta"))
 
 A list can be more convenient than an iterator
 &amp;ndash;e.g., we can index it and extract things in a specific order&amp;ndash;
-and is fine performance-wise when working with relatively small FASTA file.
+and is not a problem performance-wise when working with a relatively small FASTA
+file.
 
 ---
 
@@ -502,8 +554,9 @@ result_handle.close()
 We will parse our XML file with BLAST results using the `NCBIXML`
 parser:&lt;sup&gt;[1]&lt;/sup&gt;
 
-.footnote[&lt;sup&gt;[1]&lt;/sup&gt; Because we our query consisted only of a single sequence,
-we could use `NCBIXML.read()`. For multiple sequences, you should use `NCBIXML.parse`.]
+.footnote[&lt;sup&gt;[1]&lt;/sup&gt; Because we our *query* consisted only of a single
+sequence, we could use `NCBIXML.read()`.
+For multiple sequences, you should use `NCBIXML.parse`.]
 
 ```python
 blast_records = NCBIXML.read(open("my_blast.xml"))
@@ -529,45 +582,17 @@ for align in blast_records.alignments: # Loop through the alignments
     for hsp in align.hsps: # For each alignment, loop through HSPs
         
         if hsp.expect &lt; E_VALUE_THRESH and align.length &gt; LEN_THRESH:
+            print("sequence:", align.title)
+            print("length:", align.length)
+            print("E value:", hsp.expect, '\n')
             
-            print("****Alignment****")
-            print("sequence:", alignment.title)
-            print("length:", alignment.length)
-            print("E value:", hsp.expect)
-            print(hsp.query[0:75] + "...")
-            print(hsp.match[0:75] + "...")
-            print(hsp.sbjct[0:75] + "...")
-```
-
----
-
-## Processing the BLAST results
-
-```python
-E_VALUE_THRESH = 0.04
-LEN_THRESH = 3000
-
-for align in blast_records.alignments:
-    
-    for hsp in align.hsps:
-        
-        if hsp.expect &lt; E_VALUE_THRESH and align.length &gt; LEN_THRESH:
-            
-            print("****Alignment****")
-            print("sequence:", alignment.title)
-            print("length:", alignment.length)
-            print("E value:", hsp.expect)
-            print(hsp.query[0:75] + "...")
-            print(hsp.match[0:75] + "...")
-            print(hsp.sbjct[0:75] + "...")
-#&gt; ****Alignment****
-#&gt; sequence: gi|1304911126|ref|XM_006933246.4| PREDICTED: Felis catus BMI1 proto-oncogene, polycomb ring finger (BMI1), transcript variant X3, mRNA
-#&gt; length: 3523
-#&gt; E value: 2.25861e-42
-#&gt; TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
-#&gt; |||||||||||||||||||||||||||||||||||||||||||||...
-#&gt; TATTATGCTGTTTTGTGAACCTGTAGAAAACAAGTGCTTTTTATC...
-#&gt; [...]
+#&gt; sequence: gi|1835213484|ref|XM_019933391.2| PREDICTED: Tursiops truncatus BMI1 proto-oncogene, polycomb ring finger (BMI1), transcript variant X6, mRNA
+#&gt; length: 3027
+#&gt; E value: 5.55456e-42 
+#&gt; 
+#&gt; sequence: gi|1835213483|ref|XM_019933388.2| PREDICTED: Tursiops truncatus BMI1 proto-oncogene, polycomb ring finger (BMI1), transcript variant X5, mRNA
+#&gt; length: 3141
+#&gt; E value: 5.55456e-42 
 ```
 
 ---
