@@ -12,6 +12,10 @@ output:
 
 - [Slides: Regex](../week-12/slides/12-1.html) -- Tuesday Zoom (Mar 30)
 
+:::content-box-info
+*No Thursday Zoom this week -- we have the second "instructional break" of the semester.*
+:::
+
 ### Ungraded assignments
 
 - [Exercises for week 12](../../w12_exercises.html)
