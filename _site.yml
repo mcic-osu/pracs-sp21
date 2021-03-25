@@ -36,6 +36,7 @@ navbar:
         - text: "11: Python - Scientific computing"
           href: posts/week-11/index.html
         - text: "12: Python - Regular expressions"
+          href: posts/week-12/index.html
         - text: "13: Snakemake"
         - text: "14: Putting it all together"
     - text: "Final project"
@@ -59,7 +60,8 @@ navbar:
           href: overviews_markdown.html
         - text: "Git"
           href: overviews_git.html
-        - text: "Python"
+        - text: "Python (TBA)"
+        - text: "Snakemake (TBA)"
     - text: "Go further"
       menu:
         - text: "Python resources"
