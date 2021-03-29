@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/30 (updated: 2021-03-21)
+### 2021/03/30 (updated: 2021-03-29)
 
 ---
 
@@ -44,53 +44,42 @@ class:inverse middle center
 &gt; *they appear in the text, but you can describe the pattern you’re looking for*
 &gt; *in your own words (e.g., find all words starting with 3 uppercase letters,*
 &gt; *followed by 4 digits).*
-&gt; *The question is how to explain such a pattern to a computer.*
-&gt; *The answer is to use regular expressions.*
-&gt; CSB 5.1
+&gt; ***The question is how to explain such a pattern to a computer.*
+&gt; *The answer is to use regular expressions.***
+&gt; &amp;mdash; CSB 5.1
 
 In other words, regular expressions are
-**strings that (may) include special symbols to describe patterns succinctly.**
-
-&lt;br&gt;
-
-We have already worked with regular expressions a fair but with shell tools
-like `grep` and `sed` &amp;ndash; for example:
-
-```sh
-# ...
-grep -v "^#" my.gff
-
-# ...
-echo "word1 word2" | sed -E 's/(\w+) (\w+)/\2 \1/'
-```
+**strings that include special symbols to describe patterns succinctly.**
 
 ---
 
-## What are regular expressions?
+## Regular expressions in the shell
 
-&gt; *Often, it is not feasible to search for all possible occurrences exactly as*
-&gt; *they appear in the text, but you can describe the pattern you’re looking for*
-&gt; *in your own words (e.g., find all words starting with 3 uppercase letters,*
-&gt; *followed by 4 digits).*
-&gt; *The question is how to explain such a pattern to a computer.*
-&gt; *The answer is to use regular expressions.*
-&gt; CSB 5.1
+In this course, we have already worked with regular expressions a fair bit,
+using the tools `grep` and `sed` &amp;ndash; for example:
 
-In other words, regular expressions are
-**strings that (may) include special symbols to describe patterns succinctly.**
+```sh
+grep -v "^#" my.gff
+```
+
+--
+
+`^#` matches a pound sign at the beginning of the line.
 
 &lt;br&gt;
 
-We have already worked with regular expressions a fair but with shell tools
-like `grep` and `sed` &amp;ndash; for example:
+--
 
 ```sh
-# Exclude lines beginning with a '#', i.e. header lines in GFF:
-grep -v "^#" my.gff
-
-# Capture each word and use backreferences (\1) to invert them:
 echo "word1 word2" | sed -E 's/(\w+) (\w+)/\2 \1/'
 ```
+
+Invert two words:
+  - `\w+` matches one or more word characters (alphanumeric and `_`)
+    but not the space that separates them.
+    
+  - We *capture* the two words using `()` and then *refer back* to each using
+    `\1` and `\2`.
 
 ---
 
@@ -113,64 +102,34 @@ echo "word1 word2" | sed -E 's/(\w+) (\w+)/\2 \1/'
 ## The `re` module in Python
 
 - You may recall that we used the `find()` method earlier to search strings,
-  but `find()` only works for literal strings.
+  but **`find()` only matches literal strings**.
   
-- To use regular expressions, we will need to import the `re` module from
-  the Python Standard Library
-  (recall, no installation is needed for such modules):
+- To use regular expressions, we will need to import the **`re` module**
+  from the Python Standard Library&lt;sup&gt; [1]&lt;/sup&gt;.
   
   ```python
   import re
   ```
 
+.footnote[
+&lt;sup&gt;[1]&lt;/sup&gt; Recall, no installation is needed for such modules.
+]
+
 ---
 
 ## Our first match
 
-- We start with using `re.search()` to search for a *literal string* after all:
+- The main `re` function we will be using is `re.search()`.
+
+  We start by searching for a *literal string*, after all:
 
   ```python
   # We define a string that we will query:
   my_string = "a given string"
   
   # We search my_string for the regex pattern "given":
-  m = re.search(r"given", my_string)
+  m = re.search("given", my_string)
   ```
-
----
-
-## "Raw string" notation
-
-The `r"my_string"` syntax denotes a **raw string**,
-which will tell Python **not** to (prematurely) interpret special characters in
-our regular expression.
-
---
-
-This can be a bit confusing because you *do* want the regular expression to be
-parsed, after all.
-
-But the problem is that with the raw string notation,
-Python will interpret special characters before they are passed on to the
-regular expression parser in, e.g., the `re.search()` function.
-For instance:
-
-```python
-print("my long \n line")
-#&gt; my long
-#&gt;  line
-
-print(r"my long \n line")
-#&gt; my long \n line
-```
-
---
-
-.content-box-info[
-The raw string notation is a nice solution compared to that in R, for instance,
-where you need two (and sometimes more) backslashes to prevent premature
-interpretation of regex symbols.
-]
 
 ---
 
@@ -210,7 +169,7 @@ interpretation of regex symbols.
 - If no matches are found, `re.search()` returns `None`:
   
   ```python
-  m = re.search(r"9", my_string)
+  m = re.search("9", my_string)
   print(m)
   #&gt; None
   ```
@@ -223,11 +182,46 @@ interpretation of regex symbols.
   we can create a straightforward test to see if a match was made:
 
   ```python
-  if re.search(r"9", my_string):
+  if re.search("9", my_string):
       # Additional processing if a match was found
   ```
 
   (This is a little easier than we did last week with the `str.find()` method.)
+
+---
+
+## "Raw string" notation
+
+The `r"my_string"` syntax denotes a **raw string**,
+which will tell Python **not** to (prematurely) interpret special characters in
+our regular expression.
+
+--
+
+This can be a bit confusing because you *do* want the regular expression to be
+parsed, i.e. special character to be interpreted as such, after all.
+
+But the problem is: without the raw string notation,
+Python would interpret special characters **before they are passed on to the
+regular expression parser** in, e.g., the `re.search()` function.
+For instance:
+
+```python
+print("my long \n line")
+#&gt; my long
+#&gt;  line
+
+print(r"my long \n line")
+#&gt; my long \n line
+```
+
+--
+
+.content-box-info[
+The raw string notation is a nice solution compared to that in R, for instance,
+where you need two (and sometimes more) backslashes to prevent premature
+interpretation of regex symbols.
+]
 
 ---
 class: center middle inverse
@@ -251,7 +245,7 @@ but this is not very powerful.
 
 ## Metacharacters
 
-| Symbol | Negation  | Matches:
+| Symbol        | Negation  | Matches:
 |---------------|-----------|--------
 | `\n`          |           | A newline.
 | `\t`          |           | A tab.    
@@ -570,10 +564,10 @@ Just like we give some regular character specials meaning with a backslash
 backslash. For example, to match a literal `*`:
 
 ```python
-re.search('*', 'my*string')
+re.search(r'*', 'my*string')
 #&gt; error: nothing to repeat at position 0
 
-re.search('*', 'my*string')
+re.search(r'\*', 'my*string')
 #&gt; &lt;re.Match object; span=(2, 3), match='*'&gt;
 ```
 

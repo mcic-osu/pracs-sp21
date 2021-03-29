@@ -2644,36 +2644,34 @@ Go further
 Bonus using regular expressions in Python
 </summary>
 <p>Alternatively, we could use regular expressions in Python to nicely retrieve each <em>sentence</em> (rather than each line) that contains “<em>Spaetzle</em>”, and also print the PubMedID (“PMID”) for the publication. You will learn how to use regular expressions like this in Python next week!</p>
-<pre><code>``` {.python}
-import re   # re is Python&#39;r regular expression module
-
-with open(&quot;Spaetzle_abstracts.txt&quot;) as datafile:
-
-    pubmed_input = datafile.read()
-
-    # To get titles and abstracts on one line: delete newlines + 6 spaces:
-    pubmed_input = re.sub(r&quot;\n\s{6}&quot;, &quot; &quot;, pubmed_input)
-
-    for line in pubmed_input.split(&quot;\n&quot;):
-
-        # re.match()&#39;s output will be interpreted as True only if a match is found:
-        # (Here we just use a literal search from &quot;PMID&quot;)
-        if re.match(&quot;PMID&quot;, line):
-
-            # We find and extract the PubMed ID by matching one or more digits;
-            # group() will return the match:
-            PMID = re.search(r&quot;\d+&quot;, line).group()
-
-        if re.match(&quot;AB&quot;, line):
-
-            # We look for *all* sententces that contain &quot;Spaetzle&quot; using findall():
-            if re.findall(r&quot;([^.]*?Spaetzle[^.]*\.)&quot;, line):
-                print(&quot;PubMedID: &quot;, PMID, &quot; &quot;, spaetzle)
-
-#&gt; PubMedID:  32591083   [&#39; These events promote the ventral processing of Spaetzle, a ligand for Toll,   which ultimately sets up the embryonic dorsal-ventral axis.&#39;]
-#&gt; PubMedID:  31719046   [&#39;  The dynamics indicate that a sharp extracellular gradient is formed through   diffusion-based shuttling of the Spaetzle (Spz) morphogen that progresses through several nuclear   divisions.&#39;]
-#&gt; PubMedID:  27314646   [&#39; While cytokines activating immune responses,  such as Spaetzle or Unpaired-3,   have been identified and
-```</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re   <span class="co"># re is Python&#39;r regular expression module</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;Spaetzle_abstracts.txt&quot;</span>) <span class="im">as</span> datafile:</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>pubmed_input <span class="op">=</span> datafile.read()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># To get titles and abstracts on one line: delete newlines + 6 spaces:</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>pubmed_input <span class="op">=</span> re.sub(<span class="vs">r&quot;\n\s</span><span class="sc">{6}</span><span class="vs">&quot;</span>, <span class="st">&quot; &quot;</span>, pubmed_input)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> pubmed_input.split(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>):</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># re.match()&#39;s output will be interpreted as True only if a match is found:</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># (Here we just use a literal search from &quot;PMID&quot;)</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> re.match(<span class="st">&quot;PMID&quot;</span>, line):</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>         <span class="co"># We find and extract the PubMed ID by matching one or more digits;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>         <span class="co"># group() will return the match:</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>         PMID <span class="op">=</span> re.search(<span class="vs">r&quot;\d+&quot;</span>, line).group()</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>         <span class="cf">if</span> re.match(<span class="st">&quot;AB&quot;</span>, line):</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>              <span class="co"># We look for *all* sententces that contain &quot;Spaetzle&quot; using findall():</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>              <span class="cf">if</span> re.findall(<span class="vs">r&quot;([^.]*?Spaetzle[^.]*\.)&quot;</span>, line):</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">print</span>(<span class="st">&quot;PubMedID: &quot;</span>, PMID, <span class="st">&quot; &quot;</span>, spaetzle)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; PubMedID:  32591083   [&#39; These events promote the ventral processing of Spaetzle, a ligand for Toll,   which ultimately sets up the embryonic dorsal-ventral axis.&#39;]</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; PubMedID:  31719046   [&#39;  The dynamics indicate that a sharp extracellular gradient is formed through   diffusion-based shuttling of the Spaetzle (Spz) morphogen that progresses through several nuclear   divisions.&#39;]</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; PubMedID:  27314646   [&#39; While cytokines activating immune responses,  such as Spaetzle or Unpaired-3,   have been identified and</span></span></code></pre></div>
 </details>
 <p><br></p>
 <ul>
@@ -2683,11 +2681,13 @@ with open(&quot;Spaetzle_abstracts.txt&quot;) as datafile:
 <p><em>(You will need to have run through the previous tutorial exercise to be able to do this one.)</em></p>
 <p>Suppose you need information on how to breed <em>Drosophila virilis</em> in your laboratory and you would like to contact an expert. Conduct a PubMed query on who has published most contributions on <em>D. virilis</em>. This person might be a good researcher to contact.</p>
 <ol type="1">
-<li><p>Identify how many papers in the PubMed database have the words <em>Drosophila virilis</em> in their title or abstract.</p>
+<li>Identify how many papers in the PubMed database have the words <em>Drosophila virilis</em> in their title or abstract.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p><br></p>
 <ul>
 <li><p>Use the <code>Entrez.esearch()</code> function and search the “pubmed” database, and then save the results from the search handle in an object called <code>record</code>.</p></li>
 <li><p>Include <code>usehistory=y</code> in your <code>Entrez.esearch()</code> call, and then assign the “WebEnv” and “QueryKey” to variables. If you saved you results in the variable <code>record</code>, you could get these using <code>record["WebEnv"]</code> and <code>record["QueryKey"]</code>, respectively. Then, you can refer to this search in the next step.</p></li>
@@ -2709,8 +2709,9 @@ save QueryKey from your records</code></pre>
 </details>
 <details>
 <summary>
-<p>Solutions</p>
+Solutions
 </summary>
+<p><br></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import the Entrez module:</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2732,19 +2733,23 @@ save QueryKey from your records</code></pre>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>webenv <span class="op">=</span> record[<span class="st">&quot;WebEnv&quot;</span>]</span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>query_key <span class="op">=</span> record[<span class="st">&quot;QueryKey&quot;</span>]</span></code></pre></div>
 <p>For the similar CSB solutions to all steps in this exercise, see <a href="https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Lord_of_the_flies_solution.ipynb">here</a>.</p>
-</details></li>
-<li><p>Retrieve the PubMed entries that were identified in step 1, and write them to a new file called <code>D_virilis_pubs.txt</code>.</p>
+</details>
+<p><br></p>
+<ol start="2" type="1">
+<li>Retrieve the PubMed entries that were identified in step 1, and write them to a new file called <code>D_virilis_pubs.txt</code>.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p><br></p>
 <ul>
 <li><p>Use the <code>Entrez.efetch()</code> function to retrieve the records. Use similar options to those we used in class, but set <code>retmax</code> to be at least as high as the number of papers that you found in the previous step, or you will not get all papers.</p></li>
 <li><p>Read the results from your search handle to an object, and then write your object to the file <code>D_virilis_pubs.txt</code>.</p></li>
 </ul>
 <p>Pseudocode:</p>
 <pre><code>handle = fetch records from &quot;pubmed&quot; db with &quot;medline&quot; rettype, &quot;text&quot; retmode,
-          600 retmax, and the saved webenv and query_key
+              600 retmax, and the saved webenv and query_key
 data = read from handle
 close the handle
 
@@ -2753,27 +2758,32 @@ with open output file as handle
 </details>
 <details>
 <summary>
-<p>Solutions</p>
+Solutions
 </summary>
+<p><br></p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform the search:</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>shandle <span class="op">=</span> Entrez.efetch(db <span class="op">=</span> <span class="st">&quot;pubmed&quot;</span>,</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                        rettype <span class="op">=</span> <span class="st">&quot;medline&quot;</span>,</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                        retmode <span class="op">=</span> <span class="st">&quot;text&quot;</span>,</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                        retstart <span class="op">=</span> <span class="dv">0</span>, retmax <span class="op">=</span> <span class="dv">600</span>,</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                        webenv <span class="op">=</span> webenv, query_key <span class="op">=</span> query_key)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Save results from the search handle in &quot;data&quot; and close the handle:</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> shandle.read()</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>shandle.close()</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Save results from the search handle in &quot;data&quot; and close the handle:</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> shandle.read()</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>shandle.close(</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;D_virilis_pubs.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> fhandle:</span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    fhandle.write(data)</span></code></pre></div>
-</details></li>
+</details>
+<p><br></p>
+<ol start="3" type="1">
 <li><p>Count the number of contributions per author.</p>
-<p>Start by taking a look at your <code>D_virilis_pubs.txt</code> file to see how you can match lines that contain author names.</p>
+<p>Start by taking a look at your <code>D_virilis_pubs.txt</code> file to see how you can match lines that contain author names.</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p><br></p>
 <ul>
 <li><p>Create an empty dictionary for authors and their publication counts, and then loop through each line in <code>D_virilis_pubs.txt</code> to fill in the dictionary.</p></li>
 <li><p>To find lines with authors, use the <code>find()</code> methods and search for <code>AU</code> or even better <code>AU  -</code>, since these are the lines with authors.</p></li>
@@ -2781,48 +2791,53 @@ with open output file as handle
 </ul>
 <p>Pseudocode:</p>
 <pre><code>with open D_virilis_pubs.txt
-      initialize empty dict
-      for line in fhandle
-            if line contains &quot;AU -&quot;
-               split the line by &quot;-&quot; and take the 2nd element
-               strip whitespace
-               initialize author if not in dict and add 1 to keep count</code></pre>
+     initialize empty dict
+     for line in fhandle
+          if line contains &quot;AU -&quot;
+              split the line by &quot;-&quot; and take the 2nd element
+              strip whitespace
+              initialize author if not in dict and add 1 to keep count</code></pre>
 </details>
 <details>
 <summary>
-<p>Solutions</p>
+Solutions
 </summary>
+<p><br></p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;D_virilis_pubs.txt&quot;</span>) <span class="im">as</span> fhandle:</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize an empty dictionary:</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    author_dict <span class="op">=</span> {}</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize an empty dictionary:</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>author_dict <span class="op">=</span> {}</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop through each line:</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> line <span class="kw">in</span> fhandle:</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through each line:</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> line <span class="kw">in</span> fhandle:</span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Search for lines with &quot;AU  -&quot;, which contain authors:</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> line.find(<span class="st">&quot;AU  -&quot;</span>) <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span>:</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Search for lines with &quot;AU  -&quot;, which contain authors:</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> line.find(<span class="st">&quot;AU  -&quot;</span>) <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span>:</span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>            <span class="co"># The author name is after the &quot;-&quot;,</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>            <span class="co"># so we split by &quot;-&quot; and take the 2nd element:</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>            author <span class="op">=</span> line.split(<span class="st">&quot;-&quot;</span>, <span class="dv">1</span>)[<span class="dv">1</span>]</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="co"># The author name is after the &quot;-&quot;,</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>      <span class="co"># so we split by &quot;-&quot; and take the 2nd element:</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>      author <span class="op">=</span> line.split(<span class="st">&quot;-&quot;</span>, <span class="dv">1</span>)[<span class="dv">1</span>]</span>
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Then, we remove any leading and trailing whitespace:</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>            author <span class="op">=</span> author.strip()</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Then, we remove any leading and trailing whitespace:</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      author <span class="op">=</span> author.strip()</span>
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If key (=author) is present, add 1, otherwise, initialize at 1:</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>            author_dict[author] <span class="op">=</span> author_dict.get(author, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
-</details></li>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>      <span class="co"># If key (=author) is present, add 1, otherwise, initialize at 1:</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>      author_dict[author] <span class="op">=</span> author_dict.get(author, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
+</details>
+<p><br></p>
+<ol start="4" type="1">
 <li><p>For the the five authors with the most papers on <em>D. virilis</em>, print each name and the corresponding number of papers.</p>
-<p>You’ll have to use the <code>sorted()</code> in a way we have not seen yet, see the Hints below for more details.</p>
+<p>You’ll have to use the <code>sorted()</code> in a way we have not seen yet, see the Hints below for more details.</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p><br></p>
 <p>To get the top authors, you can use the <code>sorted()</code> function on your dictionary. You’ll have two provide two additional arguments:</p>
 <ul>
-<li><code>key = author_dict.get</code>, which will sort by the values of the dictionary</li>
-<li><code>reverse = TRUE</code>, so you get the highest number of papers first.</li>
+<li><p><code>key = author_dict.get</code>, which will sort by the values of the dictionary.</p></li>
+<li><p><code>reverse = TRUE</code>, so you get the highest number of papers first.</p></li>
 </ul>
 <p>Then, take the first 5 items in the resulting list, which will be the top 5 authors.</p>
 <p>Finally, loop through your list of top authors and print their names (keys) and number of papers (values).</p>
@@ -2834,8 +2849,9 @@ for author in top authors
 </details>
 <details>
 <summary>
-<p>Solutions</p>
+Solutions
 </summary>
+<p><br></p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sorted_authors <span class="op">=</span> <span class="bu">sorted</span>(author_dict, key <span class="op">=</span> author_dict.get, reverse <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>top_authors <span class="op">=</span> sorted_authors[:<span class="dv">5</span>]</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2847,19 +2863,20 @@ for author in top authors
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Hoikkala A : 24</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Raushenbakh IIu : 24</span></span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Korochkin LI : 22</span></span></code></pre></div>
-</details></li>
-</ol>
+</details>
 <p><br></p>
 <h2 id="exercise-csb-2-rejection-rates">3: Exercise CSB-2: Rejection rates</h2>
 <p><a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2435.12587">Fox et al. (2016)</a> studied the effects on the outcome of papers of the genders of the handling editors and reviewers. For the study, they compiled a database including all the submissions to the journal Functional Ecology from 2004 to 2014. Their data are reported in <code>CSB/scientific/data/Fox2015_data.csv</code>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
 <p>Besides the effects of gender and bias in journals, the data can be used to investigate whether manuscripts having more reviewers are more likely to be rejected. Note that this hypothesis should be tested for reviewed manuscripts, that is, excluding “desk rejections” without review.</p>
 <ol type="1">
 <li><p>Import the data using <em>Pandas</em>, and count the number of reviewers (by summing <code>ReviewerAgreed</code>) for each manuscript (i.e., unique <code>MsID</code>). The column <code>FinalDecision</code> contains <code>1</code> for rejection, and <code>0</code> for acceptance.</p>
-<p>Compile a table measuring the probability of rejection given the number of reviewers. Does the probability of being rejected seem to increase with the number of reviewers?</p>
+<p>Compile a table measuring the probability of rejection given the number of reviewers. Does the probability of being rejected seem to increase with the number of reviewers?</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p><br></p>
 <p>With an eye on the next step, where you have to do the same thing for each year, it is convenient to write a function that takes the data and a calendar year as input, and prints the probability of rejection given the number of reviewers for that given year.</p>
 <p>We can set the function to return the general rejection rate if “all” instead of a year is specified as an argument.</p>
 <p>Pseudocode:</p>
@@ -2879,12 +2896,14 @@ iii) the submission year in the np.array year
 
 def get_prob_rejection(my_year = &quot;all&quot;):
     if my_year == &quot;all&quot;:
-       do not subset the data
+        do not subset the data
     else:
-       subset the data to use only the specified year
+        subset the data to use only the specified year
     for each number of reviewers:
-       compute probability of rejection and produce output</code></pre>
-</details></li>
+        compute probability of rejection and produce output</code></pre>
+</details>
+<p><br></p>
+<ol start="2" type="1">
 <li><p>Write a function to repeat the analysis above for each year represented in the database.</p>
 <p>For example, for the year 2009, your function should return:</p>
 <pre><code>Year: 2009
@@ -2895,21 +2914,22 @@ NumRev    NumMs   rejection rate
 1   2     0.5
 2   228   0.68
 3   86    0.698
-4   4     0.75</code></pre>
+4   4     0.75</code></pre></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p><br></p>
 <p>If your function doesn’t already take a calendar year as as an argument, modify your function to do so.</p>
 <p>Then loop through the years of 2004-2014 (inclusive) and run your function for each year.</p>
-</details></li>
-</ol>
+</details>
 <p><br></p>
 <details>
 <summary>
 Solutions for both steps
 </summary>
-<p>See the <a href="https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Fox2016_solution.ipynb">CSB notebook with the solutions</a>.</p>
+<p><br> See the <a href="https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Fox2016_solution.ipynb">CSB notebook with the solutions</a>.</p>
 <p>The notebooks sometimes don’t manage to load on GitHub; if not, try refreshing and otherwise go <a href="https://github.com/CSB-book/CSB/tree/master/scientific/solutions">here</a> and look at the PDF version instead.</p>
 <p><em><strong>Note:</strong> The solution uses some “plain Python” approaches where specialized Pandas functions are also available to do the same thing more succinctly. That is fine, and makes sense given that we have only had a quick introduction to Pandas and did not learn about these more advanced functions — but it may be good to be aware of this.</em></p>
 <p><em>If you want to try out specialized Pandas approaches for this exercise, look into the <code>groupby</code> method in particular.</em></p>
