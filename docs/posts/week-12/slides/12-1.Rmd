@@ -20,10 +20,10 @@ icon::fa("user-edit")
 ```
 
 ```{r xaringan-extra, echo=FALSE, eval=TRUE}
-#xaringanExtra::use_scribble()
-#xaringanExtra::use_panelset()
-#xaringanExtra::use_clipboard()
-#xaringanExtra::use_search(show_icon = TRUE)
+xaringanExtra::use_scribble()
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
 ```
 
 # *Week 11 - Python: Regular expressions*
@@ -223,7 +223,7 @@ between basic/extended/Perl-like sets!
 
   ```python
   if re.search("9", my_string):
-      # Additional processing if a match was found
+        # Additional processing if a match was found
   ```
 
 .footnote[
@@ -410,8 +410,8 @@ What if we did not want to match such a number with three digits?
 
 .content-box-answer[
 ```python
-m = re.search(r"[7-9][7-9]\D", my_string) # Or:
-m = re.search(r"[7-9][7-9][^0-9]", my_string)
+re.search(r"[7-9][7-9]\D", my_string) # Or:
+re.search(r"[7-9][7-9][^0-9]", my_string)
 ```
 ]
 
