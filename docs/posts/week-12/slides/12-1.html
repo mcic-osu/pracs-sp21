@@ -7,20 +7,6 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
-    <script src="libs/fabric/fabric.min.js"></script>
-    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
-    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30}) })</script>
-    <link href="libs/panelset/panelset.css" rel="stylesheet" />
-    <script src="libs/panelset/panelset.js"></script>
-    <script src="libs/clipboard/clipboard.min.js"></script>
-    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
-    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
-    <script src="libs/mark.js/mark.min.js"></script>
-    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-search/search.js"></script>
-    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
     <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
@@ -40,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/03/30 (updated: 2021-03-29)
+### 2021/03/30 (updated: 2021-03-30)
 
 ---
 
@@ -50,7 +36,6 @@ class:inverse middle center
 import os                                       # IN PYTHON
 
 username = os.environ.get('USER')
-# E.g. /fs/ess/PAS1855/users/jelmer/CSB/data/sandbox:
 os.chdir('/fs/ess/PAS1855/users/' + username + '/CSB/regex/sandbox')
 ```
 
@@ -62,8 +47,8 @@ os.chdir('/fs/ess/PAS1855/users/' + username + '/CSB/regex/sandbox')
 module load python/3.6-conda5.2                 # IN THE SHELL
 conda activate ipy-env
 
-which pip3
-# ~/.conda/envs/ipy-env/bin/pip3
+which pip3 # Confirm "pip3" is located inside your ipy-env:
+#&gt; ~/.conda/envs/ipy-env/bin/pip3
 
 pip3 install snakemake
 ```
@@ -89,7 +74,7 @@ pip3 install snakemake
 &gt; &amp;mdash; CSB 5.1
 
 In other words, regular expressions are
-**strings that include special symbols to describe patterns succinctly.**
+*strings that include special symbols to succinctly describe patterns.*
 
 ---
 
@@ -108,8 +93,6 @@ Exclude comment/header lines:
 **`^#` matches a pound sign as the first character on a line**
 (and the `-v` option inverts `grep`'s behavior: return non-matching lines).
 
-&lt;br&gt;
-
 --
 
 ```sh
@@ -120,9 +103,15 @@ Invert two words:
 
   - `\w+` matches one or more word characters (alphanumeric and `_`)
     but not the space that separates them.
-    
-  - We *capture* the two words using `()` and then *refer back* to each using
+  - We *capture* the two words with `()` and *refer back* to each using
     `\1` and `\2`.
+
+--
+
+.content-box-green[
+Using regular expressions in Python is much easier because we don't have to switch
+between basic/extended/Perl-like sets!
+]
 
 ---
 
@@ -133,38 +122,33 @@ Invert two words:
   factor binding sites, find accession and gene numbers, extract references
   from a manuscript.
 
-- **To navigate and parse text files:**  
-  Parse (semi-)structured output that
-  doesn't adhere to formats for which you can use a specialized tool directly.
-
 - **As a more sophisticated replace:**  
   Replace multiple variations of a string at the same time.
 
+- **To navigate and parse text files:**  
+  Parse (semi-)structured output that
+  doesn't adhere to formats for which you can use a specialized tool directly.
+  
 ---
 
 ## The `re` module in Python
 
-- You may recall that we used the `find()` method earlier to search strings,
-  but **`find()` only matches literal strings**.
+- You may recall that we used the `find()` method earlier to search within
+  strings, but **`find()` only matches literal strings**.
   
-- To use regular expressions, we will need to import the **`re` module**
-  from the Python Standard Library&lt;sup&gt; [1]&lt;/sup&gt;.
+- To use regular expressions, we will need to import the **`re` module**:
   
   ```python
   import re
   ```
 
-.footnote[
-&lt;sup&gt;[1]&lt;/sup&gt; Recall, no installation is needed for such modules.
-]
-
 ---
 
 ## Our first match
 
-- The main `re` function we will be using to showcase regular expression
-  is `re.search()`,
-  which will return **the first match** that it finds.&lt;sup&gt;[1]&lt;/sup&gt;
+- The main `re` function we will be using to learn about regular expression
+  in Python is `re.search()`,
+  which will return *the first match* it finds.&lt;sup&gt;[1]&lt;/sup&gt;
 
   We start using it by searching for a *literal string*, after all:
 
@@ -187,8 +171,8 @@ Invert two words:
 - `re.search()` function returns a *match object*:
 
   ```python
-  print(m)
-  #&gt; &lt;_sre.SRE_Match object; span=(2, 7), match= 'given' &gt;
+  m
+  #&gt; &lt;re.Match object; span=(2, 7), match='given'&gt;
   ```
   
 - On the match object, we can use the **`group()`** method to extract the
@@ -264,20 +248,25 @@ print("my long \\n line")
 
 --
 
-This can get annoying, especially when using regular expressions,
-which use `\` for similar purposes as Python does:
-so to **match a literal backslash**, we need to create a regular expression string
+This can get annoying, especially with regular expressions,
+**which use `\` for similar purposes as Python does**:
+so to match a literal backslash, we need to create a regular expression string
 that contains two backslashes `\\`.  
 
 However, we just saw that Python turns `\\` into `\`, so in fact,
 we need **four** backslashes to match a single one!
 *This is called the "backslash plague".*
 
+```python
+re.search('\\\\', "my long \\n line")
+#&gt; &lt;re.Match object; span=(8, 9), match='\\'&gt;
+```
+
 ---
 
 ## "Raw string" notation
 
-To escape this plague, Python provides raw string notation,
+To escape this plague, Python provides raw string notation,  
 which **turns off its native backslash interpretation**:
 
 ```python
@@ -288,7 +277,7 @@ re.search(r"\\n", r"my long \n line")
 # &lt;re.Match object; span=(8, 10), match='\\n'&gt;
 ```
 
-So, a string `"my_string"` can be marked a raw string using `r"my_string"`.
+So, the syntax for raw strings is to simply put an `r` before the string.
 
 &lt;br&gt;
 
@@ -310,9 +299,8 @@ class: center middle inverse
 
 ## Literal characters
 
-The first possible component of regular expressions are literal characters.
-
-As we saw, a search pattern can consist of only literal characters,
+Literal characters can be included in regular expressions,
+and as we have seen, a search pattern in `re` can consist of *only* literal characters,
 but this is not very powerful.
 
 ---
@@ -326,7 +314,7 @@ but this is not very powerful.
 | `\s`          | `\S`      | Any / anything but white space: space, tab, newline, carriage return.
 | `\w`          | `\W`      | Any / anything but a word character: alphanumeric and underscore.
 | `\d`          | `\D`      | Any / anything but a digit.
-| `.`           |           | Any character
+| `.`           |           | Any character.
 
 ---
 
@@ -336,28 +324,21 @@ but this is not very powerful.
 
   ```python
   # my_string = "a given string"
-  m = re.search(r"\s", my_string)
   
-  m.group()
-  #&gt; ' '
-  m.start()
-  #&gt; 1
+  re.search(r"\s", my_string)
+  #&gt; &lt;re.Match object; span=(1, 2), match=' '&gt;
   ```
-
---
 
 - Or we can match a whitespace character followed by five "word" characters
   (alphanumeric and underscore):
 
   ```python
-  m = re.search(r"\s\w\w\w\w\w", my_string)
-  
-  m.group()
-  #&gt; ' given'
+  re.search(r"\s\w\w\w\w\w", my_string)
+  #&gt; &lt;re.Match object; span=(1, 7), match=' given'&gt;
   ```
 
 .content-box-info[
-Note that `re.search()` only returns the first match.
+Note again that `re.search()` only returns the first match.
 We'll see two functions later that will return all matches.
 ]
 
@@ -365,31 +346,26 @@ We'll see two functions later that will return all matches.
 
 ## Character classes
 
-You hopefully recall **character classes** from our material on the shell,
+You hopefully recall **character classes** from the shell,
 where we used constructs like:
   - `[0-9]` to represent any single digit
-  - `[ABZ]` to represent either an A, a B, or a Z (and not "ABZ"!).
+  - `[ABZ]` to represent either an A, a B, or a Z (and not "*ABZ*"!).
 
-Character classes function the same in Python.&lt;sup&gt;[1]&lt;/sup&gt;
-
-
-.footnote[
-&lt;sup&gt;[1]&lt;/sup&gt; Note that they are referred to as "*sets*" in CSB.
-]
+Character classes function the same in Python
+(though note that they are referred to as "*sets*" in the CSB book).
 
 ---
 
 ## Character classes (cont.)
 
 - For example, we can search for a word that starts with a
-  **lower- *or* uppercase `s`** that is followed by two word (`\w`) characters:
+  *lower- **or** uppercase `s`*, followed by two word (`\w`) characters:
 
   ```python
   my_string = "sunflowers are described on page 89"
   
-  m = re.search(r"[sS]\w\w", my_string)
-  m.group()
-  #&gt; 'sun'
+  re.search(r"[sS]\w\w", my_string)
+  #&gt; &lt;re.Match object; span=(0, 3), match='sun'&gt;
   ```
 
 ---
@@ -400,15 +376,15 @@ Character classes function the same in Python.&lt;sup&gt;[1]&lt;/sup&gt;
 
   ```python
   # my_string = "sunflowers are described on page 89"
-  m = re.search(r"[7-9][7-9]", my_string)
-  m.group()
-  #&gt; '89'
+  
+  re.search(r"[7-9][7-9]", my_string)
+  #&gt; &lt;re.Match object; span=(33, 35), match='89'&gt;
   ```
 
 --
 
 .content-box-q[
-What would happen if the string contained `898` instead of `89`?
+What would happen if `my_string` contained `898` instead of `89`?
 ]
 
 --
@@ -444,17 +420,16 @@ For example, `[^s-z]` matches anything but a letter from s-z in the alphabet:
 ```python
 # my_string = "sunflowers are described on page 89"
 
-m = re.search(r"[^s-z]\w\w\w\w\w\w", my_string)
-m.group()
-#&gt; 'nflower'
+re.search(r"[^s-z]\w\w\w\w\w\w", my_string)
+#&gt;  &lt;re.Match object; span=(2, 9), match='nflower'&gt;
 ```
 
 ---
 
 ## Quantifiers
 
-Instead of typing `\w` 5 times, like above, we can use *quantifiers* to match
-multiple consecutive matching characters more succinctly and flexibly.
+Instead of typing `\w` five times, like above, we can use *quantifiers* to match
+multiple consecutive characters more succinctly and flexibly:
 
 &lt;br&gt;
 
@@ -483,40 +458,38 @@ multiple consecutive matching characters more succinctly and flexibly.
 
 ## Alternations
 
-Finally, a symbol we have also already seen is the `|` for *alternation*,
+A symbol we have also already seen is the `|` for *alternation*,
 functioning as a logical or: 
 
 ```python
-m = re.search(r"cat|mouse", "I found my cat!")
-m.group()
-#&gt; 'cat'
+re.search(r"cat|mouse", "I found my cat!")
+#&gt; &lt;re.Match object; span=(11, 14), match='cat'&gt;
 
-m = re.search(r"cat|mouse", "I found my mouse!")
-m.group()
-#&gt; 'mouse'
+re.search(r"cat|mouse", "I found my mouse!")
+#&gt; re.search(r"cat|mouse", "I found my mouse!")
 ```
 
 ---
 
 ## Greedy vs. non-greedy matching
 
-The quantifiers `?`, `*` and `+` are said to be "**greedy**":
-when faced with multiple possible endpoints of a match,
-they will use the last possible endpoint.
-
-In other words, they will **match as much text as possible**.
+The quantifiers `?`, `*` and `+` are said to be "**greedy**".
 
 --
 
+This means that when faced with multiple possible endpoints of a match,
+they will use the last possible endpoint.
+In other words, they will **match as much text as possible**.
+
+
 &lt;br&gt;
 
-For example, when matching any number of characters followed by a white space below, instead of matching `"once "`, we get the most expansive match
-possible here:
+For example, when matching any number of characters followed by a white space
+below &amp;ndash; instead of matching `"once "`, we get:
 
 ```python
 my_string = "once upon a time"
-re.search(r".*\s", my_string)
-m.group()
+re.search(r".*\s", my_string).group()
 #&gt; 'once upon a '
 ```
 
@@ -535,26 +508,26 @@ re.search(r".*?\s", "once upon a time").group()
 
 ## Anchors
 
-Often, we want to require that a match should only be be made at the end or the
-beginning of a string (or equivalently, of a *line* in a file):
+Often, we want to restrict matching to the beginning or the end of a string  
+(or equivalently, of a *line* in a file):
 
 Anchor | Matches
 -------|--------
-`^`    | Beginning of the string/line (Note re-usage: cf. `[^0-9]`)
+`^`    | Beginning of the string/line (Note re-usage: **cf. `[^0-9]`**)
 `$`    | End of the string/line
+
+&lt;br&gt;
 
 For example:
 
 ```python
 my_string = "ATATA"
 
-m = re.search(r"^TATA", my_string)
-print(m)
-#&gt; None
+re.search(r"^TATA", my_string)
+#&gt; 
 
-m = re.search(r"TATA$", my_string)
-m.group()
-'TATA'
+re.search(r"TATA$", my_string)
+#&gt; &lt;re.Match object; span=(1, 5), match='TATA'&gt;
 ```
 
 ---
@@ -611,7 +584,7 @@ How can we do this?
 --
 
 Just like escaping backslashes,
-we can escape any character's special meaning with a backslash:
+we can escape any other character's special meaning **with a backslash**:
 
 ```python
 re.search(r'*', 'my*string')
@@ -622,11 +595,12 @@ re.search(r'\*', 'my*string')
 ```
 
 .content-box-info[
-We also saw this in the shell where one way to match a file name with a space, other than quoting, is to escape the space:
+We also saw this in the shell where one way to match a file name with a space,
+other than quoting, is to escape the space:
 
 ```sh
-ls my\ bad\ file
-'my bad file'
+$ ls my\ bad\ file
+#&gt; 'my bad file'
 ```
 ]
 
@@ -653,10 +627,12 @@ There are several methylases in *E. coli*.
 The *EcoKI* methylase, for example, modifies the sequences `AACNNNNNNGTGC` *and*
 `GCACNNNNNNGTT`.
 
+--
+
 Let's take a look at the file:
 
 ```python
-fafile="../data/Ecoli.fasta"
+fafile = "../data/Ecoli.fasta"
 
 !head -5 {fafile}
 #&gt; &gt;gi|556503834|ref|NC_000913.3|:1978338-2028069 Escherichia coli str. K-12 substr. #&gt; MG1655, complete genome
@@ -679,8 +655,8 @@ records in the file:
 
 ```python
 from Bio import SeqIO
-genes = list(SeqIO.parse(fafile))
-seq1 = str(records[0].seq)
+genes = list(SeqIO.parse(fafile, "fasta"))
+seq1 = str(genes[0].seq)
 ```
 
 ```python
@@ -706,20 +682,21 @@ we will first save it using the `re.compile()` function:
 
 ```python
 EcoKI = re.compile(r"AAC[ATCG]{6}GTGC|GCAC[ATCG]{6}GTT")
+
+# Matches:
+# AACNNNNNNGTGC
+# GCACNNNNNNGTT
 ```
 
 ---
 
 ## Example: Querying a FASTA file (cont.)
 
-Also, we will need a different `re` function to get *all* matches
-and not just one, like we did previously with `re.search()`.
+Also, we will need a different `re` function to get *all* matches.  
 Let's first try **`re.findall()`**:
 
 ```python
-m = re.findall(r"AAC[ATCG]{6}GTGC|GCAC[ATCG]{6}GTT", seq1)
-
-m
+re.findall(EcoKI, seq1)
 #&gt; ['AACAGCATCGTGC', 'AACTGGCGGGTGC', 'GCACCACCGCGTT',
 #&gt;  'GCACAACAAGGTT', 'GCACCGCTGGGTT', 'AACCTGCCGGTGC']
 ```
@@ -729,7 +706,8 @@ That simply returned a list of matches, but we want the *positions* too!
 --
 
 Instead, we can use **`re.finditer()`**,
-which will get us match objects like we got for `re.search()` earlier:
+which will get us match objects like we got for `re.search()` earlier,
+that we can iterate over:
 
 ```python
 for match in re.finditer(EcoKI, seq1):
@@ -748,7 +726,7 @@ for match in re.finditer(EcoKI, seq1):
 
 Using parentheses, we can create **groups** in regular expressions.
 
-We have already seen the use of such groups with backreferences in `sed`,
+We have already seen the use of such groups with backreferences in `sed`,  
 and another feature of groups is that **quantifiers will operate on the entire
 group**:
 
