@@ -1,0 +1,27 @@
+---
+title: "Week 13"
+description: |
+  Reproducible workflows with Snakemake
+date: 2021-04-05
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+### Slides
+
+- [Slides: Workflows and workflow tools](../week-13/slides/13-1.html) -- Tuesday Zoom (Apr 06)
+ 
+- [Slides: Getting started with Snakemake](../week-13/slides/13-2.html) -- Tue/Thu Zoom
+
+- [Slides: Running Snakemake on a cluster & misc.](../week-13/slides/13-3.html) -- Thursday Zoom (Apr 06)
+
+### Final project: new
+
+- [Final project: progress report](../../finalproject_progress.html) -- due Tuesday, Apr 13
+
+### Ungraded assignments
+
+- Exercises for week 13 -- TBA
+
+
