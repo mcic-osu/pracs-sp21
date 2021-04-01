@@ -3,7 +3,7 @@ name: "pracs-sp21-site"
 title: "pracs-sp21"
 description: |
   Practical Computing Skills for Biologists (PP8300-SP21)
-output_dir: "docs"
+output_dir: docs
 theme: distill.css
 base_url: https://mcic-osu.github.io/pracs-sp21
 creative_commons: CC BY
@@ -38,6 +38,7 @@ navbar:
         - text: "12: Python - Regular expressions"
           href: posts/week-12/index.html
         - text: "13: Snakemake"
+          href: posts/week-13/index.html
         - text: "14: Putting it all together"
     - text: "Final project"
       menu:
@@ -45,7 +46,8 @@ navbar:
           href: final_project.html
         - text: "Checkpoint I: Proposal"
           href: finalproject_proposal.html
-        - text: "Checkpoint II: Draft"
+        - text: "Checkpoint II: Progress report"
+          href: finalproject_progress.html
         - text: "Checkpoint III: Presentation"
         - text: "Checkpoint IV: Submission"
     - text: "Topic overviews"
