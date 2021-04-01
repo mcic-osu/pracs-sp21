@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 13 - Reproducible workflows with Snakemake</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+    <link rel="stylesheet" href="slides_copy.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class:inverse middle center
+
+
+
+
+
+# *Week 13 &amp;ndash; &lt;br&gt; Reproducible workflows with Snakemake*
+
+----
+
+# I: Workflows and workflow tools
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+### Jelmer Poelstra
+### 2021/04/06 (updated: 2021-03-31)
+
+---
+
+## Overview of this week
+
+- I: Workflow tools &amp;ndash; why and what (today)
+  
+- II: Getting started with Snakemake (today/Thu)
+
+- III: Running Snakemake on a cluster &amp; miscellaneous (Thu)
+
+---
+
+## What do we mean by a "pipeline" or "workflow"?
+
+### TODO - Example workflow from exercises
+
+---
+
+## Why create a pipeline / workflow?
+
+What are the advantages of creating a workflow rather than running scripts
+one-by-one as needed?
+
+- **Rerunning** everything is much easier -- you may want to do so after adding
+  samples, changing a script, changing settings, and so on.
+
+- **Re-applying** the same set of analyses in a different project is much easier. 
+
+- The workflow is a form of **documentation** of the steps taken.
+
+- Similarly, it makes sure you are **including all necessary steps** and
+  are not overlooking a script or a manual step.
+
+- **Reproducibility** in general is improved, e.g. it will be easier for others
+  to repeat you analysis.
+
+---
+
+## An example partial workflow script
+
+### TODO - Example workflow from exercises
+
+---
+
+## The need for specialized workflow tools
+
+&lt;p align="center"&gt;
+&lt;img src=img/nature-feature.png width=100%&gt;
+&lt;/p&gt;
+
+----
+
+
+&gt; Typically, researchers codify workflows using general scripting languages such as Python or Bash. But these often lack the necessary flexibility.
+
+&gt;Workflows can involve hundreds to thousands of data files; a pipeline must be able to monitor their progress and exit gracefully if any step fails. And pipelines must be smart enough to work out which tasks need to be re-executed and which do not.
+
+---
+
+## The need for specialized workflow tools?
+
+&lt;p align="center"&gt;
+&lt;img src=img/nature-feature.png width=100%&gt;
+&lt;/p&gt;
+
+&lt;br&gt;
+
+&gt; Bioinformatician Davis McCarthy at St Vincent’s Institute of Medical Research in Fitzroy, Australia, says Python and R were more than enough for the relatively simple workflows he used as a PhD student.
+
+---
+
+## Challenges with workflows: &lt;br&gt; You need to rerun parts of it
+
+**Rerunning *part* of the workflow may be necessary**, e.g. after:
+  
+- Some scripts fail.
+- Some scripts fail for some samples only.
+- When some steps are per-sample &amp; others all-samples: adding a sample.
+- You want to change a script or settings somewhere halfway the workflow.
+
+&lt;br&gt;
+
+--
+
+**Ad-hoc solutions to some of these:**
+  
+- Comment out part of the workflow.
+- Make tempory changes -- e.g. to globbing to only run a subset of samples,
+  then change the pipeline afterwards to (again) use all samples.
+  
+--
+
+**Labor-intensive solution to some of these:**
+
+- Lots of command-line options and `if`-statements to enable flexible running of
+  part of the pipeline, and to change settings.
+
+---
+
+## Challenges with pipelines: &lt;br&gt; managing cluster jobs
+
+For any pipeline that has some steps operating on each sample separately,
+and other steps on all samples together (most do!):
+
+**How do you let the steps properly wait for each other?**
+
+&lt;br&gt;
+
+- **Easy way out** &amp;ndash; but too time-consuming in many cases:  
+  
+  The whole pipeline is run as a single job, and per-sample steps are simply
+  run 1-by-1 in a loop.
+
+&lt;br&gt;
+
+- **Possible solution** &amp;ndash; but cumbersome and hard too manage for more
+  complex pipelines:
+  
+  Use SLURM job dependencies. (We won't discuss those here.)
+
+---
+
+## Challenges with pipelines: &lt;br&gt; monitor and manage script failure
+
+**How do you monitor job failure and automatically stop the pipeline upon job
+failure?**
+
+&lt;br&gt;
+
+- **Easy way out** &amp;ndash; but too time-consuming in many cases:   
+  Again, if your entire pipeline is run linearly in a single job,
+  you can use proper Bash settings and it will work. 
+
+&lt;br&gt;
+
+- **Possible solution** &amp;ndash; but cumbersome and hard too manage for more
+  complex pipelines:
+  
+  - Lots of testing for proper input for each script.
+
+  - Test the exit status of each script. 
+
+---
+
+## Workflow management systems
+
+Workflow tools, often called "workflow management systems",
+provide ways to formally describe and execute workflows.
+
+&lt;br&gt;
+
+Some of the most commonly used command-line based options for working with
+biological sequence data are:
+
+- Snakemake
+- Nextflow
+- Common Worklow Language (CWL) 
+- Workflow Description Language (WDL).
+
+&lt;br&gt;
+
+--
+
+While there is a bit of a learning curve for any of these,
+they solve the challenges discussed above, and offer many more benefits.
+
+For all but the simplest workflows, they will eventually be huge time-savers,
+both in terms of time spent composing the workflow and in running time of the
+workflow.
+
+---
+
+## Advantages of formal workflow management &amp;ndash; &lt;br&gt; all the buzzwords...
+
+- **Reproducibility and transparency**
+  - Document the workflow
+  - Document dependencies among data and among code
+  - Readability
+  - Allows analysis of workflow graph
+  - Integration with software management
+
+- **Automation**
+
+  - Detect changes in input files
+  - Rerun failed steps
+
+- **Portability**
+  
+  - Workflow can be easily rerun on a laptop, an HPC system,
+    in the cloud, with or without containers.
+    
+---
+
+## Advantages of formal workflow management (cont.)
+
+- **Scalability**
+
+  - Efficient execution because all dependencies are known,  
+    and cluster submission is automated &amp; optimized.
+  - No need to loop over samples yourself
+
+- **Flexibility** due to a separation of:
+  
+  - Generic nuts-and-bolts of the pipeline
+  - Run-specific configuration &amp;ndash; samples, directories, options
+  - Things specific to the runtime environment (laptop vs cluster vs cloud)
+
+---
+
+&lt;figure&gt;
+&lt;p align="center"&gt;
+&lt;img src=img/giaa140fig1.jpeg width="90%"&gt;
+&lt;figcaption&gt;From &lt;a href="https://academic.oup.com/gigascience/article/10/1/giaa140/6092773/"&gt;Reiter et al. 2021: Streamlining data-intensive biology with workflow systems&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/p&gt;
+&lt;/figure&gt;
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Advantages of formal workflow management
+
+&gt; The essence of what we're trying to do:
+&gt;
+&gt; - Automate a workflow
+&gt; - Document the workflow
+&gt; - Document the dependencies among data files, code
+&gt; - Re-run only the necessary code, based on what has changed
+&gt;
+&gt; &amp;mdash; [Karl Broman](http://kbroman.org/Tools4RR/assets/lectures/01_intro.pdf)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "rainbow",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

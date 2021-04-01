@@ -1,0 +1,1564 @@
+---
+title: "Week 13 - Reproducible workflows with Snakemake"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
+```
+
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
+#xaringanExtra::use_scribble()
+#xaringanExtra::use_panelset()
+#xaringanExtra::use_clipboard()
+#xaringanExtra::use_search(show_icon = TRUE)
+```
+
+# *Week 13 &ndash; <br> Reproducible workflows with Snakemake*
+
+----
+
+# II: Getting started with Snakemake
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/04/08 (updated: `r Sys.Date()`)
+
+---
+class:inverse middle center
+
+# Overview
+
+----
+
+.left[
+- #### Snakemake basics and our first Snakefile
+- #### Using input/output directives &ndash; and relationships between rules
+- #### Using a "rule all"
+- #### Using *{input}* and *{output}* placeholders
+- #### Using wildcards to generalize rules
+- #### Specifying samples/input files with *glob_wildcards()*
+- #### Rules that aggregate across samples
+- #### Modifying an input file
+]
+
+---
+
+## Setup: create dirs and files
+
+We will be running a dummy Snakemake workflow.
+First, let's create a directory for this:
+```sh
+mkdir /fs/ess/PAS1855/users/$USER/week13/zoom_workflow
+cd /fs/ess/PAS1855/users/$USER/week13/zoom_workflow
+```
+
+Next, we'll create some necessary directories and files, such as:
+
+- `data` will contain empty FASTQ files for three samples:
+  `smpA`, `smpC`, `smpG`.
+
+- `res` is where we will put our results.
+
+- `workflow` will contain the "Snakefile" and a dir for "DAGs"
+  (Directed Acyclic Graphs, in our case workflow diagrams).
+
+```sh
+mkdir -p data scripts res workflow/DAGs
+
+touch workflow/Snakefile
+
+echo "AAAAAAA" > data/smpA.fastq
+echo "CCCCCCC" > data/smpC.fastq
+echo "GGGGGGG" > data/smpG.fastq
+```
+
+---
+
+## Setup: create dummy scripts
+
+Finally, we'll create three one-line dummy scripts just for the sake of allowing
+us to test building a workflow and see if we are implementing it correctly:
+
+- `trim.sh` &ndash; A "FASTQ trimming script" that will just report the
+  name of the file passed to it, and print its contents.
+  
+- `map.sh` &ndash; A very similar "mapping script".  
+  (To keep things very simple for now, it just takes a FASTQ file and no reference
+  genome file to which the FASTQ file should be mapped.)
+
+- `count.sh` &ndash; A script that will take multiple "BAM" files, report
+  their names, and print their contents to screen.
+
+<br>
+
+```sh
+echo 'echo "FASTQ file $1 after trimming" && cat $1' > scripts/trim.sh
+
+echo 'echo "BAM from FASTQ $1 :" && cat $1' > scripts/map.sh
+
+echo 'echo "Counts for $# BAM files:" && cat $@' > scripts/count.sh
+
+chmod +x scripts/*     # Make the scripts executable
+```
+
+---
+
+## Setup: check our dir structure
+
+Let's take a look at our directory contents with `tree`:
+
+```sh
+tree
+#> ├── data
+#> │   ├── smpA.fastq
+#> │   ├── smpC.fastq
+#> │   └── smpG.fastq
+#> ├── res
+#> ├── scripts
+#> │   ├── count.sh
+#> │   ├── map.sh
+#> │   └── trim.sh
+#> └── workflow
+#>     ├── DAGs
+#>     └── Snakefile
+    
+```
+
+---
+
+## Snakemake
+
+- Although it's a general workflow management tool,
+  it was written by a bioinformatician.
+  
+  In practice, it appears to be used mostly for bioinformatics analyses.
+
+- Cross-platform and compatible with all HPC schedulers.  
+  Works on laptop, clusters, and cloud without modification to the main workflow!
+  
+- Uses Python &ndash; and is named after it.
+
+- Also named after &ndash;and based on &ndash; Make, ...
+
+### ADD
+
+---
+
+class: inverse middle center
+
+# Snakemake basics and our first Snakefile
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Snakemake basics
+
+- **Snakemake workflow instructions are written in a file that is usually called
+  `Snakefile`** (no extension).
+  
+  This file is typically placed in the project's root dir or in a `workflow` dir.
+
+--
+
+<br>
+
+- To actually run the Snakemake workflow that is specified in your `Snakefile`,
+  you call `snakemake` in the shell from your project's root dir:
+
+  ```python
+  # Our Snakefile will be automatically detected if it is called:
+  # `Snakefile`, `snakefile`, `workflow/Snakefile`, `workflow/snakefile`
+  $ snakemake -j1
+  
+  # If necessary, we can call the Snakefile by name with "-s":
+  $ snakemake -s my_other_snakefile.smk -j1
+  ```
+
+.content-box-info[
+With recent Snakemake versions, we *always* need to specify the `-j` option,
+which is the maximum number of jobs (processes) that you want Snakemake
+to run in parallel. 
+]
+  
+---
+
+## Snakefile basics
+
+- **Snakefiles are basically Python scripts with some special Snakemake syntax.**
+  (You can therefore include any arbitrary Python code in a Snakefile!)
+
+- Snakefiles primarily consist of **rules**.
+  Each rule describes a *component of the workflow*, like a script to be run.
+
+--
+
+- Rules are defined using the `rule` keyword:
+
+  ```python
+  rule my_rule:
+       # ...Things to do in rule my_rule...
+       
+  rule another_rule:
+       # ...Things to do in rule another_rule...
+  ```
+
+  .content-box-info[
+  Note that this syntax is similar to that of defining a Python function,
+  including the indentation on the next lines.  
+    
+  Instead of `def my_func(args):`, we use `rule my_rule:`
+  ]
+  
+---
+
+## Snakefile rules
+
+**Most rules describe an action that should be performed, like**:
+
+- A script that should be run.
+- A shell command calling some external program.
+- Stand-alone shell (or Python) code.
+
+```python
+rule fastqc:
+    shell: "scripts/run_fastqc.sh data/sampleA.fastq.gz"
+          
+rule multiqc:
+    shell: "multiqc results/fastqc_dir"
+```
+
+--
+
+```python
+rule count_words:
+    shell: "scripts/cnt_words.py data/bookA.txt > res/bookA_cnt.txt"
+          
+rule capitalize:
+    shell: "cat res/bookA_cnt.txt | tr a-z A-Z > res/bookA_ucnt.txt"
+```
+
+.content-box-info[
+These examples all use a shell command for different purposes  
+(**`shell` directive**), but others are possible, e.g. **`run`** for Python code.
+]
+
+---
+
+## Snakefile version 1
+
+Let's save the following in a file called `Snakefile` in the `workflow` dir:
+
+```python
+rule trim:
+    shell: "scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq"
+          
+rule map:
+    shell: "cat res/smpA_trim.fastq | scripts/map.sh > res/smpA.bam"
+```
+
+---
+
+## Running Snakemake for the first time
+
+When we call `snakemake`, we can **specify the rule we want to run**  
+(here, we also use the **`-p` option** to print the shell commands being run):
+  
+```sh
+$ snakemake -j1 -p trim
+#> Building DAG of jobs...
+#> Using shell: /bin/bash
+#> Provided cores: 1 (use --cores to define parallelism)
+#> Rules claiming more threads will be scaled down.
+#> Job counts:
+#>         count   jobs
+#>         1       trim
+#>         1
+#> Select jobs to execute...
+#> 
+#> [Wed Mar 31 07:40:50 2021]
+#> rule trim:
+#>     jobid: 0
+#> 
+#> scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq
+#> [Wed Mar 31 07:40:50 2021]
+#> Finished job 0.
+#> 1 of 1 steps (100%) done
+#> Complete log: [...]/.snakemake/log/2021-03-31T074049.781992.snakemake.log
+```
+
+---
+
+## Running Snakemake for the first time (cont.)
+
+Let's look at the output file:
+
+```sh
+$ cat res/smpA_trim.fastq
+#> FASTQ file data/smpA.fastq after trimming
+#> AAAAAAA
+```
+
+Now we **run the second rule**, `map`:
+  
+```sh
+$ snakemake -j1 -pq map
+#> Job counts:
+#>        count   jobs
+#>        1       map
+#>        1
+#> scripts/map.sh res/smpA_trim.fastq > res/smpA.bam
+
+$ cat res/smpA.bam
+#> BAM from FASTQ res/smpA_trim.fastq :
+#> FASTQ file data/smpA.fastq after trimming
+#> AAAAAAA
+```
+
+.content-box-info[
+The `-q` (`--quiet`) option keeps Snakemake's output minimal.
+]
+
+---
+class: inverse middle center
+
+# Using input/output directives <br> and relationships between rules
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Try running the second rule from scratch
+
+What if we remove the output files and try running second rule:
+
+```{sh}
+$ rm res/*
+
+$ snakemake -j1 -p map
+#> [...] 
+#> scripts/map.sh res/smpA_trim.fastq > res/smpA.bam
+#> cat: res/smpA_trim.fastq: No such file or directory #<<
+#> [Wed Mar 31 08:51:45 2021]
+#> Error in rule map:
+#>     jobid: 0
+#>     shell:
+#>         scripts/map.sh res/smpA_trim.fastq > res/smpA.bam
+#>         (one of the commands exited with non-zero exit code; note that snakemake uses bash strict #> mode!)
+#> 
+#> Shutting down, this might take some time.
+#> Exiting because a job execution failed. Look above for error message
+```
+
+That didn't work &ndash; Snakemake did not figure out it could create the missing
+file `res/smpA_trim.fastq` by first running the `trim` rule.
+
+---
+
+## Output files in the face of errors 
+
+Another thing to note is that we do have an output file `res/smpA.bam`:
+
+```sh
+$ ls res
+#> res/smpA.bam
+$ cat res/smpA.bam
+#> BAM from FASTQ res/smpA_trim.fastq :
+```
+
+Recall that the contents of the "mapping" script is:
+
+```sh
+echo "BAM from FASTQ $1 :" && cat $1
+```
+
+The error occurred in the second command, where it tried to print the contents
+of the trimmed FASTQ file to screen (`cat $1`), which did not exist.
+
+However, the first line `BAM from FASTQ $1` was still printed to the file,  
+and now we are stuck with an incomplete output file that we best manually
+remove before it confuses us (this will happen when you have many output
+files!).
+
+Snakemake can remove such files for us automatically,
+but we will need to provide it with more information about output files!
+
+---
+
+## Standard error
+
+Finally, it is also worth noting that the error:
+
+```sh
+cat: res/smpA_trim.fastq: No such file or directory
+```
+
+... which was directly produced by out script, was kind of buried among all
+other Snakemake output.
+
+.content-box-q[
+Why did this error not go into the output file `res/smpA.bam`?
+]
+
+--
+
+.content-box-answer[
+Because with our shell command, we redirected the standard output to that file
+(with `>`), but we did not redirect the standard error (`2>`):
+
+```sh
+cat res/smpA_trim.fastq | scripts/map.sh > res/smpA.bam
+```
+
+We will see about **redirecting standard error to log files** later,
+but for now, we will keep out Snakefile simple and build on some other things
+first.
+]
+
+---
+
+## Indicating relationships between rules
+
+For Snakemake to properly run your pipeline and start to have some added value,
+we would like it to:
+
+- Understand the **relationships (*dependencies*) between different rules**,
+  such as the order in which they should be run.
+  
+- Be able to check for the presence of appropriate output files.
+
+- Remove output files that were produced by jobs (processes) that produced an
+  error, like our mapping step above.
+
+--
+
+**These things are handled by `input` and `output` directives for each rule.**
+For example:
+
+```{python}
+rule trim:
+    input: "data/smpA.fastq"
+    output: "res/smpA_trim.fastq"
+    shell: "scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq"
+          
+rule map:
+    input: "res/smpA_trim.fastq"
+    output: "res/smpA.bam"
+    shell: "scripts/map.sh res/smpA_trim.fastq > res/smpA.bam"
+```
+  
+---
+
+## Indicating relationships between rules (cont.)
+
+```{python}
+rule trim:
+    input: "data/smpA.fastq"
+    output: "res/smpA_trim.fastq" #<<
+    shell: "scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq"
+          
+rule map:
+    input: "res/smpA_trim.fastq" #<<
+    output: "res/smpA.bam"
+    shell: "scripts/map.sh res/smpA_trim.fastq > res/smpA.bam"
+```
+
+Because **the output of `trim` is the input of `map`**,  
+Snakemake will be able to tell that:
+  
+- `map` should be run before `trim`.
+  
+- `trim` should only be run if the output from `map`
+  is *actually present*.
+
+---
+
+## Indicating relationships between rules (cont.)
+
+Therefore:
+
+- **Relationships/dependencies between rules are _implicit_**:  
+  they are inferred from the `input` and `output` directives.
+  
+- The order of the rules as written in the Snakefile is largely irrelevant
+  (except that the first rule will be run by default).
+
+---
+
+## Snakefile version 2: with input/output directives
+
+```{python}
+rule trim:
+    input: "data/smpA.fastq"
+    output: "res/smpA_trim.fastq"
+    shell: "scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq"
+          
+rule map:
+    input: "res/smpA_trim.fastq"
+    output: "res/smpA.bam"
+    shell: "scripts/map.sh res/smpA_trim.fastq > res/smpA.bam"
+```
+
+---
+
+## Running Snakemake again
+
+- Earlier, we saw that we can specify a *rule* as an argument when running
+  Snakemake. But we can also specify any rule's **output file(s)** as defined
+  in the `output` directive.
+  
+- Let's try that:
+
+  ```python
+  snakemake -j1 -pr res/smpA_trim.fastq
+  #> rule trim:
+  #>   input: data/smpA.fastq
+  #>   output: res/smpA_trim.fastq
+  #>   jobid: 0
+  #>   reason: Missing output files: res/smpA_trim.fastq
+  #> 
+  #> scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq
+  ```
+
+  Here, we also specified the **`-r` (long form: `--reason`) option**,  
+  which makes Snakemake tell us why it decides to run things.
+
+---
+
+## Snakemake will figure out what needs to be run
+
+Here is one of the things that makes Snakemake powerful &ndash;  
+when we run a command like:
+
+```python
+snakemake -j1 file_to_produce
+```
+
+- It will figure out **which *additional* rules need to be run** in order to run
+  the requested rule (/ produce the requested file) successfully.
+
+- When doing so, it doesn't just check if files are missing but also
+  **whether any output files are older than input files**,
+  which will also trigger a run.
+
+--
+
+- Similarly, Snakemake **won't run** if the output file is already present *and*
+  is more recent than the input file<sup>[1]</sup>.
+  
+- (Snakemake will also create any necessary output directories.)
+
+.footnote[
+[1] Though you can always force a run, even if output files are present,  
+&nbsp; &nbsp; &nbsp; with the `--forcerun` option.
+]
+
+---
+
+## Asking for the final output file
+
+So, let's ask for Snakemake to produce the final of our two output files.  
+(Recall that we also tried this before we had indicated relationships between
+rules with `input` and `output`, and it failed.)
+ 
+```sh
+$ rm res/*  # First we remove the old output
+
+$ snakemake -j1 -pr res/smpA.bam
+#> [...]  
+#> rule trim:
+#>     input: data/smpA.fastq
+#>     output: res/smpA_trim.fastq
+#>     jobid: 1
+#>     reason: Missing output files: res/smpA_trim.fastq
+#> scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq
+#> [...]    
+#> rule map:
+#>     input: res/smpA_trim.fastq
+#>     output: res/smpA.bam
+#>     jobid: 0
+#>     reason: Missing output files: res/smpA.bam; Input files updated by another job: #> res/smpA_trim.fastq
+#> scripts/map.sh res/smpA_trim.fastq > res/smpA.bam
+#> [...]  
+```
+  
+---
+
+## Visualizing the workflow with a "DAG"
+
+To better understand the relationships between rules that Snakemake infers,
+we can visualize the "*Directed Acyclic Graph*" (**DAG**) for the workflow:
+
+```sh
+snakemake --dag res/smpA.bam | \
+    dot -T svg > workflow/DAGs/v2.svg 
+```
+
+- `snakemake --dag` will compute the DAG
+- We pipe that into the Graphviz `dot` command
+- We save `dot`s output in SVG (Scalable Vector Graphics) format.
+
+--
+
+.pull-left[
+<p align="center">
+<img src=img/v2.svg width=40%>
+</p>
+]
+
+.pull-right[
+<br><br><br><br>
+*Still extremely simple, but we'll work on that!*
+]
+
+---
+
+## What will Snakemake run?
+
+First off, if we don't specify and rule or output file in our Snakemake call,  
+the **first rule** will be run.
+
+.content-box-q[
+For the Snakefile below, which we've seen before:
+
+- If we don't specify a rule, will anything other than the first rule be run?
+
+- How can we efficiently get Snakemake to run both rules?
+]
+
+```{python}
+rule trim:
+    input: "data/smpA.fastq"
+    output: "res/smpA_trim.fastq"
+    shell: "scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq"
+          
+rule map:
+    input: "res/smpA_trim.fastq"
+    output: "res/smpA.bam"
+    shell: "scripts/map.sh res/smpA_trim.fastq > res/smpA.bam"
+```
+
+---
+
+## What will Snakemake run?
+
+.content-box-answer[
+- With no arguments, the first rule (`trim`) will be run.
+  The other rule, `map`, will not because `trim` does not
+  depend on it.
+
+- If we run `snakemake -j1 map` or  
+  `snakemake -j1 res/smpA.bam`,  
+  Snakemake knows it *also* needs to run the rule `trim`.
+]
+
+```{python}
+rule trim:
+    input: "data/smpA.fastq"
+    output: "res/smpA_trim.fastq"
+    shell: "scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq"
+          
+rule map:
+    input: "res/smpA_trim.fastq"
+    output: "res/smpA.bam"
+    shell: "scripts/map.sh res/smpA_trim.fastq > res/smpA.bam"
+```
+
+---
+
+class: inverse middle center
+
+# Using a "rule all"
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Using a "rule all"
+
+Because Snakemake executes the first rule by default,
+it is handy to define a "pseudorule", with
+**only `input` and no `output` or action**, as the first rule.
+
+This rule is usually called `rule all`.
+
+.content-box-q[
+Can you think of what kind of files may be specified in `rule all`?
+And why would this be useful?
+]
+
+--
+
+- `rule all` typically has as its `input` all final output files,
+  final tables, plots, and so on.
+  
+  Though more specifically, it has all files that are
+  **not used as input for another rule (endpoints)** &ndash;
+  some of these files may in fact be produced early on in the pipeline,
+  such as MultiQC output.
+
+--
+
+- Using a `rule all` provides an easy way to **run the entire workflow**:  
+  if we specify all workflow endpoints as input for `rule all`,
+  and run Snakemake with no arguments,
+  the entire workflow / all not-yet-run rules will be executed.
+
+---
+
+## Snakefile version 3: with rule all
+
+.content-box-q[
+What should be the `input` for `rule all` for our Snakefile below?
+]
+
+```{python}
+rule all:
+    input: 
+
+rule trim:
+    input: "data/smpA.fastq"
+    output: "res/smpA_trim.fastq"
+    shell: "scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq"
+          
+rule map:
+    input: "res/smpA_trim.fastq"
+    output: "res/smpA.bam"
+    shell: "scripts/map.sh res/smpA_trim.fastq > res/smpA.bam"
+```
+
+---
+
+## Snakefile version 3: with rule all (cont.)
+
+.content-box-answer[
+The output of the final rule of the workflow, which is `res/smpA.bam`.
+]
+
+```{python}
+rule all:
+    input: "res/smpA.bam"
+
+rule trim:
+    input: "data/smpA.fastq"
+    output: "res/smpA_trim.fastq"
+    shell: "scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq"
+          
+rule map:
+    input: "res/smpA_trim.fastq"
+    output: "res/smpA.bam"
+    shell: "scripts/map.sh res/smpA_trim.fastq > res/smpA.bam"
+```
+
+---
+name: snakefile_3
+
+## Visualizing and running the workflow again
+
+```sh
+$ rm res/*    # We first remove earlier output files
+
+$ snakemake --dag | dot -T svg > workflow/DAGs/v3a.svg 
+```
+
+```sh
+$ snakemake -j1 -pq
+#> Job counts:
+#>        count   jobs
+#>        1       all
+#>        1       map
+#>        1       trim
+#>        3
+#> scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq
+#> scripts/map.sh res/smpA_trim.fastq > res/smpA.bam
+```
+
+```sh
+snakemake --dag | dot -T svg > workflow/DAGs/v3b.svg
+```
+
+---
+
+## Running and visualizing the workflow again (cont.)
+
+.pull-left[
+.center[**Before we run the workflow:**]
+<p align="center">
+<img src=img/v3a.svg width=40%>
+</p>
+]
+
+.pull-right[
+.center[**After we run the workflow:**]
+<p align="center">
+<img src=img/v3b.svg width=40%>
+</p>
+]
+
+---
+class: inverse middle center
+
+# Using {input} and {output} placeholders
+
+----
+
+<br> <br> <br> <br>
+
+
+---
+
+## Using {input} and {output} placeholders
+
+Note that because we have to specify input and output files both in the
+`input` / `output` directives *and* in the actual commands,
+we are currently repeating ourselves:
+
+```{python}
+rule trim:
+    input: "data/smpA.fastq"
+    output: "res/smpA_trim.fastq"
+    shell: "scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq"
+          
+rule map:
+    input: "res/smpA_trim.fastq"
+    output: "res/smpA.bam"
+    shell: "scripts/map.sh res/smpA_trim.fastq > res/smpA.bam"
+```
+
+---
+
+## Using {input} and {output} placeholders (cont.)
+
+We can prevent this by using `{input}` and `{output}` placeholders:
+
+```{python}
+rule trim:
+    input: "data/smpA.fastq"
+    output: "res/smpA_trim.fastq"
+    shell: "scripts/trim.sh {input} > {output}"
+          
+rule map:
+    input: "res/smpA_trim.fastq"
+    output: "res/smpA.bam"
+    shell: "scripts/map.sh {input} > {output}"
+```
+
+---
+
+## Using {input} and {output} placeholders (cont.)
+
+We can also **name individuals inputs and outputs**,
+which is useful in case we have more than one:
+
+```{python}
+rule map:
+    input:
+        fastq="data/smpA.fastq",    # NOTE THE COMMA
+        ref="data/genome.fa"
+    output: "res/smpA_trim.fastq"
+    shell: "scripts/map.sh -r {input.ref} {input.fastq} > {output}"
+```
+
+Note that the different input files are **separated by a comma**.
+When there are multiple entries for a directive (e.g. `input`),
+this comma is required. When there is only one, a trailing comma is still accepted.
+
+--
+
+.content-box-info[
+For some rules above, values are on the same line, and for others,
+they are on a new line with indentation.
+Either works, but the latter is generally preferred &ndash;
+certainly if you have multiple values.  
+To save space, I often use a single line in these slides.
+]
+
+---
+
+## Snakefile version 4: <br> with {input} and {output} placeholders
+
+We can prevent this by using `{input}` and `{output}` placeholders:
+
+```{python}
+rule trim:
+    input: "data/smpA.fastq"
+    output: "res/smpA_trim.fastq"
+    shell: "scripts/trim.sh {input} > {output}"
+          
+rule map:
+    input: "res/smpA_trim.fastq"
+    output: "res/smpA.bam"
+    shell: "scripts/map.sh {input} > {output}"
+```
+
+---
+
+class: inverse middle center
+
+# Using wildcards to generalize rules
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Generalizing a rule to run for any input file
+
+<br>
+
+**What if we want to run `trim` for multiple files?**
+
+Do we create a rule for each file? Do we need to use a script that loops,
+or do we create a loop in the Snakefile?
+
+<br>
+
+This is where Snakemake gets particularly powerful,
+but also more complicated: we can include **wildcards** in our rule to take
+care of this.
+
+---
+
+## Introducing wildcards
+
+To define **wildcards**, we again use curly braces `{}` &ndash;  
+but note that we are nowhere explicily defining what `{smp}` should hold!
+
+```{python}
+rule trim:
+    input: "data/{smp}.fastq"
+    output: "res/{smp}_trim.fastq"
+    shell: "scripts/trim.sh {input} > {output}"
+```
+
+--
+
+```{python}
+$ snakemake -j1 res/smpA_trim.fastq
+```
+
+If we then run the command above, Snakemake will:
+
+1. Realize it can produce the requested output file
+   `res/smpA_trim.fastq` by replacing the `{smp}` wildcard in `res/{smp}_trim.fastq` 
+   with `smpA`. 
+
+2. Knowing that the wildcard value is `smpA`,
+   Snakemake will next look for input file `data/{smp}.fastq`, i.e. `data/smpA.fastq`.  
+   
+   Since this input file exists, it will go ahead and run rule `trim`
+   with that input file.
+
+---
+
+## Using wildcards in all rules
+
+Next, we can use an equivalent wildcard in our other rule:
+
+```{python}
+rule trim:
+    input: "data/{smp}.fastq"
+    output: "res/{smp}_trim.fastq"
+    shell: "scripts/trim.sh {input} > {output}"
+          
+rule map:
+    input: "res/{smp}_trim.fastq"
+    output: "res/{smp}.bam"
+    shell: "scripts/map.sh {input} > {output}"
+```
+
+--
+
+Now, if we run:
+
+```sh
+$ snakemake -j1 res/smpA.bam
+```
+
+Snakemake will figure out it first needs to run `trim` with wildcard
+value `smpA`, and then `map` with the same wildcard value.
+
+---
+
+## Using wildcards in all rules
+
+Next, we can use an equivalent wildcard in our other rule:
+
+```{python}
+rule trim:
+    input: "data/{smp}.fastq"
+    output: "res/{smp}_trim.fastq"
+    shell: "scripts/trim.sh {input} > {output}"
+          
+rule map:
+    input: "res/{smp}_trim.fastq"
+    output: "res/{smp}.bam"
+    shell: "scripts/map.sh {input} > {output}"
+```
+
+Now, if we run:
+
+```sh
+$ snakemake -j1 res/smpA.bam
+```
+
+.content-box-warning[
+Note, however, that wildcards operate entirely within a single rule and not across
+rules!
+]
+
+---
+
+## Using wildcards to generalize our rule
+
+OK, very nice, but we still haven't run the same rule multiple times for
+different input files! We have three files in total:
+
+```sh
+data/smpA.fastq
+data/smpC.fastq
+data/smpG.fastq
+```
+
+.content-box-q[
+What would happen if we just ran Snakemake with a rule name?
+
+```sh
+$ snakemake -j1 map
+```
+]
+
+--
+
+You might be thinking now that perhaps Snakemake will detect these input files,
+then infer that it can use `smpA`, `smpC`, and `smpG` as the wildcard values,
+and run both rules for each sample.
+
+---
+
+## Using wildcards to generalize our rule
+
+```sh
+$ rm res/*
+
+$ snakemake -j1 map
+
+#> WorkflowError:
+#> Target rules may not contain wildcards. Please specify concrete files or a rule without wildcards.
+```
+
+Unfortunately, **Snakemake complains that there is no "concrete" rule.**
+
+If we take for granted that Snakemake will not peek at possible input files to
+infer wildcards, that makes sense:
+it has no concrete instructions for output files to produce. 
+
+<br>
+
+--
+
+**So, we will need to tell Snakemake about the different samples that
+can be used as the wildcards.**
+
+---
+
+## Using wildcards to generalize our rule (cont.)
+
+The simplest way to specify our input samples is by listing them at the top of
+the Snakefile. **Recall that we can just use Python code!**
+
+```{python}
+SAMPLES=["smpA", "smpC", "smpG"] 
+
+rule all:
+    input: ...
+    
+rule trim:
+    input: "data/{smp}.fastq"
+    output: "res/{smp}_trim.fastq"
+    shell: "scripts/trim.sh {input} > {output}"
+          
+rule map:
+    input: "res/{smp}_trim.fastq"
+    output: "res/{smp}.bam"
+    shell: "scripts/map.sh {input} > {output}"
+```
+
+**Now how do we modify `rule all`'s `input` accordingly?**
+
+---
+
+## Using wildcards to generalize our rule (cont.)
+
+We want `rule all`'s `input` to be a list of the three output files that
+our final rule (`map`) can produce for each sample:
+
+```sh
+"data/smpA.fastq"   =>  'res/smpA.bam'
+"data/smpC.fastq"   =>  'res/smpC.bam'
+"data/smpG.fastq"   =>  'res/smpG.bam'
+```
+
+--
+
+We can use a *list comprehension* to create this list:
+
+```{python}
+SAMPLES=["smpA", "smpC", "sampC"]
+
+rule all:
+    input: [ "res/" + sample + ".bam" for sample in SAMPLES]
+```    
+
+--
+
+But Snakemake also provides a few convenience functions &ndash;  
+and **`expand()`** comes in useful in such cases:
+
+```{python}
+input: expand("res/{smp}.bam", sample=SAMPLES)
+```
+
+---
+
+## Snakemake's expand() function
+
+While in the example above, the list comprehension was nearly as concise as
+`expand()`, the latter is particularly convenient when dealing with multiple
+lists, and you want all possible combinations among these lists:
+
+```python
+SAMPLES = ["sampleA", "sampleB", "sampleC"]
+READS = ["R1", "R2"]
+
+expand("{sample}_{read}.fastq.gz", sample=SAMPLES, read=READS)
+#> ['sampleA_R1.fastq.gz',
+#>  'sampleA_R2.fastq.gz',
+#>  'sampleB_R1.fastq.gz',
+#>  'sampleB_R2.fastq.gz',
+#>  'sampleC_R1.fastq.gz',
+#>  'sampleC_R2.fastq.gz']
+```
+
+--
+
+Let's try that in an IPython window!
+
+```python
+from snakemake.io import expand, glob_wildcards
+
+# Now run the code in the block above
+```
+
+---
+
+## Snakefile version 5: <br> with wildcards and the expand() function
+
+```{python}
+SAMPLES=["smpA", "smpC", "smpG"] 
+
+rule all:
+    input: expand("res/{smp}.bam", smp=SAMPLES)
+    
+rule trim:
+    input: "data/{smp}.fastq"
+    output: "res/{smp}_trim.fastq"
+    shell: "scripts/trim.sh {input} > {output}"
+          
+rule map:
+    input: "res/{smp}_trim.fastq"
+    output: "res/{smp}.bam"
+    shell: "scripts/map.sh {input} > {output}"
+```
+
+.content-box-info[
+Note that our list at the top now specifies sample IDs
+*that are part* of the input file names: with those,
+we can identify the full input file names **via** the output file names.
+]
+
+---
+
+## Visualizing and running the workflow again
+
+```sh
+$ rm res/*
+
+$ snakemake --dag | dot -T svg > workflow/DAGs/v5.svg 
+```
+
+<br>
+
+<p align="center">
+<img src=img/v5.svg width=70%>
+</p>
+
+---
+
+## Visualizing and running the workflow again
+
+```sh
+$ snakemake -j1 -pq
+
+#> Job counts:
+#>         count   jobs
+#>         1       all
+#>         3       map
+#>         3       trim
+#>         7
+#> scripts/trim.sh data/smpC.fastq > res/smpC_trim.fastq
+#> scripts/map.sh res/smpC_trim.fastq > res/smpC.bam
+#> scripts/trim.sh data/smpG.fastq > res/smpG_trim.fastq
+#> scripts/map.sh res/smpG_trim.fastq > res/smpG.bam
+#> scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq
+#> scripts/map.sh res/smpA_trim.fastq > res/smpA.bam
+```
+
+---
+
+class: inverse middle center
+
+# Specifying samples/input files <br> with glob_wildcards()
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Alternative options to specify (sample) IDs
+
+It's not necessarily all that convenient to have to manually list sample IDs
+at the top of the Snakefile &ndash; in practice, we may have many!
+
+There are a couple of alternatives:
+
+- List them out in a *config* file and then read them into the Snakefile.<sup>[1]</sup> 
+  That's certainly no more convenient,
+  but it's good not to have the IDs hardcoded in the Snakefile.
+
+- We can read in a *metadata file* with the list of IDs,
+  or even a tabular file that we read with `pd.read_csv()` &ndash;
+  this can also be done in the Snakefile!
+
+--
+
+- We can use *globbing* to determine which input files are present,
+  and from the input file names infer the sample IDs.
+
+  We will now use this latter approach,
+  for which Snakemake has another convenience function: **`glob_wildcards()`**.
+
+.footnote[
+<sup>[1]</sup> We will see config files later on.
+]
+
+---
+
+## Snakemake's glob_wildcards() function
+
+With `glob_wildcards`, we can extract parts of file names as follows:
+
+```python
+SAMPLES = glob_wildcards("data/{smp}.fastq").smp
+
+SAMPLES
+#> ['smpC', 'smpG', 'smpA']
+```
+
+Note the `.smp` at the end:
+we extract the list that was stored in `smp` because we named our wildcard `smp`.
+
+--
+
+.content-box-info[
+This is stored like that (`.smp` rather than simply a list)
+to also allow you to define multiple wildcards:
+
+```python
+>>> !ls seqdata
+#> A_R1.fastq.gz A_R2.fastq.gz B_R1.fastq.gz B_R2.fastq.gz
+
+>>> glob_wildcards("seqdata/{sample}_{read}.fastq.gz").sample
+#> ['A', 'A', 'B', 'B']
+>>> glob_wildcards("seqdata/{sample}_{read}.fastq.gz").read
+#> ['R1', 'R2', 'R1', 'R2']
+```
+]
+
+---
+
+## Snakefile version 6: with glob_wildcards()
+
+```{python}
+SAMPLES = glob_wildcards("data/{smp}.fastq").smp
+
+rule all:
+    input: expand("res/{smp}.bam", smp=SAMPLES)
+    
+rule trim:
+    input: "data/{smp}.fastq"
+    output: "res/{smp}_trim.fastq"
+    shell: "scripts/trim.sh {input} > {output}"
+          
+rule map:
+    input: "res/{smp}_trim.fastq"
+    output: "res/{smp}.bam"
+    shell: "scripts/map.sh {input} > {output}"
+```
+
+---
+
+class: inverse middle center
+
+# Rules that aggregate across samples
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## An aggregation rule
+
+In the current `trim` and `map` rules,
+we use `{smp}` wildcards to **run the rule multiple times, one for each sample.**
+
+In other words, Snakemake is basically looping over the different values for
+`{smp}` (`smpA`, `smpC`, `smpG`), processing one per iteration.
+
+--
+
+<br>
+
+----
+
+<br>
+
+What if we needed to **include all samples in a single command**?
+For example, our next step will be to create a gene count matrix that
+includes all samples, as is customary in RNAseq analysis.
+
+--
+
+In general, in sequence analysis workflows, it is very common to switch between:
+
+- File-by-file / **sample-by-sample** analysis: QC, trimming, mapping, etc.
+
+- **All-samples-at-once** analysis: creating a read/ASV/OTU count table,
+  calling variants, etc.
+
+---
+
+## An aggregation rule (cont.)
+
+The solution is simply to provide a **list of files** to `input` &ndash;  
+and we will again use the `expand()` function to do so:
+
+```python
+rule count:
+    input: expand("res/{smp}_trim.fastq", smp=SAMPLES)
+    output: "res/count_table.txt"
+    shell: "scripts/count.sh {input} > {output}"
+```
+
+Note also that:
+
+- Our `output` directive no longer contains a wildcard.
+
+- In our shell command, we continue to use the `{input}` and `{output}`
+  pointers in the same way as for the file-by-file rule.
+
+---
+
+## An aggregation rule (cont.)
+
+```python
+rule count:
+    input: expand("res/{smp}_trim.fastq", smp=SAMPLES)
+    output: "res/count_table.txt"
+    shell: "scripts/count.sh {input} > {output}"
+```
+
+<br>
+
+.content-box-q[
+What other change do we need to make in our Snakefile?
+]
+
+--
+
+.content-box-answer[
+Change `rule all` to list the output of the now-final rule:
+
+```python
+rule all:
+    input: "res/count_table.txt"
+    #expand("res/{smp}.bam", smp=SAMPLES)
+```
+]
+
+---
+
+## Snakefile version 7: with an aggregation rule
+
+```python
+SAMPLES = glob_wildcards("data/{smp}.fastq").smp
+
+rule all:
+    input: "res/count_table.txt",
+
+rule trim:
+    input: "data/{smp}.fastq",
+    output: "res/{smp}_trim.fastq",
+    shell: "scripts/trim.sh {input} > {output}"
+
+rule map:
+    input: "res/{smp}_trim.fastq",
+    output: "res/{smp}.bam",
+    shell: "scripts/map.sh {input} > {output}"
+
+rule count:
+    input: expand("res/{smp}.bam", smp=SAMPLES),
+    output: "res/count_table.txt",
+    shell: "scripts/count.sh {input} > {output}"
+```
+
+---
+
+## Visualizing and running the workflow again
+
+```sh
+$ rm res/*
+
+$ snakemake --dag | dot -T svg > workflow/DAGs/v7.svg 
+```
+
+<p align="center">
+<img src=img/v7.svg width=55%>
+</p>
+
+---
+
+## Visualizing and running the workflow again
+
+```sh
+$ snakemake -j1 -pq
+
+#> Job counts:
+#>         count   jobs
+#>         1       all
+#>         1       count
+#>         3       map
+#>         3       trim
+#>         8
+#> scripts/trim.sh data/smpG.fastq > res/smpG_trim.fastq
+#> scripts/map.sh res/smpG_trim.fastq > res/smpG.bam
+#> scripts/trim.sh data/smpC.fastq > res/smpC_trim.fastq
+#> scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq
+#> scripts/map.sh res/smpA_trim.fastq > res/smpA.bam
+#> scripts/map.sh res/smpC_trim.fastq > res/smpC.bam
+#> scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam > res/count_table.txt
+```
+
+---
+
+## Visualizing and running the workflow again
+
+Now that we have run the entire workflow, note that all boxes have dashed lines:
+
+```sh
+$ snakemake --dag | dot -T svg > workflow/DAGs/v7b.svg 
+```
+
+<p align="center">
+<img src=img/v7b.svg width=55%>
+</p>
+
+---
+
+class: inverse middle center
+
+# Modifying an input file
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## Modifying an input file
+
+What if we modify one of the input files?  
+(Recall that the `touch` command, when passed an existing file,
+will just update the "last-modified" date and do nothing else.)
+
+```sh
+$ touch data/smpA.fastq
+
+$ snakemake --dag | dot -T svg > workflow/DAGs/v7b.svg 
+```
+
+.pull-left[
+<p align="center">
+<img src=img/v7c.svg width=88%>
+</p>
+]
+
+.pull-right[
+Look at that!
+
+Snakemake realizes it needs to rerun the trimming and mapping steps
+for `smpA` but not the other two samples, and then also the `count` step which
+depends on all files.
+]
+
+---
+
+## Modifying an input file (cont.)
+
+And if we rerun Snakemake, it will indeed run those three jobs:
+
+```sh
+$ snakemake -j1 -pq
+#> Job counts:
+#>         count   jobs
+#>         1       all
+#>         1       count
+#>         1       map
+#>         1       trim
+#>         4
+#> scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq
+#> scripts/map.sh res/smpA_trim.fastq > res/smpA.bam
+#> scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam > res/count_table.txt
+```
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>

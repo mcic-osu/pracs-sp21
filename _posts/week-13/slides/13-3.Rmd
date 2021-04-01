@@ -1,0 +1,922 @@
+---
+title: "Week 13 - Reproducible workflows with Snakemake"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
+```
+
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
+#xaringanExtra::use_scribble()
+#xaringanExtra::use_panelset()
+#xaringanExtra::use_clipboard()
+#xaringanExtra::use_search(show_icon = TRUE)
+```
+
+# *Week 13 &ndash; <br> Reproducible workflows with Snakemake*
+
+----
+
+# III: Running Snakemake on a cluster <br> & miscellaneous
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/04/08 (updated: `r Sys.Date()`)
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+<br>
+
+.left[
+- #### Miscellaneous Snakemake
+- #### Running Snakemake on a cluster
+- #### Bonus material: advanced Snakemake
+]
+
+---
+class: inverse middle center
+
+# Miscellaneous Snakemake
+
+----
+
+<br>
+
+.left[
+- #### Useful command-line options
+- #### What will Snakemake run?
+- #### Log files
+- #### Conda environments
+]
+
+---
+
+## Useful command-line options: dry run (-n)
+
+With the `-n` (long form: `--dryrun`) option, Snakemake will not run any of
+the actions specified, but it will check which rules/jobs it *would* be running.
+
+--
+
+This is extremely useful to:
+  
+- Check whether the workflow will run the way you think it will run
+  (remember: relationships between rules are not explicitly defined...).
+    
+- Check if anything needs to be done: you may not remember which output files
+  are already there, or if an input file has been updated, and this is the
+  easiest way to check!
+    
+- Check if you have no errors in your Snakefile
+  (e.g. syntax errors, wildcards that Snakemake can't figure out).
+
+<br>
+
+```sh
+snakemake -j1 -n
+```
+
+---
+
+## Useful command-line options: <br> reason (-r) and print shell commands (-p)
+
+We have already seen these two options:
+
+- `-r` (long form: `--reason`) to let Snakemake tell you *why* it thinks what it
+  should run.
+
+- `-p` (long form: `--printshellcmds`) to print the shell commands
+  (action key `shell`) that are being run.
+
+<br>
+
+**These are very useful to also use in combination with the `-n`/`--dryrun` option,
+for troubleshooting  and for getting a better intuition for how Snakemake works.**
+
+<br>
+
+```sh
+snakemake -j1 -npr
+```
+
+---
+
+## Useful command-line options: Miscellaneous
+
+Short  |  Long            | Explanation
+-------|------------------|-------------
+-      | `--lint`         | Run the Snakemake "linter" on the Snakefile
+`-f`   | `--force <rule>` |
+`-F`   | `--forceall <rule>` |
+`-R`   | `--forcerun`
+-      | `--use-conda`    |
+-      | `--report`       |
+-      | `--archive`      | 
+
+---
+
+## Useful command-line options: Miscellaneous
+
+Overview of options we have seen so far:
+
+Short  |  Long            | Explanation
+-------|------------------|-------------
+`-q`   | `--quiet`        | Less output, can be useful with `-n` just to get overview of jobs that will be run.
+`-p`   | `--printshellcmds` | Print `shell` commands that will be executed.
+`-r`   | `--reason`       | Give reason of execution for every job.
+`-n`   | `--dryrun`       | Don't run anything, just report what *would* be run.
+`-j`   | `--job`          | Max. number of jobs to run simultaneously.
+`-s`   | `--snakefile`    | Name of / path to the Snakefile.
+
+---
+
+## What will Snakemake run?
+
+- Snakemake will create an output file, and all its dependencies, if:
+  
+  - The output file is a command-line target and does not exist.
+  
+  - The output file is needed by another executed job and does not exist.
+  
+  - The output file is older than the input file.
+  
+  - The input file will be updated by other job.
+  
+  - Execution is enforced with `-f` / `-F` / `-R`.
+
+<br>
+
+- Snakemake will not create output files *even if* (!):<sup>[1]</sup>
+
+  - Code in the rule (or elsewhere in the Snakefile) has changed.
+  
+  - Additional input files have been added.
+
+
+.footnote[
+<sup>[1]</sup> While you can always manually force a run if needed,
+if you're not sure what has changed:
+see [these bonus slides](#forcerun) for a way to programmatically examine what
+has changed and force a rerun based on those changes.
+]
+
+---
+
+## Using log files
+
+Any standard output printed by your commands or the scripts/programs being run
+are simply printed to screen, amid all of Snakemake's logging.
+
+This output to screen is also saved to file, but as it can get pretty chaotic,
+it is better to save such output separately for each job.
+
+<br>
+
+For example, we may be inclined to do the following for a script/program that:
+
+- Saves its output to file, and prints logging/errors to screen
+  (standard out and/or standard error):
+
+  ```python
+  shell: "myscript.py -i {input} -o {output} &> myscript.log"
+  ```
+
+- Prints the main output to standard out, and logging/errors to standard error:
+
+  ```python
+  shell: "myscript.py -i {input} > {output} 2> myscript.log"
+  ```
+
+---
+
+## Using log files (cont.)
+
+But should we also tell Snakemake explicitly about such a file,
+like we do for `input` and `output` files?
+**Yes, but it's best to use a separate key for this: `log`.**
+
+This is convenient because Snakemake treats `log` files differently than regular
+output files: if a job fails, Snakemake will delete its regular output files
+<sup>[1]</sup>, but not the log files.
+
+Therefore, you can use the log files for troubleshooting.
+
+Example usage of a `log` key:
+
+```python
+rule myscript:
+    #...
+    log: logs/myscript_{wildcard.sample}.log
+    shell: "myscript.py -i {input} > {output} 2> {log}"
+```
+
+.footnote[
+<sup>[1]</sup> Since such files are likely to be incorrect/incomplete.
+If you do need these for  
+&nbsp; &nbsp; &nbsp; troubleshooting, you can run Snakemake with the
+`--keep-incomplete` option.
+]
+
+---
+
+## Using Conda environments
+
+Snakemake plays well with Conda and with Singularity containers,
+and using such software environments can help a lot with making your workflow
+functional and reproducible across different hardware environments.
+
+While containers are even better at this, Conda is more lightweight
+and will suffice for most purposes.
+
+Snakemake will in fact **create the necessary Conda environments for us**,  
+all we need to do is:
+
+- Include a `conda` key in the focal rule,
+  where we specify a YAML file with instructions for the environment:
+
+  ```python
+  rule fastqc:
+      conda: "envs/fastqc-env.yaml"
+      # ...other keys...
+  ```
+
+- Include the `--use-conda` option in our Snakemake call:
+
+  ```sh
+  snakemake -j1 --use-conda
+  ```
+
+---
+
+## Using Conda environments (cont.)
+
+Recall that we can create such YAML files from existing Conda environments
+using `conda env export`,
+but it is also very easy to write a file from scratch.
+
+For instance, for a specific version of FastQC, and specifying `bioconda` as
+the channel, the full YAML file would look like this:<sup>[1]</sup>
+
+```sh
+name: fastqc-env
+channels:
+  - bioconda
+dependencies:
+  - fastqc=0.11.8
+```
+
+.footnote[
+<sup>[1]</sup> For use with Snakemake, the `name` key can also be omitted.  
+]
+
+---
+
+## Specifying computational resources
+
+There are three main things we need to know about when we want to tell Snakemake
+about computational resources that it can use:
+
+<br>
+
+- The `-j`/`--jobs` option that we (have to!) specify on the command-line.
+  This tells Snakemake the maximum number of "jobs", i.e. processes,
+  that it can have running at any given time.
+  
+  For example, if one rule is being run for 5 samples separately and another
+  rule is being run on all samples together, there are 6 jobs running.
+ 
+---
+
+## Specifying computational resources (cont.)
+
+There are three main things we need to know about when we want to tell Snakemake
+about computational resources that it can use:
+
+<br>
+
+- A `threads` key that we can add to any rule: this will tell Snakemake
+  how many threads (~ cores) it should use for any *single job* for that rule.
+  
+  This is very much like the `-c` / `--cpus-per-task` flag for SLURM jobs,
+  and is useful to set to >1 for heavy computational jobs.
+  
+  Generally, we would also be telling the program itself about the number of
+  threads, often using a `-T` flag: 
+
+  ```python
+  rule STAR:
+        threads: 8
+        shell: "STAR --runThreadN {threads} ..."
+  ```
+
+---
+
+## Specifying computational resources (cont.)
+
+There are three main things we need to know about when we want to tell Snakemake
+about computational resources that it can use:
+
+- Finally, we can add a **`resources` key** with arbitrary resource
+  key-value pairs to any rule.
+  
+  This is useful when submitting jobs to a cluster, in which case the resource
+  keys can be *mapped to SLURM keys*, as we'll see in a bit.
+
+---
+class: inverse middle center
+
+# Running Snakemake on a cluster
+
+----
+
+## For us: at OSC
+
+<br> <br> <br> <br>
+
+---
+
+## Running Snakemake on a cluster
+
+Snakemake can automatically submit SLURM jobs to the cluster for you!
+
+At its most basic, all you need to do is add  `--cluster sbatch`...:
+
+```sh
+snakemake -j100 --cluster sbatch
+```
+
+...and every job (process) in your workflow will be submitted.  
+Here, we also set `-j` to 100 to allow for a maximum of 100 jobs at a time.
+
+<br>
+
+However, because we always need to specify the project at OSC  
+(`-A` / `--account`), we should add this, too:
+
+```sh
+snakemake -j100 --cluster "sbatch --account=PAS1855"
+```
+
+If you need more non-default submission parameters, as is quite common,
+it becomes cumbersome to pass these all these options at the command-line.  
+
+*The solution is to use a "profile".*
+
+---
+
+## Using a "profile"
+
+To use a profile, we should **create a directory**.
+The name of this directory is arbitrary,
+but since we are using it in the context of providing settings for SLURM jobs,
+something like `slurm_profile` would make sense:
+
+```sh
+mkdir slurm_profile
+```
+
+Inside this directory, we should create a file called `config.yaml`:
+
+```sh
+touch slurm_profile/config.yaml
+```
+
+---
+
+## config.yaml inside the profile directory
+
+In the `config.yaml`, we can provide a string to the `cluster` key,
+just like we did previously with the `--cluster` argument on the command-line:
+
+```YAML
+cluster: "sbatch --account={resources.account}
+                 --time={resources.time_min}
+                 --mem={resources.mem_mb}
+                 --cpus-per-task={resources.cpus}
+                 --output=slurmlogs/slurm-%j_{rule}_{wildcards}.out"
+
+default-resources: [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]
+```
+
+- We're using `{resources.<resource-name>}` instead of actual values in the
+  `cluster` key.
+  
+- Then, the values for each `<resource-name>` are specified for the
+  `default-resources` key.
+
+This setup is convenient because it allows us, for instance, to also 
+**refer to the same resources in the Snakefile to set rule-specific values**
+(more later).
+
+---
+
+## config.yaml inside the profile directory (cont.)
+
+`config.yaml` can contain not just cluster settings,
+but anything that can be set with command-line options.
+
+We can take that opportunity to also:
+- Specify the number of jobs.
+- Make sure Snakemake uses Conda.
+- Make Snakemake wait longer (30 seconds) for output files to appear,
+  since I've had errors with shorted latency times, while the files were there.
+
+--
+
+```YAML
+jobs: 100
+use-conda: true
+latency-wait: 30
+```
+
+.content-box-info[
+Just note that the key-value syntax is that of YAML and therefore slighly
+different from when specifying this at the command line:
+
+- `use-conda: true` instead of `--use-conda`
+  (and note the lowercase spelling of `true` in YAML format)
+- `jobs: 25` instead of `-j25` or `--jobs 25`.
+]
+
+---
+
+## config.yaml inside the profile directory (cont.)
+
+Our full `config.yaml` file:
+
+```YAML
+cluster: "sbatch --account={resources.account}
+                 --time={resources.time_min}
+                 --mem={resources.mem_mb}
+                 -c {resources.cpus}
+                 -o slurmlogs/slurm-%j_{rule}_{wildcards}.out"
+default-resources: [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]
+jobs: 100
+latency-wait: 30
+use-conda: true
+```
+
+--
+
+.content-box-warning[
+If you are specifiying a *directory* that the SLURM log files should be put in,
+as we are here, make sure that this directory exists!
+Snakemake will not create it and mysterious failures will occur!
+
+```sh
+mkdir slurmlogs
+```
+]
+
+---
+
+## Running Snakemake with a profile
+
+Now that we have our profile set up, in order to run Snakemake with all
+the settings specified in `config.yaml` inside the `slurm_profile` directory
+<sup>[1]</sup>:
+
+```sh
+snakemake --profile slurm_profile
+```
+
+.footnote[
+<sup>[1]</sup> Since we specified the mandatory `-j`/`--jobs` argument
+and `--use-conda` in the  
+&nbsp; &nbsp; profile as well,
+we no longer need to add those at the command-line.
+]
+
+---
+
+## "Local rules" for jobs not to be submitted 
+
+In practice, you may not want to submit a cluster job for every rule.
+
+For instance, `rule all` *is* a Snakemake job, but it doesn't actually run
+anything the way we have set it up.
+Additionally, you may have some very lightweight cleaning/logging rules.
+
+<br>
+
+To tell Snakemake that certain rules should not be submitted to the cluster,
+include a comma-separated list of rules near the top of your Snakefile with
+the `localrules` key:
+
+```python
+localrules: all, clean
+```
+
+---
+
+## Rule-specific resource settings other than threads
+
+We can use a `resources` key for any rule to specify (mostly) arbitrary
+key-value pairs with resources:
+
+```python
+rule heavy_stuff:
+    input: ...
+    output: ...
+    resources: mem_mb=50000
+    shell: ...
+```
+
+--
+
+These are arbitrary in the sense that `mem_mb` will not directly set the actual
+maximum memory usage,
+but they refer to the same keys as used in our `config.yaml`:
+
+```YAML
+cluster: "sbatch --mem={resources.mem_mb} ..."
+default-resources: [mem_mb=1000, ...]
+```
+
+Therefore, setting `resources: mem_mb=50000` for `rule heavy_stuff`  
+**will override the default value of `1000` and pass that on the SLURM job request.**
+
+
+---
+
+## Running the main Snakemake process as a job
+
+### TODO
+
+---
+
+## Side note: Advanced cluster configuration
+
+.content-box-info[
+It is possible to get quite a bit more advanced with cluster configuration.
+For example:
+
+- In our `config.yaml` file, we could also use the `resources` key
+  (vs `default-resources` earlier) to specify a maximum *total* amount of
+  resources that can be used by all jobs together:
+
+  ```YAML
+  resources: [cpus=100, mem_mb=1000000]
+  ```
+
+- We could pass a script to the `--cluster-status` option on the command-line
+  to improve detection of cluster job failure.
+  There is a `Snakemake-Profiles` GitHub account that includes downloadable
+  settings for SLURM
+  [here](https://github.com/Snakemake-Profiles/slurm).
+]
+
+---
+class: center middle inverse
+
+# Questions?
+
+-----
+
+<br> <br> <br> <br>
+
+---
+class:inverse middle center
+
+# Advanced Snakemake
+
+----
+
+.left[
+- #### Configuration files
+- #### Using programs where you don't specify output files
+- #### "Target rules may not contain wildcards"
+- #### Referring to wildcards in actions
+- #### Forcing reruns based on changes in input files or code
+- #### Miscellaneous
+]
+
+---
+
+## Configuration files
+
+*Configuration files* can be a good place to store settings for your workflow
+that you want to be able to vary easily and transparently,
+or that you just want to state very clearly.
+
+In your Snakefile, you can include a `configfile` directive
+(for the entire workflow, not for individual rules) that points to a YAML or
+JSON file with these configurations.
+
+Then, all key-value pairs from the config file will loaded into a dictionary
+called `config` that you can call in your Snakefile &ndash; for example:
+
+```sh
+# CONFIG FILE:
+min_qual: 30
+```
+
+```python
+# SNAKEFILE:
+config["min_qual"]   # Get the value for `min_qual`
+```
+
+---
+
+## Example usage of a configuration file
+
+In a file called `config.yaml`:
+
+```sh
+out_dir: path/to/output/
+min_qual: 30
+```
+
+In the Snakefile:
+
+```python
+# ...
+configfile: "config.yaml"
+
+OUT_DIR=config["output_dir"]
+
+# ..
+
+rule filter_bam:
+    input: ...
+    output: os.path.join(OUT_DIR, "{sample}_{read}.fastqc.html")
+    shell: 'filter_bam.sh -q config["min_qual"] {input} > {output}'
+```
+
+Note that we assigned `output_dir` to a variable in the Snakefile,
+and used `min_qual` directly &ndash; either is possible.
+
+---
+
+## Using programs where you don't specify output files
+
+For fairly many programs, you don't explicitly define the names of output files,
+but the program will just output files with names similar to the input file names.
+
+For instance, when we run FastQC:
+
+```sh
+fastqc -o results/fastqc sampleA_R1.fastq.gz
+```
+
+We are only specifying an output dir, and FastQC will put output files in there:
+
+```sh
+ls my_outdir
+#> sampleA_R1.fastqc.html sampleA_R1.fastqc.zip
+```
+
+**How do we create a rule for such programs?**
+
+---
+
+## Using programs where you don't specify output files
+
+Should we just omit the output, since we don't need to define it anyway?
+
+```python
+rule fastqc:
+    input: data/{sample}.fastq.gz
+    shell: "fastqc -o results/fastqc"
+```
+
+--
+
+.content-box-q[
+What would be some problems with this approach?
+]
+
+--
+
+Because Snakemake works backwards, that is, it figures out what it needs to do
+in order to produce the files mentioned in `input` and `output`:
+
+- It will never see a reason to run the current `rule fastqc`
+  (though we could still run it using `snakemake -j fastqc`).
+
+- If a next step depends on the output of FastQC (like MultiQC does),
+  Snakemake cannot make this connection:
+  remember, **relationships between rules are *inferred* by Snakemake**,
+  not stated explicitly.
+
+- Snakemake can't fully check if the rule ran successfully!
+
+---
+
+## Using programs where you don't specify output files
+
+Instead, we should still use an `output` directive:
+even though the value is not used by the command itself,
+it will be used by Snakemake to infer relationships between rules and to check
+whether the rule ran successfully:
+
+```python
+rule fastqc:
+    input: data/{sample}.fastq.gz
+    output:
+        "{sample}_R1.fastqc.html",
+        "{sampleA}_R1.fastqc.zip"
+    shell: "fastqc -o results/fastqc"
+```
+
+In such cases, it's not necessarily critical to specify all (possible) output
+files, just the ones deemed necessary for the purposes mentioned above.
+
+--
+
+.content-box-info[
+Alternatively, you can specify a **directory** rather than files as the output.
+This may make sense if the names of the output files are unpredictable or
+otherwise unknown.
+But this only makes sense if each sample has its own output directory!
+
+```python
+output: directory("results/fastqc/{sample}")
+```
+]
+
+---
+
+## "Target rules may not contain wildcards"
+
+What if we now just want to run the rule `count_words`?
+
+```sh
+snakemake -j1 count_words
+#> WorkflowError:
+#> Target rules may not contain wildcards. Please specify concrete files or a rule without wildcards.
+```
+
+The problem here is that ...
+
+Note that this is also a common error to get when building your workflows and
+wanting to run the entire thing.
+
+---
+
+## "Target rules may not contain wildcards"
+
+If we did want to **run just this specific rule with wildcards**, we could:
+
+- Specify one or more specific output files:
+
+```sh
+snakemake -j1 res/bookA_cnt.txt
+snakemake -j1 res/bookB_cnt.txt res/bookC_cnt.txt
+```
+
+- Create a rule that triggers execution of our target rule by listing all its
+  output files:
+
+```sh
+rule trigger_count_words:
+    input: expand("res/{book}_cnt.txt", book=BOOKS)
+```        
+
+---
+
+## Referring to wildcards in actions
+
+Sometimes you need to **refer to a sample ID in your action** rather than an
+input file name &ndash;
+say our script needs an input dir and sample/book ID like so:
+
+```sh
+scipts/count_words.py -d <input_dir> -i <book_id>
+```
+
+Our rule currently looks like this:
+
+```python
+rule count_words:
+    input: "data/{book}.txt",
+    output: "res/{book}_cnt.txt"
+    shell: "scripts/count_words.py {input} > {output}"
+```
+
+**How can we change the `shell` directive to use the book ID wilcard?**
+
+---
+
+## Referring to wildcards in actions
+
+**How can we change the `shell` directive to use the book ID wilcard?**
+
+```python
+# THIS WON'T WORK:
+# shell: "scripts/count_words.py -d res -o {book} > {output}"
+```
+
+```python
+# YES -- use "{wildcards.<wildcard-name>}":
+shell: "scripts/count_words.py -d res -o {wildcards.book} > {output}"
+```
+
+Why do we need `{wildcards.book}` and not just `{book}` akin to how we refer to
+`{input}`?
+
+--
+
+Even though both are variable-like references with `{}`,
+only `{book}` is a **wildcard**,
+which has not been explicitly defined, and is left for Snakemake to figure out.
+
+Snakemake figures this out in `{input}` and `{output}` directives *only*,
+and if we want to refer to them elsewhere,
+we need to use `{wildcards.<wildcard-name>}`.
+
+---
+name: forcerun
+
+## Forcing reruns based on changes in input files or code
+
+https://snakemake.readthedocs.io/en/stable/project_info/faq.html#snakemake-does-not-trigger-re-runs-if-i-add-additional-input-files-what-can-i-do
+
+```sh
+snakemake -R $(snakemake --list-input-changes)  # Force re-run if samples have been added
+snakemake -n -R $(snakemake --list-params-changes) # Force re-run if params have been updated
+snakemake -n -R $(snakemake --list-code-changes) # Force re-run if code has been updated
+```
+
+---
+
+## The `params` directive
+
+### TODO
+
+---
+
+## Miscellaneous
+
+### Call separate Snakefiles for parts of the workflow
+
+If your workflow is pretty big, it can be useful to split it up across multiple
+Snakefiles. You can make rules in another Snakefile available as follows:
+
+```python
+include rules/qc_rules.smk
+```
+
+### Mark files as protected (no write permissions)
+
+```python
+output: protected("sorted_reads/{sample}.bam") 
+```
+
+### Mark files as temporary (to be deleted)
+
+```python
+output: temp("mapped/{sample}.bam")
+```
+
+---
+
+## Miscellaneous (cont.)
+
+### Use a "token" file if a rule has no unique output
+
+(e.g. only modifies a file) -- and `touch` in the rule's action:
+
+```python
+rule token_example:
+    input:  'some_file.txt'
+    output: 'some_file.tkn'
+    shell: "some_command --do-things {input} && touch {output}"
+```
+
+### Visualize rules, not jobs
+
+```python
+snakemake --rulegraph | dot -Tsvg > rules.svg
+```
+
+---
+
+## Calling Python or R scripts directly, without arguments
+
+```python
+# NOTE: when calling scripts, "snakemake.input" etc is available automatically:
+script: pythonscript.py
+    quals = [rec.qual for record in VarFile(snakemake.input[0])]
+script: rscript.R
+    snakemake@input[["myfile"]]                 # In R, S4 object will be available
+```

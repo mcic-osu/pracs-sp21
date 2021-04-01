@@ -1,5 +1,17 @@
 [
   {
+    "path": "posts/week-13/",
+    "title": "Week 13",
+    "description": "Reproducible workflows with Snakemake",
+    "author": [],
+    "date": "2021-04-05",
+    "categories": [],
+    "contents": "\nSlides\nSlides: Workflows and workflow tools – Tuesday Zoom (Apr 06)\nSlides: Getting started with Snakemake – Tue/Thu Zoom\nSlides: Running Snakemake on a cluster & misc. – Thursday Zoom (Apr 06)\nFinal project: new\nFinal project: progress report – due Tuesday, Apr 13\nUngraded assignments\nExercises for week 13 – TBA\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-04-01T17:20:07-04:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/week-12/",
     "title": "Week 12",
     "description": "Python: Regular expressions (half-module)",
