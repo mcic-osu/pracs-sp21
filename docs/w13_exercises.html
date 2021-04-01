@@ -86,27 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Exercises: Week 9</title>
+  <title>pracs-sp21: Exercises: Week 13 -- Snakemake</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Exercises: Week 9"/>
+  <meta property="og:title" content="pracs-sp21: Exercises: Week 13 -- Snakemake"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Exercises: Week 9"/>
+  <meta property="twitter:title" content="pracs-sp21: Exercises: Week 13 -- Snakemake"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Exercises: Week 9"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Exercises: Week 13 -- Snakemake"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2452,7 +2452,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Exercises: Week 9","authors":[]}
+{"title":"Exercises: Week 13 -- Snakemake","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2555,7 +2555,7 @@ Go further
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Exercises: Week 9</h1>
+<h1>Exercises: Week 13 – Snakemake</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2567,406 +2567,131 @@ Go further
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#setup">Setup</a></li>
-<li><a href="#exercise-1-dictionaries">Exercise 1: Dictionaries</a></li>
-<li><a href="#exercise-2-sets">Exercise 2: Sets</a></li>
-<li><a href="#intro-to-csb-exercises">Intro to CSB exercises</a></li>
-<li><a href="#exercise-csb-1-measles-time-series">Exercise CSB-1: Measles time series</a></li>
-<li><a href="#bonus-exercise-csb-2-red-queen-in-fruit-flies">Bonus: Exercise CSB-2: Red queen in fruit flies</a></li>
-<li><a href="#csb-solutions">CSB Solutions</a></li>
+<li><a href="#exercise-1">Exercise 1</a>
+<ul>
+<li><a href="#set-up">Set-up</a></li>
+<li><a href="#ideas">Ideas</a></li>
+</ul></li>
 </ul>
 </nav>
 </div>
-<div class="layout-chunk" data-layout="l-body">
-
-</div>
 <p><br></p>
-<h2 id="setup">Setup</h2>
-<ul>
-<li><p>Open a new file and save it as <code>week09_exercises.py</code> or something along those lines.</p></li>
-<li><p>Type your commands in the script and send them to the prompt in the Python interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.</p>
+<h2 id="exercise-1">Exercise 1</h2>
+<h3 id="set-up">Set-up</h3>
+<p>In the instructions below I’m assuming you work at OSC, though you could perfectly well do this on your own computer if you have Snakemake installed there.</p>
+<p>Load the environment where you have Snakemake installed:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python/3.6-conda5.2</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> activate ipy-env</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> snakemake</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ...</span></span></code></pre></div>
+<p>We will start off with the same data and our final Snakefile from class:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change these dirs if you work locally -- everything else should be the same</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /fs/ess/PAS1855/users/<span class="va">$USER</span>/week13/exercise1</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /fs/ess/PAS1855/users/<span class="va">$USER</span>/week13/exercise1  <span class="co"># Use &quot;Alt&quot; + &quot;.&quot; shortcut</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the dir structure and Snakefile:</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data scripts res workflow/DAGs</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> workflow/Snakefile</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the dummy FASTQ files:</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;AAAAAAA&quot;</span> <span class="op">&gt;</span> data/smpA.fastq</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;CCCCCCC&quot;</span> <span class="op">&gt;</span> data/smpC.fastq</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;GGGGGGG&quot;</span> <span class="op">&gt;</span> data/smpG.fastq</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">## Create the dummy scripts and make them executable:</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;echo &quot;FASTQ file $1 after trimming&quot; &amp;&amp; cat $1&#39;</span> <span class="op">&gt;</span> scripts/trim.sh</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;echo &quot;BAM from FASTQ $1 :&quot; &amp;&amp; cat $1&#39;</span> <span class="op">&gt;</span> scripts/map.sh</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&#39;echo &quot;Counts for $# BAM files:&quot; &amp;&amp; cat $@&#39;</span> <span class="op">&gt;</span> scripts/count.sh</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x scripts/<span class="pp">*</span>     <span class="co"># Make the scripts executable</span></span></code></pre></div>
+<p>Open the <code>workflow/Snakefile</code> and paste into it:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SAMPLES</span> = glob_wildcards<span class="er">(</span><span class="st">&quot;data/{smp}.fastq&quot;</span><span class="kw">)</span><span class="ex">.smp</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> all:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span> <span class="st">&quot;res/count_table.txt&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> trim:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span> <span class="st">&quot;data/{smp}.fastq&quot;</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span> <span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span> <span class="st">&quot;scripts/trim.sh {input} &gt; {output}&quot;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span> <span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span> <span class="st">&quot;res/{smp}.bam&quot;</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span> <span class="st">&quot;scripts/map.sh {input} &gt; {output}&quot;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> count:</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span> expand<span class="er">(</span><span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span> <span class="st">&quot;res/count_table.txt&quot;</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span> <span class="st">&quot;scripts/count.sh {input} &gt; {output}&quot;</span></span></code></pre></div>
+<h4 id="first-dag">1. First DAG</h4>
+<p>Create and view a DAG (workflow diagram) to remind yourself of the steps in the workflow.</p>
 <details>
 <summary>
-<p>Problems with the keyboard shortcut?</p>
+Solution
 </summary>
-<p><br />
-If this doesn’t work, check your keyboard shortcut by right-clicking in the script and looking for “Run Selection/Line In Python Interactive Window”.<br />
-<br />
-Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and look for that shortcut there, and change it if you want.</p>
-</details></li>
-<li><p>Because these first two exercises have many small steps, I put the solutions right below the question, so you don’t have to scroll back-and-forth all the time. <em>However</em>, make sure you actually try to do the exercises!</p></li>
-</ul>
-<h2 id="exercise-1-dictionaries">Exercise 1: Dictionaries</h2>
-<ol type="1">
-<li><p>Create and print a dictionary called <code>yield_current</code> with the following items:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>{<span class="st">&quot;plotA_1&quot;</span>: <span class="dv">12</span>, <span class="st">&quot;plotA_2&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotA_3&quot;</span>: <span class="dv">2</span>,</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="st">&quot;plotB_1&quot;</span>: <span class="dv">33</span>, <span class="st">&quot;plotB_2&quot;</span>: <span class="dv">28</span>, <span class="st">&quot;plotB_3&quot;</span>: <span class="dv">57</span>}</span></code></pre></div>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>yield_current <span class="op">=</span> {<span class="st">&quot;plotA_1&quot;</span>: <span class="dv">12</span>, <span class="st">&quot;plotA_2&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotA_3&quot;</span>: <span class="dv">2</span>,</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;plotB_1&quot;</span>: <span class="dv">33</span>, <span class="st">&quot;plotB_2&quot;</span>: <span class="dv">28</span>, <span class="st">&quot;plotB_3&quot;</span>: <span class="dv">57</span>}</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>yield_current                 </span></code></pre></div>
-<pre><code>{&#39;plotA_1&#39;: 12, &#39;plotA_2&#39;: 18, &#39;plotA_3&#39;: 2, &#39;plotB_1&#39;: 33, &#39;plotB_2&#39;: 28, &#39;plotB_3&#39;: 57}</code></pre>
-</div>
-</details></li>
-<li><p>Print just the value for key <code>plotA_3</code>.</p>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<p><br />
-We can get the value for a specific key using the <code>&lt;dict&gt;[&lt;key&gt;]</code> notation:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>yield_current[<span class="st">&quot;plotA_3&quot;</span>]</span></code></pre></div>
-<pre><code>2</code></pre>
-</div>
-</details></li>
-<li><p>Update the value for key <code>plotB_2</code> to be <code>31</code> and check whether this worked.</p>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<p><br />
-We can simply assign a new value using <code>=</code>:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>yield_current[<span class="st">&quot;plotB_2&quot;</span>] <span class="op">=</span> <span class="dv">31</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>yield_current[<span class="st">&quot;plotB_2&quot;</span>]</span></code></pre></div>
-<pre><code>31</code></pre>
-</div>
-</details></li>
-<li><p>Count the number of items (i.e. entries, key-value <em>pairs</em>) in your dictionary.<br />
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">--dag</span> <span class="kw">|</span> <span class="ex">dot</span> <span class="at">-T</span> svg <span class="op">&gt;</span> workflow/DAGs/v1.svg </span></code></pre></div>
+<p align="center">
+<img src=img/snakemake/v1.svg width=55%>
 </p>
-<details>
-<summary>
-<p>Hints</p>
-</summary>
-<p><br />
-Use the <code>len()</code> function.</p>
 </details>
+<h4 id="first-run">2. First run</h4>
+<p>Run the entire workflow.</p>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(yield_current)</span></code></pre></div>
-<pre><code>6</code></pre>
-</div>
-</details></li>
-<li><p><strong><em>Bonus:</em></strong> Create a dictionary <code>obs_20210305</code> with keys <code>plotA_3</code> and <code>plotC_1</code>, and values <code>18</code> and <code>3</code>, respectively. Then, update the <code>yield_current</code> dictionary with the <code>obs_20210305</code> dictionary, and check whether this worked.<br />
-</p>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>obs_20210305 <span class="op">=</span> {<span class="st">&quot;plotA_3&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotC_1&quot;</span>: <span class="dv">3</span>}</span></code></pre></div>
-</div>
-<p>We use the <code>update()</code> method as follows:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>yield_current.update(obs_20210305)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>yield_current</span></code></pre></div>
-<pre><code>{&#39;plotA_1&#39;: 12, &#39;plotA_2&#39;: 18, &#39;plotA_3&#39;: 18, &#39;plotB_1&#39;: 33, &#39;plotB_2&#39;: 31, &#39;plotB_3&#39;: 57, &#39;plotC_1&#39;: 3}</code></pre>
-</div>
-<p>Now, our dictionary has an updated value for key “plotA_3”, and an entirely new item with key “plotC_1”.</p>
-</details></li>
-<li><p><strong><em>Bonus:</em></strong> Get and count the number of <em>unique values</em> in your dictionary.<br />
-</p>
-<details>
-<summary>
-<p>Hints</p>
-</summary>
-<p><br />
-Extract the values with the <code>values()</code> method. Next, turn these values into a <em>set</em> to get the unique values. Finally, count the unique values with the <code>len()</code> function.</p>
+<p>Running with the <code>-p</code> (print shell commands) and <code>-q</code> (quiet) options for concise output – you may want to see more output, e.g. with <code>-pr</code> (<code>-r</code>: reason for execution).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pq</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Job counts:</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         count   jobs</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1       all</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1       count</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         3       map</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         3       trim</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         8</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/trim.sh data/smpG.fastq &gt; res/smpG_trim.fastq</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpG_trim.fastq &gt; res/smpG.bam</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/trim.sh data/smpC.fastq &gt; res/smpC_trim.fastq</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/trim.sh data/smpA.fastq &gt; res/smpA_trim.fastq</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpA_trim.fastq &gt; res/smpA.bam</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpC_trim.fastq &gt; res/smpC.bam</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam &gt; res/count_table.txt</span></span></code></pre></div>
 </details>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(<span class="bu">set</span>(yield_current.values()))</span></code></pre></div>
-<pre><code>6</code></pre>
-</div>
-</details></li>
-</ol>
-<p><br></p>
-<h2 id="exercise-2-sets">Exercise 2: Sets</h2>
-<ol type="1">
-<li><p>Assign a set named <code>dna</code> with 4 items: each of the 4 bases (single-letter abbreviations) in DNA.<br />
-</p>
-<details>
-<summary>
-<p>Hints</p>
-</summary>
-<p><br />
-</p>
-<ul>
-<li><p>Recall the use of curly braces to assign a set.</p></li>
-<li><p>The order of the bases doesn’t matter, because sets are unordered.</p></li>
-</ul>
-</details>
-<details>
-<p><br />
-</p>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dna <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;T&#39;</span>}</span></code></pre></div>
-</div>
-</details></li>
-<li><p>Assign a set named <code>rna</code> with 4 items: each of the 4 bases (single-letter abbreviations) in RNA.<br />
-</p>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rna <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;U&#39;</span>}</span></code></pre></div>
-</div>
-</details></li>
-<li><p>Find the 3 bases that are shared between DNA and in RNA (try both with an <em>operator</em> and a <em>method</em>, if you want).<br />
-</p>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dna <span class="op">&amp;</span> rna</span></code></pre></div>
-<pre><code>{&#39;G&#39;, &#39;C&#39;, &#39;A&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dna.intersection(rna)</span></code></pre></div>
-<pre><code>{&#39;G&#39;, &#39;C&#39;, &#39;A&#39;}</code></pre>
-</div>
-</details></li>
-<li><p>Find all 5 bases that are collectively found among DNA and RNA.</p>
-<details>
-<p><br />
-</p>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dna <span class="op">|</span> rna</span></code></pre></div>
-<pre><code>{&#39;A&#39;, &#39;U&#39;, &#39;T&#39;, &#39;G&#39;, &#39;C&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dna.union(rna)</span></code></pre></div>
-<pre><code>{&#39;A&#39;, &#39;U&#39;, &#39;T&#39;, &#39;G&#39;, &#39;C&#39;}</code></pre>
-</div>
-</details></li>
-<li><p>Find the base that only occurs in DNA.</p>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dna <span class="op">-</span> rna</span></code></pre></div>
-<pre><code>{&#39;T&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dna.difference(rna)</span></code></pre></div>
-<pre><code>{&#39;T&#39;}</code></pre>
-</div>
-</details></li>
-<li><p>Assign a set named <code>purines</code> with the two purine bases and a set named <code>pyrimidines</code> with the three pyrimidine bases.<br />
-</p>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>purines <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>}</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>pyrimidines <span class="op">=</span> {<span class="st">&#39;C&#39;</span>, <span class="st">&#39;T&#39;</span>, <span class="st">&#39;U&#39;</span>}</span></code></pre></div>
-</div>
-</details></li>
-<li><p>Find the pyrimidine that occurs both in RNA and DNA.<br />
-</p>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<p><br />
-You can combine more than two sets either by chaining methods or adding another operator.</p>
-</details>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pyrimidines <span class="op">&amp;</span> dna <span class="op">&amp;</span> rna</span></code></pre></div>
-<pre><code>{&#39;C&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pyrimidines.intersection(dna).intersection(rna)</span></code></pre></div>
-<pre><code>{&#39;C&#39;}</code></pre>
-</div>
-</details></li>
-<li><p><strong><em>Bonus:</em></strong> Find the pyrimidine that occurs in RNA but not DNA.<br />
-</p>
-<details>
-<summary>
-<p>Solution</p>
-</summary>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>(rna <span class="op">-</span> dna) <span class="op">&amp;</span> pyrimidines</span></code></pre></div>
-<pre><code>{&#39;U&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>rna <span class="op">-</span> dna <span class="op">&amp;</span> pyrimidines</span></code></pre></div>
-<pre><code>{&#39;U&#39;}</code></pre>
-</div>
-<p>Or:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>rna.difference(dna).intersection(pyrimidines)</span></code></pre></div>
-<pre><code>{&#39;U&#39;}</code></pre>
-</div>
-</details></li>
-</ol>
-<p><br></p>
-<h2 id="intro-to-csb-exercises">Intro to CSB exercises</h2>
-<p><span style="color:coral"> Edit March 12: We did not get to the section on reading tabular files with the <code>csv</code> module in class. Please read CSB 3.7.2 (p. 115-116) before attempting to do these exercises. </i></span></p>
-<p>From the CSB Chapter 3 preface to the exercises:</p>
-<blockquote>
-<p>Here are some practical tips on how to approach the Python exercises (or any programming task):</p>
-<ul>
-<li>Think through the problem before starting to write code: Which data structure would be more convenient to use (e.g., sets, dictionaries, lists)?</li>
-<li>Break the task down into small steps (e.g., read file input, create and fill data structure, output).</li>
-<li>For each step, describe in plain English what you are trying to do— leave these notes as comments within your program to document your code.</li>
-<li>When working with large files, initially use only a small subset of the data; once you have tested your code thoroughly you can run it on the whole data set.</li>
-<li>Consider using specific modules (e.g., use the csv module to parse each line into a dictionary or a list).</li>
-<li>Skim through appropriate sections above to refresh your memory on data-type-specific methods.</li>
-<li>Use the documentation and help forums.</li>
-</ul>
-</blockquote>
-<p><br></p>
-<h2 id="exercise-csb-1-measles-time-series">Exercise CSB-1: Measles time series</h2>
-<p>In their article, <a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004655">Dalziel et al. (2016)</a> provide a long time series reporting the numbers of cases of measles before mass vaccination, for many US cities. The data consist of cases in a given US city for a given year, and a given “biweek” of the year (i.e., first two weeks, second two weeks, etc.). The time series is contained in the file <code>Dalziel2016_data.csv</code>.</p>
-<ol type="1">
-<li><p>Write a program that extracts the names of all the cities in the database (one entry per city).</p>
-<details>
-<summary>
-<p>Hints</p>
-</summary>
-<ul>
-<li><p>While you could try to parse the file from scratch (you have learnt the building blocks to do so), using the <code>DictReader</code> from the <code>csv</code> module, as we did in class, will make this easier.</p></li>
-<li><p>The city name is in the column <code>loc</code>.</p></li>
-<li><p>Because each city is reported multiple times, the main task here is to remove duplicates. Using a <code>set</code> will be the easiest way to do so, since sets cannot contain duplicates.</p></li>
-<li><p>You don’t need to write to a new file here, just print the <code>set</code> after you are done processing the file.</p></li>
-<li><p>Pseudocode:</p>
-<pre><code>import csv
-cities = an empty set
-open data for reading
-create dictionary reader
-for each row in the file
-    add the city to the set</code></pre></li>
-</ul>
-</details></li>
-<li><p>Write a program that creates a dictionary where the keys are the cities and the values are the number of records (rows) for that city in the data.</p>
-<details>
-<summary>
-<p>Hints</p>
-</summary>
-<ul>
-<li><p>Initialize an empty dictionary before you start looping over the lines.</p></li>
-<li><p>For every line, extract the city name and add 1 to the value for that city in your dictionary, since you are counting rows.</p></li>
-<li><p>You don’t need to prepopulate the dictionary with all cities: when you provide a default value with the <code>get()</code> method, a key that is not yet present will be added to the dictionary with said default value.</p>
-<p>For example, we can build up a dictionary using <code>get()</code> like so:</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>dd <span class="op">=</span> {} <span class="co"># empty dictionary</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>my_list <span class="op">=</span> [<span class="st">&#39;a&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;a&#39;</span>, <span class="st">&#39;c&#39;</span>, <span class="st">&#39;d&#39;</span>, <span class="st">&#39;b&#39;</span>, <span class="st">&#39;a&#39;</span>]</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> element <span class="kw">in</span> my_list:</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    dd[element] <span class="op">=</span> dd.get(element, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dd)</span></code></pre></div>
-<pre><code>{&#39;a&#39;: 3, &#39;b&#39;: 2, &#39;c&#39;: 1, &#39;d&#39;: 1}</code></pre>
-</div></li>
-<li><p>Pseudocode:</p>
-<pre><code>import csv library
-citycount = an empty dictionary
-open file for reading
-set up dictionary reader
-  for each line in data
-      my_city = extract the city
-      citycount[my_city] = use get to update value</code></pre></li>
-</ul>
-</details></li>
-<li><p>Write a program that calculates the mean population for each city, obtained by averaging the values of <code>pop</code>.</p>
-<details>
-<summary>
-<p>Hints</p>
-</summary>
-<ul>
-<li><p>Note that for some reason, the population sizes have decimal values.</p></li>
-<li><p>Again, use a dictionary that you keep adding to for each row of the data set. This time, though, <em>each value in the dictionary should be a list of two items</em>: the total population, and the number of occurences.</p></li>
-<li><p>In your <code>get()</code> call, you can initialize the values to be a list of two items as follows (here assuming the dictionary is called <code>citypop</code> and the city’s name has been extracted as <code>mycity</code>):</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode py"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>citypop[mycity] <span class="op">=</span> citypop.get(mycity, [<span class="dv">0</span>, <span class="dv">0</span>])</span></code></pre></div></li>
-<li><p>Then, you can refer to each item in the dictionary’s values by chaining indices, e.g. <code>citypop[mycity][0]</code>.</p></li>
-<li><p>Pseudocode:</p></li>
-</ul>
-<pre><code>import csv
-citypop = an empty dictionary
-open data file reading
-set up dictionary reader
-for each line in data
-  my_city = extract the city
-  my_pop = extract population
-  if this is the first time you see this city, initialize:
-      citypop[my_city] = [0.0, 0]
-  citypop[my_city][0] = what it was before + my_pop
-  citypop[my_city][1] = what it was before + 1
-
-for each city
-  divide the first element by the second to obtain the mean</code></pre>
-</details></li>
-<li><p>Write a program that calculates the mean population for each city and year.</p>
-<details>
-<summary>
-<p>Hints</p>
-</summary>
-<ul>
-<li><p>You can do this in (at least) two ways with a dictionary:</p>
-<ul>
-<li><p>By creating a nested dictionary: each city is a dictionary, which itself contains a dictionary for each year.</p></li>
-<li><p>By using a <code>(city, year)</code> tuple as the keys for the dictionary.</p></li>
-</ul>
-<p>Note that the worked-out solution in the link below uses the first strategy.</p></li>
-</ul>
-</details></li>
-</ol>
-<p><br></p>
-<h2 id="bonus-exercise-csb-2-red-queen-in-fruit-flies">Bonus: Exercise CSB-2: Red queen in fruit flies</h2>
-<p><a href="https://science.sciencemag.org/content/349/6249/747">Singh et al. (2015)</a> show that, when infected with a parasite, the four genetic lines of <em>D. melanogaster</em> respond by increasing the production of recombinant offspring (arguably, trying to produce new recombinants able to escape the parasite). They show that the same outcome is not achieved by artificially wounding the flies. The data needed to replicate the main claim (figure 2 of the original article) is contained in the file <code>Singh2015_data.csv</code>.</p>
-<p>Open the file, and compute the mean <code>RecombinantFraction</code> for each <em>Drosophila</em> genetic line, and <code>InfectionStatus</code> (<code>W</code> for wounded and <code>I</code> for infected).</p>
-<p>Print the results in the following form:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Line</span> 45 Average Recombination Rate:</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="ex">W</span> : 0.187</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="ex">I</span> : 0.191</span></code></pre></div>
+<h4 id="add-a-rule">3. Add a rule</h4>
+<p>Add a rule called <code>fastqc</code> that mimics running FastQC. As you may recall, FastQC performs quality control on FASTQ files (see the <a href="https://mcic-osu.github.io/pracs-sp21/posts/week-06/slides/06-2_SLURM.html#7">slides starting here from week 6</a>). It should be run on the raw and/or trimmed FASTQ files. If you want, you can implement both, but the solution will do so just for the raw FASTQ files.</p>
+<p>Here is the dummy script, to be saved in <code>scripts/fastqc.sh</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">infile=$1</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">outdir=$2</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;FastQC for file: </span><span class="va">$infile</span><span class="st"> , to output dir: </span><span class="va">$outdir</span><span class="st">&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="va">outfile=</span><span class="st">&quot;</span><span class="va">$outdir</span><span class="st">&quot;</span>/<span class="va">$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$infile</span><span class="st">&quot;</span> .fastq<span class="va">)</span>.fastqc.html</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;FastQC for file </span><span class="va">$infile</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$outfile</span><span class="st">&quot;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$infile</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$outfile</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Figure out what the script does and create your rule accordingly. As the output dir, you can just use the <code>res</code> (results) dir we have been using, or optionally a subdir of that.</p>
 <details>
 <summary>
 Hints
 </summary>
-<p>For each Dropsophila genetic line, you need to keep track of all the recombination rates for W (wounded) and I (infected).</p>
-<p>For example, you could build a dictionary of dictionaries in which the first (outer) dictionary has a key for each line, and the inner dictionary has a key for each status (<code>W</code> or <code>I</code>) and a list of recombination rates as each value.</p>
-Then, you would calculate averages for each list at the end.
+<p>The script will create and write to an output file <code>&lt;output-dir&gt;/&lt;sample&gt;.fastqc.html</code>, like the actual FastQC program does. That is, you don’t specify the output file to the script, only the output directory.</p>
+<p>The script will also print a line to standard out (i.e., not to the output file).</p>
 </details>
-<p><br></p>
-<h2 id="csb-solutions">CSB Solutions</h2>
+<details>
+<summary>
+Solution
+</summary>
+</details>
+<h4 id="run-the-fastq-rule">3. Run the FASTQ rule</h4>
+<p><br> <br> <br> <br></p>
+<hr />
+<h3 id="ideas">Ideas</h3>
 <ul>
-<li><a href="https://github.com/CSB-book/CSB/blob/master/python/solutions/Dalziel2016_solution.ipynb">Solutions for exercise CSB-1</a>.</li>
-<li><a href="https://github.com/CSB-book/CSB/blob/master/python/solutions/Singh2015_solution.ipynb">Solutions for exercise CSB-2</a>.</li>
+<li>Add samples</li>
+<li>Try dryrun</li>
 </ul>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -1,0 +1,183 @@
+---
+title: "Exercises: Week 13 -- Snakemake"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+<br>
+
+## Exercise 1
+
+### Set-up
+
+In the instructions below I'm assuming you work at OSC,
+though you could perfectly well do this on your own computer if you have Snakemake
+installed there.
+
+Load the environment where you have Snakemake installed:
+
+```sh
+module load python/3.6-conda5.2
+source activate ipy-env
+
+which snakemake
+#> ...
+```
+
+We will start off with the same data and our final Snakefile from class:
+
+```sh
+# Change these dirs if you work locally -- everything else should be the same
+cd /fs/ess/PAS1855/users/$USER/week13/exercise1
+cd /fs/ess/PAS1855/users/$USER/week13/exercise1  # Use "Alt" + "." shortcut
+
+# Create the dir structure and Snakefile:
+mkdir -p data scripts res workflow/DAGs
+touch workflow/Snakefile
+
+# Create the dummy FASTQ files:
+echo "AAAAAAA" > data/smpA.fastq
+echo "CCCCCCC" > data/smpC.fastq
+echo "GGGGGGG" > data/smpG.fastq
+
+## Create the dummy scripts and make them executable:
+echo 'echo "FASTQ file $1 after trimming" && cat $1' > scripts/trim.sh
+echo 'echo "BAM from FASTQ $1 :" && cat $1' > scripts/map.sh
+echo 'echo "Counts for $# BAM files:" && cat $@' > scripts/count.sh
+chmod +x scripts/*     # Make the scripts executable
+```
+
+Open the `workflow/Snakefile` and paste into it:
+
+```sh
+SAMPLES = glob_wildcards("data/{smp}.fastq").smp
+
+rule all:
+    input: "res/count_table.txt",
+
+rule trim:
+    input: "data/{smp}.fastq",
+    output: "res/{smp}_trim.fastq",
+    shell: "scripts/trim.sh {input} > {output}"
+
+rule map:
+    input: "res/{smp}_trim.fastq",
+    output: "res/{smp}.bam",
+    shell: "scripts/map.sh {input} > {output}"
+
+rule count:
+    input: expand("res/{smp}.bam", smp=SAMPLES),
+    output: "res/count_table.txt",
+    shell: "scripts/count.sh {input} > {output}"
+```
+
+#### 1. First DAG
+
+Create and view a DAG (workflow diagram) to remind yourself of the steps in the
+workflow.
+
+<details>
+<summary>Solution</summary>
+
+```sh
+snakemake --dag | dot -T svg > workflow/DAGs/v1.svg 
+```
+
+<p align="center">
+<img src=img/snakemake/v1.svg width=55%>
+</p>
+
+</details>
+
+#### 2. First run 
+
+Run the entire workflow.
+
+<details>
+<summary>Solution</summary>
+
+Running with the `-p` (print shell commands) and `-q` (quiet) options for
+concise output -- you may want to see more output, e.g. with `-pr`
+(`-r`: reason for execution).
+
+```sh
+snakemake -j1 -pq
+#> Job counts:
+#>         count   jobs
+#>         1       all
+#>         1       count
+#>         3       map
+#>         3       trim
+#>         8
+#> scripts/trim.sh data/smpG.fastq > res/smpG_trim.fastq
+#> scripts/map.sh res/smpG_trim.fastq > res/smpG.bam
+#> scripts/trim.sh data/smpC.fastq > res/smpC_trim.fastq
+#> scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq
+#> scripts/map.sh res/smpA_trim.fastq > res/smpA.bam
+#> scripts/map.sh res/smpC_trim.fastq > res/smpC.bam
+#> scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam > res/count_table.txt
+```
+
+</details>
+
+#### 3. Add a rule
+
+Add a rule called `fastqc` that mimics running FastQC.
+As you may recall, FastQC performs quality control on FASTQ files
+(see the
+[slides starting here from week 6](https://mcic-osu.github.io/pracs-sp21/posts/week-06/slides/06-2_SLURM.html#7)).
+It should be run on the raw and/or trimmed FASTQ files.
+If you want, you can implement both, but the solution will do so just for the
+raw FASTQ files.
+
+Here is the dummy script, to be saved in `scripts/fastqc.sh`:
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+infile=$1
+outdir=$2
+
+echo "FastQC for file: $infile , to output dir: $outdir"
+outfile="$outdir"/$(basename "$infile" .fastq).fastqc.html
+echo "FastQC for file $infile" > "$outfile"
+cat "$infile" > "$outfile"
+```
+
+Figure out what the script does and create your rule accordingly.
+As the output dir, you can just use the `res` (results) dir we have been using,
+or optionally a subdir of that.
+
+<details>
+<summary>Hints</summary>
+
+The script will create and write to an output file `<output-dir>/<sample>.fastqc.html`,
+like the actual FastQC program does.
+That is, you don't specify the output file to the script, only the output directory.
+
+The script will also print a line to standard out (i.e., not to the output file).
+
+</details>
+
+<details>
+<summary>Solution</summary>
+
+</details>
+
+#### 3. Run the FASTQ rule
+
+
+
+
+
+<br> <br> <br> <br> 
+
+----
+
+### Ideas
+
+- Add samples
+- Try dryrun
