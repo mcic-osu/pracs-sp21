@@ -22,6 +22,4 @@ output:
 
 ### Ungraded assignments
 
-- Exercises for week 13 -- TBA
-
-
+- [Exercises for week 13](../../w13_exercises.html)

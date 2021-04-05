@@ -30,7 +30,7 @@ icon::fa("user-edit")
 
 ----
 
-# IV: From the exercises
+# IV: Material from the exercises
 
 <br> <br> <br> <br> <br>
 
@@ -48,7 +48,8 @@ class: inverse middle center
 - #### Specifying computational resources
 - #### Log files
 - #### Using programs where you don't specify output files
-- #### Forcing reruns
+- #### "Target rules may not contain wildcards"
+- #### Running Snakemake on a cluster
 ]
 
 ---
@@ -269,26 +270,86 @@ output: directory("results/fastqc/{sample}")
 ]
 
 ---
-class: inverse middle center
+class: middle inverse center
 
-# Forcing (re)runs
+# "Target rules may not contain wildcards"
 
 ----
 
 <br> <br> <br> <br>
 
 ---
-name: forcerun
 
-## Forcing reruns based on changes in input files or code
+## "Target rules may not contain wildcards"
 
-https://snakemake.readthedocs.io/en/stable/project_info/faq.html#snakemake-does-not-trigger-re-runs-if-i-add-additional-input-files-what-can-i-do
+Let's return to the last Snakefile (#7) from the previous slide deck:
+
+```python
+SAMPLES = glob_wildcards("data/{smp}.fastq").smp
+
+rule all:
+    input: "res/count_table.txt",
+
+rule trim:
+    input: "data/{smp}.fastq",
+    output: "res/{smp}_trim.fastq",
+    shell: "scripts/trim.sh {input} > {output}"
+
+rule map:
+    input: "res/{smp}_trim.fastq",
+    output: "res/{smp}.bam",
+    shell: "scripts/map.sh {input} > {output}"
+
+rule count:
+    input: expand("res/{smp}.bam", smp=SAMPLES),
+    output: "res/count_table.txt",
+    shell: "scripts/count.sh {input} > {output}"
+```
+
+---
+
+## "Target rules may not contain wildcards"
+
+What if we now just want to run the rule `trim`?
+
+```python
+rule trim:
+    input: "data/{smp}.fastq",
+    output: "res/{smp}_trim.fastq",
+    shell: "scripts/trim.sh {input} > {output}"
+```
 
 ```sh
-snakemake -R $(snakemake --list-input-changes)  # Force re-run if samples have been added
-snakemake -n -R $(snakemake --list-params-changes) # Force re-run if params have been updated
-snakemake -n -R $(snakemake --list-code-changes) # Force re-run if code has been updated
+snakemake -j1 count_words
+#> WorkflowError:
+#> Target rules may not contain wildcards. Please specify concrete files or a rule without wildcards.
 ```
+
+The problem here is that ...
+
+Note that this is also a common error to get when building your workflows and
+wanting to run the entire thing.
+
+---
+
+## "Target rules may not contain wildcards"
+
+If we did want to **run just this specific rule with wildcards**, we could:
+
+- Specify one or more specific output files:
+
+```sh
+snakemake -j1 res/bookA_cnt.txt
+snakemake -j1 res/bookB_cnt.txt res/bookC_cnt.txt
+```
+
+- Create a rule that triggers execution of our target rule by listing all its
+  output files:
+
+```sh
+rule trigger_count_words:
+    input: expand("res/{book}_cnt.txt", book=BOOKS)
+```        
 
 ---
 class: inverse middle center
@@ -504,12 +565,29 @@ default-resources: [mem_mb=1000, ...]
 Therefore, setting `resources: mem_mb=50000` for `rule heavy_stuff`  
 **will override the default value of `1000` and pass that on the SLURM job request.**
 
-
 ---
 
 ## Running the main Snakemake process as a job
 
-### TODO
+For small workflows that can be run on one node or less than that,
+you can **run Snakemake as a single SLURM job**,
+either on an interactive node (especially if the workflow is particularly small)
+or by submitting a script with `sbatch`.
+
+For example, we can submit the follow script to SLURM with `sbatch`:
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+  
+#SBATCH --account=PAS1855
+#SBATCH --time=1:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=3
+#SBATCH --cpus-per-task=1
+  
+snakemake -j"$SLURM_NTASKS" -p  
+```
 
 ---
 

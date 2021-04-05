@@ -2588,7 +2588,6 @@ Go further
 <li><a href="#rule-specific-resources-threads">7. Rule-specific resources: threads</a></li>
 <li><a href="#rule-specific-resources-other">8. Rule-specific resources: other</a></li>
 </ul></li>
-<li><a href="#bonus-3-using-real-data-and-software">Bonus – 3: Using real data and software</a></li>
 </ul>
 </nav>
 </div>
@@ -2767,7 +2766,7 @@ Show Snakefile
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/count.sh {input} &gt; {output}&quot;</span></span></code></pre></div>
-<p><code>Snakefmt</code> will detect syntax errors and ensure consistent and clear formatting:</p>
+<p><code>Snakefmt</code> will detect syntax errors and ensure consistent and clear formatting, as shown for <code>rule count</code> above:</p>
 <ul>
 <li><p>The <em>value</em> for every rule is on a new, indented line.</p></li>
 <li><p>Every item in <code>input</code> and <code>output</code> is trailed by a comma. This may look a little strange (but think 1-element tuple!), yet is somewhat useful.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
@@ -2903,6 +2902,7 @@ Solution
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpA_trim.fastq metadata/ref.fa &gt; res/smpA.bam</span></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpG_trim.fastq metadata/ref.fa &gt; res/smpG.bam</span></span>
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam &gt; res/count_table.txt</span></span></code></pre></div>
+<p><br></p>
 <ul>
 <li><strong>Run the command above.</strong></li>
 </ul>
@@ -3367,8 +3367,8 @@ Solution
 <p><br></p>
 <p>To run Snakemake with the profile, we need to use the option <code>--profile</code> and specify our dir as in <code>--profile &lt;profile_dir&gt;</code>.</p>
 <ul>
-<li><p><strong>Run Snakemake with the profile.</strong></p>
-<p>(Remove the old output first.)</p></li>
+<li><strong>Run Snakemake with the profile.</strong><br />
+(Remove the old output first.)</li>
 </ul>
 <details>
 <summary>
@@ -3392,7 +3392,7 @@ Solution
 <li><p>Specify the number of jobs (<code>--jobs</code>) option.</p></li>
 <li><p>Make Snakemake wait longer for output files to appear using the <code>latency-wait</code> option (units are in seconds; we want 30 seconds).<br />
 (I’ve had errors with shorter latency times.)</p></li>
-<li><p><strong>Add jobs and latency key-value pairs a config file</strong></p></li>
+<li><p><strong>Add key-value pairs for the number of jobs and the latency to the config file.</strong></p></li>
 </ul>
 <details>
 <summary>
@@ -3526,13 +3526,13 @@ Solution
 <p>The <code>threads</code> directive in a Snakefile corresponds the the <code>--cpus-per-task</code> SLURM directive. Recall that SLURM uses the terms CPU, cores and threads roughly equivalently. When specifying multiple <code>--cpus-per-task</code> (SLURM) / <code>threads</code> (Snakemake), you are allowing <em>a single process (task) to perform multithreading</em></p>
 </details>
 <p><br></p>
-<p>When using the threads directive, we will generally also be telling the program itself about the number of threads – for example:</p>
+<p>When using the threads directive, we will generally also tell the program itself about the number of threads – see the example below, where we are calling the STAR aligner directly in a Snakemake rule:</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>rule STAR:</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    threads: <span class="dv">8</span></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    shell: <span class="st">&quot;STAR --runThreadN </span><span class="sc">{threads}</span><span class="st"> ...&quot;</span></span></code></pre></div>
 <p>For now, we’ll keep it simple and merely use the <code>threads</code> directive:</p>
 <ul>
-<li><strong>Specify 4 threads for <code>rule map</code></strong></li>
+<li><strong>Specify 4 threads for <code>rule map</code>.</strong></li>
 </ul>
 <details>
 <summary>
@@ -3546,7 +3546,7 @@ Solution
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
 <span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
 <span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
-<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">threads:</span> 8</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">threads:</span> 4</span>
 <span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
 <span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
 <span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
@@ -3556,17 +3556,15 @@ Solution
 <h3 id="rule-specific-resources-other">8. Rule-specific resources: other</h3>
 <p>We can use a <code>resources</code> key for any rule to specify (mostly) arbitrary key-value pairs with resources:</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>rule heavy_stuff:</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span>: ...</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    output: ...</span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    resources: mem_mb<span class="op">=</span><span class="dv">50000</span></span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    shell: ...</span></code></pre></div>
-<p>These are arbitrary in the sense that <code>mem_mb</code> will not directly set the actual maximum memory usage, but they refer to the same keys as used in our <code>config.yaml</code>:</p>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [...]</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    resources: mem_mb<span class="op">=</span><span class="dv">50000</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [...]</span></span></code></pre></div>
+<p>These are arbitrary in the sense that <code>mem_mb</code> will not directly set the actual maximum memory usage in the way that the <code>threads</code> directive did set the number of threads. Instead, they refer to the keys we use in our <code>config.yaml</code> – for example, to actually request 50,000 MB of memory for <code>rule heavy_stuff</code>, <code>mem_mb</code> should map to the SLURM resource request:</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;sbatch --mem={resources.mem_mb} ...&quot;</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">default-resources</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">mem_mb=</span><span class="dv">1000</span><span class="kw">,</span><span class="at"> ...</span><span class="kw">]</span></span></code></pre></div>
-<p>Therefore, setting <code>resources: mem_mb=50000</code> for <code>rule heavy_stuff</code><br />
-<em>will override the default value of <code>4000</code> and pass that on the SLURM job request.</em></p>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">default-resources</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">mem_mb=</span><span class="dv">4000</span><span class="kw">,</span><span class="at"> ...</span><span class="kw">]</span></span></code></pre></div>
+<p>Setting <code>resources: mem_mb=50000</code> for <code>rule heavy_stuff</code> will then override the default value of <code>4000</code> and pass that on the SLURM job request!</p>
 <ul>
-<li><strong>Set the time request for <code>rule map</code> to be 2 hours.</strong></li>
+<li><strong>Set the time request for <code>rule map</code> to 2 hours.</strong></li>
 </ul>
 <details>
 <summary>
@@ -3598,7 +3596,7 @@ Solution
 <p><br></p>
 <p>There are a few options:</p>
 <ul>
-<li><p>You can <a href="https://slurm.schedmd.com/sbatch.html">look up</a> (go to “input environment variables”) and echo SLURM environment variables in the script. For the time limit, this is <code>SBATCH_TIMELIMIT</code>, so you could include the following in your <code>scripts/map.sh</code>:</p>
+<li><p>You can <a href="https://slurm.schedmd.com/sbatch.html">look up</a> (go to “input environment variables”) and echo SLURM environment variables in the script. For the time limit specifically, this is <code>SBATCH_TIMELIMIT</code>, so you could include the following in your <code>scripts/map.sh</code>:</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Time limit: </span><span class="va">$SBATCH_TIMELIMIT</span><span class="st">&quot;</span></span></code></pre></div></li>
 <li><p>You can print an overview of resources and statistics for your job using <code>scontrol show job &lt;job-ID&gt;</code>. You can do that manually in the shell for a specific SLURM job, or include the following in your script:</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="ex">scontrol</span> show job <span class="va">$SLURM_JOB_ID</span></span></code></pre></div></li>
@@ -3606,10 +3604,6 @@ Solution
 <div class="sourceCode" id="cb60"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span> <span class="at">-l</span></span></code></pre></div></li>
 </ul>
 </details>
-<p><br></p>
-<hr />
-<h2 id="bonus-3-using-real-data-and-software">Bonus – 3: Using real data and software</h2>
-<p>TBA</p>
 <p><br></p>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <section class="footnotes" role="doc-endnotes">
