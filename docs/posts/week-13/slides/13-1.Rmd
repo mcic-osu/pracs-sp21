@@ -237,8 +237,8 @@ For any workflow that has some steps operating on each sample separately:
 **Ad-hoc strategies:**
 
 - Go back to the original script and **run the whole workflow as a single job,**
-  and per-sample steps are simply run 1-by-1 in a loop.
-  This is too time-consuming in many cases...
+  and per-sample steps are simply run 1-by-1 in a loop.  
+  This will be too time-consuming in many cases...
 
 - Rather than running the workflow script as an actual script,  
   just **use it as scaffolding** and submit jobs one-by-one / group-by-group. 

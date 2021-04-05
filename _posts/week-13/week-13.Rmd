@@ -14,7 +14,7 @@ output:
  
 - [Slides: Getting started with Snakemake](../week-13/slides/13-2.html) -- Tue/Thu Zoom
 
-- [Slides: Running Snakemake on a cluster & misc.](../week-13/slides/13-3.html) -- Thursday Zoom (Apr 06)
+- [Slides: More advanced Snakemake tips and tricks](../week-13/slides/13-3.html) -- Thursday Zoom (Apr 06)
 
 ### Final project: new
 

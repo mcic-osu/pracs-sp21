@@ -28,7 +28,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/04/08 (updated: 2021-03-31)
+### 2021/04/08 (updated: 2021-04-05)
 
 ---
 class:inverse middle center
@@ -56,7 +56,7 @@ We will be running a dummy Snakemake workflow.
 First, let's create a directory for this:
 ```sh
 mkdir /fs/ess/PAS1855/users/$USER/week13/zoom_workflow
-cd .
+cd /fs/ess/PAS1855/users/$USER/week13/zoom_workflow
 ```
 
 Next, we'll create some necessary directories and files, such as:
@@ -137,7 +137,6 @@ tree
 
 - Although it's a general workflow management tool,
   it was written by a bioinformatician.
-  
   In practice, it appears to be used mostly for bioinformatics analyses.
 
 - Cross-platform and compatible with all HPC schedulers.  
@@ -145,9 +144,14 @@ tree
   
 - Uses Python &amp;ndash; and is named after it.
 
-- Also named after &amp;ndash;and based on &amp;ndash; Make, ...
+--
 
-### ADD
+- Also named after, and based on Make, a utility that runs Makefiles in which
+  you specify a set of tasks to be executed.
+  
+  You may have used make to install software from source  
+  (the `./configure &amp;&amp; make &amp;&amp; make install` sequence),  
+  as software installation instructions are often specified in Makefiles.
 
 ---
 
@@ -176,19 +180,19 @@ class: inverse middle center
   you call `snakemake` in the shell from your project's root dir:
 
   ```python
-  # If our Snakefile is called `Snakefile`,
-  # it will be automatically detected and used.
+  # Our Snakefile will be automatically detected if it is called:
+  # `[Ss]nakefile` or `workflow/[Ss]nakefile`
   $ snakemake -j1
   
   # If necessary, we can call the Snakefile by name with "-s":
-  $ snakemake -s my_other_snakefile.smk -j1
+  $ snakemake -j1 -s my_other_snakefile.smk
   ```
 
-.content-box-info[
-With recent Snakemake versions, we *always* need to specify the `-j` option,
-which is the maximum number of jobs (processes) that you want Snakemake
-to run in parallel. 
-]
+  .content-box-info[
+  With recent Snakemake versions, we *always* need to specify the `-j` option,
+  which is the maximum number of jobs (processes) that you want Snakemake
+  to run in parallel. 
+  ]
   
 ---
 
@@ -206,10 +210,10 @@ to run in parallel.
 
   ```python
   rule my_rule:
-       # ...Things to do in rule my_rule...
+        # ...Things to do in rule my_rule...
        
   rule another_rule:
-       # ...Things to do in rule another_rule...
+        # ...Things to do in rule another_rule...
   ```
 
   .content-box-info[
@@ -263,7 +267,7 @@ rule trim:
     shell: "scripts/trim.sh data/smpA.fastq &gt; res/smpA_trim.fastq"
           
 rule map:
-    shell: "cat res/smpA_trim.fastq | scripts/map.sh &gt; res/smpA.bam"
+    shell: "scripts/map.sh res/smpA_trim.fastq &gt; res/smpA.bam"
 ```
 
 ---
@@ -387,10 +391,11 @@ echo "BAM from FASTQ $1 :" &amp;&amp; cat $1
 The error occurred in the second command, where it tried to print the contents
 of the trimmed FASTQ file to screen (`cat $1`), which did not exist.
 
+--
+
 However, the first line `BAM from FASTQ $1` was still printed to the file,  
 and now we are stuck with an incomplete output file that we best manually
-remove before it confuses us (this will happen when you have many output
-files!).
+remove before it confuses or misleads us later.
 
 Snakemake can remove such files for us automatically,
 but we will need to provide it with more information about output files!
@@ -422,9 +427,7 @@ Because with our shell command, we redirected the standard output to that file
 cat res/smpA_trim.fastq | scripts/map.sh &gt; res/smpA.bam
 ```
 
-We will see about **redirecting standard error to log files** later,
-but for now, we will keep out Snakefile simple and build on some other things
-first.
+You will see about **redirecting standard error to log files** in the exercises.
 ]
 
 ---
@@ -564,7 +567,7 @@ snakemake -j1 file_to_produce
 - (Snakemake will also create any necessary output directories.)
 
 .footnote[
-[1] Though you can always force a run, even if output files are present,  
+&lt;sup&gt;[1]&lt;/sup&gt; Though you can always force a run, even if output files are present,  
 &amp;nbsp; &amp;nbsp; &amp;nbsp; with the `--forcerun` option.
 ]
 
@@ -609,9 +612,9 @@ snakemake --dag res/smpA.bam | \
     dot -T svg &gt; workflow/DAGs/v2.svg 
 ```
 
-- `snakemake --dag` will compute the DAG
-- We pipe that into the Graphviz `dot` command
-- We save `dot`s output in SVG (Scalable Vector Graphics) format.
+- `snakemake --dag` will compute the DAG.
+- We pipe that into the Graphviz `dot` command.
+- We save `dot`'s output in SVG (Scalable Vector Graphics) format.
 
 --
 
@@ -630,7 +633,7 @@ snakemake --dag res/smpA.bam | \
 
 ## What will Snakemake run?
 
-First off, if we don't specify and rule or output file in our Snakemake call,  
+First off, if we don't specify any rule or output file in our Snakemake call,  
 the **first rule** will be run.
 
 .content-box-q[
@@ -708,8 +711,8 @@ And why would this be useful?
 
 --
 
-- `rule all` typically has as its `input` all final output files,
-  final tables, plots, and so on.
+- Typically, the `input` of `rule all` consists of all final output files
+  of the workflow.
   
   Though more specifically, it has all files that are
   **not used as input for another rule (endpoints)** &amp;ndash;
@@ -883,9 +886,9 @@ rule map:
     shell: "scripts/map.sh -r {input.ref} {input.fastq} &gt; {output}"
 ```
 
-Note that the different input files are **separated by a comma**.
-When there are multiple entries for a directive (e.g. `input`),
-this comma is required. When there is only one, a trailing comma is still accepted.
+Note that the different input files are **separated by a comma**:
+- When a directive has multiple entries (e.g. `input`), a comma is required.
+- When there is only one, a trailing comma is still accepted.
 
 --
 
@@ -938,6 +941,8 @@ Do we create a rule for each file? Do we need to use a script that loops,
 or do we create a loop in the Snakefile?
 
 &lt;br&gt;
+
+--
 
 This is where Snakemake gets particularly powerful,
 but also more complicated: we can include **wildcards** in our rule to take
@@ -1060,7 +1065,7 @@ $ snakemake -j1 map
 
 --
 
-You might be thinking now that perhaps Snakemake will detect these input files,
+You may expect that Snakemake is able to detect these input files,
 then infer that it can use `smpA`, `smpC`, and `smpG` as the wildcard values,
 and run both rules for each sample.
 
@@ -1267,7 +1272,8 @@ at the top of the Snakefile &amp;ndash; in practice, we may have many!
 
 There are a couple of alternatives:
 
-- List them out in a *config* file and then read them into the Snakefile.&lt;sup&gt;[1]&lt;/sup&gt; 
+- Snakemake accepts *config* files and we can list the samples there and access
+  the list from within the Snakefile.
   That's certainly no more convenient,
   but it's good not to have the IDs hardcoded in the Snakefile.
 
@@ -1278,14 +1284,10 @@ There are a couple of alternatives:
 --
 
 - We can use *globbing* to determine which input files are present,
-  and from the input file names infer the sample IDs.
+  and infer the sample IDs from the input file names.
 
-  We will now use this latter approach,
+  Here, we will use the latter approach,
   for which Snakemake has another convenience function: **`glob_wildcards()`**.
-
-.footnote[
-&lt;sup&gt;[1]&lt;/sup&gt; We will see config files later on.
-]
 
 ---
 
@@ -1306,16 +1308,16 @@ we extract the list that was stored in `smp` because we named our wildcard `smp`
 --
 
 .content-box-info[
-This is stored like that (`.smp` rather than simply a list)
-to also allow you to define multiple wildcards:
+The wildcards are stored in `.smp` within the wildcard object
+to allow you to define multiple wildcards &amp;ndash; for example:
 
 ```python
-&gt;&gt;&gt; !ls seqdata
+&gt;&gt;&gt; !ls data
 #&gt; A_R1.fastq.gz A_R2.fastq.gz B_R1.fastq.gz B_R2.fastq.gz
 
-&gt;&gt;&gt; glob_wildcards("seqdata/{sample}_{read}.fastq.gz").sample
+&gt;&gt;&gt; glob_wildcards("data/{sample}_{read}.fastq.gz").sample
 #&gt; ['A', 'A', 'B', 'B']
-&gt;&gt;&gt; glob_wildcards("seqdata/{sample}_{read}.fastq.gz").read
+&gt;&gt;&gt; glob_wildcards("data/{sample}_{read}.fastq.gz").read
 #&gt; ['R1', 'R2', 'R1', 'R2']
 ```
 ]
@@ -1364,24 +1366,20 @@ In other words, Snakemake is basically looping over the different values for
 
 --
 
-&lt;br&gt;
+&lt;br&gt; &lt;br&gt;
 
-----
-
-&lt;br&gt;
-
-What if we needed to **include all samples in a single command**?
+What if we needed to **include all samples in a single command**?  
 For example, our next step will be to create a gene count matrix that
 includes all samples, as is customary in RNAseq analysis.
 
---
-
+.content-box-info[
 In general, in sequence analysis workflows, it is very common to switch between:
 
 - File-by-file / **sample-by-sample** analysis: QC, trimming, mapping, etc.
 
 - **All-samples-at-once** analysis: creating a read/ASV/OTU count table,
   calling variants, etc.
+]
 
 ---
 
