@@ -41,17 +41,66 @@ icon::fa("user-edit")
 
 ## Overview of this week
 
-- I: Workflow tools &ndash; why and what (today)
+- I: Intro to workflows and workflow tools &mdash; today
   
-- II: Getting started with Snakemake (today/Thu)
+- II: Getting started with Snakemake &mdash; today/Thu
 
-- III: Running Snakemake on a cluster & miscellaneous (Thu)
+- III: More advanced Snakemake tips and tricks &mdash; Thu
+
+<br>
+
+Among other things, the **exercises** will walk you through some more Snakemake
+aspects such as running Snakemake on a cluster.
 
 ---
 
 ## What do we mean by a "pipeline" or "workflow"?
 
-### TODO - Example workflow from exercises
+<br>
+
+<p align="center">
+<img src=img/schem-workflow.svg width=75%>
+</p>
+
+---
+
+## An example partial workflow script
+
+```sh
+samples = (smpA smpB smpC)
+
+# Trim:
+for sample in ${samples[@]}; do
+    scripts/trim.sh data/"$sample".fq > res/"$sample"_trim.fq
+done
+
+# Map:
+for sample in ${samples[@]}; do
+    scripts/map.sh res/"$sample"_trim.fq > res/"$sample".bam
+done
+
+# Count:
+scripts/count.sh ${samples[@]} > res/count_table.txt
+```
+
+---
+
+## An example partial workflow script
+
+With a single `for` loop:
+
+```sh
+samples = (smpA smpB smpC)
+
+# Trim and map:
+for sample in ${samples[@]}; do
+    scripts/trim.sh data/"$sample".fq > res/"$sample"_trim.fq
+    scripts/map.sh res/"$sample"_trim.fq > res/"$sample".bam
+done
+
+# Count:
+scripts/count.sh ${samples[@]} > res/count_table.txt
+```
 
 ---
 
@@ -60,24 +109,182 @@ icon::fa("user-edit")
 What are the advantages of creating a workflow rather than running scripts
 one-by-one as needed?
 
+<br>
+
 - **Rerunning** everything is much easier -- you may want to do so after adding
   samples, changing a script, changing settings, and so on.
 
 - **Re-applying** the same set of analyses in a different project is much easier. 
 
+<br>
+
+--
+
 - The workflow is a form of **documentation** of the steps taken.
 
-- Similarly, it makes sure you are **including all necessary steps** and
+- It makes sure you are **including all necessary steps** and
   are not overlooking a script or a manual step.
 
-- **Reproducibility** in general is improved, e.g. it will be easier for others
-  to repeat you analysis.
+- **Reproducibility** in is generally improved,
+  e.g. it will be easier for others to repeat you analysis.
 
 ---
 
-## An example partial workflow script
+## Challenges with workflows: <br> You need to rerun parts of it
 
-### TODO - Example workflow from exercises
+**Rerunning *part* of the workflow may be necessary**, e.g. after:
+  
+- Some scripts fail.
+
+- Some scripts fail for some samples only.
+
+- Adding a sample.
+
+- You want to change a script or settings somewhere halfway the workflow.
+
+---
+
+## Challenges with workflows: <br> You need to rerun parts of it
+
+**Ad-hoc strategies to solve some of these:**
+  
+- Comment out part of the workflow:
+
+  ```sh
+  for sample in ${samples[@]}; do
+        #scripts/trim.sh data/"$sample".fq > res/"$sample"_trim.fq
+        scripts/map.sh res/"$sample"_trim.fq > res/"$sample".bam
+  done
+  scripts/count.sh ${samples[@]} > res/count_table.txt
+  ```
+
+--
+
+- Make temporary changes:
+
+  ```sh
+  samples = (smpA smpB smpC smpD)
+  
+  #for sample in ${samples[@]}; do
+        sample=smpD  # TEMPORARY LINE
+        scripts/trim.sh data/"$sample".fq > res/"$sample"_trim.fq
+        scripts/map.sh res/"$sample"_trim.fq > res/"$sample".bam
+  #done
+  scripts/count.sh ${samples[@]} > res/count_table.txt
+  ```
+
+---
+
+## Challenges with workflows: <br> You need to rerun parts of it
+
+**Labor-intensive strategy to solve some of these:**  
+Lots of command-line options and `if`-statements to enable flexible running of
+part of the workflow (and perhaps to change settings):
+
+```sh
+trim=$1   # true or false
+map=$2    # true or false
+count=$3  # true or false
+
+for sample in ${samples[@]}; do
+    if [ "$map" = true ]; then
+        scripts/trim.sh data/"$sample".fq > res/"$sample"_trim.fq
+    fi
+    
+    if [ "$trim" = true ]; then
+        scripts/map.sh res/"$sample"_trim.fq > res/"$sample".bam
+    fi
+done
+
+if [ "$count" = true ]; then
+    scripts/count.sh ${samples[@]} > res/count_table.txt
+fi
+```
+
+---
+
+## Challenges with workflows: <br> managing cluster jobs
+
+Say we want to speed things up and submit SLURM jobs for each script:
+
+```sh
+for sample in ${samples[@]}; do
+    sbatch scripts/trim.sh data/"$sample".fq > res/"$sample"_trim.fq
+    sbatch scripts/map.sh res/"$sample"_trim.fq > res/"$sample".bam
+done
+
+sbatch scripts/count.sh ${samples[@]} > res/count_table.txt
+```
+
+.content-box-q[
+What is the problem here?
+]
+
+--
+
+.content-box-answer[
+Steps that need output files from prior steps won't wait for those prior steps!
+]
+
+For any workflow that has some steps operating on each sample separately:
+**How do you let the steps properly wait for each other?**
+
+
+---
+
+## Challenges with workflows: <br> managing cluster jobs
+
+**Ad-hoc strategies:**
+
+- Go back to the original script and **run the whole workflow as a single job,**
+  and per-sample steps are simply run 1-by-1 in a loop.
+  This is too time-consuming in many cases...
+
+- Rather than running the workflow script as an actual script,  
+  just **use it as scaffolding** and submit jobs one-by-one / group-by-group. 
+  
+--
+
+**Labor-intensive strategy:**
+
+- Use SLURM job dependencies &ndash;
+  but hard to manage for more complex workflows.
+  
+  ```sh
+  for sample in ${samples[@]}; do
+      line=$(sbatch scripts/trim.sh)
+      trim_id=$(echo $line | sed 's/Submitted batch job //')
+      sbatch --dependency=afterok:$trim_id scripts/map.sh
+  done
+  
+  sbatch --dependency=singleton scripts/count.sh
+  ```
+
+---
+
+## Challenges with workflows: <br> monitor and manage script failure
+
+**How do you monitor job failure and automatically stop the workflow upon job
+failure?**
+
+<br>
+
+**Ad-hoc strategies:**
+
+- Go back to the original script and **run the whole workflow as a single job,**
+  and proper Bash settings will at least make the workflow stop upon failure.
+
+- Rather than running the workflow script as an actual script,  
+  just **use it as scaffolding** and submit jobs one-by-one / group-by-group.
+  
+<br>
+
+--
+
+**Labor-intensive strategy:**
+
+- Lots of testing for proper input for each script,  
+  test the exit status of each script, etc.
 
 ---
 
@@ -89,6 +296,7 @@ one-by-one as needed?
 
 ----
 
+--
 
 > Typically, researchers codify workflows using general scripting languages such as Python or Bash. But these often lack the necessary flexibility.
 
@@ -108,83 +316,10 @@ one-by-one as needed?
 
 ---
 
-## Challenges with workflows: <br> You need to rerun parts of it
-
-**Rerunning *part* of the workflow may be necessary**, e.g. after:
-  
-- Some scripts fail.
-- Some scripts fail for some samples only.
-- When some steps are per-sample & others all-samples: adding a sample.
-- You want to change a script or settings somewhere halfway the workflow.
-
-<br>
-
---
-
-**Ad-hoc solutions to some of these:**
-  
-- Comment out part of the workflow.
-- Make tempory changes -- e.g. to globbing to only run a subset of samples,
-  then change the pipeline afterwards to (again) use all samples.
-  
---
-
-**Labor-intensive solution to some of these:**
-
-- Lots of command-line options and `if`-statements to enable flexible running of
-  part of the pipeline, and to change settings.
-
----
-
-## Challenges with pipelines: <br> managing cluster jobs
-
-For any pipeline that has some steps operating on each sample separately,
-and other steps on all samples together (most do!):
-
-**How do you let the steps properly wait for each other?**
-
-<br>
-
-- **Easy way out** &ndash; but too time-consuming in many cases:  
-  
-  The whole pipeline is run as a single job, and per-sample steps are simply
-  run 1-by-1 in a loop.
-
-<br>
-
-- **Possible solution** &ndash; but cumbersome and hard too manage for more
-  complex pipelines:
-  
-  Use SLURM job dependencies. (We won't discuss those here.)
-
----
-
-## Challenges with pipelines: <br> monitor and manage script failure
-
-**How do you monitor job failure and automatically stop the pipeline upon job
-failure?**
-
-<br>
-
-- **Easy way out** &ndash; but too time-consuming in many cases:   
-  Again, if your entire pipeline is run linearly in a single job,
-  you can use proper Bash settings and it will work. 
-
-<br>
-
-- **Possible solution** &ndash; but cumbersome and hard too manage for more
-  complex pipelines:
-  
-  - Lots of testing for proper input for each script.
-
-  - Test the exit status of each script. 
-
----
-
 ## Workflow management systems
 
-Workflow tools, often called "workflow management systems",
-provide ways to formally describe and execute workflows.
+Workflow tools, often called "workflow management systems",  
+provide ways to **formally describe and execute workflows.**
 
 <br>
 
@@ -200,10 +335,10 @@ biological sequence data are:
 
 --
 
-While there is a bit of a learning curve for any of these,
-they solve the challenges discussed above, and offer many more benefits.
+While there is a bit of a learning curve for all of these,  
+they solve the challenges discussed above, and offer several other benefits.
 
-For all but the simplest workflows, they will eventually be huge time-savers,
+For many workflows, they will eventually be huge time-savers,
 both in terms of time spent composing the workflow and in running time of the
 workflow.
 
@@ -212,16 +347,15 @@ workflow.
 ## Advantages of formal workflow management &ndash; <br> all the buzzwords...
 
 - **Reproducibility and transparency**
-  - Document the workflow
-  - Document dependencies among data and among code
-  - Readability
-  - Allows analysis of workflow graph
-  - Integration with software management
+  - Document the workflow.
+  - Document dependencies among data and among code.
+  - Allows analysis of workflow graph.
+  - Integration with software management.
 
 - **Automation**
 
-  - Detect changes in input files
-  - Rerun failed steps
+  - Detect & rerun upon changes in input files and failed steps.
+  - Rerun for other datasets.
 
 - **Portability**
   
@@ -234,24 +368,17 @@ workflow.
 
 - **Scalability**
 
-  - Efficient execution because all dependencies are known,  
-    and cluster submission is automated & optimized.
-  - No need to loop over samples yourself
+  - Efficient execution &ndash; all dependencies are known,
+    cluster submission is automated & optimized.
+  - No need to loop over samples yourself.
+
+<br>
 
 - **Flexibility** due to a separation of:
   
-  - Generic nuts-and-bolts of the pipeline
-  - Run-specific configuration &ndash; samples, directories, options
-  - Things specific to the runtime environment (laptop vs cluster vs cloud)
-
----
-
-<figure>
-<p align="center">
-<img src=img/giaa140fig1.jpeg width="90%">
-<figcaption>From <a href="https://academic.oup.com/gigascience/article/10/1/giaa140/6092773/">Reiter et al. 2021: Streamlining data-intensive biology with workflow systems</a></figcaption>
-</p>
-</figure>
+  - Generic nuts-and-bolts of the workflow.
+  - Run-specific configuration &ndash; samples, directories, options.
+  - Things specific to the runtime environment (laptop vs cluster vs cloud).
 
 ---
 class: center middle inverse
@@ -261,6 +388,15 @@ class: center middle inverse
 -----
 
 <br> <br> <br> <br>
+
+---
+
+<figure>
+<p align="center">
+<img src=img/giaa140fig1.jpeg width="90%">
+<figcaption>From <a href="https://academic.oup.com/gigascience/article/10/1/giaa140/6092773/">Reiter et al. 2021: Streamlining data-intensive biology with workflow systems</a></figcaption>
+</p>
+</figure>
 
 ---
 

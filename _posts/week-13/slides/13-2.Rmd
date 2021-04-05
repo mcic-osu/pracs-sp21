@@ -144,7 +144,6 @@ tree
 
 - Although it's a general workflow management tool,
   it was written by a bioinformatician.
-  
   In practice, it appears to be used mostly for bioinformatics analyses.
 
 - Cross-platform and compatible with all HPC schedulers.  
@@ -152,9 +151,14 @@ tree
   
 - Uses Python &ndash; and is named after it.
 
-- Also named after &ndash;and based on &ndash; Make, ...
+--
 
-### ADD
+- Also named after, and based on Make, a utility that runs Makefiles in which
+  you specify a set of tasks to be executed.
+  
+  You may have used make to install software from source  
+  (the `./configure && make && make install` sequence),  
+  as software installation instructions are often specified in Makefiles.
 
 ---
 
@@ -184,18 +188,18 @@ class: inverse middle center
 
   ```python
   # Our Snakefile will be automatically detected if it is called:
-  # `Snakefile`, `snakefile`, `workflow/Snakefile`, `workflow/snakefile`
+  # `[Ss]nakefile` or `workflow/[Ss]nakefile`
   $ snakemake -j1
   
   # If necessary, we can call the Snakefile by name with "-s":
-  $ snakemake -s my_other_snakefile.smk -j1
+  $ snakemake -j1 -s my_other_snakefile.smk
   ```
 
-.content-box-info[
-With recent Snakemake versions, we *always* need to specify the `-j` option,
-which is the maximum number of jobs (processes) that you want Snakemake
-to run in parallel. 
-]
+  .content-box-info[
+  With recent Snakemake versions, we *always* need to specify the `-j` option,
+  which is the maximum number of jobs (processes) that you want Snakemake
+  to run in parallel. 
+  ]
   
 ---
 
@@ -213,10 +217,10 @@ to run in parallel.
 
   ```python
   rule my_rule:
-       # ...Things to do in rule my_rule...
+        # ...Things to do in rule my_rule...
        
   rule another_rule:
-       # ...Things to do in rule another_rule...
+        # ...Things to do in rule another_rule...
   ```
 
   .content-box-info[
@@ -270,7 +274,7 @@ rule trim:
     shell: "scripts/trim.sh data/smpA.fastq > res/smpA_trim.fastq"
           
 rule map:
-    shell: "cat res/smpA_trim.fastq | scripts/map.sh > res/smpA.bam"
+    shell: "scripts/map.sh res/smpA_trim.fastq > res/smpA.bam"
 ```
 
 ---
@@ -393,10 +397,11 @@ echo "BAM from FASTQ $1 :" && cat $1
 The error occurred in the second command, where it tried to print the contents
 of the trimmed FASTQ file to screen (`cat $1`), which did not exist.
 
+--
+
 However, the first line `BAM from FASTQ $1` was still printed to the file,  
 and now we are stuck with an incomplete output file that we best manually
-remove before it confuses us (this will happen when you have many output
-files!).
+remove before it confuses or misleads us later.
 
 Snakemake can remove such files for us automatically,
 but we will need to provide it with more information about output files!
@@ -428,9 +433,7 @@ Because with our shell command, we redirected the standard output to that file
 cat res/smpA_trim.fastq | scripts/map.sh > res/smpA.bam
 ```
 
-We will see about **redirecting standard error to log files** later,
-but for now, we will keep out Snakefile simple and build on some other things
-first.
+You will see about **redirecting standard error to log files** in the exercises.
 ]
 
 ---
@@ -567,7 +570,7 @@ snakemake -j1 file_to_produce
 - (Snakemake will also create any necessary output directories.)
 
 .footnote[
-[1] Though you can always force a run, even if output files are present,  
+<sup>[1]</sup> Though you can always force a run, even if output files are present,  
 &nbsp; &nbsp; &nbsp; with the `--forcerun` option.
 ]
 
@@ -612,9 +615,9 @@ snakemake --dag res/smpA.bam | \
     dot -T svg > workflow/DAGs/v2.svg 
 ```
 
-- `snakemake --dag` will compute the DAG
-- We pipe that into the Graphviz `dot` command
-- We save `dot`s output in SVG (Scalable Vector Graphics) format.
+- `snakemake --dag` will compute the DAG.
+- We pipe that into the Graphviz `dot` command.
+- We save `dot`'s output in SVG (Scalable Vector Graphics) format.
 
 --
 
@@ -633,7 +636,7 @@ snakemake --dag res/smpA.bam | \
 
 ## What will Snakemake run?
 
-First off, if we don't specify and rule or output file in our Snakemake call,  
+First off, if we don't specify any rule or output file in our Snakemake call,  
 the **first rule** will be run.
 
 .content-box-q[
@@ -709,8 +712,8 @@ And why would this be useful?
 
 --
 
-- `rule all` typically has as its `input` all final output files,
-  final tables, plots, and so on.
+- Typically, the `input` of `rule all` consists of all final output files
+  of the workflow.
   
   Though more specifically, it has all files that are
   **not used as input for another rule (endpoints)** &ndash;
@@ -879,9 +882,9 @@ rule map:
     shell: "scripts/map.sh -r {input.ref} {input.fastq} > {output}"
 ```
 
-Note that the different input files are **separated by a comma**.
-When there are multiple entries for a directive (e.g. `input`),
-this comma is required. When there is only one, a trailing comma is still accepted.
+Note that the different input files are **separated by a comma**:
+- When a directive has multiple entries (e.g. `input`), a comma is required.
+- When there is only one, a trailing comma is still accepted.
 
 --
 
@@ -933,6 +936,8 @@ Do we create a rule for each file? Do we need to use a script that loops,
 or do we create a loop in the Snakefile?
 
 <br>
+
+--
 
 This is where Snakemake gets particularly powerful,
 but also more complicated: we can include **wildcards** in our rule to take
@@ -1051,7 +1056,7 @@ $ snakemake -j1 map
 
 --
 
-You might be thinking now that perhaps Snakemake will detect these input files,
+You may expect that Snakemake is able to detect these input files,
 then infer that it can use `smpA`, `smpC`, and `smpG` as the wildcard values,
 and run both rules for each sample.
 
@@ -1254,7 +1259,8 @@ at the top of the Snakefile &ndash; in practice, we may have many!
 
 There are a couple of alternatives:
 
-- List them out in a *config* file and then read them into the Snakefile.<sup>[1]</sup> 
+- Snakemake accepts *config* files and we can list the samples there and access
+  the list from within the Snakefile.
   That's certainly no more convenient,
   but it's good not to have the IDs hardcoded in the Snakefile.
 
@@ -1265,14 +1271,10 @@ There are a couple of alternatives:
 --
 
 - We can use *globbing* to determine which input files are present,
-  and from the input file names infer the sample IDs.
+  and infer the sample IDs from the input file names.
 
-  We will now use this latter approach,
+  Here, we will use the latter approach,
   for which Snakemake has another convenience function: **`glob_wildcards()`**.
-
-.footnote[
-<sup>[1]</sup> We will see config files later on.
-]
 
 ---
 
@@ -1293,16 +1295,16 @@ we extract the list that was stored in `smp` because we named our wildcard `smp`
 --
 
 .content-box-info[
-This is stored like that (`.smp` rather than simply a list)
-to also allow you to define multiple wildcards:
+The wildcards are stored in `.smp` within the wildcard object
+to allow you to define multiple wildcards &ndash; for example:
 
 ```python
->>> !ls seqdata
+>>> !ls data
 #> A_R1.fastq.gz A_R2.fastq.gz B_R1.fastq.gz B_R2.fastq.gz
 
->>> glob_wildcards("seqdata/{sample}_{read}.fastq.gz").sample
+>>> glob_wildcards("data/{sample}_{read}.fastq.gz").sample
 #> ['A', 'A', 'B', 'B']
->>> glob_wildcards("seqdata/{sample}_{read}.fastq.gz").read
+>>> glob_wildcards("data/{sample}_{read}.fastq.gz").read
 #> ['R1', 'R2', 'R1', 'R2']
 ```
 ]
@@ -1350,24 +1352,20 @@ In other words, Snakemake is basically looping over the different values for
 
 --
 
-<br>
+<br> <br>
 
-----
-
-<br>
-
-What if we needed to **include all samples in a single command**?
+What if we needed to **include all samples in a single command**?  
 For example, our next step will be to create a gene count matrix that
 includes all samples, as is customary in RNAseq analysis.
 
---
-
+.content-box-info[
 In general, in sequence analysis workflows, it is very common to switch between:
 
 - File-by-file / **sample-by-sample** analysis: QC, trimming, mapping, etc.
 
 - **All-samples-at-once** analysis: creating a read/ASV/OTU count table,
   calling variants, etc.
+]
 
 ---
 

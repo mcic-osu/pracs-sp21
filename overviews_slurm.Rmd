@@ -54,7 +54,7 @@ For more options, see the [SLURM documentation](https://slurm.schedmd.com/sbatch
 | Job can't start until dependency job has finished <br> [ddddddddddddddddddddd]{style="color:white"} | \-    | `--dependency`      | *N/A*          | `--dependency=afterany:123456` <br> [dddddddddddddddddddddddddddddddddd]{style="color:white"}                                                                         |
 +-----------------------------------------------------------------------------------------------------+-------+---------------------+----------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-#### Submitting the job with `sbatch`
+#### Submitting the job with `sbatch` {#submitting-the-job-with-sbatch}
 
 To submit a script to the queue with `sbatch`, simply prepend `sbatch`, optionally with sbatch options, before the call to the script:
 
@@ -108,6 +108,8 @@ Inside the script, SLURM environment variables will be available, such as:
 | `$SLURM_JOB_NAME`     | `--job-name`             | Job name supplied by the user.                         |
 +-----------------------+--------------------------+--------------------------------------------------------+
 | `$SLURM_CPUS_ON_NODE` | `-c` / `--cpus-per-task` | Number of CPUs (\~ cores/threads) available on 1 node. |
++-----------------------+--------------------------+--------------------------------------------------------+
+| `$SLURM_NTASKS`       | `-n` / `--ntasks`        | Number of tasks (processes).                           |
 +-----------------------+--------------------------+--------------------------------------------------------+
 | `$SLURM_MEM_PER_NODE` | `--mem`                  | Memory per node.                                       |
 +-----------------------+--------------------------+--------------------------------------------------------+
@@ -230,7 +232,7 @@ Channels can also be specified for individual installations, in order to overrid
 conda install -c bioconda cutadapt
 ```
 
-#### Conda setup to enable `conda activate`
+#### Conda setup to enable `conda activate` {#conda-setup-to-enable-conda-activate}
 
 To enable `conda activate` to work (in addition to `source activate`), add the following lines to your Bash configuration file at `~/.bashrc` (which you can open with VS Code or Nano and edit):
 
