@@ -238,9 +238,7 @@ as shown for `rule count` above:
 
 - The *value* for every rule is on a new, indented line.
 
-- Every item in `input` and `output` is trailed by a comma.
-  This may look a little strange (but think 1-element tuple!),
-  yet is somewhat useful.[^2]
+- Every item in `input` and `output` is trailed by a comma.[^2]
   
   <p align="center">
   <img src=img/snakemake/snakefmt_extension.png width=60%>
@@ -249,7 +247,9 @@ as shown for `rule count` above:
 Furthermore, I have added some Python multi-line (triple-quote) comments
 explaining what the Snakefile and each individual rule does.
 
-[^2]: When every line has a trailing comma,
+[^2]: This may look a little strange (but think 1-element tuple!),
+      yet is somewhat useful:
+      when every line has a trailing comma,
       regardless of whether a new item will follow,
       you can always add and remove lines without paying attention to this.
   
@@ -347,11 +347,12 @@ To do so, you'll need to do the following in the `map` rule:
   you should include the `metadata/ref.fa` file in the `input` directive.
   
   Because you will now have multiple items for `input`, it will be good to
-  name them using `myname=myfile`.
+  name them -- the syntax for that is: `input: myname=myfile`,
+  and you can then recall this using `{input.myname}` in the `shell` directive.
 
 Moreover, it is good practice to define hard-coded input files like this one
 clearly at the top of your script/Snakefile
-(or even better, use a configuration file, as we'll see later).
+(or use a [configuration file](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html).
 
 </details>
 
@@ -393,13 +394,14 @@ snakemake -j1
 #> Nothing to be done.
 
 # Maybe if we specify one of rule `map`'s output files?
+
 snakemake -j1 res/smpA.bam 
 #> Building DAG of jobs...
 #> Nothing to be done.
 ```
 
-Perhaps surprisingly, Snakemake does not automatically rerun the workflow
-when code has changed.
+We can conclude that, perhaps surprisingly,
+Snakemake does not automatically rerun a workflow when code has changed.
 
 </details>
 
@@ -453,14 +455,14 @@ snakemake -j1 -pq -R $(snakemake --list-code-changes)
 
 ### 4. Add a FastQC rule 
 
-As you may recall, FastQC performs quality control on FASTQ files
+As you may recall, FastQC performs quality control of FASTQ files
 (see
 [these slides from week 6](https://mcic-osu.github.io/pracs-sp21/posts/week-06/slides/06-2_SLURM.html#7)).
 FastQC should be run on the raw and/or trimmed FASTQ files.
 If you want, you can implement both,
 but the solution below will do so just for the raw FASTQ files.
 
-Here is the dummy script, to be saved in `scripts/fastqc.sh`:
+- **Save this dummy script as `scripts/fastqc.sh`**:
 
 ```sh
 #!/bin/bash
@@ -479,7 +481,7 @@ cat "$infile" > "$outfile"
 
 <br>
 
-- **Figure out what the script does and create your rule accordingly.**
+- **Figure out what the script does and create your `rule fastqc` accordingly.**
   
   As the output dir, you can just use the `res` (results) dir we have been using,
   or optionally a subdir of that.
@@ -562,6 +564,12 @@ snakemake -j1 -pr fastqc
 
 The `target rule` referenced in the error is `fastqc`, which we targeted in the
 command-line call.
+
+The problem is that `rule fastqc` contains wildcards and Snakemake can't resolve
+what their values should be.
+This may be surprising but recall that Snakemake works backwards in the sense
+that it looks at output files first (rather than first inferring input files
+from existing files), and here, it does not know which output files to produce.
 
 </details>
 
@@ -704,15 +712,19 @@ rule all:
 
 The actual error produced by the bash script is what you would likely be 
 interested in if troubleshooting:
-`scripts/map.sh: line 6: $2: unbound variable`.
-However, this was buried among all the other Snakemake output.
 
+```sh
+scripts/map.sh: line 6: $2: unbound variable.
+```
+
+However, this was buried among all the other Snakemake output.
 Earlier, we saw that a line of standard output was similarly printed to screen
 among the Snakemake output.
 And the same would be true for logging information and errors produced by
 programs like the actual FastQC.
 
-This is not optimal -- in the next section, we will therefore use log files.
+This is not optimal when errors do occur --
+in the next section, we will therefore use log files.
 
 - **Check the output files. Are there output files at all for rule `map`?**
 
@@ -735,7 +747,7 @@ for example:
 ### 7. The `log` directive
 
 It would be better to save logging and error output to "log" files for each rule
--- or each job within a rule, actually.
+-- or each job within a rule, more precisely.
 
 For example, we may be inclined to do the following for a script/program that:
 
@@ -775,7 +787,7 @@ rule myscript:
 ```
 <br>
 
-- **Add a `log` directive to each rule**.
+- **Add a `log` directive to each rule and rerun Snakemake.**
 
   - You'll also have to redirect standard out and/or standard error
     (this will depend on the rule!) to the log file in each rule.
@@ -783,11 +795,10 @@ rule myscript:
   - Use a different dir for logging output than the `res` dir, e.g. `log`,
    perhaps best with subdirs for each rule.
   
-  - Then, remove all earlier workflow output and run Snakemake.
-  
-  - Check that you now have a log file for each job --
+  - After you have run Snakemake,
+    check that you now have a log file for each job --
     though most will be empty in the absence of errors;
-    only the logs for the `fastqc` rule should not be empty. 
+    only the logs for the `fastqc` rule should contain something. 
   
 <details>
 <summary>Solution</summary>
@@ -851,9 +862,11 @@ rule fastqc:
         "scripts/fastqc.sh {input} res &>{log}"
 ```
 
-- Run Snakemake:
+- Run Snakemake after removing old output:
 
 ```sh
+rm res/* logs/*
+
 snakemake -j1 -pq
 
 #> Job counts:
@@ -933,10 +946,9 @@ You have two main options:
   constituent jobs is, you will still need to run Snakemake itself as a SLURM
   job too.
   Even though this process may not take substantial computing resources,
-  recall that at OSC,
+  it may have to run for *long* time --
+  and recall that at OSC,
   any process that runs for more than 20 minutes on a login node is killed.
-
-<br>
 
 ### 2. Submit Snakemake as a single SLURM job
 
@@ -957,7 +969,7 @@ You have two main options:
 set -e -u -o pipefail
 
 #SBATCH --account=PAS1855
-#SBATCH --time=1:00:00
+#SBATCH --time=60
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 
@@ -970,7 +982,7 @@ snakemake -j1 -p
 So far, we have been using `-j1` (i.e. `--jobs 1`), such that Snakemake will
 only run one process at a time.
 Several of our rules run the same script separately for each sample,
-so those jobs could be run at the same time.
+so those jobs could be run at the same time (*in parallel*).
 
 - **Modify the bash script to parallellize the workflow.**
 
@@ -985,6 +997,7 @@ so those jobs could be run at the same time.
 
 <details>
 <summary>Hints</summary>
+<br>
 
 For the last question: you should use a SLURM environment variables.
 The environment variable in question is `$SLURM_NTASKS`.
@@ -1000,10 +1013,10 @@ The environment variable in question is `$SLURM_NTASKS`.
   with several rules therefore creating 3 separate jobs that could be run in
   parallel.
 
-- The `--ntasks` directive effectively corresponds to Snakemake's jobs (`-j`):
+- The `--ntasks` directive effectively corresponds to Snakemake's jobs (`-j`):  
   each SLURM "task" is a separate process.
   
-  If we would instead increase `--cpus-per-task`
+  If we would instead increase `--cpus-per-task`,
   we would just allocate more CPUs/cores/threads to each individual process,
   but we want to run multiple processes in parallel.
   
@@ -1033,6 +1046,8 @@ The environment variable in question is `$SLURM_NTASKS`.
 <br>
 
 ```sh
+rm res/* logs/*
+
 sbatch workflow/snakemake_submit.sh
 ```
 
@@ -1043,7 +1058,7 @@ sbatch workflow/snakemake_submit.sh
 ### 3. Let Snakemake submit jobs for us
 
 At its most basic, all you need to do is add  `--cluster sbatch` to the Snakemake
-call, and Snakemake will automatically submit a SLURM job for each of its jobs.
+command, and Snakemake will automatically submit a SLURM job for each of its jobs.
 But recall that at OSC, we also always need to specify an account.
 
 So, we could use the following to have Snakemake submit at most 3 jobs at a time:
@@ -1053,8 +1068,7 @@ snakemake -j3 --cluster "sbatch --account=PAS1855"
 ```
 
 - **Run the command above.**  
-  (Delete the old output first.)
-
+  *(Again, delete the old output first.)*
 
 <br>
 
@@ -1097,7 +1111,7 @@ default-resources: [mem_mb=4000, account=PAS1855]
 Above, we use `{resources.<resource-name>}` instead of actual values in the
 `cluster` key. Then, the values for each `<resource-name>` are specified for the
 `default-resources` key.
-This setup is convenient because it allows us, for instance, to also 
+This setup is convenient because it allows us to also 
 *refer to the same resources in the Snakefile to set rule-specific values*,
 as we'll see a little later.
 
@@ -1106,8 +1120,6 @@ as we'll see a little later.
   
   Note that these resource requests are now a on a per-job basis,
   not for the whole workflow combined.
-  Therefore, we can omit `ntasks` (and keep its default value of 1),
-  since none of our individual jobs will run multiple processes.
 
 <details>
 <summary>Solution</summary>
@@ -1129,10 +1141,10 @@ default-resources: [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]
 <br>
 
 To run Snakemake with the profile, we need to use the option
-`--profile` and specify our dir as in `--profile <profile_dir>`.
+`--profile`, and specify our profile dir: `--profile <profile_dir>`.
 
 - **Run Snakemake with the profile.**  
-  (Remove the old output first.)
+  *(Remove the old output first.)*
 
 <details>
 <summary>Solution</summary>
@@ -1141,7 +1153,7 @@ To run Snakemake with the profile, we need to use the option
 ```sh
 rm res/* logs/*
 
-snakemake -j3 --profile slurm_profiles
+snakemake -j3 --profile slurm_profile
 ```
 
 </details>
@@ -1155,7 +1167,7 @@ If this directory does not already exist, make sure you create it manually,
 because Snakemake will not create it, and mysterious failures will occur!
 
 So, Snakemake *will* create directories specified in the Snakefile as output,
-but directories in this config file.
+but won't create directories that are only mentioned in this config file.
 :::
 
 <br>
@@ -1167,10 +1179,11 @@ but anything that can be set with command-line options.
 
 We can take that opportunity to also:
 
-- Specify the number of jobs (`--jobs`) option.
+- Specify the number of jobs (`--jobs` option).
 
 - Make Snakemake wait longer for output files to appear
-  using the `latency-wait` option (units are in seconds; we want 30 seconds).  
+  using the `latency-wait` option:
+  units are in seconds and we want 30 second.  
   (I've had errors with shorter latency times.)
 
 - **Add key-value pairs for the number of jobs and the latency to the config file.**
@@ -1221,7 +1234,7 @@ latency-wait: 30
 ```sh
 rm res/* logs/*
 
-snakemake --profile slurm_profiles
+snakemake --profile slurm_profile
 ```
 
 </details>
@@ -1244,7 +1257,7 @@ the `localrules` key:
 localrules: all, clean
 ```
 
-- Add `rule all` to the localrules, and run Snakemake again.
+- Add a **localrules** directive with `rule all`, and run Snakemake again.
 
 <details>
 <summary>Solution</summary>
@@ -1313,7 +1326,7 @@ rule fastqc:
 ```sh
 rm res/* logs/*
 
-snakemake --profile slurm_profiles
+snakemake --profile slurm_profile
 ```
 
 </details>
@@ -1341,10 +1354,11 @@ It is either `--cpus-per-task` or `--ntasks`.
 <br>
 
 The `threads` directive in a Snakefile corresponds the the `--cpus-per-task`
-SLURM directive. Recall that SLURM uses the terms CPU, cores and threads
-roughly equivalently.
+SLURM directive. (Recall that SLURM uses the terms CPU, cores and threads
+roughly equivalently.)
+
 When specifying multiple `--cpus-per-task` (SLURM) / `threads` (Snakemake),
-you are allowing *a single process (task) to perform multithreading*
+you are allowing *a single process (task) to perform multithreading*.
 
 </details>
 
@@ -1404,9 +1418,11 @@ rule heavy_stuff:
 These are arbitrary in the sense that `mem_mb` will not directly set the actual
 maximum memory usage in the way that the `threads` directive did set the
 number of threads.
-Instead, they refer to the keys we use in our `config.yaml` -- for example,
-to actually request 50,000 MB of memory for `rule heavy_stuff`,
-`mem_mb` should map to the SLURM resource request:
+Instead, they refer to the keys we use in our `config.yaml`.
+
+For example, to actually request 50,000 MB of memory for `rule heavy_stuff`,
+`mem_mb` should correspond to the term used in the SLURM resource request in
+`config.yaml`:
 
 ```YAML
 cluster: "sbatch --mem={resources.mem_mb} ..."
@@ -1414,7 +1430,7 @@ default-resources: [mem_mb=4000, ...]
 ```
 
 Setting `resources: mem_mb=50000` for `rule heavy_stuff` will then override the
-default value of `4000` and pass that on the SLURM job request!
+default value of `4000`, and pass that on the SLURM job request!
 
 - **Set the time request for `rule map` to 2 hours.**
 
@@ -1445,19 +1461,18 @@ rule map:
 <br>
 
 - **How could you check whether requests such as your rule-specific time limit**
-  **are passed on successfully?**
+  **are successfully passed on the the SLURM job?**
 
 <details>
 <summary>Solution</summary>
 <br>
 
-There are a few options:
+**There are a few different options:**
 
 - You can [look up](https://slurm.schedmd.com/sbatch.html)
-  (go to "input environment variables") and echo SLURM environment variables
+  (go to "input environment variables") and `echo` SLURM environment variables
   in the script.
-  For the time limit specifically,
-  this is `SBATCH_TIMELIMIT`,
+  For the time limit specifically, this variable is `$SBATCH_TIMELIMIT`,
   so you could include the following in your `scripts/map.sh`:
   
   ```sh
@@ -1467,7 +1482,8 @@ There are a few options:
 - You can print an overview of resources and statistics for your job using
   `scontrol show job <job-ID>`.
   You can do that manually in the shell for a specific SLURM job,
-  or include the following in your script:
+  or include the following in your script,
+  to have this information include in the SLURM log file:
   
   ```sh
   scontrol show job $SLURM_JOB_ID
