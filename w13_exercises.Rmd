@@ -33,10 +33,10 @@ We will recreate a very similar set of files and the final Snakefile from class
 -- copy the files from `/fs/ess/PAS1855/data/week13/` to do so:
 
 ```sh
-cd /fs/ess/PAS1855/users/$USER
-cp -r /fs/ess/PAS1855/data/week13/ .
+cd /fs/ess/PAS1855/users/$USER/week13
+cp -r /fs/ess/PAS1855/week13/exercise1 .
 
-cd ex1
+cd exercise1
 
 tree
 ```
@@ -76,7 +76,7 @@ tree
   set -e -u -o pipefail
   
   echo "FASTQ file: $1 after trimming"
-  cat $1
+  cat "$1"
   ```
 
 - Create a script `scripts/map.sh` containing:
@@ -86,7 +86,7 @@ tree
   set -e -u -o pipefail
   
   echo "BAM from FASTQ file: $1"
-  cat $1
+  cat "$1"
   ```
 
 - Create a script `scripts/count.sh` containing:
@@ -112,7 +112,7 @@ tree
 A dummy RNAseq workflow with FASTQ files as input and a count table as output.  
 """
 
-SAMPLES = glob_wildcards("data/{smp}.fastq").smp
+SAMPLES=glob_wildcards("data/{smp}.fastq").smp
 
 rule all:
     """
@@ -250,8 +250,8 @@ explaining what the Snakefile and each individual rule does.
 [^2]: This may look a little strange (but think 1-element tuple!),
       yet is somewhat useful:
       when every line has a trailing comma,
-      regardless of whether a new item will follow,
-      you can always add and remove lines without paying attention to this.
+      you can always add and remove lines without paying attention to
+      whether a new item follows.
   
 <br>
 
@@ -280,7 +280,7 @@ snakemake --dag | dot -T svg > workflow/DAGs/v1.svg
 <details>
 <summary>Solution</summary>
 <br>
-Below, Snakemake is run with the `-p` (print shell commands) and `-q` (quiet)
+Below, Snakemake is being run with the `-p` (print shell commands) and `-q` (quiet)
 options for concise output.
 To better understand what Snakemake is doing,
 you may want to see more output yourself,
@@ -341,10 +341,10 @@ echo 'echo "Using ref genome: $2" && cat $2' >> scripts/map.sh
 
 To do so, you'll need to do the following in the `map` rule:
 
-- Pass `metadata/ref.fa` to the `map.sh` script in the `shell` directive.
+- Pass the reference FASTA file to the `map.sh` script in the `shell` directive.
 
 - While not strictly necessary to avoid errors,
-  you should include the `metadata/ref.fa` file in the `input` directive.
+  you should include the reference FASTA file in the `input` directive.
   
   Because you will now have multiple items for `input`, it will be good to
   name them -- the syntax for that is: `input: myname=myfile`,
@@ -357,8 +357,9 @@ clearly at the top of your script/Snakefile
 </details>
 
 <details><summary>Solution</summary>
+<br>
 
-- Assign the filename at the top:
+- Assign the filename somewhere near the top:
 
   ```sh
   REF_FA = "metadata/ref.fa"
@@ -381,75 +382,71 @@ clearly at the top of your script/Snakefile
 
 <br>
 
-- **What will happen if we now try to rerun Snakemake?**  
-  (That is, without first deleting our previous results.)
+- **Do you think Snakemake would rerun parts of the workflow now?**
+  **How could you test this without actually rerunning anything?**
 
 <details><summary>Solution</summary>
 <br>
-It would not run any jobs:
 
-```sh
-snakemake -j1
-#> Building DAG of jobs...
-#> Nothing to be done.
+- Snakemake will indeed rerun the `rule map` and `rule count`.
+  
+- It will rerun `rule map` because one of the input files,
+  the reference FASTA, is newer than the output files (we just created it!).
+  
+  Then, it will rerun `rule count` because that depends on the output files
+  of `rule map`, which have just changed.
+  
+  If we hadn't just created the reference FASTA file,
+  Snakemake would *not* have rerun: it will not rerun based on changes in the
+  Snakefile code.
+  
+  (However, it will keep track of code changes and you can force a rerun based
+  on files affected by such changes using:  
+  `snakemake -j1 -R $(snakemake --list-code-changes)`)
 
-# Maybe if we specify one of rule `map`'s output files?
-
-snakemake -j1 res/smpA.bam 
-#> Building DAG of jobs...
-#> Nothing to be done.
-```
-
-We can conclude that, perhaps surprisingly,
-Snakemake does not automatically rerun a workflow when code has changed.
-
+- To test this without actually rerunning anything, we can use the `-n` flag
+  to do a dry-run.
+  Moreover, if we also use the `-r` flag, Snakemake will tell us the *reason*
+  for the execution of every job.
+  
+  ```sh
+  snakemake -j1 -nr
+  
+  # [...]
+  [Mon Apr  5 21:14:35 2021]
+  rule map:
+     input: res/smpC_trim.fastq, metadata/ref.fa
+     output: res/smpC.bam
+     jobid: 2
+     reason: Updated input files: metadata/ref.fa  # "REASON" GIVEN HERE 
+     wildcards: smp=smpC
+  # [...]  
+  ```
 </details>
 
 <br>
 
-To force a rerun, we could use "brute force" with `Snakemake -j1 -F`,
-which would rerun the entire workflow.
+- **Rerun Snakemake.**
 
-That's fine for our dummy workflow, but if you make changes in real workflows,
-you probably only want to rerun whatever has been affected by the change in code.
-
-You can do this via the `--list-code-changes` option.
-Running Snakemake with that option will print a list of the output files that
-have been affected by changes in the Snakefile since Snakemake was last run:
+<details><summary>Solution</summary>
+<br>
 
 ```sh
-snakemake --list-code-changes
+snakemake -j1 -pq
 
-#> Building DAG of jobs...
-#> res/smpG.bam
-#> res/smpC.bam
-#> res/smpA.bam
-```
-
-Then, we can use the `-R` option with the list of output files from
-`--list-code-changes` to force a rerun for those files.
-
-We can do this all at once, using a shell command substitution, as follows:
-
-```sh
-snakemake -j1 -pq -R $(snakemake --list-code-changes)
-
-#> Building DAG of jobs...
 #> Job counts:
 #>         count   jobs
 #>         1       all
 #>         1       count
 #>         3       map
 #>         5
-#> scripts/map.sh res/smpC_trim.fastq metadata/ref.fa > res/smpC.bam
 #> scripts/map.sh res/smpA_trim.fastq metadata/ref.fa > res/smpA.bam
 #> scripts/map.sh res/smpG_trim.fastq metadata/ref.fa > res/smpG.bam
-#> scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam > res/count_table.txt
+#> scripts/map.sh res/smpC_trim.fastq metadata/ref.fa > res/smpC.bam
+#> scripts/count.sh res/smpC.bam res/smpA.bam res/smpG.bam > res/count_table.txt
 ```
 
-<br>
-
-- **Run the command above.**
+</details>
 
 <br>
 
@@ -478,6 +475,18 @@ echo "Running FastQC for file: $infile , to output dir: $outdir"
 echo "FastQC results for file $infile" > "$outfile"
 cat "$infile" > "$outfile"
 ```
+
+<br>
+
+- **Make `scripts/fastqc.sh` executable.**
+
+<details>
+<summary>Solution</summary>
+<br>
+```sh
+chmod u+x scripts/fastqc.sh
+```
+</details>
 
 <br>
 
@@ -604,7 +613,7 @@ is indeed simply printed to standard out among the other output of Snakemake.
 <br>
 
 - **How can you change the Snakefile to ensure that FastQC will be run as a**
-  **standard part of the workflow?**  
+  **standard part of the workflow? Run Snakemake after you changed the Snakefile.**  
   (I.e., without having to invoke each output file separately, like above.) 
 
 <details>
@@ -615,19 +624,34 @@ You should include the output files of the FastQC script in the `input` of
 
 </details>
 
-
 <details>
 <summary>Solution</summary>
 <br>
-Add a line to `rule all` so that it becomes:
 
-```sh
-rule all:
-    input:
-        "res/count_table.txt",
-         expand("res/{smp}.fastqc.html", smp=SAMPLES)
-```         
+- Add a line to `rule all` so that it becomes:
 
+  ```sh
+  rule all:
+      input:
+          "res/count_table.txt",
+           expand("res/{smp}.fastqc.html", smp=SAMPLES)
+  ```         
+
+- Rerun Snakemake:
+
+  ```sh
+  snakemake -pq
+  
+  #> Job counts:
+  #>       count   jobs
+  #>       1       all
+  #>       2       fastqc
+  #>       3
+  #> scripts/fastqc.sh data/smpC.fastq res
+  #> Running FastQC for file: data/smpC.fastq , to output dir: res
+  #> scripts/fastqc.sh data/smpG.fastq res
+  #> Running FastQC for file: data/smpG.fastq , to output dir: res
+  ```
 </details>
 
 <br>
@@ -674,7 +698,7 @@ rule all:
   #>     output: res/smpG.bam
   #>     shell:
   #>         scripts/map.sh res/smpG_trim.fastq > res/smpG.bam
-  #>         (one of the commands exited with non-zero exit code; note that snakemake uses bash   #> strict mode!)
+  #>         (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
   #> 
   #> Removing output files of failed job map since they might be corrupted:
   #> res/smpG.bam
@@ -685,7 +709,7 @@ rule all:
   #>     output: res/smpC.bam
   #>     shell:
   #>         scripts/map.sh res/smpC_trim.fastq > res/smpC.bam
-  #>         (one of the commands exited with non-zero exit code; note that snakemake uses bash   #> strict mode!)
+  #>         (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
   #> 
   #> Removing output files of failed job map since they might be corrupted:
   #> res/smpC.bam
@@ -782,7 +806,7 @@ also used in `{output}`:
 rule myscript:
     #[...]
     output: res/{sample}.out
-    log: logs/myscript_{sample}.log
+    log: log/myscript_{sample}.log
     shell: "myscript.py -i {input} > {output} 2> {log}"
 ```
 <br>
@@ -804,7 +828,7 @@ rule myscript:
 <summary>Solution</summary>
 <br>
 
-- The full Snakefile with log directives added to each rule:
+- The full Snakefile with log directives added to each rule (minus comments):
 
 ```sh
 SAMPLES = glob_wildcards("data/{smp}.fastq").smp
@@ -865,7 +889,7 @@ rule fastqc:
 - Run Snakemake after removing old output:
 
 ```sh
-rm res/* logs/*
+rm res/*
 
 snakemake -j1 -pq
 
@@ -966,12 +990,13 @@ You have two main options:
 
 ```sh
 #!/bin/bash
-set -e -u -o pipefail
 
 #SBATCH --account=PAS1855
 #SBATCH --time=60
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
+
+set -e -u -o pipefail
 
 snakemake -j1 -p
 ```
@@ -1008,10 +1033,18 @@ The environment variable in question is `$SLURM_NTASKS`.
 <summary>Solution</summary>
 <br>
 
-- It would make sense to run 3 jobs at the same time,
-  since our workflow currently runs 3 samples,
-  with several rules therefore creating 3 separate jobs that could be run in
-  parallel.
+- It would make sense to run 6 jobs at the same time:
+  
+  - Our workflow currently runs 3 samples,
+    with several rules therefore creating 3 separate jobs that could be run in
+    parallel.
+    
+  - Because `rule fastqc` and `rule map` both operate on the raw FASTQ
+    independently, they can also be run in parallel.
+  
+  **Note that you could easily forego this assessment at OSC and just set a
+  maximum that you think is fair, like a 100 jobs -- but it is a useful
+  exercise to think about this all the same.**
 
 - The `--ntasks` directive effectively corresponds to Snakemake's jobs (`-j`):  
   each SLURM "task" is a separate process.
@@ -1022,13 +1055,14 @@ The environment variable in question is `$SLURM_NTASKS`.
   
   ```sh
   #!/bin/bash
-  set -e -u -o pipefail
   
   #SBATCH --account=PAS1855
   #SBATCH --time=1:00:00
   #SBATCH --nodes=1
-  #SBATCH --ntasks=3
+  #SBATCH --ntasks=6
   #SBATCH --cpus-per-task=1
+  
+  set -e -u -o pipefail
   
   snakemake -j"$SLURM_NTASKS" -p  
   ```
@@ -1036,17 +1070,15 @@ The environment variable in question is `$SLURM_NTASKS`.
 </details>
 <br>
 
-- **Submit the SLURM job**.
-
-  *Make sure to first delete the workflow's output files,
-  or Snakemake won't do anything.*
+- **Delete the workflow's output files and submit the SLURM job**.
+  **Check the SLURM log file (`slurm-<job-id>.out`) to see if it worked**.
 
 <details>
 <summary>Solution</summary>
 <br>
 
 ```sh
-rm res/* logs/*
+rm -r res log/*
 
 sbatch workflow/snakemake_submit.sh
 ```
@@ -1064,11 +1096,10 @@ But recall that at OSC, we also always need to specify an account.
 So, we could use the following to have Snakemake submit at most 3 jobs at a time:
 
 ```sh
-snakemake -j3 --cluster "sbatch --account=PAS1855"
+snakemake -j6 --cluster "sbatch --account=PAS1855"
 ```
 
-- **Run the command above.**  
-  *(Again, delete the old output first.)*
+- **Delete the workflow's output files and run the command above.**  
 
 <br>
 
@@ -1078,6 +1109,9 @@ For simple and quick workflows,
 providing SLURM options on the command line like we did above is reasonable,
 but if we have several non-default options,
 this will start to become a painfully long command.
+
+For instance, you may note that the SLURM log files have currently
+all ended up in your project's root dir, where you probably don't want them.
 
 We can also specify these options in a configuration file using a "profile".
 This will additionally make it easier to customize SLURM options on a per-rule basis.
@@ -1103,7 +1137,7 @@ much like we did previously with the `--cluster` argument on the command-line:
 ```YAML
 cluster: "sbatch --account={resources.account}
                  --mem={resources.mem_mb}
-                 --output=logs/slurm-{rule}_{wildcards}.out"
+                 --output=log/slurm-{rule}_{wildcards}.out"
 
 default-resources: [mem_mb=4000, account=PAS1855]
 ```
@@ -1132,7 +1166,7 @@ cluster: "sbatch --account={resources.account}
                  --time={resources.time_min}
                  --mem={resources.mem_mb}
                  --cpus-per-task={resources.cpus}
-                 --output=logs/slurm-{rule}_{wildcards}.out"
+                 --output=log/slurm-{rule}_{wildcards}.out"
 default-resources: [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]
 ```
 
@@ -1143,17 +1177,16 @@ default-resources: [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]
 To run Snakemake with the profile, we need to use the option
 `--profile`, and specify our profile dir: `--profile <profile_dir>`.
 
-- **Run Snakemake with the profile.**  
-  *(Remove the old output first.)*
+- **Remove the old output and run Snakemake with the profile.**  
 
 <details>
 <summary>Solution</summary>
 <br>
 
 ```sh
-rm res/* logs/*
+rm -r res log/*
 
-snakemake -j3 --profile slurm_profile
+snakemake -j6 --profile slurm_profile
 ```
 
 </details>
@@ -1213,7 +1246,7 @@ cluster: "sbatch --account={resources.account}
                  --time={resources.time_min}
                  --mem={resources.mem_mb}
                  --cpus-per-task={resources.cpus}
-                 --output=logs/slurm-{rule}_{wildcards}.out"
+                 --output=log/slurm-{rule}_{wildcards}.out"
 default-resources: [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]
 jobs: 3
 latency-wait: 30
@@ -1227,12 +1260,23 @@ latency-wait: 30
 
   Recall that now, you don't have to specify `-j` / `--jobs` at the command line.
 
+:::content-box-info
+
+Pay attention to the job submission pattern of Snakemake.
+You can also open up another terminal and monitor your jobs:
+
+```sh
+squeue -u $USER -l
+```
+
+:::
+
 <details>
 <summary>Solution</summary>
 <br>
 
 ```sh
-rm res/* logs/*
+rm -r res log/*
 
 snakemake --profile slurm_profile
 ```
@@ -1324,7 +1368,7 @@ rule fastqc:
 ```
 
 ```sh
-rm res/* logs/*
+rm -r res log/*
 
 snakemake --profile slurm_profile
 ```

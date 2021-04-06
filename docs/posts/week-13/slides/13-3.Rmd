@@ -245,6 +245,38 @@ class: middle inverse center
   and the exercises for more details.*
 
 ---
+
+## Forcing a rerun after Snakefile changes
+
+To force a rerun, we could use "brute force" with `Snakemake -j1 -F`,
+which would rerun the entire workflow.
+
+That's fine for our dummy workflow, but if you make changes in real workflows,
+you probably only want to rerun whatever has been affected by the change in code.
+
+You can do this via the `--list-code-changes` option.
+Running Snakemake with that option will print a list of the output files that
+have been affected by changes in the Snakefile since Snakemake was last run:
+
+```sh
+snakemake --list-code-changes
+
+#> Building DAG of jobs...
+#> res/smpG.bam
+#> res/smpC.bam
+#> res/smpA.bam
+```
+
+Then, we can use the `-R` option with the list of output files from
+`--list-code-changes` to force a rerun for those files.
+
+We can do this all at once, using a shell command substitution, as follows:
+
+```sh
+snakemake -j1 -pq -R $(snakemake --list-code-changes)
+```
+
+---
 class: middle inverse center
 
 # Configuration files

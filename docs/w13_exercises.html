@@ -2605,10 +2605,10 @@ Go further
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> snakemake</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ~/.conda/envs/ipy-env/bin/snakemake</span></span></code></pre></div>
 <p>We will recreate a very similar set of files and the final Snakefile from class – copy the files from <code>/fs/ess/PAS1855/data/week13/</code> to do so:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /fs/ess/PAS1855/users/<span class="va">$USER</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> /fs/ess/PAS1855/data/week13/ .</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /fs/ess/PAS1855/users/<span class="va">$USER</span>/week13</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> /fs/ess/PAS1855/week13/exercise1 .</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ex1</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> exercise1</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">tree</span></span></code></pre></div>
 <pre><code>.
@@ -2640,13 +2640,13 @@ Or use this code to create the dirs and files from scratch
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;FASTQ file: </span><span class="va">$1</span><span class="st"> after trimming&quot;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$1</span></span></code></pre></div></li>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span></code></pre></div></li>
 <li><p>Create a script <code>scripts/map.sh</code> containing:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;BAM from FASTQ file: </span><span class="va">$1</span><span class="st">&quot;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$1</span></span></code></pre></div></li>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span></code></pre></div></li>
 <li><p>Create a script <code>scripts/count.sh</code> containing:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
@@ -2661,7 +2661,7 @@ Or use this code to create the dirs and files from scratch
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">A dummy RNAseq workflow with FASTQ files as input and a count table as output.  </span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">SAMPLES</span> = glob_wildcards<span class="er">(</span><span class="st">&quot;data/{smp}.fastq&quot;</span><span class="kw">)</span><span class="ex">.smp</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="va">SAMPLES=</span>glob_wildcards<span class="kw">(</span><span class="st">&quot;data/{smp}.fastq&quot;</span><span class="kw">)</span><span class="ex">.smp</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> all:</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;&quot;&quot;</span></span>
@@ -2798,7 +2798,7 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br> Below, Snakemake is run with the <code>-p</code> (print shell commands) and <code>-q</code> (quiet) options for concise output. To better understand what Snakemake is doing, you may want to see more output yourself, e.g. with the <code>-pr</code> combination of options (<code>-r</code>: reason for execution of each job).</p>
+<p><br> Below, Snakemake is being run with the <code>-p</code> (print shell commands) and <code>-q</code> (quiet) options for concise output. To better understand what Snakemake is doing, you may want to see more output yourself, e.g. with the <code>-pr</code> combination of options (<code>-r</code>: reason for execution of each job).</p>
 <p>Also, recall that you can always do a “dry run” with the <code>-n</code> option to see what Snakemake wants to execute.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pq</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Job counts:</span></span>
@@ -2834,8 +2834,8 @@ Hints
 <p><br></p>
 <p>To do so, you’ll need to do the following in the <code>map</code> rule:</p>
 <ul>
-<li><p>Pass <code>metadata/ref.fa</code> to the <code>map.sh</code> script in the <code>shell</code> directive.</p></li>
-<li><p>While not strictly necessary to avoid errors, you should include the <code>metadata/ref.fa</code> file in the <code>input</code> directive.</p>
+<li><p>Pass the reference FASTA file to the <code>map.sh</code> script in the <code>shell</code> directive.</p></li>
+<li><p>While not strictly necessary to avoid errors, you should include the reference FASTA file in the <code>input</code> directive.</p>
 <p>Because you will now have multiple items for <code>input</code>, it will be good to name them – the syntax for that is: <code>input: myname=myfile</code>, and you can then recall this using <code>{input.myname}</code> in the <code>shell</code> directive.</p></li>
 </ul>
 <p>Moreover, it is good practice to define hard-coded input files like this one clearly at the top of your script/Snakefile (or use a <a href="https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html">configuration file</a>.</p>
@@ -2844,8 +2844,9 @@ Hints
 <summary>
 Solution
 </summary>
+<p><br></p>
 <ul>
-<li><p>Assign the filename at the top:</p>
+<li><p>Assign the filename somewhere near the top:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">REF_FA</span> = <span class="st">&quot;metadata/ref.fa&quot;</span></span></code></pre></div></li>
 <li><p>Adjust <code>rule map</code>:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
@@ -2860,72 +2861,85 @@ Solution
 </details>
 <p><br></p>
 <ul>
-<li><strong>What will happen if we now try to rerun Snakemake?</strong><br />
-(That is, without first deleting our previous results.)</li>
+<li><strong>Do you think Snakemake would rerun parts of the workflow now?</strong> <strong>How could you test this without actually rerunning anything?</strong></li>
 </ul>
 <details>
 <summary>
 Solution
 </summary>
-<p><br> It would not run any jobs:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Building DAG of jobs...</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Nothing to be done.</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Maybe if we specify one of rule `map`&#39;s output files?</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> res/smpA.bam </span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Building DAG of jobs...</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Nothing to be done.</span></span></code></pre></div>
-<p>We can conclude that, perhaps surprisingly, Snakemake does not automatically rerun a workflow when code has changed.</p>
-</details>
-<p><br></p>
-<p>To force a rerun, we could use “brute force” with <code>Snakemake -j1 -F</code>, which would rerun the entire workflow.</p>
-<p>That’s fine for our dummy workflow, but if you make changes in real workflows, you probably only want to rerun whatever has been affected by the change in code.</p>
-<p>You can do this via the <code>--list-code-changes</code> option. Running Snakemake with that option will print a list of the output files that have been affected by changes in the Snakefile since Snakemake was last run:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">--list-code-changes</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Building DAG of jobs...</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; res/smpG.bam</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; res/smpC.bam</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; res/smpA.bam</span></span></code></pre></div>
-<p>Then, we can use the <code>-R</code> option with the list of output files from <code>--list-code-changes</code> to force a rerun for those files.</p>
-<p>We can do this all at once, using a shell command substitution, as follows:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pq</span> <span class="at">-R</span> <span class="va">$(</span><span class="ex">snakemake</span> <span class="at">--list-code-changes</span><span class="va">)</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Building DAG of jobs...</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Job counts:</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         count   jobs</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1       all</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1       count</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         3       map</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         5</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpC_trim.fastq metadata/ref.fa &gt; res/smpC.bam</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpA_trim.fastq metadata/ref.fa &gt; res/smpA.bam</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpG_trim.fastq metadata/ref.fa &gt; res/smpG.bam</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam &gt; res/count_table.txt</span></span></code></pre></div>
 <p><br></p>
 <ul>
-<li><strong>Run the command above.</strong></li>
+<li><p>Snakemake will indeed rerun the <code>rule map</code> and <code>rule count</code>.</p></li>
+<li><p>It will rerun <code>rule map</code> because one of the input files, the reference FASTA, is newer than the output files (we just created it!).</p>
+<p>Then, it will rerun <code>rule count</code> because that depends on the output files of <code>rule map</code>, which have just changed.</p>
+<p>If we hadn’t just created the reference FASTA file, Snakemake would <em>not</em> have rerun: it will not rerun based on changes in the Snakefile code.</p>
+<p>(However, it will keep track of code changes and you can force a rerun based on files affected by such changes using:<br />
+<code>snakemake -j1 -R $(snakemake --list-code-changes)</code>)</p></li>
+<li><p>To test this without actually rerunning anything, we can use the <code>-n</code> flag to do a dry-run. Moreover, if we also use the <code>-r</code> flag, Snakemake will tell us the <em>reason</em> for the execution of every job.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-nr</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [...]</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">[Mon</span> Apr  5 21:14:35 2021]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>   <span class="ex">input:</span> res/smpC_trim.fastq, metadata/ref.fa</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>   <span class="ex">output:</span> res/smpC.bam</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>   <span class="ex">jobid:</span> 2</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>   <span class="ex">reason:</span> Updated input files: metadata/ref.fa  <span class="co"># &quot;REASON&quot; GIVEN HERE </span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>   <span class="ex">wildcards:</span> smp=smpC</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># [...]  </span></span></code></pre></div></li>
 </ul>
+</details>
+<p><br></p>
+<ul>
+<li><strong>Rerun Snakemake.</strong></li>
+</ul>
+<details>
+<summary>
+Solution
+</summary>
+<p><br></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pq</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Job counts:</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         count   jobs</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1       all</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1       count</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         3       map</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         5</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpA_trim.fastq metadata/ref.fa &gt; res/smpA.bam</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpG_trim.fastq metadata/ref.fa &gt; res/smpG.bam</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpC_trim.fastq metadata/ref.fa &gt; res/smpC.bam</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/count.sh res/smpC.bam res/smpA.bam res/smpG.bam &gt; res/count_table.txt</span></span></code></pre></div>
+</details>
 <p><br></p>
 <h3 id="add-a-fastqc-rule">4. Add a FastQC rule</h3>
 <p>As you may recall, FastQC performs quality control of FASTQ files (see <a href="https://mcic-osu.github.io/pracs-sp21/posts/week-06/slides/06-2_SLURM.html#7">these slides from week 6</a>). FastQC should be run on the raw and/or trimmed FASTQ files. If you want, you can implement both, but the solution below will do so just for the raw FASTQ files.</p>
 <ul>
 <li><strong>Save this dummy script as <code>scripts/fastqc.sh</code></strong>:</li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="va">infile=$1</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="va">outdir=$2</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="va">outfile=</span><span class="st">&quot;</span><span class="va">$outdir</span><span class="st">&quot;</span>/<span class="va">$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$infile</span><span class="st">&quot;</span> .fastq<span class="va">)</span>.fastqc.html</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Running FastQC for file: </span><span class="va">$infile</span><span class="st"> , to output dir: </span><span class="va">$outdir</span><span class="st">&quot;</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;FastQC results for file </span><span class="va">$infile</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$outfile</span><span class="st">&quot;</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$infile</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$outfile</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="va">infile=$1</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="va">outdir=$2</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="va">outfile=</span><span class="st">&quot;</span><span class="va">$outdir</span><span class="st">&quot;</span>/<span class="va">$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$infile</span><span class="st">&quot;</span> .fastq<span class="va">)</span>.fastqc.html</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Running FastQC for file: </span><span class="va">$infile</span><span class="st"> , to output dir: </span><span class="va">$outdir</span><span class="st">&quot;</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;FastQC results for file </span><span class="va">$infile</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$outfile</span><span class="st">&quot;</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$infile</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$outfile</span><span class="st">&quot;</span></span></code></pre></div>
+<p><br></p>
+<ul>
+<li><strong>Make <code>scripts/fastqc.sh</code> executable.</strong></li>
+</ul>
+<details>
+<summary>
+Solution
+</summary>
+<p><br></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u+x scripts/fastqc.sh</span></code></pre></div>
+</details>
 <p><br></p>
 <ul>
 <li><p><strong>Figure out what the script does and create your <code>rule fastqc</code> accordingly.</strong></p>
@@ -3011,7 +3025,7 @@ Solution
 </details>
 <p><br></p>
 <ul>
-<li><strong>How can you change the Snakefile to ensure that FastQC will be run as a</strong> <strong>standard part of the workflow?</strong><br />
+<li><strong>How can you change the Snakefile to ensure that FastQC will be run as a</strong> <strong>standard part of the workflow? Run Snakemake after you changed the Snakefile.</strong><br />
 (I.e., without having to invoke each output file separately, like above.)</li>
 </ul>
 <details>
@@ -3024,11 +3038,26 @@ Hints
 <summary>
 Solution
 </summary>
-<p><br> Add a line to <code>rule all</code> so that it becomes:</p>
+<p><br></p>
+<ul>
+<li><p>Add a line to <code>rule all</code> so that it becomes:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> all:</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>         <span class="ex">expand</span><span class="er">(</span><span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span></span></code></pre></div>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>         <span class="ex">expand</span><span class="er">(</span><span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span></span></code></pre></div></li>
+<li><p>Rerun Snakemake:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-pq</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Job counts:</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       count   jobs</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       1       all</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       2       fastqc</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       3</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/fastqc.sh data/smpC.fastq res</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running FastQC for file: data/smpC.fastq , to output dir: res</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/fastqc.sh data/smpG.fastq res</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running FastQC for file: data/smpG.fastq , to output dir: res</span></span></code></pre></div></li>
+</ul>
 </details>
 <p><br></p>
 <h3 id="when-we-get-errors">6. When we get errors</h3>
@@ -3048,55 +3077,55 @@ Solution
 <p><br></p>
 <ul>
 <li><p>Remove the output files:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> res/<span class="pp">*</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb28"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> res/<span class="pp">*</span></span></code></pre></div></li>
 <li><p>Rule <code>map</code> should look as follows:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} &gt; {output}&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} &gt; {output}&quot;</span></span></code></pre></div></li>
 <li><p>Run the workflow:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pr</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in rule map:</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     jobid: 2</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     output: res/smpG.bam</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     shell:</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         scripts/map.sh res/smpG_trim.fastq &gt; res/smpG.bam</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         (one of the commands exited with non-zero exit code; note that snakemake uses bash   #&gt; strict mode!)</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Removing output files of failed job map since they might be corrupted:</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; res/smpG.bam</span></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh: line 6: $2: unbound variable</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [Fri Apr  2 18:33:26 2021]</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in rule map:</span></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     jobid: 4</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     output: res/smpC.bam</span></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     shell:</span></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         scripts/map.sh res/smpC_trim.fastq &gt; res/smpC.bam</span></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         (one of the commands exited with non-zero exit code; note that snakemake uses bash   #&gt; strict mode!)</span></span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Removing output files of failed job map since they might be corrupted:</span></span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; res/smpC.bam</span></span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Shutting down, this might take some time.</span></span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Exiting because a job execution failed. Look above for error message</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb30"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pr</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in rule map:</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     jobid: 2</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     output: res/smpG.bam</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     shell:</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         scripts/map.sh res/smpG_trim.fastq &gt; res/smpG.bam</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Removing output files of failed job map since they might be corrupted:</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; res/smpG.bam</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh: line 6: $2: unbound variable</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [Fri Apr  2 18:33:26 2021]</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in rule map:</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     jobid: 4</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     output: res/smpC.bam</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     shell:</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         scripts/map.sh res/smpC_trim.fastq &gt; res/smpC.bam</span></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Removing output files of failed job map since they might be corrupted:</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; res/smpC.bam</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Shutting down, this might take some time.</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Exiting because a job execution failed. Look above for error message</span></span></code></pre></div></li>
 <li><p>Undo the change:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt; {output}&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb31"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt; {output}&quot;</span></span></code></pre></div></li>
 </ul>
 </details>
 <p><br></p>
 <p>The actual error produced by the bash script is what you would likely be interested in if troubleshooting:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/map.sh:</span> line 6: <span class="va">$2</span>: unbound variable.</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/map.sh:</span> line 6: <span class="va">$2</span>: unbound variable.</span></code></pre></div>
 <p>However, this was buried among all the other Snakemake output. Earlier, we saw that a line of standard output was similarly printed to screen among the Snakemake output. And the same would be true for logging information and errors produced by programs like the actual FastQC.</p>
 <p>This is not optimal when errors do occur – in the next section, we will therefore use log files.</p>
 <ul>
@@ -3108,8 +3137,8 @@ Solution
 </summary>
 <p><br></p>
 <p>Nope! These were removed by Snakemake because of the errors. You may have noticed this in the error messages above, where it said, for example:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Removing output files of failed job map since they might be corrupted:</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; res/smpG.bam</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Removing output files of failed job map since they might be corrupted:</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; res/smpG.bam</span></span></code></pre></div>
 </details>
 <p><br></p>
 <h3 id="the-log-directive">7. The <code>log</code> directive</h3>
@@ -3117,18 +3146,18 @@ Solution
 <p>For example, we may be inclined to do the following for a script/program that:</p>
 <ul>
 <li><p>Saves output data to file, and prints logging/errors to screen (standard out and/or standard error – recall that <code>&amp;&gt;</code> redirects both):</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>shell: <span class="st">&quot;myscript.py -i </span><span class="sc">{input}</span><span class="st"> -o </span><span class="sc">{output}</span><span class="st"> &amp;&gt; log/myscript.log&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>shell: <span class="st">&quot;myscript.py -i </span><span class="sc">{input}</span><span class="st"> -o </span><span class="sc">{output}</span><span class="st"> &amp;&gt; log/myscript.log&quot;</span></span></code></pre></div></li>
 <li><p>Prints output data to standard out, and logging/errors to standard error (recall that <code>2&gt;</code> redirects standard error):</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>shell: <span class="st">&quot;myscript.py -i </span><span class="sc">{input}</span><span class="st"> &gt; </span><span class="sc">{output}</span><span class="st"> 2&gt; log/myscript.log&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>shell: <span class="st">&quot;myscript.py -i </span><span class="sc">{input}</span><span class="st"> &gt; </span><span class="sc">{output}</span><span class="st"> 2&gt; log/myscript.log&quot;</span></span></code></pre></div></li>
 </ul>
 <p>But should we also tell Snakemake explicitly about such a file, like we do for <code>input</code> and <code>output</code> files? <em>Yes, but it’s best to use a separate directive for this: <code>log</code>.</em></p>
 <p>This is convenient because Snakemake treats <code>log</code> files differently than regular output files: if a job fails, Snakemake will not delete the log files. As we saw above, Snakemake <em>does</em> delete regular output files by jobs that produced errors, so if we were to designate logging output as regular output, we would not be able to examine our errors.</p>
 <p>Example usage of a <code>log</code> key – note that we can use any wildcards that are also used in <code>{output}</code>:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>rule myscript:</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#[...]</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    output: res<span class="op">/</span>{sample}.out</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    log: logs<span class="op">/</span>myscript_{sample}.log</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    shell: <span class="st">&quot;myscript.py -i </span><span class="sc">{input}</span><span class="st"> &gt; </span><span class="sc">{output}</span><span class="st"> 2&gt; </span><span class="sc">{log}</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>rule myscript:</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#[...]</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    output: res<span class="op">/</span>{sample}.out</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    log: log<span class="op">/</span>myscript_{sample}.log</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    shell: <span class="st">&quot;myscript.py -i </span><span class="sc">{input}</span><span class="st"> &gt; </span><span class="sc">{output}</span><span class="st"> 2&gt; </span><span class="sc">{log}</span><span class="st">&quot;</span></span></code></pre></div>
 <p><br></p>
 <ul>
 <li><p><strong>Add a <code>log</code> directive to each rule and rerun Snakemake.</strong></p>
@@ -3144,106 +3173,106 @@ Solution
 </summary>
 <p><br></p>
 <ul>
-<li>The full Snakefile with log directives added to each rule:</li>
+<li>The full Snakefile with log directives added to each rule (minus comments):</li>
 </ul>
-<div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SAMPLES</span> = glob_wildcards<span class="er">(</span><span class="st">&quot;data/{smp}.fastq&quot;</span><span class="kw">)</span><span class="ex">.smp</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="ex">REF_FA</span> = <span class="st">&quot;metadata/ref.fa&quot;</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> all:</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>         <span class="ex">expand</span><span class="er">(</span><span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> trim:</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;data/{smp}.fastq&quot;</span><span class="ex">,</span></span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}_trim.fastq&quot;</span><span class="ex">,</span></span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
-<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/trim/{smp}.log&quot;</span><span class="ex">,</span></span>
-<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/trim.sh {input} &gt;{output} 2&gt;{log}&quot;</span></span>
-<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
-<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
-<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
-<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
-<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
-<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
-<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt;{output} 2&gt;{log}&quot;</span></span>
-<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> count:</span>
-<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a>        <span class="ex">expand</span><span class="er">(</span><span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span><span class="ex">,</span></span>
-<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
-<span id="cb36-39"><a href="#cb36-39" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
-<span id="cb36-40"><a href="#cb36-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/count/count.log&quot;</span><span class="ex">,</span></span>
-<span id="cb36-41"><a href="#cb36-41" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb36-42"><a href="#cb36-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/count.sh {input} &gt;{output} 2&gt;{log}&quot;</span></span>
-<span id="cb36-43"><a href="#cb36-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-44"><a href="#cb36-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-45"><a href="#cb36-45" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> fastqc:</span>
-<span id="cb36-46"><a href="#cb36-46" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb36-47"><a href="#cb36-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;data/{smp}.fastq&quot;</span><span class="ex">,</span></span>
-<span id="cb36-48"><a href="#cb36-48" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb36-49"><a href="#cb36-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span></span>
-<span id="cb36-50"><a href="#cb36-50" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
-<span id="cb36-51"><a href="#cb36-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/fastqc/{smp}.log&quot;</span><span class="ex">,</span></span>
-<span id="cb36-52"><a href="#cb36-52" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb36-53"><a href="#cb36-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/fastqc.sh {input} res &amp;&gt;{log}&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SAMPLES</span> = glob_wildcards<span class="er">(</span><span class="st">&quot;data/{smp}.fastq&quot;</span><span class="kw">)</span><span class="ex">.smp</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="ex">REF_FA</span> = <span class="st">&quot;metadata/ref.fa&quot;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> all:</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>         <span class="ex">expand</span><span class="er">(</span><span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> trim:</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;data/{smp}.fastq&quot;</span><span class="ex">,</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}_trim.fastq&quot;</span><span class="ex">,</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/trim/{smp}.log&quot;</span><span class="ex">,</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/trim.sh {input} &gt;{output} 2&gt;{log}&quot;</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt;{output} 2&gt;{log}&quot;</span></span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> count:</span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>        <span class="ex">expand</span><span class="er">(</span><span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/count/count.log&quot;</span><span class="ex">,</span></span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/count.sh {input} &gt;{output} 2&gt;{log}&quot;</span></span>
+<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-45"><a href="#cb37-45" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> fastqc:</span>
+<span id="cb37-46"><a href="#cb37-46" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb37-47"><a href="#cb37-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;data/{smp}.fastq&quot;</span><span class="ex">,</span></span>
+<span id="cb37-48"><a href="#cb37-48" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span></span>
+<span id="cb37-50"><a href="#cb37-50" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
+<span id="cb37-51"><a href="#cb37-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/fastqc/{smp}.log&quot;</span><span class="ex">,</span></span>
+<span id="cb37-52"><a href="#cb37-52" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb37-53"><a href="#cb37-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/fastqc.sh {input} res &amp;&gt;{log}&quot;</span></span></code></pre></div>
 <ul>
 <li>Run Snakemake after removing old output:</li>
 </ul>
-<div class="sourceCode" id="cb37"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> res/<span class="pp">*</span> logs/<span class="pp">*</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pq</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Job counts:</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         count   jobs</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1       all</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1       count</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         3       fastqc</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         3       map</span></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         3       trim</span></span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         11</span></span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/fastqc.sh data/smpG.fastq res &amp;&gt;log/fastqc/smpG.log</span></span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/fastqc.sh data/smpA.fastq res &amp;&gt;log/fastqc/smpA.log</span></span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/trim.sh data/smpG.fastq &gt;res/smpG_trim.fastq 2&gt;log/trim/smpG.log</span></span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/trim.sh data/smpC.fastq &gt;res/smpC_trim.fastq 2&gt;log/trim/smpC.log</span></span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/trim.sh data/smpA.fastq &gt;res/smpA_trim.fastq 2&gt;log/trim/smpA.log</span></span>
-<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/fastqc.sh data/smpC.fastq res &amp;&gt;log/fastqc/smpC.log</span></span>
-<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpA_trim.fastq metadata/ref.fa &gt;res/smpA.bam 2&gt;log/map/smpA.log</span></span>
-<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpG_trim.fastq metadata/ref.fa &gt;res/smpG.bam 2&gt;log/map/smpG.log</span></span>
-<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpC_trim.fastq metadata/ref.fa &gt;res/smpC.bam 2&gt;log/map/smpC.log</span></span>
-<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam &gt;res/count_table.txt #&gt; 2&gt;log/count/count.log</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> res/<span class="pp">*</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pq</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Job counts:</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         count   jobs</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1       all</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1       count</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         3       fastqc</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         3       map</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         3       trim</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         11</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/fastqc.sh data/smpG.fastq res &amp;&gt;log/fastqc/smpG.log</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/fastqc.sh data/smpA.fastq res &amp;&gt;log/fastqc/smpA.log</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/trim.sh data/smpG.fastq &gt;res/smpG_trim.fastq 2&gt;log/trim/smpG.log</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/trim.sh data/smpC.fastq &gt;res/smpC_trim.fastq 2&gt;log/trim/smpC.log</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/trim.sh data/smpA.fastq &gt;res/smpA_trim.fastq 2&gt;log/trim/smpA.log</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/fastqc.sh data/smpC.fastq res &amp;&gt;log/fastqc/smpC.log</span></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpA_trim.fastq metadata/ref.fa &gt;res/smpA.bam 2&gt;log/map/smpA.log</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpG_trim.fastq metadata/ref.fa &gt;res/smpG.bam 2&gt;log/map/smpG.log</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpC_trim.fastq metadata/ref.fa &gt;res/smpC.bam 2&gt;log/map/smpC.log</span></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam &gt;res/count_table.txt #&gt; 2&gt;log/count/count.log</span></span></code></pre></div>
 <ul>
 <li>Check that the log files are there:</li>
 </ul>
-<div class="sourceCode" id="cb38"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tree</span> log</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; log</span></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── count</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └── count.log</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── fastqc</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── smpA.log</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── smpC.log</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └── smpG.log</span></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── map</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── smpA.log</span></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── smpC.log</span></span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └── smpG.log</span></span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; └── trim</span></span>
-<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├── smpA.log</span></span>
-<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├── smpC.log</span></span>
-<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └── smpG.log</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">tree</span> log</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; log</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── count</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └── count.log</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── fastqc</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── smpA.log</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── smpC.log</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └── smpG.log</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── map</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── smpA.log</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── smpC.log</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └── smpG.log</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; └── trim</span></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├── smpA.log</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├── smpC.log</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └── smpG.log</span></span></code></pre></div>
 <ul>
 <li>Only the <code>fastqc</code> log files should have nonzero file sizes, which you can quickly check by running <code>ls -lhR log</code>.</li>
 </ul>
@@ -3270,15 +3299,16 @@ Solution
 Solution
 </summary>
 <p><br></p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=PAS1855</span></span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=60</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-p</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=PAS1855</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=60</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-p</span></span></code></pre></div>
 </details>
 <p><br></p>
 <p>So far, we have been using <code>-j1</code> (i.e. <code>--jobs 1</code>), such that Snakemake will only run one process at a time. Several of our rules run the same script separately for each sample, so those jobs could be run at the same time (<em>in parallel</em>).</p>
@@ -3303,59 +3333,64 @@ Solution
 </summary>
 <p><br></p>
 <ul>
-<li><p>It would make sense to run 3 jobs at the same time, since our workflow currently runs 3 samples, with several rules therefore creating 3 separate jobs that could be run in parallel.</p></li>
+<li><p>It would make sense to run 6 jobs at the same time:</p>
+<ul>
+<li><p>Our workflow currently runs 3 samples, with several rules therefore creating 3 separate jobs that could be run in parallel.</p></li>
+<li><p>Because <code>rule fastqc</code> and <code>rule map</code> both operate on the raw FASTQ independently, they can also be run in parallel.</p></li>
+</ul>
+<p><strong>Note that you could easily forego this assessment at OSC and just set a maximum that you think is fair, like a 100 jobs – but it is a useful exercise to think about this all the same.</strong></p></li>
 <li><p>The <code>--ntasks</code> directive effectively corresponds to Snakemake’s jobs (<code>-j</code>):<br />
 each SLURM “task” is a separate process.</p>
 <p>If we would instead increase <code>--cpus-per-task</code>, we would just allocate more CPUs/cores/threads to each individual process, but we want to run multiple processes in parallel.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=PAS1855</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=1:00:00</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=3</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j</span><span class="st">&quot;</span><span class="va">$SLURM_NTASKS</span><span class="st">&quot;</span> <span class="at">-p</span>  </span></code></pre></div></li>
+<div class="sourceCode" id="cb41"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=PAS1855</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=1:00:00</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=6</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j</span><span class="st">&quot;</span><span class="va">$SLURM_NTASKS</span><span class="st">&quot;</span> <span class="at">-p</span>  </span></code></pre></div></li>
 </ul>
 </details>
 <p><br></p>
 <ul>
-<li><p><strong>Submit the SLURM job</strong>.</p>
-<p><em>Make sure to first delete the workflow’s output files, or Snakemake won’t do anything.</em></p></li>
+<li><strong>Delete the workflow’s output files and submit the SLURM job</strong>. <strong>Check the SLURM log file (<code>slurm-&lt;job-id&gt;.out</code>) to see if it worked</strong>.</li>
 </ul>
 <details>
 <summary>
 Solution
 </summary>
 <p><br></p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> res/<span class="pp">*</span> logs/<span class="pp">*</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> workflow/snakemake_submit.sh</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> res log/<span class="pp">*</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> workflow/snakemake_submit.sh</span></code></pre></div>
 </details>
 <p><br></p>
 <h3 id="let-snakemake-submit-jobs-for-us">3. Let Snakemake submit jobs for us</h3>
 <p>At its most basic, all you need to do is add <code>--cluster sbatch</code> to the Snakemake command, and Snakemake will automatically submit a SLURM job for each of its jobs. But recall that at OSC, we also always need to specify an account.</p>
 <p>So, we could use the following to have Snakemake submit at most 3 jobs at a time:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j3</span> <span class="at">--cluster</span> <span class="st">&quot;sbatch --account=PAS1855&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j6</span> <span class="at">--cluster</span> <span class="st">&quot;sbatch --account=PAS1855&quot;</span></span></code></pre></div>
 <ul>
-<li><strong>Run the command above.</strong><br />
-<em>(Again, delete the old output first.)</em></li>
+<li><strong>Delete the workflow’s output files and run the command above.</strong></li>
 </ul>
 <p><br></p>
 <h3 id="use-a-profile">4. Use a “profile”</h3>
 <p>For simple and quick workflows, providing SLURM options on the command line like we did above is reasonable, but if we have several non-default options, this will start to become a painfully long command.</p>
+<p>For instance, you may note that the SLURM log files have currently all ended up in your project’s root dir, where you probably don’t want them.</p>
 <p>We can also specify these options in a configuration file using a “profile”. This will additionally make it easier to customize SLURM options on a per-rule basis.</p>
 <p>To use a profile, we should first <em>create a directory</em>. The name of this directory is arbitrary, but since we are using it in the context of providing settings for SLURM jobs, something like <code>slurm_profile</code> would make sense:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> slurm_profile</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> slurm_profile</span></code></pre></div>
 <p>Inside this directory, Snakemake will expect a file called <code>config.yaml</code>:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> slurm_profile/config.yaml</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> slurm_profile/config.yaml</span></code></pre></div>
 <p>In <code>config.yaml</code>, we can provide a string for the <code>cluster</code> key, much like we did previously with the <code>--cluster</code> argument on the command-line:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;sbatch --account={resources.account}</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="st">                 --mem={resources.mem_mb}</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="st">                 --output=logs/slurm-{rule}_{wildcards}.out&quot;</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="fu">default-resources</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">mem_mb=</span><span class="dv">4000</span><span class="kw">,</span><span class="at"> account=PAS1855</span><span class="kw">]</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;sbatch --account={resources.account}</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="st">                 --mem={resources.mem_mb}</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="st">                 --output=log/slurm-{rule}_{wildcards}.out&quot;</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">default-resources</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">mem_mb=</span><span class="dv">4000</span><span class="kw">,</span><span class="at"> account=PAS1855</span><span class="kw">]</span></span></code></pre></div>
 <p>Above, we use <code>{resources.&lt;resource-name&gt;}</code> instead of actual values in the <code>cluster</code> key. Then, the values for each <code>&lt;resource-name&gt;</code> are specified for the <code>default-resources</code> key. This setup is convenient because it allows us to also <em>refer to the same resources in the Snakefile to set rule-specific values</em>, as we’ll see a little later.</p>
 <ul>
 <li><p><strong>Create the profile directory and config file as shown above,</strong> <strong>and additionally specify requests for time (in minutes) and number of CPUs</strong>.</p>
@@ -3367,27 +3402,26 @@ Solution
 </summary>
 <p><br></p>
 <p>Contents of <code>slurm_profile/config.yaml</code>:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cluster:</span> <span class="st">&quot;sbatch --account={resources.account}</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="st">                 --time={resources.time_min}</span></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="st">                 --mem={resources.mem_mb}</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="st">                 --cpus-per-task={resources.cpus}</span></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="st">                 --output=logs/slurm-{rule}_{wildcards}.out&quot;</span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="ex">default-resources:</span> [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cluster:</span> <span class="st">&quot;sbatch --account={resources.account}</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="st">                 --time={resources.time_min}</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="st">                 --mem={resources.mem_mb}</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="st">                 --cpus-per-task={resources.cpus}</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="st">                 --output=log/slurm-{rule}_{wildcards}.out&quot;</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="ex">default-resources:</span> [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]</span></code></pre></div>
 </details>
 <p><br></p>
 <p>To run Snakemake with the profile, we need to use the option <code>--profile</code>, and specify our profile dir: <code>--profile &lt;profile_dir&gt;</code>.</p>
 <ul>
-<li><strong>Run Snakemake with the profile.</strong><br />
-<em>(Remove the old output first.)</em></li>
+<li><strong>Remove the old output and run Snakemake with the profile.</strong></li>
 </ul>
 <details>
 <summary>
 Solution
 </summary>
 <p><br></p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> res/<span class="pp">*</span> logs/<span class="pp">*</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j3</span> <span class="at">--profile</span> slurm_profile</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> res log/<span class="pp">*</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j6</span> <span class="at">--profile</span> slurm_profile</span></code></pre></div>
 </details>
 <p><br></p>
 <div class="content-box-warning">
@@ -3416,38 +3450,42 @@ Hints
 Solution
 </summary>
 <p><br></p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">latency-wait</span><span class="kw">:</span><span class="at"> </span><span class="dv">30</span></span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">latency-wait</span><span class="kw">:</span><span class="at"> </span><span class="dv">30</span></span></code></pre></div>
 <p>The full <code>slurm_profile/config.yaml</code> should now contain the following:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cluster:</span> <span class="st">&quot;sbatch --account={resources.account}</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="st">                 --time={resources.time_min}</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="st">                 --mem={resources.mem_mb}</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="st">                 --cpus-per-task={resources.cpus}</span></span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="st">                 --output=logs/slurm-{rule}_{wildcards}.out&quot;</span></span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="ex">default-resources:</span> [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]</span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="ex">jobs:</span> 3</span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="ex">latency-wait:</span> 30</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cluster:</span> <span class="st">&quot;sbatch --account={resources.account}</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="st">                 --time={resources.time_min}</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="st">                 --mem={resources.mem_mb}</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="st">                 --cpus-per-task={resources.cpus}</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="st">                 --output=log/slurm-{rule}_{wildcards}.out&quot;</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="ex">default-resources:</span> [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="ex">jobs:</span> 3</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="ex">latency-wait:</span> 30</span></code></pre></div>
 </details>
 <p><br></p>
 <ul>
 <li><p><strong>Run Snakemake with the updated profile.</strong></p>
 <p>Recall that now, you don’t have to specify <code>-j</code> / <code>--jobs</code> at the command line.</p></li>
 </ul>
+<div class="content-box-info">
+<p>Pay attention to the job submission pattern of Snakemake. You can also open up another terminal and monitor your jobs:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span> <span class="at">-l</span></span></code></pre></div>
+</div>
 <details>
 <summary>
 Solution
 </summary>
 <p><br></p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> res/<span class="pp">*</span> logs/<span class="pp">*</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">--profile</span> slurm_profile</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> res log/<span class="pp">*</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">--profile</span> slurm_profile</span></code></pre></div>
 </details>
 <p><br></p>
 <h3 id="local-rules">5. Local rules</h3>
 <p>In practice, you may not want to submit a cluster job for every rule.</p>
 <p>For instance, <code>rule all</code> <em>is</em> a Snakemake job, but it doesn’t actually run anything the way we have set it up. Additionally, you may have some very lightweight cleaning/logging rules.</p>
 <p>To tell Snakemake that certain rules should not be submitted to the cluster, include a comma-separated list of rules near the top of your Snakefile with the <code>localrules</code> key:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>localrules: <span class="bu">all</span>, clean</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>localrules: <span class="bu">all</span>, clean</span></code></pre></div>
 <ul>
 <li>Add a <strong>localrules</strong> directive with <code>rule all</code>, and run Snakemake again.</li>
 </ul>
@@ -3457,64 +3495,64 @@ Solution
 </summary>
 <p><br></p>
 <p>Your full Snakefile should now contain the following:</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SAMPLES</span> = glob_wildcards<span class="er">(</span><span class="st">&quot;data/{smp}.fastq&quot;</span><span class="kw">)</span><span class="ex">.smp</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="ex">REF_FA</span> = <span class="st">&quot;metadata/ref.fa&quot;</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="ex">localrules:</span> all</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> all:</span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>         <span class="ex">expand</span><span class="er">(</span><span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span></span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> trim:</span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;data/{smp}.fastq&quot;</span><span class="ex">,</span></span>
-<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}_trim.fastq&quot;</span><span class="ex">,</span></span>
-<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
-<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/trim/{smp}.log&quot;</span><span class="ex">,</span></span>
-<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/trim.sh {input} &gt;{output} 2&gt;{log}&quot;</span></span>
-<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
-<span id="cb52-25"><a href="#cb52-25" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb52-26"><a href="#cb52-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
-<span id="cb52-27"><a href="#cb52-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
-<span id="cb52-28"><a href="#cb52-28" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb52-29"><a href="#cb52-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
-<span id="cb52-30"><a href="#cb52-30" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
-<span id="cb52-31"><a href="#cb52-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
-<span id="cb52-32"><a href="#cb52-32" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb52-33"><a href="#cb52-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt;{output} 2&gt;{log}&quot;</span></span>
-<span id="cb52-34"><a href="#cb52-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-35"><a href="#cb52-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-36"><a href="#cb52-36" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> count:</span>
-<span id="cb52-37"><a href="#cb52-37" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb52-38"><a href="#cb52-38" aria-hidden="true" tabindex="-1"></a>        <span class="ex">expand</span><span class="er">(</span><span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span><span class="ex">,</span></span>
-<span id="cb52-39"><a href="#cb52-39" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb52-40"><a href="#cb52-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
-<span id="cb52-41"><a href="#cb52-41" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
-<span id="cb52-42"><a href="#cb52-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/count/count.log&quot;</span><span class="ex">,</span></span>
-<span id="cb52-43"><a href="#cb52-43" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb52-44"><a href="#cb52-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/count.sh {input} &gt;{output} 2&gt;{log}&quot;</span></span>
-<span id="cb52-45"><a href="#cb52-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-46"><a href="#cb52-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-47"><a href="#cb52-47" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> fastqc:</span>
-<span id="cb52-48"><a href="#cb52-48" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb52-49"><a href="#cb52-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;data/{smp}.fastq&quot;</span><span class="ex">,</span></span>
-<span id="cb52-50"><a href="#cb52-50" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb52-51"><a href="#cb52-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span></span>
-<span id="cb52-52"><a href="#cb52-52" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
-<span id="cb52-53"><a href="#cb52-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/fastqc/{smp}.log&quot;</span><span class="ex">,</span></span>
-<span id="cb52-54"><a href="#cb52-54" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb52-55"><a href="#cb52-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/fastqc.sh {input} res &amp;&gt;{log}&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb53"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> res/<span class="pp">*</span> logs/<span class="pp">*</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">--profile</span> slurm_profile</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SAMPLES</span> = glob_wildcards<span class="er">(</span><span class="st">&quot;data/{smp}.fastq&quot;</span><span class="kw">)</span><span class="ex">.smp</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="ex">REF_FA</span> = <span class="st">&quot;metadata/ref.fa&quot;</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="ex">localrules:</span> all</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> all:</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>         <span class="ex">expand</span><span class="er">(</span><span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> trim:</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;data/{smp}.fastq&quot;</span><span class="ex">,</span></span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}_trim.fastq&quot;</span><span class="ex">,</span></span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/trim/{smp}.log&quot;</span><span class="ex">,</span></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/trim.sh {input} &gt;{output} 2&gt;{log}&quot;</span></span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb54-29"><a href="#cb54-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
+<span id="cb54-30"><a href="#cb54-30" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
+<span id="cb54-31"><a href="#cb54-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
+<span id="cb54-32"><a href="#cb54-32" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb54-33"><a href="#cb54-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt;{output} 2&gt;{log}&quot;</span></span>
+<span id="cb54-34"><a href="#cb54-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-35"><a href="#cb54-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-36"><a href="#cb54-36" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> count:</span>
+<span id="cb54-37"><a href="#cb54-37" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb54-38"><a href="#cb54-38" aria-hidden="true" tabindex="-1"></a>        <span class="ex">expand</span><span class="er">(</span><span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span> smp=SAMPLES<span class="kw">)</span><span class="ex">,</span></span>
+<span id="cb54-39"><a href="#cb54-39" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb54-40"><a href="#cb54-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
+<span id="cb54-41"><a href="#cb54-41" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
+<span id="cb54-42"><a href="#cb54-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/count/count.log&quot;</span><span class="ex">,</span></span>
+<span id="cb54-43"><a href="#cb54-43" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb54-44"><a href="#cb54-44" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/count.sh {input} &gt;{output} 2&gt;{log}&quot;</span></span>
+<span id="cb54-45"><a href="#cb54-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-46"><a href="#cb54-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-47"><a href="#cb54-47" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> fastqc:</span>
+<span id="cb54-48"><a href="#cb54-48" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb54-49"><a href="#cb54-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;data/{smp}.fastq&quot;</span><span class="ex">,</span></span>
+<span id="cb54-50"><a href="#cb54-50" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb54-51"><a href="#cb54-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span></span>
+<span id="cb54-52"><a href="#cb54-52" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
+<span id="cb54-53"><a href="#cb54-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/fastqc/{smp}.log&quot;</span><span class="ex">,</span></span>
+<span id="cb54-54"><a href="#cb54-54" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb54-55"><a href="#cb54-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/fastqc.sh {input} res &amp;&gt;{log}&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> res log/<span class="pp">*</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">--profile</span> slurm_profile</span></code></pre></div>
 </details>
 <p><br></p>
 <h3 id="rule-specific-resources-threads">7. Rule-specific resources: threads</h3>
@@ -3538,9 +3576,9 @@ Solution
 </details>
 <p><br></p>
 <p>When using the threads directive, we will generally also tell the program itself about the number of threads – see the example below, where we are calling the STAR aligner directly in a Snakemake rule:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>rule STAR:</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    threads: <span class="dv">8</span></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    shell: <span class="st">&quot;STAR --runThreadN </span><span class="sc">{threads}</span><span class="st"> ...&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>rule STAR:</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    threads: <span class="dv">8</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    shell: <span class="st">&quot;STAR --runThreadN </span><span class="sc">{threads}</span><span class="st"> ...&quot;</span></span></code></pre></div>
 <p>For now, we’ll keep it simple and merely use the <code>threads</code> directive:</p>
 <ul>
 <li><strong>Specify 4 threads for <code>rule map</code>.</strong></li>
@@ -3551,29 +3589,29 @@ Solution
 </summary>
 <p><br></p>
 <p>Rule map should now contain the following:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">threads:</span> 4</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
-<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
-<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt;{output} 2&gt;{log}&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">threads:</span> 4</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt;{output} 2&gt;{log}&quot;</span></span></code></pre></div>
 </details>
 <p><br></p>
 <h3 id="rule-specific-resources-other">8. Rule-specific resources: other</h3>
 <p>We can use a <code>resources</code> key for any rule to specify (mostly) arbitrary key-value pairs with resources:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>rule heavy_stuff:</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [...]</span></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    resources: mem_mb<span class="op">=</span><span class="dv">50000</span></span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [...]</span></span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>rule heavy_stuff:</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [...]</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    resources: mem_mb<span class="op">=</span><span class="dv">50000</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># [...]</span></span></code></pre></div>
 <p>These are arbitrary in the sense that <code>mem_mb</code> will not directly set the actual maximum memory usage in the way that the <code>threads</code> directive did set the number of threads. Instead, they refer to the keys we use in our <code>config.yaml</code>.</p>
 <p>For example, to actually request 50,000 MB of memory for <code>rule heavy_stuff</code>, <code>mem_mb</code> should correspond to the term used in the SLURM resource request in <code>config.yaml</code>:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;sbatch --mem={resources.mem_mb} ...&quot;</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">default-resources</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">mem_mb=</span><span class="dv">4000</span><span class="kw">,</span><span class="at"> ...</span><span class="kw">]</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;sbatch --mem={resources.mem_mb} ...&quot;</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">default-resources</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">mem_mb=</span><span class="dv">4000</span><span class="kw">,</span><span class="at"> ...</span><span class="kw">]</span></span></code></pre></div>
 <p>Setting <code>resources: mem_mb=50000</code> for <code>rule heavy_stuff</code> will then override the default value of <code>4000</code>, and pass that on the SLURM job request!</p>
 <ul>
 <li><strong>Set the time request for <code>rule map</code> to 2 hours.</strong></li>
@@ -3584,18 +3622,18 @@ Solution
 </summary>
 <p><br></p>
 <p>Assuming time is referred to as <code>time_min</code> in <code>slurm_profile/config.yaml</code> (this has to match!), <code>rule map</code> should now contain the following:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">threads:</span> 8</span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">resources:</span> time_min=120</span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt;{output} 2&gt;{log}&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">fastq=</span><span class="st">&quot;res/{smp}_trim.fastq&quot;</span>,</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">ref=</span>REF_FA,</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">output:</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.bam&quot;</span><span class="ex">,</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">threads:</span> 8</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>    <span class="ex">resources:</span> time_min=120</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>    <span class="ex">log:</span></span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt;{output} 2&gt;{log}&quot;</span></span></code></pre></div>
 </details>
 <p><br></p>
 <ul>
@@ -3609,20 +3647,20 @@ Solution
 <p><strong>There are a few different options:</strong></p>
 <ul>
 <li><p>You can <a href="https://slurm.schedmd.com/sbatch.html">look up</a> (go to “input environment variables”) and <code>echo</code> SLURM environment variables in the script. For the time limit specifically, this variable is <code>$SBATCH_TIMELIMIT</code>, so you could include the following in your <code>scripts/map.sh</code>:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Time limit: </span><span class="va">$SBATCH_TIMELIMIT</span><span class="st">&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb61"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Time limit: </span><span class="va">$SBATCH_TIMELIMIT</span><span class="st">&quot;</span></span></code></pre></div></li>
 <li><p>You can print an overview of resources and statistics for your job using <code>scontrol show job &lt;job-ID&gt;</code>. You can do that manually in the shell for a specific SLURM job, or include the following in your script, to have this information include in the SLURM log file:</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="ex">scontrol</span> show job <span class="va">$SLURM_JOB_ID</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb62"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="ex">scontrol</span> show job <span class="va">$SLURM_JOB_ID</span></span></code></pre></div></li>
 <li><p>The allotted time specifically is also shown when you issue <code>squeue</code> with the <code>-l</code> (long) option:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span> <span class="at">-l</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb63"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span> <span class="at">-l</span></span></code></pre></div></li>
 </ul>
 </details>
 <p><br></p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
 <li id="fn1" role="doc-endnote"><p>Note that it doesn’t seem to be possible to install this extension in VS Code Server at OSC, but you can install it locally.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>This may look a little strange (but think 1-element tuple!), yet is somewhat useful: when every line has a trailing comma, regardless of whether a new item will follow, you can always add and remove lines without paying attention to this.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>This may look a little strange (but think 1-element tuple!), yet is somewhat useful: when every line has a trailing comma, you can always add and remove lines without paying attention to whether a new item follows.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 <!--radix_placeholder_article_footer-->
