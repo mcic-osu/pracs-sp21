@@ -1,0 +1,29 @@
+---
+title: "Week 13 - Reproducible workflows with Snakemake"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+.content-box-warning[
+Note, however, that `wildcards` operate entirely within a single rule and not across
+rules!
+]
+
+.content-box-q[
+What would happen if we just ran `Snakemake` with a rule name?
+]
+
+.content-box-answer[
+Change `rule all` to list the output of the now-final rule:
+]
+
+.content-box-info[
+With recent `Snakemake` versions,
+]

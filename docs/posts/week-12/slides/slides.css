@@ -12,6 +12,10 @@ blockquote {
   border-radius: 5px;
 }
 
+.remark-code-line-highlighted {
+  background-color: #a330ab;
+}
+
 .large {
   font-size: 110%;
 }
@@ -106,13 +110,13 @@ figure {
 }
 
 .content-box-info {
-  background-color: #dfedff;
-  border: solid 5px #c0dffa;
+  background-color: #f0f7ff;
+  border: solid 5px #81bdf0;
 }
 
 .content-box-warning {
-  background-color: #ffcccc;
-  border: solid 5px #ed8080;
+  background-color: #faf5f5;
+  border: solid 5px #f28a8a;
 }
 
 .content-box-diy {
@@ -121,13 +125,13 @@ figure {
 }
 
 .content-box-q {
-  background-color: #f4e9f5;
-  border: solid 5px #ce84d1;
+  background-color: #fcfafc;
+  border: solid 5px #e096e3;
 }
 
 .content-box-answer {
-  background-color: #e4ede4;
-  border: solid 5px #50ab50;
+  background-color: #edf7ed;
+  border: solid 5px #62bf62;
 }
 
 .content-box-info:before {

@@ -7,6 +7,20 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+    <script src="libs/fabric/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30}) })</script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <script src="libs/mark.js/mark.min.js"></script>
+    <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-search/search.js"></script>
+    <script>window.addEventListener('load', function() { window.xeSearch = new RemarkSearch({"position":"bottom-left","caseSensitive":false,"showIcon":true,"autoSearch":true}) })</script>
     <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
@@ -28,7 +42,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/04/06 (updated: 2021-04-05)
+### 2021/04/06 (updated: 2021-04-06)
 
 ---
 
@@ -60,7 +74,7 @@ aspects such as running Snakemake on a cluster.
 ## An example partial workflow script
 
 ```sh
-samples = (smpA smpB smpC)
+samples=(smpA smpB smpC)
 
 # Trim:
 for sample in ${samples[@]}; do
@@ -83,7 +97,7 @@ scripts/count.sh ${samples[@]} &gt; res/count_table.txt
 With a single `for` loop:
 
 ```sh
-samples = (smpA smpB smpC)
+samples=(smpA smpB smpC)
 
 # Trim and map:
 for sample in ${samples[@]}; do
@@ -99,13 +113,13 @@ scripts/count.sh ${samples[@]} &gt; res/count_table.txt
 
 ## Why create a pipeline / workflow?
 
-What are the advantages of creating a workflow rather than running scripts
-one-by-one as needed?
+What are the advantages of creating such a pipeline or workflow,
+rather than running scripts one-by-one as needed?
 
 &lt;br&gt;
 
-- **Rerunning** everything is much easier -- you may want to do so after adding
-  samples, changing a script, changing settings, and so on.
+- **Rerunning** everything is much easier &amp;ndash; you may want to do so after
+  adding samples, changing a script, changing settings, and so on.
 
 - **Re-applying** the same set of analyses in a different project is much easier. 
 
@@ -141,7 +155,7 @@ one-by-one as needed?
 
 **Ad-hoc strategies to solve some of these:**
   
-- Comment out part of the workflow:
+- Comment out part of the workflow &amp;ndash; to skip a step:
 
   ```sh
   for sample in ${samples[@]}; do
@@ -153,7 +167,7 @@ one-by-one as needed?
 
 --
 
-- Make temporary changes:
+- Make temporary changes &amp;ndash; to run a single new sample:
 
   ```sh
   samples = (smpA smpB smpC smpD)
@@ -171,7 +185,7 @@ one-by-one as needed?
 ## Challenges with workflows: &lt;br&gt; You need to rerun parts of it
 
 **Labor-intensive strategy to solve some of these:**  
-Lots of command-line options and `if`-statements to enable flexible running of
+Command-line options and `if`-statements to enable flexible running of
 part of the workflow (and perhaps to change settings):
 
 ```sh
@@ -230,8 +244,8 @@ For any workflow that has some steps operating on each sample separately:
 **Ad-hoc strategies:**
 
 - Go back to the original script and **run the whole workflow as a single job,**
-  and per-sample steps are simply run 1-by-1 in a loop.
-  This is too time-consuming in many cases...
+  in which per-sample steps are simply run 1-by-1 in a loop.  
+  This will be too time-consuming in many cases...
 
 - Rather than running the workflow script as an actual script,  
   just **use it as scaffolding** and submit jobs one-by-one / group-by-group. 
@@ -262,10 +276,10 @@ failure?**
 
 &lt;br&gt;
 
-**Ad-hoc strategies:**
+**Ad-hoc strategies (same as earlier):**
 
-- Go back to the original script and **run the whole workflow as a single job,**
-  and proper Bash settings will at least make the workflow stop upon failure.
+- Go back to the original script and **run the whole workflow as a single job**:
+  proper Bash settings will at least make the workflow stop upon failure.
 
 - Rather than running the workflow script as an actual script,  
   just **use it as scaffolding** and submit jobs one-by-one / group-by-group.
@@ -276,8 +290,7 @@ failure?**
 
 **Labor-intensive strategy:**
 
-- Lots of testing for proper input for each script,  
-  test the exit status of each script, etc.
+- Lots of testing for proper input for and exit status of each script, etc.
 
 ---
 
@@ -322,7 +335,7 @@ biological sequence data are:
 - Snakemake
 - Nextflow
 - Common Worklow Language (CWL) 
-- Workflow Description Language (WDL).
+- Workflow Description Language (WDL)
 
 &lt;br&gt;
 
@@ -340,15 +353,15 @@ workflow.
 ## Advantages of formal workflow management &amp;ndash; &lt;br&gt; all the buzzwords...
 
 - **Reproducibility and transparency**
-  - Document the workflow.
   - Document dependencies among data and among code.
-  - Allows analysis of workflow graph.
+  - Easy visualization of a workflow graph.
   - Integration with software management.
 
 - **Automation**
 
   - Detect &amp; rerun upon changes in input files and failed steps.
   - Rerun for other datasets.
+  - Automate SLURM job submissions.
 
 - **Portability**
   
@@ -361,9 +374,9 @@ workflow.
 
 - **Scalability**
 
-  - Efficient execution &amp;ndash; all dependencies are known,
-    cluster submission is automated &amp; optimized.
-  - No need to loop over samples yourself.
+  - Efficient execution &amp;ndash; all dependencies are known so cluster submission
+    can be optimized.
+  
 
 &lt;br&gt;
 
@@ -373,6 +386,16 @@ workflow.
   - Run-specific configuration &amp;ndash; samples, directories, options.
   - Things specific to the runtime environment (laptop vs cluster vs cloud).
 
+&lt;br&gt;
+
+--
+
+- **Convenience**
+  
+  - Reduces boilerplate code: no need to loop over samples yourself, etc.
+  - Some of the points mentioned above such as automated job submission and
+    integrated software management.
+  
 ---
 class: center middle inverse
 
