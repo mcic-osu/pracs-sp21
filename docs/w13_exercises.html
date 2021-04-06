@@ -3450,7 +3450,7 @@ Hints
 Solution
 </summary>
 <p><br></p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
+<div class="sourceCode" id="cb49"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span><span class="at"> </span><span class="dv">100</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">latency-wait</span><span class="kw">:</span><span class="at"> </span><span class="dv">30</span></span></code></pre></div>
 <p>The full <code>slurm_profile/config.yaml</code> should now contain the following:</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cluster:</span> <span class="st">&quot;sbatch --account={resources.account}</span></span>
@@ -3459,7 +3459,7 @@ Solution
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="st">                 --cpus-per-task={resources.cpus}</span></span>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="st">                 --output=log/slurm-{rule}_{wildcards}.out&quot;</span></span>
 <span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="ex">default-resources:</span> [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]</span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="ex">jobs:</span> 3</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="ex">jobs:</span> 100</span>
 <span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="ex">latency-wait:</span> 30</span></code></pre></div>
 </details>
 <p><br></p>

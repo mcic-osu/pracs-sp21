@@ -1235,7 +1235,7 @@ key-value pairs are specified as `key:value`, not `--key value`.
 <br>
 
 ```YAML
-jobs: 3
+jobs: 100
 latency-wait: 30
 ```
 
@@ -1248,7 +1248,7 @@ cluster: "sbatch --account={resources.account}
                  --cpus-per-task={resources.cpus}
                  --output=log/slurm-{rule}_{wildcards}.out"
 default-resources: [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]
-jobs: 3
+jobs: 100
 latency-wait: 30
 ```
 
