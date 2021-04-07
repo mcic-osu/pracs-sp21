@@ -74,7 +74,7 @@ aspects such as running Snakemake on a cluster.
 ## An example partial workflow script
 
 ```sh
-samples=(smpA smpB smpC)
+samples=(smpA smpC smpG)
 
 # Trim:
 for sample in ${samples[@]}; do
@@ -97,7 +97,7 @@ scripts/count.sh ${samples[@]} &gt; res/count_table.txt
 With a single `for` loop:
 
 ```sh
-samples=(smpA smpB smpC)
+samples=(smpA smpC smpG)
 
 # Trim and map:
 for sample in ${samples[@]}; do
@@ -170,7 +170,7 @@ rather than running scripts one-by-one as needed?
 - Make temporary changes &amp;ndash; to run a single new sample:
 
   ```sh
-  samples = (smpA smpB smpC smpD)
+  samples=(smpA smpC smpG smpT)
   
   #for sample in ${samples[@]}; do
         sample=smpD  # TEMPORARY LINE
@@ -194,11 +194,11 @@ map=$2    # true or false
 count=$3  # true or false
 
 for sample in ${samples[@]}; do
-    if [ "$map" = true ]; then
+    if [ "$trim" = true ]; then
         scripts/trim.sh data/"$sample".fq &gt; res/"$sample"_trim.fq
     fi
     
-    if [ "$trim" = true ]; then
+    if [ "$map" = true ]; then
         scripts/map.sh res/"$sample"_trim.fq &gt; res/"$sample".bam
     fi
 done
@@ -334,7 +334,7 @@ biological sequence data are:
 
 - Snakemake
 - Nextflow
-- Common Worklow Language (CWL) 
+- Common Workflow Language (CWL) 
 - Workflow Description Language (WDL)
 
 &lt;br&gt;

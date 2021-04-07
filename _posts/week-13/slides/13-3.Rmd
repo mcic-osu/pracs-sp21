@@ -45,15 +45,17 @@ class:inverse middle center
 ----
 
 .left[
-- #### Using Conda environments
-- #### Useful command-line options
-- #### What will Snakemake run? &ndash; revisited
-- #### Configuration files
-- #### Referring to wildcards in actions
-- #### Miscellaneous
+- #### [Using Conda environments](#conda)
+- #### [Useful command-line options](#cli)
+- #### [What will Snakemake run? &ndash; revisited](#run)
+- #### [Configuration files](#config)
+- #### [Referring to wildcards in actions](#wildcards)
+- #### [The params directive](#params)
+- #### [Miscellaneous](#misc)
 ]
 
 ---
+name: conda
 class: middle inverse center
 
 # Using Conda environments
@@ -72,7 +74,9 @@ functional and reproducible across different hardware environments.
 While containers are even better at this, Conda is more lightweight
 and will suffice for most purposes.
 
-Snakemake will in fact **create the necessary Conda environments for us**,  
+--
+
+Snakemake will in fact **create the necessary Conda environments for us** &ndash;  
 all we need to do is:
 
 - Include a `conda` key in the focal rule,
@@ -87,7 +91,7 @@ all we need to do is:
 - Include the `--use-conda` option in our Snakemake call:
 
   ```sh
-  snakemake -j1 --use-conda
+  $ snakemake -j1 --use-conda
   ```
 
 ---
@@ -114,6 +118,7 @@ dependencies:
 ]
 
 ---
+name: cli
 class: inverse middle center
 
 # Useful command-line options
@@ -171,12 +176,14 @@ for troubleshooting, and for getting a better intuition for how Snakemake works.
 <br>
 
 ```sh
-snakemake -j1 -npr
+$ snakemake -j1 -npr
 ```
 
 ---
 
 ## Useful command-line options: Miscellaneous
+
+**Some other options:**
 
 Short  |  Long            | Explanation
 -------|------------------|-------------
@@ -203,6 +210,7 @@ Short  |  Long            | Explanation
 `-s`   | `--snakefile` <span style="color:#e8e8e8">`_________________`</span> | Name of / path to the Snakefile.
 
 ---
+name: run
 class: middle inverse center
 
 # What will Snakemake run? &ndash; Revisited
@@ -246,12 +254,11 @@ class: middle inverse center
 
 ---
 
-## Forcing a rerun after Snakefile changes
+## Forcing a rerun after changes in the Snakefile 
 
 To force a rerun, we could use "brute force" with `Snakemake -j1 -F`,
 which would rerun the entire workflow.
-
-That's fine for our dummy workflow, but if you make changes in real workflows,
+In real workflows,
 you probably only want to rerun whatever has been affected by the change in code.
 
 You can do this via the `--list-code-changes` option.
@@ -259,8 +266,7 @@ Running Snakemake with that option will print a list of the output files that
 have been affected by changes in the Snakefile since Snakemake was last run:
 
 ```sh
-snakemake --list-code-changes
-
+$ snakemake --list-code-changes
 #> Building DAG of jobs...
 #> res/smpG.bam
 #> res/smpC.bam
@@ -273,10 +279,11 @@ Then, we can use the `-R` option with the list of output files from
 We can do this all at once, using a shell command substitution, as follows:
 
 ```sh
-snakemake -j1 -pq -R $(snakemake --list-code-changes)
+$ snakemake -j1 -pq -R $(snakemake --list-code-changes)
 ```
 
 ---
+name: config
 class: middle inverse center
 
 # Configuration files
@@ -344,6 +351,7 @@ Note that we assigned `output_dir` to a variable in the Snakefile,
 and used `min_qual` directly &ndash; either is possible.
 
 ---
+name: wildcards
 class: middle inverse center
 
 # Referring to wildcards in actions
@@ -358,46 +366,46 @@ class: middle inverse center
 
 Sometimes you need to **refer to a sample ID in your action** rather than an
 input file name &ndash;
-say our script needs an input dir and sample/book ID like so:
+say our script needs an input dir and sample ID like so:
 
 ```sh
-scipts/count_words.py -d <input_dir> -i <book_id>
+scripts/trim.sh -d <input_dir> -i <sample_id>
 ```
 
 Our rule currently looks like this:
 
 ```python
-rule count_words:
-    input: "data/{book}.txt",
-    output: "res/{book}_cnt.txt"
-    shell: "scripts/count_words.py {input} > {output}"
+rule trim:
+    input: "data/{smp}.fastq",
+    output: "res/{smp}_trim.fastq",
+    shell: "scripts/trim.sh {input} > {output}"
 ```
 
-**How can we change the `shell` directive to use the book ID wilcard?**
+**How can we change the `shell` directive to use the sample ID wildcard?**
 
 ---
 
 ## Referring to wildcards in actions (cont.)
 
-**How can we change the `shell` directive to use the book ID wilcard?**
+**How can we change the `shell` directive to use the sample ID wildcard?**
 
 ```python
 # THIS WON'T WORK:
-# shell: "scripts/count_words.py -d res -o {book} > {output}"
+# shell: "scripts/trim.sh -d res -o {smp} > {output}"
 ```
 
 ```python
 # YES -- use "{wildcards.<wildcard-name>}":
-shell: "scripts/count_words.py -d res -o {wildcards.book} > {output}"
+shell: "scripts/trim.sh -d res -o {wildcards.smp} > {output}"
 ```
 
-Why do we need `{wildcards.book}` and not just `{book}` akin to how we refer to
+Why do we need `{wildcards.smp}` and not just `{smp}` akin to how we refer to
 `{input}`?
 
 --
 
 Even though both are variable-like references with `{}`,
-only `{book}` is a **wildcard**,
+only `{smp}` is a **wildcard**,
 which has not been explicitly defined, and is left for Snakemake to figure out.
 
 Snakemake figures this out in `{input}` and `{output}` directives *only*,
@@ -405,6 +413,62 @@ and if we want to refer to them elsewhere,
 we need to use `{wildcards.<wildcard-name>}`.
 
 ---
+name: params
+class: middle inverse center
+
+# The params directive
+
+----
+
+<br> <br> <br> <br>
+
+---
+
+## The params directive
+
+In our modified `rule trim` in the previous slide,
+we ended up with the following `shell` entry:
+
+```python
+shell: "scripts/trim.sh -d res -o {wildcards.smp} > {output}"
+```
+
+Notice that the directory is directly specified in `-d res`.
+It may be better to define a setting like this output directory in a more obvious
+way, and we could use the `params` directive for that.
+For instance:
+
+```python
+params: outdir="res"
+shell: "scripts/trim.sh -d {params.outdir} -o {wildcards.smp} > {output}"
+```
+
+---
+
+## The params directive (cont.)
+
+Additionally, we can directly access wildcards in the `params` directive,
+so we could have sample-specific settings,
+such as in
+[this example from the official Snakemake tutorial](https://snakemake.readthedocs.io/en/stable/tutorial/advanced.html#step-4-rule-parameters), which passes read group information to `bwa mem`:
+
+```python
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        lambda wildcards: config["samples"][wildcards.sample]
+    output:
+        "mapped_reads/{sample}.bam"
+    params:
+        rg=r"@RG\tID:{sample}\tSM:{sample}"
+    threads: 8
+    shell:
+        "bwa mem -R '{params.rg}' -t {threads} {input} | samtools view -Sb - > {output}"
+```        
+
+
+---
+name: misc
 class: middle inverse center
 
 # Miscellaneous
@@ -417,12 +481,6 @@ class: middle inverse center
 
 ## Miscellaneous
 
-### The params directive
-
-### TODO
-
-<br>
-
 ### Call separate Snakefiles for parts of the workflow
 
 If your workflow is pretty big, it can be useful to split it up across multiple
@@ -432,17 +490,11 @@ Snakefiles. You can make rules in another Snakefile available as follows:
 include rules/qc_rules.smk
 ```
 
----
-
-## Miscellaneous (cont.)
-
 ### Mark files as protected (no write permissions)
 
 ```python
 output: protected("sorted_reads/{sample}.bam") 
 ```
-
-<br>
 
 ### Mark files as temporary (to be deleted)
 
@@ -465,25 +517,31 @@ rule token_example:
     shell: "some_command --do-things {input} && touch {output}"
 ```
 
-<br>
-
-### Visualize rules, not jobs
-
-```python
-snakemake --rulegraph | dot -Tsvg > rules.svg
-```
-
 ---
 
 ## Miscellaneous (cont.)
 
-### Calling Python or R scripts directly, without arguments
+### Visualize rules, not jobs
 
-- When calling scripts, "snakemake.input" etc is available automatically:
-
-```python
-script: pythonscript.py
-    quals = [rec.qual for record in VarFile(snakemake.input[0])]
-script: rscript.R
-    snakemake@input[["myfile"]]                 # In R, S4 object will be available
+.pull-left[
+```sh
+$ snakemake --rulegraph | \
+    dot -Tsvg > rules.svg
 ```
+
+<p align="center">
+<img src=img/rules.svg width=22%>
+</p>
+]
+
+.pull-right[
+
+```sh
+$ snakemake --dag | \
+    dot -T svg > jobs.svg
+```
+
+<p align="center">
+<img src=img/v7.svg width=90%>
+</p>
+]
