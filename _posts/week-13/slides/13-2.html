@@ -42,7 +42,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/04/08 (updated: 2021-04-07)
+### 2021/04/08 (updated: 2021-04-08)
 
 ---
 class:inverse middle center
@@ -500,9 +500,9 @@ rule map:
 **Because the output of `rule trim` is the input of `rule map`**,  
 Snakemake will be able to tell that:
   
-- `rule map` should be run before `rule trim`.
+- `rule trim` should be run before `rule map`.
   
-- `rule trim` should only be run if the output from `rule map` is *actually present*.
+- `rule map` should only be run if the output from `rule trim` is *actually present*.
 
 ---
 
@@ -788,6 +788,8 @@ name: snakefile_3
 ## Running the workflow again
 
 ```sh
+$ rm res/*
+
 $ snakemake -j1 -pq
 #&gt; Job counts:
 #&gt;        count   jobs
@@ -1112,7 +1114,7 @@ and **`expand()`** comes in useful in such cases:
 
 
 ```python
-input: expand("res/{smp}.bam", sample=SAMPLES)
+input: expand("res/{smp}.bam", smp=SAMPLES)
 ```
 
 ---
@@ -1561,6 +1563,7 @@ class: center middle inverse
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
+background-color: #f2f5eb
 
 ## Output files in the face of errors 
 
@@ -1621,30 +1624,8 @@ shell: "scripts/map.sh res/smpA_trim.fastq &gt; res/smpA.bam"
 You'll see how to **redirect standard error to log files** in the exercises.
 ]
 
-
-## Visualizing the workflow again (cont.)
-
-- Create a workflow diagram before running Snakemake:
-
-  ```sh
-  $ rm res/*    # We first remove earlier output files
-  
-  $ snakemake --dag | dot -T svg &gt; workflow/DAGs/v3a.svg 
-  ```
-
-- Run Snakemake:
-
-  ```sh
-  $ snakemake -j1 -pq
-  ```
-
-- Create a workflow diagram after running Snakemake:
-
-  ```sh
-  snakemake --dag | dot -T svg &gt; workflow/DAGs/v3b.svg
-  ```
-
 ---
+background-color: #f2f5eb
 
 ## Visualizing the workflow again (cont.)
 
@@ -1663,6 +1644,7 @@ You'll see how to **redirect standard error to log files** in the exercises.
 ]
 
 ---
+background-color: #f2f5eb
 
 ## Snakemake's glob_wildcards() function
 
