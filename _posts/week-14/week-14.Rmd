@@ -1,0 +1,27 @@
+---
+title: "Week 14"
+description: |
+  Putting it all together & next steps
+date: 2021-04-12
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+### Slides
+
+- Slides: Putting it all together -- Tuesday Zoom (Apr 13) -- TBA
+
+- Slides: Next steps -- Thursday Zoom (Apr 15) -- TBA
+
+### Final project: due
+
+- [Final project: progress report](../../finalproject_progress.html) -- due Tuesday, Apr 13
+
+### Final project: new
+
+- [Final project: student presentations](../../finalproject_present.html) -- in class, week of Apr 20
+
+### Ungraded assignments
+
+- Optional exercises for week 14: Snakemake with real data -- TBA
