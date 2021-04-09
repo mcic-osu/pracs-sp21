@@ -1,5 +1,17 @@
 [
   {
+    "path": "posts/week-14/",
+    "title": "Week 14",
+    "description": "Putting it all together & next steps",
+    "author": [],
+    "date": "2021-04-12",
+    "categories": [],
+    "contents": "\nSlides\nSlides: Putting it all together – Tuesday Zoom (Apr 13) – TBA\nSlides: Next steps – Thursday Zoom (Apr 15) – TBA\nFinal project: due\nFinal project: progress report – due Tuesday, Apr 13\nFinal project: new\nFinal project: student presentations – in class, week of Apr 20\nUngraded assignments\nOptional exercises for week 14: Snakemake with real data – TBA\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-04-09T14:02:43-04:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/week-13/",
     "title": "Week 13",
     "description": "Reproducible workflows with Snakemake",
