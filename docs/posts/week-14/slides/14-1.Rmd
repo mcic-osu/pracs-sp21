@@ -1,0 +1,314 @@
+---
+title: "Week 14 - Putting it all together & next steps"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css", "slides_copy.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
+```
+
+```{r xaringan-extra, echo=FALSE, eval=TRUE}
+#xaringanExtra::use_scribble()
+#xaringanExtra::use_panelset()
+#xaringanExtra::use_clipboard()
+#xaringanExtra::use_search(show_icon = TRUE)
+```
+
+# *Week 14 &ndash; <br> Putting it all together & next steps*
+
+----
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/04/13 (updated: `r Sys.Date()`)
+
+---
+class:inverse middle center
+
+# I: Putting it all together
+
+----
+
+<br> <br> <br>
+
+---
+
+## What did we cover?
+
+.pull-left[
+- **Shell**
+    - Basics
+    - Data tools
+    - Scripting
+]
+
+.pull-right[
+- **Python**
+    - Basics
+    - Coding approaches
+    - Regular expressions
+    - NumPy and Pandas
+    - Biopython
+]
+
+- Version control with **Git**
+
+- Submitting OSC jobs using **SLURM**
+
+- Reproducible workflows using **Snakemake**
+
+- **Project organization and management**
+
+- Formatted plain text files with **Markdown**
+
+- Along the way, you have gotten to know the **VS Code** editor quite well
+
+---
+
+## What is the big picture?
+
+Core goal of the course, as described in the first week:
+
+> **Learning skills to do your research more reproducibly and efficiently**
+
+---
+
+## What is the big picture?
+
+Apply these **habits and skills**:
+
+- Use one directory per project with a clear and consistent sub-dir structure
+  and file naming.
+
+- Treat raw data as read-only.
+
+- Document everything you do in plain text README files.
+
+--
+
+- Do as much as possible using code:
+  - Including what you could in some cases do as/more quickly using GUIs &ndash;
+    downloads, renaming and re-organizing, systematic literature searches, etc.:
+    "Use code as documentation."
+  
+  - Use shell tools for "simple" problems (one or a few steps),  
+    use Python as it gets more complex. 
+
+- Always use version control.
+
+- Share your code (GitHub).
+
+---
+
+## What is the big picture? (cont.)
+
+This course has focused on **foundational skills** and
+overall on **breadth over depth**.
+
+Some of the rationale for this:
+
+- Specific tools are not only highly ... specific, they are also easier and perhaps
+  better picked up in short "just-in-time workshops" or even using good cookbook-style
+  tutorials (increasingly common!).
+  Moreover:
+  
+  > Learning core bioinformatics data skills will give you the
+  > foundation to learn, apply, and assess any bioinformatics program or analysis
+  > method. In 10 years, bioinformaticians may only be using a few of the bioinformatics
+  > software programs around today. But we most certainly will be using data skills and
+  > experimentation to assess data and methods of the future.
+
+--
+
+- The first steps are the hardest &ndash; and "false starts" can be very common
+  when trying to self-teach tools that will initially take more time than
+  manual approaches (e.g. version control, keep renaming and doing other
+  repetitive things by hand).
+
+- You may not be aware of what's out there.
+
+---
+
+## What is the big picture? (cont.)
+
+Flipside:
+
+- Limited practical case studies
+
+- You may not feel you've become really proficient with any of these tools
+
+<br>
+
+> *It is important to practice regularly, and protect time to play with new tools.
+> While it is great to have a specific task in mind when starting to program,
+> it is also important to leave time to acquire and improve new skills.*
+
+> *You will be happier if you think “I have invested two hours in learning Python!”
+> rather than “It took me two hours to solve this easy problem in Python—
+> I could have done it in Excel in 20 minutes!” While this might be true when
+> you start, your investment will pay back in the long run.*
+
+> *With a bit of perseverance, you will start reusing code to automate processes,
+>  thereby saving a lot of time.
+> Even better, you will tackle problems that you could not have addressed at all
+> without your new skills.* &mdash; CSB Chapter 11
+
+---
+
+## Some misc. tips going forward
+
+- Avoid the tar pit of immediacy.
+
+- Break things up in small bits.
+
+- Write code to be read by humans and data to be read by computers.
+
+- Develop frequently used scripts into "tools",
+  which you can can keep in a separate repository.
+
+- Make figures, tables, and statistics the result of scripts.
+
+- Use existing libraries whenever possible.
+
+- Keep practicing!
+
+---
+class:inverse middle center
+
+# II: Next steps
+
+----
+
+<br> <br> <br>
+
+---
+
+## Some specific next steps by topic &ndash; Python
+
+- Shell -- we covered quite bit, focus on getting fluent.  
+  Some things we didn't cover:
+  
+  - [Creating links](https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-shfiles.html#44)
+  - `find` and `xargs` ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-05/slides/05-3_find-xargs.html#1) &ndash; see Buffalo chapter 7)
+  - [`join`](https://mcic-osu.github.io/pracs-sp21/posts/week-04/slides/04-1_data-tools.html#55) to merge tabular data by a shared column
+  - Parameter expansion
+  - Process management (background jobs)
+  - tar archives
+  - If you like shell scripts, look into parsing arguments
+  - bioawk
+  
+---
+
+## Some specific next steps by topic &ndash; Python
+
+- Python &ndash; If you want to keep using Python, I would probably recommend
+  working your way through a book fully focused on Python.
+  
+  See the resources page -- Type of book depends on your preference/direction:
+  general Python vs Data Science vs Bioinformatics
+  
+  Jupyter Notebooks
+
+- Git
+
+  - Merge conflicts
+  - Undoing things ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-03/slides/03-3_git.html#1))
+
+- Use VS Code locally and SSH(-tunnel) in
+
+---
+
+## Further resources
+
+As you have hopefully seen, there already was a page with lots of further 
+resources for Python.
+
+That page now also has further resources for all other topics.
+
+...add link...
+
+---
+
+## Other foundational skills
+
+If you want to keep doing "data-centric" work,
+be that in genomics / bioinformatics or data science,
+I would also recommend a couple of topics we did not touch on at all:
+
+- Statistics
+
+- Data visualization
+
+- R &ndash; certainly for bioinformatics and probably also the best choice for
+  the two topics above.
+
+---
+
+## OSU Courses
+  
+- [Microbiome Science Training Track](https://u.osu.edu/coms/for-trainees/microbiome-informatics-training-track/)
+  by the Center of Microbiome Science
+
+- [Biomedical Informatics](https://medicine.osu.edu/departments/biomedical-informatics/education/bmi-courses) courses
+
+- [STAT 5730: Introduction to R for Data Science](https://stat.osu.edu/courses/stat-5730)
+
+- [PLNTPTH 7003.01: Agricultural Genomics](https://plantpath.osu.edu/courses/plntpth-700301)
+
+- HCS7004: Genome Analytics
+
+- HCS7806: Data Visualization (Jessica Cooperstone)
+
+.content-box-info[
+For an overview of "data science and analytics" courses at OSU,  
+see [this TDAI page](https://tdai.osu.edu/programs/).
+]
+
+.content-box-info[
+Also see:
+- [Microbiome Informatics webinar series](https://u.osu.edu/coms/webinar-series/)
+  with hands-on materials by the Center of Microbiome Science.
+
+- [Code Club](https://biodash.github.io/codeclub/) &ndash;
+  weekly meeting, hopefully for credits this fall.
+]
+
+---
+
+## Workshops
+
+**Shorter workshops (mostly 2-3 days):**
+
+- [Bioinformatics.ca](https://bioinformaticsdotca.github.io/)
+  &ndash; Yearly workshops on topics like microbiome analysis, RNAseq, etc.
+
+- [Physalia Courses](https://www.physalia-courses.org/courses-workshops/)
+
+- The Carpentries &ndash; e.g. the
+  [Genomics Curriculum of Data Carpentry](https://datacarpentry.org/lessons/#genomics-workshop)  
+  (Since earlier this year there is also an [OSU chapter](https://tdai.osu.edu/carpentries-at-osu/).)
+
+<br>
+
+**Longer workshops (> 1 week):**
+
+- [Summer Institute in Statistical Genetics](https://si.biostat.washington.edu/suminst/)
+
+- [Evomics](http://evomics.org/): "Molecular Evolution", "Genomics",
+  "Phylogenomics", etc.
+
+- [CSH Programming for Biologists](http://programmingforbiology.org/)
+

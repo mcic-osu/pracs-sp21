@@ -40,6 +40,7 @@ navbar:
         - text: "13: Snakemake"
           href: posts/week-13/index.html
         - text: "14: Putting it all together"
+          href: posts/week-14/index.html
     - text: "Final project"
       menu:
         - text: "General info"
@@ -49,6 +50,7 @@ navbar:
         - text: "Checkpoint II: Progress report"
           href: finalproject_progress.html
         - text: "Checkpoint III: Presentation"
+          href: finalproject_present.html
         - text: "Checkpoint IV: Submission"
     - text: "Topic overviews"
       menu:
