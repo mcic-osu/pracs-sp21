@@ -20,10 +20,10 @@ icon::fa("user-edit")
 ```
 
 ```{r xaringan-extra, echo=FALSE, eval=TRUE}
-#xaringanExtra::use_scribble()
-#xaringanExtra::use_panelset()
-#xaringanExtra::use_clipboard()
-#xaringanExtra::use_search(show_icon = TRUE)
+xaringanExtra::use_scribble()
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
 ```
 
 # *Week 13 &ndash; <br> Reproducible workflows with Snakemake*
@@ -84,7 +84,7 @@ all we need to do is:
 
   ```python
   rule fastqc:
-      conda: "envs/fastqc-env.yaml"
+      conda: "envs/fastqc.yml"
       # ...other keys...
   ```
 
@@ -116,6 +116,58 @@ dependencies:
 .footnote[
 <sup>[1]</sup> For use with Snakemake, the `name` key can also be omitted.  
 ]
+
+---
+
+## Using Conda environments (cont.)
+
+Let's try that:
+
+```sh
+mkdir -p /fs/ess/PAS1855/users/$USER/week14/conda_test
+cd /fs/ess/PAS1855/users/$USER/week14/conda_test
+
+mkdir -p data workflow/envs
+cp /fs/ess/PAS1855/data/fastq_16S/201*R1*fastq data/test.fastq
+touch workflow/Snakefile workflow/envs/fastqc.yml
+```
+
+```sh
+ls -lh data/test.fastq
+head data/test.fastq
+```
+
+---
+
+## Using Conda environments (cont.)
+
+Copy this into `workflow/envs/fastqc.yml`:
+
+```ssh
+channels:
+  - bioconda
+dependencies:
+  - fastqc=0.11.8
+```
+
+Copy this into `workflow/Snakefile`:
+
+```sh
+rule fastqc:
+    conda: "envs/fastqc.yml"
+    input: "data/test.fastq",
+    output: "res/test_fastqc.html",
+    shell: "fastqc {input} -o res"
+```
+
+Run Snakemake:
+
+```sh
+# Check first with -n (dry run):
+snakemake -j1 -n --use-conda res/test_fastqc.html
+# Looks good? Run:
+snakemake -j1 --use-conda res/test_fastqc.html
+```
 
 ---
 name: cli
