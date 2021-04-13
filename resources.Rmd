@@ -7,6 +7,13 @@ output:
     toc_depth: 3
 ---
 
+<br>
+
+This list of further resources is organized by the main topics covered in this
+course -- see the Contents on the left-hand site.
+
+<br>
+
 ## Shell
 
 ### Books
@@ -21,18 +28,29 @@ The first two are available online at the OSU library:
 
 - [Command Line Kung Fu: Bash Scripting Tricks, Linux Shell Programming Tips, and Bash One-liners](https://www.amazon.com/dp/1499222033) (Jason Cannon, 2014) 
 
-### Online material
+### Online guides and tutorials
 
-- [Useful oneliners, mostly for bioinformatics, by Stephen Turner](https://github.com/stephenturner/oneliners/blob/master/README.md)
+- Nice collections of one-liners, mostly for bioinformatics
+  - [By Bonnie I-Man Ng](https://onceupon.github.io/Bash-Oneliner/)
+  - [By Stephen Turner](https://github.com/stephenturner/oneliners/blob/master/README.md)
+  - [By Tommy Ming](https://github.com/crazyhottommy/bioinformatics-one-liners)
+  - [By Amy Williams](http://williamslab.bscb.cornell.edu/?page_id=235)
 
-- [Useful oneliners, mostly for bioinformatics, by Tommy Ming](https://github.com/crazyhottommy/bioinformatics-one-liners)
+- [The Bash Guide](http://mywiki.wooledge.org/BashGuide)
+  by Maarten Billemont with separate very useful
+  [FAQ](http://mywiki.wooledge.org/BashFAQ) and
+  [pitfalls](http://mywiki.wooledge.org/BashPitfalls) pages.
 
-- Add BashFAQ etc
+- [Bash Guide for Beginners](https://tldp.org/LDP/Bash-Beginners-Guide/html/)
+  by Machtel Garrels.
 
-#### Background reading
+### Further reading
+
+- [Ten simple rules for getting started with command-line bioinformatics](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008645)
+  (Brandies & Hogg 2021, PLoS Computational Biology)
 
 - [Five reasons why researchers should learn to love the command line](https://www.nature.com/articles/d41586-021-00263-0)
-  (Perkel 2021, Nature technology feature)
+  (Perkel 2021, Nature)
 
 <br>
 
@@ -41,27 +59,31 @@ The first two are available online at the OSU library:
 ### Books
 
 I wouldn't necessarily recommend diving so deep into Git as to read a book about
-it, but this book provides an excellent reference,
+it, but this book provides an excellent reference, is quite accessible,
 and is freely available online:
 
 - [Pro Git](http://git-scm.com/book/en/v2) (Chacon & Straub, 2014)
 
-### Online material
+### Online guides and tutorials
 
-- [Excuse me, do you have a moment to talk about version control?](https://peerj.com/preprints/3159/) (Bryan 2017, PeerJ)
+#### General
 
 - [An overview of Git tutorials](https://gist.github.com/jaseemabid/1321592)
 
 - [Happy Git and GitHub for the useR](https://happygitwithr.com/)  
   Somewhat R-centric, but a very accessible introduction to Git.
 
-- [Git best practices by Seth Robertson](https://sethrobertson.github.io/GitBestPractices/)
+- [Git best practices](https://sethrobertson.github.io/GitBestPractices/) by Seth Robertson
 
 - [Atlassian Git tutorials](https://www.atlassian.com/git/tutorials/what-is-version-control)  
   Atlassian is behind Bitbucket, an alternative to GitHub that also hosts Git
   repositories, and its Git tutorials are very useful.
 
-#### Online practice
+- A quick [GitHub overview](https://guides.github.com/activities/hello-world/)
+  of some Git and GitHub functionality including branching
+  and Pull Requests, and how to do these things in your browser at GitHub.
+  
+#### Interactive practice
 
 - [Git-it](https://github.com/jlord/git-it-electron#git-it) -- a small application to learn and practice Git and GitHub basics.
 
@@ -72,9 +94,26 @@ and is freely available online:
 
 - [Learn Git branching](https://learngitbranching.js.org/)
 
-- Quick [GitHub overview](https://guides.github.com/activities/hello-world/)  
-  of some Git and GitHub functionality including branching
-  and Pull Requests, and how to do these things in your browser at GitHub.
+#### Undoing
+
+- [Some slides](https://mcic-osu.github.io/pracs-sp21/posts/week-03/slides/03-3_git.html#1)
+  on undoing that we did not get to in our Git week.
+
+- [How to undo (almost) anything with Git](https://github.blog/2015-06-08-how-to-undo-almost-anything-with-git/)
+  -- by the GitHub blog
+
+- [Oh Shit, Git!?!](https://ohshitgit.com/) -- by Katie Sylor-Miller
+
+- [Git flight rules](https://github.com/k88hudson/git-flight-rules) -- by Kate Hudson.  
+  Covers much more than undoing.
+
+### Further reading
+
+- [Excuse me, do you have a moment to talk about version control?](https://peerj.com/preprints/3159/) (Bryan 2017, PeerJ)
+
+- [Ten Simple Rules for Taking Advantage of Git and GitHub](https://journals.plos.org/ploscompbiol/article?id=10.1371%2Fjournal.pcbi.1004947)
+  (Perez-Riverol et al. 2016, PLoS Comutational Biology)
+
 
 <br>
 
@@ -135,7 +174,15 @@ These are all available online, freely or via the OSU library:
 
 - [Videos from the MIT course "Introduction to Computer Science and Programming in Python"](https://www.youtube.com/playlist?list=PLUl4u3cNGP63WbdFxL8giv4yhgdMGaZNA)
 
-### Library-specific material
+### Online guides and tutorials
+
+#### General
+
+- [A YouTube playlist of Microsoft videos introducing Python](https://www.youtube.com/watch?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6&v=jFCNu1-Xdsw)
+
+- [PEP 8 — the Style Guide for Python Code](https://pep8.org/)
+
+#### Library-specific material
 
 - [The official NumPy tutorial](https://numpy.org/doc/stable/user/absolute_beginners.html)
 
@@ -145,9 +192,7 @@ These are all available online, freely or via the OSU library:
 
 - [The BioPython Tutorial and Cookbook](http://biopython.org/DIST/docs/tutorial/Tutorial.html)
 
-### Coding infrastructure
-
-#### VS Code
+#### VS Code and Python
 
 - [VS Code documentation on its "Python Interactive Window"](https://code.visualstudio.com/docs/python/jupyter-support-py).
 
@@ -168,11 +213,7 @@ can run Jupyter Notebooks but also regular Python scripts, a shell, and so forth
 - For a general introduction to Jupyter Notebooks, see also
   [How to Use Jupyter Notebook in 2020: A Beginner’s Tutorial](https://www.dataquest.io/blog/jupyter-notebook-tutorial/).
 
-### Miscellaneous
-
-- [A YouTube playlist of Microsoft videos introducing Python](https://www.youtube.com/watch?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6&v=jFCNu1-Xdsw)
-
-- [PEP 8 — the Style Guide for Python Code](https://pep8.org/)
+### Further reading
 
 - [Ten simple rules for writing and sharing computational analyses in Jupyter Notebooks ](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007007)
   -- Rule et al. 2019, PLoS Computational Biology
@@ -194,7 +235,7 @@ can run Jupyter Notebooks but also regular Python scripts, a shell, and so forth
   with a large section on Snakemake starting on
   [this page](http://www.hpc-carpentry.org/hpc-python/07-snakemake-intro/index.html).
 
-#### Background reading
+#### Further reading
 
 - [Workflow systems turn raw data into scientific knowledge](https://www.nature.com/articles/d41586-019-02619-z)
   (Perkel 2019, Nature "Toolbox" feature).
@@ -206,17 +247,6 @@ can run Jupyter Notebooks but also regular Python scripts, a shell, and so forth
 
 ## Miscellaneous
 
-### Reproducibility and best practices
-
-- [Good enough practices in scientific computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
-(Wilson et al. 2017, PLoS Computational Biology)
-
-- [The plain person's guide to plain text social science](https://plain-text.co/)
-  (Kieran Healy)
-
-- [Streamlining data-intensive biology with workflow systems](https://academic.oup.com/gigascience/article/10/1/giaa140/6092773)
-  (Reiter et al. 2021, GigaScience)
-  
 ### Books similar to CSB
 
 - [A Primer for Computational Biology](https://open.oregonstate.education/computationalbiology/)
@@ -224,15 +254,34 @@ can run Jupyter Notebooks but also regular Python scripts, a shell, and so forth
 - [Practical Computing for Biologists](https://library.ohio-state.edu/record=b6971375~S7)
   (Haddock & Dunn, 2011)
 
+### Reproducibility and best practices
+
+- [Good enough practices in scientific computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
+(Wilson et al. 2017, PLoS Computational Biology)
+
+- [Streamlining data-intensive biology with workflow systems](https://academic.oup.com/gigascience/article/10/1/giaa140/6092773)
+  (Reiter et al. 2021, GigaScience)
+
+- [Reproducible Research: A Retrospective](https://pubmed.ncbi.nlm.nih.gov/33467923/)
+  (Peng & Hicks 2021, Annu Rev Public Health)
+
+- [Ten Simple Rules for Reproducible Computational Research](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285)
+  (Sandve et al. 2013, PLoS Computational Biology)
+  
+- [The plain person's guide to plain text social science](https://plain-text.co/)
+  (Kieran Healy)
+ 
 ### Genomics and applied bioinformatics
 
-- Two courses on genomic data analysis with lots of online material available:
-
+- A few courses on genomic data analysis with lots of great online material available:
+  
+  - [Introduction to Bioinformatics and Computational Biology by Shirley Liu](https://liulab-dfci.github.io/bioinfo-combio/)
+  
   - [Applied Genomics course by Michael Schatz](https://github.com/schatzlab/appliedgenomics2020)
 
   - [Applied Computational Genomics course by Aaron Quinlan](https://github.com/quinlan-lab/applied-computational-genomics)
 
-- Sites with online materials for lots of past computational biology workshops:
+- Sites with online material for many computational biology workshops:
 
   - [UC Davis Bioinformatics Core](https://ucdavis-bioinformatics-training.github.io/)
   - [Harvard Chan Bioinformatics Core](https://hbctraining.github.io/Training-modules/)

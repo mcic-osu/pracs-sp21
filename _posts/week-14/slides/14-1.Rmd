@@ -220,9 +220,8 @@ class:inverse middle center
 As you have hopefully seen, there already was a page with lots of further 
 resources for Python.
 
-That page now also has further resources for all other topics.
-
-...add link...
+I have now changed [that page](https://mcic-osu.github.io/pracs-sp21/resources.html)
+to hold further resources for all other topics.
 
 ---
 
@@ -240,19 +239,21 @@ That page now also has further resources for all other topics.
 
 --
 
-- Some things we didn't cover:
+- Some shell topics we didn't cover:
   
   - Creating symbolic links
     ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-shfiles.html#44))
   - `find` and `xargs`
-    ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-05/slides/05-3_find-xargs.html#1) &ndash; and see Buffalo chapter 7)
+    ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-05/slides/05-3_find-xargs.html#1)
+    &ndash; and see Buffalo chapter 7)
   - `join` to merge tabular data 
     ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-04/slides/04-1_data-tools.html#55)
     &ndash; and see Buffalo chapter 7)
-  - Process management and tmux (Buffalo chapter 4)
-  - `bioawk` (see Buffalo chapter 7))
-  - Parameter expansion
+  - `bioawk` (for sequence data &ndash; see Buffalo chapter 7)
+  - Manual software installation and `$PATH`
+  - Process management and monitoring (Buffalo chapter 4)
   - tar archives
+  - Parameter expansion
   - If you like shell scripts, look into parsing arguments with `getopts`
   
 ---
@@ -274,7 +275,11 @@ That page now also has further resources for all other topics.
   - Undoing things
     ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-03/slides/03-3_git.html#1)).
 
-- Use **VS Code locally** and SSH(-tunnel) in.
+- **Miscellaneous**
+  
+  - Use **VS Code locally** and SSH(-tunnel) in.
+  
+  - Manual software installation and working with containers.
 
 ---
 
