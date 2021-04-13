@@ -2518,16 +2518,7 @@ Topic overviews
 <span class="nav-dropdown-header">Snakemake (TBA)</span>
 </div>
 </div>
-<div class="nav-dropdown">
-<button class="nav-dropbtn">
-Go further
- 
-<span class="down-arrow">&#x25BE;</span>
-</button>
-<div class="nav-dropdown-content">
-<a href="w08_python-resources.html">Python resources</a>
-</div>
-</div>
+<a href="resources.html">Further resources</a>
 <input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
@@ -2568,17 +2559,32 @@ Go further
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#shell">Shell</a></li>
-<li><a href="#markdown">Markdown</a></li>
-<li><a href="#project-organization-and-reproducibility">Project organization and reproducibility</a></li>
-<li><a href="#git">Git</a></li>
+<li><a href="#shell">Shell</a>
+<ul>
+<li><a href="#books">Books</a></li>
+<li><a href="#misc">Misc</a></li>
+<li><a href="#useful-oneliners-mostly-for-bioinformatics">Useful oneliners, mostly for bioinformatics</a></li>
+<li><a href="#background-reading">Background reading</a></li>
+</ul></li>
+<li><a href="#project-organization-reproducibility-and-best-practices">Project organization, reproducibility, and best practices</a></li>
+<li><a href="#git">Git</a>
+<ul>
+<li><a href="#books-1">Books</a></li>
+<li><a href="#online-practice">Online practice</a></li>
+<li><a href="#misc-1">Misc</a></li>
+</ul></li>
 <li><a href="#python">Python</a>
 <ul>
-<li><a href="#general-python-resources">General Python resources</a></li>
-<li><a href="#more-specific-python-resources">More specific Python resources</a></li>
+<li><a href="#books-2">Books</a></li>
+<li><a href="#courses">Courses</a></li>
+<li><a href="#library-specific-material">Library-specific material</a></li>
 <li><a href="#coding-infrastructure">Coding infrastructure</a></li>
+<li><a href="#miscellaneous">Miscellaneous</a></li>
 </ul></li>
-<li><a href="#snakemake">Snakemake</a></li>
+<li><a href="#snakemake">Snakemake</a>
+<ul>
+<li><a href="#background-reading-1">Background reading</a></li>
+</ul></li>
 <li><a href="#miscellaneous-1">Miscellaneous</a>
 <ul>
 <li><a href="#books-along-the-lines-of-csb">Books along the lines of CSB</a></li>
@@ -2588,51 +2594,90 @@ Go further
 </nav>
 </div>
 <h2 id="shell">Shell</h2>
-<p><a href="https://github.com/stephenturner/oneliners/blob/master/README.md" class="uri">https://github.com/stephenturner/oneliners/blob/master/README.md</a></p>
-<p><a href="https://github.com/crazyhottommy/bioinformatics-one-liners" class="uri">https://github.com/crazyhottommy/bioinformatics-one-liners</a></p>
+<h3 id="books">Books</h3>
+<p>The first two are available online at the OSU library:</p>
+<ul>
+<li><p><a href="https://library.ohio-state.edu/record=b8640501~S7">The Linux Command Line: A Complete Introduction</a> (William Shotts, 2019)</p></li>
+<li><p><a href="https://library.ohio-state.edu/record=b9161748~S7">Linux Command Line and Shell Scripting Bible</a> (Christine Bresnahan, 2015)</p></li>
+<li><p><a href="https://www.amazon.com/dp/1499222033">Command Line Kung Fu: Bash Scripting Tricks, Linux Shell Programming Tips, and Bash One-liners</a> (Jason Cannon, 2014)</p></li>
+</ul>
+<h3 id="misc">Misc</h3>
+<ul>
+<li><a href="http://swcarpentry.github.io/shell-novice/">Software Carpenty shell tutorial</a> For another angle on some of what we’ve also learned in this course.</li>
+</ul>
+<h3 id="useful-oneliners-mostly-for-bioinformatics">Useful oneliners, mostly for bioinformatics</h3>
+<ul>
+<li><p><a href="https://github.com/stephenturner/oneliners/blob/master/README.md">By Stephen Turner</a></p></li>
+<li><p><a href="https://github.com/crazyhottommy/bioinformatics-one-liners">By Tommy Ming</a></p></li>
+</ul>
+<h3 id="background-reading">Background reading</h3>
+<ul>
+<li><a href="https://www.nature.com/articles/d41586-021-00263-0">Five reasons why researchers should learn to love the command line</a></li>
+</ul>
 <p><br></p>
-<h2 id="markdown">Markdown</h2>
-<p><br></p>
-<h2 id="project-organization-and-reproducibility">Project organization and reproducibility</h2>
+<h2 id="project-organization-reproducibility-and-best-practices">Project organization, reproducibility, and best practices</h2>
+<ul>
+<li><p><a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510">Good enough practicaes in scientific computing</a> (Wilson et al. 2017, PLoS Computational Biology)</p></li>
+<li><p><a href="https://plain-text.co/">The plain person’s guide to plain text social science</a> (Kieran Healy)</p></li>
+<li><p><a href="https://academic.oup.com/gigascience/article/10/1/giaa140/6092773">Streamlining data-intensive biology with workflow systems</a> (Reiter et al. 2021, GigaScience)</p></li>
+</ul>
 <p><br></p>
 <h2 id="git">Git</h2>
-<p><a href="https://sethrobertson.github.io/GitBestPractices/" class="uri">https://sethrobertson.github.io/GitBestPractices/</a></p>
+<h3 id="books-1">Books</h3>
+<p>I wouldn’t necessarily recommend diving so deep into Git as to read a book about it, but this book at the very least provides an excellent reference, and is freely available online: <a href="http://git-scm.com/book/en/v2">Pro Git</a>.</p>
+<h3 id="online-practice">Online practice</h3>
+<ul>
+<li><p><a href="https://github.com/jlord/git-it-electron#git-it">Git-it</a> – a small application to learn and practice Git and GitHub basics.</p></li>
+<li><p><a href="http://git-school.github.io/visualizing-git/">Visualizing Git</a><br />
+These visualizations can help to get some intuition for Git. Note that at the prompt, you can only type Git commands and since there are no actual files involved, you can’t use <code>git add</code> – just commit straight away.</p></li>
+<li><p><a href="https://learngitbranching.js.org/">Learn Git branching</a></p></li>
+<li><p>Quick <a href="https://guides.github.com/activities/hello-world/">GitHub overview</a><br />
+of some Git and GitHub functionality including branching and Pull Requests, and how to do these things in your browser at GitHub.</p></li>
+</ul>
+<h3 id="misc-1">Misc</h3>
+<ul>
+<li><p><a href="https://peerj.com/preprints/3159/">Excuse me, do you have a moment to talk about version control?</a> (Bryan 2017, PeerJ)</p></li>
+<li><p><a href="https://gist.github.com/jaseemabid/1321592">An overview of Git tutorials</a></p></li>
+<li><p><a href="https://happygitwithr.com/">Happy Git and GitHub for the useR</a><br />
+Somewhat R-centric, but a very accessible introduction to Git.</p></li>
+<li><p>[Git best practices by Seth Robertson] (<a href="https://sethrobertson.github.io/GitBestPractices/" class="uri">https://sethrobertson.github.io/GitBestPractices/</a>)</p></li>
+<li><p><a href="https://www.atlassian.com/git/tutorials/what-is-version-control">Atlassian Git tutorials</a><br />
+Atlassian is behind Bitbucket, an alternative to GitHub that also hosts Git repositories, and its Git tutorials are very useful.</p></li>
+</ul>
 <p><br></p>
 <h2 id="python">Python</h2>
-<h3 id="general-python-resources">General Python resources</h3>
-<p>Here is a list of recommended resources for learning Python. Most are geared towards beginners (in Python and programming alike). Also, the bioinformatics-specific books are all quite practical, dealing with “applied bioinformatics” – i.e. more how to analyze your data than how to write your own algorithms.</p>
-<h4 id="available-online-via-the-osu-library">Available online via the OSU library</h4>
+<h3 id="books-2">Books</h3>
+<p>These are all available online, freely or via the OSU library:</p>
 <ul>
-<li><p>Book: <a href="https://library.ohio-state.edu/record=b8792177~S7">Python for the life sciences: a gentle introduction to python for life scientists</a> (Alexandar Lancestar, 2019). Very explicitly geared towards biologists with no or little programming experience, and takes a very practical and project-oriented approach. From what I’ve seen of the book, I can highly recommended it!</p></li>
-<li><p>Book: <a href="https://library.ohio-state.edu/record=b8257944~S7">Python for Bioinformatics</a> (Sebastian Bassi, 2018). Starts with an introduction to Python and then has chapters that each describe practical problems/projects for Python.<br />
+<li><p><a href="https://library.ohio-state.edu/record=b8792177~S7">Python for the life sciences: a gentle introduction to python for life scientists</a> (Alexandar Lancestar, 2019).<br />
+Very explicitly geared towards biologists with no or little programming experience, and takes a very practical and project-oriented approach. From what I’ve seen of the book, I can highly recommended it!</p></li>
+<li><p><a href="https://library.ohio-state.edu/record=b8257944~S7">Python for Bioinformatics</a> (Sebastian Bassi, 2018).<br />
+Starts with an introduction to Python and then has chapters that each describe practical problems/projects for Python.<br />
 (<a href="https://github.com/serulab/py4bio">Associated GitHub repository</a>.)</p></li>
-<li><p>Book: <a href="https://library.ohio-state.edu/record=b8928994~S7">Python programming for biology, bioinformatics, and beyond</a> (Tim Stevens, 2015). Starts with an introduction to Python and then has chapters on topics like “Pairwise sequence alignments”, “Sequence variation and evolution”, and “High-throughput sequences”.</p></li>
-<li><p>Book: <a href="https://library.ohio-state.edu/record=b9208582~S7">Reproducible Bioinformatics with Python</a> (Ken Youens-Clark, 2021). A slightly more advanced book that does not start with an introduction to Python, but you should be able to follow the book with what you’ve learned in this course.</p></li>
+<li><p><a href="https://library.ohio-state.edu/record=b8928994~S7">Python programming for biology, bioinformatics, and beyond</a> (Tim Stevens, 2015).<br />
+Starts with an introduction to Python and then has chapters on topics like “Pairwise sequence alignments”, “Sequence variation and evolution”, and “High-throughput sequences”.</p></li>
+<li><p><a href="https://library.ohio-state.edu/record=b9208582~S7">Reproducible Bioinformatics with Python</a> (Ken Youens-Clark, 2021).<br />
+A slightly more advanced book that does not start with an introduction to Python, but you should be able to follow the book with what you’ve learned in this course.</p></li>
+<li><p><a href="https://jakevdp.github.io/PythonDataScienceHandbook/">Python Data Science Handbook</a> (Jake VanderPlas, 2016).<br />
+Focused on NumPy, Pandas, visualization with Matplotlib, and machine learning with scikit-learn. Freely available online.</p></li>
+<li><p><a href="https://library.ohio-state.edu/record=b9170181~S7">Python for Data Analysis</a> (Wes McKinney, 2017).<br />
+Focused on NumPy, Pandas, and visualization with Matplotlib.</p></li>
+<li><p><a href="https://diveintopython3.problemsolving.io/">Dive Into Python 3</a> Mark Pilgrim, 2009</p></li>
 </ul>
-<h4 id="free-online-resources">Free online resources</h4>
-<h5 id="videos">Videos</h5>
-<ul>
-<li><p><a href="https://www.youtube.com/watch?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6&amp;v=jFCNu1-Xdsw">A YouTube playlist of Microsoft videos introducing Python</a></p></li>
-<li><p><a href="https://www.youtube.com/playlist?list=PLUl4u3cNGP63WbdFxL8giv4yhgdMGaZNA">Videos from the MIT course “Introduction to Computer Science and Programming in Python”</a></p></li>
-</ul>
-<h5 id="courses">Courses</h5>
+<h3 id="courses">Courses</h3>
 <ul>
 <li><p><a href="https://www.py4e.com/">Python for everybody</a> – Includes course materials and lectures, and is also available at Coursera and edX.</p></li>
 <li><p><a href="http://programmingforbiology.org/index.html">Programming for Biology</a> – This is the Cold Spring Harbor course that your TA Zach took, and the materials are available online.</p></li>
 <li><p><a href="https://www.edx.org/course/using-python-for-research">Using Python for Research</a> Free edX course – you can also find links to just the videos towards the bottom of <a href="http://rafalab.github.io/pages/harvardx.html">this page</a>.</p></li>
+<li><p><a href="https://www.freecodecamp.org/learn/data-analysis-with-python/">Data analysis with Python at freeCodeCamp</a></p></li>
+<li><p><a href="https://www.youtube.com/playlist?list=PLUl4u3cNGP63WbdFxL8giv4yhgdMGaZNA">Videos from the MIT course “Introduction to Computer Science and Programming in Python”</a></p></li>
 </ul>
-<p><br></p>
-<h3 id="more-specific-python-resources">More specific Python resources</h3>
-<h4 id="best-practices">Best practices</h4>
+<h3 id="library-specific-material">Library-specific material</h3>
 <ul>
-<li><p><a href="https://pep8.org/">PEP 8 — the Style Guide for Python Code</a></p></li>
-<li><p><a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007007">Ten simple rules for writing and sharing computational analyses in Jupyter Notebooks</a> – Rule et al. 2019, PLoS Computational Biology</p></li>
-</ul>
-<h4 id="miscellaneous">Miscellaneous</h4>
-<ul>
-<li><p><a href="https://stackoverflow.blog/2017/09/06/incredible-growth-python/">Stack Overflow: “The Incredible Growth of Python” (2017)</a></p></li>
-<li><p><a href="https://www.statista.com/chart/21017/most-popular-programming-languages/">Statista: “Python Remains Most Popular Programming Language” (2020)</a></p></li>
-<li><p><a href="https://www.economist.com/graphic-detail/2018/07/26/python-is-becoming-the-worlds-most-popular-coding-language">The Economist: “Python is becoming the world’s most popular coding language” (2018)</a></p></li>
+<li><p><a href="https://numpy.org/doc/stable/user/absolute_beginners.html">The official NumPy tutorial</a></p></li>
+<li><p><a href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/">Pandas tutorials and documentation</a></p></li>
+<li><p><a href="https://github.com/peterjc/biopython_workshop/">Material for a BioPython workshop</a></p></li>
+<li><p><a href="http://biopython.org/DIST/docs/tutorial/Tutorial.html">The BioPython Tutorial and Cookbook</a></p></li>
 </ul>
 <h3 id="coding-infrastructure">Coding infrastructure</h3>
 <h4 id="vs-code">VS Code</h4>
@@ -2647,9 +2692,35 @@ Go further
 <li><p><a href="https://jupyterlab.readthedocs.io/en/2.2.x/user/interface.html">This JupyterLab documentation</a> provides a nice introduction to JupyterLab features (the link goes to documentation for a version close to the one at OSC).</p></li>
 <li><p>For a general introduction to Jupyter Notebooks, see also <a href="https://www.dataquest.io/blog/jupyter-notebook-tutorial/">How to Use Jupyter Notebook in 2020: A Beginner’s Tutorial</a>.</p></li>
 </ul>
+<h3 id="miscellaneous">Miscellaneous</h3>
+<ul>
+<li><a href="https://www.youtube.com/watch?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6&amp;v=jFCNu1-Xdsw">A YouTube playlist of Microsoft videos introducing Python</a></li>
+</ul>
+<h4 id="best-practices">Best practices</h4>
+<ul>
+<li><p><a href="https://pep8.org/">PEP 8 — the Style Guide for Python Code</a></p></li>
+<li><p><a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007007">Ten simple rules for writing and sharing computational analyses in Jupyter Notebooks</a> – Rule et al. 2019, PLoS Computational Biology</p></li>
+</ul>
+<h4 id="meta">Meta</h4>
+<ul>
+<li><p><a href="https://stackoverflow.blog/2017/09/06/incredible-growth-python/">Stack Overflow: “The Incredible Growth of Python” (2017)</a></p></li>
+<li><p><a href="https://www.statista.com/chart/21017/most-popular-programming-languages/">Statista: “Python Remains Most Popular Programming Language” (2020)</a></p></li>
+<li><p><a href="https://www.economist.com/graphic-detail/2018/07/26/python-is-becoming-the-worlds-most-popular-coding-language">The Economist: “Python is becoming the world’s most popular coding language” (2018)</a></p></li>
+</ul>
 <p><br></p>
 <h2 id="snakemake">Snakemake</h2>
-<p>…</p>
+<ul>
+<li><p><a href="https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html">The official Snakemake tutorial</a>.<br />
+Can be run in your browser!</p></li>
+<li><p><a href="https://vincebuffalo.com/blog/2020/03/04/understanding-snakemake.html">A short Snakemake introduction by Vince Buffalo</a></p></li>
+<li><p><a href="https://nbis-reproducible-research.readthedocs.io/en/latest/snakemake/">A useful Snakemake tutorial by NBIS</a></p></li>
+<li><p>A Carpentries lesson on working on a compute cluster, with a large section on Snakemake starting on <a href="http://www.hpc-carpentry.org/hpc-python/07-snakemake-intro/index.html">this page</a>.</p></li>
+</ul>
+<h3 id="background-reading-1">Background reading</h3>
+<ul>
+<li><p><a href="https://www.nature.com/articles/d41586-019-02619-z">Workflow systems turn raw data into scientific knowledge</a> (Perkel 2019, Nature “Toolbox” feature).</p></li>
+<li><p><a href="https://zenodo.org/record/4240139">Sustainable data analysis with Snakemake</a> (Mölder et al. 2020, Zenodo).</p></li>
+</ul>
 <p><br></p>
 <h2 id="miscellaneous-1">Miscellaneous</h2>
 <h3 id="books-along-the-lines-of-csb">Books along the lines of CSB</h3>
@@ -2671,9 +2742,10 @@ Go further
 <li><a href="https://bioinformaticsdotca.github.io/">Bioinformatics.ca</a></li>
 <li><a href="https://si.biostat.washington.edu/suminst/archives/SISG2020">Summer Institute in Statistical Genetics</a></li>
 <li><a href="https://datacarpentry.org/lessons/#genomics-workshop">Genomics Curriculum of Data Carpentry</a></li>
+</ul></li>
+<li><p><a href="http://rosalind.info/">Rosalind</a> – A website with bioinformatics exercises</p></li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div></li>
-</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

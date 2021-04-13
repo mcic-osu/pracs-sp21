@@ -64,6 +64,8 @@ class:inverse middle center
     - Biopython
 ]
 
+--
+
 - Version control with **Git**
 
 - Submitting OSC jobs using **SLURM**
@@ -101,8 +103,9 @@ Apply these **habits and skills**:
 
 - Do as much as possible using code:
   - Including what you could in some cases do as/more quickly using GUIs &ndash;
-    downloads, renaming and re-organizing, systematic literature searches, etc.:
-    "Use code as documentation."
+    downloads, renaming and re-organizing, systematic literature searches, etc.
+    
+  - "Use code as documentation."
   
   - Use shell tools for "simple" problems (one or a few steps),  
     use Python as it gets more complex. 
@@ -118,10 +121,10 @@ Apply these **habits and skills**:
 This course has focused on **foundational skills** and
 overall on **breadth over depth**.
 
-Some of the rationale for this:
+Some of the rationale for this &ndash; foundational skills:
 
 - Specific tools are not only highly ... specific, they are also easier and perhaps
-  better picked up in short "just-in-time workshops" or even using good cookbook-style
+  better picked up in "just-in-time workshops" or even using good cookbook-style
   tutorials (increasingly common!).
   Moreover:
   
@@ -131,12 +134,19 @@ Some of the rationale for this:
   > software programs around today. But we most certainly will be using data skills and
   > experimentation to assess data and methods of the future.
 
---
+---
+
+## What is the big picture? (cont.)
+
+This course has focused on **foundational skills** and
+overall on **breadth over depth**.
+
+Some of the rationale for this &ndash; breadth over depth:
 
 - The first steps are the hardest &ndash; and "false starts" can be very common
   when trying to self-teach tools that will initially take more time than
-  manual approaches (e.g. version control, keep renaming and doing other
-  repetitive things by hand).
+  manual approaches. E.g. version control, keep renaming and doing other
+  repetitive things by hand.
 
 - You may not be aware of what's out there.
 
@@ -144,7 +154,7 @@ Some of the rationale for this:
 
 ## What is the big picture? (cont.)
 
-Flipside:
+But there is a flip side of this:
 
 - Limited practical case studies
 
@@ -170,8 +180,6 @@ Flipside:
 
 ## Some misc. tips going forward
 
-- Avoid the tar pit of immediacy.
-
 - Break things up in small bits.
 
 - Write code to be read by humans and data to be read by computers.
@@ -181,9 +189,20 @@ Flipside:
 
 - Make figures, tables, and statistics the result of scripts.
 
-- Use existing libraries whenever possible.
+- Unless it's just for practice, don't try to re-invent the wheel but
+  use existing libraries/packages/programs for specialized tasks.
+
+--
 
 - Keep practicing!
+
+- Reread the books and especially for the Buffalo book, also the sections
+  that we didn't read.
+
+- Avoid the "tar pit of immediacy".
+
+- If you're using Windows, consider switching (or dual-booting with)
+  Ubuntu Linux.
 
 ---
 class:inverse middle center
@@ -193,41 +212,6 @@ class:inverse middle center
 ----
 
 <br> <br> <br>
-
----
-
-## Some specific next steps by topic &ndash; Python
-
-- Shell -- we covered quite bit, focus on getting fluent.  
-  Some things we didn't cover:
-  
-  - [Creating links](https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-shfiles.html#44)
-  - `find` and `xargs` ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-05/slides/05-3_find-xargs.html#1) &ndash; see Buffalo chapter 7)
-  - [`join`](https://mcic-osu.github.io/pracs-sp21/posts/week-04/slides/04-1_data-tools.html#55) to merge tabular data by a shared column
-  - Parameter expansion
-  - Process management (background jobs)
-  - tar archives
-  - If you like shell scripts, look into parsing arguments
-  - bioawk
-  
----
-
-## Some specific next steps by topic &ndash; Python
-
-- Python &ndash; If you want to keep using Python, I would probably recommend
-  working your way through a book fully focused on Python.
-  
-  See the resources page -- Type of book depends on your preference/direction:
-  general Python vs Data Science vs Bioinformatics
-  
-  Jupyter Notebooks
-
-- Git
-
-  - Merge conflicts
-  - Undoing things ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-03/slides/03-3_git.html#1))
-
-- Use VS Code locally and SSH(-tunnel) in
 
 ---
 
@@ -242,6 +226,58 @@ That page now also has further resources for all other topics.
 
 ---
 
+## Some specific next steps by topic &ndash; Shell
+
+- We actually covered quite a bit here!
+  
+  While you could go a lot deeper, other tools may be better choices for things
+  well beyond the complexity that we discussed:
+  Python (for more complex data tasks; or R) and
+  Snakemake (for more complex workflow tasks).
+  
+  Instead, I would recommend to focus on getting fluent and picking new things
+  up along the way.
+
+--
+
+- Some things we didn't cover:
+  
+  - Creating symbolic links
+    ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-shfiles.html#44))
+  - `find` and `xargs`
+    ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-05/slides/05-3_find-xargs.html#1) &ndash; and see Buffalo chapter 7)
+  - `join` to merge tabular data 
+    ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-04/slides/04-1_data-tools.html#55)
+    &ndash; and see Buffalo chapter 7)
+  - Process management and tmux (Buffalo chapter 4)
+  - `bioawk` (see Buffalo chapter 7))
+  - Parameter expansion
+  - tar archives
+  - If you like shell scripts, look into parsing arguments with `getopts`
+  
+---
+
+## Some specific next steps by topic
+
+- **Python** &ndash; If you want to keep using Python, I would probably recommend
+  working your way through a book fully focused on Python.
+  
+  See the resources page &ndash; the choice of book will depends on your
+  preferred direction: general Python vs Bioinformatics vs Data Science.
+  Jupyter Notebooks.
+
+- **Git**
+
+  - Merge conflicts
+    ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-03/slides/03-2_git.html#60)).
+  
+  - Undoing things
+    ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-03/slides/03-3_git.html#1)).
+
+- Use **VS Code locally** and SSH(-tunnel) in.
+
+---
+
 ## Other foundational skills
 
 If you want to keep doing "data-centric" work,
@@ -253,7 +289,7 @@ I would also recommend a couple of topics we did not touch on at all:
 - Data visualization
 
 - R &ndash; certainly for bioinformatics and probably also the best choice for
-  the two topics above.
+  the two topics above. (The Buffalo and CSB books offer introductions.)
 
 ---
 
@@ -312,3 +348,21 @@ Also see:
 
 - [CSH Programming for Biologists](http://programmingforbiology.org/)
 
+---
+
+## Recaps / bonus
+
+- [SSH set-up and tunneling](https://mcic-osu.github.io/pracs-sp21/w06_UA_ssh.html)
+
+- [Using Conda with Snakemake](https://mcic-osu.github.io/pracs-sp21/posts/week-13/slides/13-3.html#conda)
+
+- JupyterLab at OSC
+
+
+---
+class: inverse middle center
+
+# Questions?
+
+----
+<br> <br> <br> <br>

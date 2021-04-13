@@ -66,10 +66,8 @@ navbar:
           href: overviews_git.html
         - text: "Python (TBA)"
         - text: "Snakemake (TBA)"
-    - text: "Go further"
-      menu:
-        - text: "Python resources"
-          href: w08_python-resources.html
+    - text: "Further resources"
+      href: resources.html
 
   right:
     - text: "About"
