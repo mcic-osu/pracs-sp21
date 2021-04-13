@@ -46,6 +46,7 @@ class:inverse middle center
     - Basics
     - Data tools
     - Scripting
+    - OSC jobs with SLURM
 ]
 
 .pull-right[
@@ -59,15 +60,13 @@ class:inverse middle center
 
 --
 
-- Version control with **Git**
-
-- Submitting OSC jobs using **SLURM**
-
-- Reproducible workflows using **Snakemake**
-
 - **Project organization and management**
 
 - Formatted plain text files with **Markdown**
+
+- Version control with **Git**
+
+- Reproducible workflows using **Snakemake**
 
 - Along the way, you have gotten to know the **VS Code** editor quite well
 
@@ -75,26 +74,36 @@ class:inverse middle center
 
 ## What is the big picture?
 
-Core goal of the course, as described in the first week:
+Core goal of the course:
 
-&gt; **Learning skills to do your research more reproducibly and efficiently**
+.content-box-green[
+**Learning strategies and computational skills to do your research
+more reproducibly and efficiently**
+]
 
 ---
 
-## What is the big picture?
+## Some take-home messages
 
-Apply these **habits and skills**:
+Apply these **strategies and skills**:
 
 - Use one directory per project with a clear and consistent sub-dir structure
-  and file naming.
+  and ditto file naming.
 
 - Treat raw data as read-only.
 
 - Document everything you do in plain text README files.
 
---
+- Always use version control.
+
+- Share your code (using GitHub).
+
+---
+
+## Some take-home messages
 
 - Do as much as possible using code:
+
   - Including what you could in some cases do as/more quickly using GUIs &amp;ndash;
     downloads, renaming and re-organizing, systematic literature searches, etc.
     
@@ -103,57 +112,80 @@ Apply these **habits and skills**:
   - Use shell tools for "simple" problems (one or a few steps),  
     use Python as it gets more complex. 
 
-- Always use version control.
+- Break your code up in small, reusable bits:  
+  keep individual scripts short, use functions in Python, etc.
 
-- Share your code (GitHub).
+- Write code to be read by humans, and data to be read by computers.
 
 ---
 
-## What is the big picture? (cont.)
+## Foundational skills
 
-This course has focused on **foundational skills** and
-overall on **breadth over depth**.
+This course has focused on *foundational skills* and *breadth over depth*.  
 
-Some of the rationale for this &amp;ndash; foundational skills:
+Some of the rationale for this &amp;ndash; **foundational skills**:
 
-- Specific tools are not only highly ... specific, they are also easier and perhaps
-  better picked up in "just-in-time workshops" or even using good cookbook-style
-  tutorials (increasingly common!).
-  Moreover:
+&gt; *Learning core bioinformatics data skills will give you the*
+&gt; *foundation to learn, apply, and assess any bioinformatics program or analysis*
+&gt; *method. In 10 years, bioinformaticians may only be using a few of the bioinformatics*
+&gt; *software programs around today. But we most certainly will be using data skills and*
+&gt; *experimentation to assess data and methods of the future.*  
+&gt; &amp;mdash; Buffalo chapter 1
+
+- High turn-over of specific methods...
+
+- With foundational skills&lt;sup&gt;[1]&lt;/sup&gt;, more specialized methods/tools can be
+  picked up with "just-in-time" workshops or even using good online tutorials.
   
-  &gt; Learning core bioinformatics data skills will give you the
-  &gt; foundation to learn, apply, and assess any bioinformatics program or analysis
-  &gt; method. In 10 years, bioinformaticians may only be using a few of the bioinformatics
-  &gt; software programs around today. But we most certainly will be using data skills and
-  &gt; experimentation to assess data and methods of the future.
+- These skills are broadly applicable, and useful in any data-heavy occupation.
+
+.footnote[
+&lt;sup&gt;[1]&lt;/sup&gt; Though not just the one ones taught here, as we'll get back to.
+]
 
 ---
 
-## What is the big picture? (cont.)
+## Breadth over depth
 
-This course has focused on **foundational skills** and
-overall on **breadth over depth**.
+This course has focused on *foundational skills* and *breadth over depth*.
 
-Some of the rationale for this &amp;ndash; breadth over depth:
+Some of the rationale for this &amp;ndash; **breadth over depth**:
 
 - The first steps are the hardest &amp;ndash; and "false starts" can be very common
   when trying to self-teach tools that will initially take more time than
-  manual approaches. E.g. version control, keep renaming and doing other
-  repetitive things by hand.
+  manual approaches.
+  
+  E.g. it is tempting to keep pushing off usage of version control,  
+  or to keep renaming and doing other repetitive things by hand.
 
 - You may not be aware of what's out there.
 
----
+&lt;br&gt;
 
-## What is the big picture? (cont.)
+--
 
-But there is a flip side of this:
+But there is a flip side to this:
 
 - Limited practical case studies
 
 - You may not feel you've become really proficient with any of these tools
 
-&lt;br&gt;
+---
+class:inverse middle center
+
+# II: Next steps
+
+----
+
+&lt;br&gt; &lt;br&gt; &lt;br&gt;
+
+---
+
+## Various tips going forward
+
+- Keep practicing!
+
+- Avoid the "tar pit of immediacy".
 
 &gt; *It is important to practice regularly, and protect time to play with new tools.
 &gt; While it is great to have a specific task in mind when starting to program,
@@ -171,51 +203,28 @@ But there is a flip side of this:
 
 ---
 
-## Some misc. tips going forward
-
-- Break things up in small bits.
-
-- Write code to be read by humans and data to be read by computers.
+## Various tips going forward (cont.)
 
 - Develop frequently used scripts into "tools",
   which you can can keep in a separate repository.
 
-- Make figures, tables, and statistics the result of scripts.
-
-- Unless it's just for practice, don't try to re-invent the wheel but
-  use existing libraries/packages/programs for specialized tasks.
-
---
-
-- Keep practicing!
-
-- Reread the books and especially for the Buffalo book, also the sections
-  that we didn't read.
-
-- Avoid the "tar pit of immediacy".
-
-- If you're using Windows, consider switching (or dual-booting with)
-  Ubuntu Linux.
-
----
-class:inverse middle center
-
-# II: Next steps
-
-----
-
-&lt;br&gt; &lt;br&gt; &lt;br&gt;
+- Don't try to re-invent the wheel but use existing libraries / packages / programs
+  for specialized tasks (unless it's just for practice).
+  
+- **Try to make all figures, tables, and statistics in papers to be
+  the result of scripts.**
 
 ---
 
-## Further resources
+## Some specific next steps by topic
 
-As you have hopefully seen, there already was a page with lots of further 
-resources for Python.
+.content-box-info[
+As you have hopefully seen, there already was a page on the coure's GitHub site
+with further resources for Python.
 
-That page now also has further resources for all other topics.
-
-...add link...
+I have now changed [that page](https://mcic-osu.github.io/pracs-sp21/resources.html)
+to hold further resources for all other topics.
+]
 
 ---
 
@@ -223,10 +232,11 @@ That page now also has further resources for all other topics.
 
 - We actually covered quite a bit here!
   
-  While you could go a lot deeper, other tools may be better choices for things
-  well beyond the complexity that we discussed:
-  Python (for more complex data tasks; or R) and
-  Snakemake (for more complex workflow tasks).
+  While you could go a lot deeper, for things
+  well beyond the complexity that we discussed,
+  other tools may be better choices:
+  - Python (or R) &amp;ndash; for more complex data tasks 
+  - Snakemake &amp;ndash; for more complex workflow tasks
   
   Instead, I would recommend to focus on getting fluent and picking new things
   up along the way.
@@ -252,43 +262,61 @@ That page now also has further resources for all other topics.
   
 ---
 
-## Some specific next steps by topic
+## Some specific next steps by topic (cont.)
 
-- **Python** &amp;ndash; If you want to keep using Python, I would probably recommend
-  working your way through a book fully focused on Python.
+### Python
   
+- If you want to keep using Python, I would probably recommend
+  working your way through a **book fully focused on Python.**  
+    
   See the resources page &amp;ndash; the choice of book will depends on your
   preferred direction: general Python vs Bioinformatics vs Data Science.
-  Jupyter Notebooks.
-
-- **Git**
-
-  - Merge conflicts
-    ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-03/slides/03-2_git.html#60)).
   
-  - Undoing things
-    ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-03/slides/03-3_git.html#1)).
+- Jupyter Notebooks
 
-- **Miscellaneous**
-  
-  - Use **VS Code locally** and SSH(-tunnel) in.
-  
-  - Manual software installation and working with containers.
+&lt;br&gt;
 
+### Git
+
+- Merge conflicts
+  ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-03/slides/03-2_git.html#60)).
+  
+- Undoing things
+  ([slides](https://mcic-osu.github.io/pracs-sp21/posts/week-03/slides/03-3_git.html#1)).
+
+---
+
+## Some specific next steps by topic (cont.)
+
+### Miscellaneous
+  
+- Use **VS Code locally** and SSH(-tunnel) in.
+  
+- Manual software installation and working with containers.
+
+- If you're using Windows,
+  consider switching (or dual-booting with) Ubuntu Linux.
+  
 ---
 
 ## Other foundational skills
 
 If you want to keep doing "data-centric" work,
 be that in genomics / bioinformatics or data science,
-I would also recommend a couple of topics we did not touch on at all:
+I would also recommend digging into a couple of topics that we did not touch on at all:
 
 - Statistics
 
 - Data visualization
 
 - R &amp;ndash; certainly for bioinformatics and probably also the best choice for
-  the two topics above. (The Buffalo and CSB books offer introductions.)
+  the two topics above.
+
+&lt;br&gt;
+
+.content-box-info[
+Reading the rest of the two books will get you started with the latter two!
+]
 
 ---
 
@@ -307,18 +335,11 @@ I would also recommend a couple of topics we did not touch on at all:
 
 - HCS7806: Data Visualization (Jessica Cooperstone)
 
+&lt;br&gt;
+
 .content-box-info[
 For an overview of "data science and analytics" courses at OSU,  
 see [this TDAI page](https://tdai.osu.edu/programs/).
-]
-
-.content-box-info[
-Also see:
-- [Microbiome Informatics webinar series](https://u.osu.edu/coms/webinar-series/)
-  with hands-on materials by the Center of Microbiome Science.
-
-- [Code Club](https://biodash.github.io/codeclub/) &amp;ndash;
-  weekly meeting, hopefully for credits this fall.
 ]
 
 ---
@@ -349,6 +370,19 @@ Also see:
 
 ---
 
+## Misc. at OSC
+
+.content-box-info[
+Also see:
+- [Microbiome Informatics webinar series](https://u.osu.edu/coms/webinar-series/)
+  with hands-on materials by the Center of Microbiome Science.
+
+- [Code Club](https://biodash.github.io/codeclub/) &amp;ndash;
+  weekly meeting, hopefully for credits this fall.
+]
+
+---
+
 ## Recaps / bonus
 
 - [SSH set-up and tunneling](https://mcic-osu.github.io/pracs-sp21/w06_UA_ssh.html)
@@ -356,7 +390,6 @@ Also see:
 - [Using Conda with Snakemake](https://mcic-osu.github.io/pracs-sp21/posts/week-13/slides/13-3.html#conda)
 
 - JupyterLab at OSC
-
 
 ---
 class: inverse middle center
