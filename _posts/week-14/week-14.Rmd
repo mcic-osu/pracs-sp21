@@ -10,9 +10,7 @@ output:
 
 ### Slides
 
-- Slides: Putting it all together -- Tuesday Zoom (Apr 13) -- TBA
-
-- Slides: Next steps -- Thursday Zoom (Apr 15) -- TBA
+- [Slides: Putting it all together & next steps](../week-14/slides/14-1.html) -- Tuesday Zoom (Apr 13)
 
 ### Final project: due
 

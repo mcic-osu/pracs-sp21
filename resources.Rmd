@@ -21,33 +21,18 @@ The first two are available online at the OSU library:
 
 - [Command Line Kung Fu: Bash Scripting Tricks, Linux Shell Programming Tips, and Bash One-liners](https://www.amazon.com/dp/1499222033) (Jason Cannon, 2014) 
 
-### Misc
+### Online material
 
-- [Software Carpenty shell tutorial](http://swcarpentry.github.io/shell-novice/)
-  For another angle on some of what we've also learned in this course.
+- [Useful oneliners, mostly for bioinformatics, by Stephen Turner](https://github.com/stephenturner/oneliners/blob/master/README.md)
 
-### Useful oneliners, mostly for bioinformatics
+- [Useful oneliners, mostly for bioinformatics, by Tommy Ming](https://github.com/crazyhottommy/bioinformatics-one-liners)
 
-- [By Stephen Turner](https://github.com/stephenturner/oneliners/blob/master/README.md)
+- Add BashFAQ etc
 
-- [By Tommy Ming](https://github.com/crazyhottommy/bioinformatics-one-liners)
-
-### Background reading
+#### Background reading
 
 - [Five reasons why researchers should learn to love the command line](https://www.nature.com/articles/d41586-021-00263-0)
-
-<br>
-
-## Project organization, reproducibility, and best practices
-
-- [Good enough practicaes in scientific computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
-(Wilson et al. 2017, PLoS Computational Biology)
-
-- [The plain person's guide to plain text social science](https://plain-text.co/)
-  (Kieran Healy)
-
-- [Streamlining data-intensive biology with workflow systems](https://academic.oup.com/gigascience/article/10/1/giaa140/6092773)
-  (Reiter et al. 2021, GigaScience)
+  (Perkel 2021, Nature technology feature)
 
 <br>
 
@@ -56,10 +41,27 @@ The first two are available online at the OSU library:
 ### Books
 
 I wouldn't necessarily recommend diving so deep into Git as to read a book about
-it, but this book at the very least provides an excellent reference,
-and is freely available online: [Pro Git](http://git-scm.com/book/en/v2).
+it, but this book provides an excellent reference,
+and is freely available online:
 
-### Online practice
+- [Pro Git](http://git-scm.com/book/en/v2) (Chacon & Straub, 2014)
+
+### Online material
+
+- [Excuse me, do you have a moment to talk about version control?](https://peerj.com/preprints/3159/) (Bryan 2017, PeerJ)
+
+- [An overview of Git tutorials](https://gist.github.com/jaseemabid/1321592)
+
+- [Happy Git and GitHub for the useR](https://happygitwithr.com/)  
+  Somewhat R-centric, but a very accessible introduction to Git.
+
+- [Git best practices by Seth Robertson](https://sethrobertson.github.io/GitBestPractices/)
+
+- [Atlassian Git tutorials](https://www.atlassian.com/git/tutorials/what-is-version-control)  
+  Atlassian is behind Bitbucket, an alternative to GitHub that also hosts Git
+  repositories, and its Git tutorials are very useful.
+
+#### Online practice
 
 - [Git-it](https://github.com/jlord/git-it-electron#git-it) -- a small application to learn and practice Git and GitHub basics.
 
@@ -72,22 +74,7 @@ and is freely available online: [Pro Git](http://git-scm.com/book/en/v2).
 
 - Quick [GitHub overview](https://guides.github.com/activities/hello-world/)  
   of some Git and GitHub functionality including branching
-  and Pull Requests, and how to do these things in your browser at GitHub. 
-
-### Misc
-
-- [Excuse me, do you have a moment to talk about version control?](https://peerj.com/preprints/3159/) (Bryan 2017, PeerJ)
-
-- [An overview of Git tutorials](https://gist.github.com/jaseemabid/1321592)
-
-- [Happy Git and GitHub for the useR](https://happygitwithr.com/)  
-  Somewhat R-centric, but a very accessible introduction to Git.
-
-- [Git best practices by Seth Robertson] (https://sethrobertson.github.io/GitBestPractices/)
-
-- [Atlassian Git tutorials](https://www.atlassian.com/git/tutorials/what-is-version-control)  
-  Atlassian is behind Bitbucket, an alternative to GitHub that also hosts Git
-  repositories, and its Git tutorials are very useful.
+  and Pull Requests, and how to do these things in your browser at GitHub.
 
 <br>
 
@@ -106,7 +93,7 @@ These are all available online, freely or via the OSU library:
 - [Python for Bioinformatics](https://library.ohio-state.edu/record=b8257944~S7)
   (Sebastian Bassi, 2018).  
   Starts with an introduction to Python and then has chapters that
-  each describe practical problems/projects for Python.  
+  each describe practical problems/projects for Python.
   ([Associated GitHub repository](https://github.com/serulab/py4bio).)
   
 - [Python programming for biology, bioinformatics, and beyond](https://library.ohio-state.edu/record=b8928994~S7) (Tim Stevens, 2015).  
@@ -129,7 +116,7 @@ These are all available online, freely or via the OSU library:
   Focused on NumPy, Pandas, and visualization with Matplotlib.
 
 - [Dive Into Python 3](https://diveintopython3.problemsolving.io/)
-  Mark Pilgrim, 2009
+  (Mark Pilgrim, 2009).
   
 ### Courses
 
@@ -185,20 +172,12 @@ can run Jupyter Notebooks but also regular Python scripts, a shell, and so forth
 
 - [A YouTube playlist of Microsoft videos introducing Python](https://www.youtube.com/watch?list=PLlrxD0HtieHhS8VzuMCfQD4uJ9yne1mE6&v=jFCNu1-Xdsw)
 
-#### Best practices
-
 - [PEP 8 — the Style Guide for Python Code](https://pep8.org/)
 
 - [Ten simple rules for writing and sharing computational analyses in Jupyter Notebooks ](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1007007)
   -- Rule et al. 2019, PLoS Computational Biology
   
-#### Meta
-
 - [Stack Overflow: "The Incredible Growth of Python" (2017)](https://stackoverflow.blog/2017/09/06/incredible-growth-python/)
-
-- [Statista: "Python Remains Most Popular Programming Language" (2020)](https://www.statista.com/chart/21017/most-popular-programming-languages/)
-
-- [The Economist: "Python is becoming the world’s most popular coding language" (2018)](https://www.economist.com/graphic-detail/2018/07/26/python-is-becoming-the-worlds-most-popular-coding-language)
 
 <br>
 
@@ -215,7 +194,7 @@ can run Jupyter Notebooks but also regular Python scripts, a shell, and so forth
   with a large section on Snakemake starting on
   [this page](http://www.hpc-carpentry.org/hpc-python/07-snakemake-intro/index.html).
 
-### Background reading
+#### Background reading
 
 - [Workflow systems turn raw data into scientific knowledge](https://www.nature.com/articles/d41586-019-02619-z)
   (Perkel 2019, Nature "Toolbox" feature).
@@ -227,11 +206,23 @@ can run Jupyter Notebooks but also regular Python scripts, a shell, and so forth
 
 ## Miscellaneous
 
-### Books along the lines of CSB
+### Reproducibility and best practices
+
+- [Good enough practices in scientific computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
+(Wilson et al. 2017, PLoS Computational Biology)
+
+- [The plain person's guide to plain text social science](https://plain-text.co/)
+  (Kieran Healy)
+
+- [Streamlining data-intensive biology with workflow systems](https://academic.oup.com/gigascience/article/10/1/giaa140/6092773)
+  (Reiter et al. 2021, GigaScience)
+  
+### Books similar to CSB
 
 - [A Primer for Computational Biology](https://open.oregonstate.education/computationalbiology/)
 
-- Practical Computing for Biologists
+- [Practical Computing for Biologists](https://library.ohio-state.edu/record=b6971375~S7)
+  (Haddock & Dunn, 2011)
 
 ### Genomics and applied bioinformatics
 
