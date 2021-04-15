@@ -86,27 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Optional Ungraded Assignment: SSH setup</title>
+  <title>pracs-sp21: Topic Overview: Snakemake</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Optional Ungraded Assignment: SSH setup"/>
+  <meta property="og:title" content="pracs-sp21: Topic Overview: Snakemake"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Optional Ungraded Assignment: SSH setup"/>
+  <meta property="twitter:title" content="pracs-sp21: Topic Overview: Snakemake"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Optional Ungraded Assignment: SSH setup"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Topic Overview: Snakemake"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2453,7 +2453,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Optional Ungraded Assignment: SSH setup","authors":[]}
+{"title":"Topic Overview: Snakemake","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2547,7 +2547,7 @@ Topic overviews
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Optional Ungraded Assignment: SSH setup</h1>
+<h1>Topic Overview: Snakemake</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2559,84 +2559,241 @@ Topic overviews
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#avoid-being-prompted-for-password">1. Avoid being prompted for password</a></li>
-<li><a href="#use-a-shortcut-for-your-ssh-connection">2. Use a shortcut for your SSH connection</a></li>
-<li><a href="#set-up-your-local-vs-code-to-ssh-tunnel-into-osc">3. Set up your local VS Code to SSH tunnel into OSC</a></li>
+<li><a href="#rules">Rules</a></li>
+<li><a href="#directives">Directives</a></li>
+<li><a href="#placeholders-and-wildcards">Placeholders and wildcards</a></li>
+<li><a href="#functions">Functions</a></li>
+<li><a href="#command-line-interface">Command-line interface</a></li>
+<li><a href="#a-few-worked-examples">A few worked examples</a></li>
 </ul>
 </nav>
 </div>
+<h2 id="rules">Rules</h2>
+<ul>
+<li>It is common to have a <code>rule all</code> as the first rule, which only has an <code>input</code> directive that lists all final output files. Recall that this will also include any output files….</li>
+<li>Relationships/dependencies between rules are implicit: they are <em>inferred</em> from the <code>input</code> and <code>output</code> directives. Other than that the first rule is run by default, the order of the rules in the Snakefile is not important.</li>
+</ul>
+<h2 id="directives">Directives</h2>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 68%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Directive</th>
+<th>Expected values</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><code>input</code></strong></td>
+<td><p>Input file(s) for the rule.</p>
+<p>When using a wildcard <code>{}</code>, multiple jobs are run for the rule, each with <strong>one</strong> of the wildcard values.</p>
+<p>If needing to run <strong>all</strong> wildcard values (samples/files) at once, use <code>expand()</code>.</p></td>
+<td><p><code>input: "ref.fa"</code></p>
+<p><code>input: "{smp}.fq"</code></p>
+<p><code>input: fq="my.fq", ref="ref.fa"</code></p>
+<p><code>input: expand()</code></p></td>
+</tr>
+<tr class="even">
+<td><strong><code>output</code></strong></td>
+<td>Like <code>input</code> but specifies output files. If using wildcards, should have the same wildcard as <code>input</code>.</td>
+<td><code>output: {smp}.bam</code></td>
+</tr>
+<tr class="odd">
+<td><strong><code>log</code></strong></td>
+<td>Like <code>output</code> but mean for logging and error output: <code>log</code> files are not deleted if jobs fail.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong><code>shell</code></strong></td>
+<td>Run any arbitrary shell command: e.g. calling an external program or script. Other “action directives” that we did not use include <code>run</code> for Python code.</td>
+<td><p><code>shell: "map.sh {input.ref} {input.fq} &gt; {output}"</code></p>
+<p><code>shell: "cat {smp}.txt | tr a-z A-Z &gt; out/{smp}.txt"</code></p>
+<p><code>shell: "fastqc {input}"</code></p></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong><code>conda</code></strong></td>
+<td><strong>…</strong> <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="placeholders-and-wildcards">Placeholders and wildcards</h2>
+<ul>
+<li>Note that wildcards operate entirely within a single rule and not across rules! That is, even though it often makes sense to use the exact same wildcard (both in name and value, the latter typically a sample name) across multiple rules, Snakemake will resolve them separately for each rule.</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 59%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Placeholder</th>
+<th>Explanation</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><code>{input}</code></strong></td>
+<td>Refers to the file(s) specified in the <code>input</code> directive – to be used in “action directives” such as <code>shell</code>. (If <code>input</code> has a wildcard, one file is passed for each job i.e. iteration of the rule.)</td>
+<td><code>shell: "trim.sh {input} &gt; {output}"</code><br />
+<code>shell: map.sh {input.ref} {input.fastq} &gt; {output}</code></td>
+</tr>
+<tr class="even">
+<td><strong><code>{output}</code></strong></td>
+<td>Refers to the file(s) specified in the <code>output</code> directive – to be used in “action directives” such as <code>shell</code>.</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong><code>{…}</code></strong></td>
+<td><p>Wildcard, which has an arbitrary name (instead of <code>…</code>).</p>
+<p>Used as-is in <code>input</code>, <code>output</code>, and <code>log</code> directives, for which Snakemake resolves the values of the wildcards by looking for requested output files it can produce.</p>
+<p>To use a wildcard in a <code>shell</code> directive, assuming the wildcard is called <code>sample</code>, use: <code>{wildcards.sample}</code>.</p></td>
+<td><p><code>input: {sample}.fq</code></p>
+<p><code>output: {sample}.bam</code></p>
+<p>Say that a script takes a sample name rather than a file name: <br> <code>shell: my.sh -i {wildcards.sample} &gt; {output}</code></p></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><strong>…</strong> <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><br></p>
-<h2 id="introduction">Introduction</h2>
-<p>You can connect to OSC with SSH if you have a bash shell on your machine, either natively with a Mac or Linux machine, or via WSL, Git Bash, or another application on Windows.</p>
-<p>The regular way to do this is typing <code>ssh &lt;username&gt;@pitzer.osc.edu</code> and then providing your password, which can get tedious. There are two setup steps you can take to make this quicker:</p>
-<ol type="1">
-<li><p>Avoid being prompted for your password.</p></li>
-<li><p>Set up a shortcut for your SSH connection name.</p></li>
-</ol>
-<p>A third thing you can do below, assuming you have VS Code installed locally, is to get it to SSH tunnel to OSC: this will be as if you have VS Code open in OnDemand, but then not in your browser!</p>
-<h2 id="avoid-being-prompted-for-password">1. Avoid being prompted for password</h2>
-<p>These steps are similar to what you did for your SSH Github authentication.</p>
-<ol type="1">
-<li><em>On your own computer</em>, generate a public-private SSH key-pair:</li>
-</ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ssh-keygen <span class="at">-t</span> rsa</span></code></pre></div>
-<p>When you’re prompted for a passphrase, you can just press enter if you are okay with not having a passphrase.</p>
-<div class="content-box-info">
-<p>If you <em>do</em> want a passphrase, you have to take an extra step to not be prompted, <em>after</em> step 3 below:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ssh-add</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (Then here, don&#39;t enter a passphrase in any case!)</span></span></code></pre></div>
-</div>
-<ol start="2" type="1">
-<li><em>From your own computer</em>, transfer the public key to the remote computer:</li>
-</ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace &lt;user&gt; by your username, e.g. &quot;jelmer@owens.osc.edu&quot;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat ~/.ssh/id_rsa.pub <span class="kw">|</span> <span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@owens.osc.edu <span class="st">&#39;mkdir -p .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys&#39;</span></span></code></pre></div>
-<ol start="3" type="1">
-<li><em>Log in to the remote computer (OSC) and once there</em>, set appropriate permissions:</li>
-</ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> chmod 700 .ssh<span class="kw">;</span> <span class="fu">chmod</span> 640 .ssh/authorized_keys</span></code></pre></div>
-<div class="content-box-info">
-<p>See also this <a href="https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/">Tecmint post</a> in case you’re struggling, and Buffalo Chapter 4 page 59-60.</p>
-</div>
-<p><br></p>
-<h2 id="use-a-shortcut-for-your-ssh-connection">2. Use a shortcut for your SSH connection</h2>
-<p>These two steps should both be done <em>on your local machine</em>.</p>
-<ol type="1">
-<li>Create a file called <code>~/.ssh/config</code>:</li>
-</ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> touch ~/.ssh/config</span></code></pre></div>
-<ol start="2" type="1">
-<li>Open the file in a text editor and add your alias(es) in the following format:</li>
-</ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> <span class="op">&lt;</span>arbitrary-alias-name<span class="op">&gt;</span>    </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>     <span class="ex">HostName</span> <span class="op">&lt;</span>remote-name<span class="op">&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="ex">User</span> <span class="op">&lt;</span>user-name<span class="op">&gt;</span></span></code></pre></div>
-<p>For instance, I have something along these lines for Pitzer and Owens:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> op</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">HostName</span> pitzer.osc.edu</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">User</span> jelmer</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Host</span> oo</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">HostName</span> owens.osc.edu</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">User</span> jelmer</span></code></pre></div>
-<p>Now, you just need to use your, preferably very short, alias to log in:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ssh op</span></code></pre></div>
-<p>This shortcut will also work with <code>scp</code> and <code>rsync</code>!</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> rsync ~/scripts op:/fs/ess/PAS1855/scripts</span></code></pre></div>
-<p><br></p>
-<h2 id="set-up-your-local-vs-code-to-ssh-tunnel-into-osc">3. Set up your local VS Code to SSH tunnel into OSC</h2>
-<p>If you want to use VS Code to write code, have a shell, and interact with files at OSC directly, you don’t need to use the VS Code Server from OSC OnDemand. You can also “SSH tunnel” in with your local installation. This is a more convenient way of working because it’s quicker to start up and you are not working inside a browser (which, among other things, takes away screen space and interferes with some keyboard shortcuts).</p>
-<p>The set-up is pretty simple (see also <a href="https://code.visualstudio.com/docs/remote/ssh">these instructions</a> if you get stuck), just recall to do this in your <em>local installation of VS Code</em>, assuming you have one.</p>
-<ol type="1">
-<li><p>Install the VS Code <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">“Remote Development extension pack”</a> by opening up the Extensions side bar, searching for it there, and then clicking “Install”.</p></li>
-<li><p>Open up the Command Palette (<kbd>F1</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd><kbd>P</kbd>) and start typing “Remote SSH”. Then, select <code>Remote-SSH: Connect to Host…</code> and specify your SSH connection: e.g. <code>ssh jelmer@pitzer.osc.edu</code> (you’ll have to do this separately for Pitzer and Owens if you want to be able to connect to either).</p></li>
-<li><p>With the above setup, you shouldn’t be prompted for a password and VS Code will connect to OSC!</p>
-<p>If you’re asked about the operating system of the host, <strong>select Linux</strong>, which is the operating system of the OSC clusters.</p>
-<p>Now, if you open a shell or try to open a file, you are interacting with the OSC file system and not your local computer.</p></li>
-</ol>
-<p><br> <br></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="functions">Functions</h2>
+<p>Snakemake provides a few convenience functions, most notably <code>expand()</code> and <code>glob_wildcards()</code>. Note that you can interactively test these functions in Python after importing them using:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> snakemake.io <span class="im">import</span> expand, glob_wildcards</span></code></pre></div>
+<ul>
+<li><code>expand()</code> will …</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SAMPLES<span class="op">=</span>[<span class="st">&quot;sampleA&quot;</span>, <span class="st">&quot;sampleB&quot;</span>, <span class="st">&quot;sampleC&quot;</span>] </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>expand(<span class="st">&quot;res/</span><span class="sc">{sample}</span><span class="st">.bam&quot;</span>, sample<span class="op">=</span>SAMPLES)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [&#39;res/smpA.bam&#39;, &#39;res/smpB.bam&#39;, &#39;res/smpC.bam&#39;]</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>SAMPLES <span class="op">=</span> [<span class="st">&quot;sampleA&quot;</span>, <span class="st">&quot;sampleB&quot;</span>, <span class="st">&quot;sampleC&quot;</span>]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>READS <span class="op">=</span> [<span class="st">&quot;R1&quot;</span>, <span class="st">&quot;R2&quot;</span>]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>expand(<span class="st">&quot;</span><span class="sc">{sample}</span><span class="st">_</span><span class="sc">{read}</span><span class="st">.fastq.gz&quot;</span>, sample<span class="op">=</span>SAMPLES, read<span class="op">=</span>READS)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [&#39;sampleA_R1.fastq.gz&#39;, &#39;sampleA_R2.fastq.gz&#39;,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  &#39;sampleB_R1.fastq.gz&#39;, &#39;sampleB_R2.fastq.gz&#39;,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  &#39;sampleC_R1.fastq.gz&#39;, &#39;sampleC_R2.fastq.gz&#39;]</span></span></code></pre></div>
+<ul>
+<li><code>glob_wildcards()</code> will …</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Typical usage at the top of a Snakefile:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>SAMPLES <span class="op">=</span> glob_wildcards(<span class="st">&quot;data/</span><span class="sc">{sample}</span><span class="st">.fastq&quot;</span>).sample</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seeing how it works - with one wildcard:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls data<span class="op">/</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; data/sampleA.fastq data/sampleB.fastq data/sampleC.fastq</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>glob_wildcards(<span class="st">&quot;data/</span><span class="sc">{sample}</span><span class="st">.fastq&quot;</span>).sample</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [&#39;sampleA&#39;, &#39;sampleB&#39;, &#39;sampleC&#39;]</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seeing how it works - with two wildcards:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls data<span class="op">/</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A_R1.fastq.gz A_R2.fastq.gz B_R1.fastq.gz B_R2.fastq.gz</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>glob_wildcards(<span class="st">&quot;data/</span><span class="sc">{sample}</span><span class="st">_</span><span class="sc">{read}</span><span class="st">.fastq.gz&quot;</span>).sample</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [&#39;A&#39;, &#39;A&#39;, &#39;B&#39;, &#39;B&#39;]</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>glob_wildcards(<span class="st">&quot;data/</span><span class="sc">{sample}</span><span class="st">_</span><span class="sc">{read}</span><span class="st">.fastq.gz&quot;</span>).read</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [&#39;R1&#39;, &#39;R2&#39;, &#39;R1&#39;, &#39;R2&#39;]</span></span></code></pre></div>
+<h2 id="command-line-interface">Command-line interface</h2>
+<ul>
+<li><p>Basic syntax – rules or output files can optionally be provided as arguments:</p>
+<ul>
+<li><p><code>snakemake -j1</code> – run the first rule and all its dependencies.</p></li>
+<li><p><code>snakemake -j1 my_rule</code> – run the rule <code>my_rule</code> and all its dependencies.</p></li>
+<li><p><code>snakemake -j1 my_output_file</code> – run whatever rules are needed to be run to produce the output file <code>my_output_file</code>. In the Snakefile, <code>my_output_file</code> can either be literally specified as an <code>output</code> file, or can be inferred by Snakemake from an <code>output</code> directive given possible wildcard values.</p></li>
+</ul></li>
+<li><p>If a Snakefile is called either of the following (seen from the dir from which snakemake is called), it will be automatically detected: <code>Snakefile</code> / <code>snakefile</code> / <code>workflow/Snakefile</code> / <code>workflow/snakefile</code>. Otherwise, use the <code>-s</code> option to specify the Snakefile to run.</p></li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 3%" />
+<col style="width: 9%" />
+<col style="width: 70%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Short</th>
+<th>Long</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><code>-j</code></strong></td>
+<td><strong><code>--jobs</code> / <code>--cores</code></strong></td>
+<td><strong>Mandatory option</strong>: maximum number of jobs to be run in parallel. At OSC, this will be the max. nr. of SLURM jobs to be submitted; when running locally, this should not exceed the number of cores.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>-</td>
+<td><code>--dag</code></td>
+<td></td>
+<td><code>snakemake --dag | dot -T svg &gt; my.svg</code> <br></td>
+</tr>
+<tr class="even">
+<td>-</td>
+<td><code>--rulegraph</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="a-few-worked-examples">A few worked examples</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>SAMPLES <span class="op">=</span> glob_wildcards(<span class="st">&quot;data/</span><span class="sc">{smp}</span><span class="st">.fastq&quot;</span>).smp</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>rule <span class="bu">all</span>:</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span>: <span class="st">&quot;res/count_table.txt&quot;</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>rule trim:</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span>: <span class="st">&quot;data/</span><span class="sc">{smp}</span><span class="st">.fastq&quot;</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    output: <span class="st">&quot;res/</span><span class="sc">{smp}</span><span class="st">_trim.fastq&quot;</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    shell: <span class="st">&quot;scripts/trim.sh </span><span class="sc">{input}</span><span class="st"> &gt; </span><span class="sc">{output}</span><span class="st">&quot;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>rule <span class="bu">map</span>:</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span>: <span class="st">&quot;res/</span><span class="sc">{smp}</span><span class="st">_trim.fastq&quot;</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    output: <span class="st">&quot;res/</span><span class="sc">{smp}</span><span class="st">.bam&quot;</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    shell: <span class="st">&quot;scripts/map.sh </span><span class="sc">{input}</span><span class="st"> &gt; </span><span class="sc">{output}</span><span class="st">&quot;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>rule count:</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span>: expand(<span class="st">&quot;res/</span><span class="sc">{smp}</span><span class="st">.bam&quot;</span>, smp<span class="op">=</span>SAMPLES),</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    output: <span class="st">&quot;res/count_table.txt&quot;</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    shell: <span class="st">&quot;scripts/count.sh </span><span class="sc">{input}</span><span class="st"> &gt; </span><span class="sc">{output}</span><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

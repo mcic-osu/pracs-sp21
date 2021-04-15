@@ -6,7 +6,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/final_project.html</loc>
-    <lastmod>2021-03-09T15:21:24-05:00</lastmod>
+    <lastmod>2021-04-15T11:25:10-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/finalproject_present.html</loc>
@@ -19,6 +19,10 @@
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/finalproject_proposal.html</loc>
     <lastmod>2021-03-23T12:34:23-04:00</lastmod>
+  </url>
+  <url>
+    <loc>https://mcic-osu.github.io/pracs-sp21/finalproject_submission.html</loc>
+    <lastmod>2021-04-15T11:23:27-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/</loc>
@@ -43,6 +47,10 @@
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_slurm.html</loc>
     <lastmod>2021-04-02T20:39:13-04:00</lastmod>
+  </url>
+  <url>
+    <loc>https://mcic-osu.github.io/pracs-sp21/overviews_snakemake.html</loc>
+    <lastmod>2021-04-14T12:20:08-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/resources.html</loc>
@@ -82,7 +90,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w06_UA_ssh.html</loc>
-    <lastmod>2021-02-18T07:53:09-05:00</lastmod>
+    <lastmod>2021-04-14T12:10:34-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w07_exercises.html</loc>
