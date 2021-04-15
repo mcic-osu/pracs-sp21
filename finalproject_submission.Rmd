@@ -1,0 +1,212 @@
+---
+title: "Final project: submission"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+**The submission of your final project is due on April 30th.** <i>[20
+points]</i>
+
+### How to submit
+
+As usual, open a new GitHub issue for your repository and tag `@jelmerp`
+in the text body of the Issue.
+
+### What to submit
+
+Your repository should now contain:
+
+-   **A finished set of scripts**.
+
+-   **Final documentation** in one or more README files that clearly
+    describes:
+
+    -   What the project does as a whole.
+    -   What each script does.
+    -   Where to access the data at OSC, assuming that the data is not
+        in your repository.
+    -   How the project's scripts can be rerun using a single
+        (workflow/"driver") script or Snakefile.
+
+-   **A single (workflow/"driver" script) or Snakefile that aim to rerun
+    the full workflow.**
+
+-   **A file (e.g. `submission_notes.md`) or a section in your main
+    README file** that provides some information for the instructor to
+    grade your project appropriately, such as (all hypothetical
+    examples):
+
+    -   Additional instructions the instructor will need to try and
+        rerun your project.
+
+    -   You want to explain why you don't have a functioning
+        workflow/"driver" script or Snakefile.
+
+    -   You want to explain how/why you ended up doing some things
+        rather differently from the way described in your proposal or
+        progress notes.
+
+    -   You want to alert the instructor to some files files in the
+        repository that should be ignored.
+
+    -   You didn't run any SLURM jobs and want to describe why.
+
+    -   You had some messy commits that you feel should be excused.
+
+### Graded aspects
+
+(See also the [General Info](final_project.html) page for the final
+project for some more general background.)
+
++----------------+---------------+------------------------------------+
+| Category       | Max. score    | High/max. score if your project    |
+|                |               | (examples given):                  |
++================+===============+====================================+
+| Project        | 2             | -   Has a clear and appropriate    |
+| organization   |               |     directory structure.           |
+|                |               | -   Has informative and            |
+|                |               |     appropriate directory and file |
+|                |               |     names.                         |
+|                |               | -   Does not mix data, scripts,    |
+|                |               |     and results in individual      |
+|                |               |     directories.                   |
++----------------+---------------+------------------------------------+
+| Project        | 2             | -   Has a clear description of its |
+| background and |               |     background and goals.          |
+| documentation  |               | -   Has a clear description of how |
+|                |               |     different scripts are being    |
+|                |               |     used to achieve these goals.   |
+|                |               | -   Where appropriate, indicates   |
+|                |               |     what is still a                |
+|                |               |     work-in-progress.              |
+|                |               | -   Where appropriate, indicates   |
+|                |               |     future directions.             |
++----------------+---------------+------------------------------------+
+| Script         | 2             | -   Uses extensive (yet succinct)  |
+| documentation  |               |     comments to document what is   |
+|                |               |     being done within scripts.     |
++----------------+---------------+------------------------------------+
+| Good practices | 4             | -   Uses no absolute paths in      |
+| in scripts     |               |     scripts.                       |
+|                |               | -   Uses scripts that take         |
+|                |               |     arguments where appropriate    |
+|                |               |     (see next point).              |
+|                |               | -   Minimizes "hard-coding" of     |
+|                |               |     potentially variable things    |
+|                |               |     like input/output dirs, file   |
+|                |               |     names, and some software       |
+|                |               |     settings.                      |
+|                |               | -   Any hard-coded                 |
+|                |               |     variables/constants that *are* |
+|                |               |     present, should be clearly set |
+|                |               |     at the top of scripts.         |
+|                |               | -   Has individual scripts that    |
+|                |               |     are not overly long and don't  |
+|                |               |     do multiple unrelated things.  |
+|                |               | -   Has no scripts with lines that |
+|                |               |     are "commented out" (if you    |
+|                |               |     somehow can't get around that, |
+|                |               |     clearly annotate such lines).  |
+|                |               | -   Uses Bash scripts with proper  |
+|                |               |     `set` settings, and similar    |
+|                |               |     good practices as taught in    |
+|                |               |     the course.                    |
++----------------+---------------+------------------------------------+
+| Coding quality | 3             | -   Has code that demonstrates an  |
+| and complexity |               |     understanding of some          |
+|                |               |     topics/tricks/constructs       |
+|                |               |     covered in the course.         |
+|                |               | -   Has code that makes sensible   |
+|                |               |     choices as taught in the       |
+|                |               |     course, e.g. looping over      |
+|                |               |     globbing results directly      |
+|                |               |     rather than over `ls` output.  |
+|                |               | -   Has code that is appropriately |
+|                |               |     broken up in small parts       |
+|                |               |     within scripts, e.g. with      |
+|                |               |     functions in Python.           |
+|                |               | -   Uses tools and commands that   |
+|                |               |     are (by and large) appropriate |
+|                |               |     to accomplish its goals. (I    |
+|                |               |     will not dig in to fine        |
+|                |               |     details and parameter          |
+|                |               |     settings.)                     |
++----------------+---------------+------------------------------------+
+| Workflow       | 3             | -   Has a script or Snakefile that |
+| r              |               |     includes all steps in the      |
+| eproducibility |               |     workflow and that can actually |
+|                |               |     be run by anybody who has      |
+|                |               |     access to your repository and  |
+|                |               |     the raw data files.            |
+|                |               | -   Has information for the        |
+|                |               |     instructor (or any other       |
+|                |               |     reader of the project!) about  |
+|                |               |     where at OSC to find the raw   |
+|                |               |     data files and other details   |
+|                |               |     needed to try to rerun the     |
+|                |               |     analyses.                      |
++----------------+---------------+------------------------------------+
+| Software       | 1             | -   Uses Conda environments        |
+| management     |               |     (preferred) or OSC modules for |
+|                |               |     any software that is needed in |
+|                |               |     the workflow.                  |
+|                |               | -   Does not use manual            |
+|                |               |     installations and if Conda     |
+|                |               |     packages or OSC modules are    |
+|                |               |     available for a given          |
+|                |               |     software.                      |
+|                |               | -   Bonus: has YAML files that     |
+|                |               |     describe the Conda             |
+|                |               |     environments used.             |
++----------------+---------------+------------------------------------+
+| SLURM jobs at  | 1             | -   Has one or more scripts that   |
+| OSC            |               |     are run as OSC jobs at SLURM.  |
+|                |               | -   Uses appropriate SLURM         |
+|                |               |     directives -- either in the    |
+|                |               |     scripts or in a Snakemake      |
+|                |               |     profile YAML file.             |
+|                |               | -   Has SLURM log files that can   |
+|                |               |     be examined by the instructor  |
+|                |               |     (please commit these).         |
++----------------+---------------+------------------------------------+
+| Version        | 2             | -   Has Git commit messages that   |
+| control        |               |     are informative.               |
+|                |               | -   Has reasonably appropriate     |
+|                |               |     commits, e.g. individual Git   |
+|                |               |     commits don't consist of       |
+|                |               |     multiple completely unrelated  |
+|                |               |     edits.                         |
+|                |               | -   A single `.gitignore` file     |
+|                |               |     that ignores files like large  |
+|                |               |     raw data files, and in most    |
+|                |               |     cases, results files.          |
+|                |               | -   Bonus: has a Git *tag* for the |
+|                |               |     submitted version.             |
++----------------+---------------+------------------------------------+
+
+### Questions and advice
+
+If you have any questions, don't hesitate to contact Jelmer (or, where
+fitting, Zach). Such questions can be about specific expectations for
+the final project that are not clear to you. But you can also seek
+advice on how to code or organize aspects of your project -- or whether
+you are on the right track in making some adjustments that I asked for
+after your progress report.
+
+### Late submissions
+
+Late submission may be accommodated depending on circumstances, but you
+will need to contact me *before 3 pm on April 30th* and we can take it
+from there. If I have not received a submission nor have we reached an
+agreement on a late submission by the end of the day, 4 points will be
+subtracted for each day the submission is late. (Forgetting to open an
+Issue won't lead to subtracted points, but of course you still can't
+commit after April 30th.)
+
+### Good luck!!
