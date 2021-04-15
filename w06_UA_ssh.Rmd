@@ -56,7 +56,9 @@ $ chmod 700 .ssh; chmod 640 .ssh/authorized_keys
 ```
 
 ::: {.content-box-info}
-See also this [Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/) in case you're struggling, and Buffalo Chapter 4 page 59-60.
+See also this
+[Tecmint post](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/)
+in case you're struggling, and Buffalo Chapter 4 page 59-60.
 :::
 
 <br>
@@ -107,12 +109,35 @@ $ rsync ~/scripts op:/fs/ess/PAS1855/scripts
 
 ## 3. Set up your local VS Code to SSH tunnel into OSC
 
-If you want to use VS Code to write code, have a shell, and interact with files at OSC directly, you don't need to use the VS Code Server from OSC OnDemand. You can also "SSH tunnel" in with your local installation. This is a more convenient way of working because it's quicker to start up and you are not working inside a browser (which, among other things, takes away screen space and interferes with some keyboard shortcuts).
+If you want to use VS Code to write code, have a shell, and interact with files
+at OSC directly, you don't need to use the VS Code Server from OSC OnDemand.
+You can also "SSH tunnel" in with your local installation.
+This is a more convenient way of working because it's quicker to start up and
+you are not working inside a browser
+(which, among other things, takes away screen space and interferes with some keyboard shortcuts).
 
-The set up is pretty simple (see also [these instructions](https://code.visualstudio.com/docs/remote/ssh) if you get stuck), just recall to do this in your *local installation of VS Code*, assuming you have one.
+The set-up is pretty simple
+(see also [these instructions](https://code.visualstudio.com/docs/remote/ssh) if you get stuck),
+just recall to do this in your *local installation of VS Code*, assuming you have one.
 
-1.  Install the VS Code ["Remote Development extension pack"](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack), for instance by opening up the Extensions side bar, searching for it there, and clicking "Install".
-2.  Open up the Command Palette (<kbd>F1</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd><kbd>P</kbd>) and start typing "Remote SSH" -- select `Remote-SSH: Connect to Host…` and then specify your SSH connection. If I remember correctly, you can use whatever SSH shortcut you just set up above, otherwise, type it in full (e.g. `jelmer@pitzer.osc.edu`).
-3.  With the above setup, you shouldn't be prompted for a password and VS Code will connect to OSC! Now, if you open a shell or try to open a file, you are interacting with OSC and not you local computer.
+1.  Install the VS Code ["Remote Development extension pack"](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+    by opening up the Extensions side bar, searching for it there,
+    and then clicking "Install".
+
+2.  Open up the Command Palette (<kbd>F1</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd><kbd>P</kbd>)
+    and start typing "Remote SSH".
+    Then, select `Remote-SSH: Connect to Host…` and specify your SSH connection:
+    e.g. `ssh jelmer@pitzer.osc.edu`
+    (you'll have to do this separately for Pitzer and Owens if you want to be
+    able to connect to either).
+
+3.  With the above setup, you shouldn't be prompted for a password and VS Code
+    will connect to OSC!
+    
+    If you're asked about the operating system of the host, **select Linux**,
+    which is the operating system of the OSC clusters.
+    
+    Now, if you open a shell or try to open a file, you are interacting with
+    the OSC file system and not your local computer.
 
 <br> <br>
