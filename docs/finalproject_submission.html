@@ -86,27 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: General information about your final project</title>
+  <title>pracs-sp21: Final project: submission</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: General information about your final project"/>
+  <meta property="og:title" content="pracs-sp21: Final project: submission"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: General information about your final project"/>
+  <meta property="twitter:title" content="pracs-sp21: Final project: submission"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["General information about your final project"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","editor_options"]}},"value":[{"type":"character","attributes":{},"value":["Final project: submission"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["markdown"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["wrap"]}},"value":[{"type":"integer","attributes":{},"value":[72]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2453,7 +2453,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"General information about your final project","authors":[]}
+{"title":"Final project: submission","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2499,7 +2499,7 @@ Final project
 <a href="finalproject_proposal.html">Checkpoint I: Proposal</a>
 <a href="finalproject_progress.html">Checkpoint II: Progress report</a>
 <a href="finalproject_present.html">Checkpoint III: Presentation</a>
-<span class="nav-dropdown-header">Checkpoint IV: Submission</span>
+<a href="finalproject_submission.html">Checkpoint IV: Submission</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2547,7 +2547,7 @@ Topic overviews
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>General information about your final project</h1>
+<h1>Final project: submission</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2559,31 +2559,155 @@ Topic overviews
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<li><a href="#how-to-submit">How to submit</a></li>
+<li><a href="#what-to-submit">What to submit</a></li>
 <li><a href="#graded-aspects">Graded aspects</a></li>
+<li><a href="#questions-and-advice">Questions and advice</a></li>
+<li><a href="#late-submissions">Late submissions</a></li>
+<li><a href="#good-luck">Good luck!!</a></li>
 </ul>
 </nav>
 </div>
-<h3 id="graded-aspects">Graded aspects</h3>
-<p>Graded aspects of your project focus on <strong>appropriate usage of many of the tools and principles we covered during the course</strong>.</p>
-<p>To receive a high grade, your project should:</p>
+<p><strong>The submission of your final project is due on April 30th.</strong> <i>[20 points]</i></p>
+<h3 id="how-to-submit">How to submit</h3>
+<p>As usual, open a new GitHub issue for your repository and tag <code>@jelmerp</code> in the text body of the Issue.</p>
+<h3 id="what-to-submit">What to submit</h3>
+<p>Your repository should now contain:</p>
 <ul>
-<li><p>Be <strong>well-organized</strong>: contained in a single parent directory with a clear and sensible structure of subdirectories, descriptive file and directory names, no files floating around with unclear purpose or source, and so on.</p></li>
-<li><p>Be <strong>well-documented</strong>, with <em>at least</em> one README in Markdown format in the root directory of your project, and preferably with additional READMEs elsewhere as appropriate.</p></li>
-<li><p>Be <strong>version-controlled</strong> with Git <em>throughout</em>: with regular, meaningful commits. You will also need to push to GitHub for the proposal, draft, and final submission checkpoint.</p></li>
-<li><p>Contain <strong>scripts in Bash and/or Python that do data processing and/or analysis</strong> (see also the last point). Try not to do <em>any</em> manual work such as editing a data file in a text editor or Excel to fix column names, since this hinders reproducibility.</p>
+<li><p><strong>A finished set of scripts</strong>.</p></li>
+<li><p><strong>Final documentation</strong> in one or more README files that clearly describes:</p>
 <ul>
-<li><p>Having some components in <em>other languages</em> is fine, in case you know how to do things there that we didn’t learn in the course (for example, doing some plotting in R).</p></li>
-<li><p>Similarly, it is fine to call <em>external, command-line programs</em> (e.g. some of the bioinformatics programs we have run, or any program that may be useful for your research).</p>
-<p>If your project’s heavy lifting consists <em>mostly or almost entirely</em> of calling such programs, though, it becomes especially important that you are creating a reproducible and easily rerunnable pipeline (see below).</p></li>
+<li>What the set of scripts does as a whole.</li>
+<li>What each script does.</li>
+<li>Where to access the data at OSC.</li>
+<li>How the project’s scripts can be rerun using a single workflow/“driver” script or Snakefile.</li>
 </ul></li>
-<li><p>Run one or more scripts as <strong>SLURM jobs at OSC</strong>.<br />
-(A locally run project could be okay if your research does not and will not require the use of supercomputers like those at OSC – check in with me if this is the case and you would therefore prefer not to use OSC.)</p></li>
-<li><p>Be easily <strong>re-runnable using a Snakefile or a “master” / “controller” script</strong> that glues the entire project together.</p>
-<p>It is not enough to include a <code>README.md</code> that explains what you did or that provides instructions how to rerun the project, even if in detail. Such information is very useful, but the goal here is to provide a way to rerun the project with a single command – a command that I could also run.</p>
-<p>Preferably, this is done using single Snakemake control script (“Snakefile”), but a shell or Python script may also work.</p>
-<p>(This is a challenging aspect, and your grade won’t plummet if you don’t succeed, but it is important to try!)</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div></li>
+<li><p><strong>A single workflow/“driver” script or Snakefile to rerun the workflow.</strong></p></li>
+<li><p><strong>A file like <code>submission_notes.md</code> or an appropriate section in your main README file</strong>. This file/section should provide me with some information I may need to help me grade your project appropriately, such as, hypothetically:</p>
+<ul>
+<li><p>The instructor will need additional instructions to try and rerun your project.</p></li>
+<li><p>You don’t have a functioning workflow/“driver” script or Snakefile.</p></li>
+<li><p>You ended up doing some things significantly differently from the way described in your proposal or progress notes.</p></li>
+<li><p>You have files in your repository that I should ignore.</p></li>
+<li><p>You didn’t run any SLURM jobs and want to describe why.</p></li>
+<li><p>You had some messy commits that you feel should be excused.</p></li>
+</ul></li>
 </ul>
+<h3 id="graded-aspects">Graded aspects</h3>
+<p>Graded aspects of your project focus on <em>appropriate usage of many of the tools and principles we covered during the course</em>. See the <a href="final_project.html">General Info</a> page for the final project for some more general background, or refer to the table below.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<table style="width:97%;">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 22%" />
+<col style="width: 51%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Max. score</th>
+<th>Max. score if your project (examples):</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Project organization</td>
+<td>2</td>
+<td><ul>
+<li>Has a clear and appropriate directory structure.</li>
+<li>Has informative and appropriate directory and file names.</li>
+<li>Does not mix data, scripts, and results in individual directories.</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Project background and documentation</td>
+<td>2</td>
+<td><ul>
+<li>Has a clear description of its background and goals.</li>
+<li>Has a clear description of how scripts are being used to achieve these goals.</li>
+<li>Where appropriate, indicates what is still a work-in-progress.</li>
+<li>Where appropriate, indicates future directions.</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Script documentation</td>
+<td>2</td>
+<td><ul>
+<li>Uses extensive (yet succinct) comments to document what is being done within scripts.</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Script basic good practices</td>
+<td>4</td>
+<td><ul>
+<li>Uses no absolute paths in scripts.</li>
+<li>Uses scripts that take arguments where appropriate (see next point).</li>
+<li>Minimizes hardcoding of potentially variable things like input/output dirs, file names, and software settings.</li>
+<li>Has any hardcoded variables/constants that <em>are</em> present clearly set at the top of scripts.</li>
+<li>Has individual scripts that are not overly long and don’t do multiple unrelated things.</li>
+<li>Has no scripts with lines that are “commented out” (if you somehow can’t get around that, clearly annotate such lines to make clear why they are commented out).</li>
+<li>Uses Bash scripts with proper <code>set</code> settings, and similar good practices.</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Coding quality and complexity</td>
+<td>2</td>
+<td><ul>
+<li>Has code that demonstrates an understanding of topics/tricks/constructs covered in the course.</li>
+<li>Has code that uses proper approaches among multiple options covered in the course, e.g. looping over globbing results directly rather than over <code>ls</code> output.</li>
+<li>Has code that is appropriately broken up in small parts within scripts, e.g. with functions in Python.</li>
+<li>Uses (approximately) appropriate tools and commands to accomplish its goals. (I will not dig in to fine details and parameter settings.)</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Workflow rerunnability</td>
+<td>3</td>
+<td><ul>
+<li>Has a script or Snakefile that includes all steps in the workflow and can actually be run by anybody who has access to your repository and the raw data files.</li>
+<li>Has information for the instructor (or any other reader of the project!) about where at OSC to find the raw data files and other details needed to try to rerun the analyses.</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Software management</td>
+<td>1</td>
+<td><ul>
+<li>Uses Conda environments (preferred) or OSC modules for any software that is needed.</li>
+<li>Does not use manual installations and absolute paths if the Conda packages or OSC modules are available.</li>
+<li>Bonus: has YAML files that describe the Conda environments used.</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>SLURM jobs at OSC</td>
+<td>1</td>
+<td><ul>
+<li>Has one or more scripts that are run as OSC jobs at SLURM.</li>
+<li>Uses appropriate SLURM directives – either in the scripts or in a Snakemake profile YAML file.</li>
+<li>Has SLURM log files that can be examined by the instructor (please commit these).</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Version control</td>
+<td>2</td>
+<td><ul>
+<li>Has Git commit messages that are informative.</li>
+<li>Has roughly appropriate commits, e.g. individual Git commits don’t consist of multiple completely unrelated edits.</li>
+<li>A single <code>.gitignore</code> file that ignores files like large raw data files, and in most cases, results files.</li>
+<li>Bonus: has a Git <em>tag</em> for the submitted version.</li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+<h3 id="questions-and-advice">Questions and advice</h3>
+<p>If you have any questions, don’t hesitate to contact Jelmer (or, where fitting, Zach). Such questions can be about specific expectations for the final project that are not clear to you. But you can also seek advice on how to code or organize aspects of your project, or whether you are on the right track in making some adjustments that I may have asked for following your progress report.</p>
+<h3 id="late-submissions">Late submissions</h3>
+<p>Late submission may be accommodated depending on circumstances, but you will need to contact me <em>before 3 pm on April 30th</em> and we can take it from there. If I have not received a submission nor have we reached an agreement on a late submission by the end of April 30th, 4 points will be subtracted for each day the submission is late. (Forgetting to open an Issue won’t lead to subtracted points, but of course you still can’t commit after April 30th.)</p>
+<h3 id="good-luck">Good luck!!</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>It is important to keep in mind that there is not much to be gained from having a very sophisticated set of analyses and/or many scripts. For one, that has not been the main focus of this course, and additionally, some of you have co-opted existing research projects for this final project. For several of you, it therefore makes sense from now on to especially focus on documentation, clarity, and reproducibility of your project, and not on perfecting some analysis (at least for the purposes of your grade for this project!).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

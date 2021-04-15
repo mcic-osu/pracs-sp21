@@ -52,6 +52,7 @@ navbar:
         - text: "Checkpoint III: Presentation"
           href: finalproject_present.html
         - text: "Checkpoint IV: Submission"
+          href: finalproject_submission.html
     - text: "Topic overviews"
       menu:
         - text: "Shell"

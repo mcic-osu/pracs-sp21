@@ -42,7 +42,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/04/08 (updated: 2021-04-13)
+### 2021/04/08 (updated: 2021-04-15)
 
 ---
 class:inverse middle center
@@ -128,20 +128,50 @@ dependencies:
 
 ## Using Conda environments (cont.)
 
-Let's try that:
+Let's try running Snakemake with a Conda environment defined in a YAML file.
 
 ```sh
+sinteractive -A PAS1855
+
+module load python/3.6-conda5.2 
+source activate ipy-env
+
+# Create and move to a new dir to do this:
 mkdir -p /fs/ess/PAS1855/users/$USER/week14/conda_test
 cd /fs/ess/PAS1855/users/$USER/week14/conda_test
 
+# Create the workflow's dirs and files:
 mkdir -p data workflow/envs
-cp /fs/ess/PAS1855/data/fastq_16S/201*R1*fastq data/test.fastq
 touch workflow/Snakefile workflow/envs/fastqc.yml
 ```
 
+---
+
+## Using Conda environments (cont.)
+
+We'll run FastQC for real and to do, we'll use an actual FASTQ file that we
+have seen before:
+
 ```sh
+cp /fs/ess/PAS1855/data/fastq_16S/201*R1*fastq data/test.fastq
+
+tree
+#&gt; .
+#&gt; ├── data
+#&gt; │   └── test.fastq
+#&gt; └── workflow
+#&gt;     ├── envs
+#&gt;     │   └── fastqc.yml
+#&gt;     └── Snakefile
+    
 ls -lh data/test.fastq
+#&gt; -rw-r--r-- 1 jelmer PAS0471 31M Apr 15 14:41 data/test.fastq
+
 head data/test.fastq
+#&gt; @M01936:14:000000000-CPB4V:1:1101:21452:1673 1:N:0:CTCTTTAC+CAGGAGTA
+#&gt; CGAGCAATCCACTCGAGTGTCAGCCGCCGCGGTAATACGGAGGGTGCAAGCGTTATCCGGATTCACTTGGTTTAAAGTGTGCGTAGTCGGACATGTAATTCTGTGTTGAAATCTCTGGGCTTAACCCAGCAACTGCCGTTGATACTATTTTTCTTTAATATCCTGGAGTTAGGCTGAATATTTCATTTAGCGGTGAAATGCTTATATATGACATAGAACACCGATAGCGAAGGCAGCTTACTACAGGATGATTGACGCTGATGCACGAAAGCGTTGGGAGCAAACAGGATTAGAAACC
+#&gt; +
+#&gt; @89&lt;CECFEE@FFE&lt;,,C,CE9-@C+@@+8++@+,C,C,,,+++8,6,,,9,8@,C&lt;@,+,8@C,99,,,::C,,,,,,&lt;,6,8,+,&lt;+++8+,,&lt;,,,&lt;A,,&lt;,,:,,,,&lt;A@?E,,,4BE,,:?=+,,,,:B,5?+BC++&lt;,8C,:CD,BBFD,,,C,@@@C,,,,,:,,,5,,,,@,@,@3,@,8,,3**6**,,7,5DF,,,6,@,,7,@,,,,4,6=**4**,*****3**3&lt;C7&lt;&gt;9&lt;++**5++4=++1*/:**++2*2**)*)0)9))*))*1)*)0)*))0=*****0.
 ```
 
 ---
@@ -206,7 +236,7 @@ This can be extremely useful to:
   are already there, or if an input file has been updated, and this is the
   easiest way to check!
     
-- Check if you have no errors in your Snakefile
+- Check if you have no errors in your Snakefile  
   (e.g. syntax errors, wildcards that Snakemake can't figure out).
 
 &lt;br&gt;
@@ -290,7 +320,7 @@ class: middle inverse center
   
   - The output file is older than the input file.
   
-  - The input file will be updated by other job.
+  - The input file will be updated by another job.
   
   - Execution is enforced with `-f` / `-F` / `-R`.
 
@@ -303,13 +333,8 @@ class: middle inverse center
   - Code in the rule (or elsewhere in the Snakefile) has changed.
   
   - Additional input files have been added *and* input files are e.g. listed
-    at the top of the file or in a config file.
-    (With `glob_wildcards()`, new files will be automatically run.)
-
-  *It's possible to let Snakemake detect such changes, though, and then force
-  a rerun for those &amp;ndash;
-  see [here](https://snakemake.readthedocs.io/en/stable/project_info/faq.html#snakemake-does-not-trigger-re-runs-if-i-add-additional-input-files-what-can-i-do)
-  and the exercises for more details.*
+    at the top of the file or in a config file. &lt;br&gt;&lt;br&gt;
+    (With `glob_wildcards()`, new files *will* be automatically run.)
 
 ---
 
@@ -317,10 +342,10 @@ class: middle inverse center
 
 To force a rerun, we could use "brute force" with `Snakemake -j1 -F`,
 which would rerun the entire workflow.
-In real workflows,
-you probably only want to rerun whatever has been affected by the change in code.
+**In real workflows,
+you probably only want to rerun whatever has been affected by the change in code.**
 
-You can do this via the `--list-code-changes` option.
+You can do this via the **`--list-code-changes`** option.
 Running Snakemake with that option will print a list of the output files that
 have been affected by changes in the Snakefile since Snakemake was last run:
 
@@ -331,6 +356,8 @@ $ snakemake --list-code-changes
 #&gt; res/smpC.bam
 #&gt; res/smpA.bam
 ```
+
+--
 
 Then, we can use the `-R` option with the list of output files from
 `--list-code-changes` to force a rerun for those files.
@@ -363,12 +390,17 @@ In your Snakefile, you can include a `configfile` directive
 (for the entire workflow, not for individual rules) that points to a YAML or
 JSON file with these configurations.
 
+```python
+configfile: "config.yaml"
+```
+
 &lt;br&gt;
 
 --
 
-Then, all key-value pairs from the config file will loaded into a dictionary
-called `config` that you can call in your Snakefile &amp;ndash; for example:
+Then, all key-value pairs from the config file will be
+**loaded into a dictionary called `config`** that you can call in your Snakefile
+&amp;ndash; for example:
 
 ```sh
 # CONFIG FILE:
@@ -396,6 +428,7 @@ In the Snakefile, we access the values in the config files as follows:
 ```python
 # [...]
 configfile: "config.yaml"
+
 OUT_DIR=config["output_dir"]
 
 # [...]
@@ -406,8 +439,8 @@ rule filter_bam:
     shell: 'filter_bam.sh -q config["min_qual"] {input} &gt; {output}'
 ```
 
-Note that we assigned `output_dir` to a variable in the Snakefile,
-and used `min_qual` directly &amp;ndash; either is possible.
+Note that we assigned `output_dir` to a variable in the Snakefile,  
+and used `min_qual` directly &amp;ndash; either setup is possible.
 
 ---
 name: wildcards
@@ -428,7 +461,7 @@ input file name &amp;ndash;
 say our script needs an input dir and sample ID like so:
 
 ```sh
-scripts/trim.sh -d &lt;input_dir&gt; -i &lt;sample_id&gt;
+scripts/trim.sh -d &lt;input_dir&gt; -s &lt;sample_id&gt;
 ```
 
 Our rule currently looks like this:
@@ -450,26 +483,26 @@ rule trim:
 
 ```python
 # THIS WON'T WORK:
-# shell: "scripts/trim.sh -d res -o {smp} &gt; {output}"
+# shell: "scripts/trim.sh -d res -s {smp} &gt; {output}"
 ```
 
 ```python
 # YES -- use "{wildcards.&lt;wildcard-name&gt;}":
-shell: "scripts/trim.sh -d res -o {wildcards.smp} &gt; {output}"
+shell: "scripts/trim.sh -d res -s {wildcards.smp} &gt; {output}"
 ```
 
-Why do we need `{wildcards.smp}` and not just `{smp}` akin to how we refer to
-`{input}`?
+Why do we need `{wildcards.smp}`?
+Why can't we just use `{smp}` akin to how we refer to `{input}`?
 
 --
 
 Even though both are variable-like references with `{}`,
-only `{smp}` is a **wildcard**,
-which has not been explicitly defined, and is left for Snakemake to figure out.
+**only `{smp}` is a wildcard**:
+its value has not been explicitly defined, and is left for Snakemake to figure out.
 
-Snakemake figures this out in `{input}` and `{output}` directives *only*,
-and if we want to refer to them elsewhere,
-we need to use `{wildcards.&lt;wildcard-name&gt;}`.
+Snakemake figures out what the values of wilcards should be *only* in `{input}` and
+`{output}` directives.
+If we want to refer to them elsewhere, we need to use `{wildcards.&lt;wildcard-name&gt;}`.
 
 ---
 name: params
@@ -489,10 +522,11 @@ In our modified `rule trim` in the previous slide,
 we ended up with the following `shell` entry:
 
 ```python
-shell: "scripts/trim.sh -d res -o {wildcards.smp} &gt; {output}"
+shell: "scripts/trim.sh -d res -s {wildcards.smp} &gt; {output}"
 ```
 
 Notice that the directory is directly specified in `-d res`.
+
 It may be better to define a setting like this output directory in a more obvious
 way, and we could use the `params` directive for that.
 For instance:
@@ -506,10 +540,12 @@ shell: "scripts/trim.sh -d {params.outdir} -o {wildcards.smp} &gt; {output}"
 
 ## The params directive (cont.)
 
-Additionally, we can directly access wildcards in the `params` directive,
-so we could have sample-specific settings,
-such as in
-[this example from the official Snakemake tutorial](https://snakemake.readthedocs.io/en/stable/tutorial/advanced.html#step-4-rule-parameters), which passes read group information to `bwa mem`:
+Additionally, we can directly access wildcards in the `params` directive,  
+so we could have **sample-specific settings**.
+
+For example, see 
+[this example from the official Snakemake tutorial](https://snakemake.readthedocs.io/en/stable/tutorial/advanced.html#step-4-rule-parameters),  
+which passes read group information to `bwa mem`:
 
 ```python
 rule bwa_map:
@@ -524,7 +560,6 @@ rule bwa_map:
     shell:
         "bwa mem -R '{params.rg}' -t {threads} {input} | samtools view -Sb - &gt; {output}"
 ```        
-
 
 ---
 name: misc
