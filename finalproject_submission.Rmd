@@ -45,17 +45,12 @@ Your repository should now contain:
     -   Additional instructions the instructor will need to try and
         rerun your project.
 
-    -   You want to explain why you don't have a functioning
-        workflow/"driver" script or Snakefile.
-
-    -   You want to explain how/why you ended up doing some things
-        rather differently from the way described in your proposal or
-        progress notes.
-
     -   You want to alert the instructor to some files files in the
         repository that should be ignored.
 
-    -   You didn't run any SLURM jobs and want to describe why.
+    -   You want to explain why you don't have a functioning
+        workflow/"driver" script or Snakefile, or why you didn't run any
+        SLURM jobs.
 
     -   You had some messy commits that you feel should be excused.
 
@@ -192,21 +187,21 @@ project for some more general background.)
 
 ### Questions and advice
 
-If you have any questions, don't hesitate to contact Jelmer (or, where
-fitting, Zach). Such questions can be about specific expectations for
-the final project that are not clear to you. But you can also seek
-advice on how to code or organize aspects of your project -- or whether
-you are on the right track in making some adjustments that I asked for
-after your progress report.
+Don't hesitate to contact Jelmer (or, where fitting, Zach) for questions
+about topcis like:
+
+-   Specific expectations for the final project that are unclear to you.
+-   Whether you are on the right track in making some adjustments that I
+    asked for after your progress report.
+-   Advice on how to code or organize aspects of your project.
 
 ### Late submissions
 
 Late submission may be accommodated depending on circumstances, but you
-will need to contact me *before 3 pm on April 30th* and we can take it
-from there. If I have not received a submission nor have we reached an
-agreement on a late submission by the end of the day, 4 points will be
-subtracted for each day the submission is late. (Forgetting to open an
-Issue won't lead to subtracted points, but of course you still can't
-commit after April 30th.)
+will need to contact me *before 3 pm on April 30th* -- and we can take
+it from there. If I have not received a submission nor have we reached
+an agreement on a late submission by the end of the day, 4 points will
+be subtracted for each day the submission is late. (But things like
+forgetting to open an Issue won't lead to subtracted points.)
 
 ### Good luck!!
