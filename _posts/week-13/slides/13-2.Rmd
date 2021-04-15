@@ -1230,14 +1230,15 @@ Other options include:
 
 ## Snakemake's glob_wildcards() function
 
-With `glob_wildcards`, we can extract parts of file names as follows:
+With `glob_wildcards`, we can extract and store parts (typically sample IDs)
+from existing file names (typically raw data files) as follows:
 
 ```python
 SAMPLES = glob_wildcards("data/{smp}.fastq").smp
 ```
 
 Note the `.smp` at the end:
-we extract the list that was stored in `smp` because we named our wildcard `smp`.
+we extract the **list** that was stored in `smp` because we named our wildcard `smp`.
 
 --
 
