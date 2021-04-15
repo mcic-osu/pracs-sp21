@@ -1,0 +1,164 @@
+---
+title: "Topic Overview: Snakemake"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+## Rules
+
+-   It is common to have a `rule all` as the first rule, which only has an `input` directive that lists all final output files. Recall that this will also include any output files....
+-   Relationships/dependencies between rules are implicit: they are *inferred* from the `input` and `output` directives. Other than that the first rule is run by default, the order of the rules in the Snakefile is not important.
+
+## Directives
+
++--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| Directive    | Expected values                                                                                                                                           | Examples                                              |
++==============+===========================================================================================================================================================+=======================================================+
+| **`input`**  | Input file(s) for the rule.                                                                                                                               | `input: "ref.fa"`                                     |
+|              |                                                                                                                                                           |                                                       |
+|              | When using a wildcard `{}`, multiple jobs are run for the rule, each with **one** of the wildcard values.                                                 | `input: "{smp}.fq"`                                   |
+|              |                                                                                                                                                           |                                                       |
+|              | If needing to run **all** wildcard values (samples/files) at once, use `expand()`.                                                                        | `input: fq="my.fq", ref="ref.fa"`                     |
+|              |                                                                                                                                                           |                                                       |
+|              |                                                                                                                                                           | `input: expand()`                                     |
++--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| **`output`** | Like `input` but specifies output files. If using wildcards, should have the same wildcard as `input`.                                                    | `output: {smp}.bam`                                   |
++--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| **`log`**    | Like `output` but mean for logging and error output: `log` files are not deleted if jobs fail.                                                            |                                                       |
++--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| **`shell`**  | Run any arbitrary shell command: e.g. calling an external program or script. Other "action directives" that we did not use include `run` for Python code. | `shell: "map.sh {input.ref} {input.fq} > {output}"`   |
+|              |                                                                                                                                                           |                                                       |
+|              |                                                                                                                                                           | `shell: "cat {smp}.txt | tr a-z A-Z > out/{smp}.txt"` |
+|              |                                                                                                                                                           |                                                       |
+|              |                                                                                                                                                           | `shell: "fastqc {input}"`                             |
++--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+|              |                                                                                                                                                           |                                                       |
++--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+| **`conda`**  | **...** <br> [ddddddddddddddddddddddddddddddddddddd]{style="color:white"}                                                                                 |                                                       |
++--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------+
+
+## Placeholders and wildcards
+
+-   Note that wildcards operate entirely within a single rule and not across rules! That is, even though it often makes sense to use the exact same wildcard (both in name and value, the latter typically a sample name) across multiple rules, Snakemake will resolve them separately for each rule.
+
++----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| Placeholder    | Explanation                                                                                                                                                                                             | Examples                                                                                                            |
++================+=========================================================================================================================================================================================================+=====================================================================================================================+
+| **`{input}`**  | Refers to the file(s) specified in the `input` directive -- to be used in "action directives" such as `shell`. (If `input` has a wildcard, one file is passed for each job i.e. iteration of the rule.) | `shell: "trim.sh {input} > {output}"`\                                                                              |
+|                |                                                                                                                                                                                                         | `shell: map.sh {input.ref} {input.fastq} > {output}`                                                                |
++----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| **`{output}`** | Refers to the file(s) specified in the `output` directive -- to be used in "action directives" such as `shell`.                                                                                         |                                                                                                                     |
++----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+| **`{…}`**      | Wildcard, which has an arbitrary name (instead of `…`).                                                                                                                                                 | `input: {sample}.fq`                                                                                                |
+|                |                                                                                                                                                                                                         |                                                                                                                     |
+|                | Used as-is in `input`, `output`, and `log` directives, for which Snakemake resolves the values of the wildcards by looking for requested output files it can produce.                                   | `output: {sample}.bam`                                                                                              |
+|                |                                                                                                                                                                                                         |                                                                                                                     |
+|                | To use a wildcard in a `shell` directive, assuming the wildcard is called `sample`, use: `{wildcards.sample}`.                                                                                          | Say that a script takes a sample name rather than a file name: <br> `shell: my.sh -i {wildcards.sample} > {output}` |
++----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+|                |                                                                                                                                                                                                         |                                                                                                                     |
++----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+|                |                                                                                                                                                                                                         |                                                                                                                     |
++----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+|                | **...** <br> [ddddddddddddddddddddddddddddddddddddd]{style="color:white"}                                                                                                                               |                                                                                                                     |
++----------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------+
+
+<br>
+
+## Functions
+
+Snakemake provides a few convenience functions, most notably `expand()` and `glob_wildcards()`. Note that you can interactively test these functions in Python after importing them using:
+
+``` {.python}
+from snakemake.io import expand, glob_wildcards
+```
+
+-   `expand()` will ...
+
+``` {.python}
+SAMPLES=["sampleA", "sampleB", "sampleC"] 
+expand("res/{sample}.bam", sample=SAMPLES)
+#> ['res/smpA.bam', 'res/smpB.bam', 'res/smpC.bam']
+
+SAMPLES = ["sampleA", "sampleB", "sampleC"]
+READS = ["R1", "R2"]
+expand("{sample}_{read}.fastq.gz", sample=SAMPLES, read=READS)
+#> ['sampleA_R1.fastq.gz', 'sampleA_R2.fastq.gz',
+#>  'sampleB_R1.fastq.gz', 'sampleB_R2.fastq.gz',
+#>  'sampleC_R1.fastq.gz', 'sampleC_R2.fastq.gz']
+```
+
+-   `glob_wildcards()` will ...
+
+``` {.python}
+# Typical usage at the top of a Snakefile:
+
+SAMPLES = glob_wildcards("data/{sample}.fastq").sample
+```
+
+``` {.python}
+# Seeing how it works - with one wildcard:
+
+!ls data/
+#> data/sampleA.fastq data/sampleB.fastq data/sampleC.fastq
+
+glob_wildcards("data/{sample}.fastq").sample
+#> ['sampleA', 'sampleB', 'sampleC']
+```
+
+``` {.python}
+# Seeing how it works - with two wildcards:
+
+!ls data/
+#> A_R1.fastq.gz A_R2.fastq.gz B_R1.fastq.gz B_R2.fastq.gz
+
+glob_wildcards("data/{sample}_{read}.fastq.gz").sample
+#> ['A', 'A', 'B', 'B']
+glob_wildcards("data/{sample}_{read}.fastq.gz").read
+#> ['R1', 'R2', 'R1', 'R2']
+```
+
+## Command-line interface
+
+-   Basic syntax -- rules or output files can optionally be provided as arguments:
+
+    -   `snakemake -j1` -- run the first rule and all its dependencies.
+
+    -   `snakemake -j1 my_rule` -- run the rule `my_rule` and all its dependencies.
+
+    -   `snakemake -j1 my_output_file` -- run whatever rules are needed to be run to produce the output file `my_output_file`. In the Snakefile, `my_output_file` can either be literally specified as an `output` file, or can be inferred by Snakemake from an `output` directive given possible wildcard values.
+
+-   If a Snakefile is called either of the following (seen from the dir from which snakemake is called), it will be automatically detected: `Snakefile` / `snakefile` / `workflow/Snakefile` / `workflow/snakefile`. Otherwise, use the `-s` option to specify the Snakefile to run.
+
+| Short    | Long                     | Meaning                                                                                                                                                                                                | Example                                      |
+|----------|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------|
+| **`-j`** | **`--jobs` / `--cores`** | **Mandatory option**: maximum number of jobs to be run in parallel. At OSC, this will be the max. nr. of SLURM jobs to be submitted; when running locally, this should not exceed the number of cores. |                                              |
+|          |                          |                                                                                                                                                                                                        |                                              |
+| \-       | `--dag`                  |                                                                                                                                                                                                        | `snakemake --dag | dot -T svg > my.svg` <br> |
+| \-       | `--rulegraph`            |                                                                                                                                                                                                        |                                              |
+
+## A few worked examples
+
+``` {.python}
+SAMPLES = glob_wildcards("data/{smp}.fastq").smp
+
+rule all:
+    input: "res/count_table.txt",
+
+rule trim:
+    input: "data/{smp}.fastq",
+    output: "res/{smp}_trim.fastq",
+    shell: "scripts/trim.sh {input} > {output}"
+
+rule map:
+    input: "res/{smp}_trim.fastq",
+    output: "res/{smp}.bam",
+    shell: "scripts/map.sh {input} > {output}"
+
+rule count:
+    input: expand("res/{smp}.bam", smp=SAMPLES),
+    output: "res/count_table.txt",
+    shell: "scripts/count.sh {input} > {output}"
+```
