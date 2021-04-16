@@ -106,7 +106,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output","editor_options"]}},"value":[{"type":"character","attributes":{},"value":["Final project: submission"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["markdown"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["wrap"]}},"value":[{"type":"integer","attributes":{},"value":[72]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Final project: submission"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2591,23 +2591,23 @@ Topic overviews
 </ul></li>
 </ul>
 <h3 id="graded-aspects">Graded aspects</h3>
-<p>Below is a long list of graded aspects and what to aim for if you want a perfect score. (See also the <a href="final_project.html">General Info</a> page for the final project for some more general background.)</p>
-<table style="width:97%;">
+<p>Below is a long list of graded aspects and what to aim for if you want a perfect score. I’m providing a lot of detail here, so there are no surprises. <em>The TLDR is that you should aim to have a reproducible, well-organized and well-documented workflow – workflow size/complexity on the other hand, is fairly unimportant.</em> (See also the <a href="final_project.html">General Info</a> page for the final project for some more general background.)</p>
+<table>
 <colgroup>
-<col style="width: 19%" />
-<col style="width: 15%" />
-<col style="width: 62%" />
+<col style="width: 12%" />
+<col style="width: 9%" />
+<col style="width: 78%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>Category</th>
-<th>Max. score</th>
+<th>Max. <br> score</th>
 <th>Max. score if your project (examples given):</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Project o rganization</td>
+<td>Project organization</td>
 <td>2</td>
 <td><ul>
 <li>Has a clear and appropriate directory structure.</li>
@@ -2616,7 +2616,7 @@ Topic overviews
 </ul></td>
 </tr>
 <tr class="even">
-<td>Project background and do cumentation</td>
+<td>Project background and documentation</td>
 <td>2</td>
 <td><ul>
 <li>Has a clear description of its background and goals.</li>
@@ -2625,7 +2625,7 @@ Topic overviews
 </ul></td>
 </tr>
 <tr class="odd">
-<td>Script do cumentation</td>
+<td>Script documentation</td>
 <td>2</td>
 <td><ul>
 <li>Uses extensive (yet succinct) comments to document what is being done within scripts.</li>
@@ -2647,12 +2647,12 @@ Topic overviews
 <td>3</td>
 <td><ul>
 <li>Has code that demonstrates an understanding of topics covered in the course.</li>
-<li>Has code that is appropriately broken up in small parts within scripts, e.g. with functions in Python.</li>
+<li>Has code that is appropriately broken up in small parts within scripts, e.g. with functions in Python.</li>
 <li>Uses tools and commands that are (by and large) appropriate to accomplish its goals. (I will not dig in to fine details and parameter settings.)</li>
 </ul></td>
 </tr>
 <tr class="even">
-<td>Workflow <br> repr oducibility</td>
+<td>Workflow <br> reproducibility</td>
 <td>3</td>
 <td><ul>
 <li>Has a script or Snakefile that includes all steps in the workflow and that can be run by anybody with access to your repository and the raw data files.</li>
@@ -2666,19 +2666,20 @@ Topic overviews
 <td><ul>
 <li>Has one or more scripts that are run as OSC jobs at SLURM.</li>
 <li>Uses appropriate SLURM directives – either in the scripts or in a Snakemake profile YAML file.</li>
-<li>Has SLURM log files that can be examined by the instructor (please commit these).</li>
 </ul></td>
 </tr>
 <tr class="even">
-<td>Version control</td>
-<td>2</td>
+<td><p>Version control</p>
+<p><span style="color:white">ddddddddddddddddd</span></p></td>
+<td><p>2</p>
+<p><span style="color:white">dddddd</span></p></td>
 <td><ul>
 <li>Has Git commit messages that are informative.</li>
 <li>Has reasonably appropriate commits, e.g. individual Git commits don’t consist of multiple completely unrelated edits.</li>
 <li>Has a single <code>.gitignore</code> file that ignores files like large raw data files, and in most cases, results files.</li>
 <li><em>Bonus:</em> has a Git <em>tag</em> for the submitted version.</li>
 </ul>
-<span style="color:white">ddddddddddddddddddddddddddddddddddddddd dddddddd dddddddddddddddddddd</span></td>
+<span style="color:white">dddddddddddddddddddddddddddddddddddddddddddddd dddddddd dddddddd</span></td>
 </tr>
 </tbody>
 </table>
