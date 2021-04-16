@@ -2819,7 +2819,7 @@ Topic overviews
 <td><em>Undo changes by most recent commit:</em> <br> <code>git revert HEAD</code> <br> <em>Undo changed by second-to-last commit:</em> <br> <code>git revert HEAD^</code> <br> <em>Undo changes by any arbitrary commit:</em> <code>git revert e1c5739</code> <br> <br> <em>Undo last commit and completely discard all changes made by it:</em> <br><code>git reset --hard HEAD^</code> <br> <em>Undo last commit and put all changes made by that commit in the working dir:</em> <br><code>git reset HEAD^</code> <br> <em>Undo last commit and stage all changes made by it (“peel off commit”):</em> <br><code>git reset --soft HEAD^</code></td>
 </tr>
 <tr class="even">
-<td><strong>Retrieve a file version from a past commit</strong> <br> <strong><span style="color:white">dddddddddddddddddddd</span></strong></td>
+<td><strong>Retrieve a file version from a past commit</strong> <br> <span style="color:white"><strong>dddddddddddddddddddd</strong></span></td>
 <td><code>git checkout --</code> <br> or <br> <code>git show</code> <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
 <td><em>Retrieve from second-to-last commit:</em> <br> <code>git checkout HEAD^^ -- README.md</code> <br> <em>Retrieve from arbitrary commit:</em> <br> <code>git checkout e1c5739 -- README.md</code> <br> <em>To not change after all and go back to the current version:</em> <br> <code>git checkout HEAD -- README.md</code> <br> <br> <em>Look at the version from the last commit:</em> <code>git show HEAD:README.md</code> <br> <em>Revert to arbitrary earlier version using redirection:</em> <br> <code>git show ad4ca74:README.md &gt; README.md</code> <br> <span style="color:white">ddddddddddddddddddddddddddddddddddddd</span></td>
 </tr>

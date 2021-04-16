@@ -2568,7 +2568,7 @@ Topic overviews
 </ul>
 </nav>
 </div>
-<p><strong>The submission of your final project is due on April 30th.</strong> <span style="color:coral"><i>[20 points]</i></span></p>
+<p><strong>The submission of your final project is due on April 30th.</strong> <i>[20 points]</i></p>
 <h3 id="how-to-submit">How to submit</h3>
 <p>As usual, open a new GitHub issue for your repository and tag <code>@jelmerp</code> in the text body of the Issue.</p>
 <h3 id="what-to-submit">What to submit</h3>
@@ -2580,35 +2580,34 @@ Topic overviews
 <li>What the project does as a whole.</li>
 <li>What each script does.</li>
 <li>Where to access the data at OSC, assuming that the data is not in your repository.</li>
-<li>How the project’s scripts can be rerun using a single (workflow/“driver”) script or Snakefile.</li>
+<li>How the project’s scripts can be rerun using a single script or Snakefile.</li>
 </ul></li>
-<li><p><strong>A single (workflow/“driver”) script or Snakefile that aims to rerun the full workflow.</strong></p></li>
+<li><p><strong>A single script or Snakefile that aims to rerun the full workflow.</strong></p></li>
 <li><p>A file (e.g. <code>submission_notes.md</code>) or a section in your main README file that provides some <strong>additional information for the instructor to grade your project appropriately</strong>. Some hypothetical examples of things you may want to include:</p>
 <ul>
 <li><p>Additional instructions the instructor will need to try and rerun your project.</p></li>
 <li><p>You want to alert the instructor to some files files in the repository that should be ignored.</p></li>
-<li><p>You want to explain why you don’t have a functioning workflow/“driver” script or Snakefile, or why you didn’t run any SLURM jobs.</p></li>
-<li><p>You had some messy commits that you feel should be excused.</p></li>
+<li><p>You want to explain why you don’t have a functioning script or Snakefile, or why you didn’t run any SLURM jobs (which can be acceptable in some cases).</p></li>
 </ul></li>
 </ul>
 <h3 id="graded-aspects">Graded aspects</h3>
-<p>(See also the <a href="final_project.html">General Info</a> page for the final project for some more general background.)</p>
-<table style="width:96%;">
+<p>Below is a long list of graded aspects and what to aim for if you want a perfect score. (See also the <a href="final_project.html">General Info</a> page for the final project for some more general background.)</p>
+<table style="width:97%;">
 <colgroup>
-<col style="width: 38%" />
-<col style="width: 18%" />
-<col style="width: 38%" />
+<col style="width: 19%" />
+<col style="width: 15%" />
+<col style="width: 62%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>Category</th>
 <th>Max. score</th>
-<th>High/max. score if your project (examples given):</th>
+<th>Max. score if your project (examples given):</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Project organization</td>
+<td>Project o rganization</td>
 <td>2</td>
 <td><ul>
 <li>Has a clear and appropriate directory structure.</li>
@@ -2617,7 +2616,7 @@ Topic overviews
 </ul></td>
 </tr>
 <tr class="even">
-<td>Project background and documentation</td>
+<td>Project background and do cumentation</td>
 <td>2</td>
 <td><ul>
 <li>Has a clear description of its background and goals.</li>
@@ -2626,7 +2625,7 @@ Topic overviews
 </ul></td>
 </tr>
 <tr class="odd">
-<td>Script documentation</td>
+<td>Script do cumentation</td>
 <td>2</td>
 <td><ul>
 <li>Uses extensive (yet succinct) comments to document what is being done within scripts.</li>
@@ -2637,11 +2636,9 @@ Topic overviews
 <td>4</td>
 <td><ul>
 <li>Uses no absolute paths in scripts.</li>
-<li>Uses scripts that take arguments where appropriate (see next point).</li>
-<li>Minimizes “hard-coding” of potentially variable things like input/output dirs, file names, and some software settings.</li>
-<li>Any hard-coded variables/constants that <em>are</em> present, should be clearly set at the top of scripts.</li>
+<li>Uses scripts that take arguments where appropriate and minimizes “hard-coding” of potentially variable things like input/output dirs, file names, and some software settings. Any hard-coded variables/constants that <em>are</em> present are clearly set at the top of scripts.</li>
 <li>Has individual scripts that are not overly long and don’t do multiple unrelated things.</li>
-<li>Has no scripts with lines that are “commented out” (if you somehow can’t get around that, clearly annotate such lines).</li>
+<li>Has no or only clearly annotated lines that are “commented out” in scripts.</li>
 <li>Uses Bash scripts with proper <code>set</code> settings, and similar good practices as taught in the course.</li>
 </ul></td>
 </tr>
@@ -2650,18 +2647,17 @@ Topic overviews
 <td>3</td>
 <td><ul>
 <li>Has code that demonstrates an understanding of topics covered in the course.</li>
-<li>Has code that makes sensible choices as taught in the course, e.g. looping over globbing results directly rather than over <code>ls</code> output.</li>
 <li>Has code that is appropriately broken up in small parts within scripts, e.g. with functions in Python.</li>
 <li>Uses tools and commands that are (by and large) appropriate to accomplish its goals. (I will not dig in to fine details and parameter settings.)</li>
 </ul></td>
 </tr>
 <tr class="even">
-<td>Workflow reproducibility</td>
+<td>Workflow <br> repr oducibility</td>
 <td>3</td>
 <td><ul>
-<li>Has a script or Snakefile that includes all steps in the workflow and that can actually be run by anybody who has access to your repository and the raw data files.</li>
+<li>Has a script or Snakefile that includes all steps in the workflow and that can be run by anybody with access to your repository and the raw data files.</li>
 <li>Has information for the instructor (or any other reader of the project!) about where at OSC to find the raw data files and other details needed to try to rerun the analyses.</li>
-<li>Bonus: good software management, e.g. uses Conda environments (preferred) or OSC modules and no manual installs unless necessary; YAML environment files.</li>
+<li><em>Bonus:</em> good software management, e.g. Conda environments (preferred) or OSC modules and no manual installs unless necessary; YAML files describing environments.</li>
 </ul></td>
 </tr>
 <tr class="odd">
@@ -2680,8 +2676,9 @@ Topic overviews
 <li>Has Git commit messages that are informative.</li>
 <li>Has reasonably appropriate commits, e.g. individual Git commits don’t consist of multiple completely unrelated edits.</li>
 <li>Has a single <code>.gitignore</code> file that ignores files like large raw data files, and in most cases, results files.</li>
-<li>Bonus: has a Git <em>tag</em> for the submitted version.</li>
-</ul></td>
+<li><em>Bonus:</em> has a Git <em>tag</em> for the submitted version.</li>
+</ul>
+<span style="color:white">ddddddddddddddddddddddddddddddddddddddd dddddddd dddddddddddddddddddd</span></td>
 </tr>
 </tbody>
 </table>
