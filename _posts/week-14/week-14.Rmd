@@ -21,7 +21,3 @@ output:
 - [Final project: student presentations](../../finalproject_present.html) -- in class, week of Apr 20
 
 - [Final project: submission](../../finalproject_submission.html) -- due Friday, Apr 30
-
-### Ungraded assignments
-
-- Optional exercises for week 14: Snakemake with real data -- TBA
