@@ -38,9 +38,9 @@ output:
 +-------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | **`--use-conda`**                   | In combination with `conda` directive(s) in the Snakefile, will run jobs in a Conda environment.                                                                                                       |                                                                                                                                                                  |
 +-------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **`--cluster`**                     | Basically a prefix that should be added to any command in order to submit to a cluster.                                                                                                                | *Have at most 50 jobs in the queue:* <br> `snakemake -j50 --cluster "sbatch --account=PAS1855"`                                                                  |
+| **`--cluster`**                     | Basically a prefix that should be added to any command in order to submit to a cluster.                                                                                                                | *Have at most 50 jobs in the queue:* <br> `snakemake -j50 --cluster \` <br> &nbsp; &nbsp; `"sbatch --account=PAS1855"`                                           |
 |                                     |                                                                                                                                                                                                        |                                                                                                                                                                  |
-|                                     | At OSC, this will need to be at a minimum `sbatch --account=PAS1855`, and any number of SLURM options can be added.                                                                                    | *Every SLURM job should have a time limit of 12 h:* <br> `snakemake -j50 --cluster "sbatch --account=PAS1855 --time=12:00:00"`                                   |
+|                                     | At OSC, this will need to be at a minimum `sbatch --account=PAS1855`, and any number of SLURM options can be added.                                                                                    | *Every SLURM job should have a time limit of 10 minutes:* <br> `snakemake -j50 --cluster \` <br> &nbsp; &nbsp; `"sbatch --account=PAS1855 --time=10"`            |
 |                                     |                                                                                                                                                                                                        |                                                                                                                                                                  |
 |                                     | With additional non-default SLURM options, it becomes more practical to use a **profile** (see below).                                                                                                 |                                                                                                                                                                  |
 +-------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -67,7 +67,7 @@ output:
 -   Relationships/dependencies between rules are **implicit**: Snakemake *infers* these from `input` and `output` directives.
 -   The order of rules in the Snakefile is not important except that the first rule is run by default.
 
-## Directives
+### Rule directives
 
 +-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Directive       | Expected values                                                                                                                                                                                          | Examples                                                                                                                                                                                     |
@@ -114,6 +114,8 @@ output:
 |                 |                                                                                                                                                                                                          |   - fastqc=0.11.8                                                                                                                                                                            |
 |                 |                                                                                                                                                                                                          | ```                                                                                                                                                                                          |
 +-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+<br>
 
 ## Placeholders and wildcards
 
@@ -220,6 +222,8 @@ glob_wildcards("data/{sample}_{read}.fastq.gz").read
     output: protected("sorted_reads/{sample}.bam")
     ```
 
+<br>
+
 ## Misc. tips & tricks
 
 #### Configuration file
@@ -241,7 +245,7 @@ output_dir: path/to/output/
 
 #### Profile dir with SLURM and other settings
 
-A configuration file (or set of files) can also be used to pass options to a Snakemake call. This is particularly handy with SLURM options, since a long command like `snakemake -j100 --cluster "--account=PAS1855 --time=12:00 --mem=12G --cpus-per-task 6"` is not very practical to specify whenever running Snakemake.
+A configuration file (or set of files) can also be used to pass options to a Snakemake call. This is particularly handy with SLURM options, since a long command like `snakemake -j100 --cluster "--account=PAS1855 --time=12:00:00 --mem=12G"` is not very practical to type whenever running Snakemake.
 
 1.  Add a file called `config.yaml` in a directory with an arbitrary name -- but something like `slurm_profile` makes sense.
 
@@ -305,6 +309,8 @@ rule token_example:
     output: 'token_file'   # The name of the file is arbitrary - but it will be created
     shell: "my_command {input} && touch {output}"
 ```
+
+<br>
 
 ## A few worked examples
 

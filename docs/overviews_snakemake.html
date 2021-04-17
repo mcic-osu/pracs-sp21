@@ -2560,8 +2560,10 @@ Topic overviews
 <h3>Contents</h3>
 <ul>
 <li><a href="#command-line-interface">Command-line interface</a></li>
-<li><a href="#rules">Rules</a></li>
-<li><a href="#directives">Directives</a></li>
+<li><a href="#rules">Rules</a>
+<ul>
+<li><a href="#rule-directives">Rule directives</a></li>
+</ul></li>
 <li><a href="#placeholders-and-wildcards">Placeholders and wildcards</a></li>
 <li><a href="#functions">Functions</a></li>
 <li><a href="#misc.-tips-tricks">Misc. tips &amp; tricks</a></li>
@@ -2634,8 +2636,8 @@ Topic overviews
 <td><p>Basically a prefix that should be added to any command in order to submit to a cluster.</p>
 <p>At OSC, this will need to be at a minimum <code>sbatch --account=PAS1855</code>, and any number of SLURM options can be added.</p>
 <p>With additional non-default SLURM options, it becomes more practical to use a <strong>profile</strong> (see below).</p></td>
-<td><p><em>Have at most 50 jobs in the queue:</em> <br> <code>snakemake -j50 --cluster "sbatch --account=PAS1855"</code></p>
-<p><em>Every SLURM job should have a time limit of 12 h:</em> <br> <code>snakemake -j50 --cluster "sbatch --account=PAS1855 --time=12:00:00"</code></p></td>
+<td><p><em>Have at most 50 jobs in the queue:</em> <br> <code>snakemake -j50 --cluster \</code> <br>     <code>"sbatch --account=PAS1855"</code></p>
+<p><em>Every SLURM job should have a time limit of 10 minutes:</em> <br> <code>snakemake -j50 --cluster \</code> <br>     <code>"sbatch --account=PAS1855 --time=10"</code></p></td>
 </tr>
 <tr class="odd">
 <td><strong><code>---lint</code></strong></td>
@@ -2681,7 +2683,7 @@ Topic overviews
 <li>Relationships/dependencies between rules are <strong>implicit</strong>: Snakemake <em>infers</em> these from <code>input</code> and <code>output</code> directives.</li>
 <li>The order of rules in the Snakefile is not important except that the first rule is run by default.</li>
 </ul>
-<h2 id="directives">Directives</h2>
+<h3 id="rule-directives">Rule directives</h3>
 <table>
 <colgroup>
 <col style="width: 4%" />
@@ -2755,6 +2757,7 @@ Topic overviews
 </tr>
 </tbody>
 </table>
+<p><br></p>
 <h2 id="placeholders-and-wildcards">Placeholders and wildcards</h2>
 <p>Note that wildcards operate entirely within a single rule and not across rules! That is, even though it often makes sense to use the exact same wildcard across multiple rules, <em>Snakemake will resolve them separately for each rule</em>.</p>
 <table>
@@ -2848,6 +2851,7 @@ Topic overviews
 <li><p><code>protected()</code> will mark files as protected (no write permissions):</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>output: protected(<span class="st">&quot;sorted_reads/</span><span class="sc">{sample}</span><span class="st">.bam&quot;</span>)</span></code></pre></div></li>
 </ul>
+<p><br></p>
 <h2 id="misc.-tips-tricks">Misc. tips &amp; tricks</h2>
 <h4 id="configuration-file">Configuration file</h4>
 <p>To avoid hardcoding certain run-specific variables in the Snakemake (sample names, output directories, parameters for software, and so on), you can use a YAML or JSON-formatted <strong>configuration file</strong> and include a <code>configfile</code> directive somewhere at the top of the Snakefile:</p>
@@ -2859,7 +2863,7 @@ Topic overviews
 <div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Say &quot;config.yaml&quot; just contains the following line:</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>output_dir: path<span class="op">/</span>to<span class="op">/</span>output<span class="op">/</span></span></code></pre></div>
 <h4 id="profile-dir-with-slurm-and-other-settings">Profile dir with SLURM and other settings</h4>
-<p>A configuration file (or set of files) can also be used to pass options to a Snakemake call. This is particularly handy with SLURM options, since a long command like <code>snakemake -j100 --cluster "--account=PAS1855 --time=12:00 --mem=12G --cpus-per-task 6"</code> is not very practical to specify whenever running Snakemake.</p>
+<p>A configuration file (or set of files) can also be used to pass options to a Snakemake call. This is particularly handy with SLURM options, since a long command like <code>snakemake -j100 --cluster "--account=PAS1855 --time=12:00:00 --mem=12G"</code> is not very practical to type whenever running Snakemake.</p>
 <ol type="1">
 <li><p>Add a file called <code>config.yaml</code> in a directory with an arbitrary name – but something like <code>slurm_profile</code> makes sense.</p></li>
 <li><p>In this file, specify options that can also be passed to <code>snakemake</code> on the command line, e.g.:</p>
@@ -2900,6 +2904,7 @@ Topic overviews
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span>:  <span class="st">&#39;file.txt&#39;</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    output: <span class="st">&#39;token_file&#39;</span>   <span class="co"># The name of the file is arbitrary - but it will be created</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    shell: <span class="st">&quot;my_command </span><span class="sc">{input}</span><span class="st"> &amp;&amp; touch </span><span class="sc">{output}</span><span class="st">&quot;</span></span></code></pre></div>
+<p><br></p>
 <h2 id="a-few-worked-examples">A few worked examples</h2>
 <div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>SAMPLES <span class="op">=</span> glob_wildcards(<span class="st">&quot;data/</span><span class="sc">{smp}</span><span class="st">.fastq&quot;</span>).smp</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
