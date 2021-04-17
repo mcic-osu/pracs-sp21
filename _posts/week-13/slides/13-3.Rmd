@@ -384,7 +384,7 @@ In your Snakefile, you can include a `configfile` directive
 JSON file with these configurations.
 
 ```python
-configfile: "config.yaml"
+configfile: "config.yml"
 ```
 
 <br>
@@ -412,7 +412,7 @@ config["min_qual"]   # Get the value for `min_qual`
 A config file called `config.yaml` contains the following:
 
 ```sh
-out_dir: path/to/output/
+output_dir: path/to/output/
 min_qual: 30
 ```
 
@@ -476,12 +476,12 @@ rule trim:
 
 ```python
 # THIS WON'T WORK:
-# shell: "scripts/trim.sh -d res -s {smp} > {output}"
+# shell: "scripts/trim.sh -d data -s {smp} > {output}"
 ```
 
 ```python
 # YES -- use "{wildcards.<wildcard-name>}":
-shell: "scripts/trim.sh -d res -s {wildcards.smp} > {output}"
+shell: "scripts/trim.sh -d data -s {wildcards.smp} > {output}"
 ```
 
 Why do we need `{wildcards.smp}`?
@@ -515,7 +515,7 @@ In our modified `rule trim` in the previous slide,
 we ended up with the following `shell` entry:
 
 ```python
-shell: "scripts/trim.sh -d res -s {wildcards.smp} > {output}"
+shell: "scripts/trim.sh -d data -s {wildcards.smp} > {output}"
 ```
 
 Notice that the directory is directly specified in `-d res`.
@@ -525,8 +525,8 @@ way, and we could use the `params` directive for that.
 For instance:
 
 ```python
-params: outdir="res"
-shell: "scripts/trim.sh -d {params.outdir} -o {wildcards.smp} > {output}"
+params: indir="data"
+shell: "scripts/trim.sh -d {params.indir} -s {wildcards.smp} > {output}"
 ```
 
 ---
@@ -595,13 +595,14 @@ output: temp("mapped/{sample}.bam")
 
 ### Use a "token" file if a rule has no unique output
 
-(e.g. only modifies a file) -- and `touch` in the rule's action:
+For example, the rule only *modifies* an existing file.
+Then, `touch` the token file in the rule's action:
 
 ```python
 rule token_example:
-    input:  'some_file.txt'
-    output: 'some_file.tkn'
-    shell: "some_command --do-things {input} && touch {output}"
+    input:  'file.txt'
+    output: 'token_file'
+    shell: "my_command {input} && touch {output}"
 ```
 
 ---
