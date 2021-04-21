@@ -2595,9 +2595,9 @@ Topic overviews
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if Snakemake can be found and is inside your ipy-env:</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> snakemake</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ~/.conda/envs/ipy-env/bin/snakemake</span></span></code></pre></div>
-<p>We will recreate a very similar set of files and the final Snakefile from class – copy the files from <code>/fs/ess/PAS1855/data/week13/</code> to do so:</p>
+<p>We will recreate a very similar set of files and the final Snakefile from class – copy the files from <code>/fs/ess/PAS1855/exercises/week13/</code> to do so:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /fs/ess/PAS1855/users/<span class="va">$USER</span>/week13</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> /fs/ess/PAS1855/week13/exercise1 .</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> /fs/ess/PAS1855/exercises/week13/exercise1 .</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> exercise1</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
@@ -3562,7 +3562,7 @@ Hints
 Solution
 </summary>
 <p><br></p>
-<p>The <code>threads</code> directive in a Snakefile corresponds the the <code>--cpus-per-task</code> SLURM directive. (Recall that SLURM uses the terms CPU, cores and threads roughly equivalently.)</p>
+<p>The <code>threads</code> directive in a Snakefile corresponds to the <code>--cpus-per-task</code> SLURM directive. (Recall that SLURM uses the terms CPU, cores and threads roughly equivalently.)</p>
 <p>When specifying multiple <code>--cpus-per-task</code> (SLURM) / <code>threads</code> (Snakemake), you are allowing <em>a single process (task) to perform multithreading</em>.</p>
 </details>
 <p><br></p>

@@ -1,0 +1,1853 @@
+---
+title: "Bonus Exercise: Week 13 -- Snakemake"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+<br>
+
+So far, we did not work with real data in the Snakemake exercises.
+In this exercise, you'll create a Snakemake workflow that processed some actual
+FASTQ files.
+
+We'll use the same 6 FASTQ files that we explored in the
+[exercises for week 5](w05_exercises.html) and
+[the second graded assignment](w06_GA_scripts.html).
+These 6 FASTQ files consist of 3 pairs of `R1` (forward reads) and `R2` (reverse
+reads) files for 3 biological samples that contain sequences from the V4 region
+of 16S rRNA, generated in a metabarcoding experiment. 
+
+In the workflow,
+we will perform QC with FastQC and MultiQC, remove primers with Cutadapt,
+and filter FASTQ files and infer Amplicon Sequence Variants (ASVs)
+with the R package DADA2.
+
+<br>
+
+### 1. Set-up
+
+The data and a project skeleton can be copied from `/fs/ess/PAS1855/data/week13/`:
+
+```sh
+cd /fs/ess/PAS1855/users/$USER/week13
+cp -r /fs/ess/PAS1855/exercises/week13/bonus .
+
+cd exercise_bonus
+
+chmod +x scripts/*
+```
+
+```
+tree
+#> .
+#> ├── data
+#> │   ├── 201_R1.fastq.gz
+#> │   ├── 201_R2.fastq.gz
+#> │   ├── 202_R1.fastq.gz
+#> │   ├── 202_R2.fastq.gz
+#> │   ├── 203_R1.fastq.gz
+#> │   └── 203_R2.fastq.gz
+#> ├── log
+#> ├── scripts
+#> │   ├── cutadapt.sh
+#> │   ├── fastq_filter.R
+#> │   ├── infer_ASVs.R
+#> │   └── multiqc.sh
+#> ├── slurm_profile
+#> │   └── config.yaml
+#> └── workflow
+#>     ├── config.yaml
+#>     ├── envs
+#>     └── Snakefile
+```
+
+Let's start an interactive job, because we will let Snakemake perform
+a few Conda installations, and this happens as part of the main Snakemake process
+(while individual jobs will be submitted as SLURM jobs).
+Because we'll want more than one hour (the maximum for `sinteractive`),
+we will use `srun` to request an interactive job, which means we have to add
+`--pty /bin/bash`:
+
+```sh
+srun -A PAS1855 -t 120 --pty /bin/bash
+```
+
+Finally, load the Conda environment in which you have Snakemake installed:
+
+```sh
+module load python/3.6-conda5.2
+source activate ipy-env
+
+# Check if Snakemake can be found and is inside your ipy-env:
+which snakemake
+#> ~/.conda/envs/ipy-env/bin/snakemake
+```
+
+Here is a DAG (Directed Acyclic Graph) of the full workflow that we will build:
+
+  <p align="center">
+  <img src=img/snakemake/w13_bonus-exc_final.svg width=100%>
+  </p>
+
+<br>
+
+## 2. Our initial workflow
+
+<details><summary>Full Snakefile #1</summary>
+
+```python
+"""
+A workflow to perform QC and basic analyses on a set of FASTQ files from
+metagenomic amplicon sequencing.
+The following steps are performed:
+1. FastQC on the raw FASTQ files
+2. MultiQC on the output of FastQC
+3. Cutadapt to remove primers on the raw FASTQ files
+4. DADA2 FASTQ filtering
+5. DADA2 ASV inference, producing a single ASV output table
+"""
+
+# We'll use the `join` function to create paths
+from os.path import join
+
+# Settings:
+IN_DIR="data"
+OUT_DIR="results"
+LOG_DIR="log"
+
+PRIMER_F: "GAGTGYCAGCMGCCGCGGTAA"
+PRIMER_R: "ACGGACTACNVGGGTWTCTAAT"
+
+# Samples and reads:
+SAMPLES = glob_wildcards(join(IN_DIR, "{sample}_R1.fastq.gz")).sample
+READS = ["R1", "R2"]
+
+# All output dirs:
+FASTQC_DIR=join(OUT_DIR, "fastqc")
+MULTIQC_DIR=join(OUT_DIR, "multiqc")
+CUTADAPT_DIR=join(OUT_DIR, "cutadapt")
+FILTER_DIR=join(OUT_DIR, "fastq_filter")
+ASV_DIR=join(OUT_DIR, "ASV_infer")
+
+# Define local rules:
+localrules: all, clean  
+
+# Rules:
+rule all:
+    """
+    A pseudo-rule that triggers execution of the entire workflow.
+    It's input files include all final output files.
+    """
+    input:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+        join(ASV_DIR, "ASV_table.tsv")
+
+    shell:
+        """
+        rm -rf results
+        rm -rf log/*
+        """
+```
+
+</details>
+
+#### Current Snakefile
+
+Our current Snakefile has a couple of features we haven't seen before:
+
+- We use some generic Python code directly to build file paths,
+  starting by importing the `join()` function from the `os.path` module.
+  Further down, we use `join()` to build paths.
+  
+  We could also accomplish this simply by concatenating strings,
+  but `join()` is a bit more robust as it makes sure we are not forgetting
+  forward slashes --
+  e.g. `join("results", "fastqc", "sampleA_fastqc.html")` will produce
+  `results/fastc/sampleA_fastqc.html`.
+  
+  ```python
+  from os.path import join
+  
+  FASTQC_DIR=join(OUT_DIR, "fastqc")
+  ```
+
+- We have a `rule clean`, which is a common convenience rule to remove all output
+  and log files from the workflow.
+  
+- In the `shell` directive of `rule clean`, we are have two lines of shell code
+  inside Python triple-quotes.
+
+Also of note:
+
+- In `rule all`, we are already specifying the output files of the
+  final workflow, so we won't have to change this rule in the exercises below.
+  
+- We will run the workflow on the cluster in the sense that each Snakemake job
+  will be a SLURM job.
+  Therefore, we specify `rule all` and `rule clean` as `localrules`
+  (i.e., rules *not* to be submitted as SLURM jobs ),
+  because they are not computationally intensive at all and the overhead of
+  submitting a SLURM job and waiting for it start would just slow thing down
+  for those rules.
+
+#### Our "profile" `config.yaml` file
+
+We use a "profile" `slurm_profile/config.yaml` file very similar to the one in
+the previous Snakemake exercise:
+
+```YAML
+cluster: "sbatch --account={resources.account}
+                 --time={resources.time_min}
+                 --mem={resources.mem_mb}
+                 --cpus-per-task={resources.cpus}
+                 --output=log/slurm-{rule}_{wildcards}.out"
+default-resources: [cpus=1, mem_mb=4000, time_min=60, account=PAS1855]
+latency-wait: 30
+jobs: 100
+use-conda: true
+```
+
+This file tells Snakemake how to submit jobs to the cluster,
+and provides some default resource values that we would be able to modify for
+individual rules (as we will eventually do for `rule ASV_infer`).
+
+Recall that this file simply contains options that we can also pass at the command
+line, so we take the opportunity to also specify the maximum number of jobs
+(which we normally do with the `-j` option)
+and ensure that Snakemake creates and uses any Conda environments specified in
+the Snakefile (` use-conda: true`; corresponds to the `--use-conda` option),
+so we don't have to specify this at the command line when we call Snakemake.
+
+Now, the only option we need to pass to Snakemake is `--profile` for which
+we specify the *directory* in which this YAML file is found:
+`snakemake --profile slurm_profile`.
+
+<br>
+
+## 2. A config file with workflow settings
+
+Instead of specifying settings like input and output directories as well as primer
+sequences in our Snakefile,
+it would be useful to *separate such settings from the workflow itself*.
+Snakemake supports the use of a **configuration file** to do so.
+
+Let's create a configuration file `workflow/config.yaml` with the following
+settings:
+
+```YAML
+in_dir: "data"
+out_dir: "results"
+log_dir: "log"
+
+primer_f: "GAGTGYCAGCMGCCGCGGTAA"
+primer_r: "ACGGACTACNVGGGTWTCTAAT"
+```
+
+The format of the file is YAML just like the `slurm_profile/config.yaml` above
+and the files we have used to specify or save Conda environments.
+
+Now, we need some way to tell Snakemake about this config file. 
+We can do so using the `configfile` directive in the Snakefile.
+Then, all key-value pairs from the config file will be available in the Snakefile
+in a Python dictionary called `config`:
+
+```python
+# Workflow configuration file:
+configfile: "workflow/config.yaml"
+
+# Get settings from config file:
+IN_DIR=config["in_dir"]
+OUT_DIR=config["out_dir"]
+LOG_DIR=config["log_dir"]
+```
+
+::: {.content-box-diy}
+
+Replace the 5 lines of code in the Snakefile under the `# Settings:` line
+with the lines printed directly above this box.
+
+Then, also assign the primer sequences to variables `PRIMER_F` and `PRIMER_R`,
+respectively.
+
+<details><summary>Solution</summary>
+
+```python
+PRIMER_F=config["primer_f"]
+PRIMER_R=config["primer_r"]
+```
+
+</details>
+
+:::
+
+<details><summary>Full Snakefile #2</summary>
+
+```python
+"""
+A workflow to perform QC and basic analyses on a set of FASTQ files from
+metagenomic amplicon sequencing.
+The following steps are performed:
+1. FastQC on the raw FASTQ files
+2. MultiQC on the output of FastQC
+3. Cutadapt to remove primers on the raw FASTQ files
+4. DADA2 FASTQ filtering
+5. DADA2 ASV inference, producing a single ASV output table
+"""
+
+# We'll use the `join` function to create paths
+from os.path import join
+
+# Workflow configuration file:
+configfile: "workflow/config.yaml"
+
+# Get settings from config file:
+IN_DIR=config["in_dir"]
+OUT_DIR=config["out_dir"]
+LOG_DIR=config["log_dir"]
+
+PRIMER_F=config["primer_f"]
+PRIMER_R=config["primer_r"]
+
+# Other constants, mostly based on config file:
+# Samples and reads:
+SAMPLES = glob_wildcards(join(IN_DIR, "{sample}_R1.fastq.gz")).sample
+READS = ["R1", "R2"]
+# All output dirs:
+FASTQC_DIR=join(OUT_DIR, "fastqc")
+MULTIQC_DIR=join(OUT_DIR, "multiqc")
+CUTADAPT_DIR=join(OUT_DIR, "cutadapt")
+FILTER_DIR=join(OUT_DIR, "fastq_filter")
+ASV_DIR=join(OUT_DIR, "ASV_infer")
+
+# Define local rules:
+localrules: all, clean  
+
+# Rules:
+rule all:
+    """
+    A pseudo-rule that triggers execution of the entire workflow.
+    It's input files include all final output files.
+    """
+    input:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+        join(ASV_DIR, "ASV_table.tsv")
+
+rule clean:
+    """
+    A rule to remove all results from the workflow.
+    """
+    shell:
+        "rm -rf results;"
+        "rm -rf log/*"
+```
+
+</details>
+
+
+<br>
+
+## 3. A FastQC rule
+
+Now, let's add a rule to run FastQC:
+
+```python
+rule fastqc:
+    """
+    A rule to run FastQC to QC the FASTQ files.
+    """
+    input:
+        join(IN_DIR, "{sample}_{read}.fastq.gz"),
+    output:
+        join(FASTQC_DIR, "{sample}_{read}_fastqc.html"),
+    log:
+        join(LOG_DIR, "fastqc/{sample}_{read}.log"),
+    shell:
+        """
+        module load fastqc/0.11.8
+        fastqc {input} -o {FASTQC_DIR} &> {log}
+        """
+```
+
+Some things to note about this rule:
+
+- Previously we have always run scripts in the `shell` directive,
+  but in `rule fastqc`, we directly run FastQC in the `shell` directive.
+
+- Because FastQC doesn't allow us to specify the output file,
+  we just provide an output directory.
+  **Note that in the `shell` directive,
+  we can access any Snakefile variable using `{}`**
+  (not just values of directives like `{input}` and `{log}`).
+  Therefore, we can recall the FastQC output dir with `{FASTQC_DIR}`.
+  
+- In the `input` and `output` directives, we are using two wildcards:
+  `{sample}` and `{read}`.
+
+- To avoid excessive installations, we load the OSC module for FastQC.
+  If we had wanted increased portability,
+  we could have specified a Conda environment using a YAML file like
+  `workflow/envs/fastqc.yaml` with the following contents:
+  
+  ```YAML
+  channels:
+    - bioconda
+  dependencies:
+    - fastqc=0.11.8
+  ```
+ 
+::: {.content-box-diy}
+
+- Add the `rule fastqc` with the contents as specified above.
+
+- Get Snakemake to run `rule fastqc` for at least one of the FASTQ files.
+
+- Check for the presence of output files and look at the log files.
+
+  Note that when we submit jobs to the cluster, we will have **two** log files
+  for every job. The log file that we define in the Snakefile will contain
+  standard output and/or standard error from our actual command,
+  whereas the SLURM log file will contain's Snakemake's standard output and
+  standard error. Take a look at both.
+
+<details><summary>Hints</summary>
+<br>
+
+Our `rule all` input does not match the output of `rule fastqc`,
+so trying to run Snakemake without speciying a rule or output file(s) won't work
+(recall that by default, Snakemake will run the first rule, which is `rule all`).
+We could add this to `rule all`, but since we want to add a rule MultiQC in the
+next step, which uses the output of FastQC, that would only be temporary.
+
+Moreover, `rule fastqc` contains wildcards in its `{input}` and `{output}`
+directives, so trying to run it using `snakemake [...] fastqc` would result
+in an error: Snakemake is not able to figure out what it should run
+(you can most conveniently try this with a dry-run using
+`snakemake -n fastqc`).
+
+```sh
+snakemake -n fastqc
+#> WorkflowError:
+#> Target rules may not contain wildcards. Please specify concrete files or a rule without wildcards.
+```
+
+To test whether rule functions,
+it is therefore most convenient to just call Snakemake with an actual output file.
+
+</details>
+
+<details><summary>Solution</summary>
+
+```sh
+$ snakemake --profile slurm_profile \
+    results/fastqc/201_R1_fastqc.html
+```
+
+```sh
+$ ls -lh results/fastqc/
+#> total 1.9M
+#> -rw-r--r-- 1 jelmer PAS0471 1007K Apr 21 09:19 201_R1_fastqc.html
+#> -rw-r--r-- 1 jelmer PAS0471  847K Apr 21 09:19 201_R1_fastqc.zip
+
+# This file will show FastQC's output:  
+$ cat log/fastqc_201_R1.log
+#> Started analysis of 201_R1.fastq.gz
+#> Approx 5% complete for 201_R1.fastq.gz
+#> Approx 10% complete for 201_R1.fastq.gz
+#> Approx 15% complete for 201_R1.fastq.gz
+#> Approx 20% complete for 201_R1.fastq.gz
+#> Approx 25% complete for 201_R1.fastq.gz
+#> Approx 30% complete for 201_R1.fastq.gz
+#> Approx 35% complete for 201_R1.fastq.gz
+#> Approx 40% complete for 201_R1.fastq.gz
+#> Approx 45% complete for 201_R1.fastq.gz
+#> Approx 50% complete for 201_R1.fastq.gz
+#> Approx 55% complete for 201_R1.fastq.gz
+#> Approx 60% complete for 201_R1.fastq.gz
+#> Approx 65% complete for 201_R1.fastq.gz
+#> Approx 70% complete for 201_R1.fastq.gz
+#> Approx 75% complete for 201_R1.fastq.gz
+#> Approx 80% complete for 201_R1.fastq.gz
+#> Approx 85% complete for 201_R1.fastq.gz
+#> Approx 90% complete for 201_R1.fastq.gz
+#> Approx 95% complete for 201_R1.fastq.gz
+#> Analysis complete for 201_R1.fastq.gz
+
+$ cat log/fastqc_slurm-read\=R1\,sample\=201.out 
+#> Building DAG of jobs...
+#> Using shell: /usr/bin/bash
+#> Provided cores: 1 (use --cores to define parallelism)
+#> Rules claiming more threads will be scaled down.
+#> Job counts:
+#>         count   jobs
+#>         1       fastqc
+#>         1
+#> 
+#> [Wed Apr 21 09:19:25 2021]
+#> rule fastqc:
+#>     input: data/201_R1.fastq.gz
+#>     output: results/fastqc/201_R1_fastqc.html
+#>     log: log/fastqc_201_R1.log
+#>     jobid: 0
+#>     wildcards: sample=201, read=R1
+#>     resources: cpus=1, mem_mb=4000, time_min=60, account=PAS1855
+#> 
+#> Activating conda environment: #> /fs/ess/PAS1855/data/week13/exercise_bonus/step2/.snakemake/conda/7e57eac489af13d2bb58773ba0fd9#> c38
+#> [Wed Apr 21 09:19:36 2021]
+#> Finished job 0.
+#> 1 of 1 steps (100%) done
+```
+
+</details>
+
+:::
+
+<details><summary>Full Snakefile #3</summary>
+
+```python
+"""
+A workflow to perform QC and basic analyses on a set of FASTQ files from
+metagenomic amplicon sequencing.
+The following steps are performed:
+1. FastQC on the raw FASTQ files
+2. MultiQC on the output of FastQC
+3. Cutadapt to remove primers on the raw FASTQ files
+4. DADA2 FASTQ filtering
+5. DADA2 ASV inference, producing a single ASV output table
+"""
+
+# We'll use the `join` function to create paths
+from os.path import join
+
+# Workflow configuration file:
+configfile: "workflow/config.yaml"
+
+# Get settings from config file:
+IN_DIR=config["in_dir"]
+OUT_DIR=config["out_dir"]
+LOG_DIR=config["log_dir"]
+
+PRIMER_F=config["primer_f"]
+PRIMER_R=config["primer_r"]
+
+# Other constants, mostly based on config file:
+# Samples and reads:
+SAMPLES = glob_wildcards(join(IN_DIR, "{sample}_R1.fastq.gz")).sample
+READS = ["R1", "R2"]
+# All output dirs:
+FASTQC_DIR=join(OUT_DIR, "fastqc")
+MULTIQC_DIR=join(OUT_DIR, "multiqc")
+CUTADAPT_DIR=join(OUT_DIR, "cutadapt")
+FILTER_DIR=join(OUT_DIR, "fastq_filter")
+ASV_DIR=join(OUT_DIR, "ASV_infer")
+
+# Define local rules:
+localrules: all, clean  
+
+# Rules:
+rule all:
+    """
+    A pseudo-rule that triggers execution of the entire workflow.
+    It's input files include all final output files.
+    """
+    input:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+        join(ASV_DIR, "ASV_table.tsv")
+
+rule clean:
+    """
+    A rule to remove all results from the workflow.
+    """
+    shell:
+        "rm -rf results;"
+        "rm -rf log/*"
+
+rule fastqc:
+    """
+    A rule to run FastQC to QC the FASTQ files.
+    """
+    conda:
+        "envs/fastqc.yaml"
+    input:
+        join(IN_DIR, "{sample}_{read}.fastq.gz"),
+    output:
+        join(FASTQC_DIR, "{sample}_{read}_fastqc.html"),
+    log:
+        join(LOG_DIR, "fastqc_{sample}_{read}.log"),
+    shell:
+        "fastqc {input} -o {FASTQC_DIR} &> {log}"
+```
+
+</details>
+
+<br>
+
+## 4. A MultiQC rule
+
+Let's add a rule that runs MultiQC.
+In this case, we will run a shell script that in turn runs MultiQC,
+rather than running MultiQC directly in the `shell` directive like we did
+with FastQC.
+
+The main reason for this is an annoyance with installing MultiQC through Conda
+(and it is not available as an OSC module): when using a YAML file or attempting
+a one-step installation, Conda will fail.
+Instead, we need to do a two-step installation: first, we install a Python version,
+and then, we install MultiQC.
+We actually also did this in week 6, but I will not assume you still have that
+environment.
+Therefore, the `scripts/multiqc.sh` script that `rule multiqc` calls will create
+this environment if it doesn't already exist, before running MultiQC.
+
+<details><summary>Show the script `scripts/multiqc.sh`</summary>
+
+```sh
+#!/bin/bash
+
+set -e -u -o pipefail
+
+module load python/3.6-conda5.2
+
+# Process command-line args:
+in_dir=$1
+out_dir=$2
+
+# Report:
+echo "# This script will run MultiQC."
+echo "# Input directory: $in_dir"
+echo -e "# Output directory: $out_dir \n" 
+
+# Activate/install and activate MultiQC conda environment:
+if [[ $(conda env list) = *"multiqc-env"* ]]; then
+    echo "# Activating existing Conda environment multiqc-env"
+    source activate multiqc-env
+else
+    echo "# Installing MultiQC in Conda environment multiqc-env"
+    conda create -y -n multiqc-env python=3.7
+    source activate multiqc-env
+    conda install -y -c bioconda -c conda-forge multiqc
+fi
+
+# Run MultiQC:
+echo -e "\n# Running MultiQC..."
+multiqc "$in_dir" -o "$out_dir"
+
+echo -e "\n# Done with script."
+```
+
+</details>
+
+::: {.content-box-diy}
+
+- Build a `rule multiqc` to run MultiQC with the script `scripts/multiqc.sh`.
+  
+  Recall that MultiQC will run ***once** with all FastQC output files* as its
+  input.
+  The output file will be automatically called `multiqc_report.html`
+  so the `output` directive should be:
+  
+  ```python
+  output:
+      join(MULTIQC_DIR, "multiqc_report.html"),
+  ```
+  
+  You'll still need to come up with `input`, `log`, and `shell` directives for
+  the rule.
+
+<details><summary>Hints</summary><br>
+
+- Use the `expand()` function in the `input` directive.
+  Besides expanding the possible values for `SAMPLES` and `READS`,
+  you will also need to include the FastQC output dir here,
+  which is saved in the variable `FASTQC_DIR`.
+  
+- In the `shell` directive, you will call the script `scripts/multiqc.sh`.
+  Take a look to see what arguments it takes, and specify those.
+  
+- Like in `rule fastqc`, send standard output and standard error from the script
+  to `{log}`.
+
+</details>
+
+<details><summary>Solutions</summary>
+
+```python
+rule multiqc:
+    """
+    A rule to run MultiQC to collate the FastQC results.
+    """
+    input:
+        expand(
+            "{fastqc_dir}/{sample}_{read}_fastqc.html",
+            fastqc_dir=FASTQC_DIR,
+            sample=SAMPLES,
+            read=READS,
+        ),
+    output:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+    log:
+        join(LOG_DIR, "multiqc.log"),
+    shell:
+        "scripts/multiqc.sh {FASTQC_DIR} {MULTIQC_DIR} &> {log}"
+```
+
+</details>
+
+<br>
+
+- Run rule MultiQC and check the output.
+  (What else will be run automatically?)
+
+<details><summary>Solutions</summary>
+<br>
+`rule fastqc` will also be run for the remaining 5 FASTQ files,
+since the input of `rule multiqc` is the output of `rule fastqc`.
+
+```sh
+$ snakemake --profile slurm_profile multiqc
+```
+
+```sh
+$ ls -lh results/multiqc/
+#> total 1.2M
+#> drwxr-xr-x 2 jelmer PAS0471 4.0K Apr 21 10:38 multiqc_data
+#> -rw-r--r-- 1 jelmer PAS0471 1.2M Apr 21 10:38 multiqc_report.html
+
+$ cat log/multiqc.log
+#> # This script will run MultiQC.
+#> # Input directory: results/fastqc
+#> # Output directory: results/multiqc 
+#> 
+#> # Activating existing Conda environment multiqc-env
+#> 
+#> # Running MultiQC...
+#> [WARNING]         multiqc : MultiQC Version v1.10.1 now available!
+#> [INFO   ]         multiqc : This is MultiQC v1.10
+#> [INFO   ]         multiqc : Template    : default
+#> [INFO   ]         multiqc : Searching   : #> /fs/project/PAS0471/teach/courses/pracs-sp21/week13/exercise_bonus/step3_multiqc/results/fastqc
+#> Searching   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 12/12  [INFO   ]          fastqc : #> Found 6 reports
+#> [INFO   ]         multiqc : Compressing plot data
+#> [INFO   ]         multiqc : Report      : results/multiqc/multiqc_report.html
+#> [INFO   ]         multiqc : Data        : results/multiqc/multiqc_data
+#> [INFO   ]         multiqc : MultiQC complete
+#> 
+#> # Done with script.
+```
+
+</details>
+
+:::
+
+<details><summary>Full Snakefile #4</summary>
+
+```python
+"""
+A workflow to perform QC and basic analyses on a set of FASTQ files from
+metagenomic amplicon sequencing.
+The following steps are performed:
+1. FastQC on the raw FASTQ files
+2. MultiQC on the output of FastQC
+3. Cutadapt to remove primers on the raw FASTQ files
+4. DADA2 FASTQ filtering
+5. DADA2 ASV inference, producing a single ASV output table
+"""
+
+# We'll use the `join` function to create paths
+from os.path import join
+
+# Workflow configuration file:
+configfile: "workflow/config.yaml"
+
+# Get settings from config file:
+IN_DIR=config["in_dir"]
+OUT_DIR=config["out_dir"]
+LOG_DIR=config["log_dir"]
+
+PRIMER_F=config["primer_f"]
+PRIMER_R=config["primer_r"]
+
+# Other constants, mostly based on config file:
+# Samples and reads:
+SAMPLES = glob_wildcards(join(IN_DIR, "{sample}_R1.fastq.gz")).sample
+READS = ["R1", "R2"]
+# All output dirs:
+FASTQC_DIR=join(OUT_DIR, "fastqc")
+MULTIQC_DIR=join(OUT_DIR, "multiqc")
+CUTADAPT_DIR=join(OUT_DIR, "cutadapt")
+FILTER_DIR=join(OUT_DIR, "fastq_filter")
+ASV_DIR=join(OUT_DIR, "ASV_infer")
+
+# Define local rules:
+localrules: all, clean  
+
+# Rules:
+rule all:
+    """
+    A pseudo-rule that triggers execution of the entire workflow.
+    It's input files include all final output files.
+    """
+    input:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+        join(ASV_DIR, "ASV_table.tsv")
+
+rule clean:
+    """
+    A rule to remove all results from the workflow.
+    """
+    shell:
+        """
+        rm -rf results
+        rm -rf log/*
+        """
+
+rule fastqc:
+    """
+    A rule to run FastQC to QC the FASTQ files.
+    """
+    input:
+        join(IN_DIR, "{sample}_{read}.fastq.gz"),
+    output:
+        join(FASTQC_DIR, "{sample}_{read}_fastqc.html"),
+    log:
+        join(LOG_DIR, "fastqc_{sample}_{read}.log"),
+    shell:
+        """
+        module load fastqc/0.11.8
+        fastqc {input} -o {FASTQC_DIR} &> {log}
+        """
+
+rule multiqc:
+    """
+    A rule to run MultiQC to collate the FastQC results.
+    """
+    input:
+        expand(
+            "{fastqc_dir}/{sample}_{read}_fastqc.html",
+            fastqc_dir=FASTQC_DIR,
+            sample=SAMPLES,
+            read=READS,
+        ),
+    output:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+    log:
+        join(LOG_DIR, "multiqc.log"),
+    shell:
+        "scripts/multiqc.sh {FASTQC_DIR} {MULTIQC_DIR} &> {log}"
+```
+
+</details>
+
+<br>
+
+## 5. A Cutadapt rule
+
+Next, we will add a rule to run Cutadapt, which will remove the primer sequences
+from our reads.
+
+```python
+rule cutadapt:
+    """
+    A rule to run Cutadapt to remove primers from the FASTQ files.
+    """
+    conda:
+        "envs/cutadapt.yaml"
+    input:
+        fwd=join(IN_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(IN_DIR, "{sample}_R2.fastq.gz"),
+    output:
+        fwd=join(CUTADAPT_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(CUTADAPT_DIR, "{sample}_R2.fastq.gz"),
+    log:
+        join(LOG_DIR, "cutadapt_{sample}.log")
+    shell:
+        "scripts/cutadapt.sh {input.fwd} {CUTADAPT_DIR} {PRIMER_F} {PRIMER_R} &> {log}"
+```
+
+Some things to note about this rule:
+
+- We are processing *one sample* and therefore *two FASTQ files*
+  (forward and reverse) at a time.
+
+- Again, we run a script rather than calling the program directly in the rule.
+  In this case, that's the most convenient option because we will have the script
+  compute the reverse complements of the primer sequences.
+  
+  The script takes four arguments: the name for the FASTQ file with forward
+  reads (the name for the file with reverse reads will be inferred from that),
+  the output dir, and the forward and reverse primer sequences.
+  
+  The output file names are automatically determined by the script.
+  
+<details><summary>The script `scripts/cutadapt.sh`</summary><br>
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+
+# This script will run Cutadapt on a pair (R1+R2) of FASTQ files,
+# removing primer sequences.
+# Forward and reverse primer sequences are passed as argument to the script,
+# and the script will compute the reverse complements of each.
+
+# SETUP --------------------------------------------------------
+R1_in="$1"          # Path to the file with forward (R1) reads (R1 filename is inferred from  this)
+outdir="$2"         # Output directory
+primer_f="$3"       # Sequence of the forward primer
+primer_r="$4"       # Sequence of the reverse primer
+
+# Test if the correct number of args were passed to the script:
+if [ ! "$#" = 4 ]; then
+    echo "Error: must provide 4 arguments; you provided $#"
+    echo "Usage: cutadapt_single.sh <input-FASTQ-R1> <outdir> <primer_f> <primer_r>"
+    exit 1
+fi
+
+# Get reverse primer sequences by reverse complementing:
+primer_f_rc=$(echo "$primer_f" | tr ATCGYRKMBDHV TAGCRYMKVHDB | rev)
+primer_r_rc=$(echo "$primer_r" | tr ATCGYRKMBDHV TAGCRYMKVHDB | rev)
+
+# Infer R2 (reverse) filename: R1 and R2 are assumed to have the same name
+# except for "_R1_" vs "_R1_": 
+R2_in=${R1_in/_R1/_R2}
+
+# Check that the input dir is not the same as the output dir,
+# or the input files will be overwritten:
+indir=$(dirname "$R1_in")
+if [ "$indir" = "$outdir" ]; then
+    echo "## ERROR: Input dir should not be the same as output dir" >&2
+    exit 1
+fi
+
+# Output files:
+R1_out="$outdir"/$(basename "$R1_in" .fastq.gz).fastq.gz
+R2_out="$outdir"/$(basename "$R2_in" .fastq.gz).fastq.gz
+
+# Report:
+echo -e "\n## Starting cutadapt script."
+date
+echo
+echo "## Using the following parameters:"
+echo "## Input file R1: $R1_in"
+echo "## Output dir: $outdir"
+echo "## Forward primer: $primer_f"
+echo "## Reverse primer: $primer_r"
+echo
+echo "## Input file R2: $R2_in"
+echo "## Output file R1: $R1_out"
+echo "## Output file R2: $R2_out"
+echo
+echo "## Reverse complement of forward primer: $primer_f_rc"
+echo "## Reverse complement of reverse primer: $primer_r_rc"
+echo
+
+# Test:
+if [ ! -f "$R1_in" ] || [ ! -r "$R1_in" ]; then
+    echo -e "\n## $0: ERROR: Input file R1_in, $R1_in, not found\n" >&2 && exit 1
+fi
+if [ ! -f "$R2_in" ] || [ ! -r "$R2_in" ]; then
+    echo -e "\n## $0: ERROR: Input file R2_in, $R2_in, not found\n" >&2 && exit 1
+fi
+
+# Create output directory if it doesn't already exist:
+mkdir -p "$outdir"
+
+# RUN CUTADAPT --------------------------------------------------------
+echo -e "\n\n## Running cutadapt..."
+
+cutadapt -a "$primer_f"..."$primer_r_rc" -A "$primer_r"..."$primer_f_rc" \
+    --discard-untrimmed --pair-filter=any \
+    -o "$R1_out" -p "$R2_out" "$R1_in" "$R2_in"
+
+# Options:
+# "-a"/"-A": Primers for R1/R2
+# "--discard-untrimmed": Remove pairs with no primer found
+# "--pair-filter=any": Remove pair if one read is filtered (=Default)
+
+# REPORT AND FINALIZE --------------------------------------------------------
+echo -e "\n## Listing output files:"
+ls -lh "$outdir"
+
+echo -e "\n## Done with cutadapt script."
+date
+```
+
+</details>
+
+- This time, we will provide Snakemake with a YAML file describing a Conda
+  environment for Cutadapt.
+  Here is the contents of the YAML file `envs/cutadapt.yaml`:
+  
+  ```YAML
+  channels:
+    - bioconda
+  dependencies:
+    - cutadapt=3.4
+  ```
+
+::: {.content-box-diy}
+
+- Add the `rule cutadapt` with the contents as specified above.
+
+- Get Snakemake to run `rule cutadapt` for at least one of the FASTQ files.
+  Note that this will take a little while this first time around,
+  since Snakemake will create a Conda environment with Cutadapt.
+
+- Check for the presence of output files and look at the log files.
+
+<details><summary>Hints</summary><br>
+
+- Like with `rule fastqc`, you'll need to specify an actual output file.
+
+</details>
+
+<details><summary>Solutions</summary>
+
+```sh
+$ snakemake --profile slurm_profile results/cutadapt/201_R1.fastq.gz
+#> Building DAG of jobs...
+#> Creating conda environment workflow/envs/cutadapt.yaml...
+#> Downloading and installing remote packages.
+#> [...]
+```
+
+```sh
+$ ls -lh results/cutadapt/
+#> -rw-r--r-- 1 jelmer PAS0471 6.0M Apr 21 11:25 201_R1.fastq.gz
+#> -rw-r--r-- 1 jelmer PAS0471 7.1M Apr 21 11:25 201_R2.fastq.gz
+
+$ less log/cutadapt_201.log
+#> ## Starting cutadapt script.
+#> Wed Apr 21 11:25:00 EDT 2021
+#> 
+#> ## Using the following parameters:
+#> ## Input file R1: data/201_R1.fastq.gz
+#> ## Output dir: results/cutadapt
+#> ## Forward primer: GAGTGYCAGCMGCCGCGGTAA
+#> ## Reverse primer: ACGGACTACNVGGGTWTCTAAT
+#> 
+#> ## Input file R2: data/201_R2.fastq.gz
+#> ## Output file R1: results/cutadapt/201_R1.fastq.gz
+#> ## Output file R2: results/cutadapt/201_R2.fastq.gz
+#> 
+#> ## Reverse complement of forward primer: TTACCGCGGCKGCTGRCACTC
+#> ## Reverse complement of reverse primer: ATTAGAWACCCBNGTAGTCCGT
+#> 
+#> 
+#> ## Running cutadapt...
+#> This is cutadapt 3.4 with Python 3.9.2
+#> Command line parameters: -a GAGTGYCAGCMGCCGCGGTAA...ATTAGAWACCCBNGTAGTCCGT -A #> ACGGACTACNVGGGTWTCTAAT...TTACCGCGGCKGCTGRCACTC --discard-untrimmed --pair-filter=any -o #> results/cutadapt/201_R1.fastq.gz -p results/cutadapt/201_R2.fastq.gz #> data/201_R1.fastq.gz data/201_R2.fastq.gz
+#> Processing reads on 1 core in paired-end mode ...
+#> Finished in 4.84 s (103 µs/read; 0.58 M reads/minute).
+#> 
+#> === Summary ===
+#> 
+#> Total read pairs processed:             47,070
+#>   Read 1 with adapter:                  47,061 (100.0%)
+#>   Read 2 with adapter:                  46,675 (99.2%)
+#> Pairs written (passing filters):        46,671 (99.2%)
+```
+
+</details>
+
+:::
+
+<details><summary>Full Snakefile #5</summary>
+
+```python
+"""
+A workflow to perform QC and basic analyses on a set of FASTQ files from
+metagenomic amplicon sequencing.
+The following steps are performed:
+1. FastQC on the raw FASTQ files
+2. MultiQC on the output of FastQC
+3. Cutadapt to remove primers on the raw FASTQ files
+4. DADA2 FASTQ filtering
+5. DADA2 ASV inference, producing a single ASV output table
+"""
+
+# We'll use the `join` function to create paths
+from os.path import join
+
+# Workflow configuration file:
+configfile: "workflow/config.yaml"
+
+# Get settings from config file:
+IN_DIR=config["in_dir"]
+OUT_DIR=config["out_dir"]
+LOG_DIR=config["log_dir"]
+
+PRIMER_F=config["primer_f"]
+PRIMER_R=config["primer_r"]
+
+# Other constants, mostly based on config file:
+# Samples and reads:
+SAMPLES = glob_wildcards(join(IN_DIR, "{sample}_R1.fastq.gz")).sample
+READS = ["R1", "R2"]
+# All output dirs:
+FASTQC_DIR=join(OUT_DIR, "fastqc")
+MULTIQC_DIR=join(OUT_DIR, "multiqc")
+CUTADAPT_DIR=join(OUT_DIR, "cutadapt")
+FILTER_DIR=join(OUT_DIR, "fastq_filter")
+ASV_DIR=join(OUT_DIR, "ASV_infer")
+
+# Define local rules:
+localrules: all, clean  
+
+# Rules:
+rule all:
+    """
+    A pseudo-rule that triggers execution of the entire workflow.
+    It's input files include all final output files.
+    """
+    input:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+        join(ASV_DIR, "ASV_table.tsv")
+
+rule clean:
+    """
+    A rule to remove all results from the workflow.
+    """
+    shell:
+        """
+        rm -rf results
+        rm -rf log/*
+        """
+
+rule fastqc:
+    """
+    A rule to run FastQC to QC the FASTQ files.
+    """
+    input:
+        join(IN_DIR, "{sample}_{read}.fastq.gz"),
+    output:
+        join(FASTQC_DIR, "{sample}_{read}_fastqc.html"),
+    log:
+        join(LOG_DIR, "fastqc_{sample}_{read}.log"),
+    shell:
+        """
+        module load fastqc/0.11.8
+        fastqc {input} -o {FASTQC_DIR} &> {log}
+        """
+
+rule multiqc:
+    """
+    A rule to run MultiQC to collate the FastQC results.
+    """
+    input:
+        expand(
+            "{fastqc_dir}/{sample}_{read}_fastqc.html",
+            fastqc_dir=FASTQC_DIR,
+            sample=SAMPLES,
+            read=READS,
+        ),
+    output:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+    log:
+        join(LOG_DIR, "multiqc.log"),
+    shell:
+        "scripts/multiqc.sh {FASTQC_DIR} {MULTIQC_DIR} &> {log}"
+
+rule cutadapt:
+    """
+    A rule to run Cutadapt to remove primers from the FASTQ files.
+    """
+    conda:
+        "envs/cutadapt.yaml"
+    input:
+        fwd=join(IN_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(IN_DIR, "{sample}_R2.fastq.gz"),
+    output:
+        fwd=join(CUTADAPT_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(CUTADAPT_DIR, "{sample}_R2.fastq.gz"),
+    log:
+        join(LOG_DIR, "cutadapt_{sample}.log")
+    shell:
+        "scripts/cutadapt.sh {input.fwd} {CUTADAPT_DIR} {PRIMER_F} {PRIMER_R} &> {log}"
+```
+
+</details>
+
+<br>
+
+## 6. A DADA2 rule to filter FASTQs
+
+We will run the script `scripts/fastq_filter.R` to filter and trim our 
+Cutadapt-processed FASTQ files (this will remove poor-quality reads and bases).
+
+This script takes two arguments:
+
+1. The name of the file with forward reads
+  (in our case, as output by `rule cutadapt`).
+
+2. The output directory.
+
+The script processes one pair of FASTQ files, like the Cutadapt rule.
+It outputs a pair of *unzipped* FASTQ files with the same names as the input
+files, just in a different directory (`FILTER_DIR`, in our case) and with a
+`.fastq` instead of a `.fastq.gz` extension.
+
+<details><summary>The full script `scripts/fastq_filter.R`</summary><br>
+
+```R
+#!/usr/bin/env Rscript
+
+# SET-UP ----------------------------------------------------
+
+# Install and/or load packages:
+if(!require(pacman)) {
+  install.packages("pacman", repos = "http://cran.us.r-project.org")
+  library(pacman)
+}
+packages <- c('BiocManager', 'dada2')
+pacman::p_load(char = packages)
+
+# Get command-line args:
+args <- commandArgs(trailingOnly = TRUE)
+R1_in <- as.character(args[1])
+outdir <- as.character(args[2])
+
+# Determine R2 file name:
+R2_in <- sub("_R1", "_R2", R1_in)
+
+# Determine sample ID:
+sampleID <- sub("_R1.*", "", basename(R1_in))
+
+# Set output file names:
+R1_out <- file.path(outdir, paste0(sampleID, '_R1.fastq'))
+R2_out <- file.path(outdir, paste0(sampleID, '_R2.fastq'))
+
+# Report:
+cat("Output dir:", outdir, "\n\n")
+cat("R1_in:", R1_in, "\n")
+cat("R2_in:", R2_in, "\n")
+cat("R1_out:", R1_out, "\n")
+cat("R2_out:", R2_out, "\n")
+
+# Filtering and Quality Trimming -----------------------------------------------
+print('Filtering and Trimming...')
+Sys.time()  # Print the time to keep track of running time for individual steps
+
+filter_results <-
+  filterAndTrim(R1_in, R1_out,
+                R2_in, R2_out,
+                truncLen = c(250,210),
+                trimLeft = 10,
+                maxN = 0,
+                maxEE = c(2,2),
+                truncQ = 2,
+                rm.phix = FALSE,
+                multithread = 1,
+                compress = FALSE, verbose = TRUE)
+
+print('...Done!')
+Sys.time()
+
+print('Done with script filter_fastq.R')
+```
+
+</details>
+
+<br>
+
+::: {.content-box-diy}
+
+- Write rule `fastq_filter`.
+
+- Run rule `fastq_filter` for one sample and check the output.
+
+<details><summary>Solutions</summary><br>
+
+```python
+rule fastq_filter:
+    """
+    A rule to run an R script that contains DADA2 functions to filter and trim FASTQ files.
+    """
+    input:
+        fwd=join(CUTADAPT_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(CUTADAPT_DIR, "{sample}_R2.fastq.gz"),
+    output:
+        fwd=join(FILTER_DIR, "{sample}_R1.fastq"),
+        rev=join(FILTER_DIR, "{sample}_R2.fastq"),
+    log:
+        join(LOG_DIR, "fastq_filter_{sample}.log")
+    shell:
+        """
+        module load R/4.0.2-gnu9.1
+        scripts/fastq_filter.R {input.fwd} {FILTER_DIR} &> {log}
+        """
+```
+
+```sh
+$ snakemake --profile slurm_profile results/fastq_filter/201_R1.fastq
+```
+
+```sh
+$ ls -lh results/fastq_filter/
+#> total 42M
+#> -rw-r--r-- 1 jelmer PAS0471 23M Apr 21 11:47 201_R1_filt.fastq
+#> -rw-r--r-- 1 jelmer PAS0471 19M Apr 21 11:47 201_R2_filt.fastq
+```
+
+</details>
+
+:::
+
+<details><summary>Full Snakefile #6</summary>
+
+```python
+"""
+A workflow to perform QC and basic analyses on a set of FASTQ files from
+metagenomic amplicon sequencing.
+The following steps are performed:
+1. FastQC on the raw FASTQ files
+2. MultiQC on the output of FastQC
+3. Cutadapt to remove primers on the raw FASTQ files
+4. DADA2 FASTQ filtering
+5. DADA2 ASV inference, producing a single ASV output table
+"""
+
+# We'll use the `join` function to create paths:
+from os.path import join
+
+# Workflow configuration file:
+configfile: "workflow/config.yaml"
+
+# Get settings from config file:
+IN_DIR=config["in_dir"]
+OUT_DIR=config["out_dir"]
+LOG_DIR=config["log_dir"]
+
+PRIMER_F=config["primer_f"]
+PRIMER_R=config["primer_r"]
+
+# Other constants, mostly based on config file:
+# Samples and reads:
+SAMPLES = glob_wildcards(join(IN_DIR, "{sample}_R1.fastq.gz")).sample
+READS = ["R1", "R2"]
+# All output dirs:
+FASTQC_DIR=join(OUT_DIR, "fastqc")
+MULTIQC_DIR=join(OUT_DIR, "multiqc")
+CUTADAPT_DIR=join(OUT_DIR, "cutadapt")
+FILTER_DIR=join(OUT_DIR, "fastq_filter")
+ASV_DIR=join(OUT_DIR, "ASV_infer")
+
+# Define local rules:
+localrules: all, clean  
+
+# Rules:
+rule all:
+    """
+    A pseudo-rule that triggers execution of the entire workflow.
+    It's input files include all final output files.
+    """
+    input:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+        join(ASV_DIR, "ASV_table.tsv")
+
+rule clean:
+    """
+    A rule to remove all results from the workflow.
+    """
+    shell:
+        """
+        rm -rf results
+        rm -rf log/*
+        """
+
+rule fastqc:
+    """
+    A rule to run FastQC to QC the FASTQ files.
+    """
+    input:
+        join(IN_DIR, "{sample}_{read}.fastq.gz"),
+    output:
+        join(FASTQC_DIR, "{sample}_{read}_fastqc.html"),
+    log:
+        join(LOG_DIR, "fastqc_{sample}_{read}.log"),
+    shell:
+        """
+        module load fastqc/0.11.8
+        fastqc {input} -o {FASTQC_DIR} &> {log}
+        """
+
+rule multiqc:
+    """
+    A rule to run MultiQC to collate the FastQC results.
+    """
+    input:
+        expand(
+            "{fastqc_dir}/{sample}_{read}_fastqc.html",
+            fastqc_dir=FASTQC_DIR,
+            sample=SAMPLES,
+            read=READS,
+        ),
+    output:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+    log:
+        join(LOG_DIR, "multiqc.log"),
+    shell:
+        "scripts/multiqc.sh {FASTQC_DIR} {MULTIQC_DIR} &> {log}"
+
+rule cutadapt:
+    """
+    A rule to run Cutadapt to remove primers from the FASTQ files.
+    """
+    conda:
+        "envs/cutadapt.yaml"
+    input:
+        fwd=join(IN_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(IN_DIR, "{sample}_R2.fastq.gz"),
+    output:
+        fwd=join(CUTADAPT_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(CUTADAPT_DIR, "{sample}_R2.fastq.gz"),
+    log:
+        join(LOG_DIR, "cutadapt_{sample}.log")
+    shell:
+        "scripts/cutadapt.sh {input.fwd} {CUTADAPT_DIR} {PRIMER_F} {PRIMER_R} &> {log}"
+
+rule fastq_filter:
+    """
+    A rule to run an R script that contains DADA2 functions to filter and trim FASTQ files.
+    """
+    input:
+        fwd=join(CUTADAPT_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(CUTADAPT_DIR, "{sample}_R2.fastq.gz"),
+    output:
+        fwd=join(FILTER_DIR, "{sample}_R1.fastq"),
+        rev=join(FILTER_DIR, "{sample}_R2.fastq"),
+    log:
+        join(LOG_DIR, "fastq_filter_{sample}.log")
+    shell:
+        """
+        module load R/4.0.2-gnu9.1
+        scripts/fastq_filter.R {input.fwd} {FILTER_DIR} &> {log}
+        """
+```
+
+</details>
+
+<br>
+
+## 7. A DADA2 rule to infers ASVs
+
+Finally, we will create a rule that will run the script `scripts/ASV_infer.R`,
+which takes as its input all filtered FASTQ files
+at once, and outputs a file containing a matrix of counts of ASVs
+(Amplicon Sequence Variants) for each sample.
+
+<details><summary>The full script `scripts/ASV_infer.R`</summary>
+
+```R
+#!/usr/bin/env Rscript
+
+# SET-UP ----------------------------------------------------
+
+args <- commandArgs(trailingOnly = TRUE)
+indir <- as.character(args[1])
+outfile <- as.character(args[2])
+n_cores <- as.integer(args[3])
+
+# Install and/or load packages:
+if(!require(pacman)) {
+  install.packages("pacman", repos = "http://cran.us.r-project.org")
+  library(pacman)
+}
+packages <- c('BiocManager', 'dada2')
+pacman::p_load(char = packages)
+
+# Input files:
+fastqs_filt_F <- sort(list.files(indir, pattern = '_R1.fastq', full.names = TRUE))
+fastqs_filt_R <- sort(list.files(indir, pattern = '_R2.fastq', full.names = TRUE))
+
+# Sample IDs:
+sampleIDs <- sub("_R1.*", "", basename(fastqs_filt_F))
+
+# Report:
+cat("Input dir:", indir, "\n")
+cat("Output file:", outfile, "\n")
+cat("Number of threads/cores:", n_cores, "\n")
+cat("Sample IDs:", sampleIDs, "\n")
+
+# Dereplication ----------------------------------------------------------------
+print('Dereplicating...')
+Sys.time()
+
+fastqs_derep_F <- derepFastq(fastqs_filt_F, verbose = FALSE)
+fastqs_derep_R <- derepFastq(fastqs_filt_R, verbose = FALSE)
+
+names(fastqs_derep_F) <- sampleIDs
+names(fastqs_derep_R) <- sampleIDs
+
+print('...Done!')
+Sys.time()
+
+# Error training  -------------------------------------------------------------
+print('Learning errors...')
+
+err_F <- learnErrors(fastqs_derep_F, multithread = n_cores, verbose = TRUE)
+err_R <- learnErrors(fastqs_derep_R, multithread = n_cores, verbose = TRUE)
+
+print('...Done!')
+Sys.time()
+
+# Infer ASVs  -------------------------------------------------------------
+print('Inferring ASVs (running the dada algorithm)...')
+
+dada_Fs <- dada(fastqs_derep_F, err = err_F, pool = FALSE, multithread = n_cores)
+dada_Rs <- dada(fastqs_derep_R, err = err_R, pool = FALSE, multithread = n_cores)
+
+print('...Done.')
+Sys.time()
+
+# Merge read pairs ------------------------------------------------------------
+print('Merging read pairs...')
+mergers <- mergePairs(dada_Fs, fastqs_derep_F,
+                      dada_Rs, fastqs_derep_R,
+                      verbose = TRUE)
+
+# Construct a sequence table --------------------------------------------------
+print('Constructing a sequence table...')
+seqtab_all <- makeSequenceTable(mergers)
+
+# Remove chimeras ------------------------------------------------------------
+print('Remove chimeras...')
+seqtab <- removeBimeraDenovo(seqtab_all,
+                             method = 'consensus',
+                             multithread = n_cores,
+                             verbose = TRUE)
+
+print('Write table to file...')
+write.table(seqtab, outfile,
+            sep = "\t", row.names = TRUE, quote = FALSE)
+
+print('Done with script ASV_infer.R')
+```
+
+</details>
+<br>
+
+For this rule, we will tinker a bit with the resource request to SLURM.
+This script is more computationally intensive that the previous ones,
+which makes sense because it will process all files at once.
+
+Specifically, the DADA2 functions that we run in the script can take an
+argument `multithread`, specifying the number of cores/threads that can be used.
+Therefore, `scripts/ASV_infer.R` also takes such an argument,
+which will be passed on the the DADA2 functions.
+
+::: {.content-box-diy}
+
+How can we make sure Snakemake allocated 8 cores/threads for this job?
+
+<details><summary>Solution.</summary>
+
+By using a `threads` directive in the rule:
+
+```python
+threads: 8
+```
+
+</details>
+
+And how can we make sure Snakemake passes a request of 8 cores/threads to SLURM
+for this job?
+
+<details><summary>Solution.</summary>
+
+By using a `resources` directive in the rule, with a key `cpus` that matches
+what we have specified in `slurm_profile/config.yaml`:
+
+```python
+resources: cpus=8
+```
+
+Here is the relevant matching part of `slurm_profile/config.yaml`:
+
+```YAML
+cluster: "sbatch --account={resources.account}
+                 --time={resources.time_min}
+                 --mem={resources.mem_mb}
+                 --cpus-per-task={resources.cpus}
+                 --output=log/slurm-{rule}_{wildcards}.out"
+default-resources: [cpus=1, mem_mb=4000, time_min=60, account=PAS1855]
+```
+
+</details>
+
+:::
+
+Additionally, we will request for an appropriate amount of memory,
+so our full `resources` directive will look like this:
+
+```python
+resources: cpus=8, mem_mb=32000
+```
+
+The script `scripts/ASV_infer.R` takes three arguments in total in the following
+order:
+1. An input directory -- i.e., the output dir of the previous rule.
+2. An output filename -- you can tell from `rule all` what that should be.
+3. A number of cores/threads for the job -- which you can pass using `{threads}`.
+
+::: {.content-box-diy}
+
+- Write rule `ASV_infer`.
+
+- Run the rule.
+
+<details><summary>Hints</summary><br>
+
+- Because this is the final rule in the workflow, whose output is specified
+  as the input of `rule all`, running Snakemake without arguments will do the job.
+  
+- Note that the previous two rules will also automatically be run for the two
+  remaining samples.
+  
+</details>
+
+<details><summary>Solutions</summary><br>
+
+```python
+rule ASV_infer:
+    """
+    A rule to run an R script that contains DADA2 functions to infer ASVs,
+    and produce a matrix with ASV counts for each sample.
+    """
+    threads: 8
+    resources: cpus=8, mem_mb=32000
+    input:
+        expand(
+            "{filter_dir}/{sample}_{read}.fastq",
+            sample=SAMPLES,
+            read=READS,
+            filter_dir=FILTER_DIR,
+        ),
+    output:
+        join(ASV_DIR, "ASV_table.tsv")
+    log:
+        join(LOG_DIR, "ASV_infer.log")
+    shell:
+        """
+        module load R/4.0.2-gnu9.1
+        scripts/ASV_infer.R {FILTER_DIR} {output} {threads} &> {log}
+        """
+```
+
+```sh
+$ snakemake --profile slurm_profile
+```
+
+```sh
+$ ls -lh results/ASV_infer/
+#> -rw-r--r-- 1 jelmer PAS0471 426K Apr 21 12:57 ASV_table.tsv
+```
+
+Let's see an overview of all output files of the workflow:
+
+```sh
+$ tree results
+#> results
+#> ├── ASV_infer
+#> │   └── ASV_table.tsv
+#> ├── cutadapt
+#> │   ├── 201_R1.fastq.gz
+#> │   ├── 201_R2.fastq.gz
+#> │   ├── 202_R1.fastq.gz
+#> │   ├── 202_R2.fastq.gz
+#> │   ├── 203_R1.fastq.gz
+#> │   └── 203_R2.fastq.gz
+#> ├── fastqc
+#> │   ├── 201_R1_fastqc.html
+#> │   ├── 201_R1_fastqc.zip
+#> │   ├── 201_R2_fastqc.html
+#> │   ├── 201_R2_fastqc.zip
+#> │   ├── 202_R1_fastqc.html
+#> │   ├── 202_R1_fastqc.zip
+#> │   ├── 202_R2_fastqc.html
+#> │   ├── 202_R2_fastqc.zip
+#> │   ├── 203_R1_fastqc.html
+#> │   ├── 203_R1_fastqc.zip
+#> │   ├── 203_R2_fastqc.html
+#> │   └── 203_R2_fastqc.zip
+#> ├── fastq_filter
+#> │   ├── 201_R1.fastq
+#> │   ├── 201_R2.fastq
+#> │   ├── 202_R1.fastq
+#> │   ├── 202_R2.fastq
+#> │   ├── 203_R1.fastq
+#> │   └── 203_R2.fastq
+#> └── multiqc
+#>     ├── multiqc_data
+#>     │   ├── multiqc_data.json
+#>     │   ├── multiqc_fastqc.txt
+#>     │   ├── multiqc_general_stats.txt
+#>     │   ├── multiqc.log
+#>     │   └── multiqc_sources.txt
+#>     └── multiqc_report.html
+```
+
+</details>
+
+:::
+
+<details><summary>Full Snakefile #7</summary>
+
+```python
+"""
+A workflow to perform QC and basic analyses on a set of FASTQ files from
+metagenomic amplicon sequencing.
+The following steps are performed:
+1. FastQC on the raw FASTQ files
+2. MultiQC on the output of FastQC
+3. Cutadapt to remove primers on the raw FASTQ files
+4. DADA2 FASTQ filtering
+5. DADA2 ASV inference, producing a single ASV output table
+"""
+
+# We'll use the `join` function to create paths:
+from os.path import join
+
+# Workflow configuration file:
+configfile: "workflow/config.yaml"
+
+# Get settings from config file:
+IN_DIR=config["in_dir"]
+OUT_DIR=config["out_dir"]
+LOG_DIR=config["log_dir"]
+
+PRIMER_F=config["primer_f"]
+PRIMER_R=config["primer_r"]
+
+# Other constants, mostly based on config file:
+# Samples and reads:
+SAMPLES = glob_wildcards(join(IN_DIR, "{sample}_R1.fastq.gz")).sample
+READS = ["R1", "R2"]
+# All output dirs:
+FASTQC_DIR=join(OUT_DIR, "fastqc")
+MULTIQC_DIR=join(OUT_DIR, "multiqc")
+CUTADAPT_DIR=join(OUT_DIR, "cutadapt")
+FILTER_DIR=join(OUT_DIR, "fastq_filter")
+ASV_DIR=join(OUT_DIR, "ASV_infer")
+
+# Define local rules:
+localrules: all, clean  
+
+# Rules:
+rule all:
+    """
+    A pseudo-rule that triggers execution of the entire workflow.
+    It's input files include all final output files.
+    """
+    input:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+        join(ASV_DIR, "ASV_table.tsv")
+
+rule clean:
+    """
+    A rule to remove all results from the workflow.
+    """
+    shell:
+        """
+        rm -rf results
+        rm -rf log/*
+        """
+
+rule fastqc:
+    """
+    A rule to run FastQC to QC the FASTQ files.
+    """
+    input:
+        join(IN_DIR, "{sample}_{read}.fastq.gz"),
+    output:
+        join(FASTQC_DIR, "{sample}_{read}_fastqc.html"),
+    log:
+        join(LOG_DIR, "fastqc_{sample}_{read}.log"),
+    shell:
+        """
+        module load fastqc/0.11.8
+        fastqc {input} -o {FASTQC_DIR} &> {log}
+        """
+
+rule multiqc:
+    """
+    A rule to run MultiQC to collate the FastQC results.
+    """
+    input:
+        expand(
+            "{fastqc_dir}/{sample}_{read}_fastqc.html",
+            fastqc_dir=FASTQC_DIR,
+            sample=SAMPLES,
+            read=READS,
+        ),
+    output:
+        join(MULTIQC_DIR, "multiqc_report.html"),
+    log:
+        join(LOG_DIR, "multiqc.log"),
+    shell:
+        "scripts/multiqc.sh {FASTQC_DIR} {MULTIQC_DIR} &> {log}"
+
+rule cutadapt:
+    """
+    A rule to run Cutadapt to remove primers from the FASTQ files.
+    """
+    conda:
+        "envs/cutadapt.yaml"
+    input:
+        fwd=join(IN_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(IN_DIR, "{sample}_R2.fastq.gz"),
+    output:
+        fwd=join(CUTADAPT_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(CUTADAPT_DIR, "{sample}_R2.fastq.gz"),
+    log:
+        join(LOG_DIR, "cutadapt_{sample}.log")
+    shell:
+        "scripts/cutadapt.sh {input.fwd} {CUTADAPT_DIR} {PRIMER_F} {PRIMER_R} &> {log}"
+
+rule fastq_filter:
+    """
+    A rule to run an R script that contains DADA2 functions to filter and trim FASTQ files.
+    """
+    input:
+        fwd=join(CUTADAPT_DIR, "{sample}_R1.fastq.gz"),
+        rev=join(CUTADAPT_DIR, "{sample}_R2.fastq.gz"),
+    output:
+        fwd=join(FILTER_DIR, "{sample}_R1.fastq"),
+        rev=join(FILTER_DIR, "{sample}_R2.fastq"),
+    log:
+        join(LOG_DIR, "fastq_filter_{sample}.log")
+    shell:
+        """
+        module load R/4.0.2-gnu9.1
+        scripts/fastq_filter.R {input.fwd} {FILTER_DIR} &> {log}
+        """
+
+rule ASV_infer:
+    """
+    A rule to run an R script that contains DADA2 functions to infer ASVs,
+    and produce a matrix with ASV counts for each sample.
+    """
+    threads: 8
+    resources: cpus=8, mem_mb=32000
+    input:
+        expand(
+            "{filter_dir}/{sample}_{read}.fastq",
+            sample=SAMPLES,
+            read=READS,
+            filter_dir=FILTER_DIR,
+        ),
+    output:
+        join(ASV_DIR, "ASV_table.tsv")
+    log:
+        join(LOG_DIR, "ASV_infer.log")
+    shell:
+        """
+        module load R/4.0.2-gnu9.1
+        scripts/ASV_infer.R {FILTER_DIR} {output} {threads} &> {log}
+        """
+```
+
+</details>
+
+<br>

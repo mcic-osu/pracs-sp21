@@ -30,11 +30,11 @@ which snakemake
 ```
 
 We will recreate a very similar set of files and the final Snakefile from class
--- copy the files from `/fs/ess/PAS1855/data/week13/` to do so:
+-- copy the files from `/fs/ess/PAS1855/exercises/week13/` to do so:
 
 ```sh
 cd /fs/ess/PAS1855/users/$USER/week13
-cp -r /fs/ess/PAS1855/week13/exercise1 .
+cp -r /fs/ess/PAS1855/exercises/week13/exercise1 .
 
 cd exercise1
 
@@ -1397,7 +1397,7 @@ It is either `--cpus-per-task` or `--ntasks`.
 <summary>Solution</summary>
 <br>
 
-The `threads` directive in a Snakefile corresponds the the `--cpus-per-task`
+The `threads` directive in a Snakefile corresponds to the `--cpus-per-task`
 SLURM directive. (Recall that SLURM uses the terms CPU, cores and threads
 roughly equivalently.)
 
