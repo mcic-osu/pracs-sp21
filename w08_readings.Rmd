@@ -1,0 +1,71 @@
+---
+title: "Week 9: Content overview and readings"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+## Content overview for this week
+
+This is the first of 5 consecutive weeks focused entirely on Python,
+which will hopefully get you a solid introduction to this very useful language.
+We will start by working our way through the first part of CSB Chapter 3 (3.1-3.4)
+to get acquainted with Python basics.
+
+**Some of the things you will learn this week:**
+
+- Understand why we will be learning Python in this course.
+
+- Learn how to use Python in VS Code.
+
+- Learn the basics of Python syntax.
+
+- Learn how to work with different variable types:
+  strings, integers, floats, and Booleans.
+
+- Learn about the four basic data structures in Python:
+  lists, dictionaries, tuples, and sets.
+
+## Readings
+
+This week, we will work our way through the first part of CSB Chapter 3:
+sections 3.1-3.4.
+This will provide you with an introduction to Python basics,
+including a fairly extensive treatment of its four basic data structures:
+lists, dictionaries, tuples, and sets.
+
+Assuming that you are completely new to Python,
+I recommend that you at least quickly read CSB 3.1-3.4 before class and that you
+also go through it once more *after class*,
+preferably interactively with an open Python prompt.
+Before we move on,
+it will be important to get some Python fundamentals under your fingers.
+
+### Required readings
+
+- **[CSB](https://library.ohio-state.edu/record=b8624007~S7)**
+  **Chapter 3.1 - 3.4: "Basic Programming"**
+
+  Note: Where the CSB text says to save a file as a Jupyter Notebook
+  (with the `.ipynb` extension),
+  you can just create a regular Python script (`.py` extension) --
+  nothing in the code is specific to Jupyter Notebooks.
+  
+  If you *want* to play around with Jupyter Notebooks,
+  you can actually do this in VS Code:
+  simply save a file with the `.ipynb` extension and see what happens.
+  Here is some [VS Code documentation on its Jupyter support](https://code.visualstudio.com/docs/python/jupyter-support).
+  If you would want to try Jupyter Notebooks in their native environment,
+  you can do so via OSC OnDemand:
+  see [this section](https://mcic-osu.github.io/pracs-sp21/w08_python-resources.html#jupyter-notebooks-jupyterlab) of this site's Python resources page.
+
+### Further Resources
+
+- See the **[Python resources](../../w08_python-resources.html)** page on this
+  site for a list of general resources for learning Python!
+  
+- The Economist, 2018:
+  "[Python is becoming the world’s most popular coding language](https://www.economist.com/graphic-detail/2018/07/26/python-is-becoming-the-worlds-most-popular-coding-language)"
+
+- Stack Overflow, 2017:
+  "[The Incredible Growth of Python](https://stackoverflow.blog/2017/09/06/incredible-growth-python/)"
