@@ -12,7 +12,7 @@ This week, we'll wrap up the course's contents:
 looking back at what you've learned, and how it all fits together --
 and looking forward to the steps you can take from here.
 
-### [Readings](../week-14/week-14_readings.html)
+### [Readings](../../w14_readings.html)
 
 ### Slides
 

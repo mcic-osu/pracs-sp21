@@ -8,6 +8,9 @@ output:
     self_contained: false
 ---
 
+This week, you will learn about several strategies for writing "good" code:
+code that is clear, modular, flexible, and easy to troubleshoot.
+
 ### [Content overview and readings](../../w10_readings.html)
 
 ### Slides
