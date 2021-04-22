@@ -9,9 +9,11 @@ output:
 
 <br>
 
-So far, we did not work with real data in the Snakemake exercises.
-In this exercise, you'll create a Snakemake workflow that processed some actual
-FASTQ files.
+We did not work with real data in the Snakemake workflows we created so far.
+Therefore, in this bonus exercise,
+you'll create a workflow that processes actual FASTQ files,
+which should be useful practice if you intend to use Snakemake for your final
+project or your own research.
 
 We'll use the same 6 FASTQ files that we explored in the
 [exercises for week 5](w05_exercises.html) and
@@ -25,23 +27,25 @@ we will perform QC with FastQC and MultiQC, remove primers with Cutadapt,
 and filter FASTQ files and infer Amplicon Sequence Variants (ASVs)
 with the R package DADA2.
 
-<br>
+## 1. Set-up
 
-### 1. Set-up
-
-The data and a project skeleton can be copied from `/fs/ess/PAS1855/data/week13/`:
+You can copy the data and a project skeleton from `/fs/ess/PAS1855/exercises/`:
 
 ```sh
 cd /fs/ess/PAS1855/users/$USER/week13
 cp -r /fs/ess/PAS1855/exercises/week13/bonus .
 
-cd exercise_bonus
+# Go into the exercise dir:
+cd bonus
 
+# Make sure all the scripts are executable:
 chmod +x scripts/*
 ```
 
-```
-tree
+Take a look at the files we have:
+
+```sh
+$ tree
 #> .
 #> ├── data
 #> │   ├── 201_R1.fastq.gz
@@ -62,17 +66,6 @@ tree
 #>     ├── config.yaml
 #>     ├── envs
 #>     └── Snakefile
-```
-
-Let's start an interactive job, because we will let Snakemake perform
-a few Conda installations, and this happens as part of the main Snakemake process
-(while individual jobs will be submitted as SLURM jobs).
-Because we'll want more than one hour (the maximum for `sinteractive`),
-we will use `srun` to request an interactive job, which means we have to add
-`--pty /bin/bash`:
-
-```sh
-srun -A PAS1855 -t 120 --pty /bin/bash
 ```
 
 Finally, load the Conda environment in which you have Snakemake installed:
@@ -145,11 +138,13 @@ rule all:
         join(MULTIQC_DIR, "multiqc_report.html"),
         join(ASV_DIR, "ASV_table.tsv")
 
+rule clean:
+    """
+    A rule to remove all results from the workflow.
+    """
     shell:
-        """
-        rm -rf results
-        rm -rf log/*
-        """
+        "rm -rf results;"
+        "rm -rf log/*"
 ```
 
 </details>
@@ -158,15 +153,15 @@ rule all:
 
 Our current Snakefile has a couple of features we haven't seen before:
 
-- We use some generic Python code directly to build file paths,
-  starting by importing the `join()` function from the `os.path` module.
-  Further down, we use `join()` to build paths.
+- We use generic Python code directly in the Snakefile:
+  we import the `join()` function from the `os.path` module,
+  and further down, use this function to build file paths: [^1]
   
-  We could also accomplish this simply by concatenating strings,
-  but `join()` is a bit more robust as it makes sure we are not forgetting
-  forward slashes --
-  e.g. `join("results", "fastqc", "sampleA_fastqc.html")` will produce
-  `results/fastc/sampleA_fastqc.html`.
+  [^1]: We could also build paths simply by concatenating strings,
+        but `join()` is a bit more robust as it makes sure we are not forgetting
+        forward slashes --
+        e.g. `join("results", "fastqc", "sampleA_fastqc.html")` will produce
+        `results/fastc/sampleA_fastqc.html`.
   
   ```python
   from os.path import join
@@ -176,27 +171,28 @@ Our current Snakefile has a couple of features we haven't seen before:
 
 - We have a `rule clean`, which is a common convenience rule to remove all output
   and log files from the workflow.
+  As you are developing and testing a workflow, you may want to do this regularly.
   
-- In the `shell` directive of `rule clean`, we are have two lines of shell code
-  inside Python triple-quotes.
+- In the `shell` directive of `rule clean`, we have two lines of shell code,
+  which works because we use Python triple-quotes.
 
 Also of note:
 
-- In `rule all`, we are already specifying the output files of the
-  final workflow, so we won't have to change this rule in the exercises below.
+- In `rule all`, the output files of the final workflow are already specified,
+  so we won't have to change this rule in the exercises below.
   
 - We will run the workflow on the cluster in the sense that each Snakemake job
   will be a SLURM job.
-  Therefore, we specify `rule all` and `rule clean` as `localrules`
-  (i.e., rules *not* to be submitted as SLURM jobs ),
-  because they are not computationally intensive at all and the overhead of
-  submitting a SLURM job and waiting for it start would just slow thing down
-  for those rules.
+  Because `rule all` and `rule clean` they are not computationally intensive at all,
+  we specify them as "local rules" (i.e., rules *not* to be submitted as SLURM jobs)
+  using the`localrules` directive.
+  (The overhead of submitting a SLURM job and waiting for it start would just slow
+  thing down for those rules.)
 
 #### Our "profile" `config.yaml` file
 
 We use a "profile" `slurm_profile/config.yaml` file very similar to the one in
-the previous Snakemake exercise:
+[a previous Snakemake exercise](w13_exercises.html#running-the-workflow-with-slurm-jobs):
 
 ```YAML
 cluster: "sbatch --account={resources.account}
@@ -214,16 +210,18 @@ This file tells Snakemake how to submit jobs to the cluster,
 and provides some default resource values that we would be able to modify for
 individual rules (as we will eventually do for `rule ASV_infer`).
 
-Recall that this file simply contains options that we can also pass at the command
-line, so we take the opportunity to also specify the maximum number of jobs
+Recall that this file simply contains options
+*that we could also pass at the command line*.
+We can therefore also take the opportunity to specify the maximum number of jobs
 (which we normally do with the `-j` option)
 and ensure that Snakemake creates and uses any Conda environments specified in
-the Snakefile (` use-conda: true`; corresponds to the `--use-conda` option),
-so we don't have to specify this at the command line when we call Snakemake.
+the Snakefile (` use-conda: true`; corresponds to the `--use-conda` option).
 
-Now, the only option we need to pass to Snakemake is `--profile` for which
-we specify the *directory* in which this YAML file is found:
-`snakemake --profile slurm_profile`.
+Then, we don't have to specify this at the command line when we call Snakemake,
+and  the only option we need to pass to Snakemake is `--profile`.
+For this option, we specify the *directory*
+(not the file name, which is assumed to be `config.yaml` by Snakemake)
+in which our YAML file is found: `snakemake --profile slurm_profile`.
 
 <br>
 
@@ -247,18 +245,18 @@ primer_r: "ACGGACTACNVGGGTWTCTAAT"
 ```
 
 The format of the file is YAML just like the `slurm_profile/config.yaml` above
-and the files we have used to specify or save Conda environments.
+and the files we have used to specify and save Conda environments.
 
-Now, we need some way to tell Snakemake about this config file. 
+Now, we need a way to tell Snakemake about this config file. 
 We can do so using the `configfile` directive in the Snakefile.
-Then, all key-value pairs from the config file will be available in the Snakefile
-in a Python dictionary called `config`:
+After we do that, all key-value pairs from the config file will be available in
+the Snakefile in a Python dictionary called `config`:
 
 ```python
 # Workflow configuration file:
 configfile: "workflow/config.yaml"
 
-# Get settings from config file:
+# Get settings from the config file:
 IN_DIR=config["in_dir"]
 OUT_DIR=config["out_dir"]
 LOG_DIR=config["log_dir"]
@@ -269,10 +267,12 @@ LOG_DIR=config["log_dir"]
 Replace the 5 lines of code in the Snakefile under the `# Settings:` line
 with the lines printed directly above this box.
 
-Then, also assign the primer sequences to variables `PRIMER_F` and `PRIMER_R`,
-respectively.
+Then, assign the primer sequences in `config.yaml` to the variables `PRIMER_F`
+and `PRIMER_R`, respectively.
 
-<details><summary>Solution</summary>
+<details><summary>Solution</summary><br>
+
+Assign the primer sequences to variables `PRIMER_F` and `PRIMER_R`:
 
 ```python
 PRIMER_F=config["primer_f"]
@@ -374,19 +374,19 @@ rule fastqc:
 Some things to note about this rule:
 
 - Previously we have always run scripts in the `shell` directive,
-  but in `rule fastqc`, we directly run FastQC in the `shell` directive.
+  but in `rule fastqc`, we directly run the program FastQC in the `shell` directive.
 
 - Because FastQC doesn't allow us to specify the output file,
   we just provide an output directory.
   **Note that in the `shell` directive,
   we can access any Snakefile variable using `{}`**
   (not just values of directives like `{input}` and `{log}`).
-  Therefore, we can recall the FastQC output dir with `{FASTQC_DIR}`.
+  Therefore, we can retrieve the FastQC output dir with `{FASTQC_DIR}`.
   
-- In the `input` and `output` directives, we are using two wildcards:
+- In the `input` and `output` directives, we are using *two* wildcards:
   `{sample}` and `{read}`.
 
-- To avoid excessive installations, we load the OSC module for FastQC.
+- To avoid excessive installations, we load the OSC module for FastQC, here.
   If we had wanted increased portability,
   we could have specified a Conda environment using a YAML file like
   `workflow/envs/fastqc.yaml` with the following contents:
@@ -397,20 +397,24 @@ Some things to note about this rule:
   dependencies:
     - fastqc=0.11.8
   ```
- 
+
+When we have Snakemake submit jobs to the cluster,
+and we also specify log files with the `log` directive,
+we will have **two** log files for every job:
+
+- The log file that we define in the Snakefile will contain
+  standard output and/or standard error from our actual `shell` command.
+
+- The SLURM log file will contain's Snakemake's standard output and
+  standard error.
+  
 ::: {.content-box-diy}
 
-- Add the `rule fastqc` with the contents as specified above.
+- Add `rule fastqc`, with the contents as specified above, to the Snakefile.
 
 - Get Snakemake to run `rule fastqc` for at least one of the FASTQ files.
 
 - Check for the presence of output files and look at the log files.
-
-  Note that when we submit jobs to the cluster, we will have **two** log files
-  for every job. The log file that we define in the Snakefile will contain
-  standard output and/or standard error from our actual command,
-  whereas the SLURM log file will contain's Snakemake's standard output and
-  standard error. Take a look at both.
 
 <details><summary>Hints</summary>
 <br>
@@ -586,20 +590,21 @@ rule fastqc:
 
 ## 4. A MultiQC rule
 
-Let's add a rule that runs MultiQC.
-In this case, we will run a shell script that in turn runs MultiQC,
-rather than running MultiQC directly in the `shell` directive like we did
-with FastQC.
+We will add a rule that runs MultiQC, which summarizes multiple FastQC reports
+into a single HTML file.
 
-The main reason for this is an annoyance with installing MultiQC through Conda
-(and it is not available as an OSC module): when using a YAML file or attempting
-a one-step installation, Conda will fail.
-Instead, we need to do a two-step installation: first, we install a Python version,
-and then, we install MultiQC.
-We actually also did this in week 6, but I will not assume you still have that
-environment.
-Therefore, the `scripts/multiqc.sh` script that `rule multiqc` calls will create
+We will run a shell script that in turn runs MultiQC,
+rather than running MultiQC directly in the `shell` directive like we did
+for FastQC.
+
+The main reason for this is an annoyance with installing MultiQC through Conda[^1]:
+when using a YAML file or attempting a one-step installation, Conda will fail.
+Instead, we need to do a two-step installation: 
+first, we install Python, and then, we install MultiQC.
+The `scripts/multiqc.sh` script that `rule multiqc` runs will create
 this environment if it doesn't already exist, before running MultiQC.
+
+[^1]: MultiQC is not available as an OSC module.
 
 <details><summary>Show the script `scripts/multiqc.sh`</summary>
 
@@ -638,6 +643,7 @@ echo -e "\n# Done with script."
 ```
 
 </details>
+<br>
 
 ::: {.content-box-diy}
 
@@ -664,7 +670,7 @@ echo -e "\n# Done with script."
   which is saved in the variable `FASTQC_DIR`.
   
 - In the `shell` directive, you will call the script `scripts/multiqc.sh`.
-  Take a look to see what arguments it takes, and specify those.
+  Take a look at the script to see what arguments it takes, and specify those.
   
 - Like in `rule fastqc`, send standard output and standard error from the script
   to `{log}`.
@@ -870,13 +876,17 @@ Some things to note about this rule:
 - We are processing *one sample* and therefore *two FASTQ files*
   (forward and reverse) at a time.
 
-- Again, we run a script rather than calling the program directly in the rule.
+- Again, we run a script (`scripts/cutadapt.sh`)
+  rather than calling the program directly in the rule.
   In this case, that's the most convenient option because we will have the script
   compute the reverse complements of the primer sequences.
   
-  The script takes four arguments: the name for the FASTQ file with forward
-  reads (the name for the file with reverse reads will be inferred from that),
-  the output dir, and the forward and reverse primer sequences.
+- The script takes four arguments:
+  1. The name for the FASTQ file with forward reads
+     (the name for the file with reverse reads will be inferred from that).
+  2. The output directory.
+  3. The forward primer sequences.
+  4. The reverse primer sequences.
   
   The output file names are automatically determined by the script.
   
@@ -975,6 +985,8 @@ date
 
 </details>
 
+<br>
+
 - This time, we will provide Snakemake with a YAML file describing a Conda
   environment for Cutadapt.
   Here is the contents of the YAML file `envs/cutadapt.yaml`:
@@ -991,14 +1003,14 @@ date
 - Add the `rule cutadapt` with the contents as specified above.
 
 - Get Snakemake to run `rule cutadapt` for at least one of the FASTQ files.
-  Note that this will take a little while this first time around,
+  Note that this will take a little while the first time around,
   since Snakemake will create a Conda environment with Cutadapt.
 
 - Check for the presence of output files and look at the log files.
 
 <details><summary>Hints</summary><br>
 
-- Like with `rule fastqc`, you'll need to specify an actual output file.
+- Like with `rule fastqc`, you'll need to specify an individual output file.
 
 </details>
 
@@ -1280,7 +1292,8 @@ rule fastq_filter:
 ```
 
 ```sh
-$ snakemake --profile slurm_profile results/fastq_filter/201_R1.fastq
+$ snakemake --profile slurm_profile \
+    results/fastq_filter/201_R1.fastq
 ```
 
 ```sh
@@ -1541,7 +1554,7 @@ which will be passed on the the DADA2 functions.
 
 How can we make sure Snakemake allocated 8 cores/threads for this job?
 
-<details><summary>Solution.</summary>
+<details><summary>Solution.</summary><br>
 
 By using a `threads` directive in the rule:
 
@@ -1554,7 +1567,7 @@ threads: 8
 And how can we make sure Snakemake passes a request of 8 cores/threads to SLURM
 for this job?
 
-<details><summary>Solution.</summary>
+<details><summary>Solution.</summary><br>
 
 By using a `resources` directive in the rule, with a key `cpus` that matches
 what we have specified in `slurm_profile/config.yaml`:
@@ -1578,8 +1591,12 @@ default-resources: [cpus=1, mem_mb=4000, time_min=60, account=PAS1855]
 
 :::
 
-Additionally, we will request for an appropriate amount of memory,
+Additionally, we will request for an appropriate amount of memory[^1],
 so our full `resources` directive will look like this:
+
+[^1]: Each core has about 4 GB of memory so 8 * 4 = 32 GB makes sense here.
+      Because our default resource request is for 4000 MB (4 GB),
+      we would otherwise be requesting 4 GB *total*, even with 8 cores.
 
 ```python
 resources: cpus=8, mem_mb=32000
@@ -1644,6 +1661,10 @@ $ ls -lh results/ASV_infer/
 #> -rw-r--r-- 1 jelmer PAS0471 426K Apr 21 12:57 ASV_table.tsv
 ```
 
+</details>
+
+:::
+
 Let's see an overview of all output files of the workflow:
 
 ```sh
@@ -1688,11 +1709,7 @@ $ tree results
 #>     └── multiqc_report.html
 ```
 
-</details>
-
-:::
-
-<details><summary>Full Snakefile #7</summary>
+### Our final Snakefile
 
 ```python
 """
@@ -1847,7 +1864,5 @@ rule ASV_infer:
         scripts/ASV_infer.R {FILTER_DIR} {output} {threads} &> {log}
         """
 ```
-
-</details>
 
 <br>
