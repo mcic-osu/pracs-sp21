@@ -8,6 +8,10 @@ output:
     self_contained: false
 ---
 
+This week, you will learn about using regular expressions in Python.
+
+### [Content overview and readings](../../w12_readings.html)
+
 ### Slides
 
 - [Slides: Regex](../week-12/slides/12-1.html) -- Tuesday Zoom (Mar 30)
