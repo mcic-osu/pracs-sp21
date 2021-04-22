@@ -1,0 +1,80 @@
+---
+title: "Week 11: Content overview and readings"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+## Content overview for this week
+
+This week, you'll first learn about using NumPy and Pandas,
+two large and popular Python packages for data analysis.
+Next, we'll talk about BioPython, which is an ecosystem of packages in the
+field of bioinformatics, primarily to deal with DNA sequence data.
+
+**Some of the things you will learn this week:**
+
+- Understand the basics of Python's module and package system,
+  and how to import modules into your script or session.
+
+- Understand why you should write your own functions, and learn how to write them in Python.
+
+- Learn what a good structure for a program (script) is.
+
+- Learn some basic Python coding style guidelines for clear code.
+
+- Learn how to call Python scripts from the shell.
+
+- Learn how to interpret and handle errors that arise.
+
+- Better understand the difference between mutable and immutable Python data
+  structures and the need to explicitly copy mutable data structures.
+
+And optionally:
+
+- Learn how to debug Python code with a debugger.
+
+- Learn what unit testing and profiling is,
+  and how to perform some basic implementations of this in Python.
+
+## Readings
+
+### Required readings
+
+- [CSB](https://library.ohio-state.edu/record=b8624007~S7)
+  Chapter 6: "Scientific Computing"
+
+  Sections 6.2.3-6.2.5 ("Linear algebra", "Integration", and "Optimization", respectively)
+  are **optional** reading and won't be discussed in class.
+  
+### Further resources
+
+These resources are mostly from CSB 6.7 ("References and Reading"),
+with some additions and replacements:
+
+#### NumPy and Pandas
+
+- For more NumPy, I would recommend
+  [the official NumPy tutorial](https://numpy.org/doc/stable/user/absolute_beginners.html)
+  over the one mentioned in the book.
+  
+- For more Pandas, I would similarly look first at the
+  [tutorials on the Pandas website](https://pandas.pydata.org/docs/getting_started/intro_tutorials/).
+
+- The "Python for Data Analysis" book recommended by CBS is available
+  [online through OSU's library](https://library.ohio-state.edu/record=b9170181~S7).
+  The book covers NumPy, Pandas, and plotting with Python, among other things.
+
+- A similar, excellent book is the "Python Data Science Handbook" by Jake VanderPlas,
+  which is [freely available online](https://jakevdp.github.io/PythonDataScienceHandbook/).
+  
+#### BioPython
+
+- Perhaps the best place to start is
+  [this workshop tutorial](https://github.com/peterjc/biopython_workshop/) by Peter Cock.
+
+- For more, the BioPython Tutorial and Cookbook has a comprehensive overview of
+  BioPython functionality
+  ([HTML](http://biopython.org/DIST/docs/tutorial/Tutorial.html) / 
+  [PDF](http://biopython.org/DIST/docs/tutorial/Tutorial.pdf).
+
