@@ -1,5 +1,5 @@
 ---
-title: "Week 11: Content overview and readings"
+title: "Week 10: Content overview and readings"
 output:
   distill::distill_article:
     self_contained: false
@@ -7,7 +7,7 @@ output:
 
 ## Content overview for this week
 
-This week, you will learn about several strategies for writing "good" code:
+This week, we wil talk about several strategies for writing "good" code:
 code that is clear, modular, flexible, and easy to troubleshoot.
 
 **Some of the things you will learn this week:**
@@ -39,8 +39,9 @@ And optionally:
 
 ### Required readings
 
-- [CSB](https://library.ohio-state.edu/record=b8624007~S7)
-  Chapter 4: "Writing Good Code"
+- **[CSB](https://library.ohio-state.edu/record=b8624007~S7)**
+  **Chapter 4: "Writing Good Code"**
   
   - Section 4.6-4.8 on debugging, unit testing, and profiling, respectively, are optional.
-  - But don't forget the last section, 4.9 ("Beyond the Basics"), which is required
+  
+  - But don't forget the last section, 4.9 ("Beyond the Basics"), which is required.
