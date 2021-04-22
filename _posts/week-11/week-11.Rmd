@@ -8,6 +8,13 @@ output:
     self_contained: false
 ---
 
+This week, you'll first learn about using NumPy and Pandas,
+two large and popular Python packages for data analysis.
+Next, we'll talk about BioPython, which is an ecosystem of packages in the
+field of bioinformatics, primarily to deal with DNA sequence data.
+
+### [Content overview and readings](../../w11_readings.html)
+
 ### Slides
 
 - [Slides: Numpy](../week-11/slides/11-1.html) -- Tuesday Zoom (Mar 23)
@@ -16,10 +23,10 @@ output:
 
 - [Slides: BioPython](../week-11/slides/11-3.html) -- Thursday Zoom (Mar 25)
 
-### Final project: due
-
-- [Final project: proposal](../../finalproject_proposal.html) -- due Tuesday, Mar 23
-
 ### Ungraded assignments
 
 - [Exercises for week 11](../../w11_exercises.html)
+
+### Final project: due
+
+- [Final project: proposal](../../finalproject_proposal.html) -- due Tuesday, Mar 23
