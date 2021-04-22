@@ -8,6 +8,13 @@ output:
     self_contained: false
 ---
 
+This will be our final week with significant new content, and in it,
+we will be learning about Snakemake.
+Snakemake is a so-called Workflow Management System,
+a program that can help you create flexible and reproducible analysis pipelines.
+
+### [Content overview and readings](../../w13_readings.html)
+
 ### Slides
 
 - [Slides: Workflows and workflow tools](../week-13/slides/13-1.html) -- Tuesday Zoom (Apr 06)

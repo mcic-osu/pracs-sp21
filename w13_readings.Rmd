@@ -1,0 +1,59 @@
+---
+title: "Week 13: Content overview and readings"
+date: 2021-04-12
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+## Content overview for this week
+
+Snakemake workflows (pipelines) are described in a so-called Snakefile. Since Snakemake is a Python program, its syntax is very similar to regular Python and we can even include plain Python code! Since we have been learning Python as well as Bash and shell scripting, this puts us in a really good position to learn Snakemake.
+
+While its learning curve is not trivial even with all of our pre-existing knowledge, there are many advantages to using Snakemake if you have analysis pipelines that include at least a few scripts. For example, it makes our analysis pipelines more reproducible, portable, scalable, and transparent than regular Bash or Python scripts that glue together a pipeline. In addition, Snakemake takes care of a lot of boilerplate code for you, such as SLURM directives in shell scripts; and you can even forego using shell scripts altogether and specify all shell commands in a Snakefile directly. Finally, Snakemake can be an incredible timesaver when errors occur in your pipeline or you need to repeat parts of it.
+
+**Some of the things you will learn this week:**
+
+- What challenges you can (will) run into when glueing analysis pipelines together
+  with regular Bash (or Python) scripts.
+
+- What Workflow Management Systems are, and why they are useful.
+
+- The basics of using Snakemake to describe and run workflows.
+
+- How to get Snakemake to submit SLURM jobs for you. 
+
+## Readings
+
+Since neither of the books cover Snakemake, you'll be reading two articles: a journalistic feature article in Nature as a light introduction to workflow systems, and a manuscript by some of the authors of Snakemake.
+
+In the latter, I recommend you read until you reach the heading "2.2.1  Modularization" on page 7, and beyond there, you can skim/read/skip as you see fit.
+
+You may also want to (re)visit the section "Make and Makefiles: Another Option for Pipelines" in the Buffalo book, Chapter 12, p. 421-423. Snakemake was heavily inspired by Make (hence the name) but is much more user-friendly and has many more options.
+
+### Required readings
+
+- Perkel 2019, Nature "Toolbox" feature:
+  "[Workflow systems turn raw data into scientific knowledge](https://www.nature.com/articles/d41586-019-02619-z)"
+
+- Mölder et al. 2020, Zenodo:
+  "[Sustainable data analysis with Snakemake](https://zenodo.org/record/4240139)"
+
+### Further resources
+
+- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+  p. 421-423 (Chapter 12): section "Make and Makefiles: Another Option for Pipelines". 
+
+- [The official Snakemake tutorial](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html)
+  which you can run in your browser!
+
+- [A short introduction to (Make and then) Snakemake](https://vincebuffalo.com/blog/2020/03/04/understanding-snakemake.html)
+  by Vince Buffalo,
+  the author of the secondary book we have been reading.
+
+- A Carpentries lesson on working with a compute cluster,
+  with a large section on Snakemake starting on
+  [this page](http://www.hpc-carpentry.org/hpc-python/07-snakemake-intro/index.html).
+
+- [Another useful Snakemake tutorial](https://nbis-reproducible-research.readthedocs.io/en/latest/snakemake/).
+
