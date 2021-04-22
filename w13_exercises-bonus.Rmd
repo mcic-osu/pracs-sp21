@@ -33,10 +33,10 @@ You can copy the data and a project skeleton from `/fs/ess/PAS1855/exercises/`:
 
 ```sh
 cd /fs/ess/PAS1855/users/$USER/week13
-cp -r /fs/ess/PAS1855/exercises/week13/bonus .
+cp -r /fs/ess/PAS1855/exercises/week13/bonus/initial_workflow bonus_exercise
 
 # Go into the exercise dir:
-cd bonus
+cd bonus_exercise
 
 # Make sure all the scripts are executable:
 chmod +x scripts/*
@@ -1205,7 +1205,12 @@ files, just in a different directory (`FILTER_DIR`, in our case) and with a
 ```R
 #!/usr/bin/env Rscript
 
-# SET-UP ----------------------------------------------------
+# This script will run the DADA2 function "filterAndTrim" to remove poor-quality
+# reads and bases from FASTQ files by filtering and trimming them.
+# The script has as input a pair (F and R reads for one sample) of,
+# optionally gzipped, FASTQ files, and as output a pair of not-zipped FASTQ files. 
+
+# Set-up -----------------------------------------------------------------------
 
 # Install and/or load packages:
 if(!require(pacman)) {
@@ -1220,13 +1225,13 @@ args <- commandArgs(trailingOnly = TRUE)
 R1_in <- as.character(args[1])
 outdir <- as.character(args[2])
 
-# Determine R2 file name:
+# Determine R2 file name - assumed to be same as R1 but with "R2" instead:
 R2_in <- sub("_R1", "_R2", R1_in)
 
-# Determine sample ID:
+# Determine sample ID - file name up until "_R1":
 sampleID <- sub("_R1.*", "", basename(R1_in))
 
-# Set output file names:
+# Set output file paths:
 R1_out <- file.path(outdir, paste0(sampleID, '_R1.fastq'))
 R2_out <- file.path(outdir, paste0(sampleID, '_R2.fastq'))
 
@@ -1237,26 +1242,32 @@ cat("R2_in:", R2_in, "\n")
 cat("R1_out:", R1_out, "\n")
 cat("R2_out:", R2_out, "\n")
 
+
 # Filtering and Quality Trimming -----------------------------------------------
+
 print('Filtering and Trimming...')
 Sys.time()  # Print the time to keep track of running time for individual steps
 
+# Run the DADA2 function to filter and trim FASTQ files
 filter_results <-
-  filterAndTrim(R1_in, R1_out,
-                R2_in, R2_out,
-                truncLen = c(250,210),
-                trimLeft = 10,
-                maxN = 0,
-                maxEE = c(2,2),
-                truncQ = 2,
-                rm.phix = FALSE,
-                multithread = 1,
-                compress = FALSE, verbose = TRUE)
+  filterAndTrim(
+      R1_in, R1_out,          # Forward (F) reads input/output
+      R2_in, R2_out,          # Reverse (R) reads input/output
+      truncLen = c(250,210),  # Truncate F at 250 and R at 210 bp (remove last bases)
+      trimLeft = 10,          # Remove first 10 bases
+      maxN = 0,               # Don't allow for any Ns
+      maxEE = c(2,2),         # Max. expected nr of errors of 2 in F and 2 in R
+      truncQ = 2,             # Truncate when base quality score is 2 or less
+      rm.phix = FALSE,        # Don't remove Phi-X
+      multithread = 1,        # No multithreading
+      compress = FALSE,       # Don't compress output files
+      verbose = TRUE          # Verbose runtime info
+  )
 
 print('...Done!')
 Sys.time()
 
-print('Done with script filter_fastq.R')
+print('Done with script fastq_filter.R')
 ```
 
 </details>
@@ -1455,12 +1466,19 @@ at once, and outputs a file containing a matrix of counts of ASVs
 ```R
 #!/usr/bin/env Rscript
 
-# SET-UP ----------------------------------------------------
+# This script will run several steps of the DADA2 pipeline to infer
+# Amplicon Sequence Variants (ASVs) and their abundance in a set of samples.
+# The input is a set of FASTQ files from multiple samples
+# (as automatically detected given an input dir, which is one of the arguments),
+# and the output is a single table with ASV counts per sample.
+
+
+# Set-up ----------------------------------------------------------------------
 
 args <- commandArgs(trailingOnly = TRUE)
-indir <- as.character(args[1])
-outfile <- as.character(args[2])
-n_cores <- as.integer(args[3])
+indir <- as.character(args[1])           # Input dir. Input files will be detected.
+outfile <- as.character(args[2])         # Ouput file: An ASV table.
+n_cores <- as.integer(args[3])           # Number of cores to use.
 
 # Install and/or load packages:
 if(!require(pacman)) {
@@ -1470,11 +1488,11 @@ if(!require(pacman)) {
 packages <- c('BiocManager', 'dada2')
 pacman::p_load(char = packages)
 
-# Input files:
+# Detect input files given the input directory passed as an argument:
 fastqs_filt_F <- sort(list.files(indir, pattern = '_R1.fastq', full.names = TRUE))
 fastqs_filt_R <- sort(list.files(indir, pattern = '_R2.fastq', full.names = TRUE))
 
-# Sample IDs:
+# Infer Sample IDs from FASTQ file names:
 sampleIDs <- sub("_R1.*", "", basename(fastqs_filt_F))
 
 # Report:
@@ -1483,9 +1501,11 @@ cat("Output file:", outfile, "\n")
 cat("Number of threads/cores:", n_cores, "\n")
 cat("Sample IDs:", sampleIDs, "\n")
 
+
 # Dereplication ----------------------------------------------------------------
-print('Dereplicating...')
-Sys.time()
+
+print('Dereplicating FASTQs...')
+Sys.time() # Keep track of time to see how how long each step takes
 
 fastqs_derep_F <- derepFastq(fastqs_filt_F, verbose = FALSE)
 fastqs_derep_R <- derepFastq(fastqs_filt_R, verbose = FALSE)
@@ -1496,7 +1516,9 @@ names(fastqs_derep_R) <- sampleIDs
 print('...Done!')
 Sys.time()
 
+
 # Error training  -------------------------------------------------------------
+
 print('Learning errors...')
 
 err_F <- learnErrors(fastqs_derep_F, multithread = n_cores, verbose = TRUE)
@@ -1505,33 +1527,49 @@ err_R <- learnErrors(fastqs_derep_R, multithread = n_cores, verbose = TRUE)
 print('...Done!')
 Sys.time()
 
+
 # Infer ASVs  -------------------------------------------------------------
+
 print('Inferring ASVs (running the dada algorithm)...')
 
-dada_Fs <- dada(fastqs_derep_F, err = err_F, pool = FALSE, multithread = n_cores)
-dada_Rs <- dada(fastqs_derep_R, err = err_R, pool = FALSE, multithread = n_cores)
+dada_Fs <- dada(fastqs_derep_F, err = err_F,
+                pool = FALSE, multithread = n_cores)
+dada_Rs <- dada(fastqs_derep_R, err = err_R,
+                pool = FALSE, multithread = n_cores)
 
-print('...Done.')
+print('...Done!')
 Sys.time()
 
+
 # Merge read pairs ------------------------------------------------------------
+
 print('Merging read pairs...')
+
 mergers <- mergePairs(dada_Fs, fastqs_derep_F,
                       dada_Rs, fastqs_derep_R,
                       verbose = TRUE)
 
+
 # Construct a sequence table --------------------------------------------------
+
 print('Constructing a sequence table...')
+
 seqtab_all <- makeSequenceTable(mergers)
 
+
 # Remove chimeras ------------------------------------------------------------
+
 print('Remove chimeras...')
+
 seqtab <- removeBimeraDenovo(seqtab_all,
                              method = 'consensus',
                              multithread = n_cores,
                              verbose = TRUE)
 
+# Write to file ----------------------------------------------------------------
+
 print('Write table to file...')
+
 write.table(seqtab, outfile,
             sep = "\t", row.names = TRUE, quote = FALSE)
 
@@ -1710,6 +1748,9 @@ $ tree results
 ```
 
 ### Our final Snakefile
+
+(You can also find the final workflow files at
+`/fs/ess/PAS1855/exercises/week13/bonus/final_workflow`.)
 
 ```python
 """
