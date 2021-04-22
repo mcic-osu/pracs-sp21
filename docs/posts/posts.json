@@ -8,8 +8,8 @@
     "categories": [],
     "contents": "\nThis week, we’ll wrap up the course’s contents: looking back at what you’ve learned, and how it all fits together – and looking forward to the steps you can take from here.\nReadings\nSlides\nSlides: Putting it all together & next steps – Tuesday Zoom (Apr 13)\nFinal project: Due\nFinal project: Progress report – due Tuesday, Apr 13\nFinal project: New\nFinal project: Student presentations – in class, week of Apr 20\nFinal project: Submission – due Friday, Apr 30\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-04-21T20:13:51-04:00",
-    "input_file": "week-14.utf8.md"
+    "last_modified": "2021-04-21T20:13:52-04:00",
+    "input_file": {}
   },
   {
     "path": "posts/week-13/",
@@ -30,9 +30,9 @@
     "author": [],
     "date": "2021-03-29",
     "categories": [],
-    "contents": "\nSlides\nSlides: Regex – Tuesday Zoom (Mar 30)\n\nNo Thursday Zoom this week – we have the second “instructional break” of the semester.\n\nUngraded assignments\nExercises for week 12\n\n\n\n",
+    "contents": "\nThis week, you will learn about using regular expressions in Python.\nContent overview and readings\nSlides\nSlides: Regex – Tuesday Zoom (Mar 30)\n\nNo Thursday Zoom this week – we have the second “instructional break” of the semester.\n\nUngraded assignments\nExercises for week 12\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-03-27T21:03:50-04:00",
+    "last_modified": "2021-04-21T20:50:36-04:00",
     "input_file": {}
   },
   {
@@ -42,9 +42,9 @@
     "author": [],
     "date": "2021-03-22",
     "categories": [],
-    "contents": "\nSlides\nSlides: Numpy – Tuesday Zoom (Mar 23)\nSlides: Pandas – Tuesday/Thursday Zoom\nSlides: BioPython – Thursday Zoom (Mar 25)\nFinal project: due\nFinal project: proposal – due Tuesday, Mar 23\nUngraded assignments\nExercises for week 11\n\n\n\n",
+    "contents": "\nContent overview and readings\nSlides\nSlides: Numpy – Tuesday Zoom (Mar 23)\nSlides: Pandas – Tuesday/Thursday Zoom\nSlides: BioPython – Thursday Zoom (Mar 25)\nUngraded assignments\nExercises for week 11\nFinal project: due\nFinal project: proposal – due Tuesday, Mar 23\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-03-20T19:28:26-04:00",
+    "last_modified": "2021-04-21T20:35:37-04:00",
     "input_file": {}
   },
   {
@@ -54,9 +54,9 @@
     "author": [],
     "date": "2021-03-15",
     "categories": [],
-    "contents": "\nSlides\nSlides: Modules, custom functions, and program structure – Tuesday Zoom (Mar 16)\nSlides: Calling Python scripts, errors, and beyond the basics – Thursday Zoom (Mar 18)\nFinal project: new\nFinal project: proposal – due Tuesday, Mar 23\nUngraded assignments\nExercises for week 10\n\n\n\n",
+    "contents": "\nThis week, you will learn about several strategies for writing “good” code: code that is clear, modular, flexible, and easy to troubleshoot.\nContent overview and readings\nSlides\nSlides: Modules, custom functions, and program structure – Tuesday Zoom (Mar 16)\nSlides: Calling Python scripts, errors, and beyond the basics – Thursday Zoom (Mar 18)\nUngraded assignments\nExercises for week 10\nFinal project: new\nFinal project: proposal – due Tuesday, Mar 23\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-03-16T21:32:52-04:00",
+    "last_modified": "2021-04-21T20:57:57-04:00",
     "input_file": {}
   },
   {
