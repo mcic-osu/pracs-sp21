@@ -8,16 +8,22 @@ output:
     self_contained: false
 ---
 
+This week, we'll wrap up the course's contents:
+looking back at what you've learned, and how it all fits together --
+and looking forward to the steps you can take from here.
+
+### [Readings](../week-14/week-14_readings.html)
+
 ### Slides
 
 - [Slides: Putting it all together & next steps](../week-14/slides/14-1.html) -- Tuesday Zoom (Apr 13)
 
-### Final project: due
+### Final project: Due
 
-- [Final project: progress report](../../finalproject_progress.html) -- due Tuesday, Apr 13
+- [Final project: Progress report](../../finalproject_progress.html) -- due Tuesday, Apr 13
 
-### Final project: new
+### Final project: New
 
-- [Final project: student presentations](../../finalproject_present.html) -- in class, week of Apr 20
+- [Final project: Student presentations](../../finalproject_present.html) -- in class, week of Apr 20
 
-- [Final project: submission](../../finalproject_submission.html) -- due Friday, Apr 30
+- [Final project: Submission](../../finalproject_submission.html) -- due Friday, Apr 30
