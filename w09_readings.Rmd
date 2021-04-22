@@ -1,0 +1,39 @@
+---
+title: "Week 9: Content overview and readings"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+## Content overview for this week
+
+This week, we will continue our exploration of basic Python data structures,
+and will also learn about control flow and working with files in Python.
+
+**Some of the things you will learn this week:**
+
+- Learn more about Python's basic data structures: lists, dictionaries, sets, and tuples.
+
+- Learn when and how to use `if` statements, `for` loops, and `while` loops in Python.
+
+- Learn how you can read from and write to files in Python. 
+
+## Readings
+
+### Required readings
+
+- **[CSB](https://library.ohio-state.edu/record=b8624007~S7)**
+  **Chapter 3.5 - 3.9: "Basic Programming"**
+
+  Note: Where the CSB text says to save a file as a Jupyter Notebook
+  (with the `.ipynb` extension),
+  you can just create a regular Python script (`.py` extension) --
+  nothing in the code is specific to Jupyter Notebooks.
+  
+  If you *want* to play around with Jupyter Notebooks,
+  you can actually do this in VS Code:
+  simply save a file with the `.ipynb` extension and see what happens.
+  Here is some [VS Code documentation on its Jupyter support](https://code.visualstudio.com/docs/python/jupyter-support).
+  If you would want to try Jupyter Notebooks in their native environment,
+  you can do so via OSC OnDemand:
+  see [this section](https://mcic-osu.github.io/pracs-sp21/w08_python-resources.html#jupyter-notebooks-jupyterlab) of this site's Python resources page.

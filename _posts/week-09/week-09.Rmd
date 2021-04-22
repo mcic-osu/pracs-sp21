@@ -8,6 +8,11 @@ output:
     self_contained: false
 ---
 
+This week, we will continue our exploration of basic Python data structures,
+and will also learn about control flow and working with files in Python.
+
+### [Content overview and readings](../../w09_readings.html)
+
 ### Slides
 
 - [Slides: Data structures](../week-08/slides/08-2.html#resume-here) -- Tuesday Zoom (Mar 9)
