@@ -23,7 +23,7 @@ navbar:
           href: posts/week-04/index.html
         - text: "05: Shell scripting"
           href: posts/week-05/index.html
-        - text: "06: Computing at OSC"
+        - text: "06: OSC, SLURM, and Conda"
           href: posts/week-06/index.html
         - text: "07: Data transfer & integrity"
           href: posts/week-07/index.html
@@ -59,15 +59,17 @@ navbar:
           href: overviews_shell.html
         - text: "Shell scripting"
           href: overviews_shellscript.html
-        - text: "OSC: SLURM jobs and software"
+        - text: "OSC, SLURM, and Conda"
           href: overviews_slurm.html
         - text: "Markdown"
           href: overviews_markdown.html
         - text: "Git"
           href: overviews_git.html
-        - text: "Python (TBA)"
+        - text: "Python"
+          href: overviews_python.html
         - text: "Snakemake"
           href: overviews_snakemake.html
+        - text: "Glossary (TBA)"
     - text: "Further resources"
       href: resources.html
 
