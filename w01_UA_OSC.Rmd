@@ -1,0 +1,45 @@
+---
+title: "Week 1 -- Ungraded Assignment : <br> Create an OSC account"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+### What?
+
+Get access to OSC (or check that you still do)
+and to the OSC Project for this course (`PAS1855`).
+
+### Why?
+
+Much of the coding during this course will be done at the
+Ohio Supercomputer Center (OSC),
+where we can access a terminal and the text editor for this course, VS Code,
+all from inside our browser.
+
+This course has its own OSC Project (`PAS1855`),
+and access to this project will allow you to access our shared files and to
+reserve "compute nodes".
+
+### How?
+
+After filling out the pre-course survey,
+you will receive an invitation email from OSC referring to the course project
+number `PAS1855`.
+
+***If you already have an OSC account***,
+the email will likely tell you that you have been added to the project and
+don't have to do anything.
+Please check whether you can log in by going to <https://my.osc.edu>,
+and see if the project `PAS1855` is listed in your Project List
+(scroll down or click "Project" and then "Project List" in the top navigation bar).
+
+***If you don't have an OSC account yet***,
+follow the instructions in the email to sign up for OSC and accept the invitation.
+When you fill out the form with your personal details,
+provide the course OSC Project number `PAS1855` in the box highlighted in red below:
+
+  <p align="left">
+  <img src=img/osc_signup2.png width="90%">
+  </p>
+

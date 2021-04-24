@@ -1,12 +1,18 @@
 ---
 title: "Week 07"
 description: |
-  Data transfer and integrity
+  Data transfer and integrity (Half-module)
 date: 2021-02-22
 output:
   distill::distill_article:
     self_contained: false
 ---
+
+In this half-module (no class on Tuesday),
+we will talk about downloading and transferring data in the shell,
+checking file integrity, and working with compressed data. 
+
+### [Content overview and readings](../../w07_readings.html)
 
 ### Slides
 
