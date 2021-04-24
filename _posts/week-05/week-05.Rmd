@@ -8,13 +8,18 @@ output:
     self_contained: false
 ---
 
+This week, you will learn how to package your shell commands into robust,
+easily rerunnable shell scripts.
+
+### [Content overview and readings](../../w05_readings.html)
+
 ### Slides
 
 - [Slides: Part I -- Variables, loops, arrays, and conditionals](slides/05-1_loops.html) -- Tuesday Zoom (Feb 9)
 
 - [Slides: Part II -- Shell scripting](slides/05-2_scripts.html) -- Thursday Zoom (Feb 11)
 
-- [Bonus Slides: `find` and `xargs`](slides/05-3_find-xargs.html)
+- [Bonus slides: `find` and `xargs`](slides/05-3_find-xargs.html)
 
 ### Ungraded assignments
 
