@@ -1,5 +1,9 @@
-
-
+---
+title: "Week 2 -- Ungraded Assignment : <br> Create a GitHub account"
+output:
+  distill::distill_article:
+    self_contained: false
+---
 
 ## What?
 Create a Github account and let me know you've done so.
