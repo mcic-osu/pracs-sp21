@@ -1,0 +1,117 @@
+---
+title: "Week 1 -- Optional assignment: <br> Local software installation"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+## What?
+
+In case you want to be able to work locally on your computer
+(in addition to working at OSC, as we will in class),
+install the following free software packages.
+
+**For all operating systems:**
+
+- [_VS Code_](#vs-code): a text editor with a ton of functionality for coding and accessing remote computers.
+
+- [_Python_](#python-3.7): the main programming language used in this course.
+
+**For all Windows versions:**
+
+- [_Git_](#git-for-windows): version control software
+
+**For Windows 10 only:**
+
+- [_WSL_](#wsl): Windows Subsystem for Linux,
+  a lightweight Virtual Machine-like application to run Linux inside Windows. 
+
+**For Mac only:**
+
+- [_Xcode_](#xcode-command-line-tools-includes-git) command-line tools (includes Git)
+
+- [_Homebrew_](#homebrew-package-manager)
+
+*(Because Mac and Linux users have a built-in Unix shell,*
+*and git for Windows ships with one, no-one should need to install a shell separately.)*
+
+## Why?
+
+Since all the software needed for this course is available at the
+Ohio Supercomputer Center (OSC),
+you are not required to install anything for this course.
+However, you may still want to install software locally so you are not completely
+dependent on OSC and don't have to work inside a browser.
+
+*If you run into problems while installing software,*
+*please contact the instructors,*
+*but be aware that troubleshooting installation in Windows may be challenging for us.*
+
+## How?
+
+#### VS Code
+
+Follow these instructions:
+[Windows](https://code.visualstudio.com/docs/setup/windows) / 
+[Mac](https://code.visualstudio.com/docs/setup/mac) / 
+[Linux](https://code.visualstudio.com/docs/setup/linux).
+
+#### Python 3.7
+
+Follow the instructions at
+<http://computingskillsforbiologists.com/setup/basic-programming/>.
+
+### For Windows users only:
+
+#### Git for Windows
+
+If you have Windows 10, I recommend installing WSL and then installing Git
+inside your Linux distribution in WSL (for instructions see the WSL section below),
+so you can skip the installation of Git for Windows.
+However, you may also want to version control directories outside of your WSL partition,
+in which case you should also install Git for Windows.
+
+Download *Git for Windows* from [here](https://git-scm.com/download/win)
+and install it using all the default settings for the installation, except:
+
+- In "*Adjusting Your PATH Environment*", select "*Use Git from Git Bash Only*".
+
+- In the prompt "*Configuring the Line Ending Conversions*",
+  choose "*Checkout as-is, commit as-is*".
+
+### For Windows 10 users only:
+
+#### WSL
+
+Follow [these installation instructions](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+Additional notes:
+
+- If you're doing a manual installation or are otherwise prompted to pick a
+  Linux distribution, I would recommend picking Ubuntu 20.04.
+
+- VS Code (which you installed earlier) has an integrated terminal,
+  but this terminal will by default use a Windows shell.
+  To tell it to use the bash shell from WSL instead:
+
+  - Open the Command Palette (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>)
+  
+  - Type "settings.json", and open up the Settings (JSON) file.
+
+  - Add this line:
+    `"terminal.integrated.shell.windows": "C:\\WINDOWS\\sysnative\\bash.exe"`
+
+- Open a terminal in VS Code using "View" => "Integrated Terminal",
+  which should get you a bash shell after following the previous step.
+
+- Install Git by issuing the following command in the shell:
+  `sudo apt install git`.
+
+### For Mac users only:
+
+#### Xcode command-line tools (includes Git)
+
+Open a terminal and enter: `xcode-select --install`.
+
+#### Homebrew package manager
+
+Follow the instructions at <https://brew.sh/>.
