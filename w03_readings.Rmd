@@ -1,0 +1,98 @@
+---
+title: "Week 3: Content overview and readings"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+## Content overview for this week
+
+This week, you will be introduced to formal version control with Git,
+and will learn how to link up local repositories with remote counterparts on Github. 
+
+Your **[first graded assignment](../../w03_GA_git.html)**
+is due on Tuesday, February 2nd,
+and will be about course content from this week and the first two weeks.
+
+There is also an **[ungraded assignment](../../w03_UA_git-setup.html)**
+to set up Git and authentication for Github,
+which you should have completed by the first lecture of the week on Tuesday, January 26th.
+
+Be aware that Git is a rather challenging topic, so this is not a week to slack off.
+More specifically:
+
+- If you can, complete the main reading before Tuesday's lecture,
+  and also read the Buffalo chapter.
+
+- A good way to get used to Git is to make dummy repositories where you're just
+  editing one or a few simple text files with dummy lines of text.
+  That way, you can get used to the basic workflow,
+  and freely experiment also with commands to undo things and move back in time.
+  We'll do this in our Zoom meetings and I recommend you do it outside of there, too. 
+
+**Some of the things you will learn this week:**
+
+- Understand why you should use a formal Version Control System (VCS) for research projects.
+
+- Learn the basics of the most widely used VCS: Git.
+
+- Learn how to put your local repositories online at Github,
+  and how to keep local and online ("remote") repositories in sync.
+
+- Learn about single-user and multi-user workflows with Git and Github.
+
+- Learn how to use Git branches to safely make experimental changes.
+
+- Learn how to undo things and "travel back in time" for your project using Git.
+
+## Readings
+
+This week's main reading is the CSB chapter on Git, chapter 2.
+We will also roughly work our way through this chapter in the Zoom sessions.
+
+The optional reading is the Buffalo chapter on Git, chapter 5.
+Like the CSB chapter, this starts with the very basics of Git; but it goes a bit further.
+As mentioned in the overview page for the week,
+Git is a challenging subject, so I recommend you to read both of these chapters
+to really get the hang of it.
+
+There are also some useful "Further Resources" mentioned below.
+
+### Required readings
+
+- [CSB](https://library.ohio-state.edu/record=b8624007~S7)
+  Chapter 2: "Version Control"
+  
+### Optional readings
+
+- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+  Chapter 5: "Git for Scientists"
+  
+### Further resources
+
+- [Git-it](https://github.com/jlord/git-it-electron#git-it)
+  is a small application to learn and practice Git and GitHub basics.
+  Download and installation instructions are here.
+
+- GitHub has a
+  [nice little overview](https://guides.github.com/activities/hello-world/)
+  of some Git and GitHub functionality including branching and Pull Requests,
+  and how to do these things in your browser at GitHub. 
+
+- For some more background on why to use version control,
+  and another perspective on some Git basics,
+  I recommend the article
+  "[Excuse me, do you have a moment to talk about version control?](https://peerj.com/preprints/3159)"
+  by Jenny Bryan.
+
+- Especially if you work with R a lot, I would recommend checking out
+  [Happy Git and GitHub for the useR](https://happygitwithr.com/),
+  also by Jenny Bryan.
+  This is a very accessible introduction to Git.
+
+- If you want to try some online exercises with Git with helpful visuals of what
+  Git commands do, try <https://learngitbranching.js.org/>.
+  (But be aware that this does fairly quickly move to fairly advanced topics,
+  including several that we will not touch on in the course.)
+  
+- [A good list of even more Git resources...](https://gist.github.com/jaseemabid/1321592)

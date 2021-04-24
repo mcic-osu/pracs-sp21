@@ -12,6 +12,11 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+This week, you will learn about the why and how of using Git version control for
+your projects, and sharing your code on GitHub.
+
+### [Content overview and readings](../../w03_readings.html)
+
 ### Slides
 
 - [Slides: Part I -- Getting started with Git](slides/03-1_git.html) -- Tuesday Zoom (Jan 26)
