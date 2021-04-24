@@ -1,0 +1,52 @@
+---
+title: "Week 6: Content overview and readings"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+## Content overview for this week
+
+This week, we'll start with an introduction to OSC and supercomputers.
+Then, we'll see how we can submit shell scripts to OSC's queue for compute jobs
+with the widely-used SLURM resource manager.
+
+**Some of the things you will learn this week:**
+
+- Understand when and why we need to run our analyses on supercomputers.
+- Learn the key terminology around supercomputers.
+- Learn about different ways to access OSC.
+- Learn about different ways to transfer data to and from OSC.
+- Learn about different ways to start compute jobs: via OnDemand, with interactive jobs, and with scripts.
+- Learn some strategies around requesting appropriate resources for your compute jobs.
+- Learn the SLURM/`sbatch` syntax to request specific resources for your compute jobs.
+- Learn how to monitor SLURM jobs.
+
+## Readings
+
+This week's required reading is a little unusual, as it is not a book chapter.
+Instead, you will read part of the OSC documentation.
+There are some pointers below,
+but you are welcome to use your own judgment in how much you want to read.
+You are also encouraged to simply look around on OSC's website a bit to get an idea of what's there,
+and bookmark pages that you think will be useful for you later on.
+
+### Required readings
+
+Part of the OSC documentation:
+
+- Your first starting point should be the
+  [New User Resource Guide](https://www.osc.edu/resources/getting_started/new_user_resource_guide)
+  At least read or carefully look at the first few pages including "HPC Basics" and "Getting Connected".
+
+- Your second starting point should be the
+  [Batch Processing at OSC pages](https://www.osc.edu/supercomputing/batch-processing-at-osc)
+  Again, at least read or carefully look at the first few pages including
+  "Batch System Concepts", "Batch Execution Environment", and "Job Scripts"
+  (in that last section, you can stop when you reach "Considerations for parallel jobs",
+  unless this is something that interests you).
+
+### Optional readings
+
+- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+  Chapter 4: "Working with Remote Machines"

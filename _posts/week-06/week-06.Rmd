@@ -8,6 +8,12 @@ output:
     self_contained: false
 ---
 
+This week, we'll start with an introduction to OSC and supercomputers.
+Then, we'll see how we can submit shell scripts to OSC's queue for compute jobs
+with the widely-used SLURM resource manager.
+
+### [Content overview and readings](../../w06_readings.html)
+
 ### Slides
 
 - [Slides: Part I -- An introduction to using OSC](slides/06-1_OSC.html) -- Tuesday Zoom (Feb 16)
