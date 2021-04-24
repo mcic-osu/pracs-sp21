@@ -1,0 +1,72 @@
+---
+title: "Week 1: Content overview and readings"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+## Content overview for this week
+
+This week, you will get an introduction to and overview of the course
+(Tuesday session) and will learn the basics of working in a Unix shell environment
+(Thursday session).
+
+**Some of the things you will learn this week:**
+
+#### Course intro & overview (Tuesday class)
+
+- Know what to expect from this course.
+
+- Learn what tools and languages we will use.
+
+- Know what is expected of you during this course.
+
+- Understand the infrastructure of the course.
+
+#### Unix shell basics (Thursday class, Readings, and Exercises)
+
+- Understand why using a command-line interface can be beneficial.
+
+- Understand what a shell is and what you can do with it. 
+
+- Using the shell, learn how to:
+  - Navigate around your computer.
+  - Create and manage directories and files.
+  - Find and view text files.
+  - Search within, manipulate, and extract information from text files.
+
+## Readings
+
+The first few pages of our primary book,
+**Computing Skills for Biologists by Allesina & Wilmes** (**CSB** for short),
+should give you an introduction to the rationale behind the book,
+and behind this course, too. Try to read this before Tuesday's class.
+
+Our main text for this week will be Chapter 1 from CSB,
+which will introduce you to using the Unix shell.
+Please read this chapter before Thursday's class when we will go through the
+chapter by means of "participatory live-coding" (code-along).
+Highlight sections that you find challenging and ask about these in class as needed.
+Because repetition is beneficial,
+you are welcome to actively work through the code in the chapter beforehand --
+this will be particularly useful for those who have never used a shell before.
+
+(Side note: we will cover much of this content again, and in more detail,
+in weeks 4-6, using the Buffalo book.)
+
+### Required readings
+
+- [CSB](https://library.ohio-state.edu/record=b8624007~S7)
+  Chapter 0: "Introduction Building a Computing Toolbox" --
+  Introduction & Section 0.1 only
+
+- [CSB](https://library.ohio-state.edu/record=b8624007~S7)
+  Chapter 1: "Unix"
+
+### Further resources
+
+- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+  Preface and Chapter 1: "How to Lean Bioinformatics"
+  
+- A [Software Carpentry shell tutorial](http://swcarpentry.github.io/shell-novice/)
+  -- For another angle on similar material to what we cover this week.

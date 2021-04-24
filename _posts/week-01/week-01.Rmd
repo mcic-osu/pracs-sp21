@@ -8,9 +8,11 @@ output:
     self_contained: false
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
+This week, you will get an introduction to and overview of the course
+(Tuesday session) and will learn the basics of working in a Unix shell environment
+(Thursday session).
+
+### [Content overview and readings](../../w01_readings.html)
 
 ### Slides
 
@@ -18,8 +20,17 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - [Slides: Shell basics](slides/01-2-shell.html) -- Thursday Zoom (Jan 14)
 
-### Ungraded assignments
+### Pre-course ungraded assignments
+
+- Read the
+  [Practical course information](../../overviews_course.html)
+
+- [Pre-course survey](https://forms.gle/rrpXvJYyR7huJfHK7)
+  
+- [Get access to the Ohio Supercomputer Center (OSC)](../../w01_UA_OSC.html)
+
+### Week 1 ungraded assignments
 
 - [Exercises for week 1](../../w01_exercises.html)
 
-- [*Optional:* Local software installation (CarmenCanvas site)](https://osu.instructure.com/courses/94975/assignments/2002692)
+- *Optional:* [Local software installation](../../w01_UA_installation.html)
