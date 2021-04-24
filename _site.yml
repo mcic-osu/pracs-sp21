@@ -74,7 +74,7 @@ navbar:
       href: resources.html
 
   right:
-    - text: "About"
+    - text: "About this course"
       href: about.html
     - icon: fas fa-book-open
       href: https://library.ohio-state.edu/record=b8624007~S7

@@ -18,9 +18,9 @@
     "author": [],
     "date": "2021-04-05",
     "categories": [],
-    "contents": "\nSlides\nSlides: Workflows and workflow tools – Tuesday Zoom (Apr 06)\nSlides: Getting started with Snakemake – Tue/Thu Zoom\nSlides: More advanced Snakemake tips and tricks – Thursday Zoom (Apr 06)\nFinal project: new\nFinal project: progress report – due Tuesday, Apr 13\nUngraded assignments\nExercises for week 13\nBonus exercise: a Snakemake workflow with real data\n\n\n\n",
+    "contents": "\nThis will be our final week with significant new content, and in it, we will be learning about Snakemake. Snakemake is a so-called Workflow Management System, a program that can help you create flexible and reproducible analysis pipelines.\nContent overview and readings\nSlides\nSlides: Workflows and workflow tools – Tuesday Zoom (Apr 06)\nSlides: Getting started with Snakemake – Tue/Thu Zoom\nSlides: More advanced Snakemake tips and tricks – Thursday Zoom (Apr 08)\nUngraded assignments\nExercises for week 13\nBonus exercise: a Snakemake workflow with real data\nFinal project: new\nFinal project: progress report – due Tuesday, Apr 13\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-04-21T13:10:40-04:00",
+    "last_modified": "2021-04-24T19:55:46-04:00",
     "input_file": {}
   },
   {
@@ -66,9 +66,9 @@
     "author": [],
     "date": "2021-03-08",
     "categories": [],
-    "contents": "\nSlides\nSlides: Data structures – Tuesday Zoom (Mar 9)\nSlides: Control flow (Zach) – Tuesday/Thursday Zoom\nSlides: Working with files – Thursday Zoom (Mar 11)\nUngraded assignments\nExercises for week 9\n\n\n\n",
+    "contents": "\nThis week, we will continue our exploration of basic Python data structures, and will also learn about control flow and working with files in Python.\nContent overview and readings\nSlides\nSlides: Data structures – Tuesday Zoom (Mar 9)\nSlides: Control flow (Zach) – Tuesday/Thursday Zoom\nSlides: Working with files – Thursday Zoom (Mar 11)\nUngraded assignments\nExercises for week 9\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-03-11T17:49:26-05:00",
+    "last_modified": "2021-04-24T19:55:03-04:00",
     "input_file": {}
   },
   {
@@ -86,13 +86,13 @@
   {
     "path": "posts/week-07/",
     "title": "Week 07",
-    "description": "Data transfer and integrity",
+    "description": "Data transfer and integrity (Half-module)",
     "author": [],
     "date": "2021-02-22",
     "categories": [],
-    "contents": "\nSlides\nSlides: data download, transfer and integrity, shell productivity tips, & scripting recap – Thursday Zoom (Feb 25)\nUngraded assignments\nExercises for Week 7\n\n\n\n",
+    "contents": "\nIn this half-module (no class on Tuesday), we will talk about downloading and transferring data in the shell, checking file integrity, and working with compressed data.\nContent overview and readings\nSlides\nSlides: data download, transfer and integrity, shell productivity tips, & scripting recap – Thursday Zoom (Feb 25)\nUngraded assignments\nExercises for Week 7\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-25T08:58:18-05:00",
+    "last_modified": "2021-04-24T19:54:55-04:00",
     "input_file": {}
   },
   {
@@ -102,9 +102,9 @@
     "author": [],
     "date": "2021-02-15",
     "categories": [],
-    "contents": "\nSlides\nSlides: Part I – An introduction to using OSC – Tuesday Zoom (Feb 16)\nSlides: Part II – SLURM jobs in practice – Thursday Zoom (Feb 18)\nGraded assignments\nGraded assignment for week 6 (Due Tuesday, Feb 23)\nUngraded assignments\nMid-course survey\nOptional: SSH setup\n\n\n\n",
+    "contents": "\nThis week, we’ll start with an introduction to OSC and supercomputers. Then, we’ll see how we can submit shell scripts to OSC’s queue for compute jobs with the widely-used SLURM resource manager.\nContent overview and readings\nSlides\nSlides: Part I – An introduction to using OSC – Tuesday Zoom (Feb 16)\nSlides: Part II – SLURM jobs in practice – Thursday Zoom (Feb 18)\nGraded assignments\nGraded assignment for week 6 (Due Tuesday, Feb 23)\nUngraded assignments\nMid-course survey\nOptional: SSH setup\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-18T07:53:09-05:00",
+    "last_modified": "2021-04-24T19:54:41-04:00",
     "input_file": {}
   },
   {
@@ -114,9 +114,9 @@
     "author": [],
     "date": "2021-02-08",
     "categories": [],
-    "contents": "\nSlides\nSlides: Part I – Variables, loops, arrays, and conditionals – Tuesday Zoom (Feb 9)\nSlides: Part II – Shell scripting – Thursday Zoom (Feb 11)\nBonus Slides: find and xargs\nUngraded assignments\nExercises for week 5\n\n\n\n",
+    "contents": "\nThis week, you will learn how to package your shell commands into robust, easily rerunnable shell scripts.\nContent overview and readings\nSlides\nSlides: Part I – Variables, loops, arrays, and conditionals – Tuesday Zoom (Feb 9)\nSlides: Part II – Shell scripting – Thursday Zoom (Feb 11)\nBonus slides: find and xargs\nUngraded assignments\nExercises for week 5\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-18T07:53:08-05:00",
+    "last_modified": "2021-04-24T19:54:32-04:00",
     "input_file": {}
   },
   {
@@ -126,9 +126,9 @@
     "author": [],
     "date": "2021-02-01",
     "categories": [],
-    "contents": "\nSlides\nSlides: Part I – Unix data tools – Tuesday Zoom (Feb 2)\nSlides: Part II – awk and sed – Thursday Zoom (Feb 4)\nUngraded assignments\nExercises for week 4\n\n\n\n",
+    "contents": "\nThis week, we will continue learning about working in the Unix shell, with a focus on tools that are useful for working with text files with (large amounts of) data, such as grep, awk, and sed.\nContent overview and readings\nSlides\nSlides: Part I – Unix data tools – Tuesday Zoom (Feb 2)\nSlides: Part II – awk and sed – Thursday Zoom (Feb 4)\nUngraded assignments\nExercises for week 4\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-07T12:18:33-05:00",
+    "last_modified": "2021-04-24T19:54:24-04:00",
     "input_file": {}
   },
   {
@@ -138,9 +138,9 @@
     "author": [],
     "date": "2021-01-25",
     "categories": [],
-    "contents": "\nSlides\nSlides: Part I – Getting started with Git – Tuesday Zoom (Jan 26)\nSlides: Part II – Remotes on GitHub, and branching & merging – Thursday Zoom (Jan 28)\nSlides: Part III – Undoing changes and viewing the past – Thursday / bonus\nUngraded assignments\nGit setup & GitHub authentication\nGraded assignments\nGraded assignment I: Shell, Markdown and Git\n\n\n\n",
+    "contents": "\nThis week, you will learn about the why and how of using Git version control for your projects, and sharing your code on GitHub.\nContent overview and readings\nSlides\nSlides: Part I – Getting started with Git – Tuesday Zoom (Jan 26)\nSlides: Part II – Remotes on GitHub, and branching & merging – Thursday Zoom (Jan 28)\nSlides: Part III – Undoing changes and viewing the past – Thursday / bonus\nUngraded assignments\nGit setup & GitHub authentication\nGraded assignments\nGraded assignment I: Shell, Markdown and Git\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-18T07:53:08-05:00",
+    "last_modified": "2021-04-24T19:54:14-04:00",
     "input_file": {}
   },
   {
@@ -150,9 +150,9 @@
     "author": [],
     "date": "2021-01-18",
     "categories": [],
-    "contents": "\nSlides\nSlides: Part I – Some best practices for project organization – Tuesday Zoom (Jan 19)\nSlides: Part II - Markdown and VS Code – Tue/Thu Zoom\nSlides: Part III - Managing files in the shell – Thursday Zoom (Jan 21)\nUngraded assignments\nExercises for week 2\nSign up for a Github account (CarmenCanvas site)\n\n\n\n",
+    "contents": "\nThis week, we’ll talk about some best practices for project organization and applying these in the Unix shell, documenting your project with Markdown files, and we’ll get to know the course’s text editor (VS Code) a bit better.\nContent overview and readings\nSlides\nSlides: Part I – Some best practices for project organization – Tuesday Zoom (Jan 19)\nSlides: Part II - Markdown and VS Code – Tue/Thu Zoom\nSlides: Part III - Managing files in the shell – Thursday Zoom (Jan 21)\nUngraded assignments\nExercises for week 2\nSign up for a Github account (CarmenCanvas site)\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-02-07T12:18:33-05:00",
+    "last_modified": "2021-04-24T19:53:57-04:00",
     "input_file": {}
   },
   {
@@ -164,7 +164,7 @@
     "categories": [],
     "contents": "\nThis week, you will get an introduction to and overview of the course (Tuesday session) and will learn the basics of working in a Unix shell environment (Thursday session).\nContent overview and readings\nSlides\nSlides: Course intro – Tuesday Zoom (Jan 12)\nSlides: Shell basics – Thursday Zoom (Jan 14)\nPre-course ungraded assignments\nRead the Practical course information\nPre-course survey\nGet access to the Ohio Supercomputer Center (OSC)\nWeek 1 ungraded assignments\nExercises for week 1\nOptional: Local software installation\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-04-24T15:04:31-04:00",
+    "last_modified": "2021-04-24T19:53:48-04:00",
     "input_file": {}
   }
 ]

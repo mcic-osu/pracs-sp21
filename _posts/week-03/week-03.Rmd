@@ -8,10 +8,6 @@ output:
     self_contained: false
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
-
 This week, you will learn about the why and how of using Git version control for
 your projects, and sharing your code on GitHub.
 

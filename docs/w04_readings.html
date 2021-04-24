@@ -86,27 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: About this site and course</title>
+  <title>pracs-sp21: Week 4: Content overview and readings</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: About this site and course"/>
+  <meta property="og:title" content="pracs-sp21: Week 4: Content overview and readings"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: About this site and course"/>
+  <meta property="twitter:title" content="pracs-sp21: Week 4: Content overview and readings"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title"]}},"value":[{"type":"character","attributes":{},"value":["About this site and course"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 4: Content overview and readings"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2453,7 +2453,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"About this site and course","authors":[]}
+{"title":"Week 4: Content overview and readings","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2548,7 +2548,7 @@ Topic overviews
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>About this site and course</h1>
+<h1>Week 4: Content overview and readings</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2556,35 +2556,34 @@ Topic overviews
 
 
 <div class="d-article">
-<p>This is the GitHub website for the course <strong>Practical Computing Skills for Biologists</strong> (a section of PLNTPTH8300 – Current Topics in Plant Pathology), a 2-credit online-only course at Ohio State University during the Spring semester of 2021. The course is taught by <a href="mailto:poelstra.1@osu.edu">Jelmer Poelstra</a> from the <a href="https://mcic.osu.edu">MCIC</a>.</p>
-<h3 id="course-description">Course description</h3>
-<p>As datasets have rapidly grown larger in biology, coding has been recognized as an increasingly important skill for biologists. Yet in fact, basic coding skills and “computational thinking” are highly beneficial for any scientist, paving the way for more efficient and reproducible research.</p>
-<p>In this course, students will gain hands-on experience with a set of general and versatile tools for day-to-day work with data sets small and large alike. The course’s focus is on foundational skills such as working in the Unix shell, coding in Python, organizing, documenting, version-controlling and sharing research, submitting jobs to a compute cluster, and building flexible workflows. Taken together, this will allow students to reproduce their own work, and have others reproduce their work, with as little as a single command.</p>
-<h3 id="more-information">More information</h3>
-<p>For additional general information about the course, see the page <a href="../../overview_course.html">Practical course information</a>.</p>
-<h4 id="overview-of-topics">Overview of topics</h4>
+<h2 id="content-overview-for-this-week">Content overview for this week</h2>
+<p>This week, we will continue learning about working in the Unix shell, using Buffalo chapter 7, with a focus on <em>data tools</em>. New tools will include the <code>less</code> pager and the advanced commands <code>sed</code> and <code>awk</code> (and <code>bioawk</code>).</p>
+<p>We’ll also revisit and expand our knowledge of several tools we have already seen in week 1, such as <code>grep</code>, <code>sort</code>, and the use of Unix “pipelines”. The examples will focus on working with sequence data in several formats.</p>
+<p><strong>Some of the things you will learn this week:</strong></p>
 <ul>
-<li><a href="overviews_shell.html">Shell tools</a> and <a href="overviews_shellscript.html">Shell scripting</a> (4 modules)</li>
-<li><a href="overviews_python.html">Coding in Python</a> (5 modules)</li>
-<li><a href="posts/week-06/">Computing at OSC with SLURM and Conda</a> (1 module)</li>
-<li><a href="posts/week-03/">Version control with Git and GitHub</a> (1 module, applied throughout)</li>
-<li><a href="posts/week-02">Project documentation with Markdown and project organization</a> (1 module, applied throughout)</li>
-<li><a href="posts/week-13">Reproducible workflows with Snakemake</a> (1 module)</li>
+<li>How clever usage of Unix pipelines can be a large time-saver when needing to extract, convert and summarize data.</li>
+<li>Using <code>less</code> to view files and quickly find and view text matches.</li>
+<li>Using <code>grep</code> to find, count, and extract occurrences of strings and patterns.</li>
+<li>Using <code>sort</code> together with <code>cut</code> and <code>uniq</code> / <code>uniq -c</code> to summarize columns of tabular data.</li>
+<li>Using <code>awk</code> for many tasks on tabular data, including filtering rows and adding columns with arithmetic, and calculating means.</li>
+<li>Use <code>sed</code> to substitute text and reformat data.</li>
+<li>Optionally, understand <em>subshells</em> and <em>process substitution</em>.</li>
+<li>Optionally, use <code>join</code> to merge files by shared columns.</li>
 </ul>
-<h4 id="course-books">Course books</h4>
+<h2 id="readings">Readings</h2>
+<p>This week, you will read chapter 7 of Buffalo. As mentioned in the overview above, the first part of the chapter discusses several tools we’ve already seen in week 1, such as <code>sort</code>, <code>cut</code>, and <code>uniq.</code> The chapter will quickly get more advanced though, and introduce the trickier but powerful <code>awk</code> and <code>sed</code> commands.</p>
+<p>It’s a pretty dense chapter with lots of examples. The examples all involve sequence data but if you don’t work with sequence data, it should be fairly easy to see how these tools could be applied any kind of text and tabular data.</p>
+<p>The following sections can be skimmed or skipped, depending on your bandwidth and interest in these topics:</p>
 <ul>
-<li><p><strong><em>Primary</em></strong>: Allesina S, Wilmes M (2019). <em><a href="https://library.ohio-state.edu/record=b8624007~S7">Computing Skills for Biologists</a></em>. Princeton UP.</p></li>
-<li><p><strong><em>Secondary</em></strong>: Buffalo V (2015). <em><a href="https://library.ohio-state.edu/record=b8538907~S7">Bioinformatics Data Skills: Reproducible and Robust Research with Open Source Tools</a></em>. O’Reilly Media, Inc.</p></li>
+<li>“Decoding Plain-Text Data: hexdump”</li>
+<li>“Bioawk: an Awk for Biological Formats” (skim or skip if you’re not working with sequence data)</li>
+<li>“Advanced Shell Tricks”</li>
 </ul>
-<h3 id="carmencanvas-website">CarmenCanvas website</h3>
-<p>If you are a student in this course, you should also refer to the <a href="https://osu.instructure.com/courses/92221">CarmenCanvas site for this course</a>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<h3 id="required-readings">Required readings</h3>
+<ul>
+<li><a href="https://library.ohio-state.edu/record=b8538907~S7">Buffalo</a> Chapter 7: “Unix Data Tools”</li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>You can always find the link to the CarmenCanvas site in the top-right corner of this site by clicking on the graduation cap icon.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

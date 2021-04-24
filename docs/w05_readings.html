@@ -86,27 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: About this site and course</title>
+  <title>pracs-sp21: Week 5: Content overview and readings</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: About this site and course"/>
+  <meta property="og:title" content="pracs-sp21: Week 5: Content overview and readings"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: About this site and course"/>
+  <meta property="twitter:title" content="pracs-sp21: Week 5: Content overview and readings"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title"]}},"value":[{"type":"character","attributes":{},"value":["About this site and course"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 5: Content overview and readings"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2453,7 +2453,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"About this site and course","authors":[]}
+{"title":"Week 5: Content overview and readings","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2548,7 +2548,7 @@ Topic overviews
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>About this site and course</h1>
+<h1>Week 5: Content overview and readings</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2556,35 +2556,28 @@ Topic overviews
 
 
 <div class="d-article">
-<p>This is the GitHub website for the course <strong>Practical Computing Skills for Biologists</strong> (a section of PLNTPTH8300 – Current Topics in Plant Pathology), a 2-credit online-only course at Ohio State University during the Spring semester of 2021. The course is taught by <a href="mailto:poelstra.1@osu.edu">Jelmer Poelstra</a> from the <a href="https://mcic.osu.edu">MCIC</a>.</p>
-<h3 id="course-description">Course description</h3>
-<p>As datasets have rapidly grown larger in biology, coding has been recognized as an increasingly important skill for biologists. Yet in fact, basic coding skills and “computational thinking” are highly beneficial for any scientist, paving the way for more efficient and reproducible research.</p>
-<p>In this course, students will gain hands-on experience with a set of general and versatile tools for day-to-day work with data sets small and large alike. The course’s focus is on foundational skills such as working in the Unix shell, coding in Python, organizing, documenting, version-controlling and sharing research, submitting jobs to a compute cluster, and building flexible workflows. Taken together, this will allow students to reproduce their own work, and have others reproduce their work, with as little as a single command.</p>
-<h3 id="more-information">More information</h3>
-<p>For additional general information about the course, see the page <a href="../../overview_course.html">Practical course information</a>.</p>
-<h4 id="overview-of-topics">Overview of topics</h4>
+<h2 id="content-overview-for-this-week">Content overview for this week</h2>
+<p>We will talk about shell scripting this week. Last week, we focused on more advanced shell commands that can help to summarize and reformat data – but we issued these commands interactively in the shell, one line at a time. When you need to repeat a certain sequence of commands regularly, or run a program that may take a while, it becomes useful to put your shell commands in a script. Such a script can be easily and quickly (re-)executed, or submitted to a queue on a cluster (next week’s topic!).</p>
+<p>Since shell scripts are essentially sequences of shell commands with some added bells and whistles, it is relatively straightforward to start using them with what we have learned so far. That said, we will start by further setting the stage for scripts by talking about loops, conditionals, and variables on Tuesday. On Thursday, we will talk about shell scripts themselves.</p>
+<p><strong>Some of the things you will learn this week:</strong></p>
 <ul>
-<li><a href="overviews_shell.html">Shell tools</a> and <a href="overviews_shellscript.html">Shell scripting</a> (4 modules)</li>
-<li><a href="overviews_python.html">Coding in Python</a> (5 modules)</li>
-<li><a href="posts/week-06/">Computing at OSC with SLURM and Conda</a> (1 module)</li>
-<li><a href="posts/week-03/">Version control with Git and GitHub</a> (1 module, applied throughout)</li>
-<li><a href="posts/week-02">Project documentation with Markdown and project organization</a> (1 module, applied throughout)</li>
-<li><a href="posts/week-13">Reproducible workflows with Snakemake</a> (1 module)</li>
+<li>Understand why it is useful to collect your commands into scripts that can be rerun easily.</li>
+<li>Use the shell’s <code>for</code> and <code>while</code> loops.</li>
+<li>Use the shell’s <code>if</code> statements and true/false tests.</li>
+<li>Understand shell variables (and arrays) and how to use them.</li>
+<li>Why and how to start shell scripts with a “shebang” line and <code>set</code> settings.</li>
+<li>Why and how to dress up your scripts with tests and <code>echo</code> statements.</li>
 </ul>
-<h4 id="course-books">Course books</h4>
+<h2 id="readings">Readings</h2>
+<p>This week’s reading is Chapter 12 from the Buffalo book.</p>
+<p>The latter part of this chapter is about using <code>find</code>, <code>xargs</code>, and Makefiles. These are somewhat tangential to the week’s topic of scripts, and in class, I will likely only touch on find, briefly.</p>
+<p>If you can, do read these sections, but I recommend you focus on the first part of the chapter, especially if run out of time or bandwidth.</p>
+<p>(As for Makefiles specifically, it will be good to understand the principle behind them. But there is no need to fully understand the syntax, since we will learn about Snakemake, an alternative approach to workflow management, later in the course.)</p>
+<h3 id="required-readings">Required readings</h3>
 <ul>
-<li><p><strong><em>Primary</em></strong>: Allesina S, Wilmes M (2019). <em><a href="https://library.ohio-state.edu/record=b8624007~S7">Computing Skills for Biologists</a></em>. Princeton UP.</p></li>
-<li><p><strong><em>Secondary</em></strong>: Buffalo V (2015). <em><a href="https://library.ohio-state.edu/record=b8538907~S7">Bioinformatics Data Skills: Reproducible and Robust Research with Open Source Tools</a></em>. O’Reilly Media, Inc.</p></li>
+<li><a href="https://library.ohio-state.edu/record=b8538907~S7">Buffalo</a> Chapter 12: “Bioinformatics Shell Scripting, Writing Pipelines, and Parallelizing Tasks”</li>
 </ul>
-<h3 id="carmencanvas-website">CarmenCanvas website</h3>
-<p>If you are a student in this course, you should also refer to the <a href="https://osu.instructure.com/courses/92221">CarmenCanvas site for this course</a>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
-<section class="footnotes" role="doc-endnotes">
-<hr />
-<ol>
-<li id="fn1" role="doc-endnote"><p>You can always find the link to the CarmenCanvas site in the top-right corner of this site by clicking on the graduation cap icon.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

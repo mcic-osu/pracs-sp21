@@ -2477,7 +2477,7 @@ Modules
 <a href="posts/week-03/index.html">03: Git &amp; GitHub</a>
 <a href="posts/week-04/index.html">04: Unix data tools</a>
 <a href="posts/week-05/index.html">05: Shell scripting</a>
-<a href="posts/week-06/index.html">06: Computing at OSC</a>
+<a href="posts/week-06/index.html">06: OSC, SLURM, and Conda</a>
 <a href="posts/week-07/index.html">07: Data transfer &amp; integrity</a>
 <a href="posts/week-08/index.html">08: Python - First steps</a>
 <a href="posts/week-09/index.html">09: Python - Control flow &amp; files</a>
@@ -2511,18 +2511,19 @@ Topic overviews
 <div class="nav-dropdown-content">
 <a href="overviews_shell.html">Shell</a>
 <a href="overviews_shellscript.html">Shell scripting</a>
-<a href="overviews_slurm.html">OSC: SLURM jobs and software</a>
+<a href="overviews_slurm.html">OSC, SLURM, and Conda</a>
 <a href="overviews_markdown.html">Markdown</a>
 <a href="overviews_git.html">Git</a>
-<span class="nav-dropdown-header">Python (TBA)</span>
+<a href="overviews_python.html">Python</a>
 <a href="overviews_snakemake.html">Snakemake</a>
+<span class="nav-dropdown-header">Glossary (TBA)</span>
 </div>
 </div>
 <a href="resources.html">Further resources</a>
 <input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
-<a href="about.html">About</a>
+<a href="about.html">About this course</a>
 <a href="https://library.ohio-state.edu/record=b8624007~S7">
 <i class="fas fa-book-open" aria-hidden="true"></i>
 </a>
@@ -2700,7 +2701,7 @@ Remember how we can turn a list into a string with <code>join()</code>? If you s
 First, turn the list into a string using <code>"".join</code>. Then, call <code>set()</code> on the string to get a list of unique items (= characters).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span>(<span class="st">&quot;&quot;</span>.join(diseases))</span></code></pre></div>
-<pre><code>{&#39;i&#39;, &#39;w&#39;, &#39;f&#39;, &#39;_&#39;, &#39;h&#39;, &#39;c&#39;, &#39;s&#39;, &#39;g&#39;, &#39;r&#39;, &#39;o&#39;, &#39;l&#39;, &#39;u&#39;, &#39;m&#39;, &#39;k&#39;, &#39;e&#39;, &#39;p&#39;, &#39;a&#39;, &#39;n&#39;, &#39;b&#39;, &#39;t&#39;}</code></pre>
+<pre><code>{&#39;t&#39;, &#39;n&#39;, &#39;b&#39;, &#39;g&#39;, &#39;w&#39;, &#39;h&#39;, &#39;a&#39;, &#39;c&#39;, &#39;r&#39;, &#39;s&#39;, &#39;l&#39;, &#39;k&#39;, &#39;i&#39;, &#39;p&#39;, &#39;f&#39;, &#39;m&#39;, &#39;u&#39;, &#39;e&#39;, &#39;o&#39;, &#39;_&#39;}</code></pre>
 </div>
 </details></li>
 </ol>
