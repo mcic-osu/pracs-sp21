@@ -86,27 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Topic Overview: OSC -- SLURM jobs and software</title>
+  <title>pracs-sp21: Topic Overview: OSC, SLURM, and Conda</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Topic Overview: OSC -- SLURM jobs and software"/>
+  <meta property="og:title" content="pracs-sp21: Topic Overview: OSC, SLURM, and Conda"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Topic Overview: OSC -- SLURM jobs and software"/>
+  <meta property="twitter:title" content="pracs-sp21: Topic Overview: OSC, SLURM, and Conda"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Topic Overview: OSC -- SLURM jobs and software"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Topic Overview: OSC, SLURM, and Conda"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2453,7 +2453,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Topic Overview: OSC -- SLURM jobs and software","authors":[]}
+{"title":"Topic Overview: OSC, SLURM, and Conda","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2477,7 +2477,7 @@ Modules
 <a href="posts/week-03/index.html">03: Git &amp; GitHub</a>
 <a href="posts/week-04/index.html">04: Unix data tools</a>
 <a href="posts/week-05/index.html">05: Shell scripting</a>
-<a href="posts/week-06/index.html">06: Computing at OSC</a>
+<a href="posts/week-06/index.html">06: OSC, SLURM, and Conda</a>
 <a href="posts/week-07/index.html">07: Data transfer &amp; integrity</a>
 <a href="posts/week-08/index.html">08: Python - First steps</a>
 <a href="posts/week-09/index.html">09: Python - Control flow &amp; files</a>
@@ -2511,11 +2511,12 @@ Topic overviews
 <div class="nav-dropdown-content">
 <a href="overviews_shell.html">Shell</a>
 <a href="overviews_shellscript.html">Shell scripting</a>
-<a href="overviews_slurm.html">OSC: SLURM jobs and software</a>
+<a href="overviews_slurm.html">OSC, SLURM, and Conda</a>
 <a href="overviews_markdown.html">Markdown</a>
 <a href="overviews_git.html">Git</a>
 <span class="nav-dropdown-header">Python (TBA)</span>
 <a href="overviews_snakemake.html">Snakemake</a>
+<span class="nav-dropdown-header">Glossary (TBA)</span>
 </div>
 </div>
 <a href="resources.html">Further resources</a>
@@ -2547,7 +2548,7 @@ Topic overviews
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Topic Overview: OSC – SLURM jobs and software</h1>
+<h1>Topic Overview: OSC, SLURM, and Conda</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2565,11 +2566,8 @@ Topic overviews
 <li><a href="#submitting-interactive-jobs">Submitting interactive jobs</a></li>
 <li><a href="#monitoring-and-managing-slurm-jobs">Monitoring and managing SLURM jobs</a></li>
 </ul></li>
-<li><a href="#using-software-at-osc">Using software at OSC</a>
-<ul>
-<li><a href="#pre-installed-software-using-modules">Pre-installed software using modules</a></li>
-<li><a href="#conda">Conda</a></li>
-</ul></li>
+<li><a href="#using-modules-to-load-software">Using modules to load software</a></li>
+<li><a href="#software-management-with-conda">Software management with Conda</a></li>
 </ul>
 </nav>
 </div>
@@ -2863,8 +2861,7 @@ Topic overviews
 <li><p>In <code>sstat</code> and <code>sacct</code>, <code>MaxRSS</code> is the maximum amount of memory used by the job.</p></li>
 </ul>
 <p><br></p>
-<h2 id="using-software-at-osc">Using software at OSC</h2>
-<h3 id="pre-installed-software-using-modules">Pre-installed software using modules</h3>
+<h2 id="using-modules-to-load-software">Using modules to load software</h2>
 <table>
 <colgroup>
 <col style="width: 6%" />
@@ -2906,7 +2903,7 @@ Topic overviews
 </tr>
 </tbody>
 </table>
-<h3 id="conda">Conda</h3>
+<h2 id="software-management-with-conda">Software management with Conda</h2>
 <p>To use Conda at OSC, first load the module <code>python/3.6-conda5.2</code> using <code>module load python/3.6-conda5.2</code>.</p>
 <p>Conda commands and options:</p>
 <table>
