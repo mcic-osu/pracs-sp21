@@ -1,0 +1,24 @@
+---
+title: "Topic Overview: Python"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Relevant course material
+
+-   [Week 8](posts/week-08)
+-   [Week 9](posts/week-09)
+-   [Week 10](posts/week-10)
+-   [Week 11](posts/week-11)
+-   [Week 12](posts/week-12)
+
+<br>
+
+## Python overview TBA
