@@ -1,0 +1,219 @@
+---
+title: "Practical course information"
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+For an overview of course goals, grading, policies, and so on,
+please refer to the [syllabus](https://osu.instructure.com/courses/94975/assignments/syllabus).
+Here, I will focus on practical information to help you orient to the course.
+
+### Course Infrastructure
+
+#### Contact with Instructors
+
+You can email me (Jelmer, main instructor) or Zach (TA) any time,
+and you should generally expect to get an answer within 24 hours,
+certainly on weekdays.
+We prefer to be referred to simply using our first names.
+
+#### Office hours
+
+Jelmer and Zach both have biweekly office hours,
+see the course's home page on the
+[Carmen Canvas site](https://osu.instructure.com/courses/94975) for times.
+You can reserve a slot by going to the Calendar on Carmen Canvas,
+clicking "Find Appointment" (right-hand side),
+then selecting this course and clicking "Submit", and finally,
+clicking on a time slot in the main Calendar window and clicking "Reserve".
+
+#### Modules
+
+Each module is one week, and for all except two modules we will meet twice:
+There are two brief instructional breaks that each affect a module this course
+(no Zoom meetings on Tue, Feb 9, or on Thu, Apr 1).
+Therefore, those two modules are "half-modules"
+with half the material of regular modules.
+
+Material for each module will generally be published on the preceding Friday. 
+
+#### CarmenCanvas and Github websites for this course
+
+This GitHub website has all material for the course including
+slide decks, exercises, assignments, information about readings, and so on.
+
+The [Carmen Canvas site](https://osu.instructure.com/courses/94975)
+has the syllabus, Zoom and contact information, a calendar with all due dates,
+grades, and course announcements.
+
+#### CarmenCanvas notifications
+
+The instructors will mainly be communicating with you using CarmenCanvas Announcements.
+Make sure that you are set up to
+*receive a notification whenever an announcement is posted* -- see
+[this page](https://teaching.resources.osu.edu/toolsets/carmencanvas/guides/carmen-notification-preferences)
+for more information.
+If you haven't received a notification by the first week of the course,
+go back to check your settings and your email Spam folder.
+
+#### Coursebooks and other course readings
+
+We will be reading parts of the following two textbooks:
+
+- Allesina S, Wilmes M (2019). *Computing Skills for Biologists*. Princeton UP.
+  Available online through the OSU library
+  [here](https://library.ohio-state.edu/record=b8624007~S7);
+  you can also find a PDF on the Carmen Canvas website for the course.
+  
+  This book will be referred to as **_CSB_** for short,
+  e.g. "CSB Ch. 1" refers to chapter 1 of this book.
+
+- Buffalo V (2015).
+  *Bioinformatics Data Skills: Reproducible and Robust Research with Open Source Tools*.
+  O'Reilly Media, Inc.
+  Available online through the OSU library
+  [here](https://library.ohio-state.edu/record=b8538907~S7);
+  you can also find a PDF on the Carmen Canvas website for the course.
+  
+  This book will be referred to as **Buffalo** for short,
+  e.g. "Buffalo Ch. 3" refers to chapter 3 of this book. 
+
+In most modules, we will read and, in class, work through a chapter of CSB,
+our main book for the course.
+In four of the modules, our primary reading will be a chapter of Buffalo so we
+can learn about project management and Markdown (week 2) and cover the shell and
+shell scripting in greater detail (weeks 4-6).[^1]
+
+In week 7, we will read part of the OSC documentation,
+and in week 13, we will read two papers related to automated workflow management,
+a topic largely omitted in both books.
+
+[^1]: We will not cover the second half of CSB, which deals with LaTeX, R,
+      and relational databases.
+
+#### Computational infrastructure and software installation
+
+Because all of the software needed for this course is available at the
+Ohio Supercomputer Center (OSC), we will be working at OSC.
+The way this works is that we can access the software through our browser after
+logging in at <https://ondemand.osc.edu>.
+We have an OSC "classroom project" for the course,
+and you will be asked to sign up at OSC in a pre-course assignment. 
+
+Because we will work at OSC,
+you are not required to install anything for this course,
+and we can accommodate all operating systems.
+However, you may still want to install software to be able to work locally:
+[this optional assignment](../../w01_UA_installation.html)
+covers local software installation.
+
+### Homework
+
+I have created a Carmen Canvas "assignment" for everything that I would like you to
+do outside of synchronous zoom sessions,
+including readings, exercises, graded assignments, and creating accounts.
+All these assignments have due dates associated with them so you can easily see
+in the Carmen Canvas course calendar when you are expected or recommended to do them.
+
+Here are the different types of homework (Canvas assignments),
+and when you are generally expected to do them:
+
+- **_Readings_**:
+  There are readings for every week,
+  and you are recommended to read before the first class of the week.
+  
+- **_Exercises_**:
+  Most weeks will have one or more exercises.
+  These don't have to be submitted,
+  but you are strongly recommended to do them and we may ask about them in class.
+  It's generally recommended to do these exercises after the second day of class
+  of the week.
+  
+- **_Graded Assignments_**:
+  Three graded assignments (10 points each) are due on Tuesday just before our
+  Zoom meeting in weeks 4, 7, and 9, each covering material from the week prior.
+  These assignments should be submitted through GitHub;
+  you will learn how to do this during the course.
+
+- **_Final Project_**:
+  Your final project is divided into 4 graded components:
+  a proposal (week 11, 10 points), a draft (week 13, 10 points),
+  a lightning presentation (week 15, 10 points),
+  and the final submission (April 16th, 20 points).
+  These components (except for the presentation) should also be submitted through GitHub.
+  
+- **_Setup_**:
+  Computer setup such as signing up for a GitHub account or installing software.
+
+- **_Surveys_**:
+  There will be three brief surveys -- pre-course, mid-course, and post-course.
+ 
+### Synchronous Zoom Sessions
+
+#### What to Expect
+
+Overall, the Zoom sessions will be highly hands-on,
+so you should be prepared to be engaged during class.
+We will spend most of the time doing "participatory live coding" (or "code-along"),
+in which the instructor demonstrates and you are expected to follow along in your
+own terminal or console.
+During participatory live-coding,
+there will also be regular questions for students and small exercises.
+
+#### Computer Setup
+
+During participatory live coding,
+it will be beneficial to either have a (very) large monitor or two screens/monitors.
+This way, you can see what the instructor is doing and also do this yourself.
+
+If you don't have multiple monitors set up with a single device,
+you're welcome to connect to the Zoom sessions with two devices;
+e.g., a laptop and a desktop, two laptops, etc.
+If you have neither a large screen nor multiple devices,
+you'll have to decide if you will put the Zoom window and your own coding
+window side-by-side, or if you can effectively switch between windows.
+(The latter will work best by using <kbd>Alt<kbd>+<kbd>Tab<kbd> (Windows/Linux) or
+<kbd>Command</kbd>+<kbd>Tab</kbd> (Mac),
+and by having as few windows as possible open in your workspace.)
+
+You may occasionally be asked to share your screen, so try to have a setup where this is possible.
+For example, if you watch the Zoom session on an iPad, but code on a computer,
+do also connect to the Zoom session with your computer so you can share your coding screen.
+
+#### Etiquette
+
+Please keep your camera turned on as much as possible.
+This will be very helpful for the instructor,
+and probably for your fellow students too, in creating an engaging environment
+that resembles an in-person class meeting as much as possible.
+If you prefer not to have your camera on or have bandwidth problems,
+a note to the instructors about this would be appreciated.
+
+Please have your microphone on mute by default,
+but feel free to unmute yourself whenever you would like to say something.
+
+### FAQ
+
+- **Do I need any prior experience with scripting/programming or the tools that we will use?**  
+  No. That said, this will probably not be an "easy" course especially for those
+  that have no prior experience with any programming language or any of the tools
+  that we will be learning about.
+  You should therefore try to make sure you can invest several hours per week
+  outside of class meetings to be able to do all the readings and exercises.
+
+- **Will I need a powerful computer?**  
+  No. We will not be working with large amounts of data in this course and
+  most or all of our work can be done at OSC.
+  Therefore, you will not need a particularly powerful computer,
+  or a large amount of hard drive space.
+  But if your computer is very slow or nearly out of storage space,
+  please do contact me to make sure you will not run into problems.
+
+- **Should I buy paper copies of the coursebooks?**  
+  While the coursebooks can be accessed online and I also provide PDFs (see above),
+  I recommend that you do buy a paper copy of the CSB book if you're able to do so.
+  If you're working with sequencing data,
+  I would recommend that you also buy the Buffalo book.
