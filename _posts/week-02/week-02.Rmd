@@ -12,6 +12,12 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+This week, we'll talk about some best practices for project organization
+and applying these in the Unix shell, documenting your project with Markdown files,
+and we'll get to know the course's text editor (VS Code) a bit better.
+
+### [Content overview and readings](../../w02_readings.html)
+
 ### Slides
 
 - [Slides: Part I -- Some best practices for project
