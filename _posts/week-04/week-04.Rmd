@@ -8,6 +8,12 @@ output:
     self_contained: false
 ---
 
+This week, we will continue learning about working in the Unix shell,
+with a focus on tools that are useful for working with text files with
+(large amounts of) data, such as `grep`, `awk`, and `sed`.
+
+### [Content overview and readings](../../w04_readings.html)
+
 ### Slides
 
 - [Slides: Part I -- Unix data tools](slides/04-1_data-tools.html) -- Tuesday Zoom (Feb 2)
