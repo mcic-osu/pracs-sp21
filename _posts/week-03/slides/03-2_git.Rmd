@@ -17,6 +17,7 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = FALSE)
 
 icon::fa("user-edit")
+icon::fa("bars")
 ```
 
 ## *Week 3: Git and GitHub*
@@ -58,8 +59,9 @@ class:inverse middle center
   your workspace should be listed ("`<workspace-name> (Workspace)`").
   
 - **Open a terminal in VS Code:**  
-  (<kbd>Ctrl</kbd>+<kbd>backtick</kbd>
-  or `r icon::fa("bars")` => `Terminal` => `New Terminal`),
+  (<kbd>Ctrl</kbd>+<kbd>backtick</kbd> or
+  <i class="fa fa-bars"></i>
+  => `Terminal` => `New Terminal`),
   and issue the command `bash` to break out of the Singularity shell.
 
 ----
@@ -309,7 +311,7 @@ and the remote repo is simply periodically updated (*pushed to*).
 So, the interaction between local and remote is unidirectional:
 
 <p align="center">
-<img src="img/git-remote-1.svg" width="55%">
+<img src="img/git-remote-1.png" width="55%">
 </p>
 
 ---
@@ -322,7 +324,7 @@ and the remote repo is simply periodically updated (*pushed to*).
 So, the interaction between local and remote is unidirectional:
 
 <p align="center">
-<img src="img/git-remote-2.svg" width="55%">
+<img src="img/git-remote-2.png" width="55%">
 </p>
 
 ---
@@ -335,7 +337,7 @@ and the remote repo is simply periodically updated (*pushed to*).
 So, the interaction between local and remote is unidirectional:
 
 <p align="center">
-<img src="img/git-remote-3.svg" width="55%">
+<img src="img/git-remote-3.png" width="55%">
 </p>
 
 ---
@@ -348,7 +350,7 @@ and the remote repo is simply periodically updated (*pushed to*).
 So, the interaction between local and remote is unidirectional:
 
 <p align="center">
-<img src="img/git-remote-4.svg" width="55%">
+<img src="img/git-remote-4.png" width="55%">
 </p>
 
 ---
@@ -361,7 +363,7 @@ and the remote repo is simply periodically updated (*pushed to*).
 So, the interaction between local and remote is unidirectional:
 
 <p align="center">
-<img src="img/git-remote-5.svg" width="55%">
+<img src="img/git-remote-5.png" width="55%">
 </p>
 
 ---
@@ -398,7 +400,7 @@ automatically shows up as a rendered Markdown file!
 - First, a second user downloads (*clones*) the online repo:
 
 <p align="center">
-<img src="img/git-remote-mult-1.svg" width="55%">
+<img src="img/git-remote-mult-1.png" width="55%">
 </p>
 
 ---
@@ -408,7 +410,7 @@ automatically shows up as a rendered Markdown file!
 - Then, the second user can push their changes to the shared remote:  
 
 <p align="center">
-<img src="img/git-remote-mult-2.svg" width="55%">
+<img src="img/git-remote-mult-2.png" width="55%">
 </p>
 
 ---
@@ -418,7 +420,7 @@ automatically shows up as a rendered Markdown file!
 - Then, the second user can push their changes to the shared remote: 
 
 <p align="center">
-<img src="img/git-remote-mult-3.svg" width="55%">
+<img src="img/git-remote-mult-3.png" width="55%">
 </p>
 
 ---
@@ -429,7 +431,7 @@ automatically shows up as a rendered Markdown file!
   the changes made by the second user: 
 
 <p align="center">
-<img src="img/git-remote-mult-4.svg" width="55%">
+<img src="img/git-remote-mult-4.png" width="55%">
 </p>
 
 ---
@@ -440,7 +442,7 @@ automatically shows up as a rendered Markdown file!
   the changes made by the second user **(b)**. 
 
 <p align="center">
-<img src="img/git-remote-mult-4.svg" width="40%">
+<img src="img/git-remote-mult-4.png" width="40%">
 </p>
 
 .content-box-info[
