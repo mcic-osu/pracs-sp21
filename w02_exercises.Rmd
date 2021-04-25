@@ -233,20 +233,22 @@ Then, move into the new dir `bds-files`, and code along with Buffalo Chapter 3.
 
 ### Exercise 2
 
-<details>
-<summary>1. Getting set up</summary>
+<details><summary>(1.) Getting set up</summary>
 <p>
+
 ```sh
 mkdir ~/pracs-sp21/w02/ex2/ # or similar, whatever dir you chose
 cd !$                       # !$ is a shortcut to recall the last argument from the last commands
 ```
+
 </p>
 </details>
 
-<details>
-<summary>2. Create a disorganized mock project</summary>
+<details><summary>(2.) Create a disorganized mock project</summary>
 <p>
+
 An example:
+
 ```sh
 touch sample{001..150}_{F,R}.fastq.gz
 touch ref.fasta ref.fai
@@ -257,15 +259,17 @@ touch Fig{01..05}.png all_qc_plots.eps weird-sample.png
 touch dontforget.txt README.md README_DE.md tmp5.txt
 touch slurm-84789570.out slurm-84789571.out slurm-84789572.out
 ```
+
 </p>
 </details>
 
-<details>
-<summary>3. Organize the mock project</summary>
+<details><summary>(3.) Organize the mock project</summary>
 <p>
+
 An example:
 
-Create directories:
+- Create directories:
+
 ```sh
 mkdir -p data/{raw,meta,ref}
 mkdir -p results/{alignment,counts,DE,enrichment,logfiles,qc/figures}
@@ -274,7 +278,8 @@ mkdir -p figures/{ms,sandbox}
 mkdir -p doc/misc
 ```
 
-Move files:
+- Move files:
+
 ```sh
 mv *fastq.gz data/raw/
 mv ref.fa* data/ref/
@@ -292,14 +297,16 @@ mv all_qc_plots.eps results/qc/figures/
 mv dontforget.txt tmp5.txt doc/misc/
 mv slurm* results/logfiles/
 ```
+
 </p>
 </details>
 
-<details>
-<summary>4. Change file permissions</summary>
+<details><summary>(4.) Change file permissions</summary>
 <p>
+
 To ensure that no-one has write permission for the raw data,
 you could, for example, use:
+
 ```sh
 chmod a=r data/raw/*   # set permissions for "a" (all) to "r" (read)
 
@@ -308,9 +315,9 @@ chmod a-w data/raw/*   # take away "w" (write) permissions for "a" (all)
 </p>
 </details>
 
-<details>
-<summary>5. Create mock alignment files</summary>
+<details><summary>(5.) Create mock alignment files</summary>
 <p>
+
 ```sh
 $ mkdir -p results/alignment
 $ # rm results/alignment/* # In the example above, we already had such a dir with files
@@ -327,9 +334,9 @@ $ ls | wc -l
 </details>
 
 
-<details>
-<summary>6. Rename files in a batch</summary>
+<details><summary>(6.) Rename files in a batch</summary>
 <p>
+
 ```sh
 # cd results/alignment  # If you weren't already there
 
@@ -367,8 +374,7 @@ A couple of take-aways:
 </p>
 </details>
 
-<details>
-<summary>7. Copy files with wildcards</summary>
+<details><summary>(7.) Copy files with wildcards</summary>
 <p>
 
 - Create the new dir:
@@ -399,11 +405,11 @@ cat subset/README.md
 </p>
 </details>
 
-<details>
-<summary>8. Bonus: a trickier wildcard selection</summary>
+<details><summary>(8.) Bonus: a trickier wildcard selection</summary>
 <p>
 
 - Create the new dir:
+
 ```sh
 mkdir subset2
 ```
@@ -411,6 +417,7 @@ mkdir subset2
 - The most straightforward way in this case is using two brace expansion 
   selections, one for sample numbers smaller than 28, and one for sample
   numbers larger than 28:
+
 ```sh
 cp sample{01..27}* sample{29..30}* subset2/
 ```
@@ -419,6 +426,7 @@ cp sample{01..27}* sample{29..30}* subset2/
   and being a little creative with wildcard expansion also works &mdash;
   first, we select all samples not starting with a 2,
   and then among samples that do start with a 2, we exclude 28:
+
 ```sh
 cp sample[^2]* sample2[^8]* subset2/
 ```
@@ -426,8 +434,7 @@ cp sample[^2]* sample2[^8]* subset2/
 </p>
 </details>
 
-<details>
-<summary>9. Bonus: a trickier renaming loop</summary>
+<details><summary>(9.) Bonus: a trickier renaming loop</summary>
 <p>
 ```sh
 for oldname in *.bam
