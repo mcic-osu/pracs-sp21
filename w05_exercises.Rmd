@@ -1,8 +1,8 @@
 ---
-title: "Week 5 Exercises"
+title: "Week 5 exercises"
 output:
   distill::distill_article:
-    self_contained: false
+    self_contained: true
     toc: true
     toc_depth: 3
 ---
@@ -29,7 +29,7 @@ Here are the primer sequences and their reverse complements[^1]:
 
 [^1]: There initially was an error in these primer sequences (one sequence repeated twice), which has been corrected on Friday, Feb 12.
 
-### Exercise 1: Getting set up
+### Exercise 1: Setting up
 
 1.  Create a directory for this week's exercises and move into it.
 
@@ -67,61 +67,43 @@ Unfortunately, the `fastq_stat` program referenced in Buffalo's script is an ima
 
 1.  Set up a script skeleton with the header lines we've been discussing: a *shebang* line and the various `set` settings for robust scripts.
 
-2.  The script should process one command-line argument, the input file. Assign the automatic placeholder variable for the first argument to a variable with a descriptive name, like `fastq_file`.\
+2.  The script should process one command-line argument, the input file. Assign the automatic placeholder variable for the first argument to a variable with a descriptive name, like `fastq_file`.
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
+The automatic placeholder variable for the first argument is `$1`.
 
-    <p>
+</p>
+</details>
 
-    \
-    The automatic placeholder variable for the first argument is `$1`.\
+::: {.content-box-info}
+In the sections below, you can print all your output to standard out, i.e. simply use `echo` with no redirection.
 
-    </p>
+Also, just for the purpose of testing the commands while developing them below, it will be convenient to assign one of the FASTQ files to a variable `fastq_file`.
+:::
 
-    </details>
+3.  Have the script report its own name as well as the name of the FASTQ file that is being processed.
 
-    ::: {.content-box-info}
-    <div>
+<details><summary>Hints</summary>
+<p>
 
-    In the sections below, you can print all your output to standard out, i.e. simply use `echo` with no redirection.\
-    \
-    Also, just for the purpose of testing the commands while developing them below, it will be convenient to assign one of the FASTQ files to a variable `fastq_file`.
+Recall that the name of the script is automatically stored in `$0`.
 
-    </div>
-    :::
-
-3.  Have the script report its own name as well as the name of the FASTQ file that is being processed.\
-
-    <details>
-
-    <summary>Hints</summary>
-
-    <p>
-
-    \
-    Recall that the name of the script is automatically stored in `$0`.\
-
-    </p>
-
-    </details>
+<p>
+</details>
 
 4.  Compute and report the number of sequences in the FASTQ file.
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
+The number of sequences can be assumed to be the total number of lines divided by 4 (or alternatively, the number of lines consisting only of a `+`). Recall that FASTQ files have 4 lines per sequence: a header, the sequence, a `+` divider, and the quality scores.
 
-    <p>
+To make the division, you can use syntax like `expr 12 / 4` -- and you can use command substitution, `$(wc -l ...)`, to insert the number of lines in the division.
 
-    The number of sequences can be assumed to be the total number of lines divided by 4 (or alternatively, the number of lines consisting only of a `+`). Recall that FASTQ files have 4 lines per sequence: a header, the sequence, a `+` divider, and the quality scores.\
-    \
-    To make the division, you can use syntax like `expr 12 / 4` -- and you can use command substitution, `$(wc -l ...)`, to insert the number of lines in the division.
-
-    </p>
-
-    </details>
+<p>
+</details>
 
 5.  As mentioned in the Background section, the primer sequences should be present in the FASTQ files. Prior to sequence analyses, these are usually removed with a specialized program like `cutadapt`, but we can use our `grep` skills to quickly search for them.\
     \
@@ -131,62 +113,47 @@ Unfortunately, the `fastq_stat` program referenced in Buffalo's script is an ima
     \
     You'll also have to replace the ambiguity codes, like `R`, with *character classes* that enumerate the possible alternative bases.
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
+The test in the `if` statement should be a `grep` command that examines whether the filename contains `_R1_` (pipe `echo` output into `grep`). The `grep` standard output should be redirected to `/dev/null`, since we're only interested in the *exit status*: if `grep` finds a match, the commands following `then` will be executed; if it doesn't, the commands following `else` will be executed.\
 
-    <p>
+You can assume that matches will only be made in the sequences themselves (and not the headers or quality scores), so you can `grep` the file as is: you don't need to first select the lines with sequences.
 
-    \
-    The test in the `if` statement should be a `grep` command that examines whether the filename contains `_R1_` (pipe `echo` output into `grep`). The `grep` standard output should be redirected to `/dev/null`, since we're only interested in the *exit status*: If `grep` finds a match, the commands following `then` will be executed; if it doesn't, the commands following `else` will be executed.\
-    \
-    You can assume that matches will only be made in the sequences themselves (and not the headers or quality scores), so you can `grep` the file as is: you don't need to first select the lines with sequences.*\
-    \
-    *To replace ambiguity codes with character classes in the `grep` regular expression: an `R` in the primers becomes `[AG]` in the `grep` expression, e.g. the partial sequence `ATRG` would become `AT[AG]G` in your regular expression.\
-    \
-    You'll need both the primer *and* its reverse complement in a single `grep` regular expression: separate them with an logical "or" (`|`) and to enable this, use `grep -E` for extended regular expressions.
+To replace ambiguity codes with character classes in the `grep` regular expression: an `R` in the primers becomes `[AG]` in the `grep` expression, e.g. the partial sequence `ATRG` would become `AT[AG]G` in your regular expression.
 
-    </p>
+You'll need both the primer *and* its reverse complement in a single `grep` regular expression: separate them with an logical "or" (`|`) and to enable this, use `grep -E` for extended regular expressions.
 
-    </details>
+<p>
+</details>
 
 6.  Bonus: Print a count table of sequence lengths.
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
+You'll have to select only the lines with the actual DNA sequences, and the best way of doing that is using `awk` like so (see the Solution for an explanation of why this works):
 
-    <p>
+``` {.bash}
+awk '{ if(NR%4 == 2) }'
+```
 
-    \
-    You'll have to select only the lines with the actual DNA sequences, and the best way of doing that is using `awk` like so (see the Solution for an explanation of why this works):
+Next, you need to count the number of characters in each line, which is best done in the same `awk` command using `print length($0)`, which will print the number of characters in the line.
 
-    ``` {.bash}
-    awk '{ if(NR%4 == 2) }'
-    ```
+After that, it's the familiar `sort | uniq -c` idiom to create a count table.
 
-    Next, you need to count the number of characters in each line, which is best done in the same `awk` command using `print length($0)`, which will print the number of characters in the line.\
-    \
-    After that, it's the familiar `sort | uniq -c` idiom to create a count table.\
+</p>
+</details>
 
-    </p>
+7.  Make the script executable.
 
-    </details>
+<details><summary>Hints</summary>
+<p>
 
-7.  Make the script executable.\
+Use the `chmod` command.
 
-    <details>
-
-    <summary>Hints</summary>
-
-    <p>
-
-    \
-    Use the `chmod` command.\
-
-    </p>
-
-    </details>
+</p>
+</details>
 
 8.  Run the script for a single FASTQ file by calling it from the command line.
 
@@ -196,39 +163,34 @@ Unfortunately, the `fastq_stat` program referenced in Buffalo's script is an ima
 
 Now, let's modify Buffalo's script `fastq_stat_loop.sh`.
 
-1.  Currently, the metadata file that contains the list of files to process is hard-coded as `samples.txt`. Also, the file names have to be extracted from a specific column from the metadata file. This is not a very flexible setup, and is sensitive to minor changes in a file like `samples.txt`.\
-    \
-    Change the script to *let it accept a list of FASTQ file names as an argument*.
+1. Currently, the metadata file that contains the list of files to process is
+   hard-coded as `samples.txt`.
+   Also, the file names have to be extracted from a specific column from the metadata      file.
+   This is not a very flexible setup, and is sensitive to minor changes in a file
+   like `samples.txt`.
+   
+   Change the script to *let it accept a list of FASTQ file names as an argument*.
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
+Recall that the placeholder variable for the first argument that is passed to a script on the command line is `$1`.
 
-    <p>
+Inside the command substitution (`$()`) that populates the array, you can simply use `cat` instead of `cut` on the file that contains the list of file names, since this file will no longer have multiple columns.
 
-    \
-    Recall that the placeholder variable for the first argument that is passed to a script on the command line is `$1`.\
-    \
-    Inside the command substitution (`$()`) that populates the array, you can simply use `cat` instead of `cut` on the file that contains the list of file names, since this file will no longer have multiple columns.\
+</p>
+</details>
 
-    </p>
+2.  Currently, the output directory is also hard-coded, as `stats` -- let's instead *add the output directory as a second argument to the script*.\
+    Moreover, add code that creates this output directory if it doesn't already exist.
 
-    </details>
+<details><summary>Hints</summary>
+<p>
 
-2.  Currently, the output directory is also hard-coded, as `stats` -- let's instead *add the output directory as a second argument to the script*. Moreover, add code that creates this output directory if it doesn't already exist.
+You can write an explicit test to see if the output dir exists first, but simply using `mkdir -p` will also work: with the `-p` option, `mkdir` doesn't complain when a dir already exists (and can also make multiple levels of directories at once).
 
-    <details>
-
-    <summary>Hints</summary>
-
-    <p>
-
-    \
-    You can write an explicit test to see if the output dir exists first, but simply using `mkdir -p` will also work: with the `-p` option, `mkdir` doesn't complain when a dir already exists (and can also make multiple levels of directories at once).\
-
-    </p>
-
-    </details>
+</p>
+</details>
 
 3.  Change the line that runs the imaginary program `fastq_stat` to let it run your `fastq_stat.sh` script instead. Make sure the path to your script and the path to the output file is correct.
 
@@ -238,14 +200,14 @@ Now, let's modify Buffalo's script `fastq_stat_loop.sh`.
 
     -   A line that creates a new file just containing the FASTQ file names (akin to column 3 from `samples.txt` -- but with the paths to our actual FASTQ files).
 
-    -   A line that runs the `fastq_stat_loop.sh` script. The file that contains the list of FASTQ files should be passed to the script as the *first argument*, and the output directory as the *second argument*.\
-        \
+    -   A line that runs the `fastq_stat_loop.sh` script. The file that contains the list of FASTQ files should be passed to the script as the *first argument*, and the output directory as the *second argument*.
+
         As for the actual path to the output dir, you can use whatever (relative!) path makes sense to you.
 
-    **Create the file containing the code outlined above.** You can save this file either as a `.sh` script (e.g. `fastqc_runner.sh`), or put these lines in a Markdown file inside a code block. Either option is reasonable because these lines would likely be run *interactively*, as opposed to the `fastq_stat_loop.sh` script which will be run non-interactively. It's still important to save these interactive commands in a file, so you know what you did and can easily reproduce it.
+**Create the file containing the code outlined above.** You can save this file either as a `.sh` script (e.g. `fastqc_runner.sh`), or put these lines in a Markdown file inside a code block. Either option is reasonable because these lines would likely be run *interactively*, as opposed to the `fastq_stat_loop.sh` script which will be run non-interactively. It's still important to save these interactive commands in a file, so you know what you did and can easily reproduce it.
 
-6.  Make `fastq_stat_loop.sh` executable and run it.\
-    \
+6.  Make `fastq_stat_loop.sh` executable and run it.
+
     The loop script should run `fastq_stat.sh` on all your FASTQ files. Check the output, which should be in one file per FASTQ file in the output dir you designated. You should be seeing that the vast majority of reads contain the primer sequences. Be proud -- with a quick script that only runs for a couple of seconds, and no specialized software, you have queried hundreds of thousands of sequences!
 
 <br>
@@ -256,43 +218,33 @@ In this exercise, you will touch up your `fastqc_stat.sh` script to include test
 
 For the tests, check whether they work (...)! For instance, to check the test for the number of arguments, try running the script with no arguments, and also with two arguments, and see if the script produces the error messages you wrote.
 
-1.  Write an `if` statement to check whether the FASTQ file exists / is a regular file and whether it can be read. If not, give an error and exit the script with exit code 1.\
-    \
+1.  Write an `if` statement to check whether the FASTQ file exists / is a regular file and whether it can be read. If not, give an error and exit the script with exit code 1.
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
+Go back to this week's slides for an example of testing whether a file is a regular file (`-f`) and whether it can be read (`-r`).
 
-    <p>
+To exit with exit code 1, simply use: `exit 1`. This should be done *after* printing any error messages you, or those won't actually be printed.
 
-    \
-    Go back to this week's slides for an example of testing whether a file is a regular file (`-f`) and whether it can be read (`-r`).\
-    \
-    To exit with exit code 1, simply use: `exit 1`. This should be done *after* printing any error messages you, or those won't actually be printed.\
+</p>
+</details>
 
-    </p>
+2. Test whether exactly 1 argument was passed to the script on the command line.
+   If not, return an error, succinctly report how to use the script ("usage: ..."),
+   and exit with exit code 1.
 
-    </details>
+<details><summary>Hints</summary>
+<p>
 
-2.  Check whether exactly 1 argument was passed to the script on the command line. If not, return an error, succinctly report how to use the script ("usage: ..."), and exit with exit code 1.\
-    \
+Go back to this week's slides for an example of a very similar test.
 
-    <details>
+The number of arguments that were passed to a script are automatically available in `$#`.
 
-    <summary>Hints</summary>
+You can test for equality using `<integer> -eq <integer>` (e.g. `10 -eq 10` which will evaluate to `true`) and you can *negate* a test ("number of argument is *not* equal to 1) using a `!` before the comparison expression.
 
-    <p>
-
-    \
-    Go back to this week's slides for an example of a very similar test.\
-    \
-    The number of arguments that were passed to a script are automatically available in `$#`.\
-    \
-    You can test for equality using `<integer> -eq <integer>` (e.g. `10 -eq 10` which will evaluate to `true`) and you can *negate* a test ("number of argument is *not* equal to 1) using a `!` before the comparison expression.\
-
-    </p>
-
-    </details>
+</p>
+</details>
 
 3.  Add `date` commands at the start and the end of the script, so you'll be able to tell how long it took the script to complete.
 
@@ -304,8 +256,8 @@ For the tests, check whether they work (...)! For instance, to check the test fo
 
 Write a shell script called `longest.sh` that takes two arguments: the name of a directory and a file extension (like `txt`). The script should print the name of the file that has the most lines among all files with with that extension in that directory.
 
-Make sure the script has the *shebang* and `set` headers, and make the script executable.\
-\
+Make sure the script has the *shebang* and `set` headers, and make the script executable.
+
 Then, run your script to learn which FASTQ file has the most lines (and sequences):
 
 ``` {.bash}
@@ -314,16 +266,12 @@ $ ./longest.sh data/fastq fastq
 
 ... should print the name of the `.fastq` file in `data/fastq` with the highest number of lines and therefore sequences.
 
-<details>
-
-<summary>Hints</summary>
-
+<details><summary>Hints</summary>
 <p>
 
 You can count lines for many files at once using `wc -l`: simply provide it with a globbing pattern.
 
 </p>
-
 </details>
 
 [^2]: This exercise was slightly modified from Software Carpentry's [Shell Novice tutorial](http://swcarpentry.github.io/shell-novice/06-script/index.html).
@@ -358,10 +306,7 @@ The data of Saavedra and Stouffer (2013) can be found in the directory `CSB/unix
     #> …
     ```
 
-<details>
-
-<summary>Hints</summary>
-
+<details><summary>Hints</summary>
 <p>
 
 To find the number of columns, use `awk` and recall `awk`'s `NF` (number of fields =\> number of columns) keyword.
@@ -375,7 +320,6 @@ You can now use the script you've just written in combination with `sort` to ans
 You can use `echo -e` to print tabs using `\t`: `echo -e "column1 \t column2"`.
 
 </p>
-
 </details>
 
 ### Exercise 7: Data explorer
@@ -412,10 +356,7 @@ Maximum value:
 14897.29471
 ```
 
-<details>
-
-<summary>Hints</summary>
-
+<details><summary>Hints</summary>
 <p>
 
 You can select a given column from a `csv` file using the command `cut`. Then,
@@ -431,7 +372,6 @@ You can select a given column from a `csv` file using the command `cut`. Then,
 -   Rename the placeholders `$1` and `$2` for the command-line arguments to named variables for the file name and column number, respectively.
 
 </p>
-
 </details>
 
 <br>
@@ -440,10 +380,7 @@ You can select a given column from a `csv` file using the command `cut`. Then,
 
 ### Exercise 1
 
-<details>
-
-<summary>1. Create a directory for these exercises.</summary>
-
+<details><summary>(1.) Create a directory for these exercises.</summary>
 <p>
 
 ``` {.bash}
@@ -451,13 +388,9 @@ mkdir /fs/ess/PAS1855/users/$USER/week05/exercises/
 ```
 
 </p>
-
 </details>
 
-<details>
-
-<summary>3. Copy the FASTQ files into your own dir.</summary>
-
+<details><summary>(3.) Copy the FASTQ files into your own dir.</summary>
 <p>
 
 ``` {.bash}
@@ -466,14 +399,11 @@ cp /fs/ess/PAS1855/data/week05/fastq/* data/fastq/
 ```
 
 </p>
-
 </details>
 
 ### Exercise 2
 
-<details>
-
-<summary>1. Create a new script with header lines.</summary>
+<details><summary>(1.) Create a new script with header lines.</summary>
 
 <p>
 
@@ -490,10 +420,7 @@ Save the file as `fastq_stat.sh`.
 
 </details>
 
-<details>
-
-<summary>2. Assign the first argument to a named variable.</summary>
-
+<details><summary>(2.) Assign the first argument to a named variable.</summary>
 <p>
 
 Add a line like this to your `fastq_stat.sh` script:
@@ -503,20 +430,18 @@ fastq_file=$1
 ```
 
 </p>
-
 </details>
 
-<details>
+<details><summary>(3.) Let the script report its name and the name of the FASTQ file.
+</summary>
+
+<p>
 
 For testing the code below, we first assign one of the FASTQ filenames to the variable `$fastq_file`:
 
 ``` {.bash}
 fastq_file=201-S4-V4-V5_S53_L001_R1_001.fastq
 ```
-
-<summary>3. Let the script report its name and the name of the FASTQ file.</summary>
-
-<p>
 
 Add lines like these to your `fastq_stat.sh` script:
 
@@ -529,9 +454,9 @@ echo "FASTQ file to be analyzed: $fastq_file"
 
 </details>
 
-<details>
-
-<summary>4. Compute and report the number of sequences in the FASTQ file.</summary>
+<details><summary>
+(4.) Compute and report the number of sequences in the FASTQ file.
+</summary>
 
 <p>
 
@@ -565,8 +490,9 @@ echo "Number of sequences: $n_seqs"
 </details>
 
 <details>
-
-<summary>5. Search for adapter sequences.</summary>
+<summary>
+(5.) Search for adapter sequences.
+</summary>
 
 <p>
 
@@ -635,8 +561,9 @@ This looks good!
 </details>
 
 <details>
-
-<summary>6. Bonus: Print a count table of sequence lengths.</summary>
+<summary>
+(6.) Bonus: Print a count table of sequence lengths.
+</summary>
 
 <p>
 
@@ -652,12 +579,12 @@ awk '{ if(NR%4 == 2) print length($0) }' "$fastq_file" | sort | uniq -c
 -   Finally, we pass the sequence lengths on to the `sort | uniq -c` idiom, which will give us a count table.
 
 </p>
-
 </details>
 
 <details>
-
-<summary>7. Make the script executable.</summary>
+<summary>
+(7.) Make the script executable.
+</summary>
 
 <p>
 
@@ -671,12 +598,12 @@ $ chmod u+x *sh
 ```
 
 </p>
-
 </details>
 
 <details>
-
-<summary>8. Run the script for a single FASTQ file by calling it from the command line.</summary>
+<summary>
+(8.) Run the script for a single FASTQ file by calling it from the command line.
+</summary>
 
 <p>
 
@@ -686,14 +613,14 @@ $ chmod u+x *sh
 ```
 
 </p>
-
 </details>
 
 ### Exercise 3
 
 <details>
-
-<summary>Change the script to let it accept a list of FASTQ file names as an argument.</summary>
+<summary>
+(1.) Change the script to let it accept a list of FASTQ file names as an argument.
+</summary>
 
 <p>
 
@@ -718,8 +645,9 @@ sample_files=($(cat "$file_list"))
 </details>
 
 <details>
-
-<summary>Add the output directory as a second argument to the script, and create the output dir if necessary.</summary>
+<summary>
+(2.) Add the output directory as a second argument to the script, and create the output dir if necessary.
+</summary>
 
 <p>
 
@@ -737,8 +665,9 @@ mkdir -p "$output_dir"
 </details>
 
 <details>
-
-<summary>3. Modify the line in the script that calls <code>fastq\_stat</code> to call your script.</summary>
+<summary>
+(3.) Modify the line in the script that calls <code>fastq_stat</code> to call your script.
+</summary>
 
 <p>
 
@@ -759,8 +688,9 @@ The `results_file` line can remain the same:
 </details>
 
 <details>
-
-<summary>4. In each iteration of the loop, let the script report which FASTQ will be analyzed.</summary>
+<summary>
+(4.) In each iteration of the loop, let the script report which FASTQ will be analyzed.
+</summary>
 
 <p>
 
@@ -771,12 +701,12 @@ echo "Running fastq_stat for FASTQ file $fastq_file"
 ```
 
 </p>
-
 </details>
 
 <details>
-
-<summary>5. Create a second file/script to create a list of FASTQ files and to run the loop script.</summary>
+<summary>
+(5.) Create a second file/script to create a list of FASTQ files and to run the loop script.
+</summary>
 
 <p>
 
@@ -797,12 +727,12 @@ output_dir=results/fastq_stats
 ```
 
 </p>
-
 </details>
 
 <details>
-
-<summary>6. Make `fastq_stat_loop.sh` executable and run it.</summary>
+<summary>
+(6.) Make `fastq_stat_loop.sh` executable and run it.
+</summary>
 
 <p>
 
@@ -815,12 +745,12 @@ $ ./fastq_stat_loop.sh "$file_list" "$output_dir"
 ```
 
 </p>
-
 </details>
 
 <details>
-
-<summary><strong>The final `fastq_stat_loop.sh` script.</strong></summary>
+<summary>
+<strong>The final `fastq_stat_loop.sh` script.</strong>
+</summary>
 
 <p>
 
@@ -859,8 +789,9 @@ done
 </details>
 
 <details>
-
-<summary><strong>The final lines in the runner script / Markdown code block.</strong></summary>
+<summary>
+<strong>The final lines in the runner script / Markdown code block.</strong>
+</summary>
 
 <p>
 
@@ -874,15 +805,14 @@ ls data/*fastq >"$file_list"
 ```
 
 </p>
-
 </details>
 
 ### Exercise 4
 
 <details>
-
-<summary>1. Check whether the FASTQ file is a regular file than can be read.</summary>
-
+<summary>
+(1.) Check whether the FASTQ file is a regular file than can be read.
+</summary>
 <p>
 
 -   Add these lines to your script:
@@ -911,13 +841,12 @@ $ ./fastq_stat.sh blabla
 ```
 
 </p>
-
 </details>
 
 <details>
-
-<summary>2. Check whether only one argument was provided.</summary>
-
+<summary>
+(2.) Check whether only one argument was provided.
+</summary>
 <p>
 
 -   Add these lines to your script:
@@ -947,12 +876,12 @@ $ ./fastq_stat.sh $fastq_file blabla   # Two args
 ```
 
 </p>
-
 </details>
 
 <details>
-
-<summary>3. Add `date` commands.</summary>
+<summary>
+(3.)  Add `date` commands.
+</summary>
 
 <p>
 
@@ -965,12 +894,12 @@ date
 ... in the script, one before file processing, and one after.
 
 </p>
-
 </details>
 
 <details>
-
-<summary><strong>The final `fastq_stat.sh` script.</strong></summary>
+<summary>
+<strong>The final `fastq_stat.sh` script.</strong>
+</summary>
 
 <p>
 
@@ -1040,15 +969,14 @@ date
 ```
 
 </p>
-
 </details>
 
 ### Exercise 5
 
 <details>
-
-<summary>Solution</summary>
-
+<summary>
+Solution
+</summary>
 <p>
 
 There are several ways to do this, here's one example:
@@ -1080,8 +1008,9 @@ wc -l "$dir"/*."$extension" | sort -rn | head -n 2 | tail -n 1
 ### Exercise 6
 
 <details>
-
-<summary>1. Write a script that takes one file and determines the number of rows and columns.</summary>
+<summary>
+(1.) Write a script that takes one file and determines the number of rows and columns.
+</summary>
 
 <p>
 
@@ -1111,12 +1040,12 @@ awk '{ print NF; exit }' "$file"
 We can save this script as `netsize.sh` and make it executable using `chmod u+x netsize.sh`.
 
 </p>
-
 </details>
 
 <details>
-
-<summary>2. Write a script that prints the number of rows and columns for each network.</summary>
+<summary>
+(2.)  Write a script that prints the number of rows and columns for each network.
+</summary>
 
 <p>
 
@@ -1145,12 +1074,12 @@ We can save this script as `netsize_all.sh` and run it as follows:
 ```
 
 </p>
-
 </details>
 
 <details>
-
-<summary>3. Which network has the largest number of rows and which the largest number of columns?</summary>
+<summary>
+(3.) Which network has the largest number of rows and which the largest number of columns?
+</summary>
 
 <p>
 
@@ -1169,15 +1098,14 @@ $ ./netsize_all.sh | sort -n -r -k 3 | head -n 1
 ```
 
 </p>
-
 </details>
 
 ### Exercise 7
 
 <details>
-
-<summary>Solution</summary>
-
+<summary>
+Solution
+</summary>
 <p>
 
 ``` {.bash}
