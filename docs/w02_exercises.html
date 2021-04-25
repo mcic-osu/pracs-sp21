@@ -2718,23 +2718,19 @@ Include a <code>README.md</code> that described what you did; again, try to get 
 <h3 id="exercise-2-1">Exercise 2</h3>
 <details>
 <summary>
-<ol type="1">
-<li>Getting set up
+(1.) Getting set up
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ~/pracs-sp21/w02/ex2/ <span class="co"># or similar, whatever dir you chose</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> !$                       <span class="co"># !$ is a shortcut to recall the last argument from the last commands</span></span></code></pre></div>
 </p>
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>Create a disorganized mock project
+(2.) Create a disorganized mock project
 </summary>
 <p>
-An example:</li>
-</ol>
+<p>An example:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> sample{001..150}_<span class="dt">{F</span><span class="op">,</span><span class="dt">R}</span>.fastq.gz</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> ref.fasta ref.fai</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> sample_info.csv sequence_barcodes.txt</span>
@@ -2747,19 +2743,21 @@ An example:</li>
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>Organize the mock project
+(3.) Organize the mock project
 </summary>
 <p>
-An example:</li>
-</ol>
-<p>Create directories:</p>
+<p>An example:</p>
+<ul>
+<li>Create directories:</li>
+</ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data/<span class="dt">{raw</span><span class="op">,</span><span class="dt">meta</span><span class="op">,</span><span class="dt">ref}</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/<span class="dt">{alignment</span><span class="op">,</span><span class="dt">counts</span><span class="op">,</span><span class="dt">DE</span><span class="op">,</span><span class="dt">enrichment</span><span class="op">,</span><span class="dt">logfiles</span><span class="op">,</span><span class="dt">qc/figures}</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> scripts</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> figures/<span class="dt">{ms</span><span class="op">,</span><span class="dt">sandbox}</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> doc/misc</span></code></pre></div>
-<p>Move files:</p>
+<ul>
+<li>Move files:</li>
+</ul>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> <span class="pp">*</span>fastq.gz data/raw/</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ref.fa<span class="pp">*</span> data/ref/</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> sample_info.csv sequence_barcodes.txt data/meta/</span>
@@ -2779,12 +2777,10 @@ An example:</li>
 </details>
 <details>
 <summary>
-<ol start="4" type="1">
-<li>Change file permissions
+(4.) Change file permissions
 </summary>
 <p>
-To ensure that no-one has write permission for the raw data, you could, for example, use:</li>
-</ol>
+<p>To ensure that no-one has write permission for the raw data, you could, for example, use:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> a=r data/raw/<span class="pp">*</span>   <span class="co"># set permissions for &quot;a&quot; (all) to &quot;r&quot; (read)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> a-w data/raw/<span class="pp">*</span>   <span class="co"># take away &quot;w&quot; (write) permissions for &quot;a&quot; (all)</span></span></code></pre></div>
@@ -2792,11 +2788,9 @@ To ensure that no-one has write permission for the raw data, you could, for exam
 </details>
 <details>
 <summary>
-<ol start="5" type="1">
-<li>Create mock alignment files
+(5.) Create mock alignment files
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> mkdir <span class="at">-p</span> results/alignment</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> <span class="co"># rm results/alignment/* # In the example above, we already had such a dir with files</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd results/alignment </span>
@@ -2811,11 +2805,9 @@ To ensure that no-one has write permission for the raw data, you could, for exam
 </details>
 <details>
 <summary>
-<ol start="6" type="1">
-<li>Rename files in a batch
+(6.) Rename files in a batch
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cd results/alignment  # If you weren&#39;t already there</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Use *globbing* to match the files to loop over (rather than `ls`):</span></span>
@@ -2845,11 +2837,9 @@ To ensure that no-one has write permission for the raw data, you could, for exam
 </details>
 <details>
 <summary>
-<ol start="7" type="1">
-<li>Copy files with wildcards
+(7.) Copy files with wildcards
 </summary>
-<p></li>
-</ol>
+<p>
 <ul>
 <li>Create the new dir:</li>
 </ul>
@@ -2876,11 +2866,9 @@ To ensure that no-one has write permission for the raw data, you could, for exam
 </details>
 <details>
 <summary>
-<ol start="8" type="1">
-<li>Bonus: a trickier wildcard selection
+(8.) Bonus: a trickier wildcard selection
 </summary>
-<p></li>
-</ol>
+<p>
 <ul>
 <li>Create the new dir:</li>
 </ul>
@@ -2897,11 +2885,9 @@ To ensure that no-one has write permission for the raw data, you could, for exam
 </details>
 <details>
 <summary>
-<ol start="9" type="1">
-<li>Bonus: a trickier renaming loop
+(9.) Bonus: a trickier renaming loop
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> oldname <span class="kw">in</span> <span class="pp">*</span>.bam</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Use `cut` to extract month, day, year, and a &quot;prefix&quot; that contains</span></span>

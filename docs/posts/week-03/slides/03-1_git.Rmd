@@ -347,7 +347,7 @@ $ git <(sub)command> [options] [args]
 Only three commands tend to make up the vast majority of your Git work:
 
 - **`git add`**  
-  *Stages* files to be committed, including previously untracked files.
+  *Stage* files to be committed (including previously untracked files).
 
 - **`git commit`**  
   Commits all currently staged changes.
@@ -390,7 +390,7 @@ $ git add --all    # Stages all previously untracked and
 
 <figure>
 <p align="center">
-<img src="img/git-do1.svg" width="80%">
+<img src="img/git-do1.png" width="80%">
 </p>
 </figure>
 
