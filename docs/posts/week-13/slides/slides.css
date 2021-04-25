@@ -97,9 +97,9 @@ figure {
 .content-box-diy:before,
 .content-box-warning:before,
 .content-box-info:before {
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     font-style: normal;
-    font-weight: normal;
+    font-weight: 900;
     text-decoration: inherit;
     color: #000;
     font-size: 35px;
