@@ -1,9 +1,9 @@
 ---
-title: "Week 2 - Lecture 1 - Project Organization"
+title: "Week 2 - Part I - Project organization"
 output:
   xaringan::moon_reader:
     seal: false
-    css: ["default", "default-fonts", "slides_copy.css", "slides.css"]
+    css: ["default", "default-fonts", "slides.css"]
     lib_dir: libs
     nature:
       highlightStyle: rainbow
@@ -14,8 +14,9 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
 ```
 
 ## *Week 2: <br> Project Organization and Markdown*
