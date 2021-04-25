@@ -69,7 +69,6 @@ navbar:
           href: overviews_python.html
         - text: "Snakemake"
           href: overviews_snakemake.html
-        - text: "Glossary (TBA)"
     - text: "Further resources"
       href: resources.html
 

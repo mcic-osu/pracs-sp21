@@ -86,27 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Week 5 Exercises</title>
+  <title>pracs-sp21: Week 5 exercises</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Week 5 Exercises"/>
+  <meta property="og:title" content="pracs-sp21: Week 5 exercises"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Week 5 Exercises"/>
+  <meta property="twitter:title" content="pracs-sp21: Week 5 exercises"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 5 Exercises"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 5 exercises"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[true]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2188,7 +2188,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     background-color: #f0f8ff;
     border: none;
     box-shadow: 3px 3px 4px black;
-    margin-bottom: 3px;
+    margin-bottom: 20px;
+    margin-top: -15px;
   }
 
   details > p:first-of-type {
@@ -2259,9 +2260,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   .content-box-diy:before,
   .content-box-q:before,
   .content-box-answer:before {
-      font-family: FontAwesome;
+      font-family: "Font Awesome 5 Free";
       font-style: normal;
-      font-weight: normal;
+      font-weight: 900;
       text-decoration: inherit;
       color: #000;
       font-size: 25px;
@@ -2453,7 +2454,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Week 5 Exercises","authors":[]}
+{"title":"Week 5 exercises","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2516,7 +2517,6 @@ Topic overviews
 <a href="overviews_git.html">Git</a>
 <a href="overviews_python.html">Python</a>
 <a href="overviews_snakemake.html">Snakemake</a>
-<span class="nav-dropdown-header">Glossary (TBA)</span>
 </div>
 </div>
 <a href="resources.html">Further resources</a>
@@ -2548,7 +2548,7 @@ Topic overviews
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Week 5 Exercises</h1>
+<h1>Week 5 exercises</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2563,7 +2563,7 @@ Topic overviews
 <li><a href="#main-exercises">Main exercises</a>
 <ul>
 <li><a href="#background">Background</a></li>
-<li><a href="#exercise-1-getting-set-up">Exercise 1: Getting set up</a></li>
+<li><a href="#exercise-1-setting-up">Exercise 1: Setting up</a></li>
 <li><a href="#exercise-2-create-a-script-to-compute-stats-for-a-fastq-file">Exercise 2: Create a script to compute stats for a FASTQ file</a></li>
 <li><a href="#exercise-3-modify-the-looping-script">Exercise 3: Modify the looping script</a></li>
 <li><a href="#exercise-4-bells-and-whistles">Exercise 4: Bells and whistles</a></li>
@@ -2602,7 +2602,7 @@ Topic overviews
 <li>Forward primer (“515F”): <code>GAGTGYCAGCMGCCGCGGTAA</code> / <code>TTACCGCGGCKGCTGRCACTC</code>.</li>
 <li>Reverse primer (“806R”): <code>ACGGACTACNVGGGTWTCTAAT</code> / <code>ATTAGAWACCCBNGTAGTCCGT</code>.</li>
 </ul>
-<h3 id="exercise-1-getting-set-up">Exercise 1: Getting set up</h3>
+<h3 id="exercise-1-setting-up">Exercise 1: Setting up</h3>
 <ol type="1">
 <li><p>Create a directory for this week’s exercises and move into it.</p></li>
 <li><p>In these exercises, you will be working with and modifying one of the scripts in Buffalo’s Chapter 12, which is printed below. Save this script as <code>fastq_stat_loop.sh</code>.</p>
@@ -2632,189 +2632,173 @@ Topic overviews
 <p>Unfortunately, the <code>fastq_stat</code> program referenced in Buffalo’s script is an imaginary program… So, let’s create a script <code>fastqc_stat.sh</code> that actually produces a few descriptive statistics for a a FASTQC file.</p>
 <ol type="1">
 <li><p>Set up a script skeleton with the header lines we’ve been discussing: a <em>shebang</em> line and the various <code>set</code> settings for robust scripts.</p></li>
-<li><p>The script should process one command-line argument, the input file. Assign the automatic placeholder variable for the first argument to a variable with a descriptive name, like <code>fastq_file</code>.<br />
-</p>
+<li><p>The script should process one command-line argument, the input file. Assign the automatic placeholder variable for the first argument to a variable with a descriptive name, like <code>fastq_file</code>.</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p><br />
-The automatic placeholder variable for the first argument is <code>$1</code>.<br />
-</p>
+<p>The automatic placeholder variable for the first argument is <code>$1</code>.</p>
 </p>
 </details>
 <div class="content-box-info">
-<div>
-<p>In the sections below, you can print all your output to standard out, i.e. simply use <code>echo</code> with no redirection.<br />
-<br />
-Also, just for the purpose of testing the commands while developing them below, it will be convenient to assign one of the FASTQ files to a variable <code>fastq_file</code>.</p>
+<p>In the sections below, you can print all your output to standard out, i.e. simply use <code>echo</code> with no redirection.</p>
+<p>Also, just for the purpose of testing the commands while developing them below, it will be convenient to assign one of the FASTQ files to a variable <code>fastq_file</code>.</p>
 </div>
-</div></li>
-<li><p>Have the script report its own name as well as the name of the FASTQ file that is being processed.<br />
-</p>
+<ol start="3" type="1">
+<li>Have the script report its own name as well as the name of the FASTQ file that is being processed.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p><br />
-Recall that the name of the script is automatically stored in <code>$0</code>.<br />
-</p>
-</p>
-</details></li>
-<li><p>Compute and report the number of sequences in the FASTQ file.</p>
+<p>Recall that the name of the script is automatically stored in <code>$0</code>.</p>
+<p>
+</details>
+<ol start="4" type="1">
+<li>Compute and report the number of sequences in the FASTQ file.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p>The number of sequences can be assumed to be the total number of lines divided by 4 (or alternatively, the number of lines consisting only of a <code>+</code>). Recall that FASTQ files have 4 lines per sequence: a header, the sequence, a <code>+</code> divider, and the quality scores.<br />
-<br />
-To make the division, you can use syntax like <code>expr 12 / 4</code> – and you can use command substitution, <code>$(wc -l ...)</code>, to insert the number of lines in the division.</p>
-</p>
-</details></li>
-<li><p>As mentioned in the Background section, the primer sequences should be present in the FASTQ files. Prior to sequence analyses, these are usually removed with a specialized program like <code>cutadapt</code>, but we can use our <code>grep</code> skills to quickly search for them.<br />
+<p>The number of sequences can be assumed to be the total number of lines divided by 4 (or alternatively, the number of lines consisting only of a <code>+</code>). Recall that FASTQ files have 4 lines per sequence: a header, the sequence, a <code>+</code> divider, and the quality scores.</p>
+<p>To make the division, you can use syntax like <code>expr 12 / 4</code> – and you can use command substitution, <code>$(wc -l ...)</code>, to insert the number of lines in the division.</p>
+<p>
+</details>
+<ol start="5" type="1">
+<li>As mentioned in the Background section, the primer sequences should be present in the FASTQ files. Prior to sequence analyses, these are usually removed with a specialized program like <code>cutadapt</code>, but we can use our <code>grep</code> skills to quickly search for them.<br />
 <br />
 We will search for the <em>forward primers only in the forwards reads</em>, and for the <em>reverse primers only in the reverse reads</em>. Therefore, start with an <code>if</code> statement that tests whether the file name contains forward (<code>_R1_</code>) or reverse (<code>_R2_</code>) reads.<br />
 <br />
 <em>If it contains forward reads</em>, you should be counting occurrences of the forward primer <strong><em>or</em></strong> its reverse complement. Similarly, <em>if it contains reverse reads</em> you should be counting occurrences of the reverse primer <em>or</em> its reverse complement.<br />
 <br />
-You’ll also have to replace the ambiguity codes, like <code>R</code>, with <em>character classes</em> that enumerate the possible alternative bases.</p>
+You’ll also have to replace the ambiguity codes, like <code>R</code>, with <em>character classes</em> that enumerate the possible alternative bases.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p><br />
-The test in the <code>if</code> statement should be a <code>grep</code> command that examines whether the filename contains <code>_R1_</code> (pipe <code>echo</code> output into <code>grep</code>). The <code>grep</code> standard output should be redirected to <code>/dev/null</code>, since we’re only interested in the <em>exit status</em>: If <code>grep</code> finds a match, the commands following <code>then</code> will be executed; if it doesn’t, the commands following <code>else</code> will be executed.<br />
-<br />
-You can assume that matches will only be made in the sequences themselves (and not the headers or quality scores), so you can <code>grep</code> the file as is: you don’t need to first select the lines with sequences.<em><br />
-<br />
-</em>To replace ambiguity codes with character classes in the <code>grep</code> regular expression: an <code>R</code> in the primers becomes <code>[AG]</code> in the <code>grep</code> expression, e.g. the partial sequence <code>ATRG</code> would become <code>AT[AG]G</code> in your regular expression.<br />
-<br />
-You’ll need both the primer <em>and</em> its reverse complement in a single <code>grep</code> regular expression: separate them with an logical “or” (<code>|</code>) and to enable this, use <code>grep -E</code> for extended regular expressions.</p>
+<p>The test in the <code>if</code> statement should be a <code>grep</code> command that examines whether the filename contains <code>_R1_</code> (pipe <code>echo</code> output into <code>grep</code>). The <code>grep</code> standard output should be redirected to <code>/dev/null</code>, since we’re only interested in the <em>exit status</em>: if <code>grep</code> finds a match, the commands following <code>then</code> will be executed; if it doesn’t, the commands following <code>else</code> will be executed.<br />
 </p>
-</details></li>
-<li><p>Bonus: Print a count table of sequence lengths.</p>
+<p>You can assume that matches will only be made in the sequences themselves (and not the headers or quality scores), so you can <code>grep</code> the file as is: you don’t need to first select the lines with sequences.</p>
+<p>To replace ambiguity codes with character classes in the <code>grep</code> regular expression: an <code>R</code> in the primers becomes <code>[AG]</code> in the <code>grep</code> expression, e.g. the partial sequence <code>ATRG</code> would become <code>AT[AG]G</code> in your regular expression.</p>
+<p>You’ll need both the primer <em>and</em> its reverse complement in a single <code>grep</code> regular expression: separate them with an logical “or” (<code>|</code>) and to enable this, use <code>grep -E</code> for extended regular expressions.</p>
+<p>
+</details>
+<ol start="6" type="1">
+<li>Bonus: Print a count table of sequence lengths.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p><br />
-You’ll have to select only the lines with the actual DNA sequences, and the best way of doing that is using <code>awk</code> like so (see the Solution for an explanation of why this works):</p>
+<p>You’ll have to select only the lines with the actual DNA sequences, and the best way of doing that is using <code>awk</code> like so (see the Solution for an explanation of why this works):</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 2) }&#39;</span></span></code></pre></div>
-<p>Next, you need to count the number of characters in each line, which is best done in the same <code>awk</code> command using <code>print length($0)</code>, which will print the number of characters in the line.<br />
-<br />
-After that, it’s the familiar <code>sort | uniq -c</code> idiom to create a count table.<br />
+<p>Next, you need to count the number of characters in each line, which is best done in the same <code>awk</code> command using <code>print length($0)</code>, which will print the number of characters in the line.</p>
+<p>After that, it’s the familiar <code>sort | uniq -c</code> idiom to create a count table.</p>
 </p>
-</p>
-</details></li>
-<li><p>Make the script executable.<br />
-</p>
+</details>
+<ol start="7" type="1">
+<li>Make the script executable.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p><br />
-Use the <code>chmod</code> command.<br />
+<p>Use the <code>chmod</code> command.</p>
 </p>
-</p>
-</details></li>
-<li><p>Run the script for a single FASTQ file by calling it from the command line.</p></li>
+</details>
+<ol start="8" type="1">
+<li>Run the script for a single FASTQ file by calling it from the command line.</li>
 </ol>
 <p><br></p>
 <h3 id="exercise-3-modify-the-looping-script">Exercise 3: Modify the looping script</h3>
 <p>Now, let’s modify Buffalo’s script <code>fastq_stat_loop.sh</code>.</p>
 <ol type="1">
-<li><p>Currently, the metadata file that contains the list of files to process is hard-coded as <code>samples.txt</code>. Also, the file names have to be extracted from a specific column from the metadata file. This is not a very flexible setup, and is sensitive to minor changes in a file like <code>samples.txt</code>.<br />
-<br />
-Change the script to <em>let it accept a list of FASTQ file names as an argument</em>.</p>
+<li><p>Currently, the metadata file that contains the list of files to process is hard-coded as <code>samples.txt</code>. Also, the file names have to be extracted from a specific column from the metadata file. This is not a very flexible setup, and is sensitive to minor changes in a file like <code>samples.txt</code>.</p>
+<p>Change the script to <em>let it accept a list of FASTQ file names as an argument</em>.</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p><br />
-Recall that the placeholder variable for the first argument that is passed to a script on the command line is <code>$1</code>.<br />
-<br />
-Inside the command substitution (<code>$()</code>) that populates the array, you can simply use <code>cat</code> instead of <code>cut</code> on the file that contains the list of file names, since this file will no longer have multiple columns.<br />
+<p>Recall that the placeholder variable for the first argument that is passed to a script on the command line is <code>$1</code>.</p>
+<p>Inside the command substitution (<code>$()</code>) that populates the array, you can simply use <code>cat</code> instead of <code>cut</code> on the file that contains the list of file names, since this file will no longer have multiple columns.</p>
 </p>
-</p>
-</details></li>
-<li><p>Currently, the output directory is also hard-coded, as <code>stats</code> – let’s instead <em>add the output directory as a second argument to the script</em>. Moreover, add code that creates this output directory if it doesn’t already exist.</p>
+</details>
+<ol start="2" type="1">
+<li>Currently, the output directory is also hard-coded, as <code>stats</code> – let’s instead <em>add the output directory as a second argument to the script</em>.<br />
+Moreover, add code that creates this output directory if it doesn’t already exist.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p><br />
-You can write an explicit test to see if the output dir exists first, but simply using <code>mkdir -p</code> will also work: with the <code>-p</code> option, <code>mkdir</code> doesn’t complain when a dir already exists (and can also make multiple levels of directories at once).<br />
+<p>You can write an explicit test to see if the output dir exists first, but simply using <code>mkdir -p</code> will also work: with the <code>-p</code> option, <code>mkdir</code> doesn’t complain when a dir already exists (and can also make multiple levels of directories at once).</p>
 </p>
-</p>
-</details></li>
+</details>
+<ol start="3" type="1">
 <li><p>Change the line that runs the imaginary program <code>fastq_stat</code> to let it run your <code>fastq_stat.sh</code> script instead. Make sure the path to your script and the path to the output file is correct.</p></li>
 <li><p>In each iteration of the loop, let the script report which FASTQ file will be analyzed.</p></li>
 <li><p>Now that the script takes arguments, we need <em>another file or script</em> to create the list of filenames and to submit the script with the appropriate arguments. Specifically, in this file, we need:</p>
 <ul>
 <li><p>A line that creates a new file just containing the FASTQ file names (akin to column 3 from <code>samples.txt</code> – but with the paths to our actual FASTQ files).</p></li>
-<li><p>A line that runs the <code>fastq_stat_loop.sh</code> script. The file that contains the list of FASTQ files should be passed to the script as the <em>first argument</em>, and the output directory as the <em>second argument</em>.<br />
-<br />
-As for the actual path to the output dir, you can use whatever (relative!) path makes sense to you.</p></li>
-</ul>
-<p><strong>Create the file containing the code outlined above.</strong> You can save this file either as a <code>.sh</code> script (e.g. <code>fastqc_runner.sh</code>), or put these lines in a Markdown file inside a code block. Either option is reasonable because these lines would likely be run <em>interactively</em>, as opposed to the <code>fastq_stat_loop.sh</code> script which will be run non-interactively. It’s still important to save these interactive commands in a file, so you know what you did and can easily reproduce it.</p></li>
-<li><p>Make <code>fastq_stat_loop.sh</code> executable and run it.<br />
-<br />
-The loop script should run <code>fastq_stat.sh</code> on all your FASTQ files. Check the output, which should be in one file per FASTQ file in the output dir you designated. You should be seeing that the vast majority of reads contain the primer sequences. Be proud – with a quick script that only runs for a couple of seconds, and no specialized software, you have queried hundreds of thousands of sequences!</p></li>
+<li><p>A line that runs the <code>fastq_stat_loop.sh</code> script. The file that contains the list of FASTQ files should be passed to the script as the <em>first argument</em>, and the output directory as the <em>second argument</em>.</p>
+<p>As for the actual path to the output dir, you can use whatever (relative!) path makes sense to you.</p></li>
+</ul></li>
+</ol>
+<p><strong>Create the file containing the code outlined above.</strong> You can save this file either as a <code>.sh</code> script (e.g. <code>fastqc_runner.sh</code>), or put these lines in a Markdown file inside a code block. Either option is reasonable because these lines would likely be run <em>interactively</em>, as opposed to the <code>fastq_stat_loop.sh</code> script which will be run non-interactively. It’s still important to save these interactive commands in a file, so you know what you did and can easily reproduce it.</p>
+<ol start="6" type="1">
+<li><p>Make <code>fastq_stat_loop.sh</code> executable and run it.</p>
+<p>The loop script should run <code>fastq_stat.sh</code> on all your FASTQ files. Check the output, which should be in one file per FASTQ file in the output dir you designated. You should be seeing that the vast majority of reads contain the primer sequences. Be proud – with a quick script that only runs for a couple of seconds, and no specialized software, you have queried hundreds of thousands of sequences!</p></li>
 </ol>
 <p><br></p>
 <h3 id="exercise-4-bells-and-whistles">Exercise 4: Bells and whistles</h3>
 <p>In this exercise, you will touch up your <code>fastqc_stat.sh</code> script to include tests for robustness, and to report what the script is doing.</p>
 <p>For the tests, check whether they work (…)! For instance, to check the test for the number of arguments, try running the script with no arguments, and also with two arguments, and see if the script produces the error messages you wrote.</p>
 <ol type="1">
-<li><p>Write an <code>if</code> statement to check whether the FASTQ file exists / is a regular file and whether it can be read. If not, give an error and exit the script with exit code 1.<br />
-<br />
-</p>
+<li>Write an <code>if</code> statement to check whether the FASTQ file exists / is a regular file and whether it can be read. If not, give an error and exit the script with exit code 1.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p><br />
-Go back to this week’s slides for an example of testing whether a file is a regular file (<code>-f</code>) and whether it can be read (<code>-r</code>).<br />
-<br />
-To exit with exit code 1, simply use: <code>exit 1</code>. This should be done <em>after</em> printing any error messages you, or those won’t actually be printed.<br />
+<p>Go back to this week’s slides for an example of testing whether a file is a regular file (<code>-f</code>) and whether it can be read (<code>-r</code>).</p>
+<p>To exit with exit code 1, simply use: <code>exit 1</code>. This should be done <em>after</em> printing any error messages you, or those won’t actually be printed.</p>
 </p>
-</p>
-</details></li>
-<li><p>Check whether exactly 1 argument was passed to the script on the command line. If not, return an error, succinctly report how to use the script (“usage: …”), and exit with exit code 1.<br />
-<br />
-</p>
+</details>
+<ol start="2" type="1">
+<li>Test whether exactly 1 argument was passed to the script on the command line. If not, return an error, succinctly report how to use the script (“usage: …”), and exit with exit code 1.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p><br />
-Go back to this week’s slides for an example of a very similar test.<br />
-<br />
-The number of arguments that were passed to a script are automatically available in <code>$#</code>.<br />
-<br />
-You can test for equality using <code>&lt;integer&gt; -eq &lt;integer&gt;</code> (e.g. <code>10 -eq 10</code> which will evaluate to <code>true</code>) and you can <em>negate</em> a test ("number of argument is <em>not</em> equal to 1) using a <code>!</code> before the comparison expression.<br />
+<p>Go back to this week’s slides for an example of a very similar test.</p>
+<p>The number of arguments that were passed to a script are automatically available in <code>$#</code>.</p>
+<p>You can test for equality using <code>&lt;integer&gt; -eq &lt;integer&gt;</code> (e.g. <code>10 -eq 10</code> which will evaluate to <code>true</code>) and you can <em>negate</em> a test ("number of argument is <em>not</em> equal to 1) using a <code>!</code> before the comparison expression.</p>
 </p>
-</p>
-</details></li>
-<li><p>Add <code>date</code> commands at the start and the end of the script, so you’ll be able to tell how long it took the script to complete.</p></li>
+</details>
+<ol start="3" type="1">
+<li>Add <code>date</code> commands at the start and the end of the script, so you’ll be able to tell how long it took the script to complete.</li>
 </ol>
 <p><br></p>
 <h2 id="bonus-exercises">Bonus exercises</h2>
 <h3 id="exercise-5-find-the-longest-file2">Exercise 5: Find the longest file<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></h3>
 <p>Write a shell script called <code>longest.sh</code> that takes two arguments: the name of a directory and a file extension (like <code>txt</code>). The script should print the name of the file that has the most lines among all files with with that extension in that directory.</p>
-<p>Make sure the script has the <em>shebang</em> and <code>set</code> headers, and make the script executable.<br />
-<br />
-Then, run your script to learn which FASTQ file has the most lines (and sequences):</p>
+<p>Make sure the script has the <em>shebang</em> and <code>set</code> headers, and make the script executable.</p>
+<p>Then, run your script to learn which FASTQ file has the most lines (and sequences):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ./longest.sh data/fastq fastq</span></code></pre></div>
 <p>… should print the name of the <code>.fastq</code> file in <code>data/fastq</code> with the highest number of lines and therefore sequences.</p>
 <details>
@@ -2899,20 +2883,16 @@ Hints
 <h3 id="exercise-1">Exercise 1</h3>
 <details>
 <summary>
-<ol type="1">
-<li>Create a directory for these exercises.
-</summary></li>
-</ol>
+(1.) Create a directory for these exercises.
+</summary>
 <p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> /fs/ess/PAS1855/users/<span class="va">$USER</span>/week05/exercises/</span></code></pre></div>
 </p>
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>Copy the FASTQ files into your own dir.
-</summary></li>
-</ol>
+(3.) Copy the FASTQ files into your own dir.
+</summary>
 <p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data/fastq/</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> /fs/ess/PAS1855/data/week05/fastq/<span class="pp">*</span> data/fastq/</span></code></pre></div>
@@ -2921,10 +2901,8 @@ Hints
 <h3 id="exercise-2">Exercise 2</h3>
 <details>
 <summary>
-<ol type="1">
-<li>Create a new script with header lines.
-</summary></li>
-</ol>
+(1.) Create a new script with header lines.
+</summary>
 <p>
 <p>The first two lines of the script:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -2934,24 +2912,20 @@ Hints
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>Assign the first argument to a named variable.
-</summary></li>
-</ol>
+(2.) Assign the first argument to a named variable.
+</summary>
 <p>
 <p>Add a line like this to your <code>fastq_stat.sh</code> script:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">fastq_file=$1</span></span></code></pre></div>
 </p>
 </details>
 <details>
+<summary>
+(3.) Let the script report its name and the name of the FASTQ file.
+</summary>
+<p>
 <p>For testing the code below, we first assign one of the FASTQ filenames to the variable <code>$fastq_file</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">fastq_file=</span>201-S4-V4-V5_S53_L001_R1_001.fastq</span></code></pre></div>
-<summary>
-<ol start="3" type="1">
-<li>Let the script report its name and the name of the FASTQ file.
-</summary></li>
-</ol>
-<p>
 <p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$0</span><span class="st">: A script to compute basic summary stats for a FASTQ file.&quot;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;FASTQ file to be analyzed: </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span></code></pre></div>
@@ -2959,10 +2933,8 @@ Hints
 </details>
 <details>
 <summary>
-<ol start="4" type="1">
-<li>Compute and report the number of sequences in the FASTQ file.
-</summary></li>
-</ol>
+(4.) Compute and report the number of sequences in the FASTQ file.
+</summary>
 <p>
 <p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We save the output of our commands using command substitution, $().</span></span>
@@ -2982,10 +2954,8 @@ Hints
 </details>
 <details>
 <summary>
-<ol start="5" type="1">
-<li>Search for adapter sequences.
-</summary></li>
-</ol>
+(5.) Search for adapter sequences.
+</summary>
 <p>
 <p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$fastq_file</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;_R1_&quot;</span> <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="cf">then</span></span>
@@ -3038,10 +3008,8 @@ Hints
 </details>
 <details>
 <summary>
-<ol start="6" type="1">
-<li>Bonus: Print a count table of sequence lengths.
-</summary></li>
-</ol>
+(6.) Bonus: Print a count table of sequence lengths.
+</summary>
 <p>
 <p>Add lines like these to your <code>fastq_stat.sh</code> script:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Count table of sequence lengths:&quot;</span></span>
@@ -3055,10 +3023,8 @@ Hints
 </details>
 <details>
 <summary>
-<ol start="7" type="1">
-<li>Make the script executable.
-</summary></li>
-</ol>
+(7.) Make the script executable.
+</summary>
 <p>
 <p>Assuming it is in the working dir:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> chmod u+x fastq_stat.sh </span>
@@ -3069,10 +3035,8 @@ Hints
 </details>
 <details>
 <summary>
-<ol start="8" type="1">
-<li>Run the script for a single FASTQ file by calling it from the command line.
-</summary></li>
-</ol>
+(8.) Run the script for a single FASTQ file by calling it from the command line.
+</summary>
 <p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming you have assigned a FASTQ file to $fastq_file for testing:</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./fastq_stat.sh</span> <span class="va">$fastq_file</span></span></code></pre></div>
@@ -3081,7 +3045,7 @@ Hints
 <h3 id="exercise-3">Exercise 3</h3>
 <details>
 <summary>
-Change the script to let it accept a list of FASTQ file names as an argument.
+(1.) Change the script to let it accept a list of FASTQ file names as an argument.
 </summary>
 <p>
 <p>Add this line to the script:</p>
@@ -3096,7 +3060,7 @@ Change the script to let it accept a list of FASTQ file names as an argument.
 </details>
 <details>
 <summary>
-Add the output directory as a second argument to the script, and create the output dir if necessary.
+(2.) Add the output directory as a second argument to the script, and create the output dir if necessary.
 </summary>
 <p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="va">output_dir=</span><span class="st">&quot;</span><span class="va">$2</span><span class="st">&quot;</span></span>
@@ -3110,10 +3074,8 @@ Add the output directory as a second argument to the script, and create the outp
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>Modify the line in the script that calls <code>fastq_stat</code> to call your script.
-</summary></li>
-</ol>
+(3.) Modify the line in the script that calls <code>fastq_stat</code> to call your script.
+</summary>
 <p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Old line:</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fastq_stat &quot;$fastq_file&quot; &gt; stats/$results_file</span></span>
@@ -3126,10 +3088,8 @@ Add the output directory as a second argument to the script, and create the outp
 </details>
 <details>
 <summary>
-<ol start="4" type="1">
-<li>In each iteration of the loop, let the script report which FASTQ will be analyzed.
-</summary></li>
-</ol>
+(4.) In each iteration of the loop, let the script report which FASTQ will be analyzed.
+</summary>
 <p>
 <p>Add the following line <em>inside the loop</em>:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Running fastq_stat for FASTQ file </span><span class="va">$fastq_file</span><span class="st">&quot;</span></span></code></pre></div>
@@ -3137,10 +3097,8 @@ Add the output directory as a second argument to the script, and create the outp
 </details>
 <details>
 <summary>
-<ol start="5" type="1">
-<li>Create a second file/script to create a list of FASTQ files and to run the loop script.
-</summary></li>
-</ol>
+(5.) Create a second file/script to create a list of FASTQ files and to run the loop script.
+</summary>
 <p>
 <ul>
 <li>To create a list of FASTQ files:</li>
@@ -3158,10 +3116,8 @@ Add the output directory as a second argument to the script, and create the outp
 </details>
 <details>
 <summary>
-<ol start="6" type="1">
-<li>Make <code>fastq_stat_loop.sh</code> executable and run it.
-</summary></li>
-</ol>
+(6.) Make <code>fastq_stat_loop.sh</code> executable and run it.
+</summary>
 <p>
 <p>Run these lines:</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> chmod u+x ./fastq_stat_loop.sh</span>
@@ -3219,10 +3175,8 @@ Add the output directory as a second argument to the script, and create the outp
 <h3 id="exercise-4">Exercise 4</h3>
 <details>
 <summary>
-<ol type="1">
-<li>Check whether the FASTQ file is a regular file than can be read.
-</summary></li>
-</ol>
+(1.) Check whether the FASTQ file is a regular file than can be read.
+</summary>
 <p>
 <ul>
 <li><p>Add these lines to your script:</p>
@@ -3247,10 +3201,8 @@ Add the output directory as a second argument to the script, and create the outp
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>Check whether only one argument was provided.
-</summary></li>
-</ol>
+(2.) Check whether only one argument was provided.
+</summary>
 <p>
 <ul>
 <li><p>Add these lines to your script:</p>
@@ -3276,10 +3228,8 @@ Add the output directory as a second argument to the script, and create the outp
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>Add <code>date</code> commands.
-</summary></li>
-</ol>
+(3.) Add <code>date</code> commands.
+</summary>
 <p>
 <p>Simply include two lines with:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span></span></code></pre></div>
@@ -3378,10 +3328,8 @@ Solution
 <h3 id="exercise-6">Exercise 6</h3>
 <details>
 <summary>
-<ol type="1">
-<li>Write a script that takes one file and determines the number of rows and columns.
-</summary></li>
-</ol>
+(1.) Write a script that takes one file and determines the number of rows and columns.
+</summary>
 <p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-u</span> <span class="at">-e</span> <span class="at">-o</span> pipefail</span>
@@ -3408,10 +3356,8 @@ Solution
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>Write a script that prints the number of rows and columns for each network.
-</summary></li>
-</ol>
+(2.) Write a script that prints the number of rows and columns for each network.
+</summary>
 <p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-u</span> <span class="at">-e</span> <span class="at">-o</span> pipefail</span>
@@ -3434,10 +3380,8 @@ Solution
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>Which network has the largest number of rows and which the largest number of columns?
-</summary></li>
-</ol>
+(3.) Which network has the largest number of rows and which the largest number of columns?
+</summary>
 <p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Having written the script netsize_all.sh,</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># you can take its output and order it according to rows or columns.</span></span>
