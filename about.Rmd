@@ -25,7 +25,8 @@ and have others reproduce their work, with as little as a single command.
 
 ### More information
 
-See also the page [Practical course information](../../overview_course.html).
+See also the page [Practical course information](overviews_course.html)
+and the full [syllabus (PDF download)](assets/PP8300_computing_syllabus_website.pdf).
 
 #### Topics taught
 
