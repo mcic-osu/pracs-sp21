@@ -1,5 +1,7 @@
 ---
-title: "Topic Overview: Markdown"
+title: "Markdown"
+description: |
+  Topic overview
 output:
   distill::distill_article:
     self_contained: false
@@ -7,11 +9,13 @@ output:
     toc_depth: 3
 ---
 
-```{r}
-knitr::opts_chunk$set(echo = TRUE)
-```
+### Relevant course modules
 
-## Markdown syntax
+-   [Week 2](posts/week-02)
+
+<br>
+
+### Markdown syntax
 
 The "extended syntax" options below are not supported by all interpreters, but they are by most, such as GitHub-flavored Markdown.
 
@@ -59,13 +63,17 @@ The "extended syntax" options below are not supported by all interpreters, but t
 | `[^1]: Text`                                               | The actual footnote *(extended syntax)*                                                       |
 +------------------------------------------------------------+-----------------------------------------------------------------------------------------------+
 
-## Whitespace
+<br>
+
+### Whitespace
 
 -   Markdown generally ignores single line breaks: use two spaces at the end of a line to force a line break, or when appropriate, leave a blank line to start a new paragraph.
 
 -   Multiple consecutive blank lines (or spaces) will be treated the same as a single blank line (or space). For extra vertical whitespace, use the HTML tag `<br>`, each of which forces a new line break.
 
-## Tables
+<br>
+
+### Tables
 
 Note that the vertical bars `|` don't have to be aligned.
 
@@ -78,7 +86,9 @@ Note that the vertical bars `|` don't have to be aligned.
 | blabla | blabla |
 | blabla | blabla |
 
-## HTML
+<br>
+
+### HTML
 
 Most Markdown interpreters accept HTML syntax. Some simple examples:
 
@@ -107,9 +117,12 @@ Most Markdown interpreters accept HTML syntax. Some simple examples:
 | `<br>`                    | linebreak / empty line  |
 | `<!-- text -->`           | comment                 |
 
-## Rendering
+<br>
 
--   Use Pandoc:
+### Rendering
+
+-   To *render* Markdown files, i.e. convert them to a format like HTML or PDF,
+    use Pandoc:
 
 ``` {.sh}
 pandoc README.md > README.html

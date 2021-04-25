@@ -1,11 +1,21 @@
 ---
-title: "Topic Overview: OSC, SLURM, and Conda"
+title: "OSC, SLURM, and Conda"
+description: |
+  Topic overview
 output:
   distill::distill_article:
     self_contained: false
     toc: true
     toc_depth: 3
 ---
+
+<br>
+
+## Relevant course modules
+
+-   [Week 6](posts/week-06)
+
+<br>
 
 ## Using SLURM
 

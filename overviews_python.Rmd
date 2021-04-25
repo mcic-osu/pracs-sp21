@@ -11,7 +11,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Relevant course material
+## Relevant course modules
 
 -   [Week 8](posts/week-08)
 -   [Week 9](posts/week-09)

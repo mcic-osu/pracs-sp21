@@ -1,5 +1,7 @@
 ---
-title: "Topic Overview: Shell"
+title: "Shell tools"
+description: |
+  Topic overview
 output:
   distill::distill_article:
     self_contained: false
@@ -7,9 +9,17 @@ output:
     toc_depth: 3
 ---
 
-```{r}
-knitr::opts_chunk$set(echo = TRUE)
-```
+<br>
+
+## Relevant course modules
+
+-   [Week 1](posts/week-01)
+-   [Week 2](posts/week-02)
+-   [Week 4](posts/week-04)
+-   [Week 5](posts/week-05)
+-   [Week 6](posts/week-06)
+
+<br>
 
 ## Basic commands
 
