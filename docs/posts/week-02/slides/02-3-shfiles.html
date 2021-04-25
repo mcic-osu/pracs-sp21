@@ -24,7 +24,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021-01-21 (updated: 2021-01-21)
+### 2021-01-21 (updated: 2021-04-25)
 
 ---
 class: center middle inverse
@@ -58,11 +58,14 @@ class: center middle inverse
 
 ----
 
-- **Open a new file**: <i class="fas  fa-bars "></i> =&gt; `File` =&gt; `New File`.
+- **Open a new file**:
+  &lt;i class="fa fa-bars"&gt;&lt;/i&gt;
+  =&gt; `File` =&gt; `New File`.
   Save it as an `.md` file inside `week02`.
 
-- **Open a terminal** (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt;
-  or <i class="fas  fa-bars "></i> =&gt; `Terminal` =&gt; `New Terminal`),
+- **Open a terminal** (&lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;backtick&lt;/kbd&gt; or
+  &lt;i class="fa fa-bars"&gt;&lt;/i&gt;
+  =&gt; `Terminal` =&gt; `New Terminal`),
   and issue the command `bash` to break out of the Singularity shell.
 
 --
@@ -72,7 +75,7 @@ class: center middle inverse
 .content-box-diy[
 **Add keyboard shortcut to run shell commands from the editor:**
 
-- Click the <i class="fas  fa-cog "></i> (bottom-left) =&gt; `Keyboard Shortcuts`.
+- Click the &lt;i class="fa fa-cog"&gt;&lt;/i&gt; (bottom-left) =&gt; `Keyboard Shortcuts`.
 
 - Find `Terminal: Run Selected Text in Active Terminal`, click on it,
   then add a shortcut, e.g. &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Enter&lt;/kbd&gt;.
@@ -339,7 +342,7 @@ $ ls fig-1{A..G}
 
 ---
 
-## <i class="fas  fa-user-edit "></i> Your turn: File matching
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Your turn: File matching
 
 1. Go into `zmays-snps/data/seqs/` and remove the files in there.
 
@@ -357,7 +360,7 @@ $ ls fig-1{A..G}
 
 ---
 
-## <i class="fas  fa-user-edit "></i> Solutions: File matching
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Solutions: File matching
 
 1. Go into `zmays-snps/data/seqs/` and remove the files in there.
   ```sh
@@ -463,8 +466,7 @@ but are intuitive and good practice.
   but *recalled* as `$oldname`:
 
   ```sh
-  $ for oldname in *.fastq
-  &gt; do
+  $ for oldname in *.fastq; do
   &gt;   echo "Old name: $oldname"
   &gt; done
   ```
@@ -487,8 +489,7 @@ but are intuitive and good practice.
   a sanity check:
   
   ```sh
-  $ for oldname in *.fastq
-  &gt; do
+  $ for oldname in *.fastq; do
   &gt;   newname=$(basename "$oldname" _001.fastq).fq
   &gt;   echo "Old/new name: $oldname $newname"
   &gt; done
@@ -504,8 +505,7 @@ but are intuitive and good practice.
 - Finally, we add the actual `mv` command:  
 
   ```sh
-  $ for oldname in *.fastq
-  &gt; do
+  $ for oldname in *.fastq; do
   &gt;   newname=$(basename "$oldname" _001.fastq).fq
   &gt;   echo "Old/new name: $oldname $newname"
   &gt;   mv "$oldname" "$newname"
@@ -619,7 +619,7 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 
 ---
 
-## <i class="fas  fa-user-edit "></i> Changing file permissions: In practice
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Changing file permissions: In practice
 
 - First, let's look at the original permissions of the files:
   ```sh
@@ -813,8 +813,7 @@ name:conditional
 **To remove all empty files in a directory:**
 
 ```sh
-$ for file in *
-&gt; do
+$ for file in *; do
 &gt;   if [ ! -s "$file" ]
 &gt;   then
 &gt;      echo rm "$file"
@@ -824,14 +823,14 @@ $ for file in *
 
 An overview of *file test operators* that can be used in this way:
 
-| operator | returns true if:
+| Operator | Returns true if:
 |----------|----------------
-| -s       | file is not zero size
-| -e       | file exists
-| -f       | file is a regular file (e.g. not a directory)
-| -d       | file is a directory 
-| -h       | file is a symbolic link
-| -r/w/x   | file has read/write/execute permissions
+| `-s`       | file is not zero size
+| `-e`       | file exists
+| `-f`       | file is a regular file (e.g. not a directory)
+| `-d`       | file is a directory 
+| `-h`       | file is a symbolic link
+| `-r`/ `-w` / `-x`   | file has read/write/execute permissions
 
 
 ---
@@ -843,10 +842,8 @@ name:conditional
 **To remove all empty files in a directory:**
 
 ```sh
-$ for file in *
-&gt; do
-&gt;   if [ ! -s "$file" ]
-&gt;   then
+$ for file in *; do
+&gt;   if [ ! -s "$file" ]; then
 &gt;      echo rm "$file"
 &gt;   fi
 &gt; done

@@ -15,6 +15,9 @@ class:inverse middle center
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
+icon::fa("cut")
 ```
 
 ```{r xaringan-extra, echo=FALSE, eval=TRUE}
@@ -24,14 +27,16 @@ xaringanExtra::use_search(show_icon = TRUE)
 ```
 
 ## *Week 1*
+
 ----
+
 # An Introduction to the Unix shell
 ## *CSB Ch. 1: Unix*
 
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/01/14 (updated: `r Sys.Date()`)
+### 2021/01/14
 
 ---
 class: inverse middle center

@@ -14,8 +14,11 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
+icon::fa("cog")
+icon::fa("bars")
 ```
 
 ## *Week 2: <br> Project Organization and Markdown*
@@ -59,11 +62,14 @@ class: center middle inverse
 
 ----
 
-- **Open a new file**: `r icon::fa("bars")` => `File` => `New File`.
+- **Open a new file**:
+  <i class="fa fa-bars"></i>
+  => `File` => `New File`.
   Save it as an `.md` file inside `week02`.
 
-- **Open a terminal** (<kbd>Ctrl</kbd>+<kbd>backtick</kbd>
-  or `r icon::fa("bars")` => `Terminal` => `New Terminal`),
+- **Open a terminal** (<kbd>Ctrl</kbd>+<kbd>backtick</kbd> or
+  <i class="fa fa-bars"></i>
+  => `Terminal` => `New Terminal`),
   and issue the command `bash` to break out of the Singularity shell.
 
 --
@@ -73,7 +79,7 @@ class: center middle inverse
 .content-box-diy[
 **Add keyboard shortcut to run shell commands from the editor:**
 
-- Click the `r icon::fa("cog")` (bottom-left) => `Keyboard Shortcuts`.
+- Click the <i class="fa fa-cog"></i> (bottom-left) => `Keyboard Shortcuts`.
 
 - Find `Terminal: Run Selected Text in Active Terminal`, click on it,
   then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
@@ -340,7 +346,7 @@ $ ls fig-1{A..G}
 
 ---
 
-## `r icon::fa("user-edit")` Your turn: File matching
+## <i class="fa fa-user-edit"></i> Your turn: File matching
 
 1. Go into `zmays-snps/data/seqs/` and remove the files in there.
 
@@ -358,7 +364,7 @@ $ ls fig-1{A..G}
 
 ---
 
-## `r icon::fa("user-edit")` Solutions: File matching
+## <i class="fa fa-user-edit"></i> Solutions: File matching
 
 1. Go into `zmays-snps/data/seqs/` and remove the files in there.
   ```sh
@@ -617,7 +623,7 @@ chmod -R a+X my-project-dir  # Note the *uppercase* X
 
 ---
 
-## `r icon::fa("user-edit")` Changing file permissions: In practice
+## <i class="fa fa-user-edit"></i> Changing file permissions: In practice
 
 - First, let's look at the original permissions of the files:
   ```sh

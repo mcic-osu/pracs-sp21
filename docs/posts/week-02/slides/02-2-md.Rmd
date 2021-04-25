@@ -13,8 +13,11 @@ output:
 class:inverse middle center
 
 ```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
+icon::fa("user-edit")
+icon::fa("bars")
+icon::fa("cog")
 
+options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = FALSE)
 ```
 
@@ -86,8 +89,8 @@ name:osc-vscode
 - [A useful VS Code intro Video ](https://www.youtube.com/watch?v=S320N3sxinE&list=PLj6YeMhvp2S5UgiQnBfvD7XgOMKs3O_G6) (+ more in the playlist.)
 
 - The `Welcome` tab that automatically opened
-  (which you can also pull up again by clicking: `r icon::fa("bars")` >
-  `Help` > `Welcome`).
+  (which you can also pull up again by clicking:
+  <i class="fa fa-bars"></i> => `Help` => `Welcome`).
 
 - Some handy keyboard shortcuts are in the
   [bonus slides](#vscode-kbd).
@@ -97,7 +100,8 @@ name:osc-vscode
 
 ## VS Code: Getting started
 
-- **Color themes**: Press the gear icon `r icon::fa("cog")` and then
+- **Color themes**: Press the gear icon
+  <i class="fa fa-cog"></i> and then
   `Color Theme` to try out different color themes. (I like "*Quiet Light*".)
 
 --
@@ -181,13 +185,13 @@ mkdir week02  # inside /fs/ess/PAS1855/users/$USER
 
 ---
 
-## `r icon::fa("user-edit")` VS Code: Extensions
+## <i class="fa fa-user-edit"></i> VS Code: Extensions
 
 .content-box-diy[
 **Install a couple of useful extensions:**
 
-- Click the gear icon `r icon::fa("cog")` and then `Extensions`,
-  and search for:
+- Click the gear icon <i class="fa fa-cog"></i>
+  and then `Extensions`, and search for:
   
   - **shellcheck** (by *simonwong*)
   
@@ -251,7 +255,7 @@ Learn more about Markdown and its syntax in this excellent documentation:
    press <kbd>Ctrl/⌘</kbd>+<kbd>B</kbd>.
 
 2. **Open a new file:**
-   Click the hamburger menu `r icon::fa("bars")`, 
+   Click the hamburger menu <i class="fa fa-bars"></i>, 
    then `File` > `New File`.
    
 3. Markdown files have the extension `.md`.
@@ -287,9 +291,9 @@ Learn more about Markdown and its syntax in this excellent documentation:
   your workspace should be listed ("`<workspace-name> (Workspace)`").
   
   *If you didn't save a workspace yet:*
-    - `r icon::fa("bars")` => `File` => `Open Folder` =>
+    - <i class="fa fa-bars"></i> => `File` => `Open Folder` =>
       `/fs/ess/PAS1855/users/<name>`.
-    - `r icon::fa("bars")` => `File` => `Save Workspace as`.
+    - <i class="fa fa-bars"></i> => `File` => `Save Workspace as`.
 
 - **Open your Markdown file** from Tuesday using the *Explorer* side bar.
 
@@ -298,7 +302,7 @@ Learn more about Markdown and its syntax in this excellent documentation:
 .content-box-diy[
 **Add keyboard shortcut to run shell commands from the editor:**
 
-- Click the `r icon::fa("cog")` (bottom-left) => `Keyboard Shortcuts`.
+- Click the <i class="fa fa-cog"></i> (bottom-left) => `Keyboard Shortcuts`.
 
 - Find `Terminal: Run Selected Text in Active Terminal`, click on it,
   then add a shortcut, e.g. <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
