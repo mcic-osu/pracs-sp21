@@ -2472,7 +2472,7 @@ Modules
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="posts/week-01/index.html">01: Shell basics</a>
+<a href="posts/week-01/index.html">01: Course intro &amp; shell basics</a>
 <a href="posts/week-02/index.html">02: Project organization &amp; Markdown</a>
 <a href="posts/week-03/index.html">03: Git &amp; GitHub</a>
 <a href="posts/week-04/index.html">04: Unix data tools</a>
@@ -2480,12 +2480,12 @@ Modules
 <a href="posts/week-06/index.html">06: OSC, SLURM, and Conda</a>
 <a href="posts/week-07/index.html">07: Data transfer &amp; integrity</a>
 <a href="posts/week-08/index.html">08: Python - First steps</a>
-<a href="posts/week-09/index.html">09: Python - Control flow &amp; files</a>
+<a href="posts/week-09/index.html">09: Python - Control flow &amp; file I/O</a>
 <a href="posts/week-10/index.html">10: Python - Writing good code</a>
 <a href="posts/week-11/index.html">11: Python - Scientific computing</a>
 <a href="posts/week-12/index.html">12: Python - Regular expressions</a>
 <a href="posts/week-13/index.html">13: Snakemake</a>
-<a href="posts/week-14/index.html">14: Putting it all together</a>
+<a href="posts/week-14/index.html">14: Wrap-up &amp; next steps</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2509,7 +2509,7 @@ Topic overviews
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="overviews_shell.html">Shell</a>
+<a href="overviews_shell.html">Shell tools</a>
 <a href="overviews_shellscript.html">Shell scripting</a>
 <a href="overviews_slurm.html">OSC, SLURM, and Conda</a>
 <a href="overviews_markdown.html">Markdown</a>
@@ -2730,12 +2730,12 @@ Extract the values with the <code>values()</code> method. Next, turn these value
 </summary>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dna <span class="op">&amp;</span> rna</span></code></pre></div>
-<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;C&#39;}</code></pre>
+<pre><code>{&#39;A&#39;, &#39;C&#39;, &#39;G&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dna.intersection(rna)</span></code></pre></div>
-<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;C&#39;}</code></pre>
+<pre><code>{&#39;A&#39;, &#39;C&#39;, &#39;G&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Find all 5 bases that are collectively found among DNA and RNA.</p>
@@ -2747,12 +2747,12 @@ Extract the values with the <code>values()</code> method. Next, turn these value
 </summary>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dna <span class="op">|</span> rna</span></code></pre></div>
-<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;T&#39;, &#39;U&#39;, &#39;C&#39;}</code></pre>
+<pre><code>{&#39;G&#39;, &#39;C&#39;, &#39;T&#39;, &#39;U&#39;, &#39;A&#39;}</code></pre>
 </div>
 <p>Or:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dna.union(rna)</span></code></pre></div>
-<pre><code>{&#39;A&#39;, &#39;G&#39;, &#39;T&#39;, &#39;U&#39;, &#39;C&#39;}</code></pre>
+<pre><code>{&#39;G&#39;, &#39;C&#39;, &#39;T&#39;, &#39;U&#39;, &#39;A&#39;}</code></pre>
 </div>
 </details></li>
 <li><p>Find the base that only occurs in DNA.</p>

@@ -13,7 +13,7 @@ navbar:
       href: index.html
     - text: "Modules"
       menu:
-        - text: "01: Shell basics"
+        - text: "01: Course intro & shell basics"
           href: posts/week-01/index.html
         - text: "02: Project organization & Markdown"
           href: posts/week-02/index.html
@@ -29,7 +29,7 @@ navbar:
           href: posts/week-07/index.html
         - text: "08: Python - First steps"
           href: posts/week-08/index.html
-        - text: "09: Python - Control flow & files"
+        - text: "09: Python - Control flow & file I/O"
           href: posts/week-09/index.html
         - text: "10: Python - Writing good code"
           href: posts/week-10/index.html
@@ -39,7 +39,7 @@ navbar:
           href: posts/week-12/index.html
         - text: "13: Snakemake"
           href: posts/week-13/index.html
-        - text: "14: Putting it all together"
+        - text: "14: Wrap-up & next steps"
           href: posts/week-14/index.html
     - text: "Final project"
       menu:
@@ -55,7 +55,7 @@ navbar:
           href: finalproject_submission.html
     - text: "Topic overviews"
       menu:
-        - text: "Shell"
+        - text: "Shell tools"
           href: overviews_shell.html
         - text: "Shell scripting"
           href: overviews_shellscript.html

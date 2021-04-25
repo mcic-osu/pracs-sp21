@@ -86,27 +86,30 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Topic Overview: Markdown</title>
+  <title>pracs-sp21: Markdown</title>
 
+  <meta property="description" itemprop="description" content="Topic overview"/>
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Topic Overview: Markdown"/>
+  <meta property="og:title" content="pracs-sp21: Markdown"/>
   <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Topic overview"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Topic Overview: Markdown"/>
+  <meta property="twitter:title" content="pracs-sp21: Markdown"/>
+  <meta property="twitter:description" content="Topic overview"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Topic Overview: Markdown"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Markdown"]},{"type":"character","attributes":{},"value":["Topic overview\n"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2453,7 +2456,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Topic Overview: Markdown","authors":[]}
+{"title":"Markdown","description":"Topic overview","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2472,7 +2475,7 @@ Modules
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="posts/week-01/index.html">01: Shell basics</a>
+<a href="posts/week-01/index.html">01: Course intro &amp; shell basics</a>
 <a href="posts/week-02/index.html">02: Project organization &amp; Markdown</a>
 <a href="posts/week-03/index.html">03: Git &amp; GitHub</a>
 <a href="posts/week-04/index.html">04: Unix data tools</a>
@@ -2480,12 +2483,12 @@ Modules
 <a href="posts/week-06/index.html">06: OSC, SLURM, and Conda</a>
 <a href="posts/week-07/index.html">07: Data transfer &amp; integrity</a>
 <a href="posts/week-08/index.html">08: Python - First steps</a>
-<a href="posts/week-09/index.html">09: Python - Control flow &amp; files</a>
+<a href="posts/week-09/index.html">09: Python - Control flow &amp; file I/O</a>
 <a href="posts/week-10/index.html">10: Python - Writing good code</a>
 <a href="posts/week-11/index.html">11: Python - Scientific computing</a>
 <a href="posts/week-12/index.html">12: Python - Regular expressions</a>
 <a href="posts/week-13/index.html">13: Snakemake</a>
-<a href="posts/week-14/index.html">14: Putting it all together</a>
+<a href="posts/week-14/index.html">14: Wrap-up &amp; next steps</a>
 </div>
 </div>
 <div class="nav-dropdown">
@@ -2509,7 +2512,7 @@ Topic overviews
 <span class="down-arrow">&#x25BE;</span>
 </button>
 <div class="nav-dropdown-content">
-<a href="overviews_shell.html">Shell</a>
+<a href="overviews_shell.html">Shell tools</a>
 <a href="overviews_shellscript.html">Shell scripting</a>
 <a href="overviews_slurm.html">OSC, SLURM, and Conda</a>
 <a href="overviews_markdown.html">Markdown</a>
@@ -2548,10 +2551,10 @@ Topic overviews
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Topic Overview: Markdown</h1>
+<h1>Markdown</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-
+<p><p>Topic overview</p></p>
 </div>
 
 
@@ -2560,6 +2563,7 @@ Topic overviews
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
+<li><a href="#relevant-course-modules">Relevant course modules</a></li>
 <li><a href="#markdown-syntax">Markdown syntax</a></li>
 <li><a href="#whitespace">Whitespace</a></li>
 <li><a href="#tables">Tables</a></li>
@@ -2568,10 +2572,12 @@ Topic overviews
 </ul>
 </nav>
 </div>
-<div class="layout-chunk" data-layout="l-body">
-
-</div>
-<h2 id="markdown-syntax">Markdown syntax</h2>
+<h3 id="relevant-course-modules">Relevant course modules</h3>
+<ul>
+<li><a href="posts/week-02">Week 2</a></li>
+</ul>
+<p><br></p>
+<h3 id="markdown-syntax">Markdown syntax</h3>
 <p>The “extended syntax” options below are not supported by all interpreters, but they are by most, such as GitHub-flavored Markdown.</p>
 <table>
 <colgroup>
@@ -2667,12 +2673,14 @@ Topic overviews
 </tr>
 </tbody>
 </table>
-<h2 id="whitespace">Whitespace</h2>
+<p><br></p>
+<h3 id="whitespace">Whitespace</h3>
 <ul>
 <li><p>Markdown generally ignores single line breaks: use two spaces at the end of a line to force a line break, or when appropriate, leave a blank line to start a new paragraph.</p></li>
 <li><p>Multiple consecutive blank lines (or spaces) will be treated the same as a single blank line (or space). For extra vertical whitespace, use the HTML tag <code>&lt;br&gt;</code>, each of which forces a new line break.</p></li>
 </ul>
-<h2 id="tables">Tables</h2>
+<p><br></p>
+<h3 id="tables">Tables</h3>
 <p>Note that the vertical bars <code>|</code> don’t have to be aligned.</p>
 <p>| blabla | blabla | <br> |———–|———–|<br />
 | blabla | blabla |<br />
@@ -2695,7 +2703,8 @@ Topic overviews
 </tr>
 </tbody>
 </table>
-<h2 id="html">HTML</h2>
+<p><br></p>
+<h3 id="html">HTML</h3>
 <p>Most Markdown interpreters accept HTML syntax. Some simple examples:</p>
 <ul>
 <li><p><strong>Figures</strong> – a centered figure using 50% of the page width:</p>
@@ -2733,9 +2742,10 @@ Topic overviews
 </tr>
 </tbody>
 </table>
-<h2 id="rendering">Rendering</h2>
+<p><br></p>
+<h3 id="rendering">Rendering</h3>
 <ul>
-<li>Use Pandoc:</li>
+<li>To <em>render</em> Markdown files, i.e. convert them to a format like HTML or PDF, use Pandoc:</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> README.md <span class="op">&gt;</span> README.html</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> <span class="at">-o</span> README.pdf README.md</span></code></pre></div>

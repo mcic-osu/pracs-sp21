@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/about.html</loc>
-    <lastmod>2021-04-25T12:21:32-04:00</lastmod>
+    <lastmod>2021-04-25T14:51:34-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/final_project.html</loc>
@@ -34,7 +34,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_git.html</loc>
-    <lastmod>2021-04-16T17:34:25-04:00</lastmod>
+    <lastmod>2021-04-25T14:13:04-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_glossary.html</loc>
@@ -42,27 +42,27 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_markdown.html</loc>
-    <lastmod>2021-03-20T19:28:26-04:00</lastmod>
+    <lastmod>2021-04-25T14:12:32-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_python.html</loc>
-    <lastmod>2021-04-24T19:42:07-04:00</lastmod>
+    <lastmod>2021-04-25T14:04:30-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_shell.html</loc>
-    <lastmod>2021-03-20T19:28:26-04:00</lastmod>
+    <lastmod>2021-04-25T14:12:27-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_shellscript.html</loc>
-    <lastmod>2021-03-20T19:28:26-04:00</lastmod>
+    <lastmod>2021-04-25T14:17:42-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_slurm.html</loc>
-    <lastmod>2021-04-24T17:10:34-04:00</lastmod>
+    <lastmod>2021-04-25T14:18:24-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_snakemake.html</loc>
-    <lastmod>2021-04-17T19:44:25-04:00</lastmod>
+    <lastmod>2021-04-25T14:19:15-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/resources.html</loc>
