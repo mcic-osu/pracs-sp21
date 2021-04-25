@@ -86,27 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Week 4: Content overview and readings</title>
+  <title>pracs-sp21: Week 4 content overview and readings</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Week 4: Content overview and readings"/>
+  <meta property="og:title" content="pracs-sp21: Week 4 content overview and readings"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Week 4: Content overview and readings"/>
+  <meta property="twitter:title" content="pracs-sp21: Week 4 content overview and readings"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 4: Content overview and readings"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 4 content overview and readings"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2453,7 +2453,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Week 4: Content overview and readings","authors":[]}
+{"title":"Week 4 content overview and readings","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2548,7 +2548,7 @@ Topic overviews
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Week 4: Content overview and readings</h1>
+<h1>Week 4 content overview and readings</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2556,32 +2556,31 @@ Topic overviews
 
 
 <div class="d-article">
-<h2 id="content-overview-for-this-week">Content overview for this week</h2>
+<h3 id="content-overview-for-this-week">Content overview for this week</h3>
 <p>This week, we will continue learning about working in the Unix shell, using Buffalo chapter 7, with a focus on <em>data tools</em>. New tools will include the <code>less</code> pager and the advanced commands <code>sed</code> and <code>awk</code> (and <code>bioawk</code>).</p>
 <p>We’ll also revisit and expand our knowledge of several tools we have already seen in week 1, such as <code>grep</code>, <code>sort</code>, and the use of Unix “pipelines”. The examples will focus on working with sequence data in several formats.</p>
 <p><strong>Some of the things you will learn this week:</strong></p>
 <ul>
-<li>How clever usage of Unix pipelines can be a large time-saver when needing to extract, convert and summarize data.</li>
-<li>Using <code>less</code> to view files and quickly find and view text matches.</li>
-<li>Using <code>grep</code> to find, count, and extract occurrences of strings and patterns.</li>
-<li>Using <code>sort</code> together with <code>cut</code> and <code>uniq</code> / <code>uniq -c</code> to summarize columns of tabular data.</li>
-<li>Using <code>awk</code> for many tasks on tabular data, including filtering rows and adding columns with arithmetic, and calculating means.</li>
-<li>Use <code>sed</code> to substitute text and reformat data.</li>
-<li>Optionally, understand <em>subshells</em> and <em>process substitution</em>.</li>
-<li>Optionally, use <code>join</code> to merge files by shared columns.</li>
+<li><p>How clever usage of Unix pipelines can be a large time-saver when needing to extract, convert and summarize data.</p></li>
+<li><p>Using <code>less</code> to view files and quickly find and view text matches.</p></li>
+<li><p>Using <code>grep</code> to find, count, and extract occurrences of strings and patterns.</p></li>
+<li><p>Using <code>sort</code> together with <code>cut</code> and <code>uniq</code> / <code>uniq -c</code> to summarize columns of tabular data.</p></li>
+<li><p>Using <code>awk</code> for many tasks on tabular data, including filtering rows and adding columns with arithmetic, and calculating means.</p></li>
+<li><p>Use <code>sed</code> to substitute text and reformat data.</p></li>
+<li><p>Optionally, understand <em>subshells</em> and <em>process substitution</em>.</p></li>
+<li><p>Optionally, use <code>join</code> to merge files by shared columns.</p></li>
 </ul>
-<h2 id="readings">Readings</h2>
-<p>This week, you will read chapter 7 of Buffalo. As mentioned in the overview above, the first part of the chapter discusses several tools we’ve already seen in week 1, such as <code>sort</code>, <code>cut</code>, and <code>uniq.</code> The chapter will quickly get more advanced though, and introduce the trickier but powerful <code>awk</code> and <code>sed</code> commands.</p>
-<p>It’s a pretty dense chapter with lots of examples. The examples all involve sequence data but if you don’t work with sequence data, it should be fairly easy to see how these tools could be applied any kind of text and tabular data.</p>
+<h3 id="readings">Readings</h3>
+<p>This week, you will read chapter 7 of Buffalo. It’s a pretty dense chapter with lots of examples. The examples all involve sequence data but if you don’t work with sequence data, it should be fairly easy to see how these tools could be applied any kind of text and tabular data.</p>
+<h4 id="required-readings">Required readings</h4>
+<ul>
+<li><p><a href="https://library.ohio-state.edu/record=b8538907~S7">Buffalo</a> Chapter 7: “Unix Data Tools”</p>
 <p>The following sections can be skimmed or skipped, depending on your bandwidth and interest in these topics:</p>
 <ul>
 <li>“Decoding Plain-Text Data: hexdump”</li>
 <li>“Bioawk: an Awk for Biological Formats” (skim or skip if you’re not working with sequence data)</li>
 <li>“Advanced Shell Tricks”</li>
-</ul>
-<h3 id="required-readings">Required readings</h3>
-<ul>
-<li><a href="https://library.ohio-state.edu/record=b8538907~S7">Buffalo</a> Chapter 7: “Unix Data Tools”</li>
+</ul></li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->

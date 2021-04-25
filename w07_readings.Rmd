@@ -1,11 +1,11 @@
 ---
-title: "Week 7: Content overview and readings"
+title: "Week 7 content overview and readings"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-## Content overview for this week
+### Content overview for this week
 
 This week is a "half-module" as it overlaps with one of the two "instructional breaks" this semester.
 We will only meet on Thursday and the chapter to be read (Buffalo Chapter 6) is a very short one.
@@ -17,22 +17,27 @@ We will also do a recap of loops and Bash scripting.
 **Some of the things you will learn this week:**
 
 - How to download data using the shell tools `wget` (and `curl`).
+
 - How to transfer data (in particular to and from OSC) using `rsync` and `sftp.`
+
 - How to check file integrity using "checksums", to ensure that you have downloaded/transferred files completely.
+
 - How to compress and uncompress data using `gzip`, and how to work with gzipped data.
+
 - Optional: Basics of process management -- in particular, how to send processes to the background.
 
-## Readings
+### Readings
 
 This chapter deals with commands for downloading data, remote copying,
 checking data integrity after download or transfer, and working with compressed data.
-Despite the title, little in the chapter "Bioinformatics Data" applies only to bioinformatics data.
+Despite the title "Bioinformatics Data",
+there is little in the chapter that applies only to *bioinformatics* data.
 
 If you have additional time to spend on the course this week,
 I recommend you review the material we've covered so far,
 as we will switch gears next week and will be covering Python for much of the rest of the course.
 
-### Required readings
+#### Required readings
 
 - [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
-  Chapter 6: "Bioinformatics Data".
+  Chapter 6: "Bioinformatics Data"

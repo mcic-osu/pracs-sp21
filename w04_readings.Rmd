@@ -1,11 +1,11 @@
 ---
-title: "Week 4: Content overview and readings"
+title: "Week 4 content overview and readings"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-## Content overview for this week
+### Content overview for this week
 
 This week, we will continue learning about working in the Unix shell,
 using Buffalo chapter 7, with a focus on *data tools*.
@@ -20,38 +20,39 @@ The examples will focus on working with sequence data in several formats.
 
 - How clever usage of Unix pipelines can be a large time-saver
   when needing to extract, convert and summarize data.
+
 - Using `less` to view files and quickly find and view text matches. 
+
 - Using `grep` to find, count, and extract occurrences of strings and patterns. 
+
 - Using `sort` together with `cut` and `uniq` / `uniq -c` to summarize columns
   of tabular data.
+
 - Using `awk` for many tasks on tabular data,
   including filtering rows and adding columns with arithmetic, and calculating means.
+
 - Use `sed` to substitute text and reformat data. 
+
 - Optionally, understand *subshells* and *process substitution*.
+
 - Optionally, use `join` to merge files by shared columns.
 
-## Readings
+### Readings
 
 This week, you will read chapter 7 of Buffalo.
-As mentioned in the overview above,
-the first part of the chapter discusses several tools we've already seen in week 1,
-such as `sort`, `cut`, and `uniq.`
-The chapter will quickly get more advanced though,
-and introduce the trickier but powerful `awk` and `sed` commands.
-
 It's a pretty dense chapter with lots of examples.
 The examples all involve sequence data but if you don't work with sequence data,
 it should be fairly easy to see how these tools could be applied any kind of text and tabular data.
 
-The following sections can be skimmed or skipped, depending on your bandwidth and
-interest in these topics:
-
-- "Decoding Plain-Text Data: hexdump"
-- "Bioawk: an Awk for Biological Formats" (skim or skip if you're not working with sequence data)
-- "Advanced Shell Tricks"
-
-### Required readings
+#### Required readings
 
 - [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
   Chapter 7: "Unix Data Tools"
+  
+  The following sections can be skimmed or skipped, depending on your bandwidth and
+  interest in these topics:
+
+  - "Decoding Plain-Text Data: hexdump"
+  - "Bioawk: an Awk for Biological Formats" (skim or skip if you're not working with sequence data)
+  - "Advanced Shell Tricks"
   

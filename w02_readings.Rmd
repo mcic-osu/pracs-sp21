@@ -1,11 +1,11 @@
 ---
-title: "Week 2: Content overview and readings"
+title: "Week 2 content overview and readings"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-## Content overview for this week
+### Content overview for this week
 
 This week, we'll talk about some best practices for project organization,
 managing your project's files in the Unix shell,
@@ -13,35 +13,32 @@ and documenting your project with Markdown files.
 We'll also spend a bit of time getting to know VS Code,
 the text editor that you will spend a lot of time in during this course.
 
-The reading for this week is Chapter 2 of the Buffalo book:
-"Setting Up and Managing a Bioinformatics Project".
+- In an [ungraded assignment](../../w02_UA_github-signup.html)
+  to get set up for upcoming modules,
+  you will sign up for a GitHub account.
 
-In an [ungraded assignment](../../w02_UA_github-signup.html)
-to get set up for upcoming modules,
-you will sign up for a Github account.
-Like last week, there are [exercises](../../w02_exercises.html)
-but no graded assignments (the first one will be issued next week).
+- Like last week, there are [exercises](../../w02_exercises.html)
+  but no graded assignments (the first one will be issued next week).
 
 **Some of the things you will learn this week:**
 
-- Learn some best practices for project organization, documentation, and management.
+- Some best practices for project organization, documentation, and management.
 
-- Learn how to apply these best practices this in the shell.
+- How to apply these best practices this in the shell.
 
-- Learn how to use Markdown for documentation (and beyond).
+- How to use Markdown for documentation (and beyond).
 
 - Get to know our text editor for the course, VS Code, a bit better.
 
-## Readings
+### Readings
 
 This week's reading is Chapter 2 of our secondary book,
-"Bioinformatics Data Skills" by Vince Buffalo
-(the book will from now on be  referred to as "Buffalo"),
+"Bioinformatics Data Skills" ("Buffalo" for short -- the author is Vince Buffalo),
 which deals with project organization and (file) management.
 
 While very useful for any biologist interested in computational skills,
-the Buffalo book is geared towards bioinformatics data, especially genomics data
-in the Next-Generation Sequencing (NGS) era.
+the Buffalo book is geared towards bioinformatics data,
+especially genomic data from Next-Generation Sequencing (NGS) experiments.
 If you don't work with sequencing data,
 don't fret about understanding the specifics of some of the examples and
 recommendations, and hopefully, the more general underlying ideas will still be helpful.
@@ -51,17 +48,17 @@ project organization,
 which we will work through in the Zoom sessions.
 For more material along these lines, optional reading is Buffalo Chapter 3. 
 
-### Required readings
+#### Required readings
 
 - [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
   Chapter 2: "Setting up and Managing a Bioinformatics Project"
   
-### Optional readings
+#### Optional readings
 
 - [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
   Chapter 3: "Remedial Unix Shell"
   
-### Further resources
+#### Further resources
 
 - Wilson et al. 2017, PLOS Computational Biology:
   "[Good enough practices in scientific computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)"

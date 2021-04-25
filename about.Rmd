@@ -2,19 +2,18 @@
 title: "About this site and course"
 ---
 
-This is the GitHub website for the course **Practical Computing Skills for Biologists**
-(a section of PLNTPTH8300 -- Current Topics in Plant Pathology),
+This is the GitHub website for the course **Practical Computing Skills for Biologists**,
 a 2-credit online-only course at Ohio State University during the Spring
 semester of 2021.
-The course is taught by [Jelmer Poelstra](mailto:poelstra.1@osu.edu)
-from the [MCIC](https://mcic.osu.edu).
+The course is taught as a section of Current Topics in Plant Pathology (PLNTPTH8300)
+by [Jelmer Poelstra](mailto:poelstra.1@osu.edu) from the [MCIC](https://mcic.osu.edu).
 
 ### Course description
 
 As datasets have rapidly grown larger in biology,
 coding has been recognized as an increasingly important skill for biologists.
 Yet in fact, basic coding skills and "computational thinking" are highly beneficial
-for any scientist, paving the way for more efficient and reproducible research.
+for any scientist, paving the way for more efficient, robust, and reproducible research.
 
 In this course, students will gain hands-on experience with a set of general and
 versatile tools for day-to-day work with data sets small and large alike.
@@ -26,12 +25,11 @@ and have others reproduce their work, with as little as a single command.
 
 ### More information
 
-For additional general information about the course,
-see the page [Practical course information](../../overview_course.html).
+See also the page [Practical course information](../../overview_course.html).
 
-#### Overview of topics
+#### Topics taught
 
-- [Shell tools](overviews_shell.html) and [Shell scripting](overviews_shellscript.html) (4 modules)
+- [Shell basics and tools](overviews_shell.html) and [Shell scripting](overviews_shellscript.html) (4 modules)
 - [Coding in Python](overviews_python.html) (5 modules)
 - [Computing at OSC with SLURM and Conda](posts/week-06/) (1 module)
 - [Version control with Git and GitHub](posts/week-03/) (1 module, applied throughout)

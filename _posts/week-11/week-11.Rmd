@@ -8,10 +8,9 @@ output:
     self_contained: false
 ---
 
-This week, you'll first learn about using NumPy and Pandas,
-two large and popular Python packages for data analysis.
-Next, we'll talk about BioPython, which is an ecosystem of packages in the
-field of bioinformatics, primarily to deal with DNA sequence data.
+This week, you'll learn about using NumPy and Pandas,
+two large and popular Python packages for data analysis,
+and BioPython, an ecosystem of packages to deal with DNA sequence data.
 
 ### [Content overview and readings](../../w11_readings.html)
 

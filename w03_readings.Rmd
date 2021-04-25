@@ -1,34 +1,32 @@
 ---
-title: "Week 3: Content overview and readings"
+title: "Week 3 content overview and readings"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-## Content overview for this week
+### Content overview for this week
 
 This week, you will be introduced to formal version control with Git,
-and will learn how to link up local repositories with remote counterparts on Github. 
+and will learn how to link up local repositories with remote counterparts on GitHub. 
 
-Your **[first graded assignment](../../w03_GA_git.html)**
-is due on Tuesday, February 2nd,
-and will be about course content from this week and the first two weeks.
+Be aware that Git is a rather challenging topic.
+Therefore, if you can, complete the main reading before Tuesday's lecture,
+and also read the Buffalo chapter at some point this week.
 
-There is also an **[ungraded assignment](../../w03_UA_git-setup.html)**
-to set up Git and authentication for Github,
-which you should have completed by the first lecture of the week on Tuesday, January 26th.
+A good way to get used to Git is to make dummy repositories where you're just
+editing one or a few simple text files with dummy lines of text.
+That way, you can get used to the basic workflow,
+and freely experiment also with commands to undo things and move back in time.
+We'll do this in our Zoom meetings and I recommend you do it outside of there, too. 
 
-Be aware that Git is a rather challenging topic, so this is not a week to slack off.
-More specifically:
+- Your **[first graded assignment](../../w03_GA_git.html)**
+  is due on Tuesday, February 2nd,
+  and will be about course content from this week and the first two weeks.
 
-- If you can, complete the main reading before Tuesday's lecture,
-  and also read the Buffalo chapter.
-
-- A good way to get used to Git is to make dummy repositories where you're just
-  editing one or a few simple text files with dummy lines of text.
-  That way, you can get used to the basic workflow,
-  and freely experiment also with commands to undo things and move back in time.
-  We'll do this in our Zoom meetings and I recommend you do it outside of there, too. 
+- There is also an **[ungraded assignment](../../w03_UA_git-setup.html)**
+  to set up Git and authentication for Github,
+  which you should have completed by the first lecture of the week on Tuesday, January 26th.
 
 **Some of the things you will learn this week:**
 
@@ -36,39 +34,38 @@ More specifically:
 
 - Learn the basics of the most widely used VCS: Git.
 
-- Learn how to put your local repositories online at Github,
+- Learn how to put your local repositories online at GitHub,
   and how to keep local and online ("remote") repositories in sync.
 
-- Learn about single-user and multi-user workflows with Git and Github.
+- Learn about single-user and multi-user workflows with Git and GitHub.
 
 - Learn how to use Git branches to safely make experimental changes.
 
 - Learn how to undo things and "travel back in time" for your project using Git.
 
-## Readings
+### Readings
 
 This week's main reading is the CSB chapter on Git, chapter 2.
 We will also roughly work our way through this chapter in the Zoom sessions.
 
 The optional reading is the Buffalo chapter on Git, chapter 5.
 Like the CSB chapter, this starts with the very basics of Git; but it goes a bit further.
-As mentioned in the overview page for the week,
-Git is a challenging subject, so I recommend you to read both of these chapters
-to really get the hang of it.
+As mentioned, Git is a challenging subject,
+so I recommend that you read both of these chapters to really get the hang of it.
 
-There are also some useful "Further Resources" mentioned below.
+There are also some useful further resources mentioned below.
 
-### Required readings
+#### Required readings
 
 - [CSB](https://library.ohio-state.edu/record=b8624007~S7)
   Chapter 2: "Version Control"
   
-### Optional readings
+#### Optional readings
 
 - [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
   Chapter 5: "Git for Scientists"
   
-### Further resources
+#### Further resources
 
 - [Git-it](https://github.com/jlord/git-it-electron#git-it)
   is a small application to learn and practice Git and GitHub basics.

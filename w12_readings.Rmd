@@ -1,12 +1,12 @@
 ---
-title: "Week 12: Content overview and readings"
+title: "Week 12 content overview and readings"
 date: 2021-04-12
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-## Content overview for this week
+### Content overview for this week
 
 ***There is another instructional break this week, so we will only meet on Tuesday.***
 
@@ -23,28 +23,27 @@ and that there is some additional functionality too.
 **Some of the things you will learn this week:**
 
 - All common regular expression constructs and their syntax in Python:
-  metacharacters, character classes (AKA sets), quantifiers, anchors, and alternations.
+  metacharacters, character classes (AKA sets), quantifiers, anchors,
+  and alternations.
 
 - Why and how we need to define regular expressions as "raw strings".
 
-- Different functions in Python's `re` module that can be used to match and replace text.
+- Different functions in Python's `re` module that can be used to match and
+  replace text.
 
 - How you can use and refer back to "groupings" in regular expressions for
   fine-grained matching and extraction of sub-matches within larger matches.  
 
-## Readings
+### Readings
 
 This week's chapter, CSB's "Regular Expressions", is relatively short and straightforward.
 Yet learning how to use regular expressions can be extremely useful!
 
-### Required readings
+#### Required readings
 
 - [CSB](https://library.ohio-state.edu/record=b8624007~S7) Chapter 5: "Regular Expressions"
 
-- Mölder et al. 2020, Zenodo:
-  "[Sustainable data analysis with Snakemake](https://zenodo.org/record/4240139)"
-
-### Further resources
+#### Further resources
 
 - Dive Into Python is a nice and free online book on Python, and its
   [chapter on regular expressions](https://diveintopython3.problemsolving.io/regular-expressions.html)

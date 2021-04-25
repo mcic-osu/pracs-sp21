@@ -1,13 +1,13 @@
 ---
-title: "Week 5: Content overview and readings"
+title: "Week 5 content overview and readings"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-## Content overview for this week
+### Content overview for this week
 
-We will talk about shell scripting this week.
+This week, we will talk about shell *scripting*.
 Last week, we focused on more advanced shell commands that can help to
 summarize and reformat data --
 but we issued these commands interactively in the shell, one line at a time.
@@ -26,31 +26,31 @@ On Thursday, we will talk about shell scripts themselves.
 
 **Some of the things you will learn this week:**
 
-- Understand why it is useful to collect your commands into scripts that can be rerun easily.
-- Use the shell's `for` and `while` loops.
-- Use the shell's `if` statements and true/false tests.
-- Understand shell variables (and arrays) and how to use them.
+- Why it is useful to collect your commands into scripts that can be rerun easily.
+- `for` and `while` loops.
+- `if` statements and true/false tests.
+- Shell variables (and arrays) and how to use them.
 - Why and how to start shell scripts with a "shebang" line and `set` settings.
 - Why and how to dress up your scripts with tests and `echo` statements.
 
-## Readings
+### Readings
 
 This week's reading is Chapter 12 from the Buffalo book.
 
 The latter part of this chapter is about using `find`, `xargs`, and Makefiles.
-These are somewhat tangential to the week's topic of scripts, and in class,
-I will likely only touch on find, briefly.
+These are somewhat tangential to the week's topic of scripts:
+in class, I will likely only touch briefly on `find`.
 
 If you can, do read these sections,
 but I recommend you focus on the first part of the chapter,
 especially if run out of time or bandwidth. 
 
-(As for Makefiles specifically, it will be good to understand the principle behind them.
-But there is no need to fully understand the syntax,
+As for Makefiles specifically, it will be good to understand the principle behind them.
+However, there is no need to fully understand the syntax,
 since we will learn about Snakemake, an alternative approach to workflow management,
-later in the course.) 
+later in the course.
 
-### Required readings
+#### Required readings
 
 - [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
   Chapter 12: "Bioinformatics Shell Scripting, Writing Pipelines, and Parallelizing Tasks"

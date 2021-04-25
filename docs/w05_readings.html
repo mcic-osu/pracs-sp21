@@ -86,27 +86,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Week 5: Content overview and readings</title>
+  <title>pracs-sp21: Week 5 content overview and readings</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Week 5: Content overview and readings"/>
+  <meta property="og:title" content="pracs-sp21: Week 5 content overview and readings"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Week 5: Content overview and readings"/>
+  <meta property="twitter:title" content="pracs-sp21: Week 5 content overview and readings"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 5: Content overview and readings"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 5 content overview and readings"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2453,7 +2453,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Week 5: Content overview and readings","authors":[]}
+{"title":"Week 5 content overview and readings","authors":[]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2548,7 +2548,7 @@ Topic overviews
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Week 5: Content overview and readings</h1>
+<h1>Week 5 content overview and readings</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2556,24 +2556,24 @@ Topic overviews
 
 
 <div class="d-article">
-<h2 id="content-overview-for-this-week">Content overview for this week</h2>
-<p>We will talk about shell scripting this week. Last week, we focused on more advanced shell commands that can help to summarize and reformat data – but we issued these commands interactively in the shell, one line at a time. When you need to repeat a certain sequence of commands regularly, or run a program that may take a while, it becomes useful to put your shell commands in a script. Such a script can be easily and quickly (re-)executed, or submitted to a queue on a cluster (next week’s topic!).</p>
+<h3 id="content-overview-for-this-week">Content overview for this week</h3>
+<p>This week, we will talk about shell <em>scripting</em>. Last week, we focused on more advanced shell commands that can help to summarize and reformat data – but we issued these commands interactively in the shell, one line at a time. When you need to repeat a certain sequence of commands regularly, or run a program that may take a while, it becomes useful to put your shell commands in a script. Such a script can be easily and quickly (re-)executed, or submitted to a queue on a cluster (next week’s topic!).</p>
 <p>Since shell scripts are essentially sequences of shell commands with some added bells and whistles, it is relatively straightforward to start using them with what we have learned so far. That said, we will start by further setting the stage for scripts by talking about loops, conditionals, and variables on Tuesday. On Thursday, we will talk about shell scripts themselves.</p>
 <p><strong>Some of the things you will learn this week:</strong></p>
 <ul>
-<li>Understand why it is useful to collect your commands into scripts that can be rerun easily.</li>
-<li>Use the shell’s <code>for</code> and <code>while</code> loops.</li>
-<li>Use the shell’s <code>if</code> statements and true/false tests.</li>
-<li>Understand shell variables (and arrays) and how to use them.</li>
+<li>Why it is useful to collect your commands into scripts that can be rerun easily.</li>
+<li><code>for</code> and <code>while</code> loops.</li>
+<li><code>if</code> statements and true/false tests.</li>
+<li>Shell variables (and arrays) and how to use them.</li>
 <li>Why and how to start shell scripts with a “shebang” line and <code>set</code> settings.</li>
 <li>Why and how to dress up your scripts with tests and <code>echo</code> statements.</li>
 </ul>
-<h2 id="readings">Readings</h2>
+<h3 id="readings">Readings</h3>
 <p>This week’s reading is Chapter 12 from the Buffalo book.</p>
-<p>The latter part of this chapter is about using <code>find</code>, <code>xargs</code>, and Makefiles. These are somewhat tangential to the week’s topic of scripts, and in class, I will likely only touch on find, briefly.</p>
+<p>The latter part of this chapter is about using <code>find</code>, <code>xargs</code>, and Makefiles. These are somewhat tangential to the week’s topic of scripts: in class, I will likely only touch briefly on <code>find</code>.</p>
 <p>If you can, do read these sections, but I recommend you focus on the first part of the chapter, especially if run out of time or bandwidth.</p>
-<p>(As for Makefiles specifically, it will be good to understand the principle behind them. But there is no need to fully understand the syntax, since we will learn about Snakemake, an alternative approach to workflow management, later in the course.)</p>
-<h3 id="required-readings">Required readings</h3>
+<p>As for Makefiles specifically, it will be good to understand the principle behind them. However, there is no need to fully understand the syntax, since we will learn about Snakemake, an alternative approach to workflow management, later in the course.</p>
+<h4 id="required-readings">Required readings</h4>
 <ul>
 <li><a href="https://library.ohio-state.edu/record=b8538907~S7">Buffalo</a> Chapter 12: “Bioinformatics Shell Scripting, Writing Pipelines, and Parallelizing Tasks”</li>
 </ul>

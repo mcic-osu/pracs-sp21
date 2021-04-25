@@ -8,16 +8,13 @@ output:
     self_contained: false
 ---
 
-This week, we will continue our exploration of basic Python data structures,
-and will also learn about control flow and working with files in Python.
+This week, you will learn about control flow and working with files in Python.
 
 ### [Content overview and readings](../../w09_readings.html)
 
 ### Slides
 
-- [Slides: Data structures](../week-08/slides/08-2.html#resume-here) -- Tuesday Zoom (Mar 9)
-
-- [Slides: Control flow (Zach)](../week-09/slides/09-1_zach.pdf) -- Tuesday/Thursday Zoom
+- [Slides: Control flow (Zach)](../week-09/slides/09-1_zach.pdf) -- Tuesday Zoom (Mar 9)
 
 - [Slides: Working with files](../week-09/slides/09-2.html) -- Thursday Zoom (Mar 11)
 

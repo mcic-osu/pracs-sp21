@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/about.html</loc>
-    <lastmod>2021-04-24T19:40:23-04:00</lastmod>
+    <lastmod>2021-04-25T12:21:32-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/final_project.html</loc>
@@ -38,7 +38,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_glossary.html</loc>
-    <lastmod>2021-04-24T19:42:59-04:00</lastmod>
+    <lastmod>2021-04-24T20:07:14-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/overviews_markdown.html</loc>
@@ -74,7 +74,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w01_readings.html</loc>
-    <lastmod>2021-04-24T16:20:28-04:00</lastmod>
+    <lastmod>2021-04-25T13:06:29-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w01_UA_installation.html</loc>
@@ -90,11 +90,11 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w02_readings.html</loc>
-    <lastmod>2021-04-23T14:41:31-04:00</lastmod>
+    <lastmod>2021-04-25T13:06:07-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w02_UA_github-signup.html</loc>
-    <lastmod>2021-04-23T15:10:59-04:00</lastmod>
+    <lastmod>2021-04-25T12:32:49-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w03_GA_git.html</loc>
@@ -102,7 +102,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w03_readings.html</loc>
-    <lastmod>2021-04-23T14:37:45-04:00</lastmod>
+    <lastmod>2021-04-25T13:07:25-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w03_UA_git-setup.html</loc>
@@ -114,7 +114,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w04_readings.html</loc>
-    <lastmod>2021-04-23T14:11:08-04:00</lastmod>
+    <lastmod>2021-04-25T13:08:33-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w05_exercises.html</loc>
@@ -122,7 +122,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w05_readings.html</loc>
-    <lastmod>2021-04-23T14:05:56-04:00</lastmod>
+    <lastmod>2021-04-25T13:08:15-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w06_GA_scripts.html</loc>
@@ -130,7 +130,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w06_readings.html</loc>
-    <lastmod>2021-04-23T12:25:03-04:00</lastmod>
+    <lastmod>2021-04-25T13:07:52-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w06_UA_ssh.html</loc>
@@ -142,7 +142,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w07_readings.html</loc>
-    <lastmod>2021-04-23T12:20:03-04:00</lastmod>
+    <lastmod>2021-04-25T13:06:49-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w08_exercises.html</loc>
@@ -154,7 +154,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w08_readings.html</loc>
-    <lastmod>2021-04-23T12:10:02-04:00</lastmod>
+    <lastmod>2021-04-25T13:19:03-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w09_exercises.html</loc>
@@ -162,7 +162,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w09_readings.html</loc>
-    <lastmod>2021-04-22T13:24:13-04:00</lastmod>
+    <lastmod>2021-04-25T13:18:52-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w10_exercises.html</loc>
@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w10_readings.html</loc>
-    <lastmod>2021-04-22T13:12:39-04:00</lastmod>
+    <lastmod>2021-04-25T13:45:09-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w11_exercises.html</loc>
@@ -178,7 +178,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w11_readings.html</loc>
-    <lastmod>2021-04-21T20:49:50-04:00</lastmod>
+    <lastmod>2021-04-25T13:47:15-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w12_exercises.html</loc>
@@ -186,7 +186,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w12_readings.html</loc>
-    <lastmod>2021-04-21T20:34:46-04:00</lastmod>
+    <lastmod>2021-04-25T13:50:12-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w13_exercises-bonus.html</loc>
@@ -198,11 +198,11 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w13_readings.html</loc>
-    <lastmod>2021-04-21T20:28:53-04:00</lastmod>
+    <lastmod>2021-04-25T13:55:31-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/w14_readings.html</loc>
-    <lastmod>2021-04-21T20:27:11-04:00</lastmod>
+    <lastmod>2021-04-25T13:57:22-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-14/</loc>
@@ -218,7 +218,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-11/</loc>
-    <lastmod>2021-04-21T20:35:37-04:00</lastmod>
+    <lastmod>2021-04-25T13:47:03-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-10/</loc>
@@ -226,11 +226,11 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-09/</loc>
-    <lastmod>2021-04-24T19:55:03-04:00</lastmod>
+    <lastmod>2021-04-25T13:19:15-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-08/</loc>
-    <lastmod>2021-03-11T17:49:19-05:00</lastmod>
+    <lastmod>2021-04-25T13:10:29-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-07/</loc>
@@ -238,7 +238,7 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-06/</loc>
-    <lastmod>2021-04-24T19:54:41-04:00</lastmod>
+    <lastmod>2021-04-25T12:53:27-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-05/</loc>
@@ -250,11 +250,11 @@
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-03/</loc>
-    <lastmod>2021-04-24T19:54:14-04:00</lastmod>
+    <lastmod>2021-04-25T12:38:45-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-02/</loc>
-    <lastmod>2021-04-24T19:53:57-04:00</lastmod>
+    <lastmod>2021-04-25T12:33:09-04:00</lastmod>
   </url>
   <url>
     <loc>https://mcic-osu.github.io/pracs-sp21/posts/week-01/</loc>

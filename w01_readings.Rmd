@@ -1,11 +1,11 @@
 ---
-title: "Week 1: Content overview and readings"
+title: "Week 1 content overview and readings"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-## Content overview for this week
+### Content overview for this week
 
 This week, you will get an introduction to and overview of the course
 (Tuesday session) and will learn the basics of working in a Unix shell environment
@@ -15,19 +15,19 @@ This week, you will get an introduction to and overview of the course
 
 #### Course intro & overview (Tuesday class)
 
-- Know what to expect from this course.
+- What to expect from this course.
 
-- Learn what tools and languages we will use.
+- Which tools and languages we will use.
 
-- Know what is expected of you during this course.
+- What is expected of you during this course.
 
-- Understand the infrastructure of the course.
+- Get up to speed on the infrastructure of the course.
 
 #### Unix shell basics (Thursday class, Readings, and Exercises)
 
-- Understand why using a command-line interface can be beneficial.
+- Why using a command-line interface can be beneficial.
 
-- Understand what a shell is and what you can do with it. 
+- What the Unix shell is and what you can do with it. 
 
 - Using the shell, learn how to:
   - Navigate around your computer.
@@ -35,7 +35,7 @@ This week, you will get an introduction to and overview of the course
   - Find and view text files.
   - Search within, manipulate, and extract information from text files.
 
-## Readings
+### Readings
 
 The first few pages of our primary book,
 **Computing Skills for Biologists by Allesina & Wilmes** (**CSB** for short),
@@ -51,10 +51,10 @@ Because repetition is beneficial,
 you are welcome to actively work through the code in the chapter beforehand --
 this will be particularly useful for those who have never used a shell before.
 
-(Side note: we will cover much of this content again, and in more detail,
+(Side note: we will cover many of the commands from this week in more detail
 in weeks 4-6, using the Buffalo book.)
 
-### Required readings
+#### Required readings
 
 - [CSB](https://library.ohio-state.edu/record=b8624007~S7)
   Chapter 0: "Introduction Building a Computing Toolbox" --
@@ -63,7 +63,7 @@ in weeks 4-6, using the Buffalo book.)
 - [CSB](https://library.ohio-state.edu/record=b8624007~S7)
   Chapter 1: "Unix"
 
-### Further resources
+#### Further resources
 
 - [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
   Preface and Chapter 1: "How to Lean Bioinformatics"

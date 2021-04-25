@@ -8,9 +8,9 @@ output:
     self_contained: false
 ---
 
-This week, we'll start with an introduction to OSC and supercomputers.
-Then, we'll see how we can submit shell scripts to OSC's queue for compute jobs
-with the widely-used SLURM resource manager.
+This week, you'll learn about the Ohio Supercomputer Center (OSC),
+submitting shell scripts to OSC's queue with SLURM,
+and managing software with Conda.
 
 ### [Content overview and readings](../../w06_readings.html)
 

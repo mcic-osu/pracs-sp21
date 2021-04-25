@@ -1,6 +1,5 @@
 ---
-title: "Week 14: Readings"
-date: 2021-04-12
+title: "Week 14 readings"
 output:
   distill::distill_article:
     self_contained: false

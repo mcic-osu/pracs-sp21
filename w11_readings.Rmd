@@ -1,11 +1,11 @@
 ---
-title: "Week 11: Content overview and readings"
+title: "Week 11 content overview and readings"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-## Content overview for this week
+### Content overview for this week
 
 This week, you'll first learn about using NumPy and Pandas,
 two large and popular Python packages for data analysis.
@@ -23,9 +23,9 @@ field of bioinformatics, primarily to deal with DNA sequence data.
 - Use various BioPython modules to download sequence data from the NCBI,
   parse and subset FASTA files, and run BLAST.   
 
-## Readings
+### Readings
 
-### Required readings
+#### Required readings
 
 - [CSB](https://library.ohio-state.edu/record=b8624007~S7)
   Chapter 6: "Scientific Computing"
@@ -33,7 +33,7 @@ field of bioinformatics, primarily to deal with DNA sequence data.
   Sections 6.2.3-6.2.5 ("Linear algebra", "Integration", and "Optimization", respectively)
   are **optional** reading and won't be discussed in class.
   
-### Further resources
+#### Further resources
 
 These resources are mostly from CSB 6.7 ("References and Reading"),
 with some additions and replacements:

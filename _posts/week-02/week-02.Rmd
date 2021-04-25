@@ -8,13 +8,9 @@ output:
     self_contained: false
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
-
 This week, we'll talk about some best practices for project organization
 and applying these in the Unix shell, documenting your project with Markdown files,
-and we'll get to know the course's text editor (VS Code) a bit better.
+and VS Code, the course's text editor.
 
 ### [Content overview and readings](../../w02_readings.html)
 
@@ -31,4 +27,4 @@ and we'll get to know the course's text editor (VS Code) a bit better.
 
 - [Exercises for week 2](../../w02_exercises.html)
 
-- [Sign up for a Github account (CarmenCanvas site)](https://osu.instructure.com/courses/94975/assignments/2002693)
+- [Sign up for a GitHub account](../../w02_UA_github-signup.html)

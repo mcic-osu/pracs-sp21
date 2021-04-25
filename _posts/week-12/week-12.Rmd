@@ -9,16 +9,14 @@ output:
 ---
 
 This week, you will learn about using regular expressions in Python.
+Because of the second "instructional break" of the semester,
+we will only meet on Tuesday.
 
 ### [Content overview and readings](../../w12_readings.html)
 
 ### Slides
 
 - [Slides: Regex](../week-12/slides/12-1.html) -- Tuesday Zoom (Mar 30)
-
-:::content-box-info
-*No Thursday Zoom this week -- we have the second "instructional break" of the semester.*
-:::
 
 ### Ungraded assignments
 

@@ -8,7 +8,7 @@ output:
     self_contained: false
 ---
 
-In this half-module (no class on Tuesday),
+In this half-module (we have no class on Tuesday),
 we will talk about downloading and transferring data in the shell,
 checking file integrity, and working with compressed data. 
 
@@ -16,8 +16,9 @@ checking file integrity, and working with compressed data.
 
 ### Slides
 
-- [Slides: data download, transfer and integrity, shell productivity tips, & scripting recap](slides/07-1.html) -- Thursday Zoom (Feb 25)
+- [Slides: data download, transfer and integrity, shell productivity tips, & scripting recap](slides/07-1.html) 
+  -- Thursday Zoom (Feb 25)
 
 ### Ungraded assignments
 
-- [Exercises for Week 7](../../w07_exercises.html)
+- [Exercises for week 7](../../w07_exercises.html)

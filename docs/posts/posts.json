@@ -42,9 +42,9 @@
     "author": [],
     "date": "2021-03-22",
     "categories": [],
-    "contents": "\nContent overview and readings\nSlides\nSlides: Numpy – Tuesday Zoom (Mar 23)\nSlides: Pandas – Tuesday/Thursday Zoom\nSlides: BioPython – Thursday Zoom (Mar 25)\nUngraded assignments\nExercises for week 11\nFinal project: due\nFinal project: proposal – due Tuesday, Mar 23\n\n\n\n",
+    "contents": "\nThis week, you’ll learn about using NumPy and Pandas, two large and popular Python packages for data analysis, and BioPython, an ecosystem of packages to deal with DNA sequence data.\nContent overview and readings\nSlides\nSlides: Numpy – Tuesday Zoom (Mar 23)\nSlides: Pandas – Tuesday/Thursday Zoom\nSlides: BioPython – Thursday Zoom (Mar 25)\nUngraded assignments\nExercises for week 11\nFinal project: due\nFinal project: proposal – due Tuesday, Mar 23\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-04-21T20:35:37-04:00",
+    "last_modified": "2021-04-25T13:47:03-04:00",
     "input_file": {}
   },
   {
@@ -66,9 +66,9 @@
     "author": [],
     "date": "2021-03-08",
     "categories": [],
-    "contents": "\nThis week, we will continue our exploration of basic Python data structures, and will also learn about control flow and working with files in Python.\nContent overview and readings\nSlides\nSlides: Data structures – Tuesday Zoom (Mar 9)\nSlides: Control flow (Zach) – Tuesday/Thursday Zoom\nSlides: Working with files – Thursday Zoom (Mar 11)\nUngraded assignments\nExercises for week 9\n\n\n\n",
+    "contents": "\nThis week, you will learn about control flow and working with files in Python.\nContent overview and readings\nSlides\nSlides: Control flow (Zach) – Tuesday Zoom (Mar 9)\nSlides: Working with files – Thursday Zoom (Mar 11)\nUngraded assignments\nExercises for week 9\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-04-24T19:55:03-04:00",
+    "last_modified": "2021-04-25T13:19:15-04:00",
     "input_file": {}
   },
   {
@@ -78,9 +78,9 @@
     "author": [],
     "date": "2021-03-01",
     "categories": [],
-    "contents": "\nSlides\nSlides: Introduction to Python – Tuesday Zoom (Mar 2)\nSlides: Python data structures – Thursday Zoom (Mar 4)\nUngraded assignments\nExercises for week 8\nResources\nPython resources\n\n\n\n",
+    "contents": "\nThis is the first of five consecutive weeks focused entirely on Python, and we will start by seeing why Python is a useful language for biologists and by getting acquainted with Python basics.\nContent overview and readings\nSlides\nSlides: Introduction to Python – Tuesday Zoom (Mar 2)\nSlides: Python data structures – Thursday Zoom (Mar 4)\nUngraded assignments\nExercises for week 8\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-03-11T17:49:19-05:00",
+    "last_modified": "2021-04-25T13:10:29-04:00",
     "input_file": {}
   },
   {
@@ -102,9 +102,9 @@
     "author": [],
     "date": "2021-02-15",
     "categories": [],
-    "contents": "\nThis week, we’ll start with an introduction to OSC and supercomputers. Then, we’ll see how we can submit shell scripts to OSC’s queue for compute jobs with the widely-used SLURM resource manager.\nContent overview and readings\nSlides\nSlides: Part I – An introduction to using OSC – Tuesday Zoom (Feb 16)\nSlides: Part II – SLURM jobs in practice – Thursday Zoom (Feb 18)\nGraded assignments\nGraded assignment for week 6 (Due Tuesday, Feb 23)\nUngraded assignments\nMid-course survey\nOptional: SSH setup\n\n\n\n",
+    "contents": "\nThis week, you’ll learn about the Ohio Supercomputer Center (OSC), submitting shell scripts to OSC’s queue with SLURM, and managing software with Conda.\nContent overview and readings\nSlides\nSlides: Part I – An introduction to using OSC – Tuesday Zoom (Feb 16)\nSlides: Part II – SLURM jobs in practice – Thursday Zoom (Feb 18)\nGraded assignments\nGraded assignment for week 6 (Due Tuesday, Feb 23)\nUngraded assignments\nMid-course survey\nOptional: SSH setup\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-04-24T19:54:41-04:00",
+    "last_modified": "2021-04-25T12:53:27-04:00",
     "input_file": {}
   },
   {
@@ -138,9 +138,9 @@
     "author": [],
     "date": "2021-01-25",
     "categories": [],
-    "contents": "\nThis week, you will learn about the why and how of using Git version control for your projects, and sharing your code on GitHub.\nContent overview and readings\nSlides\nSlides: Part I – Getting started with Git – Tuesday Zoom (Jan 26)\nSlides: Part II – Remotes on GitHub, and branching & merging – Thursday Zoom (Jan 28)\nSlides: Part III – Undoing changes and viewing the past – Thursday / bonus\nUngraded assignments\nGit setup & GitHub authentication\nGraded assignments\nGraded assignment I: Shell, Markdown and Git\n\n\n\n",
+    "contents": "\nThis week, you will learn about the why and how of using Git version control for your projects, and sharing your code on GitHub.\nContent overview and readings\nSlides\nSlides: Part I – Getting started with Git – Tue Zoom (Jan 26)\nSlides: Part II – Remotes on GitHub, and branching & merging – Thu Zoom (Jan 28)\nBonus slides: Undoing changes and viewing the past\nUngraded assignments\nGit setup & GitHub authentication\nGraded assignments\nGraded assignment I: Shell, Markdown and Git (Due Tue, Feb 2)\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-04-24T19:54:14-04:00",
+    "last_modified": "2021-04-25T12:38:45-04:00",
     "input_file": {}
   },
   {
@@ -150,9 +150,9 @@
     "author": [],
     "date": "2021-01-18",
     "categories": [],
-    "contents": "\nThis week, we’ll talk about some best practices for project organization and applying these in the Unix shell, documenting your project with Markdown files, and we’ll get to know the course’s text editor (VS Code) a bit better.\nContent overview and readings\nSlides\nSlides: Part I – Some best practices for project organization – Tuesday Zoom (Jan 19)\nSlides: Part II - Markdown and VS Code – Tue/Thu Zoom\nSlides: Part III - Managing files in the shell – Thursday Zoom (Jan 21)\nUngraded assignments\nExercises for week 2\nSign up for a Github account (CarmenCanvas site)\n\n\n\n",
+    "contents": "\nThis week, we’ll talk about some best practices for project organization and applying these in the Unix shell, documenting your project with Markdown files, and VS Code, the course’s text editor.\nContent overview and readings\nSlides\nSlides: Part I – Some best practices for project organization – Tuesday Zoom (Jan 19)\nSlides: Part II - Markdown and VS Code – Tue/Thu Zoom\nSlides: Part III - Managing files in the shell – Thursday Zoom (Jan 21)\nUngraded assignments\nExercises for week 2\nSign up for a GitHub account\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-04-24T19:53:57-04:00",
+    "last_modified": "2021-04-25T12:33:09-04:00",
     "input_file": {}
   },
   {

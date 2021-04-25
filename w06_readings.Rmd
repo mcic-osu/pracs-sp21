@@ -1,28 +1,40 @@
 ---
-title: "Week 6: Content overview and readings"
+title: "Week 6 content overview and readings"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-## Content overview for this week
+### Content overview for this week
 
 This week, we'll start with an introduction to OSC and supercomputers.
 Then, we'll see how we can submit shell scripts to OSC's queue for compute jobs
 with the widely-used SLURM resource manager.
+Finally, we will learn about installing and managing software with Conda,
+and loading pre-installed software with the "module" system.
 
 **Some of the things you will learn this week:**
 
-- Understand when and why we need to run our analyses on supercomputers.
-- Learn the key terminology around supercomputers.
-- Learn about different ways to access OSC.
-- Learn about different ways to transfer data to and from OSC.
-- Learn about different ways to start compute jobs: via OnDemand, with interactive jobs, and with scripts.
-- Learn some strategies around requesting appropriate resources for your compute jobs.
-- Learn the SLURM/`sbatch` syntax to request specific resources for your compute jobs.
-- Learn how to monitor SLURM jobs.
+- When and why we need to run our analyses on supercomputers.
 
-## Readings
+- Key terminology around supercomputers.
+
+- Different ways to access and transfer data to and from OSC.
+
+- Different ways to start "compute jobs":
+  via OnDemand, with interactive jobs, and with scripts.
+
+- Some strategies around requesting appropriate resources for your compute jobs.
+
+- The SLURM/`sbatch` syntax to request specific resources for your compute jobs.
+
+- How to monitor SLURM jobs.
+
+- How to load pre-installed software at OSC with the "module" system.
+
+- How to install and manage software with Conda.
+
+### Readings
 
 This week's required reading is a little unusual, as it is not a book chapter.
 Instead, you will read part of the OSC documentation.
@@ -31,7 +43,7 @@ but you are welcome to use your own judgment in how much you want to read.
 You are also encouraged to simply look around on OSC's website a bit to get an idea of what's there,
 and bookmark pages that you think will be useful for you later on.
 
-### Required readings
+#### Required readings
 
 Part of the OSC documentation:
 
@@ -46,7 +58,7 @@ Part of the OSC documentation:
   (in that last section, you can stop when you reach "Considerations for parallel jobs",
   unless this is something that interests you).
 
-### Optional readings
+#### Optional readings
 
 - [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
   Chapter 4: "Working with Remote Machines"

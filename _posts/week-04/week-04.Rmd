@@ -10,7 +10,7 @@ output:
 
 This week, we will continue learning about working in the Unix shell,
 with a focus on tools that are useful for working with text files with
-(large amounts of) data, such as `grep`, `awk`, and `sed`.
+(possibly large amounts of) data, such as `grep`, `awk`, and `sed`.
 
 ### [Content overview and readings](../../w04_readings.html)
 

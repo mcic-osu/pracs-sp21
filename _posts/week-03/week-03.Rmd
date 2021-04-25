@@ -15,11 +15,11 @@ your projects, and sharing your code on GitHub.
 
 ### Slides
 
-- [Slides: Part I -- Getting started with Git](slides/03-1_git.html) -- Tuesday Zoom (Jan 26)
+- [Slides: Part I -- Getting started with Git](slides/03-1_git.html) -- Tue Zoom (Jan 26)
 
-- [Slides: Part II -- Remotes on GitHub, and branching & merging](slides/03-2_git.html) -- Thursday Zoom (Jan 28)
+- [Slides: Part II -- Remotes on GitHub, and branching & merging](slides/03-2_git.html) -- Thu Zoom (Jan 28)
 
-- [Slides: Part III -- Undoing changes and viewing the past](slides/03-3_git.html) -- Thursday / bonus
+- [Bonus slides: Undoing changes and viewing the past](slides/03-3_git.html)
 
 ### Ungraded assignments
 
@@ -27,4 +27,4 @@ your projects, and sharing your code on GitHub.
 
 ### Graded assignments
 
-- [Graded assignment I: Shell, Markdown and Git](../../w03_GA_git.html)
+- [Graded assignment I: Shell, Markdown and Git](../../w03_GA_git.html) (Due Tue, Feb 2)

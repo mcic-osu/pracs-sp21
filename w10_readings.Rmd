@@ -1,47 +1,47 @@
 ---
-title: "Week 10: Content overview and readings"
+title: "Week 10 content overview and readings"
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-## Content overview for this week
+### Content overview for this week
 
 This week, we wil talk about several strategies for writing "good" code:
 code that is clear, modular, flexible, and easy to troubleshoot.
 
 **Some of the things you will learn this week:**
 
-- Understand the basics of Python's module and package system,
+- The basics of Python's module and package system,
   and how to import modules into your script or session.
 
-- Understand why you should write your own functions, and learn how to write them in Python.
+- Why you should write your own functions, and learn how to write them in Python.
 
-- Learn what a good structure for a program (script) is.
+- How to properly *structure* your code.
 
-- Learn some basic Python coding style guidelines for clear code.
+- How to run Python scripts from the shell.
 
-- Learn how to call Python scripts from the shell.
-
-- Learn how to interpret and handle errors that arise.
+- How to interpret and handle errors.
 
 - Better understand the difference between mutable and immutable Python data
   structures and the need to explicitly copy mutable data structures.
 
 And optionally:
 
-- Learn how to debug Python code with a debugger.
+- Python coding style guidelines for clear code.
 
-- Learn what unit testing and profiling is,
+- How to debug Python code with a debugger.
+
+- What unit testing and profiling is,
   and how to perform some basic implementations of this in Python.
 
-## Readings
+### Readings
 
-### Required readings
+#### Required readings
 
 - **[CSB](https://library.ohio-state.edu/record=b8624007~S7)**
   **Chapter 4: "Writing Good Code"**
   
   - Section 4.6-4.8 on debugging, unit testing, and profiling, respectively, are optional.
   
-  - But don't forget the last section, 4.9 ("Beyond the Basics"), which is required.
+  - But don't forget the last section, 4.9 ("Beyond the Basics")!

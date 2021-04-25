@@ -86,7 +86,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>pracs-sp21: Week 13: Content overview and readings</title>
+  <title>pracs-sp21: Week 13 content overview and readings</title>
 
 
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
@@ -96,20 +96,20 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta property="article:created" itemprop="dateCreated" content="2021-04-12"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="pracs-sp21: Week 13: Content overview and readings"/>
+  <meta property="og:title" content="pracs-sp21: Week 13 content overview and readings"/>
   <meta property="og:type" content="article"/>
   <meta property="og:locale" content="en_US"/>
   <meta property="og:site_name" content="pracs-sp21"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="pracs-sp21: Week 13: Content overview and readings"/>
+  <meta property="twitter:title" content="pracs-sp21: Week 13 content overview and readings"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 13: Content overview and readings"]},{"type":"character","attributes":{},"value":["2021-04-12"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Week 13 content overview and readings"]},{"type":"character","attributes":{},"value":["2021-04-12"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   <!--radix_placeholder_navigation_in_header-->
@@ -2456,7 +2456,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Week 13: Content overview and readings","authors":[],"publishedDate":"2021-04-12T00:00:00.000-04:00"}
+{"title":"Week 13 content overview and readings","authors":[],"publishedDate":"2021-04-12T00:00:00.000-04:00"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2551,7 +2551,7 @@ Topic overviews
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Week 13: Content overview and readings</h1>
+<h1>Week 13 content overview and readings</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
 
@@ -2559,28 +2559,28 @@ Topic overviews
 
 
 <div class="d-article">
-<h2 id="content-overview-for-this-week">Content overview for this week</h2>
-<p>Snakemake workflows (pipelines) are described in a so-called Snakefile. Since Snakemake is a Python program, its syntax is very similar to regular Python and we can even include plain Python code! Since we have been learning Python as well as Bash and shell scripting, this puts us in a really good position to learn Snakemake.</p>
-<p>While its learning curve is not trivial even with all of our pre-existing knowledge, there are many advantages to using Snakemake if you have analysis pipelines that include at least a few scripts. For example, it makes our analysis pipelines more reproducible, portable, scalable, and transparent than regular Bash or Python scripts that glue together a pipeline. In addition, Snakemake takes care of a lot of boilerplate code for you, such as SLURM directives in shell scripts; and you can even forego using shell scripts altogether and specify all shell commands in a Snakefile directly. Finally, Snakemake can be an incredible timesaver when errors occur in your pipeline or you need to repeat parts of it.</p>
+<h3 id="content-overview-for-this-week">Content overview for this week</h3>
+<p>Since Snakemake is a Python program, its syntax is very similar to regular Python and we can even include plain Python code! Our previous experience with Python therefore puts us in a really good position to learn Snakemake.</p>
+<p>While its learning curve is not trivial even with all of our pre-existing knowledge, there are many advantages to using Snakemake when you have analysis pipelines that include at least a few scripts. For example, it makes our analysis pipelines more reproducible, portable, scalable, and transparent than regular Bash or Python scripts that glue together a pipeline. In addition, Snakemake takes care of a lot of boilerplate code for you, such as SLURM directives in shell scripts; and you can even forego using shell scripts altogether and specify all shell commands in a “Snakefile” (workflow script) directly. Finally, Snakemake can be an incredible timesaver when errors occur in your pipeline or you need to repeat parts of it – which is common!</p>
 <p><strong>Some of the things you will learn this week:</strong></p>
 <ul>
-<li><p>What challenges you can (will) run into when glueing analysis pipelines together with regular Bash (or Python) scripts.</p></li>
+<li><p>What challenges you can (will) run into when trying to glue analysis pipelines together with regular Bash (or Python) scripts.</p></li>
 <li><p>What Workflow Management Systems are, and why they are useful.</p></li>
 <li><p>The basics of using Snakemake to describe and run workflows.</p></li>
 <li><p>How to get Snakemake to submit SLURM jobs for you.</p></li>
 </ul>
-<h2 id="readings">Readings</h2>
+<h3 id="readings">Readings</h3>
 <p>Since neither of the books cover Snakemake, you’ll be reading two articles: a journalistic feature article in Nature as a light introduction to workflow systems, and a manuscript by some of the authors of Snakemake.</p>
-<p>In the latter, I recommend you read until you reach the heading “2.2.1 Modularization” on page 7, and beyond there, you can skim/read/skip as you see fit.</p>
-<p>You may also want to (re)visit the section “Make and Makefiles: Another Option for Pipelines” in the Buffalo book, Chapter 12, p. 421-423. Snakemake was heavily inspired by Make (hence the name) but is much more user-friendly and has many more options.</p>
-<h3 id="required-readings">Required readings</h3>
+<p>In the latter article, I recommend you read until you reach the heading “2.2.1 Modularization” on page 7, and beyond there, you can skim/read/skip as you see fit.</p>
+<p>You may also want to (re)visit the section “Make and Makefiles: Another Option for Pipelines” in the Buffalo book, Chapter 12, p. 421-423. Snakemake was heavily inspired by Make (hence its name) but is much more user-friendly and has many more options.</p>
+<h4 id="required-readings">Required readings</h4>
 <ul>
 <li><p>Perkel 2019, Nature “Toolbox” feature: “<a href="https://www.nature.com/articles/d41586-019-02619-z">Workflow systems turn raw data into scientific knowledge</a>”</p></li>
 <li><p>Mölder et al. 2020, Zenodo: “<a href="https://zenodo.org/record/4240139">Sustainable data analysis with Snakemake</a>”</p></li>
 </ul>
-<h3 id="further-resources">Further resources</h3>
+<h4 id="further-resources">Further resources</h4>
 <ul>
-<li><p><a href="https://library.ohio-state.edu/record=b8538907~S7">Buffalo</a> p. 421-423 (Chapter 12): section “Make and Makefiles: Another Option for Pipelines”.</p></li>
+<li><p><a href="https://library.ohio-state.edu/record=b8538907~S7">Buffalo</a></p></li>
 <li><p><a href="https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html">The official Snakemake tutorial</a> which you can run in your browser!</p></li>
 <li><p><a href="https://vincebuffalo.com/blog/2020/03/04/understanding-snakemake.html">A short introduction to (Make and then) Snakemake</a> by Vince Buffalo, the author of the secondary book we have been reading.</p></li>
 <li><p>A Carpentries lesson on working with a compute cluster, with a large section on Snakemake starting on <a href="http://www.hpc-carpentry.org/hpc-python/07-snakemake-intro/index.html">this page</a>.</p></li>
