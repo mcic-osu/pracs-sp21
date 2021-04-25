@@ -33,7 +33,7 @@ xaringanExtra::use_search(show_icon = TRUE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/03/30 (updated: `r Sys.Date()`)
+### 2021/03/30
 
 ---
 

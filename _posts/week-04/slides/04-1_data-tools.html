@@ -26,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/02 (updated: 2021-02-02)
+### 2021/02/02
 
 ---
 
@@ -254,7 +254,7 @@ $ mus=Mus_musculus.GRCm38.75_chr1 # Save for quick recall
 
 - You'll be inside the pager, and your prompt is gone. Keyboard shortcuts:
 
-| key                             | function |
+| Key                             | Function |
 |---------------------------------|----------|
 | &lt;kbd&gt;q&lt;/kbd&gt;                    | Exit `less`
 | &lt;kbd&gt;space&lt;/kbd&gt; / &lt;kbd&gt;b&lt;/kbd&gt; | Next / previous page. &lt;br&gt;(*`pgup` / `pgdn` usually also work.*)
@@ -265,7 +265,7 @@ $ mus=Mus_musculus.GRCm38.75_chr1 # Save for quick recall
 
 ---
 
-## <i class="fas  fa-user-edit "></i> Your turn: `less`
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Your turn: `less`
 
 1. Open a FASTQ file with `less`:
   ```sh
@@ -453,7 +453,7 @@ name:grep
   $ grep -v "^#" "$mus".gtf
   
   # Don't print empty lines:
-  $ grep -v "$^" "$mus".gtf
+  $ grep -v "^$" "$mus".gtf
   ```
 
 ---
@@ -562,7 +562,7 @@ $ grep -B 1 --no-group-separator "string" file.txt
 
 ---
 
-## <i class="fas  fa-user-edit "></i> Your turn: `grep`
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Your turn: `grep`
 
 1. **Count the number of genomic features in `Mus_musculus.GRCm38.75_chr1.gtf`
    with a single `grep` command.**
@@ -578,7 +578,7 @@ $ grep -B 1 --no-group-separator "string" file.txt
 
 ---
 
-## <i class="fas  fa-user-edit "></i> Solutions: `grep`
+## &lt;i class="fa fa-user-edit"&gt;&lt;/i&gt; Solutions: `grep`
 
 1. Count the number of genomic features in `Mus_musculus.GRCm38.75_chr1.gtf`
    with a single `grep` command.
@@ -729,7 +729,7 @@ class: inverse middle center
 ---
 class: inverse middle center
 
-# Bonus Materials
+# Bonus Material
 
 ----
 
@@ -829,6 +829,7 @@ name: exit-status
   ```
 
 ---
+background-color: #f2f5eb
 
 ## Exit status of a command
 

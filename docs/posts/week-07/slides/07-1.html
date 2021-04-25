@@ -6,6 +6,7 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
@@ -23,7 +24,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/25 (updated: 2021-02-25)
+### 2021/02/25
 
 ---
 class: inverse middle center
@@ -137,7 +138,7 @@ Remember the hexadecimal IDs we saw for Git commits?
 These are *checksums*:
 
 &gt; *Checksums are very compressed summaries of data,
-&gt; computed in a way that even if jst one bit of the data is changed,
+&gt; computed in a way that even if just one bit of the data is changed,
 &gt; the checksum will be different.* &amp;mdash; Buffalo Chapter 6
 
 ---
@@ -476,7 +477,7 @@ we can run a loop directly in the shell, with a globbing pattern:
 
 ```sh
 $ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
-      ./readlen.sh $fq_file
+      ./readlen.sh "$fq_file"
   done
 ```
 
@@ -521,7 +522,7 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
 
   ```sh
   $ for fq_file in ${fq_files[@]}; do
-          ./readlen.sh $fq_file
+          ./readlen.sh "$fq_file"
       done
   ```
 
@@ -532,7 +533,7 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
 
   ```sh
   $ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
-          ./readlen.sh $fq_file
+          ./readlen.sh "$fq_file"
       done
   ```
 
@@ -543,8 +544,8 @@ and/or we want to subset an arbitrary set of files that is not easy to glob.
   so the loop sees the following:
 
   ```sh
-  $ for fastq_file in file1 file2 file3 file4; do # don't run
-          ./readlen.sh $fastq_file
+  $ for fq_file in file1 file2 file3 file4; do # don't run
+          ./readlen.sh "$fq_file"
       done 
   ```
 

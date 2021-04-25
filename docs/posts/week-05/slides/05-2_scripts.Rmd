@@ -14,8 +14,9 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
 ```
 
 ## *Week 5: Shell scripting*
@@ -27,7 +28,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/02/11 (updated: `r Sys.Date()`)
+### 2021/02/11
 
 ---
 class: inverse middle center
@@ -335,7 +336,7 @@ name: arrays
 
 ---
 
-## `r icon::fa("user-edit")` Your turn: A simple script
+## <i class="fa fa-user-edit"></i> Your turn: A simple script
 
 Write a script that prints a specific line (identified by line number)
 from a file.
@@ -365,7 +366,7 @@ you can use: <br>
 
 ---
 
-## `r icon::fa("user-edit")` Solution: A simple script
+## <i class="fa fa-user-edit"></i> Solution: A simple script
 
 - Script `line.sh`:
 

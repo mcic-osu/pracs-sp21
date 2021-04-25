@@ -14,8 +14,10 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
+icon::fa("bars")
 ```
 
 ## *Week 3: Git and GitHub*
@@ -27,7 +29,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/01/26 (updated: `r Sys.Date()`)
+### 2021/01/26
 
 ---
 class:inverse middle center
@@ -405,8 +407,9 @@ $ git add --all    # Stages all previously untracked and
   your workspace should be listed ("`<workspace-name> (Workspace)`").
   
 - **Open a terminal in VS Code:**  
-  (<kbd>Ctrl</kbd>+<kbd>backtick</kbd>
-  or `r icon::fa("bars")` => `Terminal` => `New Terminal`),
+  (<kbd>Ctrl</kbd>+<kbd>backtick</kbd> or
+  <i class="fa fa-bars"></i>
+  => `Terminal` => `New Terminal`),
   and issue the command `bash` to break out of the Singularity shell.
 
 ----
@@ -596,7 +599,7 @@ last commit using `git status`, and you find that you have:
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 2.1
+## <i class="fa fa-user-edit"></i> Intermezzo 2.1
 
 1. Create the file `todo.txt` containing the line:  
    `June 18, 1858: read essay from Wallace`.
@@ -607,7 +610,7 @@ last commit using `git status`, and you find that you have:
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 2.1 &ndash; solutions
+## <i class="fa fa-user-edit"></i> Intermezzo 2.1 &ndash; solutions
 
 1. Create the file `todo.txt`:
    ```sh

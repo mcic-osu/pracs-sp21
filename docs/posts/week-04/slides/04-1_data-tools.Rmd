@@ -14,8 +14,9 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
 ```
 
 ## *Week 4: Unix Data Tools*
@@ -27,7 +28,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/02/02 (updated: `r Sys.Date()`)
+### 2021/02/02
 
 ---
 
@@ -266,7 +267,7 @@ $ mus=Mus_musculus.GRCm38.75_chr1 # Save for quick recall
 
 ---
 
-## `r icon::fa("user-edit")` Your turn: `less`
+## <i class="fa fa-user-edit"></i> Your turn: `less`
 
 1. Open a FASTQ file with `less`:
   ```sh
@@ -563,7 +564,7 @@ $ grep -B 1 --no-group-separator "string" file.txt
 
 ---
 
-## `r icon::fa("user-edit")` Your turn: `grep`
+## <i class="fa fa-user-edit"></i> Your turn: `grep`
 
 1. **Count the number of genomic features in `Mus_musculus.GRCm38.75_chr1.gtf`
    with a single `grep` command.**
@@ -579,7 +580,7 @@ $ grep -B 1 --no-group-separator "string" file.txt
 
 ---
 
-## `r icon::fa("user-edit")` Solutions: `grep`
+## <i class="fa fa-user-edit"></i> Solutions: `grep`
 
 1. Count the number of genomic features in `Mus_musculus.GRCm38.75_chr1.gtf`
    with a single `grep` command.

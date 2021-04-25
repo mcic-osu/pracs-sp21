@@ -14,8 +14,9 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
 ```
 
 # *Week 8 - First steps with Python*
@@ -27,7 +28,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/03/02 (updated: `r Sys.Date()`)
+### 2021/03/02
 
 ---
 
@@ -954,7 +955,7 @@ Has `astring` been modified by our `astring.replace()` call?
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 3.1
+## <i class="fa fa-user-edit"></i> Intermezzo 3.1
 
 1. Initialize the string `s = "WHEN on board H.M.S. Beagle, as naturalist"`.
 
@@ -967,7 +968,7 @@ Has `astring` been modified by our `astring.replace()` call?
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 3.1: Solutions
+## <i class="fa fa-user-edit"></i> Intermezzo 3.1: Solutions
 
 1. Initialize the string:
 

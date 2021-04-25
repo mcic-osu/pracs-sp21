@@ -15,6 +15,8 @@ class:inverse middle center
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
 ```
 
 ```{r xaringan-extra, echo=FALSE, eval=TRUE}
@@ -33,7 +35,7 @@ xaringanExtra::use_search(show_icon = TRUE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/03/18 (updated: `r Sys.Date()`)
+### 2021/03/18
 
 ---
 class: center middle inverse

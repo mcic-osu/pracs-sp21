@@ -14,8 +14,9 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
 ```
 
 ## *Week 4: Unix Data Tools*
@@ -27,7 +28,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/02/04 (updated: `r Sys.Date()`)
+### 2021/02/04
 
 ---
 
@@ -250,7 +251,7 @@ lines matching the pattern (condition) are printed in full.**
 
 ---
 
-## `r icon::fa("user-edit")` Your turn: `awk`
+## <i class="fa fa-user-edit"></i> Your turn: `awk`
 
 The following exercises use `example.bed`.
 
@@ -263,7 +264,7 @@ The following exercises use `example.bed`.
 
 ---
 
-## `r icon::fa("user-edit")` Solutions: `awk`
+## <i class="fa fa-user-edit"></i> Solutions: `awk`
 
 1. Use a pattern to only print features (= rows) which end at position 28.
   ```sh
@@ -595,7 +596,7 @@ $ echo "chr1:431-874" | tr ":-" "\t"
 
 ---
 
-## `r icon::fa("user-edit")` Your turn: `sed`
+## <i class="fa fa-user-edit"></i> Your turn: `sed`
 
 Make the following replacements in `Mus_musculus.GRCm38.75_chr1_genes.txt`
 with `sed`.
@@ -611,7 +612,7 @@ For 1. and 2., don't write to new files: check your result by piping into `head`
 
 ---
 
-## `r icon::fa("user-edit")` Solutions: `sed`
+## <i class="fa fa-user-edit"></i> Solutions: `sed`
 
 1. Replace `ENSMUS` by `GALGAL`.
   ```sh

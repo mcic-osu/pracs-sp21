@@ -15,6 +15,8 @@ class:inverse middle center
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
 ```
 
 ```{r xaringan-extra, echo=FALSE, eval=TRUE}
@@ -33,7 +35,7 @@ xaringanExtra::use_search(show_icon = TRUE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/03/11 (updated: `r Sys.Date()`)
+### 2021/03/11
 
 ---
 
@@ -389,8 +391,6 @@ with open("../data/Dalziel2016_data.csv") as infile:
 
 Write code that prints (using the `print()` function) the values in the columns
 `loc` and `pop` for all rows in the file `Dalziel2016_data.csv`.
-
-<!-- `r icon::fa("user-edit")` -->
 
 ---
 

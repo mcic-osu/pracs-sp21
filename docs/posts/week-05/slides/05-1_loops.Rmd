@@ -14,8 +14,9 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
 ```
 
 ## *Week 5: Shell scripting*
@@ -27,7 +28,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/02/09 (updated: `r Sys.Date()`)
+### 2021/02/09
 
 ---
 
@@ -594,7 +595,7 @@ file names!**
 
 ---
 
-## `r icon::fa("user-edit")` Bash arrays: Your turn
+## <i class="fa fa-user-edit"></i> Bash arrays: Your turn
 
 1. Create an array with the first three file names (lines) listed in `samples.txt`.
 
@@ -605,7 +606,7 @@ file names!**
 
 ---
 
-## `r icon::fa("user-edit")` Bash arrays: Solutions
+## <i class="fa fa-user-edit"></i> Bash arrays: Solutions
 
 1. Create an array with the first three file names (lines) listed in `samples.txt`.
 
@@ -901,7 +902,7 @@ which we can do by redirecting it to non-existent file `/dev/null`.
 
 ---
 
-## `r icon::fa("user-edit")` Conditionals: Your turn
+## <i class="fa fa-user-edit"></i> Conditionals: Your turn
 
 1. Set up an `if` statement that tests whether `template.sh` is executable.
 
@@ -912,7 +913,7 @@ which we can do by redirecting it to non-existent file `/dev/null`.
 
 ---
 
-## `r icon::fa("user-edit")` Conditionals: Solutions
+## <i class="fa fa-user-edit"></i> Conditionals: Solutions
 
 ```sh
 $ if [ -x template.sh ]; then

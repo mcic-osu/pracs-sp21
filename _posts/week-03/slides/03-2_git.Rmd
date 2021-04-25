@@ -14,8 +14,9 @@ class:inverse middle center
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
-
 knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
 ```
 
 ## *Week 3: Git and GitHub*
@@ -27,7 +28,7 @@ knitr::opts_chunk$set(eval = FALSE)
 <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/01/28 (updated: `r Sys.Date()`)
+### 2021/01/28
 
 ---
 class:inverse middle center
@@ -857,7 +858,7 @@ use `git add` + `git commit` separately for two sets of files.
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 2.2
+## <i class="fa fa-user-edit"></i> Intermezzo 2.2
 
 **(a)** Move to the directory `CSB/git/sandbox`.
 
@@ -883,7 +884,7 @@ made there are now in your working dir.
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 2.2: Solutions
+## <i class="fa fa-user-edit"></i> Intermezzo 2.2: Solutions
 
 **(a)** Move to the directory `CSB/git/sandbox`:
 
@@ -912,7 +913,7 @@ $ git commit -m "Started introduction"
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 2.2: Solutions (cont.)
+## <i class="fa fa-user-edit"></i> Intermezzo 2.2: Solutions (cont.)
 
 **(e)** Create the branch `newintro` and change into it:
 ```sh
@@ -937,7 +938,7 @@ $ cat introduction.txt
 
 ---
 
-## `r icon::fa("user-edit")` Intermezzo 2.2: Solutions (cont.)
+## <i class="fa fa-user-edit"></i> Intermezzo 2.2: Solutions (cont.)
 
 **(h)** Merge and confirm that the `newintro` changes are in `master`:
 ```sh

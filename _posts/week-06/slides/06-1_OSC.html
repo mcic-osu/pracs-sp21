@@ -6,6 +6,7 @@
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides.css" type="text/css" />
     <link rel="stylesheet" href="slides_copy.css" type="text/css" />
   </head>
@@ -25,7 +26,7 @@ class:inverse middle center
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ### Jelmer Poelstra
-### 2021/02/16 (updated: 2021-02-18)
+### 2021/02/16
 
 ---
 
@@ -727,7 +728,7 @@ In this case, the memory request will be `20G` and not `8G`.
 
 | Resource/use                 | short    | long      | default
 |------------------------------|----------|-----------|:--------:|
-| Project to be billed         | -A PAS1855 | --account=PAS1855 | N/A
+| Project to be billed         | `-A PAS1855` | `--account=PAS1855` | N/A
 
 ```sh
 $ sbatch -A PAS1855 myscript.sh 
@@ -767,7 +768,7 @@ of up to 336 hours (14 days).
 ## Compute job options: Time (cont.)
 
 Acceptable time formats include:
-  - `minutes`
+
   - `minutes:seconds`
   - `hours:minutes:seconds`
   - `days-hours`
@@ -778,7 +779,7 @@ Acceptable time formats include:
 
 | Resource/use                 | short    | long               | default
 |------------------------------|----------|--------------------|:-----:
-| Time limit (4 h)             | -t 4:00:00 | --time=4:00:00   | 1:00:00
+| Time limit (4 h)             | `-t 4:00:00` | `--time=4:00:00`   | 1:00:00
 
 ```sh
 $ sbatch -t 30 myscript.sh   # 30 minutes
@@ -811,7 +812,7 @@ Specify a maximum amount of RAM (Random Access Memory) that your job can use.
 
 | Resource/use                 | short    | long      | default |
 |------------------------------|----------|-----------|:-----|
-| Memory limit per node (8 GB) | -        | --mem=8G  | *(usually 4G)*
+| Memory limit per node (8 GB) | -        | `--mem=8G`  | *(usually 4G)*
 
 ```sh
 $ sbatch --mem=20G myscript.sh   # 20 GB
@@ -828,10 +829,10 @@ $ sbatch --mem=20G myscript.sh   # 20 GB
 
 | Resource/use                  | short    | long                    | default
 |-------------------------------|----------|-------------------------|:--------:| 
-| Number of nodes               | -N 1     | --nodes=1               | 1
-| Number of cores (per task)    | -c 1     | --cpus-per-task=1       | 1
-| Number of "tasks" (processes) | -n 1     | --ntasks=1              | 1
-| Number of tasks per node      | -        | --ntasks-per-node=1     | 1
+| Number of nodes               | `-N 1`     | `--nodes=1`               | 1
+| Number of cores (per task)    | `-c 1`     | `--cpus-per-task=1`       | 1
+| Number of "tasks" (processes) | `-n 1`     | `--ntasks=1`              | 1
+| Number of tasks per node      | -        | `--ntasks-per-node=1`     | 1
 
 &lt;br&gt;
 
@@ -855,10 +856,10 @@ $ sbatch --mem=20G myscript.sh   # 20 GB
 
 | Resource/use                  | short    | long                    | default
 |-------------------------------|----------|-------------------------|:--------:| 
-| Number of nodes               | -N 1     | --nodes=1               | 1
-| Number of cores               | -c 1     | --cpus-per-task=1       | 1
-| Number of "tasks" (processes) | -n 1     | --ntasks=1              | 1
-| Number of tasks per node      | -        | --ntasks-per-node=1     | 1
+| Number of nodes               | `-N 1`     | `--nodes=1`               | 1
+| Number of cores               | `-c 1`     | `--cpus-per-task=1`       | 1
+| Number of "tasks" (processes) | `-n 1`     | `--ntasks=1`              | 1
+| Number of tasks per node      | -        | `--ntasks-per-node=1`     | 1
 
 .content-box-info[
 - Only ask for **&gt;1 node** when you have explicit parallelization with
@@ -880,10 +881,10 @@ $ sbatch --mem=20G myscript.sh   # 20 GB
 
 | Resource/use                  | short    | long                    | default
 |-------------------------------|----------|-------------------------|:--------:| 
-| Number of nodes               | -N 1     | --nodes=1               | 1
-| Number of cores               | -c 1     | --cpus-per-task=1       | 1
-| Number of "tasks" (processes) | -n 1     | --ntasks=1              | 1
-| Number of tasks per node      | -        | --ntasks-per-node=1     | 1
+| Number of nodes               | `-N 1`     | `--nodes=1`               | 1
+| Number of cores               | `-c 1`     | `--cpus-per-task=1`       | 1
+| Number of "tasks" (processes) | `-n 1`     | `--ntasks=1`              | 1
+| Number of tasks per node      | -        | `--ntasks-per-node=1`    | 1
 
 ```sh
 #!/bin/bash

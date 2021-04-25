@@ -114,7 +114,7 @@ You can't right-click in this shell-in-the-browser, but:
 - To **paste**, use <kbd>Ctrl</kbd>+<kbd>V</kbd>.
 
 - To **copy**, simply select text and you should see a
-  `r icon::fa("cut")` icon. 
+  <i class="fa fa-cut"></i> icon. 
 ]
 
 ---

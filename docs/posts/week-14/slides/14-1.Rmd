@@ -20,10 +20,10 @@ icon::fa("user-edit")
 ```
 
 ```{r xaringan-extra, echo=FALSE, eval=TRUE}
-#xaringanExtra::use_scribble()
-#xaringanExtra::use_panelset()
-#xaringanExtra::use_clipboard()
-#xaringanExtra::use_search(show_icon = TRUE)
+xaringanExtra::use_scribble()
+xaringanExtra::use_panelset()
+xaringanExtra::use_clipboard()
+xaringanExtra::use_search(show_icon = TRUE)
 ```
 
 # *Week 14 &ndash; <br> Putting it all together & next steps*
@@ -33,7 +33,7 @@ icon::fa("user-edit")
 <br> <br> <br> <br> <br>
 
 ### Jelmer Poelstra
-### 2021/04/13 (updated: `r Sys.Date()`)
+### 2021/04/13
 
 ---
 class:inverse middle center
