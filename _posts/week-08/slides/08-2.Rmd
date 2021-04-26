@@ -1,5 +1,5 @@
 ---
-title: "Week 8/9 - First steps with Python - II"
+title: "Week 8 - First steps with Python - II"
 output:
   xaringan::moon_reader:
     seal: false

@@ -1,15 +1,13 @@
 ---
-title: "Exercises for week 10: Writing good code"
+title: "Exercises for week 10"
+description: |
+  Writing good code
 output:
   distill::distill_article:
     self_contained: false
     toc: true
     toc_depth: 3
 ---
-
-```{r}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 <br>
 
@@ -22,165 +20,176 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
             'canker', 'wilt', 'root_knot', 'root_rot']
 ```
 
-1.  Sort `diseases` in place.\
+1.  Sort `diseases` in place.
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>\
-    The `sort()` method sorts a list in place:
+The `sort()` method sorts a list in place:
 
-    ```{python}
-    diseases.sort()
+```{python}
+diseases.sort()
 
-    diseases
-    ```
+diseases
+```
 
-    </details>
+</p>
+</details>
 
-2.  Instead of sorting in place with the `sort()` method like in the previous step,
-    you can also use the `sorted()` *function*, which will not sort in place
-    but return a *new*, sorted list.
+2. Instead of sorting in place with the `sort()` method like in the previous step,
+   you can also use the `sorted()` *function*, which will not sort in place
+   but return a *new*, sorted list.
     
-    Find out how to use `sorted()` to sort in reverse order,
-    and apply this to `diseases` to create a new list `diseases_sorted`.\
+   Find out how to use `sorted()` to sort in reverse order,
+   and apply this to `diseases` to create a new list `diseases_sorted`.\
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>\
-    We can use the `reverse` argument to `sorted()` to sort in reverse order:
+We can use the `reverse` argument to `sorted()` to sort in reverse order:
 
-    ```{python}
-    diseases_sorted = sorted(diseases, reverse=True)
-    ```
+```{python}
+diseases_sorted = sorted(diseases, reverse=True)
+```
 
-    </details>
+</p>
+</details>
 
-3.  If you would run `fewer_diseases = diseases.remove("root_rot")`,
-    what would `fewer_diseases` contain?
-    Think about what the answer should be, and then check if you were right.
-    Does simply running `fewer_diseases` versus running `print(fewer_diseases)` make a difference?\
+3. If you would run `fewer_diseases = diseases.remove("root_rot")`,
+   what would `fewer_diseases` contain?
+   Think about what the answer should be, and then check if you were right.
+   Does simply running `fewer_diseases` versus running `print(fewer_diseases)`
+   make a difference?
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>
+Because `remove()` operates *in place*, it doesn't return anything:
 
-    Because `remove()` operates *in place*, it doesn't return anything:
+```{python}
+fewer_diseases = diseases.remove("root_rot")
 
-    ```{python}
-    fewer_diseases = diseases.remove("root_rot")
+fewer_diseases
+```
 
-    fewer_diseases
-    ```
+Well, it actualy returns `None`,
+which you can see by explicitly calling the `print()` function:
 
-    Well, it actualy returns `None`, which you can see by explicitly calling the `print()` function:
+```{python}
+print(fewer_diseases)
+```
 
-    ```{python}
-    print(fewer_diseases)
-    ```
-
-    </details>
+</p>
+</details>
 
 4.  If you would run:
 
-    ```{python, eval=FALSE}
-    more_diseases = diseases
+```{python, eval=FALSE}
+more_diseases = diseases
 
-    more_diseases.append("crown_galls")
-    ```
+more_diseases.append("crown_galls")
+```
 
-    Would the list `diseases` also contain `crown_galls`?
-    Think about what the answer should be, and then check if you were right.\
+Would the list `diseases` also contain `crown_galls`?
+Think about what the answer should be, and then check if you were right.
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>\
-    Yes, `diseases` will contain the item `crown_galls` that was added to `more_diseases`,
-    because `more_diseases` in not an independent list but is merely a second pointer
-    to the same list that `diseases` points to.
+Yes, `diseases` will contain the item `crown_galls` that was added to
+`more_diseases`,
+because `more_diseases` in not an independent list but is merely a second pointer
+to the same list that `diseases` points to.
 
-    ```{python}
-    more_diseases = diseases
+```{python}
+more_diseases = diseases
 
-    more_diseases.append("crown_galls")
+more_diseases.append("crown_galls")
 
-    diseases
-    ```
+diseases
+```
 
-    </details>
+</details>
 
 2.  Copy `diseases` to a new list with a name of your choice --
     the new list should *not* simply be a pointed to the old one,
     but a different object in memory.
     Then, remove all items from the new list.
-    Check if `diseases` still contains its items -- if not, you'll have to try again!\
+    Check if `diseases` still contains its items -- if not, you'll have to try
+    again!
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>\
-    To create a new list, use the `copy()` method or the `[:]` notation.
+To create a new list, use the `copy()` method or the `[:]` notation.
 
-    </details>
+</p>
+</details>
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>\
-    To create a copy, use the `copy()` method:
+To create a copy, use the `copy()` method:
 
-    ```{python}
-    diseases_copy = diseases.copy()
-    ```
+```{python}
+diseases_copy = diseases.copy()
+```
 
-    Or the `[:]` notation.
+Or the `[:]` notation.
 
-    ```{python}
-    diseases_copy = diseases[:]
-    ```
+```{python}
+diseases_copy = diseases[:]
+```
 
-    Then, to remove all elements in the copy of the list:
+Then, to remove all elements in the copy of the list:
 
-    ```{python}
-    diseases_copy.clear()
+```{python}
+diseases_copy.clear()
 
-    diseases
-    ```
+diseases
+```
 
-    </details>
+</p>
+</details>
 
-3.  What fundamental difference between lists and strings makes it so that
-    `newstring = oldstring` creates *a new string*,
-    whereas `newlist = oldlist` simply creates a new *pointer to the same list*?
+3. What fundamental difference between lists and strings makes it so that
+   `newstring = oldstring` creates *a new string*,
+   whereas `newlist = oldlist` simply creates a new *pointer to the same list*?
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>\
-    The fact that strings are *immutable*, whereas lists are *mutable*.
+The fact that strings are *immutable*, whereas lists are *mutable*.
 
-    </details>
+</p>
+</details>
 
-4.  ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.
+4. ***Bonus:*** Get all unique *characters* (not items) present in `diseases`.
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>\
-    Remember how we can turn a list into a string with `join()`?
-    If you specify `""` as the separator,
-    it will simply concatenate all the items in the list.
+Remember how we can turn a list into a string with `join()`?
+If you specify `""` as the separator,
+it will simply concatenate all the items in the list.
     
-    Next, note that applying `set()` to a string will extract the unique characters.
+Next, note that applying `set()` to a string will extract the unique characters.
 
-    </details>
+</p>
+</details>
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>\
-    First, turn the list into a string using `"".join`.
-    Then, call `set()` on the string to get a list of unique items (= characters).
+First, turn the list into a string using `"".join`.
+Then, call `set()` on the string to get a list of unique items (= characters).
 
-    ```{python}
-    set("".join(diseases))
-    ```
+```{python}
+set("".join(diseases))
+```
 
-    </details>
+</p>
+</details>
 
 <br>
 
@@ -189,51 +198,54 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
 [Jiang et al. (2013)](https://www.journals.uchicago.edu/doi/10.1086/670160) studied assortative mating in animals. They compiled a large database, reporting the results of many experiments on mating. In particular, for several taxa they provide the value of correlation among the sizes of the mates. A positive value of `r` stands for assortative mating (large animals tend to mate with large animals), and a negative value for disassortative mating.
 
 1. You can find the data in `CSB/good_code/data/Jiang2013_data.csv`[^1].
-   Write a function that takes as input the desired Taxon and returns the mean value of `r`.
+   Write a function that takes as input the desired Taxon and returns the mean
+   value of `r`.
    Then, apply that function to all taxa in the file.
     
-   <details> 
-   <summary>Hints</summary>
-   
-   - Have a look at the file in the shell before you start.
-   
-   - To parse the file, `DictReader` from the `csv` module is again a good option,
-     but note that you'll have the specify the `delimiter` argument since the file
-     is tab-separated.
-     
-   - There are several ways of going about here, but the one in the solutions is
-     to first read in the file and create two lists: one with taxa names and
-     one with the corresponding values for `r`:
-     (These lists will also be re-used in parts 2 and 3 of the exercise,
-     so it is recommended to follow this approach.)
-     
-     ```python
-     import csv 
-     taxa = []
-     r_values = []
-     
-     open the file and set up dictionary reader
-     for each row:
-         append to taxa
-         append to r_values
-     ```
-     
-   - Then, the actual function will take these two lists and a taxon name as input.
-   
-     ```python
-     def compute_avg_r(taxa, r_values, target_taxon = "Fish"):
-     avg_taxon = 0.0
-     num_occurrences = 0
-     cycle through the values of taxa
-         every time you find the right taxon, add its r value to avg_taxon
-         and increment num_occurrences
-     at the end, divide avg_taxon by num_occurrences and return the average
-     ```
-     
-   - To apply the function to all taxa, use a set to get the unique taxa,
-     and loop over the taxa.
-     
-   </details>
+<details> 
+<summary>Hints</summary>
+<p>
+
+- Have a look at the file in the shell before you start.
+
+- To parse the file, `DictReader` from the `csv` module is again a good option,
+  but note that you'll have the specify the `delimiter` argument since the file
+  is tab-separated.
+  
+- There are several ways of going about here, but the one in the solutions is
+  to first read in the file and create two lists: one with taxa names and
+  one with the corresponding values for `r`:
+  (These lists will also be re-used in parts 2 and 3 of the exercise,
+  so it is recommended to follow this approach.)
+  
+  ```python
+  import csv 
+  taxa = []
+  r_values = []
+  
+  open the file and set up dictionary reader
+  for each row:
+      append to taxa
+      append to r_values
+  ```
+  
+- Then, the actual function will take these two lists and a taxon name as input.
+
+  ```python
+  def compute_avg_r(taxa, r_values, target_taxon = "Fish"):
+  avg_taxon = 0.0
+  num_occurrences = 0
+  cycle through the values of taxa
+      every time you find the right taxon, add its r value to avg_taxon
+      and increment num_occurrences
+  at the end, divide avg_taxon by num_occurrences and return the average
+  ```
+  
+- To apply the function to all taxa, use a set to get the unique taxa,
+  and loop over the taxa.
+
+</p>  
+</details>
 
 2. You should have seen that fish have a positive value of `r`,
    but that this is also true for other taxa.
@@ -243,68 +255,71 @@ diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
    and calculating the probability of observing a higher mean value of `r`.
    To get an accurate estimate of the p-value, use 50,000 randomizations.
    
-   <details> 
-   <summary>Hints</summary>
-   
-   - In part 3 of this exercise, you will repeat this procedure for other taxa,
-     so it will be a good idea to create a *function* here.
-     
-     Your function should take as input the target taxon name,
-     the lists with taxa and `r`-values that you created in the first step,
-     and the number of repetitions (randomizations).
-   
-   In the function:
-     
-     - First compute the mean `r` value for the target taxon.
-     
-     - Then, iterate over the output of `range()` to repeat the randomizations.  
-     
-     - In every iteration, shuffle either the list with `r` values or the taxon
-       names, using the function **`scipy.random.shuffle()`**
-       (don't forget to import `scipy`).
-     
-       Then, you can simply call the same function you used before to calculate
-       the mean value of `r`.
-       
-     - In every iteration, compare the randomized mean with the observed mean,
-       and keep a tally of the number of times the observed mean is higher.
-       
-     - The p-value will simply be the proportion (~= probability) of times you
-       got a higher mean value of `r` among randomized sets of 37.
-   
-   Pseudocode:
-   
-   ```
-   def compute_pvalue(taxa, r_values, target_taxon = "Fish", num_rep = 1000):
-       observed_r = compute the mean for the observed average r value
-       count_random_is_higher = 0.0
-       for i in range(num_rep):
-           shuffle the r values
-           random_r = compute the mean using the shuffled values
-           if random_r >= observed_r:
-   	          increment count_random_is_higher
-       now divide count_random_is_higher by num_rep (= the p-value) and return
-   ```
-   
-   </details>
+<details><summary>Hints</summary>
+<p>
+
+- In part 3 of this exercise, you will repeat this procedure for other taxa,
+  so it will be a good idea to create a *function* here.
+  
+  Your function should take as input the target taxon name,
+  the lists with taxa and `r`-values that you created in the first step,
+  and the number of repetitions (randomizations).
+
+In the function:
+  
+  - First compute the mean `r` value for the target taxon.
+  
+  - Then, iterate over the output of `range()` to repeat the randomizations.  
+  
+  - In every iteration, shuffle either the list with `r` values or the taxon
+    names, using the function **`scipy.random.shuffle()`**
+    (don't forget to import `scipy`).
+  
+    Then, you can simply call the same function you used before to calculate
+    the mean value of `r`.
+    
+  - In every iteration, compare the randomized mean with the observed mean,
+    and keep a tally of the number of times the observed mean is higher.
+    
+  - The p-value will simply be the proportion (~= probability) of times you
+    got a higher mean value of `r` among randomized sets of 37.
+
+Pseudocode:
+
+```
+def compute_pvalue(taxa, r_values, target_taxon = "Fish", num_rep = 1000):
+    observed_r = compute the mean for the observed average r value
+    count_random_is_higher = 0.0
+    for i in range(num_rep):
+        shuffle the r values
+        random_r = compute the mean using the shuffled values
+        if random_r >= observed_r:
+	          increment count_random_is_higher
+    now divide count_random_is_higher by num_rep (= the p-value) and return
+```
+
+</p>
+</details>
 
 
 3. Repeat the procedure for all taxa.
 
-   <details>
+<details><summary>Hints</summary>
+<p>
 
-   <summary>Hints</summary>
-   
-   Loop over all taxa, and call the function you created in the previous part
-   of the exercise in every iteration.
-   
-   </details>
+Loop over all taxa, and call the function you created in the previous part
+of the exercise in every iteration.
 
-<details>
-<summary>Solutions for all steps</summary>
+</p>   
+</details>
 
-See [this Jupyter Notebook](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_solution.ipynb) by the authors of the CSB book.
+<details><summary>Solutions for all steps</summary>
+<p>
 
+See [this Jupyter Notebook](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Jiang2013_solution.ipynb)
+by the authors of the CSB book.
+
+</p>
 </details>
 
 <br>
@@ -345,40 +360,40 @@ The data used in this study are contained in the directory
     {'NA': 3, 'lean': 8, 'overweight': 2, 'underweight': 1}
     ```
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
-    
-    - Several strategies are again possible, but the CSB solution linked to
-      below creates a single function will all code, including reading in the file.
-      
-    - Once again, `DictReader()` from the `csv` module is a useful way to read
-      in the data.
-      
-    - Loop over the lines (rows) and for each row, you'll want to check whether
-      all conditions are satisfied. 
-      
-    - Your output dictionary will basically be a count table of the values
-      found for the `BMI_group`, column, so for each matching row,
-      add 1 to the value for the key that represents the group (`lean`, etc).
-      
-    Pseudocode:
-    
-    ```
-    def get_BMI_count(dict_constr):
-        open the file and set up the csv reader
-       for each row:
-            add_to_count = True
-            for each constrain in dict_constr:
-    	          if constraint is not met:
-    	              add_to_count = False
-            if add_to_count:
-    	          all the constraints are respected
-    	          add to the tally
-       return the result
-    ```
-    
-    </details>
+- Several strategies are again possible, but the CSB solution linked to
+  below creates a single function will all code, including reading in the file.
+  
+- Once again, `DictReader()` from the `csv` module is a useful way to read
+  in the data.
+  
+- Loop over the lines (rows) and for each row, you'll want to check whether
+  all conditions are satisfied. 
+  
+- Your output dictionary will basically be a count table of the values
+  found for the `BMI_group`, column, so for each matching row,
+  add 1 to the value for the key that represents the group (`lean`, etc).
+  
+Pseudocode:
+
+```
+def get_BMI_count(dict_constr):
+    open the file and set up the csv reader
+   for each row:
+        add_to_count = True
+        for each constrain in dict_constr:
+	          if constraint is not met:
+	              add_to_count = False
+        if add_to_count:
+	          all the constraints are respected
+	          add to the tally
+   return the result
+```
+
+</p>
+</details>
     
 2.  Write a function that takes as input the constraints (as above) and a bacterial
     "genus." The function returns the average abundance (in logarithm base 10) of
@@ -417,56 +432,60 @@ The data used in this study are contained in the directory
     ------------------------------------------------
     ```
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
+To write the function, you need to:
     
-    To write the function, you need to:
+1. Open the file `Metadata.tab`, and extract the `SampleID` corresponding to
+   the constraints specified by the user
+   (you can use a list to keep track of all IDs).
     
-    1. Open the file `Metadata.tab`, and extract the `SampleID` corresponding to
-       the constraints specified by the user (you can use a list to keep track of all IDs).
-    
-    2. Open the file `HITChip.tab` to extract the abundances matching the genus
-       specified by the user (and for the ID stored in step 1).
+2. Open the file `HITChip.tab` to extract the abundances matching the genus
+   specified by the user (and for the ID stored in step 1).
         
-    To calculate the log value, you can use the `log10` function from the `scipy` module
-    (though you may get a deprecation warning; this is now supposed
-    to be called from the `numpy` module, but we haven't installed that yet.)
+   To calculate the log value, you can use the `log10` function from the
+   `scipy` module
+   (though you may get a deprecation warning; this is now supposed
+   to be called from the `numpy` module, but we haven't installed that yet.)
     
-    Pseudocode:
+   Pseudocode:
     
-    ```
-    def get_abundance_by_BMI(dict_constraints, genus = 'Aerococcus'):
-        open the file Metadata.tab extract matching IDs using the same 
-        approach as in exercise 1
-        these IDs are stored in BMI_IDs
+   ```
+   def get_abundance_by_BMI(dict_constraints, genus = 'Aerococcus'):
+       open the file Metadata.tab extract matching IDs using the same 
+       approach as in exercise 1
+       these IDs are stored in BMI_IDs
 
-        Now open HITChip.tab, and keep track of the abundance
-        of the genus for each BMI group
-        Calculate means, and print results
-    ```
-    
-    </details>
+       Now open HITChip.tab, and keep track of the abundance
+       of the genus for each BMI group
+       Calculate means, and print results
+   ```
+
+</p>    
+</details>
     
 3.  Repeat this analysis for all genera, and for the records having `Time = 0`.
 
-    <details>
+<details><summary>Hints</summary>
+</p>
 
-    <summary>Hints</summary>
+The genera are contained in the header of the file `HITChip.tab`.
+Extract them from the file and store them in a list.
     
-    The genera are contained in the header of the file `HITChip.tab`.
-    Extract them from the file and store them in a list.
-    
-    Then, you can call the function `get_abundance_by_BMI({'Time': '0'}, g)`,
-    where g is the genus; cycle through all genera.
-    
-    </details>
+Then, you can call the function `get_abundance_by_BMI({'Time': '0'}, g)`,
+where g is the genus; cycle through all genera.
+
+<p>    
+</details>
 
 <details>
 <summary>Solutions for all steps</summary>
+<p>
 
 See [this Jupyter Notebook](https://github.com/CSB-book/CSB/blob/master/good_code/solutions/Lahti2014_solution_detailed.ipynb) by the authors of the CSB book.
 
+</p>
 </details>
 
 <br>

@@ -30,9 +30,9 @@
     "author": [],
     "date": "2021-03-29",
     "categories": [],
-    "contents": "\nThis week, you will learn about using regular expressions in Python.\nContent overview and readings\nSlides\nSlides: Regex – Tuesday Zoom (Mar 30)\n\nNo Thursday Zoom this week – we have the second “instructional break” of the semester.\n\nUngraded assignments\nExercises for week 12\n\n\n\n",
+    "contents": "\nThis week, you will learn about using regular expressions in Python. Because of the second “instructional break” of the semester, we will only meet on Tuesday.\nContent overview and readings\nSlides\nSlides: Regex – Tuesday Zoom (Mar 30)\nUngraded assignments\nExercises for week 12\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-04-21T20:50:36-04:00",
+    "last_modified": "2021-04-25T21:28:41-04:00",
     "input_file": {}
   },
   {
@@ -90,9 +90,9 @@
     "author": [],
     "date": "2021-02-22",
     "categories": [],
-    "contents": "\nIn this half-module (no class on Tuesday), we will talk about downloading and transferring data in the shell, checking file integrity, and working with compressed data.\nContent overview and readings\nSlides\nSlides: data download, transfer and integrity, shell productivity tips, & scripting recap – Thursday Zoom (Feb 25)\nUngraded assignments\nExercises for Week 7\n\n\n\n",
+    "contents": "\nIn this half-module (we have no class on Tuesday), we will talk about downloading and transferring data in the shell, checking file integrity, and working with compressed data.\nContent overview and readings\nSlides\nSlides: Part I – Data download, transfer and integrity\nSlides: Part II – Shell productivity tips & scripting recap\nUngraded assignments\nExercises for week 7\n\n\n\n",
     "preview": {},
-    "last_modified": "2021-04-24T19:54:55-04:00",
+    "last_modified": "2021-04-25T20:16:54-04:00",
     "input_file": {}
   },
   {

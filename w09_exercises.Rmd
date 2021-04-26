@@ -7,7 +7,6 @@ output:
     toc_depth: 3
 ---
 
-
 ```{r}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -16,302 +15,27 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Setup
 
--   Open a new file and save it as `week09_exercises.py` or something along those lines.
+- Open a new file and save it as `week09_exercises.py`
+  or something along those lines.
 
--   Type your commands in the script and send them to the prompt in the Python
-    interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.
+- Type your commands in the script and send them to the prompt in the Python
+  interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.
 
-    <details>
+<details>
+<summary>Problems with the keyboard shortcut?</summary>
+<p>
 
-    <summary>Problems with the keyboard shortcut?</summary>\
-    If this doesn't work, check your keyboard shortcut by right-clicking in the script and looking for "Run Selection/Line In Python Interactive Window".\
-    \
-    Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and look for that shortcut there, and change it if you want.
+If this doesn't work, check your keyboard shortcut by right-clicking in the script and looking for "Run Selection/Line In Python Interactive Window".
 
-    </details>
+Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>)
+and look for that shortcut there, and change it if you want.
 
--   Because these first two exercises have many small steps, I put the solutions right below the question, so you don't have to scroll back-and-forth all the time. *However*, make sure you actually try to do the exercises!
-
-## Exercise 1: Dictionaries
-
-1.  Create and print a dictionary called `yield_current` with the following items:
-
-    ``` {.python}
-    {"plotA_1": 12, "plotA_2": 18, "plotA_3": 2,
-     "plotB_1": 33, "plotB_2": 28, "plotB_3": 57}
-    ```
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    yield_current = {"plotA_1": 12, "plotA_2": 18, "plotA_3": 2,
-                     "plotB_1": 33, "plotB_2": 28, "plotB_3": 57}
-                     
-    yield_current                 
-    ```
-
-    </details>
-
-2.  Print just the value for key `plotA_3`.
-
-    <details>
-
-    <summary>Solution</summary>\
-    We can get the value for a specific key using the `<dict>[<key>]` notation:
-
-    ```{python}
-    yield_current["plotA_3"]
-    ```
-
-    </details>
-
-3.  Update the value for key `plotB_2` to be `31` and check whether this worked.
-
-    <details>
-
-    <summary>Solution</summary>\
-    We can simply assign a new value using `=`:
-
-    ```{python}
-    yield_current["plotB_2"] = 31
-    yield_current["plotB_2"]
-    ```
-
-    </details>
-
-4.  Count the number of items (i.e. entries, key-value *pairs*) in your dictionary.\
-
-    <details>
-
-    <summary>Hints</summary>\
-    Use the `len()` function.
-
-    </details>
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    len(yield_current)
-    ```
-
-    </details>
-
-5.  ***Bonus:*** Create a dictionary `obs_20210305` with keys `plotA_3` and
-    `plotC_1`, and values `18` and `3`, respectively.
-    Then, update the `yield_current` dictionary with the `obs_20210305` dictionary,
-    and check whether this worked.\
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    obs_20210305 = {"plotA_3": 18, "plotC_1": 3}
-    ```
-
-    We use the `update()` method as follows:
-
-    ```{python}
-    yield_current.update(obs_20210305)
-
-    yield_current
-    ```
-
-    Now, our dictionary has an updated value for key "plotA\_3", and an entirely new item with key "plotC\_1".
-
-    </details>
-
-7.  ***Bonus:*** Get and count the number of *unique values* in your dictionary.\
-
-    <details>
-
-    <summary>Hints</summary>\
-    Extract the values with the `values()` method.
-    Next, turn these values into a *set* to get the unique values.
-    Finally, count the unique values with the `len()` function.
-
-    </details>
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    len(set(yield_current.values()))
-    ```
-
-    </details>
-
-<br>
-
-## Exercise 2: Sets
-
-1.  Assign a set named `dna` with 4 items: each of the 4 bases (single-letter abbreviations) in DNA.\
-
-    <details>
-
-    <summary>Hints</summary>\
-    - Recall the use of curly braces to assign a set.
-    
-    - The order of the bases doesn't matter, because sets are unordered.
-
-    </details>
-
-    <details>
-
-    \
-    <summary>Solution</summary>
-
-    ```{python}
-    dna = {'A', 'G', 'C', 'T'}
-    ```
-
-    </details>
-
-2.  Assign a set named `rna` with 4 items: each of the 4 bases (single-letter abbreviations) in RNA.\
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    rna = {'A', 'G', 'C', 'U'}
-    ```
-
-    </details>
-
-3.  Find the 3 bases that are shared between DNA and in RNA
-    (try both with an *operator* and a *method*, if you want).\
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    dna & rna
-    ```
-
-    Or:
-
-    ```{python}
-    dna.intersection(rna)
-    ```
-
-    </details>
-
-4.  Find all 5 bases that are collectively found among DNA and RNA.
-
-    <details>
-
-    \
-    <summary>Solution</summary>
-
-    ```{python}
-    dna | rna
-    ```
-
-    Or:
-
-    ```{python}
-    dna.union(rna)
-    ```
-
-    </details>
-
-5.  Find the base that only occurs in DNA.
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    dna - rna
-    ```
-
-    Or:
-
-    ```{python}
-    dna.difference(rna)
-    ```
-
-    </details>
-
-6.  Assign a set named `purines` with the two purine bases and a set named
-    `pyrimidines` with the three pyrimidine bases.\
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    purines = {'A', 'G'}
-    pyrimidines = {'C', 'T', 'U'}
-    ```
-
-    </details>
-
-7.  Find the pyrimidine that occurs both in RNA and DNA.\
-
-    <details>
-
-    <summary>Solution</summary>\
-    You can combine more than two sets either by chaining methods or adding another operator.
-
-    </details>
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    pyrimidines & dna & rna
-    ```
-
-    Or:
-
-    ```{python}
-    pyrimidines.intersection(dna).intersection(rna)
-    ```
-
-    </details>
-
-8.  ***Bonus:*** Find the pyrimidine that occurs in RNA but not DNA.\
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    (rna - dna) & pyrimidines
-    ```
-
-    Or:
-
-    ```{python}
-    rna - dna & pyrimidines
-    ```
-
-    Or:
-
-    ```{python}
-    rna.difference(dna).intersection(pyrimidines)
-    ```
-
-    </details>
+</p>
+</details>
 
 <br>
 
 ## Intro to CSB exercises
-
-<span style="color:coral">
-Edit March 12: We did not get to the section on reading tabular files with the
-`csv` module in class. Please read CSB 3.7.2 (p. 115-116) before attempting
-to do these exercises.
-</i></span>
 
 From the CSB Chapter 3 preface to the exercises:
 
@@ -334,134 +58,141 @@ provide a long time series reporting the numbers of cases of measles before mass
 
 1.  Write a program that extracts the names of all the cities in the database (one entry per city).
 
-    <details>
-    <summary>Hints</summary>
-    
-    - While you could try to parse the file from scratch (you have learnt the
-      building blocks to do so), using the `DictReader` from the `csv` module,
-      as we did in class, will make this easier.
-    
-    - The city name is in the column `loc`.
-    
-    - Because each city is reported multiple times, the main task here is to remove
-      duplicates. Using a `set` will be the easiest way to do so, since sets
-      cannot contain duplicates.
-    
-    - You don't need to write to a new file here, just print the `set` after
-      you are done processing the file.
-      
-    - Pseudocode:
-    
-      ```
-      import csv
-      cities = an empty set
-      open data for reading
-      create dictionary reader
-      for each row in the file
-          add the city to the set
-      ```
-    
-    </details>
-    
-2.  Write a program that creates a dictionary where the keys are the cities and
-    the values are the number of records (rows) for that city in the data.
+<details><summary>Hints</summary>
+<p>
 
-    <details>
-    <summary>Hints</summary>
-    
-    - Initialize an empty dictionary before you start looping over the lines.
-    
-    - For every line, extract the city name and add 1 to the value for that
-      city in your dictionary, since you are counting rows.
-      
-    - You don't need to prepopulate the dictionary with all cities:
-      when you provide a default value with the `get()` method,
-      a key that is not yet present will be added to the dictionary with said
-      default value.
-      
-      For example, we can build up a dictionary using `get()` like so:
-      
-      ```{python}
-      dd = {} # empty dictionary
-      my_list = ['a', 'b', 'a', 'c', 'd', 'b', 'a']
-      for element in my_list:
-          dd[element] = dd.get(element, 0) + 1
-      
-      print(dd)
-      ```
-    
-    - Pseudocode:
-    
-      ```
-      import csv library
-      citycount = an empty dictionary
-      open file for reading
-      set up dictionary reader
-        for each line in data
-	        my_city = extract the city
-	        citycount[my_city] = use get to update value
-      ```
-      
-    </details>
+- While you could try to parse the file from scratch (you have learnt the
+  building blocks to do so), using the `DictReader` from the `csv` module,
+  as we did in class, will make this easier.
 
-3.  Write a program that calculates the mean population for each city,
-    obtained by averaging the values of `pop`.
+- The city name is in the column `loc`.
 
-    <details>
-    <summary>Hints</summary>
+- Because each city is reported multiple times, the main task here is to remove
+  duplicates. Using a `set` will be the easiest way to do so, since sets
+  cannot contain duplicates.
+
+- You don't need to write to a new file here, just print the `set` after
+  you are done processing the file.
+  
+- Pseudocode:
+
+  ```
+  import csv
+  cities = an empty set
+  open data for reading
+  create dictionary reader
+  for each row in the file
+      add the city to the set
+  ```
+
+</p>
+</details>
     
-    - Note that for some reason, the population sizes have decimal values.
-    
-    - Again, use a dictionary that you keep adding to for each row of the data
-      set. This time, though, *each value in the dictionary should be a list
-      of two items*: the total population, and the number of occurences.
-    
-    - In your `get()` call, you can initialize the values to be a list of two
-      items as follows (here assuming the dictionary is called `citypop` and the
-      city's name has been extracted as `mycity`):
-      
-      ```py
-      citypop[mycity] = citypop.get(mycity, [0, 0])
-      ```
-    
-    - Then, you can refer to each item in the dictionary's values by chaining
-      indices, e.g. `citypop[mycity][0]`.
-    
-    - Pseudocode:
-    
-    ```
-    import csv
-    citypop = an empty dictionary
-    open data file reading
-    set up dictionary reader
+2. Write a program that creates a dictionary where the keys are the cities and
+   the values are the number of records (rows) for that city in the data.
+
+<details>
+<summary>Hints</summary>
+<p>
+
+- Initialize an empty dictionary before you start looping over the lines.
+
+- For every line, extract the city name and add 1 to the value for that
+  city in your dictionary, since you are counting rows.
+  
+- You don't need to prepopulate the dictionary with all cities:
+  when you provide a default value with the `get()` method,
+  a key that is not yet present will be added to the dictionary with said
+  default value.
+  
+  For example, we can build up a dictionary using `get()` like so:
+  
+  ```{python}
+  dd = {} # empty dictionary
+  my_list = ['a', 'b', 'a', 'c', 'd', 'b', 'a']
+  for element in my_list:
+      dd[element] = dd.get(element, 0) + 1
+  
+  print(dd)
+  ```
+
+- Pseudocode:
+
+  ```
+  import csv library
+  citycount = an empty dictionary
+  open file for reading
+  set up dictionary reader
     for each line in data
-      my_city = extract the city
-      my_pop = extract population
-      if this is the first time you see this city, initialize:
-	      citypop[my_city] = [0.0, 0]
-      citypop[my_city][0] = what it was before + my_pop
-      citypop[my_city][1] = what it was before + 1
+	      my_city = extract the city
+	      citycount[my_city] = use get to update value
+  ```
 
-    for each city
-      divide the first element by the second to obtain the mean
-    ```
-    
-    </details>
-    
-4.  Write a program that calculates the mean population for each city and year.
+</p>  
+</details>
 
-    <details>
-    <summary>Hints</summary>
-    - You can do this in (at least) two ways with a dictionary:
-      
-      - By creating a nested dictionary: each city is a dictionary,
-        which itself contains a dictionary for each year.
-      
-      - By using a `(city, year)` tuple as the keys for the dictionary.
-      
-      Note that the worked-out solution in the link below uses the first strategy. 
+3. Write a program that calculates the mean population for each city,
+   obtained by averaging the values of `pop`.
+
+<details><summary>Hints</summary>
+<p>
+
+- Note that for some reason, the population sizes have decimal values.
+
+- Again, use a dictionary that you keep adding to for each row of the data
+  set. This time, though, *each value in the dictionary should be a list
+  of two items*: the total population, and the number of occurences.
+
+- In your `get()` call, you can initialize the values to be a list of two
+  items as follows (here assuming the dictionary is called `citypop` and the
+  city's name has been extracted as `mycity`):
+  
+  ```py
+  citypop[mycity] = citypop.get(mycity, [0, 0])
+  ```
+
+- Then, you can refer to each item in the dictionary's values by chaining
+  indices, e.g. `citypop[mycity][0]`.
+
+- Pseudocode:
+  
+```
+import csv
+citypop = an empty dictionary
+open data file reading
+set up dictionary reader
+
+for each line in data
+  my_city = extract the city
+  my_pop = extract population
+  if this is the first time you see this city, initialize:
+     citypop[my_city] = [0.0, 0]
+  citypop[my_city][0] = what it was before + my_pop
+  citypop[my_city][1] = what it was before + 1
+
+for each city
+  divide the first element by the second to obtain the mean
+```
+
+</p>  
+</details>
     
-    </details>
+4. Write a program that calculates the mean population for each city and year.
+
+<details><summary>Hints</summary>
+<p>
+
+- You can do this in (at least) two ways with a dictionary:
+  
+  - By creating a nested dictionary: each city is a dictionary,
+    which itself contains a dictionary for each year.
+  
+  - By using a `(city, year)` tuple as the keys for the dictionary.
+  
+Note that the worked-out solution in the link below uses the first strategy. 
+
+</p>
+</details>
     
 <br>
 
@@ -485,8 +216,9 @@ W : 0.187
 I : 0.191
 ```
 
-<details>
-<summary>Hints</summary>
+<details><summary>Hints</summary>
+<p>
+
 For each Dropsophila genetic line, you need to keep track of all the recombination
 rates for W (wounded) and I (infected).
 
@@ -496,6 +228,8 @@ and the inner dictionary has a key for each status (`W` or `I`)
 and a list of recombination rates as each value.
 
 Then, you would calculate averages for each list at the end. 
+
+</p>
 </details>
 
 <br>

@@ -2567,9 +2567,6 @@ Topic overviews
 </ul>
 </nav>
 </div>
-<div class="layout-chunk" data-layout="l-body">
-
-</div>
 <p><br></p>
 <p>The first and last of these exercises are more short tutorials working through two of the examples in the book.</p>
 <p>The first two exercises use <em>BioPython</em>, the third uses <em>Pandas</em>, and the last uses <em>NumPy</em>. As we’re getting into more advanced and specialized material, you may be much more interested in some approaches/packages than others, and it is fine if you direct your attention accordingly.</p>
@@ -2680,7 +2677,7 @@ Bonus using regular expressions in Python
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li><p>Use the <code>Entrez.esearch()</code> function and search the “pubmed” database, and then save the results from the search handle in an object called <code>record</code>.</p></li>
 <li><p>Include <code>usehistory=y</code> in your <code>Entrez.esearch()</code> call, and then assign the “WebEnv” and “QueryKey” to variables. If you saved you results in the variable <code>record</code>, you could get these using <code>record["WebEnv"]</code> and <code>record["QueryKey"]</code>, respectively. Then, you can refer to this search in the next step.</p></li>
@@ -2699,12 +2696,13 @@ close the handle
 
 save WebEnv from your record
 save QueryKey from your records</code></pre>
+</p>
 </details>
 <details>
 <summary>
 Solutions
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import the Entrez module:</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Bio <span class="im">import</span> Entrez</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2726,6 +2724,7 @@ Solutions
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>webenv <span class="op">=</span> record[<span class="st">&quot;WebEnv&quot;</span>]</span>
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>query_key <span class="op">=</span> record[<span class="st">&quot;QueryKey&quot;</span>]</span></code></pre></div>
 <p>For the similar CSB solutions to all steps in this exercise, see <a href="https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Lord_of_the_flies_solution.ipynb">here</a>.</p>
+</p>
 </details>
 <p><br></p>
 <ol start="2" type="1">
@@ -2735,7 +2734,7 @@ Solutions
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li><p>Use the <code>Entrez.efetch()</code> function to retrieve the records. Use similar options to those we used in class, but set <code>retmax</code> to be at least as high as the number of papers that you found in the previous step, or you will not get all papers.</p></li>
 <li><p>Read the results from your search handle to an object, and then write your object to the file <code>D_virilis_pubs.txt</code>.</p></li>
@@ -2748,12 +2747,13 @@ close the handle
 
 with open output file as handle
     write the data</code></pre>
+</p>
 </details>
 <details>
 <summary>
 Solutions
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform the search:</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>shandle <span class="op">=</span> Entrez.efetch(db <span class="op">=</span> <span class="st">&quot;pubmed&quot;</span>,</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                        rettype <span class="op">=</span> <span class="st">&quot;medline&quot;</span>,</span>
@@ -2766,6 +2766,7 @@ Solutions
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>shandle.close(</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;D_virilis_pubs.txt&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> fhandle:</span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    fhandle.write(data)</span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <ol start="3" type="1">
@@ -2776,7 +2777,7 @@ Solutions
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li><p>Create an empty dictionary for authors and their publication counts, and then loop through each line in <code>D_virilis_pubs.txt</code> to fill in the dictionary.</p></li>
 <li><p>To find lines with authors, use the <code>find()</code> methods and search for <code>AU</code> or even better <code>AU  -</code>, since these are the lines with authors.</p></li>
@@ -2790,12 +2791,13 @@ Hints
               split the line by &quot;-&quot; and take the 2nd element
               strip whitespace
               initialize author if not in dict and add 1 to keep count</code></pre>
+</p>
 </details>
 <details>
 <summary>
 Solutions
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;D_virilis_pubs.txt&quot;</span>) <span class="im">as</span> fhandle:</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize an empty dictionary:</span></span>
@@ -2816,6 +2818,7 @@ Solutions
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>      <span class="co"># If key (=author) is present, add 1, otherwise, initialize at 1:</span></span>
 <span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>      author_dict[author] <span class="op">=</span> author_dict.get(author, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <ol start="4" type="1">
@@ -2826,7 +2829,7 @@ Solutions
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <p>To get the top authors, you can use the <code>sorted()</code> function on your dictionary. You’ll have two provide two additional arguments:</p>
 <ul>
 <li><p><code>key = author_dict.get</code>, which will sort by the values of the dictionary.</p></li>
@@ -2839,12 +2842,13 @@ Hints
 top_authors = take top 5 from sorted_authors
 for author in top authors
     print the name and the number of papers</code></pre>
+</p>
 </details>
 <details>
 <summary>
 Solutions
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sorted_authors <span class="op">=</span> <span class="bu">sorted</span>(author_dict, key <span class="op">=</span> author_dict.get, reverse <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>top_authors <span class="op">=</span> sorted_authors[:<span class="dv">5</span>]</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2856,6 +2860,7 @@ Solutions
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Hoikkala A : 24</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Raushenbakh IIu : 24</span></span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Korochkin LI : 22</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h2 id="exercise-csb-2-rejection-rates">3: Exercise CSB-2: Rejection rates</h2>
@@ -2869,7 +2874,7 @@ Solutions
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <p>With an eye on the next step, where you have to do the same thing for each year, it is convenient to write a function that takes the data and a calendar year as input, and prints the probability of rejection given the number of reviewers for that given year.</p>
 <p>We can set the function to return the general rejection rate if “all” instead of a year is specified as an argument.</p>
 <p>Pseudocode:</p>
@@ -2894,6 +2899,7 @@ def get_prob_rejection(my_year = &quot;all&quot;):
         subset the data to use only the specified year
     for each number of reviewers:
         compute probability of rejection and produce output</code></pre>
+</p>
 </details>
 <p><br></p>
 <ol start="2" type="1">
@@ -2913,7 +2919,7 @@ NumRev    NumMs   rejection rate
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <p>If your function doesn’t already take a calendar year as as an argument, modify your function to do so.</p>
 <p>Then loop through the years of 2004-2014 (inclusive) and run your function for each year.</p>
 </details>
@@ -2922,10 +2928,12 @@ Hints
 <summary>
 Solutions for both steps
 </summary>
-<p><br> See the <a href="https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Fox2016_solution.ipynb">CSB notebook with the solutions</a>.</p>
+<p>
+<p>See the <a href="https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Fox2016_solution.ipynb">CSB notebook with the solutions</a>.</p>
 <p>The notebooks sometimes don’t manage to load on GitHub; if not, try refreshing and otherwise go <a href="https://github.com/CSB-book/CSB/tree/master/scientific/solutions">here</a> and look at the PDF version instead.</p>
 <p><em><strong>Note:</strong> The solution uses some “plain Python” approaches where specialized Pandas functions are also available to do the same thing more succinctly. That is fine, and makes sense given that we have only had a quick introduction to Pandas and did not learn about these more advanced functions — but it may be good to be aware of this.</em></p>
 <p><em>If you want to try out specialized Pandas approaches for this exercise, look into the <code>groupby</code> method in particular.</em></p>
+</p>
 </details>
 <p><br></p>
 <h2 id="tutorial-exercise-image-processing-with-numpy">4: Tutorial exercise <br> Image processing with NumPy</h2>

@@ -16,8 +16,9 @@ checking file integrity, and working with compressed data.
 
 ### Slides
 
-- [Slides: data download, transfer and integrity, shell productivity tips, & scripting recap](slides/07-1.html) 
-  -- Thursday Zoom (Feb 25)
+- [Slides: Part I -- Data download, transfer and integrity](slides/07-1.html) 
+
+- [Slides: Part II -- Shell productivity tips & scripting recap](slides/07-2.html)
 
 ### Ungraded assignments
 

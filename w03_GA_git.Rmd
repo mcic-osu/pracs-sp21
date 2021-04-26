@@ -22,7 +22,8 @@ that you have practiced with in last week's exercises.
 Grading information:
 
 - The number of points (if any) that you can earn for each step are
-  denoted in cursive between square brackets (e.g. *[0.5]*).
+  denoted in coral between square brackets
+  (e.g. <span style="color:coral"><i>[0.5]</i></span>).
   In total, you can earn 10 points with this assignment,
   which is 10% of your grade for the class.
 
@@ -53,7 +54,7 @@ Some general hints:
 
 ## Part I -- Create a new Git repo
 
-1. **Create a new directory at OSC.**
+1. **Create a new directory at OSC.**  
   - A good place for this directory is in `/fs/ess/PAS1855/users/$USER/week03/`,
     but you are free to create it elsewhere
     (I will only be checking the online version of your repo).
@@ -61,23 +62,27 @@ Some general hints:
     ("GA1" for "Graded Assignment 1"),
     but you are free to pick a name that makes sense to you. 
 
-2. **Load the OSC git module.**
+2. **Load the OSC git module.**  
    Don't forget to do this, or you will be working with a much older version
    of Git. 
 
-2. **Initialize a local Git repository** inside your new directory. *[0.5]*  
+2. **Initialize a local Git repository** inside your new directory.
+   <span style="color:coral"><i>[0.5]</i></span>
 
-3. **Create a README file in Markdown format.** *[0.5]*  
+3. **Create a README file in Markdown format.**
+   <span style="color:coral"><i>[0.5]</i></span>  
    The file should be named `README.md`,
    and for now, just contain a *header* saying that this is a repository
    for your assignment.
    
-4. ***Stage* and then *commit* the README file.** *[0.5]*  
+4. ***Stage* and then *commit* the README file.**
+   <span style="color:coral"><i>[0.5]</i></span>  
    Include an appropriate commit message.
 
 ## Part II -- Add some Markdown content
 
-5. **Create a second Markdown file with some more contents.** *[1.5]*  
+5. **Create a second Markdown file with some more contents.**
+   <span style="color:coral"><i>[1.5]</i></span>  
    
    This file can have any name you want,
    and you can also choose what you want to write about.
@@ -99,46 +104,53 @@ Some general hints:
    things that you so far find challenging or interesting about Git;
    how computational skills may help you with your research.)
    
-   <details>
-   <summary>Hints</summary>
-   In VS Code, open the Markdown preview on the side,
-   so you can experiment and see whether your formatting is working the way
-   you intend.
-   </details>
+<details><summary>Hints</summary>
+<p>
+
+In VS Code, open the Markdown preview on the side,
+so you can experiment and see whether your formatting is working the way
+you intend.
+
+<p>
+</details>
    
-6. **Create at least two commits while you work on the Markdown file.** *[0.5]*  
+6. **Create at least two commits while you work on the Markdown file.**
+   <span style="color:coral"><i>[0.5]</i></span>  
    Try to break your progress up into logical units that can be
    summarized with a descriptive commit message.
    
-   <details>
-   <summary>Hints</summary>
-   
-   <p>
-   - **Bad** commits/commit messages:  
-     "*First part of the file*" along with "*Second part of the file*".
-   - **Good** commits and commit messages:  
-     "*Summarized key concepts in the Git workflow*" along with
-     "*Made a table of common Git commands*".
-   </p>
-   
-   </details>
+<details><summary>Hints</summary>
+<p>
 
-7. **Update the `README.md` file**. *[0.5]*  
+- **Bad** commits/commit messages:  
+  "*First part of the file*" along with "*Second part of the file*".
+- **Good** commits and commit messages:  
+  "*Summarized key concepts in the Git workflow*" along with
+  "*Made a table of common Git commands*".
+
+</p>
+</details>
+
+7. **Update the `README.md` file**.
+   <span style="color:coral"><i>[0.5]</i></span>  
    Briefly describe the current contents of your repo now that you actually
    have some contents.
 
-8. **Stage and commit the updated README file.** *[0.5]*  
+8. **Stage and commit the updated README file.**
+   <span style="color:coral"><i>[0.5]</i></span>  
 
 ## Part III -- Add some "data" files
 
-9. **Create a directory with dummy data files.**  *[0.5]*  
+9. **Create a directory with dummy data files.**
+   <span style="color:coral"><i>[0.5]</i></span>  
    Create a directory called `data` and inside this directory,
    create 100 empty files with a single `touch` command and at least one
    brace expansion
    (e.g. for samples numbered 1-100, or 20 samples for 5 treatments).
    Give the files the extension `.txt`.
    
-10. **Stage and commit the `data` directory and its contents.** *[0.5]*  
+10. **Stage and commit the `data` directory and its contents.**
+    <span style="color:coral"><i>[0.5]</i></span>  
     As always, include a descriptive message with your commit.
 
 ## Part IV -- Renaming files on a new branch
@@ -155,11 +167,13 @@ you can just switch back to the master branch.
 (*Note that there are many other ways of undoing and going back in Git,
 but this one is perhaps conceptually the easiest, and safe.*)
     
-11. **Go to a new branch.** *[0.5]*  
+11. **Go to a new branch.**
+    <span style="color:coral"><i>[0.5]</i></span>  
     Create a new branch called `rename-data-files` or something similar,
     and move to the new branch. (Also, check whether this worked.)
 
-12. **Write a `for` loop to rename the files.**   *[1.5]*  
+12. **Write a `for` loop to rename the files.**
+    <span style="color:coral"><i>[1.5]</i></span>   
     You can keep it as simple as switching the file extension to `.csv`,
     or do something more elaborate if you want.
     
@@ -167,9 +181,8 @@ but this one is perhaps conceptually the easiest, and safe.*)
     recall that there is a Git-friendly modification to the command to rename
     files: use that in the loop.
 
-   <details>
-   <summary>Hints</summary>
-   <p>
+<details><summary>Hints</summary>
+<p>
 
 - [These slides](https://mcic-osu.github.io/pracs-sp21/posts/week-02/slides/02-3-shfiles.html#27)
   from last week have a similar renaming loop example.
@@ -199,12 +212,13 @@ but this one is perhaps conceptually the easiest, and safe.*)
     - Create a new renaming branch and move there.
     - Optionally, delete the old/failed renaming branch.
 
-   </p>
-   </details>
+</p>
+</details>
    
 13. **Commit the changes made by the renaming operation.**
 
-13. **Merge into the `master` branch.**  *[0.5]*  
+13. **Merge into the `master` branch.**
+    <span style="color:coral"><i>[0.5]</i></span>  
     With the files successfully renamed, go back to the `master` branch.  
     Then, merge the `rename-data-files` branch into the `master` branch.  
     (Optionally, remove the `rename-data-files` branch, since you will no
@@ -216,13 +230,15 @@ but this one is perhaps conceptually the easiest, and safe.*)
     (*No, the repo doesn't really make sense as a cohesive unit anymore,
      but that's okay while we're practicing. :) *)
 
-15. **Stage and commit the updated README file.** *[0.5]*  
+15. **Stage and commit the updated README file.**
+    <span style="color:coral"><i>[0.5]</i></span>  
 
 ## Part V -- Create and sync an online version of the repo
 
 Phew, those were a lot of commits! Let's share all of this work with the world.
 
-16. **Create a Github repository.** *[0.5]*  
+16. **Create a Github repository.**
+    <span style="color:coral"><i>[0.5]</i></span>   
     Go to <https://github.com>, sign in, and create a new repository.
     
     - It's a good idea to give it the same name as your local repo,
@@ -231,7 +247,8 @@ Phew, those were a lot of commits! Let's share all of this work with the world.
       because you will upload all the contents from your local repo:
       therefore, don't check any of the boxes to create files like a README.
     
-17. **Push your local repo online.** *[0.5]*  
+17. **Push your local repo online.**
+    <span style="color:coral"><i>[0.5]</i></span>  
     With your repo created, follow the instructions that Github now gives you,
     under the heading "*...or push an existing repository from the command line*".
     
@@ -243,16 +260,18 @@ Phew, those were a lot of commits! Let's share all of this work with the world.
     When you're done, click the `Code` button, and
     admire the nicely rendered README on the front page of your Github repo.
 
-    <details>
-    <summary>Hints</summary>
-    <p>
-    Assuming that you're using SSH authentication, which you should have set up
-    in this week's ungraded assignment, make sure you use the SSH link type:
-    starting with `git@github.com` rather than `HTTPS`.
-    </p>
-    </details>
+<details><summary>Hints</summary>
+<p>
+
+Assuming that you're using SSH authentication, which you should have set up
+in this week's ungraded assignment, make sure you use the SSH link type:
+starting with `git@github.com` rather than `HTTPS`.
+
+</p>
+</details>
    
-18. **Create an issue to mark that you're done!** *[0.5]*    
+18. **Create an issue to mark that you're done!**
+    <span style="color:coral"><i>[0.5]</i></span>   
     Find the "Issues" tab for your repo on Github:
     
     <p align="center">

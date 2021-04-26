@@ -1,0 +1,309 @@
+---
+title: "Week 7 - Data transfer & integrity - II"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "default-fonts", "slides.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: rainbow
+      highlightLines: true
+      countIncrementalSlides: false
+---
+class:inverse middle center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(eval = FALSE)
+
+icon::fa("user-edit")
+```
+
+# *Week 7 - Data transfer & integrity*
+
+----
+
+### II: Shell productivity tips & scripting recap
+
+<br> <br> <br> <br> <br>
+
+### Jelmer Poelstra
+### 2021/02/25
+
+---
+class: inverse middle center
+
+# Overview
+
+----
+
+.left[
+- ### [Shell productivity tips](#prod)
+- ### [Recap: scripting, with a loop](#script)
+]
+
+---
+class:inverse middle center
+name:prod
+
+# Shell productivity tips
+
+----
+<br> <br> <br> <br>
+
+---
+
+## Shell productivity tips
+
+- **Use keyboard shortcuts**, such as:
+  - <kbd>Alt</kbd>+<kbd>.</kbd> to recall the last argument of the previous command;
+    and if you press it again, of the command before that, etc.
+  
+  - When you hold <kbd>Ctrl</kbd> and press the arrow buttons, you will move
+    word-by-word rather than character-by-character.
+    
+  - You can also cut (delete) word-by-word by pressing <kbd>Ctrl</kbd>+<kbd>W</kbd>
+    or <kbd>Alt</kbd>+<kbd>Backspace</kbd> (=<kbd>Option</kbd>+<kbd>Delete</kbd>).
+  
+  - After cutting words or to the beginning (<kbd>Ctrl</kbd>+<kbd>U</kbd>) /
+    end (<kbd>Ctrl</kbd>+<kbd>K</kbd>) of the line,
+    you can paste this back with <kbd>Ctrl</kbd>+<kbd>Y</kbd>!
+
+--
+
+- Also:
+
+  - Don't forget you can press <kbd>Enter</kbd> to run a line,
+    regardless of where your cursor is!
+  
+  - Use the VS Code plugin "**Shellcheck**" for so-called linting (checking) of
+    code in your shell scripts!
+
+---
+
+## Shell productivity tips: history
+
+  - To search your shell history, press <kbd>Ctrl</kbd>+<kbd>R</kbd> and type
+    your search. Keep pressing <kbd>Ctrl</kbd>+<kbd>R</kbd> to go the matches
+    further back in history, and press <kbd>Enter</kbd> to execute the focal
+    command.
+  
+  - The `history` command will print your previously issued commands,
+    and you can easily search that using `grep`:
+    
+    ```sh
+    $ history | grep module | head -n 2
+    #> 102  module spider python
+    #> 103  module load python/3.6-conda5.2
+    
+    # Now you can use the numbers to the left of each command to execute it: 
+    !103
+    #> module load python/3.6-conda5.2
+    ```
+
+---
+
+## Shell productivity tips: history (cont.)
+
+Exclamation points generally access your shell history:
+
+```sh
+$ !!       # Re-execute the last line
+
+$ chr22.fa.gz | head
+$ zcat !!  # Prepend something (e.g. zcat) to last line & re-execute
+
+$ !ls      # Re-execute last ls command
+$ !less    # Re-execute last "sinteractive" command
+
+$ !sinteractive:p  # Bring last "sinteractive" command to front of
+           # your history (Press Up arrow to access).
+#> sinteractive -A PAS0471            
+```
+
+---
+class:inverse middle center
+name:prod
+
+# Recap: scripting with a loop
+
+----
+<br> <br> <br> <br>
+
+---
+
+## Scripting
+
+In the [exercises for week 6](https://mcic-osu.github.io/pracs-sp21/w05_exercises.html),
+you created a script `fastq_stat.sh`.
+
+Let's recreate a simpler form of that script,
+starting with a line that will print a count table of sequence lengths for a
+FASTQ file:
+
+```sh
+fq_file=/fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
+
+awk '{if(NR%4 == 2) print length($0)}' "$fq_file" | sort | uniq -c
+```
+
+If we wanted to regularly run this line, it would make sense to put it in a script.
+
+---
+
+## Scripting
+
+To turn this command into a useful script, we need to do two things:
+
+1. Include header lines that are necessary (*shebang*) or recommended (`set`)
+   for scripts.
+   
+2. Let the script accept the file name as an *argument*.
+
+<br>
+
+Our script `readlen.sh`:
+
+```sh
+#!/bin/bash
+set -e -u -o pipefail
+
+fq_file="$1"
+
+awk '{ if(NR%4 == 2) print length($0) }' "$fq_file" | sort | uniq -c
+```
+
+---
+
+## Scripting
+
+- To *run* the script, assuming it is in our working directory:
+
+  ```sh
+  $ my_fq_file=/fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
+  
+  $ bash readlen.sh $my_fq_file
+  ```
+
+- Or after we make it executable:
+
+  ```sh
+  $ chmod u+x readlen.sh
+  $ ./readlen.sh $my_fq_file
+  ```
+
+--
+
+- Or if we want to submit it to the SLURM scheduler at OSC:
+  
+  ```sh
+  $ sbatch -A PAS1855 readlen.sh $my_fq_file
+  ```
+
+  *(Alternatively, we could provide SLURM directives **inside** the script,
+  using lines that start with `#SBATCH`.)*
+
+---
+
+## Looping over files using a globbing pattern
+
+If we have a directory full of FASTQ files that we want to run our script on,  
+we can run a loop directly in the shell, with a globbing pattern:
+
+```sh
+$ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
+      ./readlen.sh "$fq_file"
+  done
+```
+
+---
+
+## Looping over files using an array
+
+In some cases, it may be easier to use an *array that contains the file names*.
+For instance, say that our files are scattered across different directories
+and/or we want to subset an arbitrary set of files that is not easy to glob.
+
+- Let's assume that in such a case, we start with a file that contains a list
+  of FASTQ file names:
+
+  ```sh
+  $ ls /fs/ess/PAS1855/data/week05/fastq/*fastq > list_of_FASTQ_files.txt
+  
+  $ head -n 2 list_of_FASTQ_files.txt
+  #> /fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R1_001.fastq
+  #> /fs/ess/PAS1855/data/week05/fastq/201-S4-V4-V5_S53_L001_R2_001.fastq
+  ```
+
+--
+
+- In this case, we read the *list of file names* into an array &ndash;
+  recall that:
+  - We use a command substitution (`$(command)` syntax) to capture the output
+    of the `cat` command.
+  - We use (another set of) parentheses `()` to assign the result of the
+    command substitution to an array rather than to a regular variable.
+
+  ```sh
+  $ fq_files=($(cat list_of_FASTQ_files.txt))
+  ```
+
+---
+
+## Looping over files using an array (cont.)
+
+- To be able to loop over an array, we use the `${array_name[@]}` syntax to
+  access all its elements:
+
+  ```sh
+  $ for fq_file in ${fq_files[@]}; do
+          ./readlen.sh "$fq_file"
+      done
+  ```
+
+--
+
+- Notice that the loop is very similar to the one where we used globbing  
+  (with the array, we just needed an extra step to assign it):
+
+  ```sh
+  $ for fq_file in /fs/ess/PAS1855/data/week05/fastq/*fastq; do
+          ./readlen.sh "$fq_file"
+      done
+  ```
+
+--
+
+- Note that the *expansion* of the globbing pattern (in the first case) and of
+  the array (in the second case) is *done by the shell* &ndash;
+  so the loop sees the following:
+
+  ```sh
+  $ for fq_file in file1 file2 file3 file4; do # don't run
+          ./readlen.sh "$fq_file"
+      done 
+  ```
+
+---
+
+## Where do I run the loop if it's not inside the script?
+
+- You could simply type it in the shell on the fly, like any other command.
+  
+  However, for reproducibility purpose, you should save such commands:
+  
+  - You could make the loop a script of its own.
+  
+  - You could include it in a README or other digital notebook for your project,
+    in a code block in Markdown.
+
+<br>
+
+--
+
+.content-box-info[
+In week 13, with Snakemake, we will see a way to formalize workflow elements
+like this using a Snakefile.
+  
+(Snakemake can in fact take care of looping over input files!)
+]

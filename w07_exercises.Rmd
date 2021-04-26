@@ -24,14 +24,15 @@ Note, if you are more interested in getting the equivalent files for another org
 
 2.  Click the assembly in the prominent box at the top that says `Phyt_para_CJ02B3_V1`.
 
-    <details>
-    <summary>Hints</summary>
-    <p>
-    Here is the link to the assembly, in case things look different for you:
-    <https://www.ncbi.nlm.nih.gov/assembly/GCA_000509465.1>.
-    (But again, you can also download files from a different organism or assembly.)
-    </p>
-    </details>
+<details><summary>Hints</summary>
+<p>
+
+Here is the link to the assembly, in case things look different for you:
+<https://www.ncbi.nlm.nih.gov/assembly/GCA_000509465.1>.
+(But again, you can also download files from a different organism or assembly.)
+
+</p>
+</details>
     
 3.  Now, you should be on the assembly page.
     There is a big blue button `Download Assembly`, but if you click on it,
@@ -68,49 +69,48 @@ Note, if you are more interested in getting the equivalent files for another org
     paths that are too long.
     :::
     
-    <details>
-    <summary>Hints</summary>
-    <p>
-    
-    - Your command should be structured as follows:
-      
-      ```sh
-      $ wget --no-parent -e robots=off <other-options> <link-to-page>
-      ```
-    
-    - The link to the page is:
-      <https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/509/465/GCA_000509465.1_Phyt_para_CJ02B3_V1/>
-    
-    - Use the `--recursive` option to download more than one file at once.
-    
-    - By default, the files will be placed inside several levels of directories:
-    
-      ```sh
-      # ftp.ncbi.nlm.nih.gov/
-      # └── genomes
-      #     └── genbank
-      #         └── protozoa
-      #             └── Phytophthora_parasitica
-      #                 └── latest_assembly_versions
-      #                     └── GCA_000509525.1_Phyt_para_IAC_01_95_V1
-      ```
-      
-      To avoid this, you can use the options `--no-host-directories` and `--cut-dirs=6`
-      as suggested in the NCBI's
-      [download FAQ](https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/).
-      And if you do so, you'll also want to specify an arbitrary target dir name
-      with `-P`, e.g. `-P ncbi_Pparasiticus`.
-    
-    - If you want to play around with different options, I suggest you use the
-      `--accept` option to only select one or two small files to be downloaded,
-      e.g. `--accept "*assembly_stats*"`.
-      
-    - Don't hesitate to look at the solution if your first attempts fail.
-      The minutiae of `wget` commands aren't terribly important -- the next
-      exercise, while easier, is more so.
-    
-    </p>
-    </details>
+<details><summary>Hints</summary>
+<p>
+
+- Your command should be structured as follows:
+  
+  ```sh
+  $ wget --no-parent -e robots=off <other-options> <link-to-page>
+  ```
+
+- The link to the page is:
+  <https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/509/465/GCA_000509465.1_Phyt_para_CJ02B3_V1/>
+
+- Use the `--recursive` option to download more than one file at once.
+
+- By default, the files will be placed inside several levels of directories:
+
+  ```sh
+  # ftp.ncbi.nlm.nih.gov/
+  # └── genomes
+  #     └── genbank
+  #         └── protozoa
+  #             └── Phytophthora_parasitica
+  #                 └── latest_assembly_versions
+  #                     └── GCA_000509525.1_Phyt_para_IAC_01_95_V1
+  ```
+  
+  To avoid this, you can use the options `--no-host-directories` and `--cut-dirs=6`
+  as suggested in the NCBI's
+  [download FAQ](https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/).
+  And if you do so, you'll also want to specify an arbitrary target dir name
+  with `-P`, e.g. `-P ncbi_Pparasiticus`.
+
+- If you want to play around with different options, I suggest you use the
+  `--accept` option to only select one or two small files to be downloaded,
+  e.g. `--accept "*assembly_stats*"`.
+  
+- Don't hesitate to look at the solution if your first attempts fail.
+  The minutiae of `wget` commands aren't terribly important -- the next
+  exercise, while easier, is more so.
+
+</p>
+</details>
 
 ### Exercise 2: Checking out the downloaded files
 
@@ -123,13 +123,15 @@ are. You should be seeing over 20 files, including
     `md5checksums.txt`. Use this file in a single `md5sum` command to verify that
     all the downloaded files are identical to the source,
     i.e. that they have the correct checksums.
-    <details>
-    <summary>Hints</summary>
-    <p>
-    Use the `-c` (check) option to `md5sum` to cross-check the checksums of the
-    files in your directory with those in the file you specify.
-    </p>
-    </details>
+    
+<details><summary>Hints</summary>
+<p>
+
+Use the `-c` (check) option to `md5sum` to cross-check the checksums of the
+files in your directory with those in the file you specify.
+
+</p>
+</details>
 
 2.  Count the number of lines in the genome sequence
     (`GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.fna.gz`)
@@ -139,36 +141,39 @@ are. You should be seeing over 20 files, including
     this explicitly denotes a FASTA file with nucleotide sequences,
     as opposed to one with amino acid sequences, `.faa`.)
 
-    <details>
-    <summary>Hints</summary>
-    <p>
-    - `zgrep` will allow you to search in a gzipped file.
-    - Recall that (z)grep's `-c` option will count matches.
-    </p>
-    </details>
+<details><summary>Hints</summary>
+<p>
+
+- `zgrep` will allow you to search in a gzipped file.
+- Recall that (z)grep's `-c` option will count matches.
+
+</p>
+</details>
     
 3.  Check the size of the same zipped genome sequence FASTA file.
     Then, unzip the file, and check the file size again.
     Finally, gzip it back up.
     
-    <details>
-    <summary>Hints</summary>
-    <p>
-    - To unzip, use `gunzip <filename>`.
-    - To zip, use `gzip <filename>`.
-    - Check the file size with `ls` or `du`.
-    </p>
-    </details>
+<details><summary>Hints</summary>
+<p>
+
+- To unzip, use `gunzip <filename>`.
+- To zip, use `gzip <filename>`.
+- Check the file size with `ls` or `du`.
+
+</p>
+</details>
 
 4.  Does the checksum still match for the "rezipped" FASTA file?
 
-    <details>
-    <summary>Hints</summary>
-    <p>
-    You can simply use the same command you used in the first step of this
-    exercise.
-    </p>
-    </details>
+<details><summary>Hints</summary>
+<p>
+
+You can simply use the same command you used in the first step of this
+exercise.
+
+</p>
+</details>
 
 ### Exercise 3: File transfer
 
@@ -183,8 +188,7 @@ interested in getting experience with this (at OSC, it is recommended for larger
 transfers since the transfer does not use a login node like `scp` and` rsync` do),
 have a look at this [tutorial](https://linuxize.com/post/how-to-use-linux-sftp-command-to-transfer-files/). The hint below will tell you how you can log in to the OSC SFTP server.*
 
-<details>
-<summary>Hints</summary>
+<details><summary>Hints</summary>
 <p>
 
 **`rsync`**
@@ -216,7 +220,7 @@ have a look at this [tutorial](https://linuxize.com/post/how-to-use-linux-sftp-c
 ### Exercise 1
 
 <details>
-<summary>4. Use a `wget` command to download all these files at once.</summary>
+<summary>(4.) Use a `wget` command to download all these files at once.</summary>
 <p>
 
 The `wget` command with the fewest options that works for our goal is: 
@@ -232,15 +236,17 @@ the question and the hints.
 If you wanted to place these files in a dir with a name of your choice,
 and no unnecessarily nest directories (see the hint above), you could use:
 
-  - `--no-host-directories` in combination with `--cut-dirs=6` will remove the 6
-    levels of nested directories you got earlier
-    (ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions).
-  - `-P ncbi_Pparasiticus/` to name your directory.
+- `--no-host-directories` in combination with `--cut-dirs=6` will remove the 6
+  levels of nested directories you got earlier
+  (ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions).
+
+- `-P ncbi_Pparasiticus/` to name your directory.
 
 Furthermore, since we are not interested in `index.html` (the actual HTML we are
 looking at on the web), we can exclude it using `--reject "index.html"`.
 
 All in all, this would result in the following command:
+
 ```sh
 $ wget --recursive -e robots=off --no-parent \
        --reject "index.html" \
@@ -285,7 +291,7 @@ $ ls ncbi_Pparasiticus # Or whatever dir your downloads are in
 ### Exercise 2
 
 <details>
-<summary>1. Check the file integrity with `md5sum`.</summary>
+<summary>(1.) Check the file integrity with `md5sum`.</summary>
 <p>
 
 The `-c` option, when provided with a filename, will check the checksums of the
@@ -330,7 +336,7 @@ end of the output, like:
 </details>
 
 <details>
-<summary>2. Count the number of lines in the genome sequence that contain `CAGCAGCAG`.</summary>
+<summary>(2.) Count the number of lines in the genome sequence that contain `CAGCAGCAG`.</summary>
 <p>
 
 ```sh
@@ -343,7 +349,7 @@ $ zgrep -c "CAGCAGCAG" GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.f
 
 
 <details>
-<summary>3. Check file size, unzip and zip.</summary>
+<summary>(3.) Check file size, unzip and zip.</summary>
 <p>
 
 ```sh
@@ -364,7 +370,7 @@ The zipped file is less than a quarter of the size of the unzipped file.
 </details>
 
 <details>
-<summary>4. Does the checksum still match for the “rezipped” FASTA file?</summary>
+<summary>(4.) Does the checksum still match for the “rezipped” FASTA file?</summary>
 <p>
 
 ```sh
@@ -469,4 +475,3 @@ in a local shell.
   
 </p>
 </details>
-

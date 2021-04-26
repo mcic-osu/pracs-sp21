@@ -2593,104 +2593,122 @@ Topic overviews
 <p>In this exercise, we will start using the file <code>Mus_musculus.GRCm38.75_chr1.gtf</code> that we’ve seen in class.</p>
 <p>Let’s say that you need to extract annotation information for all pseudogenes on mouse chromosome 1 from the GTF, and write the results to a new GTF file. We’ll do that in this exercise with a detour along the way.</p>
 <ol type="1">
-<li><p>Count the number of lines with the string “<em>pseudogene</em>”.</p>
+<li>Count the number of lines with the string “<em>pseudogene</em>”.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+</p>
 <p>Use <code>grep -c</code> to count the matches.</p>
 </p>
-</details></li>
-</ol>
+</details>
 <p>Does this mean there are over a 1,000 pseudogenes on this chromosome? No, because there are “nested” genomic features in the file: for each gene, several “subfeatures” are listed, such as individual exons. This genomic feature type information is listed in column 3.</p>
 <ol start="2" type="1">
 <li><p>For lines that match “pseudogene” as above, which different feature types are listed in column 3, and what are their counts (i.e., create a count table for column 3)?</p>
-<p>Are there any coding sequences (“CDS”), start codons (“start_codon”) and stop codons (“stop_codon”)?</p>
+<p>Are there any coding sequences (“CDS”), start codons (“start_codon”) and stop codons (“stop_codon”)?</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>To answer this question, compute count tables using <code>sort | uniq -c</code> after <code>grep</code>ping for “pseudogene”.</p>
 </p>
-</details></li>
-<li><p>If you are more restrictive in your <code>grep</code> matching to only match “pseudogene” as a full “word”, do you still see CDS or start/stop codons?</p>
+</details>
+<ol start="3" type="1">
+<li>If you are more restrictive in your <code>grep</code> matching to only match “pseudogene” as a full “word”, do you still see CDS or start/stop codons?</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p>
 <p>Use <code>grep -w</code> to only match full “words”: consecutive alphanumeric characters and the underscore.</p>
 <p>This would avoid matching longer words that <em>contain</em> “pseudogene”, such as “transcribed_pseudogene”.</p>
 </p>
-</details></li>
+</details>
+<ol start="4" type="1">
 <li><p>We have “exon”, “transcript” and “gene” features in column 3, but we want just the <strong>gene-level coordinates</strong> of the pseudogenes: after <code>grep</code>ping for “<em>pseudogene</em>” like in the previous question, select only rows for which the feature type in column 3 is <code>gene</code>.</p>
-<p>Pipe your output into <code>head</code> or <code>less</code>; we don’t want to write to a new file yet.</p>
+<p>Pipe your output into <code>head</code> or <code>less</code>; we don’t want to write to a new file yet.</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>The “gene” you want to match is in its own column. Matching restrictively using the <code>-w</code> flag to only match whole “words” will work in this case.</p>
 <p>Even better would be to <em>explicitly match the tabs</em> surrounding “gene”. This can be done using the <code>-P</code> flag to grep (<code>grep -P</code>) and the <code>\t</code> symbol for tabs.</p>
 <p>Yet another approach that is even more explicit uses <code>awk</code> to make the match specifically for the 3rd column (recall that <code>$3</code> is the third column in <code>awk</code>, so you can use <code>$3 == "gene"</code>). If you try with <code>awk</code>, you’ll have to make sure to ignore the header lines, which are not tabular.</p>
 </p>
-</details></li>
-<li><p>Comprehensively check that your output only contains “gene” in column 3.</p>
+</details>
+<ol start="5" type="1">
+<li>Comprehensively check that your output only contains “gene” in column 3.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>Pipe your previous command into <code>cut</code> and then <code>sort | uniq -c</code> to quickly check which values are present in column 3.</p>
 </p>
-</details></li>
+</details>
+<ol start="6" type="1">
 <li><p>Now, you are almost ready to write the results to a new GTF file, called <code>pseudogenes.gtf</code>, with the features you selected above: gene-level <em>pseudogene</em> features.</p>
 <p>One challenge is that you also want the header, which you won’t get when redirecting the output from the previous command.</p>
 <p>A straightforward solution would be to first write the header to a new file, and then <em>append</em> the lines with the selected features.</p>
-<p>Alternatively, you can use <em>subshells</em> to do this in a single go. If you want to try this, make sure you have read the Buffalo section on subshells (p. 169-170) first.</p>
+<p>Alternatively, you can use <em>subshells</em> to do this in a single go. If you want to try this, make sure you have read the Buffalo section on subshells (p. 169-170) first.</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>Structure the subshell solution as follows:<br />
 <code>(&lt;select-header&gt; ; &lt;select-from-rest-of-file&gt;) &gt; pseudogenes.gtf</code></p>
 </p>
 </details>
-<p><br></p></li>
-</ol>
+<p><br></p>
 <h3 id="exercise-2-calculations-with-awk">Exercise 2: Calculations with <code>awk</code></h3>
 <p>In this exercise, you will continue working with the GTF file <code>Mus_musculus.GRCm38.75_chr1.gtf</code>.</p>
 <ol type="1">
-<li><p>How many elements are at least 1,000 base pairs long?</p>
+<li>How many elements are at least 1,000 base pairs long?</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p>
 <ul>
 <li><p>Remove the header from consideration using <code>grep -v</code>.</p></li>
 <li><p>Filter by feature length using <code>awk</code>, and get the length by subtracting column 4 from column 5.</p></li>
 </ul>
 </p>
-</details></li>
-<li><p>How many genes (“gene” in column 3) on the + strand (“+” in column 7) are at least 1,000 base pairs long?</p>
+</details>
+<ol start="2" type="1">
+<li>How many genes (“gene” in column 3) on the + strand (“+” in column 7) are at least 1,000 base pairs long?</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p>
 <p>Adjust your command for the previous question as follows:</p>
 <ul>
 <li><p>Match columns 3 (feature type) and 7 (strand) with <code>awk</code>, using <code>==</code> to only select matching rows.</p></li>
 <li><p>Use the <code>&amp;&amp;</code> operator in <code>awk</code> to combine conditions.</p></li>
 </ul>
 </p>
-</details></li>
-<li><p>What’s the combined size of all genes?<br />
-(On this chromosome, that is: this GTF only contains a single chromosome.)</p>
+</details>
+<ol start="2" type="1">
+<li>What’s the combined size of all genes?<br />
+(On this chromosome, that is: this GTF only contains a single chromosome.)</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p>
 <ul>
 <li><p>First, remove the header from consideration using <code>grep -v</code>.</p></li>
 <li><p>Next, select “gene”-level features only, which you can do with <code>awk</code> as above, with <code>grep -w</code>, or with <code>grep -P</code> with <code>\t</code> for tab.</p></li>
@@ -2702,42 +2720,50 @@ Topic overviews
 </ul></li>
 </ul>
 </p>
-</details></li>
-<li><p>What is the mean UTR length?</p>
+</details>
+<ol start="3" type="1">
+<li>What is the mean UTR length?</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p>
 <p>The code is very similar to that for the previous question; just <code>grep</code> for “UTR” instead, and calculate the mean by dividing the final value of <code>awk</code> variable by the number of rows (<code>NR</code>) in the <code>END</code> statement.</p>
 </p>
-</details></li>
-</ol>
+</details>
+<p><br></p>
 <h3 id="exercise-3-replacements-with-sed">Exercise 3: Replacements with <code>sed</code></h3>
 <p>The <code>genotypes.txt</code> contains diploid genotypes for 4 loci for 9 individuals.</p>
 <ol type="1">
-<li><p>Remove all underscores from <code>genotypes.txt</code> and write the output to a new file.</p>
+<li>Remove all underscores from <code>genotypes.txt</code> and write the output to a new file.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p>
 <ul>
 <li>Use the <code>sed 's/&lt;pattern&gt;/&lt;replacement&gt;/&lt;modifiers&gt;' &lt;file&gt;</code> construct.</li>
-<li>You’ll need the modifier to do <em>global</em> (i.e., &gt;1 per line) replacements.
-</p></li>
+<li>You’ll need the modifier to do <em>global</em> (i.e., &gt;1 per line) replacements.</li>
 </ul>
-</details></li>
-<li><p>Replace the <code>/</code> delimiter for genotypes (<code>G/G</code>) in <code>genotypes.txt</code> by a colon (<code>G:G</code>) and write the output to a new file.</p>
+</p>
+</details>
+<ol start="2" type="1">
+<li>Replace the <code>/</code> delimiter for genotypes (<code>G/G</code>) in <code>genotypes.txt</code> by a colon (<code>G:G</code>) and write the output to a new file.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
+<p>
 <ul>
 <li>In the <code>sed 's/&lt;pattern&gt;/&lt;replacement&gt;/&lt;modifiers&gt;' &lt;file&gt;</code> construct, forward slashes <code>/</code> will not work here, because the pattern we are looking for is a forward slash. Use a different symbol instead, e.g. a <code>#</code>:<br />
-<code>sed 's#&lt;pattern&gt;#&lt;replacement&gt;#&lt;modifiers&gt;' &lt;file&gt;</code>
-</p></li>
+<code>sed 's#&lt;pattern&gt;#&lt;replacement&gt;#&lt;modifiers&gt;' &lt;file&gt;</code></li>
 </ul>
-</details></li>
-</ol>
+</p>
+</details>
+<p><br></p>
 <h2 id="bonus-exercises">Bonus exercises</h2>
 <h3 id="exercise-4-fasta">Exercise 4: FASTA</h3>
 <ol type="1">
@@ -2746,35 +2772,40 @@ Topic overviews
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{ if(NR%4 == 1) { printf(&quot;&gt;%s\n&quot;, substr($0,2)); } else if(NR%4 == 2) print; }&#39;</span> <span class="dt">\</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    contaminated.fastq <span class="op">&gt;</span> contaminated.fasta</span></code></pre></div>
 <ol start="2" type="1">
-<li><p>Select FASTA entries (sequence <em>and</em> header) from <code>contaminated.fasta</code> with the sequence <code>AGATCGGAAGA</code> and write them to a new file, <code>contaminated_sel.fasta</code>. (Your new file should have 6 sequences, so 12 lines.)</p>
+<li>Select FASTA entries (sequence <em>and</em> header) from <code>contaminated.fasta</code> with the sequence <code>AGATCGGAAGA</code> and write them to a new file, <code>contaminated_sel.fasta</code>. (Your new file should have 6 sequences, so 12 lines.)</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
-<p>Match the sequence with <code>grep</code> and use the <code>-B</code> option to also retrieve the preceding line, which is the sequence header/identifier. In addition, use <code>--no-group-separator</code> to prevent grep from printing <code>--</code> between matches (alternatively, you could use another call to <code>grep</code> with <code>-v</code> to filter out <code>--</code> lines).</p>
+<p>Match the sequence with <code>grep</code> and use the <code>-B</code> option to also retrieve the preceding line, which is the sequence header/identifier.</p>
+<p>In addition, use <code>--no-group-separator</code> to prevent grep from printing <code>--</code> between matches (alternatively, you could use another call to <code>grep</code> with <code>-v</code> to filter out <code>--</code> lines).</p>
 </p>
-</details></li>
-<li><p>Check how many sequences, if any, have one ore more undetermined bases (<code>N</code>).</p>
+</details>
+<ol start="3" type="1">
+<li>Check how many sequences, if any, have one ore more undetermined bases (<code>N</code>).</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>Make sure you first exclude the header lines, since you only want to match <code>N</code> in the sequences.</p>
 </p>
-</details></li>
-<li><p>Apparently, there may have been a problem with cycle 50 in the Illumina run.<br />
-Get the frequency of each base for position 50 in the FASTA file.</p>
+</details>
+<ol start="4" type="1">
+<li>Apparently, there may have been a problem with cycle 50 in the Illumina run.<br />
+Get the frequency of each base for position 50 in the FASTA file.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>Use <code>cut -c &lt;n&gt;</code> to extract the 50th position.</p>
 </p>
-</details></li>
-</ol>
+</details>
 <p><br></p>
 <h3 id="exercise-5-exons">Exercise 5: Exons</h3>
 <p>In this exercise, you will once again work with the GTF file <code>Mus_musculus.GRCm38.75_chr1.gtf</code>.</p>
@@ -2785,10 +2816,11 @@ Get the frequency of each base for position 50 in the FASTA file.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="ex">ENSMUSG00000000544</span>      ENSMUSE00000160546</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">ENSMUSG00000000544</span>      ENSMUSE00000160549</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">ENSMUSG00000000544</span>      ENSMUSE00000226264</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">ENSMUSG00000000544</span>      ENSMUSE00000395516</span></code></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">ENSMUSG00000000544</span>      ENSMUSE00000395516</span></code></pre></div></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <ul>
@@ -2797,14 +2829,14 @@ Get the frequency of each base for position 50 in the FASTA file.</p>
 <li><p>Finally, only keep unique lines and sort.</p></li>
 </ul>
 </p>
-</details></li>
-</ol>
+</details>
 <p>Use the <code>exons.txt</code> file you created to answer the following questions.</p>
 <ol start="2" type="1">
-<li><p>On average, how many exons does each gene have?</p>
+<li>On average, how many exons does each gene have?</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <ul>
@@ -2814,20 +2846,24 @@ Get the frequency of each base for position 50 in the FASTA file.</p>
 <p>(You could also, e.g., call Python inline, but we’re not there yet.)</p></li>
 </ul>
 </p>
-</details></li>
-<li><p>What is the highest number of exons for one gene?</p>
+</details>
+<ol start="3" type="1">
+<li>What is the highest number of exons for one gene?</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>Use <code>uniq -c</code> followed by a reverse numeric <code>sort</code>.</p>
 </p>
-</details></li>
-<li><p>Create a count table for the number of exons per gene. It should tell you how many genes have one exon, how many have two exons, etc.</p>
+</details>
+<ol start="4" type="1">
+<li>Create a count table for the number of exons per gene. It should tell you how many genes have one exon, how many have two exons, etc.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <ul>
@@ -2835,42 +2871,43 @@ Get the frequency of each base for position 50 in the FASTA file.</p>
 <li><p>Then, you’ll need to create a count table from these counts, so another round of <code>count | uniq -c</code>.</p></li>
 </ul>
 </p>
-</details></li>
-</ol>
+</details>
+<p><br></p>
 <h3 id="exercise-6-miscellaneous">Exercise 6: Miscellaneous</h3>
 <p>In this exercise, you will once again work with the GTF file <code>Mus_musculus.GRCm38.75_chr1.gtf</code>.</p>
 <ol type="1">
 <li><p>Count the total number of features on each strand (<code>+</code> or <code>-</code>, column 7).</p></li>
-<li><p>Count the number of features from each of the three values for “gene_source” (“ensembl”, “havana”, and “ensembl_havana”).</p>
+<li><p>Count the number of features from each of the three values for “gene_source” (“ensembl”, “havana”, and “ensembl_havana”).</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>You can either use <code>sed</code> with a backreference to capture the “gene_source” type, or <code>grep -o</code> to capture a larger match followed by <code>cut</code> and <code>sed</code> to extract just the “gene_source” type.</p>
 </p>
-</details></li>
-<li><p>How many genes have a UTR (untranslated region)? Create a list of “gene_id”s for genes with a UTR.</p>
+</details>
+<ol start="3" type="1">
+<li>How many genes have a UTR (untranslated region)? Create a list of “gene_id”s for genes with a UTR.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>First <code>grep</code> for UTR, then for the “gene_id” while also extracting the match with <code>grep -o</code>. Once again, the extraction of a match can alternatively be done with a backreference in <code>sed</code>.</p>
 </p>
-</details></li>
-</ol>
+</details>
+<p><br></p>
 <h2 id="solutions">Solutions</h2>
 <h3 id="exercise-1-pseudogenes-with-grep-uniq--c-and-others-1">Exercise 1: Pseudogenes with <code>grep</code>, <code>uniq -c</code>, and others</h3>
 <p>To start with, I will assign the name of the GTF file to the variable <code>$gtf</code>, for quick reference in the solutions for the and the next exercises:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">gtf=</span>Mus_musculus.GRCm38.75_chr1.gtf</span></code></pre></div>
 <details>
 <summary>
-<ol type="1">
-<li>Count the number of lines with the string “pseudogene”.
+(1.) Count the number of lines with the string “pseudogene”.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-c</span> <span class="st">&quot;pseudogene&quot;</span> <span class="va">$gtf</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1041</span></span></code></pre></div>
@@ -2879,11 +2916,9 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>Count feature types.
+(2.) Count feature types.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;pseudogene&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 3 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     15 CDS</span></span>
@@ -2903,11 +2938,9 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>Count feature types after more restrictive matching.
+(3.) Count feature types after more restrictive matching.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-w</span> <span class="st">&quot;pseudogene&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 3 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    499 exon</span></span>
@@ -2918,11 +2951,9 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 </details>
 <details>
 <summary>
-<ol start="4" type="1">
-<li>Select “<em>pseudogene</em>” matches for which the feature type in column 3 is “gene”.
+(4.) Select “<em>pseudogene</em>” matches for which the feature type in column 3 is “gene”.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-w</span> <span class="st">&quot;pseudogene&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-w</span> <span class="st">&quot;gene&quot;</span> <span class="kw">|</span> <span class="fu">head</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative 1: More explicit match by matching tabs:</span></span>
@@ -2936,11 +2967,9 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 </details>
 <details>
 <summary>
-<ol start="5" type="1">
-<li>Check that your output only contains “gene” in column 3.
+(5.) Check that your output only contains “gene” in column 3.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&quot;pseudogene&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-w</span> <span class="st">&quot;gene&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>      cut <span class="at">-f</span> 3 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2950,11 +2979,9 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 </details>
 <details>
 <summary>
-<ol start="6" type="1">
-<li>Write the pseudogene selection to a new GTF file.
+(6.) Write the pseudogene selection to a new GTF file.
 </summary>
-<p></li>
-</ol>
+<p>
 <p>Solution when writing the header and the rest of the file separately (don’t forget to use <code>&gt;&gt;</code> for appending the output of the second line, if you use this method!):</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="op">&gt;</span> pseudogenes.gtf</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="dt">\</span></span>
@@ -2973,11 +3000,9 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 <h3 id="exercise-2-calculations-with-awk-1">Exercise 2: Calculations with <code>awk</code></h3>
 <details>
 <summary>
-<ol type="1">
-<li>How many features are at least 1,000 bp long?
+(1.) How many features are at least 1,000 bp long?
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>      awk <span class="st">&#39;$5 - $4 &gt; 999&#39;</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      wc <span class="at">-l</span></span>
@@ -2996,11 +3021,9 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>How many genes on the + strand are at least 1,000 bp long?
+(2.) How many genes on the + strand are at least 1,000 bp long?
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>      awk <span class="st">&#39;$3 == &quot;gene&quot; &amp;&amp; $7 == &quot;+&quot; &amp;&amp; $5 - $4 &gt; 999&#39;</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>      wc <span class="at">-l</span></span>
@@ -3015,11 +3038,9 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>What’s the combined size of all genes?
+(3.) What’s the combined size of all genes?
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>      grep <span class="at">-w</span> <span class="st">&quot;gene&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>      awk <span class="st">&#39;BEGIN { s=0 }; { s += $5 - $4 }; END { print s }&#39;</span></span>
@@ -3033,11 +3054,9 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>What is the mean UTR length?
+(4.) What is the mean UTR length?
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>      grep <span class="at">-w</span> <span class="st">&quot;UTR&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>      awk <span class="st">&#39;BEGIN { s=0 }; { s += $5 - $4 }; END { print s/NR }&#39;</span></span>
@@ -3049,11 +3068,9 @@ The <code>-c</code> option to <code>grep</code> will count the number of matchin
 <h3 id="exercise-3-replacements-with-sed-1">Exercise 3: Replacements with <code>sed</code></h3>
 <details>
 <summary>
-<ol type="1">
-<li>In <code>genotypes.txt</code>, remove all underscores.
+(1.) In <code>genotypes.txt</code>, remove all underscores.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s/_//g&#39;</span> genotypes.txt <span class="op">&gt;</span> genotypes2.txt</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat genotypes2.txt</span>
@@ -3073,11 +3090,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>In <code>genotypes.txt</code>, replace the <code>/</code> delimiter by a colon (<code>:</code>).
+(2.) In <code>genotypes.txt</code>, replace the <code>/</code> delimiter by a colon (<code>:</code>).
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="st">&#39;s#/#:#g&#39;</span> genotypes.txt <span class="op">&gt;</span> genotypes3.txt</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat genotypes3.txt</span>
@@ -3098,11 +3113,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 <h3 id="exercise-4-fasta-1">Exercise 4: FASTA</h3>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>Write sequences with <code>AGATCGGAAGA</code> into a new file.
+(2.) Write sequences with <code>AGATCGGAAGA</code> into a new file.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-B</span> 1 <span class="at">--no-group-separator</span> <span class="st">&quot;AGATCGGAAGA&quot;</span> contaminated.fasta <span class="dt">\</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>      <span class="op">&gt;</span> contaminated_sel.fasta</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3122,11 +3135,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>Check how many sequences have one ore more undetermined bases (N).
+(3.) Check how many sequences have one or more undetermined bases.
 </summary>
-<p></li>
-</ol>
+<p>
 <p>Make sure you first exclude the header lines, since you only want to match “N” in the sequences themselves:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^&gt;&quot;</span> contaminated.fasta <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-c</span> <span class="st">&quot;N&quot;</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -3136,11 +3147,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 </details>
 <details>
 <summary>
-<ol start="4" type="1">
-<li>Get the frequency of each base for position 50 in the fasta file.
+(4.) Get the frequency of each base for position 50 in the fasta file.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^&gt;&quot;</span> contaminated.fasta <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-c</span> 50 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> </span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 C</span></span>
@@ -3151,11 +3160,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 <h3 id="exercise-5-exons-1">Exercise 5: Exons</h3>
 <details>
 <summary>
-<ol type="1">
-<li>Create a tab-delimited file with “exon_id” and “gene_id”
+(1.) Create a tab-delimited file with “exon_id” and “gene_id”
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="st">&quot;gene_id.*exon_id&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>      sed <span class="at">-n</span> <span class="at">-E</span> <span class="st">&#39;s/.*gene_id &quot;(\w+)&quot;.*exon_id &quot;(\w+).*/\1\t\2/p&#39;</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>      sort <span class="kw">|</span> <span class="fu">uniq</span> <span class="op">&gt;</span> exons.txt</span></code></pre></div>
@@ -3168,11 +3175,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>On average, how many exons does each gene have?
+(2.) On average, how many exons does each gene have?
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> n_genes=<span class="va">$(</span><span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span> exons.txt<span class="va">)</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> n_exons=<span class="va">$(</span><span class="fu">cut</span> <span class="at">-f</span> 1 exons.txt <span class="kw">|</span> <span class="fu">uniq</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3193,11 +3198,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>What is the highest number of exons for one gene?
+(3.) What is the highest number of exons for one gene?
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cut <span class="at">-f</span> 1 exons.txt <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-rn</span> <span class="kw">|</span> <span class="fu">head</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    134 ENSMUSG00000026131</span></span>
@@ -3215,11 +3218,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>Create a count table for the number of exons per gene.
+(4.) Create a count table for the number of exons per gene.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cut <span class="at">-f</span> 1 exons.txt <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>      sed <span class="st">&#39;s/^ *//&#39;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">&quot; &quot;</span> <span class="at">-f</span> 1 <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>      sort <span class="at">-rn</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="dt">\</span></span>
@@ -3247,11 +3248,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 <h3 id="exercise-6-miscellaneous-1">Exercise 6: Miscellaneous</h3>
 <details>
 <summary>
-<ol type="1">
-<li>Count the number of elements on each strand.
+(1.) Count the number of elements on each strand.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 7 <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 40574 +</span></span>
@@ -3260,11 +3259,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>Count the number of elements for each of the three values for “gene_source”.
+(2.) Count the number of elements for each of the three values for “gene_source”.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Capture the gene_source with sed:</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="at">-n</span> <span class="at">-E</span> <span class="st">&#39;s/.*gene_source &quot;(\w+)&quot;.*/\1/p&#39;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>      sort <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span>
@@ -3285,11 +3282,9 @@ Since there are multiple underscores on line 1, you need the <code>g</code> modi
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>How many genes have a UTR? Create a list of <code>gene_id</code>s for genes with a UTR.
+(3.) How many genes have a UTR? Create a list of <code>gene_id</code>s for genes with a UTR.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-v</span> <span class="st">&quot;^#&quot;</span> <span class="va">$gtf</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-w</span> <span class="st">&quot;UTR&quot;</span> <span class="kw">|</span> <span class="dt">\</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>   grep <span class="at">-E</span> <span class="at">-o</span> <span class="st">&#39;gene_id &quot;\w+&quot;&#39;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>

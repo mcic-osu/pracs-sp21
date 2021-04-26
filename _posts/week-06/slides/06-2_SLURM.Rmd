@@ -73,7 +73,7 @@ name: slurm
 | Log output file (%j = job number) &nbsp; &nbsp;    | `-o`       |  --output=slurm-fastqc-%j.out &nbsp; &nbsp; &nbsp; &nbsp;
 | Error output (*stderr*)              | `-e`       | `--error=slurm-fastqc-%j.err`
 
-<br> <br> <br> <br> <br> <br> <br> <br>
+<br> <br> <br> <br> <br> <br>
 
 .content-box-info[
 By default, standard output **and** standard error are sent to the
@@ -771,6 +771,7 @@ name: loop
 <br> <br> <br> <br>
 
 ---
+background-color: #f2f5eb
 
 ## Now loop over all files...
 
@@ -788,6 +789,7 @@ $ for fastq_file in "$fastqc_dir"/*fastq; do
 ```
 
 ---
+background-color: #f2f5eb
 
 ## The full script to loop over a directory
 
@@ -813,6 +815,7 @@ echo -e "\n---------\nAll done!"
 ```
 
 ---
+background-color: #f2f5eb
 
 ## Run the loop script
 
@@ -842,6 +845,7 @@ all it does is submit jobs, which can be done just fine on a login node.
 ]
 
 ---
+background-color: #f2f5eb
 
 ## Monitor the loop script
 
@@ -881,6 +885,7 @@ name: monitor
 <br> <br> <br> <br>
 
 ---
+background-color: #f2f5eb
 
 ## More options to monitor and manage SLURM jobs: overview
 
@@ -1198,6 +1203,7 @@ fastqc "$fastq_file"
   (ID that differs for each job in the array) for the log file name.
   
 ---
+background-color: #f2f5eb
 
 ## SLURM Job arrays (cont.)
 
@@ -1226,6 +1232,7 @@ fastqc --outdir="$output_dir" "$fastq_file"
 ```
 
 ---
+background-color: #f2f5eb
 
 ## SLURM Job arrays (cont.)
 
@@ -1312,4 +1319,3 @@ background-color: #f2f5eb
   The above  `~/.bashrc` setup only needs to be run once &ndash;
   it does not need to be repeated every session.
   ]
-  

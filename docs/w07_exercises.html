@@ -2582,15 +2582,17 @@ Topic overviews
 <p>Note, if you are more interested in getting the equivalent files for another organism, you should be able to follow the same steps.</p>
 <ol type="1">
 <li><p>Go to <code>https://www.ncbi.nlm.nih.gov</code>. NCBI has a number of different databases, including “SRA” for short next-generation sequencing reads, and “PubMed” for publications. In the drop-down menu that says <code>All Databases</code> next to the <code>Search</code> box, select <code>Assembly</code> and type <em>Phytophthora parasitica</em>: we want to search for whole-genome assemblies for this species.</p></li>
-<li><p>Click the assembly in the prominent box at the top that says <code>Phyt_para_CJ02B3_V1</code>.</p>
+<li><p>Click the assembly in the prominent box at the top that says <code>Phyt_para_CJ02B3_V1</code>.</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>Here is the link to the assembly, in case things look different for you: <a href="https://www.ncbi.nlm.nih.gov/assembly/GCA_000509465.1" class="uri">https://www.ncbi.nlm.nih.gov/assembly/GCA_000509465.1</a>. (But again, you can also download files from a different organism or assembly.)</p>
 </p>
-</details></li>
+</details>
+<ol start="3" type="1">
 <li><p>Now, you should be on the assembly page. There is a big blue button <code>Download Assembly</code>, but if you click on it, you can see that you can only download one file at a time. Since we want all 20 or so files associated with the assembly, we will use <code>wget</code> instead. Note that this would scale easily even if we wanted files for multiple assemblies (for instance, there are 9 different assemblies for <em>P. parasitica</em>, as the page reports).</p>
 <p>Click on <code>FTP directory for GenBank assembly</code> in the top list on the right hand side.</p></li>
 <li><p>Use a <code>wget</code> command to download all the files you see on the assembly page, using the URL in the address bar.</p>
@@ -2601,10 +2603,11 @@ Topic overviews
 </ul>
 <div class="content-box-info">
 <p>If you see errors saying that filenames are too long, you’ll have to use the <code>--no-host-directories</code> and <code>--cut-dirs=6</code> options as further detailed in the Hints, because all the nested directories that are being created may end up creating paths that are too long.</p>
-</div>
+</div></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <ul>
@@ -2625,25 +2628,27 @@ Topic overviews
 <li><p>Don’t hesitate to look at the solution if your first attempts fail. The minutiae of <code>wget</code> commands aren’t terribly important – the next exercise, while easier, is more so.</p></li>
 </ul>
 </p>
-</details></li>
-</ol>
+</details>
 <h3 id="exercise-2-checking-out-the-downloaded-files">Exercise 2: Checking out the downloaded files</h3>
 <p>Move inside the directory that you’ve downloaded where all the assembly files are. You should be seeing over 20 files, including <code>GCA_000509525.1_Phyt_para_IAC_01_95_V1_assembly_report.txt</code> and <code>GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz</code>.</p>
 <ol type="1">
-<li><p>One of the files you’ve downloaded has md5 checksums for all the other files: <code>md5checksums.txt</code>. Use this file in a single <code>md5sum</code> command to verify that all the downloaded files are identical to the source, i.e. that they have the correct checksums.</p>
+<li>One of the files you’ve downloaded has md5 checksums for all the other files: <code>md5checksums.txt</code>. Use this file in a single <code>md5sum</code> command to verify that all the downloaded files are identical to the source, i.e. that they have the correct checksums.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>Use the <code>-c</code> (check) option to <code>md5sum</code> to cross-check the checksums of the files in your directory with those in the file you specify.</p>
 </p>
-</details></li>
+</details>
+<ol start="2" type="1">
 <li><p>Count the number of lines in the genome sequence (<code>GCA_000509525.1_Phyt_para_IAC_01_95_V1_genomic.fna.gz</code>) that contain <code>CAGCAGCAG</code>, without unzipping the file.</p>
-<p>(Side note in case you are wondering about the <code>fna</code> extension: this explicitly denotes a FASTA file with nucleotide sequences, as opposed to one with amino acid sequences, <code>.faa</code>.)</p>
+<p>(Side note in case you are wondering about the <code>fna</code> extension: this explicitly denotes a FASTA file with nucleotide sequences, as opposed to one with amino acid sequences, <code>.faa</code>.)</p></li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <ul>
@@ -2651,11 +2656,13 @@ Topic overviews
 <li>Recall that (z)grep’s <code>-c</code> option will count matches.</li>
 </ul>
 </p>
-</details></li>
-<li><p>Check the size of the same zipped genome sequence FASTA file. Then, unzip the file, and check the file size again. Finally, gzip it back up.</p>
+</details>
+<ol start="3" type="1">
+<li>Check the size of the same zipped genome sequence FASTA file. Then, unzip the file, and check the file size again. Finally, gzip it back up.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <ul>
@@ -2664,17 +2671,18 @@ Topic overviews
 <li>Check the file size with <code>ls</code> or <code>du</code>.</li>
 </ul>
 </p>
-</details></li>
-<li><p>Does the checksum still match for the “rezipped” FASTA file?</p>
+</details>
+<ol start="4" type="1">
+<li>Does the checksum still match for the “rezipped” FASTA file?</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
 <p>
 <p>You can simply use the same command you used in the first step of this exercise.</p>
 </p>
-</details></li>
-</ol>
+</details>
 <h3 id="exercise-3-file-transfer">Exercise 3: File transfer</h3>
 <p>Transfer the entire directory you downloaded above to OSC (in case you have been working locally so far) or to your local computer (in case you have been working at OSC so far).</p>
 <p>You can use <code>rsync</code> and/or SFTP, whichever you prefer to get some practice with.</p>
@@ -2702,19 +2710,17 @@ Hints
 <h3 id="exercise-1">Exercise 1</h3>
 <details>
 <summary>
-<ol start="4" type="1">
-<li>Use a <code>wget</code> command to download all these files at once.
+(4.) Use a <code>wget</code> command to download all these files at once.
 </summary>
-<p></li>
-</ol>
+<p>
 <p>The <code>wget</code> command with the fewest options that works for our goal is:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> wget <span class="at">--recursive</span> <span class="at">-e</span> robots=off <span class="at">--no-parent</span> <span class="dt">\</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    https://ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions/GCA_000509525.1_Phyt_para_IAC_01_95_V1/</span></code></pre></div>
 <p>These options (<code>--recursive</code> <code>-e robots=off</code> <code>--no-parent</code>) were all discussed in the question and the hints.</p>
 <p>If you wanted to place these files in a dir with a name of your choice, and no unnecessarily nest directories (see the hint above), you could use:</p>
 <ul>
-<li><code>--no-host-directories</code> in combination with <code>--cut-dirs=6</code> will remove the 6 levels of nested directories you got earlier (ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions).</li>
-<li><code>-P ncbi_Pparasiticus/</code> to name your directory.</li>
+<li><p><code>--no-host-directories</code> in combination with <code>--cut-dirs=6</code> will remove the 6 levels of nested directories you got earlier (ftp.ncbi.nlm.nih.gov/genomes/genbank/protozoa/Phytophthora_parasitica/latest_assembly_versions).</p></li>
+<li><p><code>-P ncbi_Pparasiticus/</code> to name your directory.</p></li>
 </ul>
 <p>Furthermore, since we are not interested in <code>index.html</code> (the actual HTML we are looking at on the web), we can exclude it using <code>--reject "index.html"</code>.</p>
 <p>All in all, this would result in the following command:</p>
@@ -2753,11 +2759,9 @@ Hints
 <h3 id="exercise-2">Exercise 2</h3>
 <details>
 <summary>
-<ol type="1">
-<li>Check the file integrity with <code>md5sum</code>.
+(1.) Check the file integrity with <code>md5sum</code>.
 </summary>
-<p></li>
-</ol>
+<p>
 <p>The <code>-c</code> option, when provided with a filename, will check the checksums of the files in your current directory against those in the file:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> md5sum <span class="at">-c</span> md5checksums.txt</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ./annotation_hashes.txt: OK</span></span>
@@ -2789,22 +2793,18 @@ Hints
 </details>
 <details>
 <summary>
-<ol start="2" type="1">
-<li>Count the number of lines in the genome sequence that contain <code>CAGCAGCAG</code>.
+(2.) Count the number of lines in the genome sequence that contain <code>CAGCAGCAG</code>.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> zgrep <span class="at">-c</span> <span class="st">&quot;CAGCAGCAG&quot;</span> GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1426</span></span></code></pre></div>
 </p>
 </details>
 <details>
 <summary>
-<ol start="3" type="1">
-<li>Check file size, unzip and zip.
+(3.) Check file size, unzip and zip.
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-lh</span> GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -rw-rw-r-- 1 jelmer jelmer 8.8M Dec 21  2017 GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2819,11 +2819,9 @@ Hints
 </details>
 <details>
 <summary>
-<ol start="4" type="1">
-<li>Does the checksum still match for the “rezipped” FASTA file?
+(4.) Does the checksum still match for the “rezipped” FASTA file?
 </summary>
-<p></li>
-</ol>
+<p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> md5sum <span class="at">-c</span> md5checksums.txt</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ... (showing the pertinent part of the output)</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ./GCA_000509525.1_Phyt_para_IAC_01_95_V1_cds_from_genomic.fna.gz: FAILED</span></span>

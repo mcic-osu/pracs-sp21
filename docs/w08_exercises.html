@@ -2563,6 +2563,8 @@ Topic overviews
 <li><a href="#setup">Setup</a></li>
 <li><a href="#exercise-1-variable-types-and-strings">Exercise 1: Variable types and strings</a></li>
 <li><a href="#exercise-2-lists">Exercise 2: Lists</a></li>
+<li><a href="#exercise-3-dictionaries">Exercise 3: Dictionaries</a></li>
+<li><a href="#exercise-4-sets">Exercise 4: Sets</a></li>
 </ul>
 </nav>
 </div>
@@ -2570,107 +2572,124 @@ Topic overviews
 
 </div>
 <p><br></p>
-<p><span style="color:coral"> Edit March 4: I have moved part of the exercises on lists and all those on dictionaries and sets to the <a href="w09_exercises.html">page with exercises for week 9</a>. Though you are welcome to work ahead to those already, the exercises that remain here cover the material that we ended up discussing in class this week. </i></span></p>
 <h2 id="setup">Setup</h2>
 <ul>
 <li><p>Open a new file and save it as <code>week08_exercises.py</code> or something along those lines.</p></li>
-<li><p>Type your commands in the script and send them to the prompt in the Python interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.</p>
+<li><p>Type your commands in the script and send them to the prompt in the Python interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.</p></li>
+</ul>
 <details>
 <summary>
-<p>Problems with the keyboard shortcut?</p>
+Problems with the keyboard shortcut?
 </summary>
-<p><br />
-If this doesn’t work, check your keyboard shortcut by right-clicking in the script and looking for “Run Selection/Line In Python Interactive Window”.<br />
-<br />
-Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and look for that shortcut there, and change it if you want.</p>
-</details></li>
-<li><p>Because these exercises have many small steps, I put the solutions right below the question, so you don’t have to scroll back-and-forth all the time. <em>However</em>, make sure you actually try to do the exercises!</p></li>
+<p>
+<p>If this doesn’t work, check your keyboard shortcut by right-clicking in the script and looking for “Run Selection/Line In Python Interactive Window”.</p>
+<p>Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>) and look for that shortcut there, and change it if you want.</p>
+</p>
+</details>
+<ul>
+<li>Because these first two exercises have many small steps, I put the solutions right below the question, so you don’t have to scroll back-and-forth all the time. <em>However</em>, make sure you actually try to do the exercises before you look at the solutions!</li>
 </ul>
 <p><br></p>
 <h2 id="exercise-1-variable-types-and-strings">Exercise 1: Variable types and strings</h2>
 <ol type="1">
-<li><p>Print the type of the value <code>4.88</code>.<br />
-</p>
+<li>Print the type of the value <code>4.88</code>.<br />
+</li>
+</ol>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
+<p>
 <p>We can use the function <code>type()</code>:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(<span class="fl">4.88</span>)</span></code></pre></div>
 <pre><code>&lt;class &#39;float&#39;&gt;</code></pre>
 </div>
-<p>The result would be the same if we first assigned it as a variable:</p>
+The result would be the same if we first assigned it as a variable:
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>num <span class="op">=</span> <span class="fl">4.88</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(num)</span></code></pre></div>
 <pre><code>&lt;class &#39;float&#39;&gt;</code></pre>
 </div>
-</details></li>
-<li><p>Assign the variable <code>n_samples = 658</code>, and then extract the third character from <code>n_samples</code>.</p>
+</details>
+<ol start="2" type="1">
+<li>Assign the variable <code>n_samples = 658</code>, and then extract the third character from <code>n_samples</code>.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
-<p><br />
-You can’t index a number like <code>n_samples[index]</code>, so you’ll first have to convert <code>n_samples</code> to a string. Also, recall that Python starts counting from 0!</p>
+<p>
+<p>You can’t index a number like <code>n_samples[index]</code>, so you’ll first have to convert <code>n_samples</code> to a string. Also, recall that Python starts counting from 0!</p>
+</p>
 </details>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
+<p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="dv">658</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">str</span>(n_samples)[<span class="dv">2</span>]</span></code></pre></div>
 <pre><code>&#39;8&#39;</code></pre>
 </div>
-</details></li>
-<li><p>Assign the string ‘CTTATGGAAT’ to a variable called <code>adapter</code>. Print the number of characters in <code>adapter</code>.<br />
 </p>
+</details>
+<ol start="3" type="1">
+<li>Assign the string ‘CTTATGGAAT’ to a variable called <code>adapter</code>. Print the number of characters in <code>adapter</code>.<br />
+</li>
+</ol>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
+<p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>adapter <span class="op">=</span> <span class="st">&#39;CTTATGGAAT&#39;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(adapter)</span></code></pre></div>
 <pre><code>10</code></pre>
 </div>
-</details></li>
-<li><p>Replace all <code>A</code>s by <code>N</code>s in <code>adapter</code> and assign the resulting string to a new variable. Print the new variable.<br />
 </p>
+</details>
+<ol start="4" type="1">
+<li>Replace all <code>A</code>s by <code>N</code>s in <code>adapter</code> and assign the resulting string to a new variable. Print the new variable.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
-<p><br />
-Use the string method <code>replace()</code>, and recall that methods are called using the <code>&lt;object_name&gt;.&lt;method_name&gt;()</code> syntax.</p>
+<p>
+<p>Use the string method <code>replace()</code>, and recall that methods are called using the <code>&lt;object_name&gt;.&lt;method_name&gt;()</code> syntax.</p>
+</p>
 </details>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
+<p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bad_seq <span class="op">=</span> adapter.replace(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;N&#39;</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bad_seq</span></code></pre></div>
 <pre><code>&#39;CTTNTGGNNT&#39;</code></pre>
 </div>
-</details></li>
-<li><p>Find out what the third argument to the <code>replace()</code> method does by using the built-in help.<br />
-</p>
+</details>
+<ol start="5" type="1">
+<li>Find out what the third argument to the <code>replace()</code> method does by using the built-in help.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
-<p><br />
-If you are typing your commands in a script rather than straight in the console, you will get some more information already when typing the opening parenthesis of the method (briefly pause if necessary).<br />
-<br />
-To get more help, you can use a notation with a <code>?</code>, or <code>help(object.method)</code>.</p>
+<p>
+<p>If you are typing your commands in a script rather than straight in the console, you will get some more information already when typing the opening parenthesis of the method (briefly pause if necessary).</p>
+<p>To get more help, you can use a notation with a <code>?</code>, or <code>help(object.method)</code>.</p>
+</p>
 </details>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
+<p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(adapter.replace)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or: &quot;adapter.replace?&quot;</span></span>
@@ -2679,36 +2698,40 @@ To get more help, you can use a notation with a <code>?</code>, or <code>help(ob
 
 replace(old, new, count=-1, /) method of builtins.str instance
     Return a copy with all occurrences of substring old replaced by new.
-
+    
       count
         Maximum number of occurrences to replace.
         -1 (the default value) means replace all occurrences.
-
+    
     If the optional argument count is given, only the first count occurrences are
     replaced.</code></pre>
 </div>
-<p>As it turns out, the third argument, <code>count</code>, determines how many instances of the substring will be replaced.<br />
+<p>As it turns out, the third argument, <code>count</code>, determines how many instances of the substring will be replaced.</p>
 </p>
-</details></li>
-<li><p>Using what you found out in the previous steps, replace just the first two <code>A</code>s in <code>adapter</code> by <code>N</code>s.<br />
-</p>
+</details>
+<ol start="6" type="1">
+<li>Using what you found out in the previous steps, replace just the first two <code>A</code>s in <code>adapter</code> by <code>N</code>s.</li>
+</ol>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
-<p><br />
-We specify <code>2</code> as the third argument, which is the number of instances of the substring that will be replaced:</p>
+<p>
+<p>We specify <code>2</code> as the third argument, which is the number of instances of the substring that will be replaced:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>adapter.replace(<span class="st">&#39;A&#39;</span>, <span class="st">&#39;N&#39;</span>, <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>&#39;CTTNTGGNAT&#39;</code></pre>
 </div>
-</details></li>
-<li><p>Convert the following strings and numbers to a Boolean value to see what the resulting Boolean is (True or False): <code>"False"</code> (with quotes), <code>0</code>, <code>1</code>, <code>-1</code>, <code>""</code>, <code>None</code>, and see if you can make sense of these results.<br />
 </p>
+</details>
+<ol start="7" type="1">
+<li>Convert the following strings and numbers to a Boolean value to see what the resulting Boolean is (True or False): <code>"False"</code> (with quotes), <code>0</code>, <code>1</code>, <code>-1</code>, <code>""</code>, <code>None</code>, and see if you can make sense of these results.</li>
+</ol>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
+<p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="st">&quot;False&quot;</span>)</span></code></pre></div>
 <pre><code>True</code></pre>
@@ -2744,88 +2767,102 @@ We specify <code>2</code> as the third argument, which is the number of instance
 <div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="st">&quot;None&quot;</span>)</span></code></pre></div>
 <pre><code>True</code></pre>
 </div>
-</details></li>
-<li><p>Have a look at the names of the methods that appear when you type <code>adapter.</code> (note the <code>.</code>). Can you find a method that will print the <em>last</em> occurrence of a <code>T</code> in <code>adapter</code>?<br />
 </p>
+</details>
+<ol start="8" type="1">
+<li>Have a look at the names of the methods that appear when you type <code>adapter.</code> (note the <code>.</code>). Can you find a method that will print the <em>last</em> occurrence of a <code>T</code> in <code>adapter</code>?</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
-<p><br />
-The method <code>rfind</code> will search from the right-hand side (hence <code>r</code>), and will therefore print the last occurrence of the specified substring.</p>
+<p>
+<p>The method <code>rfind</code> will search from the right-hand side (hence <code>r</code>), and will therefore print the last occurrence of the specified substring.</p>
+</p>
 </details>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
+<p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>adapter.rfind(<span class="st">&quot;T&quot;</span>)</span></code></pre></div>
 <pre><code>9</code></pre>
 </div>
-</details></li>
-<li><p>Split the sequence by <code>GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN</code> by <code>N</code>s.<br />
 </p>
+</details>
+<ol start="9" type="1">
+<li>Split the sequence by <code>GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN</code> by <code>N</code>s.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
-<p><br />
-Use the <code>split()</code> method for strings.</p>
+<p>
+<p>Use the <code>split()</code> method for strings.</p>
+</p>
 </details>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
+<p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>seq <span class="op">=</span> <span class="st">&quot;GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN&quot;</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>split_seq <span class="op">=</span> seq.split(<span class="st">&#39;N&#39;</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>split_seq</span></code></pre></div>
 <pre><code>[&#39;GAGTCCCT&#39;, &#39;&#39;, &#39;&#39;, &#39;AGCAACGTT&#39;, &#39;&#39;, &#39;TTCGTCATTA&#39;, &#39;&#39;]</code></pre>
 </div>
-</details></li>
-</ol>
+</p>
+</details>
 <p><br></p>
 <h2 id="exercise-2-lists">Exercise 2: Lists</h2>
 <ol type="1">
-<li><p>Assign a list <code>plant_diseases</code> that contains the items <code>fruit_rot</code>, <code>leaf_blight</code>, <code>leaf_spots</code>, <code>stem_blight</code>, <code>canker</code>, <code>wilt</code>, <code>root_knot</code> and <code>root_rot</code>.<br />
-</p>
+<li>Assign a list <code>plant_diseases</code> that contains the items <code>fruit_rot</code>, <code>leaf_blight</code>, <code>leaf_spots</code>, <code>stem_blight</code>, <code>canker</code>, <code>wilt</code>, <code>root_knot</code> and <code>root_rot</code>.</li>
+</ol>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
+<p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>diseases <span class="op">=</span> [<span class="st">&#39;fruit_rot&#39;</span>, <span class="st">&#39;leaf_blight&#39;</span>, <span class="st">&#39;leaf_spots&#39;</span>, <span class="st">&#39;stem_blight&#39;</span>,</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;canker&#39;</span>, <span class="st">&#39;wilt&#39;</span>, <span class="st">&#39;root_knot&#39;</span>, <span class="st">&#39;root_rot&#39;</span>]</span></code></pre></div>
 </div>
-</details></li>
-<li><p>Extract <code>stem_blight</code> from <code>diseases</code> by its index (position).<br />
 </p>
+</details>
+<ol start="2" type="1">
+<li>Extract <code>stem_blight</code> from <code>diseases</code> by its index (position).</li>
+</ol>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
-<p><br />
-<code>stem_blight</code> is the fourth item and because Python starts counting at 0, this is index number 3.</p>
+<p>
+<p><code>stem_blight</code> is the fourth item and because Python starts counting at 0, this is index number 3.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>diseases[<span class="dv">3</span>]</span></code></pre></div>
 <pre><code>&#39;stem_blight&#39;</code></pre>
 </div>
-</details></li>
-<li><p>Extract the first 5 items from <code>diseases</code>.<br />
 </p>
+</details>
+<ol start="3" type="1">
+<li>Extract the first 5 items from <code>diseases</code>.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
-<p><br />
-Recall that when using ranges, Python does <em>not</em> include the item corresponding to the last index.</p>
+<p>
+<p>Recall that when using ranges, Python does <em>not</em> include the item corresponding to the last index.</p>
+</p>
 </details>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
-<p><br />
-While index 5 is the <em>sixth</em> item, it is not included, so we specify <code>0:5</code> or <code>:5</code> to extract elements up to and including the fifth one:</p>
+<p>
+<p>While index 5 is the <em>sixth</em> item, it is not included, so we specify <code>0:5</code> or <code>:5</code> to extract elements up to and including the fifth one:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>diseases[<span class="dv">0</span>:<span class="dv">5</span>]</span></code></pre></div>
 <pre><code>[&#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;stem_blight&#39;, &#39;canker&#39;]</code></pre>
@@ -2835,40 +2872,325 @@ While index 5 is the <em>sixth</em> item, it is not included, so we specify <cod
 <div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>diseases[:<span class="dv">5</span>]</span></code></pre></div>
 <pre><code>[&#39;fruit_rot&#39;, &#39;leaf_blight&#39;, &#39;leaf_spots&#39;, &#39;stem_blight&#39;, &#39;canker&#39;]</code></pre>
 </div>
-</details></li>
-<li><p>Extract the last item from <code>diseases</code>.<br />
 </p>
+</details>
+<ol start="4" type="1">
+<li>Extract the last item from <code>diseases</code>.</li>
+</ol>
 <details>
 <summary>
-<p>Hints</p>
+Hints
 </summary>
-<p><br />
-Recall that you can use negative numbers to start counting from the end. Also, while <code>0</code> is the first index, “-0” (or something along those lines) is <em>not</em> the last index.</p>
+<p>
+<p>Recall that you can use negative numbers to start counting from the end. Also, while <code>0</code> is the first index, “-0” (or something along those lines) is <em>not</em> the last index.</p>
+</p>
 </details>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
+<p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>diseases[<span class="op">-</span><span class="dv">1</span>]</span></code></pre></div>
 <pre><code>&#39;root_rot&#39;</code></pre>
 </div>
-</details></li>
-<li><p>Extract the last 3 items from <code>diseases</code>.<br />
 </p>
+</details>
+<ol start="5" type="1">
+<li>Extract the last 3 items from <code>diseases</code>.</li>
+</ol>
 <details>
 <summary>
-<p>Solution</p>
+Solution
 </summary>
-<p><br />
-Note that you’ll <em>have to</em> omit a number after the colon in this case, because <code>[-3:-1]</code> would not include the last number, and <code>[-3:0]</code> does not work either.</p>
+<p>
+<p>Note that you’ll <em>have to</em> omit a number after the colon in this case, because <code>[-3:-1]</code> would not include the last number, and <code>[-3:0]</code> does not work either.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>diseases[<span class="op">-</span><span class="dv">3</span>:]</span></code></pre></div>
 <pre><code>[&#39;wilt&#39;, &#39;root_knot&#39;, &#39;root_rot&#39;]</code></pre>
 </div>
+</p>
 </details>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div></li>
+<h2 id="exercise-3-dictionaries">Exercise 3: Dictionaries</h2>
+<ol type="1">
+<li>Create and print a dictionary called <code>yield_current</code> with the following items:</li>
 </ol>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>{<span class="st">&quot;plotA_1&quot;</span>: <span class="dv">12</span>, <span class="st">&quot;plotA_2&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotA_3&quot;</span>: <span class="dv">2</span>,</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a> <span class="st">&quot;plotB_1&quot;</span>: <span class="dv">33</span>, <span class="st">&quot;plotB_2&quot;</span>: <span class="dv">28</span>, <span class="st">&quot;plotB_3&quot;</span>: <span class="dv">57</span>}</span></code></pre></div>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>yield_current <span class="op">=</span> {<span class="st">&quot;plotA_1&quot;</span>: <span class="dv">12</span>, <span class="st">&quot;plotA_2&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotA_3&quot;</span>: <span class="dv">2</span>,</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;plotB_1&quot;</span>: <span class="dv">33</span>, <span class="st">&quot;plotB_2&quot;</span>: <span class="dv">28</span>, <span class="st">&quot;plotB_3&quot;</span>: <span class="dv">57</span>}</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>yield_current                 </span></code></pre></div>
+<pre><code>{&#39;plotA_1&#39;: 12, &#39;plotA_2&#39;: 18, &#39;plotA_3&#39;: 2, &#39;plotB_1&#39;: 33, &#39;plotB_2&#39;: 28, &#39;plotB_3&#39;: 57}</code></pre>
+</div>
+</p>
+</details>
+<ol start="2" type="1">
+<li>Print just the value for key <code>plotA_3</code>.</li>
+</ol>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<p>We can get the value for a specific key using the <code>&lt;dict&gt;[&lt;key&gt;]</code> notation:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb49"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>yield_current[<span class="st">&quot;plotA_3&quot;</span>]</span></code></pre></div>
+<pre><code>2</code></pre>
+</div>
+</p>
+</details>
+<ol start="3" type="1">
+<li>Update the value for key <code>plotB_2</code> to be <code>31</code> and check whether this worked.</li>
+</ol>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<p>We can simply assign a new value using <code>=</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>yield_current[<span class="st">&quot;plotB_2&quot;</span>] <span class="op">=</span> <span class="dv">31</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>yield_current[<span class="st">&quot;plotB_2&quot;</span>]</span></code></pre></div>
+<pre><code>31</code></pre>
+</div>
+</p>
+</details>
+<ol start="4" type="1">
+<li>Count the number of items (i.e. entries, key-value <em>pairs</em>) in your dictionary.<br />
+</li>
+</ol>
+<details>
+<summary>
+Hints
+</summary>
+<p>
+<p>Use the <code>len()</code> function.</p>
+</p>
+</details>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(yield_current)</span></code></pre></div>
+<pre><code>6</code></pre>
+</div>
+</p>
+</details>
+<ol start="5" type="1">
+<li><p><strong><em>Bonus:</em></strong> Create a dictionary <code>obs_20210305</code> with keys <code>plotA_3</code> and <code>plotC_1</code>, and values <code>18</code> and <code>3</code>, respectively.</p>
+<p>Then, update the <code>yield_current</code> dictionary with the <code>obs_20210305</code> dictionary, and check whether this worked.</p></li>
+</ol>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb55"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>obs_20210305 <span class="op">=</span> {<span class="st">&quot;plotA_3&quot;</span>: <span class="dv">18</span>, <span class="st">&quot;plotC_1&quot;</span>: <span class="dv">3</span>}</span></code></pre></div>
+</div>
+<p>We use the <code>update()</code> method as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>yield_current.update(obs_20210305)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>yield_current</span></code></pre></div>
+<pre><code>{&#39;plotA_1&#39;: 12, &#39;plotA_2&#39;: 18, &#39;plotA_3&#39;: 18, &#39;plotB_1&#39;: 33, &#39;plotB_2&#39;: 31, &#39;plotB_3&#39;: 57, &#39;plotC_1&#39;: 3}</code></pre>
+</div>
+<p>Now, our dictionary has an updated value for key “plotA_3”, and an entirely new item with key “plotC_1”.</p>
+</p>
+</details>
+<ol start="7" type="1">
+<li><strong><em>Bonus:</em></strong> Get and count the number of <em>unique values</em> in your dictionary.</li>
+</ol>
+<details>
+<summary>
+Hints
+</summary>
+<p>
+<p>Extract the values with the <code>values()</code> method. Next, turn these values into a <em>set</em> to get the unique values. Finally, count the unique values with the <code>len()</code> function.</p>
+</p>
+</details>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(<span class="bu">set</span>(yield_current.values()))</span></code></pre></div>
+<pre><code>6</code></pre>
+</div>
+</p>
+</details>
+<p><br></p>
+<h2 id="exercise-4-sets">Exercise 4: Sets</h2>
+<ol type="1">
+<li>Assign a set named <code>dna</code> with 4 items: each of the 4 bases (single-letter abbreviations) in DNA.</li>
+</ol>
+<details>
+<summary>
+Hints
+</summary>
+<p>
+<ul>
+<li><p>Recall the use of curly braces to assign a set.</p></li>
+<li><p>The order of the bases doesn’t matter, because sets are unordered.</p></li>
+</ul>
+</p>
+</details>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>dna <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;T&#39;</span>}</span></code></pre></div>
+</div>
+</p>
+</details>
+<ol start="2" type="1">
+<li>Assign a set named <code>rna</code> with 4 items: each of the 4 bases (single-letter abbreviations) in RNA.</li>
+</ol>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb61"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>rna <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>, <span class="st">&#39;C&#39;</span>, <span class="st">&#39;U&#39;</span>}</span></code></pre></div>
+</div>
+</p>
+</details>
+<ol start="3" type="1">
+<li>Find the 3 bases that are shared between DNA and in RNA (try both with an <em>operator</em> and a <em>method</em>, if you want).</li>
+</ol>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>dna <span class="op">&amp;</span> rna</span></code></pre></div>
+<pre><code>{&#39;G&#39;, &#39;A&#39;, &#39;C&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>dna.intersection(rna)</span></code></pre></div>
+<pre><code>{&#39;G&#39;, &#39;A&#39;, &#39;C&#39;}</code></pre>
+</div>
+</p>
+</details>
+<ol start="4" type="1">
+<li>Find all 5 bases that are collectively found among DNA and RNA.</li>
+</ol>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb66"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>dna <span class="op">|</span> rna</span></code></pre></div>
+<pre><code>{&#39;T&#39;, &#39;C&#39;, &#39;A&#39;, &#39;U&#39;, &#39;G&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb68"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>dna.union(rna)</span></code></pre></div>
+<pre><code>{&#39;T&#39;, &#39;C&#39;, &#39;A&#39;, &#39;U&#39;, &#39;G&#39;}</code></pre>
+</div>
+</p>
+</details>
+<ol start="5" type="1">
+<li>Find the base that only occurs in DNA.</li>
+</ol>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb70"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>dna <span class="op">-</span> rna</span></code></pre></div>
+<pre><code>{&#39;T&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb72"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>dna.difference(rna)</span></code></pre></div>
+<pre><code>{&#39;T&#39;}</code></pre>
+</div>
+</p>
+</details>
+<ol start="6" type="1">
+<li>Assign a set named <code>purines</code> with the two purine bases and a set named <code>pyrimidines</code> with the three pyrimidine bases.</li>
+</ol>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb74"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>purines <span class="op">=</span> {<span class="st">&#39;A&#39;</span>, <span class="st">&#39;G&#39;</span>}</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>pyrimidines <span class="op">=</span> {<span class="st">&#39;C&#39;</span>, <span class="st">&#39;T&#39;</span>, <span class="st">&#39;U&#39;</span>}</span></code></pre></div>
+</div>
+</p>
+</details>
+<ol start="7" type="1">
+<li>Find the pyrimidine that occurs both in RNA and DNA.</li>
+</ol>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<p>You can combine more than two sets either by chaining methods or adding another operator.</p>
+</p>
+</details>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb75"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>pyrimidines <span class="op">&amp;</span> dna <span class="op">&amp;</span> rna</span></code></pre></div>
+<pre><code>{&#39;C&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb77"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>pyrimidines.intersection(dna).intersection(rna)</span></code></pre></div>
+<pre><code>{&#39;C&#39;}</code></pre>
+</div>
+</p>
+</details>
+<ol start="8" type="1">
+<li><strong><em>Bonus:</em></strong> Find the pyrimidine that occurs in RNA but not DNA.</li>
+</ol>
+<details>
+<summary>
+Solution
+</summary>
+<p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb79"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>(rna <span class="op">-</span> dna) <span class="op">&amp;</span> pyrimidines</span></code></pre></div>
+<pre><code>{&#39;U&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb81"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>rna <span class="op">-</span> dna <span class="op">&amp;</span> pyrimidines</span></code></pre></div>
+<pre><code>{&#39;U&#39;}</code></pre>
+</div>
+<p>Or:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode" id="cb83"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>rna.difference(dna).intersection(pyrimidines)</span></code></pre></div>
+<pre><code>{&#39;U&#39;}</code></pre>
+</div>
+</p>
+</details>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

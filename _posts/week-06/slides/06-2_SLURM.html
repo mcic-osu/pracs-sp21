@@ -71,7 +71,7 @@ name: slurm
 | Log output file (%j = job number) &amp;nbsp; &amp;nbsp;    | `-o`       |  --output=slurm-fastqc-%j.out &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;
 | Error output (*stderr*)              | `-e`       | `--error=slurm-fastqc-%j.err`
 
-&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
+&lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 .content-box-info[
 By default, standard output **and** standard error are sent to the
@@ -769,6 +769,7 @@ name: loop
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
+background-color: #f2f5eb
 
 ## Now loop over all files...
 
@@ -786,6 +787,7 @@ $ for fastq_file in "$fastqc_dir"/*fastq; do
 ```
 
 ---
+background-color: #f2f5eb
 
 ## The full script to loop over a directory
 
@@ -811,6 +813,7 @@ echo -e "\n---------\nAll done!"
 ```
 
 ---
+background-color: #f2f5eb
 
 ## Run the loop script
 
@@ -840,6 +843,7 @@ all it does is submit jobs, which can be done just fine on a login node.
 ]
 
 ---
+background-color: #f2f5eb
 
 ## Monitor the loop script
 
@@ -879,6 +883,7 @@ name: monitor
 &lt;br&gt; &lt;br&gt; &lt;br&gt; &lt;br&gt;
 
 ---
+background-color: #f2f5eb
 
 ## More options to monitor and manage SLURM jobs: overview
 
@@ -1196,6 +1201,7 @@ fastqc "$fastq_file"
   (ID that differs for each job in the array) for the log file name.
   
 ---
+background-color: #f2f5eb
 
 ## SLURM Job arrays (cont.)
 
@@ -1224,6 +1230,7 @@ fastqc --outdir="$output_dir" "$fastq_file"
 ```
 
 ---
+background-color: #f2f5eb
 
 ## SLURM Job arrays (cont.)
 
@@ -1310,7 +1317,6 @@ background-color: #f2f5eb
   The above  `~/.bashrc` setup only needs to be run once &amp;ndash;
   it does not need to be repeated every session.
   ]
-  
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

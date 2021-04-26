@@ -10,10 +10,6 @@ editor_options:
     wrap: 78
 ---
 
-```{r}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 <br>
 
 The first and last of these exercises are more short tutorials working through
@@ -210,9 +206,8 @@ good researcher to contact.
 1.  Identify how many papers in the PubMed database have the words *Drosophila
     virilis* in their title or abstract.
 
-<details>
-<summary>Hints</summary>
-<br>
+<details><summary>Hints</summary>
+<p>
 
 -   Use the `Entrez.esearch()` function and search the "pubmed" database,
     and then save the results from the search handle in an object called
@@ -244,11 +239,11 @@ save WebEnv from your record
 save QueryKey from your records
 ```
 
+</p>
 </details>
 
-<details>
-<summary>Solutions</summary>
-<br>
+<details><summary>Solutions</summary>
+<p>
 
 ``` {.python}
 # Import the Entrez module:
@@ -276,6 +271,7 @@ query_key = record["QueryKey"]
 For the similar CSB solutions to all steps in this exercise, see
 [here](https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Lord_of_the_flies_solution.ipynb).
 
+</p>
 </details>
 
 <br>
@@ -283,9 +279,8 @@ For the similar CSB solutions to all steps in this exercise, see
 2.  Retrieve the PubMed entries that were identified in step 1, and write them
     to a new file called `D_virilis_pubs.txt`.
 
-<details>
-<summary>Hints</summary>
-<br>
+<details><summary>Hints</summary>
+<p>
 
 -   Use the `Entrez.efetch()` function to retrieve the records. Use
     similar options to those we used in class, but set `retmax` to be at
@@ -307,11 +302,11 @@ with open output file as handle
     write the data
 ```
 
+</p>
 </details>
 
-<details>
-<summary>Solutions</summary>
-<br>
+<details><summary>Solutions</summary>
+<p>
 
 ``` {.python}
 # Perform the search:
@@ -328,6 +323,7 @@ with open("D_virilis_pubs.txt", "w") as fhandle:
     fhandle.write(data)
 ```
 
+</p>
 </details>
 
 <br>
@@ -339,7 +335,7 @@ with open("D_virilis_pubs.txt", "w") as fhandle:
 
 <details>
 <summary>Hints</summary>
-<br>
+<p>
 
 -   Create an empty dictionary for authors and their publication counts,
     and then loop through each line in `D_virilis_pubs.txt` to fill in the
@@ -364,11 +360,11 @@ with open D_virilis_pubs.txt
               initialize author if not in dict and add 1 to keep count
 ```
 
+</p>
 </details>
 
-<details>
-<summary>Solutions</summary>
-<br>
+<details><summary>Solutions</summary>
+<p>
 
 ``` {.python}
 with open("D_virilis_pubs.txt") as fhandle:
@@ -393,6 +389,7 @@ author_dict = {}
       author_dict[author] = author_dict.get(author, 0) + 1
 ```
 
+</p>
 </details>
 
 <br>
@@ -403,9 +400,8 @@ author_dict = {}
     You'll have to use the `sorted()` in a way we have not seen yet, see the
     Hints below for more details.
 
-<details>
-<summary>Hints</summary>
-<br>
+<details><summary>Hints</summary>
+<p>
 
 To get the top authors, you can use the `sorted()` function on your dictionary.
 You'll have two provide two additional arguments:
@@ -428,11 +424,12 @@ top_authors = take top 5 from sorted_authors
 for author in top authors
     print the name and the number of papers
 ```
+
+</p>
 </details>
 
-<details>
-<summary>Solutions</summary>
-<br>
+<details><summary>Solutions</summary>
+<p>
 
 ``` {.python}
 sorted_authors = sorted(author_dict, key = author_dict.get, reverse = True)
@@ -447,6 +444,8 @@ for author in top_authors:
 #> Raushenbakh IIu : 24
 #> Korochkin LI : 22
 ```
+
+</p>
 </details>
 
 <br>
@@ -473,9 +472,8 @@ that is, excluding "desk rejections" without review.
     reviewers. Does the probability of being rejected seem to increase with
     the number of reviewers?
 
-<details>
-<summary>Hints</summary>
-<br>
+<details><summary>Hints</summary>
+<p>
 
 With an eye on the next step, where you have to do the same thing for each
 year, it is convenient to write a function that takes the data and a
@@ -511,6 +509,7 @@ def get_prob_rejection(my_year = "all"):
         compute probability of rejection and produce output
 ```
 
+</p>
 </details>
 
 <br>
@@ -530,9 +529,8 @@ def get_prob_rejection(my_year = "all"):
         3   86    0.698
         4   4     0.75
 
-<details>
-<summary>Hints</summary>
-<br>
+<details><summary>Hints</summary>
+<p>
 
 If your function doesn't already take a calendar
 year as as an argument, modify your function to do so.
@@ -544,9 +542,9 @@ for each year.
 
 <br>
 
-<details>
-<summary>Solutions for both steps</summary>
-<br>
+<details><summary>Solutions for both steps</summary>
+<p>
+
 See the [CSB notebook with the
 solutions](https://github.com/CSB-book/CSB/blob/master/scientific/solutions/Fox2016_solution.ipynb).
 
@@ -564,6 +562,7 @@ good to be aware of this.*
 *If you want to try out specialized Pandas approaches for this exercise, look
 into the `groupby` method in particular.*
 
+</p>
 </details>
 
 <br>
@@ -621,9 +620,7 @@ image plotting available using the following IPython "magic function":
     ```
 
     <p align="right">
-
     <img src="img/numpy-img_red.png" width="70%"/>
-
     </p>
 
 -   In what format is our image stored?
@@ -725,9 +722,7 @@ image plotting available using the following IPython "magic function":
     ```
 
     <p align="left">
-
     <img src="img/numpy-img_mask1.png" width="70%"/>
-
     </p>
 
 -   Finally, we'll use a little trick to get the actual pixel values back for
@@ -740,7 +735,5 @@ image plotting available using the following IPython "magic function":
     ```
 
     <p align="center">
-
     <img src="img/numpy-img_mask2.png" width="70%"/>
-
     </p>

@@ -13,34 +13,31 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <br>
 
-<span style="color:coral">
-Edit March 4: I have moved part of the exercises on lists and all those on
-dictionaries and sets to the [page with exercises for week 9](w09_exercises.html).
-Though you are welcome to work ahead to those already,
-the exercises that remain here cover the material that we ended up discussing
-in class this week.
-</i></span>
-
 ## Setup
 
--   Open a new file and save it as `week08_exercises.py` or something along
-    those lines.
+- Open a new file and save it as `week08_exercises.py`
+  or something along those lines.
 
--   Type your commands in the script and send them to the prompt in the Python
-    interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.
+- Type your commands in the script and send them to the prompt in the Python
+  interactive window by pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>.
 
-    <details>
+<details>
+<summary>Problems with the keyboard shortcut?</summary>
+<p>
 
-    <summary>Problems with the keyboard shortcut?</summary>\
-    If this doesn't work, check your keyboard shortcut by right-clicking in the
-    script and looking for "Run Selection/Line In Python Interactive Window".\
-    \
-    Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>)
-    and look for that shortcut there, and change it if you want.
+If this doesn't work, check your keyboard shortcut by right-clicking in the script and looking for "Run Selection/Line In Python Interactive Window".
 
-    </details>
+Also, you can open the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>)
+and look for that shortcut there, and change it if you want.
 
--   Because these exercises have many small steps, I put the solutions right below the question, so you don't have to scroll back-and-forth all the time. *However*, make sure you actually try to do the exercises!
+</p>
+</details>
+
+- Because these first two exercises have many small steps,
+  I put the solutions right below the question, so you don't have to scroll
+  back-and-forth all the time.
+  *However*, make sure you actually try to do the exercises before you look at
+  the solutions!
 
 <br>
 
@@ -48,289 +45,609 @@ in class this week.
 
 1.  Print the type of the value `4.88`.\
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>
+We can use the function `type()`:
 
-    We can use the function `type()`:
-
-    ```{python}
-    type(4.88)
-    ```
+```{python}
+type(4.88)
+```
     
-    The result would be the same if we first assigned it as a variable:
-    ```{python}
-    num = 4.88
-    type(num)
-    ```
+The result would be the same if we first assigned it as a variable:
+```{python}
+num = 4.88
+type(num)
+```
 
-    </details>
+</details>
 
-2.  Assign the variable `n_samples = 658`, and then extract the third character from `n_samples`.
+2. Assign the variable `n_samples = 658`,
+   and then extract the third character from `n_samples`.
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>\
-    You can't index a number like `n_samples[index]`, so you'll first have to convert `n_samples` to a string. Also, recall that Python starts counting from 0!
+You can't index a number like `n_samples[index]`,
+so you'll first have to convert `n_samples` to a string.
+Also, recall that Python starts counting from 0!
 
-    </details>
+</p>
+</details>
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>
+```{python}
+n_samples = 658
+str(n_samples)[2]
+```
 
-    ```{python}
-    n_samples = 658
-    str(n_samples)[2]
-    ```
+</p>
+</details>
 
-    </details>
+3. Assign the string 'CTTATGGAAT' to a variable called `adapter`.
+   Print the number of characters in `adapter`.\
 
-3.  Assign the string 'CTTATGGAAT' to a variable called `adapter`. Print the number of characters in `adapter`.\
+<details><summary>Solution</summary>
+<p>
 
-    <details>
+```{python}
+adapter = 'CTTATGGAAT'
+len(adapter)
+```
 
-    <summary>Solution</summary>
+</p>
+</details>
 
-    ```{python}
-    adapter = 'CTTATGGAAT'
-    len(adapter)
-    ```
+4. Replace all `A`s by `N`s in `adapter` and assign the resulting string
+   to a new variable. Print the new variable.
 
-    </details>
+<details><summary>Hints</summary>
+<p>
 
-4.  Replace all `A`s by `N`s in `adapter` and assign the resulting string to a new variable. Print the new variable.\
+Use the string method `replace()`, and recall that methods are called using
+the `<object_name>.<method_name>()` syntax.
+
+</p>
+</details>
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+bad_seq = adapter.replace('A', 'N')
+bad_seq
+```
+
+</details>
+
+5. Find out what the third argument to the `replace()` method does by using
+   the built-in help.
+
+<details><summary>Hints</summary>
+<p>
+
+If you are typing your commands in a script rather than straight in the console,
+you will get some more information already when typing the opening parenthesis of the method (briefly pause if necessary).
+
+To get more help, you can use a notation with a `?`, or `help(object.method)`.
+
+</p>
+</details>
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+help(adapter.replace)
+# Or: "adapter.replace?"
+# Or: "?adapter.replace"
+```
+
+As it turns out, the third argument, `count`,
+determines how many instances of the substring will be replaced.
+
+</p>
+</details>
+
+6. Using what you found out in the previous steps,
+   replace just the first two `A`s in `adapter` by `N`s.
+
+<details><summary>Solution</summary>
+<p>
+
+We specify `2` as the third argument,
+which is the number of instances of the substring that will be replaced:
+
+```{python}
+adapter.replace('A', 'N', 2)
+```
+
+</p>
+</details>
+
+7. Convert the following strings and numbers to a Boolean value
+   to see what the resulting Boolean is (True or False):
+   `"False"` (with quotes), `0`, `1`, `-1`, `""`, `None`,
+   and see if you can make sense of these results.
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+bool("False")
+```
+
+```{python}
+bool(1)
+```
+
+```{python}
+bool(0)
+```
+
+```{python}
+bool(-1)
+```
+
+As it turns out, among numbers and strings, *only* 0 is interpreted as `False`,
+whereas *anything else* is interpreted as `True`.
+
+```{python}
+bool("")
+```
+
+```{python}
+bool()
+```
+
+```{python}
+bool(None)
+```
     
-    <details>
-
-    <summary>Hints</summary>\
-    Use the string method `replace()`, and recall that methods are called using
-    the `<object_name>.<method_name>()` syntax.
-
-    </details>
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    bad_seq = adapter.replace('A', 'N')
-    bad_seq
-    ```
-
-    </details>
-
-5.  Find out what the third argument to the `replace()` method does by using the built-in help.\
-
-    <details>
-
-    <summary>Hints</summary>\
-    If you are typing your commands in a script rather than straight in the console, you will get some more information already when typing the opening parenthesis of the method (briefly pause if necessary).\
-    \
-    To get more help, you can use a notation with a `?`, or `help(object.method)`.
-
-    </details>
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    help(adapter.replace)
-    # Or: "adapter.replace?"
-    # Or: "?adapter.replace"
-    ```
-
-    As it turns out, the third argument, `count`, determines how many instances of the substring will be replaced.\
-
-    </details>
-
-6.  Using what you found out in the previous steps, replace just the first two `A`s in `adapter` by `N`s.\
-
-    <details>
-
-    <summary>Solution</summary>\
-    We specify `2` as the third argument, which is the number of instances of the substring that will be replaced:
-
-    ```{python}
-    adapter.replace('A', 'N', 2)
-    ```
-
-    </details>
-
-7.  Convert the following strings and numbers to a Boolean value to see what the resulting Boolean is (True or False): `"False"` (with quotes), `0`, `1`, `-1`, `""`, `None`, and see if you can make sense of these results.\
-
-    <details>
-
-    <summary>Solution</summary>
-
-    ```{python}
-    bool("False")
-    ```
-
-    ```{python}
-    bool(1)
-    ```
-
-    ```{python}
-    bool(0)
-    ```
-
-    ```{python}
-    bool(-1)
-    ```
-
-    As it turns out, among numbers and strings, *only* 0 is interpreted as `False`,
-    whereas *anything else* is interpreted as `True`.
-
-    ```{python}
-    bool("")
-    ```
-
-    ```{python}
-    bool()
-    ```
-
-    ```{python}
-    bool(None)
-    ```
+But an empty string, nothing at all between parenthesis,
+and `None` (Python's keyword to define a null value or the lack of a value),
+are also interpreted as `False`.
     
-    But an empty string, nothing at all between parenthesis, and `None` (Python's keyword to define a null     value or the lack of a value), are also interpreted as `False`.
-    
-    Note that as soon as you quote `"None"`, it is a string again and will be interpreted as `True`:
+Note that as soon as you quote `"None"`,
+it is a string again and will be interpreted as `True`:
 
-    ```{python}
-    bool("None")
-    ```
+```{python}
+bool("None")
+```
 
-    </details>
+</p>
+</details>
 
-8.  Have a look at the names of the methods that appear when you type `adapter.` (note the `.`). Can you find a method that will print the *last* occurrence of a `T` in `adapter`?\
+8. Have a look at the names of the methods that appear when you type `adapter.`
+   (note the `.`).
+   Can you find a method that will print the *last* occurrence of a `T` in
+   `adapter`?
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>\
-    The method `rfind` will search from the right-hand side (hence `r`), and will therefore print the last occurrence of the specified substring.
+The method `rfind` will search from the right-hand side (hence `r`),
+and will therefore print the last occurrence of the specified substring.
 
-    </details>
+</p>
+</details>
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>
+```{python}
+adapter.rfind("T")
+```
 
-    ```{python}
-    adapter.rfind("T")
-    ```
+</p>
+</details>
 
-    </details>
+9. Split the sequence by `GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN` by `N`s.
 
-9. Split the sequence by `GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN` by `N`s.\
+<details><summary>Hints</summary>
+<p>
 
-    <details>
-    
-    <summary>Hints</summary>\
-    Use the `split()` method for strings.
+Use the `split()` method for strings.
 
-    </details>
+</p>
+</details>
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>
+```{python}
+seq = "GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN"
+split_seq = seq.split('N')
+split_seq
+```
 
-    ```{python}
-    seq = "GAGTCCCTNNNAGCAACGTTNNTTCGTCATTAN"
-    split_seq = seq.split('N')
-    split_seq
-    ```
-
-    </details>
+</p>
+</details>
 
 <br>
 
 ## Exercise 2: Lists
 
-1.  Assign a list `plant_diseases` that contains the items `fruit_rot`, `leaf_blight`, `leaf_spots`, `stem_blight`, `canker`, `wilt`, `root_knot` and `root_rot`.\
+1. Assign a list `plant_diseases` that contains the items `fruit_rot`,
+   `leaf_blight`, `leaf_spots`, `stem_blight`, `canker`, `wilt`, `root_knot` and
+   `root_rot`.
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>
+```{python}
+diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
+            'canker', 'wilt', 'root_knot', 'root_rot']
+```
 
-    ```{python}
-    diseases = ['fruit_rot', 'leaf_blight', 'leaf_spots', 'stem_blight',
-                'canker', 'wilt', 'root_knot', 'root_rot']
-    ```
+</p>
+</details>
 
-    </details>
+2. Extract `stem_blight` from `diseases` by its index (position).
 
-2.  Extract `stem_blight` from `diseases` by its index (position).\
+<details><summary>Solution</summary>
+<p>
 
-    <details>
+`stem_blight` is the fourth item and because Python starts counting at 0,
+this is index number 3.
 
-    <summary>Solution</summary>\
-    `stem_blight` is the fourth item and because Python starts counting at 0, this is index number 3.
+```{python}
+diseases[3]
+```
 
-    ```{python}
-    diseases[3]
-    ```
+</p>
+</details>
 
-    </details>
+3. Extract the first 5 items from `diseases`.
 
-3.  Extract the first 5 items from `diseases`.\
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>\
-    Recall that when using ranges, Python does *not* include the item corresponding to the last index.
+Recall that when using ranges,
+Python does *not* include the item corresponding to the last index.
 
-    </details>
+</p>
+</details>
 
-    <details>
+<details><summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>\
-    While index 5 is the *sixth* item, it is not included, so we specify `0:5` or `:5` to extract elements up to and including the fifth one:
+While index 5 is the *sixth* item, it is not included,
+so we specify `0:5` or `:5` to extract elements up to and including the fifth one:
 
-    ```{python}
-    diseases[0:5]
-    ```
+```{python}
+diseases[0:5]
+```
 
-    Or:
+Or:
 
-    ```{python}
-    diseases[:5]
-    ```
+```{python}
+diseases[:5]
+```
 
-    </details>
+</p>
+</details>
 
-4.  Extract the last item from `diseases`.\
+4. Extract the last item from `diseases`.
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>\
-    Recall that you can use negative numbers to start counting from the end.
-    Also, while `0` is the first index, "-0" (or something along those lines)
-    is *not* the last index.
+Recall that you can use negative numbers to start counting from the end.
+Also, while `0` is the first index, "-0" (or something along those lines)
+is *not* the last index.
 
-    </details>
+</p>
+</details>
 
-    <details>
+<details>
+<summary>Solution</summary>
+<p>
 
-    <summary>Solution</summary>
+```{python}
+diseases[-1]
+```
 
-    ```{python}
-    diseases[-1]
-    ```
+</p>
+</details>
 
-    </details>
+5.  Extract the last 3 items from `diseases`.
 
-5.  Extract the last 3 items from `diseases`.\
+<details><summary>Solution</summary>
+<p>
 
-    <details>
+Note that you'll *have to* omit a number after the colon in this case,
+because `[-3:-1]` would not include the last number, and `[-3:0]` does not
+work either.
 
-    <summary>Solution</summary>\
-    Note that you'll *have to* omit a number after the colon in this case, because `[-3:-1]` would not include the last number, and `[-3:0]` does not work either.
+```{python}
+diseases[-3:]
+```
 
-    ```{python}
-    diseases[-3:]
-    ```
+</p>
+</details>
 
-    </details>
+
+## Exercise 3: Dictionaries
+
+1.  Create and print a dictionary called `yield_current` with the following items:
+
+``` {.python}
+{"plotA_1": 12, "plotA_2": 18, "plotA_3": 2,
+ "plotB_1": 33, "plotB_2": 28, "plotB_3": 57}
+```
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+yield_current = {"plotA_1": 12, "plotA_2": 18, "plotA_3": 2,
+                 "plotB_1": 33, "plotB_2": 28, "plotB_3": 57}
+                 
+yield_current                 
+```
+
+</p>
+</details>
+
+2.  Print just the value for key `plotA_3`.
+
+<details><summary>Solution</summary>
+<p>
+
+We can get the value for a specific key using the `<dict>[<key>]` notation:
+
+```{python}
+yield_current["plotA_3"]
+```
+
+</p>
+</details>
+
+3.  Update the value for key `plotB_2` to be `31` and check whether this worked.
+
+<details><summary>Solution</summary>
+<p>
+
+We can simply assign a new value using `=`:
+
+```{python}
+yield_current["plotB_2"] = 31
+yield_current["plotB_2"]
+```
+
+</p>
+</details>
+
+4.  Count the number of items (i.e. entries, key-value *pairs*) in your dictionary.\
+
+<details><summary>Hints</summary>
+<p>
+
+Use the `len()` function.
+
+</p>
+</details>
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+len(yield_current)
+```
+
+</p>
+</details>
+
+5. ***Bonus:*** Create a dictionary `obs_20210305` with keys `plotA_3` and
+   `plotC_1`, and values `18` and `3`, respectively.
+    
+   Then, update the `yield_current` dictionary with the `obs_20210305` dictionary,
+   and check whether this worked.
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+obs_20210305 = {"plotA_3": 18, "plotC_1": 3}
+```
+
+We use the `update()` method as follows:
+
+```{python}
+yield_current.update(obs_20210305)
+
+yield_current
+```
+
+Now, our dictionary has an updated value for key "plotA\_3",
+and an entirely new item with key "plotC\_1".
+
+</p>
+</details>
+
+7.  ***Bonus:*** Get and count the number of *unique values* in your dictionary.
+
+<details><summary>Hints</summary>
+<p>
+
+Extract the values with the `values()` method.
+Next, turn these values into a *set* to get the unique values.
+Finally, count the unique values with the `len()` function.
+
+</p>
+</details>
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+len(set(yield_current.values()))
+```
+
+</p>
+</details>
+
+<br>
+
+## Exercise 4: Sets
+
+1. Assign a set named `dna` with 4 items: each of the 4 bases (single-letter
+   abbreviations) in DNA.
+
+<details><summary>Hints</summary>
+<p>
+
+- Recall the use of curly braces to assign a set.
+    
+- The order of the bases doesn't matter, because sets are unordered.
+
+</p>
+</details>
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+dna = {'A', 'G', 'C', 'T'}
+```
+
+</p>
+</details>
+
+2. Assign a set named `rna` with 4 items: each of the 4 bases
+   (single-letter abbreviations) in RNA.
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+rna = {'A', 'G', 'C', 'U'}
+```
+
+</p>
+</details>
+
+3. Find the 3 bases that are shared between DNA and in RNA
+   (try both with an *operator* and a *method*, if you want).
+
+<details>
+<summary>Solution</summary>
+<p>
+
+```{python}
+dna & rna
+```
+
+Or:
+
+```{python}
+dna.intersection(rna)
+```
+
+</p>
+</details>
+
+4. Find all 5 bases that are collectively found among DNA and RNA.
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+dna | rna
+```
+
+Or:
+
+```{python}
+dna.union(rna)
+```
+
+</p>
+</details>
+
+5. Find the base that only occurs in DNA.
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+dna - rna
+```
+
+Or:
+
+```{python}
+dna.difference(rna)
+```
+
+</p>
+</details>
+
+6. Assign a set named `purines` with the two purine bases and a set named
+   `pyrimidines` with the three pyrimidine bases.
+
+<details>
+<summary>Solution</summary>
+<p>
+
+```{python}
+purines = {'A', 'G'}
+pyrimidines = {'C', 'T', 'U'}
+```
+
+</p>
+</details>
+
+7. Find the pyrimidine that occurs both in RNA and DNA.
+
+<details><summary>Solution</summary>
+<p>
+
+You can combine more than two sets either by chaining methods or adding another operator.
+
+</p>
+</details>
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+pyrimidines & dna & rna
+```
+
+Or:
+
+```{python}
+pyrimidines.intersection(dna).intersection(rna)
+```
+
+</p>
+</details>
+
+8. ***Bonus:*** Find the pyrimidine that occurs in RNA but not DNA.
+
+<details><summary>Solution</summary>
+<p>
+
+```{python}
+(rna - dna) & pyrimidines
+```
+
+Or:
+
+```{python}
+rna - dna & pyrimidines
+```
+
+Or:
+
+```{python}
+rna.difference(dna).intersection(pyrimidines)
+```
+
+</p>
+</details>

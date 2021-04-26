@@ -41,7 +41,7 @@ These are the primer sequences[^1]:
 
 <br>
 
-## Getting set up
+## Setting up
 
 1.  Create a new directory for this assignment, and inside it, initialize a Git repository. Add a very brief `README.md` describing that this is a repository for such-and-such assignment. (You can also use this README to further document your workflow, but you don't have to.) <span style="color:coral"><i>[0.5]</i></span>
 
@@ -51,35 +51,37 @@ These are the primer sequences[^1]:
 
 4.  Load the Conda module at OSC and create a Conda environment for Cutadapt following [these instructions](https://cutadapt.readthedocs.io/en/stable/installation.html#installation-with-conda) (i.e. just the section "Installation with Conda"). <span style="color:coral"><i>[1]</i></span>
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
+To be able to install Cutadapt with the command provided in that link,
+you first need to do the following general Conda setup steps,
+which we will (have) do(ne) together in class:
 
-    <p>
-    To be able to install Cutadapt with the command provided in that link,
-    you first need to do the following general Conda setup steps,
-    which we will (have) do(ne) together in class:
-    ```sh
-    $ conda config --add channels defaults
-    $ conda config --add channels bioconda
-    $ conda config --add channels conda-forge 
-    ```
-    (Adding the above lines *in that order* will result in the different channels
-    having the proper priority, with `conda-forge` having the highest priority.)
-    
-    If you run into installation problems that you can't seem to solve, you can can also use my Conda environment in Step 7, below, as follows:
+```sh
+$ conda config --add channels defaults
+$ conda config --add channels bioconda
+$ conda config --add channels conda-forge 
+```
 
-    ``` {.sh}
-    $ source activate users/PAS0471/jelmer/.conda/envs/cutadaptenv
-    ```
+(Adding the above lines *in that order* will result in the different channels
+having the proper priority, with `conda-forge` having the highest priority.)
 
-    But do this only if needed, and if you do, include a description of your errors in your README file.
+If you run into installation problems that you can't seem to solve,
+you can can also use my Conda environment in Step 7, below, as follows
 
-    </p>
+``` {.sh}
+$ source activate users/PAS0471/jelmer/.conda/envs/cutadaptenv
+```
 
-    </details>
+But do this only if needed, and if you do,
+include a description of your errors in your README file.
 
-5.  Export the environment description for your Cutadapt environment to a YAML (`.yml`) file. <span style="color:coral"><i>[0.5]</i></span>
+</p>
+</details>
+
+5. Export the environment description for your Cutadapt environment to a
+   YAML (`.yml`) file. <span style="color:coral"><i>[0.5]</i></span>
 
 <br>
 
@@ -97,11 +99,14 @@ The following instructions all refer to what you should write **inside the scrip
 
 7.  Next, include the familiar `set` settings for robust bash scripts, load OSC's Conda module and then activate your own Cutadapt Conda environment. <span style="color:coral"><i>[0.5]</i></span>
     
-    <details>
-    <summary>Hints</summary>
-    Use `source activate` and not `conda activate` to activate the Conda environment,
-    otherwise Conda will complain about your shell not being properly set up.
-    </details>
+<details><summary>Hints</summary>
+<p>
+
+Use `source activate` and not `conda activate` to activate the Conda environment,
+otherwise Conda will complain about your shell not being properly set up.
+
+<p>
+</details>
 
 8.  Let the script take 4 arguments that can be passed to it on the command-line: <span style="color:coral"><i>[1]</i></span>
 
@@ -114,46 +119,41 @@ The following instructions all refer to what you should write **inside the scrip
 
 9.  Compute the *reverse complement* for each primer. The hint below in fact has the answer, but please take a moment to think how you might do this with `tr` and a new command called `rev` that simply reverses a string.
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
+Adjust your variable names as necessary!
 
-    <p>
+``` {.sh}
+primer_f_rc=$(echo "$primer_f" | tr ATCGYRKMBVDH TAGCRYMKVBHD | rev)
+primer_r_rc=$(echo "$primer_r" | tr ATCGYRKMBVDH TAGCRYMKVBHD | rev)
+```
 
-    Adjust your variable names as necessary!
+Note that we needed to not only translate `ACTG` but also all
+[IUPAC ambiguity codes](https://droog.gs.washington.edu/parc/images/iupac.html).
 
-    ``` {.sh}
-    primer_f_rc=$(echo "$primer_f" | tr ATCGYRKMBVDH TAGCRYMKVBHD | rev)
-    primer_r_rc=$(echo "$primer_r" | tr ATCGYRKMBVDH TAGCRYMKVBHD | rev)
-    ```
-
-    Note that we needed to not only translate `ACTG` but also all [IUPAC ambiguity codes](https://droog.gs.washington.edu/parc/images/iupac.html).
-
-    </p>
-
-    </details>
+</p>
+</details>
 
 10. From the file name of the input FASTQ file with forward reads (which is one of the arguments to the script), infer the name of the corresponding FASTQ file with reverse reads, which will have an identical name except that `_R1_` is replaced by `_R2_`. <span style="color:coral"><i>[0.5]</i></span>
 
 11. Assign output file paths (output dir + file name) for the `R1` and `R2` output file, inserting `_trimmed` before the `.fastq` file extension (that is, the output file paths should be along the lines of `<output-dir>/<old-file-basename>_trimmed.fastq`). <span style="color:coral"><i>[1]</i></span>
 
-    <details>
+<details><summary>Hints</summary>
+<p>
 
-    <summary>Hints</summary>
+You'll do yourself a favor by having the script `echo` the file names that you
+have assigned, so you can easily check if you're doing this right.
 
-    <p>
+Moreover, I recommend that you test interactively whether you're getting all the file names right: assign one of the paths to the actual FASTQ files to the variable name you're using for that, and ditto with an output dir. Just take care that these assignments don't end up in your (final) script.
 
-    You'll do yourself a favor by having the script `echo` the file names that you have assigned, so you can easily check if you're doing this right.\
-    \
-    Moreover, I recommend that you test interactively whether you're getting all the file names right: assign one of the paths to the actual FASTQ files to the variable name you're using for that, and ditto with an output dir. Just take care that these assignments don't end up in your (final) script.
-
-    </p>
-
-    </details>
+</p>
+</details>
 
 12. Create the output directory if it doesn't already exist. <span style="color:coral"><i>[0.5]</i></span>
 
-13. The actual call to the Cutadapt program should be as follows -- just change any variable names as needed:
+13. The actual call to the Cutadapt program should be as follows --
+    just change any variable names as needed:
 
     ``` {.bash}
     $ cutadapt -a "$primer_f"..."$primer_r_revcomp" \
