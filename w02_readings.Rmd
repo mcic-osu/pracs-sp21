@@ -50,12 +50,12 @@ For more material along these lines, optional reading is Buffalo Chapter 3.
 
 #### Required readings
 
-- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+- [Buffalo](https://library.ohio-state.edu/record=b9145445~S7)
   Chapter 2: "Setting up and Managing a Bioinformatics Project"
   
 #### Optional readings
 
-- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+- [Buffalo](https://library.ohio-state.edu/record=b9145445~S7)
   Chapter 3: "Remedial Unix Shell"
   
 #### Further resources

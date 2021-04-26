@@ -65,7 +65,7 @@ in weeks 4-6, using the Buffalo book.)
 
 #### Further resources
 
-- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+- [Buffalo](https://library.ohio-state.edu/record=b9145445~S7)
   Preface and Chapter 1: "How to Lean Bioinformatics"
   
 - A [Software Carpentry shell tutorial](http://swcarpentry.github.io/shell-novice/)

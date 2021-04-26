@@ -39,5 +39,5 @@ as we will switch gears next week and will be covering Python for much of the re
 
 #### Required readings
 
-- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+- [Buffalo](https://library.ohio-state.edu/record=b9145445~S7)
   Chapter 6: "Bioinformatics Data"

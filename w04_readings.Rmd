@@ -46,7 +46,7 @@ it should be fairly easy to see how these tools could be applied any kind of tex
 
 #### Required readings
 
-- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+- [Buffalo](https://library.ohio-state.edu/record=b9145445~S7)
   Chapter 7: "Unix Data Tools"
   
   The following sections can be skimmed or skipped, depending on your bandwidth and

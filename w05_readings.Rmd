@@ -52,6 +52,6 @@ later in the course.
 
 #### Required readings
 
-- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+- [Buffalo](https://library.ohio-state.edu/record=b9145445~S7)
   Chapter 12: "Bioinformatics Shell Scripting, Writing Pipelines, and Parallelizing Tasks"
   

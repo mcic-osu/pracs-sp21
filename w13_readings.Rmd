@@ -63,7 +63,7 @@ but is much more user-friendly and has many more options.
 
 #### Further resources
 
-- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+- [Buffalo](https://library.ohio-state.edu/record=b9145445~S7)
 
 - [The official Snakemake tutorial](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html)
   which you can run in your browser!

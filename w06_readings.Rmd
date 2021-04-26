@@ -60,5 +60,5 @@ Part of the OSC documentation:
 
 #### Optional readings
 
-- [Buffalo](https://library.ohio-state.edu/record=b8538907~S7)
+- [Buffalo](https://library.ohio-state.edu/record=b9145445~S7)
   Chapter 4: "Working with Remote Machines"

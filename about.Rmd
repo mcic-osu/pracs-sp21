@@ -30,7 +30,7 @@ and the full [syllabus (PDF)](assets/PP8300_computing_syllabus_website.pdf).
 
 #### Topics taught
 
-- [Shell basics and tools](overviews_shell.html) and [Shell scripting](overviews_shellscript.html) (4 modules)
+- [Shell basics and tools](overviews_shell.html) and [Shell scripting](posts/week-06/) (4 modules)
 - [Coding in Python](overviews_python.html) (5 modules)
 - [Computing at OSC with SLURM and Conda](posts/week-06/) (1 module)
 - [Version control with Git and GitHub](posts/week-03/) (1 module, applied throughout)
@@ -46,7 +46,7 @@ and the full [syllabus (PDF)](assets/PP8300_computing_syllabus_website.pdf).
   
 - **_Secondary_**:
   Buffalo V (2015).
-  *[Bioinformatics Data Skills: Reproducible and Robust Research with Open Source Tools](https://library.ohio-state.edu/record=b8538907~S7)*.
+  *[Bioinformatics Data Skills: Reproducible and Robust Research with Open Source Tools](https://library.ohio-state.edu/record=b9145445~S7)*.
   O'Reilly Media, Inc.
 
 ### CarmenCanvas website

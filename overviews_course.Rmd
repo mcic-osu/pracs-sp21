@@ -75,7 +75,7 @@ We will be reading parts of the following two textbooks:
   *Bioinformatics Data Skills: Reproducible and Robust Research with Open Source Tools*.
   O'Reilly Media, Inc.
   Available online through the OSU library
-  [here](https://library.ohio-state.edu/record=b8538907~S7);
+  [here](https://library.ohio-state.edu/record=b9145445~S7);
   you can also find a PDF on the Carmen Canvas website for the course.
   
   This book will be referred to as **Buffalo** for short,
@@ -107,7 +107,7 @@ Because we will work at OSC,
 you are not required to install anything for this course,
 and we can accommodate all operating systems.
 However, you may still want to install software to be able to work locally:
-[this optional assignment](../../w01_UA_installation.html)
+[this optional assignment](w01_UA_installation.html)
 covers local software installation.
 
 ### Homework
