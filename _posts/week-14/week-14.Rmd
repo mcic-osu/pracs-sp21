@@ -9,7 +9,7 @@ output:
 ---
 
 This week, we'll wrap up the course's contents:
-looking back at what you've learned, and how it all fits together --
+looking back at what you've learned, how it all fits together --
 and looking forward to the steps you can take from here.
 
 ### [Readings](../../w14_readings.html)
