@@ -2680,6 +2680,7 @@ Full Snakefile #1
 <span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    shell:</span>
 <span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;rm -rf results;&quot;</span></span>
 <span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;rm -rf log/*&quot;</span></span></code></pre></div>
+</p>
 </details>
 <h4 id="current-snakefile">Current Snakefile</h4>
 <p>Our current Snakefile has a couple of features we haven’t seen before:</p>
@@ -2736,12 +2737,14 @@ Full Snakefile #1
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p>Assign the primer sequences to variables <code>PRIMER_F</code> and <code>PRIMER_R</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>PRIMER_F<span class="op">=</span>config[<span class="st">&quot;primer_f&quot;</span>]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>PRIMER_R<span class="op">=</span>config[<span class="st">&quot;primer_r&quot;</span>]</span></code></pre></div>
+</p>
 </details>
 </div>
+<p><br></p>
 <details>
 <summary>
 Full Snakefile #2
@@ -2802,6 +2805,7 @@ Full Snakefile #2
 <span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>    shell:</span>
 <span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;rm -rf results;&quot;</span></span>
 <span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;rm -rf log/*&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h2 id="a-fastqc-rule">3. A FastQC rule</h2>
@@ -2847,13 +2851,14 @@ Full Snakefile #2
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <p>Our <code>rule all</code> input does not match the output of <code>rule fastqc</code>, so trying to run Snakemake without speciying a rule or output file(s) won’t work (recall that by default, Snakemake will run the first rule, which is <code>rule all</code>). We could add this to <code>rule all</code>, but since we want to add a rule MultiQC in the next step, which uses the output of FastQC, that would only be temporary.</p>
 <p>Moreover, <code>rule fastqc</code> contains wildcards in its <code>{input}</code> and <code>{output}</code> directives, so trying to run it using <code>snakemake [...] fastqc</code> would result in an error: Snakemake is not able to figure out what it should run (you can most conveniently try this with a dry-run using <code>snakemake -n fastqc</code>).</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-n</span> fastqc</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; WorkflowError:</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Target rules may not contain wildcards. Please specify concrete files or a rule without wildcards.</span></span></code></pre></div>
 <p>To test whether rule functions, it is therefore most convenient to just call Snakemake with an actual output file.</p>
+</p>
 </details>
 <details>
 <summary>
@@ -2913,8 +2918,10 @@ Solution
 <span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [Wed Apr 21 09:19:36 2021]</span></span>
 <span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Finished job 0.</span></span>
 <span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 of 1 steps (100%) done</span></span></code></pre></div>
+</p>
 </details>
 </div>
+<p><br></p>
 <details>
 <summary>
 Full Snakefile #3
@@ -2990,6 +2997,7 @@ Full Snakefile #3
 <span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>        join(LOG_DIR, <span class="st">&quot;fastqc_</span><span class="sc">{sample}</span><span class="st">_</span><span class="sc">{read}</span><span class="st">.log&quot;</span>),</span>
 <span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>    shell:</span>
 <span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;fastqc {input} -o {FASTQC_DIR} &amp;&gt; {log}&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h2 id="a-multiqc-rule">4. A MultiQC rule</h2>
@@ -3031,6 +3039,7 @@ Show the script <code>scripts/multiqc.sh</code>
 <span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="ex">multiqc</span> <span class="st">&quot;</span><span class="va">$in_dir</span><span class="st">&quot;</span> <span class="at">-o</span> <span class="st">&quot;</span><span class="va">$out_dir</span><span class="st">&quot;</span></span>
 <span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">&quot;\n# Done with script.&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <div class="content-box-diy">
@@ -3045,12 +3054,13 @@ Show the script <code>scripts/multiqc.sh</code>
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li><p>Use the <code>expand()</code> function in the <code>input</code> directive. Besides expanding the possible values for <code>SAMPLES</code> and <code>READS</code>, you will also need to include the FastQC output dir here, which is saved in the variable <code>FASTQC_DIR</code>.</p></li>
 <li><p>In the <code>shell</code> directive, you will call the script <code>scripts/multiqc.sh</code>. Take a look at the script to see what arguments it takes, and specify those.</p></li>
 <li><p>Like in <code>rule fastqc</code>, send standard output and standard error from the script to <code>{log}</code>.</p></li>
 </ul>
+</p>
 </details>
 <details>
 <summary>
@@ -3073,6 +3083,7 @@ Solutions
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>        join(LOG_DIR, <span class="st">&quot;multiqc.log&quot;</span>),</span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    shell:</span>
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;scripts/multiqc.sh {FASTQC_DIR} {MULTIQC_DIR} &amp;&gt; {log}&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <ul>
@@ -3082,7 +3093,8 @@ Solutions
 <summary>
 Solutions
 </summary>
-<p><br> <code>rule fastqc</code> will also be run for the remaining 5 FASTQ files, since the input of <code>rule multiqc</code> is the output of <code>rule fastqc</code>.</p>
+<p>
+<p><code>rule fastqc</code> will also be run for the remaining 5 FASTQ files, since the input of <code>rule multiqc</code> is the output of <code>rule fastqc</code>.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> snakemake <span class="at">--profile</span> slurm_profile multiqc</span></code></pre></div>
 <div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-lh</span> results/multiqc/</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; total 1.2M</span></span>
@@ -3108,8 +3120,10 @@ Solutions
 <span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [INFO   ]         multiqc : MultiQC complete</span></span>
 <span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # Done with script.</span></span></code></pre></div>
+</p>
 </details>
 </div>
+<p><br></p>
 <details>
 <summary>
 Full Snakefile #4
@@ -3206,6 +3220,7 @@ Full Snakefile #4
 <span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a>        join(LOG_DIR, <span class="st">&quot;multiqc.log&quot;</span>),</span>
 <span id="cb22-91"><a href="#cb22-91" aria-hidden="true" tabindex="-1"></a>    shell:</span>
 <span id="cb22-92"><a href="#cb22-92" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;scripts/multiqc.sh {FASTQC_DIR} {MULTIQC_DIR} &amp;&gt; {log}&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h2 id="a-cutadapt-rule">5. A Cutadapt rule</h2>
@@ -3243,7 +3258,7 @@ Full Snakefile #4
 <summary>
 The script <code>scripts/cutadapt.sh</code>
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3332,6 +3347,7 @@ The script <code>scripts/cutadapt.sh</code>
 <span id="cb24-86"><a href="#cb24-86" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-87"><a href="#cb24-87" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-e</span> <span class="st">&quot;\n## Done with cutadapt script.&quot;</span></span>
 <span id="cb24-88"><a href="#cb24-88" aria-hidden="true" tabindex="-1"></a><span class="fu">date</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <ul>
@@ -3351,10 +3367,11 @@ The script <code>scripts/cutadapt.sh</code>
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li>Like with <code>rule fastqc</code>, you’ll need to specify an individual output file.</li>
 </ul>
+</p>
 </details>
 <details>
 <summary>
@@ -3399,8 +3416,10 @@ Solutions
 <span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Read 1 with adapter:                  47,061 (100.0%)</span></span>
 <span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Read 2 with adapter:                  46,675 (99.2%)</span></span>
 <span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Pairs written (passing filters):        46,671 (99.2%)</span></span></code></pre></div>
+</p>
 </details>
 </div>
+<p><br></p>
 <details>
 <summary>
 Full Snakefile #5
@@ -3514,6 +3533,7 @@ Full Snakefile #5
 <span id="cb28-107"><a href="#cb28-107" aria-hidden="true" tabindex="-1"></a>        join(LOG_DIR, <span class="st">&quot;cutadapt_</span><span class="sc">{sample}</span><span class="st">.log&quot;</span>)</span>
 <span id="cb28-108"><a href="#cb28-108" aria-hidden="true" tabindex="-1"></a>    shell:</span>
 <span id="cb28-109"><a href="#cb28-109" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;scripts/cutadapt.sh {input.fwd} {CUTADAPT_DIR} {PRIMER_F} {PRIMER_R} &amp;&gt; {log}&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h2 id="a-dada2-rule-to-filter-fastqs">6. A DADA2 rule to filter FASTQs</h2>
@@ -3528,7 +3548,7 @@ Full Snakefile #5
 <summary>
 The full script <code>scripts/fastq_filter.R</code>
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env Rscript</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This script will run the DADA2 function &quot;filterAndTrim&quot; to remove poor-quality</span></span>
@@ -3594,6 +3614,7 @@ The full script <code>scripts/fastq_filter.R</code>
 <span id="cb29-63"><a href="#cb29-63" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span>
 <span id="cb29-64"><a href="#cb29-64" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-65"><a href="#cb29-65" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&#39;Done with script fastq_filter.R&#39;</span>)</span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <div class="content-box-diy">
@@ -3605,7 +3626,7 @@ The full script <code>scripts/fastq_filter.R</code>
 <summary>
 Solutions
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>rule fastq_filter:</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A rule to run an R script that contains DADA2 functions to filter and trim FASTQ files.</span></span>
@@ -3629,8 +3650,10 @@ Solutions
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; total 42M</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -rw-r--r-- 1 jelmer PAS0471 23M Apr 21 11:47 201_R1_filt.fastq</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -rw-r--r-- 1 jelmer PAS0471 19M Apr 21 11:47 201_R2_filt.fastq</span></span></code></pre></div>
+</p>
 </details>
 </div>
+<p><br></p>
 <details>
 <summary>
 Full Snakefile #6
@@ -3762,6 +3785,7 @@ Full Snakefile #6
 <span id="cb33-125"><a href="#cb33-125" aria-hidden="true" tabindex="-1"></a><span class="co">        module load R/4.0.2-gnu9.1</span></span>
 <span id="cb33-126"><a href="#cb33-126" aria-hidden="true" tabindex="-1"></a><span class="co">        scripts/fastq_filter.R {input.fwd} {FILTER_DIR} &amp;&gt; {log}</span></span>
 <span id="cb33-127"><a href="#cb33-127" aria-hidden="true" tabindex="-1"></a><span class="co">        &quot;&quot;&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h2 id="a-dada2-rule-to-infers-asvs">7. A DADA2 rule to infers ASVs</h2>
@@ -3880,6 +3904,7 @@ The full script <code>scripts/ASV_infer.R</code>
 <span id="cb34-108"><a href="#cb34-108" aria-hidden="true" tabindex="-1"></a>            <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">row.names =</span> <span class="cn">TRUE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb34-109"><a href="#cb34-109" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-110"><a href="#cb34-110" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&#39;Done with script ASV_infer.R&#39;</span>)</span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <p>For this rule, we will tinker a bit with the resource request to SLURM. This script is more computationally intensive that the previous ones, which makes sense because it will process all files at once.</p>
@@ -3890,16 +3915,17 @@ The full script <code>scripts/ASV_infer.R</code>
 <summary>
 Solution.
 </summary>
-<p><br></p>
+<p>
 <p>By using a <code>threads</code> directive in the rule:</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>threads: <span class="dv">8</span></span></code></pre></div>
+</p>
 </details>
 <p>And how can we make sure Snakemake passes a request of 8 cores/threads to SLURM for this job?</p>
 <details>
 <summary>
 Solution.
 </summary>
-<p><br></p>
+<p>
 <p>By using a <code>resources</code> directive in the rule, with a key <code>cpus</code> that matches what we have specified in <code>slurm_profile/config.yaml</code>:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>resources: cpus<span class="op">=</span><span class="dv">8</span></span></code></pre></div>
 <p>Here is the relevant matching part of <code>slurm_profile/config.yaml</code>:</p>
@@ -3909,6 +3935,7 @@ Solution.
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="st">                 --cpus-per-task={resources.cpus}</span></span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="st">                 --output=log/slurm-{rule}_{wildcards}.out&quot;</span></span>
 <span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">default-resources</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">cpus=</span><span class="dv">1</span><span class="kw">,</span><span class="at"> mem_mb=</span><span class="dv">4000</span><span class="kw">,</span><span class="at"> time_min=</span><span class="dv">60</span><span class="kw">,</span><span class="at"> account=PAS1855</span><span class="kw">]</span></span></code></pre></div>
+</p>
 </details>
 </div>
 <p>Additionally, we will request for an appropriate amount of memory<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, so our full <code>resources</code> directive will look like this:</p>
@@ -3923,17 +3950,18 @@ Solution.
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li><p>Because this is the final rule in the workflow, whose output is specified as the input of <code>rule all</code>, running Snakemake without arguments will do the job.</p></li>
 <li><p>Note that the previous two rules will also automatically be run for the two remaining samples.</p></li>
 </ul>
+</p>
 </details>
 <details>
 <summary>
 Solutions
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>rule ASV_infer:</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;</span></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co">    A rule to run an R script that contains DADA2 functions to infer ASVs,</span></span>
@@ -3960,6 +3988,7 @@ Solutions
 <div class="sourceCode" id="cb40"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> snakemake <span class="at">--profile</span> slurm_profile</span></code></pre></div>
 <div class="sourceCode" id="cb41"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-lh</span> results/ASV_infer/</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -rw-r--r-- 1 jelmer PAS0471 426K Apr 21 12:57 ASV_table.tsv</span></span></code></pre></div>
+</p>
 </details>
 </div>
 <p>Let’s see an overview of all output files of the workflow:</p>

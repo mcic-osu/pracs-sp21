@@ -2590,36 +2590,36 @@ Topic overviews
 <h2 id="expanding-and-improving-the-workflow">1: Expanding and improving the workflow</h2>
 <h3 id="set-up">1. Set-up</h3>
 <p>Load the Conda environment in which you have Snakemake installed:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load python/3.6-conda5.2</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> activate ipy-env</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> module load python/3.6-conda5.2</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> source activate ipy-env</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if Snakemake can be found and is inside your ipy-env:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> snakemake</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> which snakemake</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ~/.conda/envs/ipy-env/bin/snakemake</span></span></code></pre></div>
 <p>We will recreate a very similar set of files and the final Snakefile from class – copy the files from <code>/fs/ess/PAS1855/exercises/week13/</code> to do so:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /fs/ess/PAS1855/users/<span class="va">$USER</span>/week13</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-r</span> /fs/ess/PAS1855/exercises/week13/exercise1 .</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd /fs/ess/PAS1855/users/<span class="va">$USER</span>/week13</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cp <span class="at">-r</span> /fs/ess/PAS1855/exercises/week13/exercise1 .</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> exercise1</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">tree</span></span></code></pre></div>
-<pre><code>.
-├── data
-│   ├── smpA.fastq
-│   ├── smpC.fastq
-│   └── smpG.fastq
-├── res
-├── scripts
-│   ├── count.sh
-│   ├── map.sh
-│   └── trim.sh
-└── workflow
-    ├── DAGs
-    └── Snakefile</code></pre>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd exercise1</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> tree</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; .</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── data</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── smpA.fastq</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── smpC.fastq</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └── smpG.fastq</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── res</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ├── scripts</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── count.sh</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   ├── map.sh</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; │   └── trim.sh</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; └── workflow</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ├── DAGs</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     └── Snakefile</span></span></code></pre></div>
 <details>
 <summary>
 Or use this code to create the dirs and files from scratch
 </summary>
+<p>
 <ul>
 <li><p>Create the dir structure and the dummy FASTQ files:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> data scripts res workflow/DAGs</span>
@@ -2694,9 +2694,10 @@ Or use this code to create the dirs and files from scratch
 <span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/count_table.txt&quot;</span><span class="ex">,</span></span>
 <span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
 <span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/count.sh {input} &gt; {output}&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
-<p>Currently, our Snakefile <code>workflow/Snakefile</code> looks like this:</p>
+<p><strong>Currently, our Snakefile <code>workflow/Snakefile</code> contains the following:</strong></p>
 <details>
 <summary>
 Show Snakefile
@@ -2747,7 +2748,6 @@ Show Snakefile
 <span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
 <span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/count.sh {input} &gt; {output}&quot;</span></span></code></pre></div>
 </details>
-<p><br></p>
 <p>Note that some formatting details in the Snakefile above are slightly different from what was shown in class. I used the <code>Snakefmt</code> VS Code extension, which lets a little program of the same name format Snakefiles for you.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> count:</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;&quot;&quot;</span></span>
@@ -2762,35 +2762,35 @@ Show Snakefile
 <p><code>Snakefmt</code> will detect syntax errors and ensure consistent and clear formatting, as shown for <code>rule count</code> above:</p>
 <ul>
 <li><p>The <em>value</em> for every rule is on a new, indented line.</p></li>
-<li><p>Every item in <code>input</code> and <code>output</code> is trailed by a comma.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p align="center">
-<p><img src=img/snakemake/snakefmt_extension.png width=60%></p>
-</p></li>
+<li><p>Every item in <code>input</code> and <code>output</code> is trailed by a comma.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p></li>
 </ul>
 <p>Furthermore, I have added some Python multi-line (triple-quote) comments explaining what the Snakefile and each individual rule does.</p>
 <p><br></p>
 <h3 id="first-dag-and-snakemake-run">2. First DAG and Snakemake run</h3>
 <ul>
-<li>Create and view a DAG (workflow diagram in Directed Acyclic Graph form) for our current Snakefile to remind yourself of the steps in the workflow.</li>
+<li><strong>Create and view a DAG for our current Snakefile.</strong><br />
+This workflow diagram in Directed Acyclic Graph form will remind you of the steps in the workflow.</li>
 </ul>
 <details>
 <summary>
 Solution
 </summary>
+<p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">--dag</span> <span class="kw">|</span> <span class="ex">dot</span> <span class="at">-T</span> svg <span class="op">&gt;</span> workflow/DAGs/v1.svg </span></code></pre></div>
 <p align="center">
 <img src=img/snakemake/v1.svg width=55%>
 </p>
+</p>
 </details>
-<p><br></p>
 <ul>
-<li>Run the entire workflow.</li>
+<li><strong>Run the entire workflow.</strong></li>
 </ul>
 <details>
 <summary>
 Solution
 </summary>
-<p><br> Below, Snakemake is being run with the <code>-p</code> (print shell commands) and <code>-q</code> (quiet) options for concise output. To better understand what Snakemake is doing, you may want to see more output yourself, e.g. with the <code>-pr</code> combination of options (<code>-r</code>: reason for execution of each job).</p>
+<p>
+<p>Below, Snakemake is being run with the <code>-p</code> (print shell commands) and <code>-q</code> (quiet) options for concise output. To better understand what Snakemake is doing, you may want to see more output yourself, e.g. with the <code>-pr</code> combination of options (<code>-r</code>: reason for execution of each job).</p>
 <p>Also, recall that you can always do a “dry run” with the <code>-n</code> option to see what Snakemake wants to execute.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pq</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Job counts:</span></span>
@@ -2807,6 +2807,7 @@ Solution
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpA_trim.fastq &gt; res/smpA.bam</span></span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/map.sh res/smpC_trim.fastq &gt; res/smpC.bam</span></span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam &gt; res/count_table.txt</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h3 id="add-an-input-file-to-the-map-rule">3. Add an input file to the map rule</h3>
@@ -2823,7 +2824,7 @@ Solution
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <p>To do so, you’ll need to do the following in the <code>map</code> rule:</p>
 <ul>
 <li><p>Pass the reference FASTA file to the <code>map.sh</code> script in the <code>shell</code> directive.</p></li>
@@ -2831,12 +2832,13 @@ Hints
 <p>Because you will now have multiple items for <code>input</code>, it will be good to name them – the syntax for that is: <code>input: myname=myfile</code>, and you can then recall this using <code>{input.myname}</code> in the <code>shell</code> directive.</p></li>
 </ul>
 <p>Moreover, it is good practice to define hard-coded input files like this one clearly at the top of your script/Snakefile (or use a <a href="https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html">configuration file</a>.</p>
+</p>
 </details>
 <details>
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li><p>Assign the filename somewhere near the top:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">REF_FA</span> = <span class="st">&quot;metadata/ref.fa&quot;</span></span></code></pre></div></li>
@@ -2850,8 +2852,8 @@ Solution
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt; {output}&quot;</span></span></code></pre></div></li>
 </ul>
+</p>
 </details>
-<p><br></p>
 <ul>
 <li><strong>Do you think Snakemake would rerun parts of the workflow now?</strong> <strong>How could you test this without actually rerunning anything?</strong></li>
 </ul>
@@ -2881,7 +2883,6 @@ Solution
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># [...]  </span></span></code></pre></div></li>
 </ul>
 </details>
-<p><br></p>
 <ul>
 <li><strong>Rerun Snakemake.</strong></li>
 </ul>
@@ -2921,7 +2922,6 @@ Solution
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;FastQC results for file </span><span class="va">$infile</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$outfile</span><span class="st">&quot;</span></span>
 <span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$infile</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$outfile</span><span class="st">&quot;</span></span></code></pre></div>
-<p><br></p>
 <ul>
 <li><strong>Make <code>scripts/fastqc.sh</code> executable.</strong></li>
 </ul>
@@ -2929,10 +2929,10 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u+x scripts/fastqc.sh</span></code></pre></div>
+</p>
 </details>
-<p><br></p>
 <ul>
 <li><p><strong>Figure out what the script does and create your <code>rule fastqc</code> accordingly.</strong></p>
 <p>As the output dir, you can just use the <code>res</code> (results) dir we have been using, or optionally a subdir of that.</p></li>
@@ -2941,18 +2941,19 @@ Solution
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li><p>The script will write to an output file <code>&lt;output-dir&gt;/&lt;sample&gt;.fastqc.html</code>. <em>That is, you don’t specify the output file to the script, only the output directory.</em> This is like the behavior of the actual FastQC program.</p>
 <p>The script will also print a line to standard out (i.e., not to the output file).</p></li>
 <li><p>In the Snakefile rule, you do want an <code>output</code> directive, but you <em>don’t</em> reference <code>{output}</code> in the <code>shell</code> directive. Instead, you just provide the output dir as the second argument to the script.</p></li>
 </ul>
+</p>
 </details>
 <details>
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> fastqc:</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;data/{smp}.fastq&quot;</span><span class="ex">,</span></span>
@@ -2960,6 +2961,7 @@ Solution
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;res/{smp}.fastqc.html&quot;</span><span class="ex">,</span></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/fastqc.sh {input} res&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h3 id="run-the-fastqc-rule">5. Run the FastQC rule</h3>
@@ -2972,12 +2974,13 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p>It will not run anything:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pr</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Building DAG of jobs...</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Nothing to be done.</span></span></code></pre></div>
 <p>This is because the FastQC output files are not being used by any other rule, nor are they listed in rule <code>all</code>.</p>
+</p>
 </details>
 <p><br></p>
 <ul>
@@ -2988,13 +2991,14 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p>You will get a <code>WorkflowError</code>:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pr</span> fastqc</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; WorkflowError:</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Target rules may not contain wildcards. Please specify concrete files or a rule without wildcards.</span></span></code></pre></div>
 <p>The <code>target rule</code> referenced in the error is <code>fastqc</code>, which we targeted in the command-line call.</p>
 <p>The problem is that <code>rule fastqc</code> contains wildcards and Snakemake can’t resolve what their values should be. This may be surprising but recall that Snakemake works backwards in the sense that it looks at output files first (rather than first inferring input files from existing files), and here, it does not know which output files to produce.</p>
+</p>
 </details>
 <p><br></p>
 <ul>
@@ -3004,7 +3008,7 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p>You could specify a specific output file for one of the samples, e.g. <code>res/smpA.fastqc.html</code>:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-pq</span> res/smpA.fastqc.html</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Job counts:</span></span>
@@ -3014,6 +3018,7 @@ Solution
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/fastqc.sh data/smpA.fastq res</span></span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running FastQC for file: data/smpA.fastq , to output dir: res</span></span></code></pre></div>
 <p>Note above that the line the script printed to standard output (<code>Running FastQC for file: $infile , to output dir: $outdir</code>) is indeed simply printed to standard out among the other output of Snakemake.</p>
+</p>
 </details>
 <p><br></p>
 <ul>
@@ -3024,13 +3029,15 @@ Solution
 <summary>
 Hints
 </summary>
-<p><br> You should include the output files of the FastQC script in the <code>input</code> of <code>rule all</code>, using the <code>expand()</code> function.</p>
+<p>
+<p>You should include the output files of the FastQC script in the <code>input</code> of <code>rule all</code>, using the <code>expand()</code> function.</p>
+</p>
 </details>
 <details>
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li><p>Add a line to <code>rule all</code> so that it becomes:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> all:</span>
@@ -3050,6 +3057,7 @@ Solution
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; scripts/fastqc.sh data/smpG.fastq res</span></span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running FastQC for file: data/smpG.fastq , to output dir: res</span></span></code></pre></div></li>
 </ul>
+</p>
 </details>
 <p><br></p>
 <h3 id="when-we-get-errors">6. When we get errors</h3>
@@ -3066,7 +3074,7 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li><p>Remove the output files:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> res/<span class="pp">*</span></span></code></pre></div></li>
@@ -3114,6 +3122,7 @@ Solution
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
 <span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt; {output}&quot;</span></span></code></pre></div></li>
 </ul>
+</p>
 </details>
 <p><br></p>
 <p>The actual error produced by the bash script is what you would likely be interested in if troubleshooting:</p>
@@ -3127,10 +3136,11 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p>Nope! These were removed by Snakemake because of the errors. You may have noticed this in the error messages above, where it said, for example:</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Removing output files of failed job map since they might be corrupted:</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; res/smpG.bam</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h3 id="the-log-directive">7. The <code>log</code> directive</h3>
@@ -3163,7 +3173,7 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li>The full Snakefile with log directives added to each rule (minus comments):</li>
 </ul>
@@ -3268,6 +3278,7 @@ Solution
 <ul>
 <li>Only the <code>fastqc</code> log files should have nonzero file sizes, which you can quickly check by running <code>ls -lhR log</code>.</li>
 </ul>
+</p>
 </details>
 <p><br></p>
 <h2 id="running-the-workflow-with-slurm-jobs">2: Running the workflow with SLURM jobs</h2>
@@ -3290,7 +3301,7 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --account=PAS1855</span></span>
@@ -3301,6 +3312,7 @@ Solution
 <span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-e</span> <span class="at">-u</span> <span class="at">-o</span> pipefail</span>
 <span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j1</span> <span class="at">-p</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <p>So far, we have been using <code>-j1</code> (i.e. <code>--jobs 1</code>), such that Snakemake will only run one process at a time. Several of our rules run the same script separately for each sample, so those jobs could be run at the same time (<em>in parallel</em>).</p>
@@ -3316,14 +3328,15 @@ Solution
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <p>For the last question: you should use a SLURM environment variables. The environment variable in question is <code>$SLURM_NTASKS</code>.</p>
+</p>
 </details>
 <details>
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <ul>
 <li><p>It would make sense to run 6 jobs at the same time:</p>
 <ul>
@@ -3346,6 +3359,7 @@ each SLURM “task” is a separate process.</p>
 <span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j</span><span class="st">&quot;</span><span class="va">$SLURM_NTASKS</span><span class="st">&quot;</span> <span class="at">-p</span>  </span></code></pre></div></li>
 </ul>
+</p>
 </details>
 <p><br></p>
 <ul>
@@ -3355,10 +3369,11 @@ each SLURM “task” is a separate process.</p>
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> res log/<span class="pp">*</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> workflow/snakemake_submit.sh</span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h3 id="let-snakemake-submit-jobs-for-us">3. Let Snakemake submit jobs for us</h3>
@@ -3392,7 +3407,7 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p>Contents of <code>slurm_profile/config.yaml</code>:</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cluster:</span> <span class="st">&quot;sbatch --account={resources.account}</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="st">                 --time={resources.time_min}</span></span>
@@ -3400,6 +3415,7 @@ Solution
 <span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="st">                 --cpus-per-task={resources.cpus}</span></span>
 <span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="st">                 --output=log/slurm-{rule}_{wildcards}.out&quot;</span></span>
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="ex">default-resources:</span> [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]</span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <p>To run Snakemake with the profile, we need to use the option <code>--profile</code>, and specify our profile dir: <code>--profile &lt;profile_dir&gt;</code>.</p>
@@ -3410,10 +3426,11 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> res log/<span class="pp">*</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">-j6</span> <span class="at">--profile</span> slurm_profile</span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <div class="content-box-warning">
@@ -3434,14 +3451,15 @@ Solution
 <summary>
 Hints
 </summary>
-<p><br></p>
+<p>
 <p>Note that in YAML, key-value pairs are specified as <code>key:value</code>, not <code>--key value</code>.</p>
+</p>
 </details>
 <details>
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span><span class="at"> </span><span class="dv">100</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">latency-wait</span><span class="kw">:</span><span class="at"> </span><span class="dv">30</span></span></code></pre></div>
 <p>The full <code>slurm_profile/config.yaml</code> should now contain the following:</p>
@@ -3453,6 +3471,7 @@ Solution
 <span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="ex">default-resources:</span> [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]</span>
 <span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="ex">jobs:</span> 100</span>
 <span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="ex">latency-wait:</span> 30</span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <ul>
@@ -3467,10 +3486,11 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> res log/<span class="pp">*</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">--profile</span> slurm_profile</span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h3 id="local-rules">5. Local rules</h3>
@@ -3485,7 +3505,7 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p>Your full Snakefile should now contain the following:</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SAMPLES</span> = glob_wildcards<span class="er">(</span><span class="st">&quot;data/{smp}.fastq&quot;</span><span class="kw">)</span><span class="ex">.smp</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -3545,6 +3565,7 @@ Solution
 <div class="sourceCode" id="cb55"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> res log/<span class="pp">*</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="ex">snakemake</span> <span class="at">--profile</span> slurm_profile</span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h3 id="rule-specific-resources-threads">7. Rule-specific resources: threads</h3>
@@ -3556,15 +3577,18 @@ Solution
 <summary>
 Hints
 </summary>
-<br> It is either <code>--cpus-per-task</code> or <code>--ntasks</code>.
+<p>
+<p>It is either <code>--cpus-per-task</code> or <code>--ntasks</code>.</p>
+</p>
 </details>
 <details>
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p>The <code>threads</code> directive in a Snakefile corresponds to the <code>--cpus-per-task</code> SLURM directive. (Recall that SLURM uses the terms CPU, cores and threads roughly equivalently.)</p>
 <p>When specifying multiple <code>--cpus-per-task</code> (SLURM) / <code>threads</code> (Snakemake), you are allowing <em>a single process (task) to perform multithreading</em>.</p>
+</p>
 </details>
 <p><br></p>
 <p>When using the threads directive, we will generally also tell the program itself about the number of threads – see the example below, where we are calling the STAR aligner directly in a Snakemake rule:</p>
@@ -3579,7 +3603,7 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p>Rule map should now contain the following:</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
@@ -3592,6 +3616,7 @@ Solution
 <span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
 <span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
 <span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt;{output} 2&gt;{log}&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <h3 id="rule-specific-resources-other">8. Rule-specific resources: other</h3>
@@ -3612,7 +3637,7 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p>Assuming time is referred to as <code>time_min</code> in <code>slurm_profile/config.yaml</code> (this has to match!), <code>rule map</code> should now contain the following:</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rule</span> map:</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">input:</span></span>
@@ -3626,6 +3651,7 @@ Solution
 <span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;log/map/{smp}.log&quot;</span><span class="ex">,</span></span>
 <span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>    <span class="ex">shell:</span></span>
 <span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;scripts/map.sh {input.fastq} {input.ref} &gt;{output} 2&gt;{log}&quot;</span></span></code></pre></div>
+</p>
 </details>
 <p><br></p>
 <ul>
@@ -3635,7 +3661,7 @@ Solution
 <summary>
 Solution
 </summary>
-<p><br></p>
+<p>
 <p><strong>There are a few different options:</strong></p>
 <ul>
 <li><p>You can <a href="https://slurm.schedmd.com/sbatch.html">look up</a> (go to “input environment variables”) and <code>echo</code> SLURM environment variables in the script. For the time limit specifically, this variable is <code>$SBATCH_TIMELIMIT</code>, so you could include the following in your <code>scripts/map.sh</code>:</p>
@@ -3645,8 +3671,8 @@ Solution
 <li><p>The allotted time specifically is also shown when you issue <code>squeue</code> with the <code>-l</code> (long) option:</p>
 <div class="sourceCode" id="cb63"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span> <span class="at">-l</span></span></code></pre></div></li>
 </ul>
+</p>
 </details>
-<p><br></p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <section class="footnotes" role="doc-endnotes">
 <hr />
