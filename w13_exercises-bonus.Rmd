@@ -147,6 +147,7 @@ rule clean:
         "rm -rf log/*"
 ```
 
+</p>
 </details>
 
 #### Current Snakefile
@@ -270,7 +271,7 @@ with the lines printed directly above this box.
 Then, assign the primer sequences in `config.yaml` to the variables `PRIMER_F`
 and `PRIMER_R`, respectively.
 
-<details><summary>Solution</summary><br>
+<details><summary>Solution</summary><p>
 
 Assign the primer sequences to variables `PRIMER_F` and `PRIMER_R`:
 
@@ -279,9 +280,12 @@ PRIMER_F=config["primer_f"]
 PRIMER_R=config["primer_r"]
 ```
 
+</p>
 </details>
 
 :::
+
+<br>
 
 <details><summary>Full Snakefile #2</summary>
 
@@ -344,6 +348,7 @@ rule clean:
         "rm -rf log/*"
 ```
 
+</p>
 </details>
 
 
@@ -417,7 +422,7 @@ we will have **two** log files for every job:
 - Check for the presence of output files and look at the log files.
 
 <details><summary>Hints</summary>
-<br>
+<p>
 
 Our `rule all` input does not match the output of `rule fastqc`,
 so trying to run Snakemake without speciying a rule or output file(s) won't work
@@ -440,6 +445,7 @@ snakemake -n fastqc
 To test whether rule functions,
 it is therefore most convenient to just call Snakemake with an actual output file.
 
+</p>
 </details>
 
 <details><summary>Solution</summary>
@@ -504,9 +510,12 @@ $ cat log/fastqc_slurm-read\=R1\,sample\=201.out
 #> 1 of 1 steps (100%) done
 ```
 
+</p>
 </details>
 
 :::
+
+<br>
 
 <details><summary>Full Snakefile #3</summary>
 
@@ -584,6 +593,7 @@ rule fastqc:
         "fastqc {input} -o {FASTQC_DIR} &> {log}"
 ```
 
+</p>
 </details>
 
 <br>
@@ -642,6 +652,7 @@ multiqc "$in_dir" -o "$out_dir"
 echo -e "\n# Done with script."
 ```
 
+</p>
 </details>
 <br>
 
@@ -662,7 +673,7 @@ echo -e "\n# Done with script."
   You'll still need to come up with `input`, `log`, and `shell` directives for
   the rule.
 
-<details><summary>Hints</summary><br>
+<details><summary>Hints</summary><p>
 
 - Use the `expand()` function in the `input` directive.
   Besides expanding the possible values for `SAMPLES` and `READS`,
@@ -675,6 +686,7 @@ echo -e "\n# Done with script."
 - Like in `rule fastqc`, send standard output and standard error from the script
   to `{log}`.
 
+</p>
 </details>
 
 <details><summary>Solutions</summary>
@@ -699,6 +711,7 @@ rule multiqc:
         "scripts/multiqc.sh {FASTQC_DIR} {MULTIQC_DIR} &> {log}"
 ```
 
+</p>
 </details>
 
 <br>
@@ -707,7 +720,7 @@ rule multiqc:
   (What else will be run automatically?)
 
 <details><summary>Solutions</summary>
-<br>
+<p>
 `rule fastqc` will also be run for the remaining 5 FASTQ files,
 since the input of `rule multiqc` is the output of `rule fastqc`.
 
@@ -742,9 +755,12 @@ $ cat log/multiqc.log
 #> # Done with script.
 ```
 
+</p>
 </details>
 
 :::
+
+<br>
 
 <details><summary>Full Snakefile #4</summary>
 
@@ -843,6 +859,7 @@ rule multiqc:
         "scripts/multiqc.sh {FASTQC_DIR} {MULTIQC_DIR} &> {log}"
 ```
 
+</p>
 </details>
 
 <br>
@@ -890,7 +907,7 @@ Some things to note about this rule:
   
   The output file names are automatically determined by the script.
   
-<details><summary>The script `scripts/cutadapt.sh`</summary><br>
+<details><summary>The script `scripts/cutadapt.sh`</summary><p>
 
 ```sh
 #!/bin/bash
@@ -983,6 +1000,7 @@ echo -e "\n## Done with cutadapt script."
 date
 ```
 
+</p>
 </details>
 
 <br>
@@ -1008,10 +1026,11 @@ date
 
 - Check for the presence of output files and look at the log files.
 
-<details><summary>Hints</summary><br>
+<details><summary>Hints</summary><p>
 
 - Like with `rule fastqc`, you'll need to specify an individual output file.
 
+</p>
 </details>
 
 <details><summary>Solutions</summary>
@@ -1061,9 +1080,12 @@ $ less log/cutadapt_201.log
 #> Pairs written (passing filters):        46,671 (99.2%)
 ```
 
+</p>
 </details>
 
 :::
+
+<br>
 
 <details><summary>Full Snakefile #5</summary>
 
@@ -1179,6 +1201,7 @@ rule cutadapt:
         "scripts/cutadapt.sh {input.fwd} {CUTADAPT_DIR} {PRIMER_F} {PRIMER_R} &> {log}"
 ```
 
+</p>
 </details>
 
 <br>
@@ -1200,7 +1223,7 @@ It outputs a pair of *unzipped* FASTQ files with the same names as the input
 files, just in a different directory (`FILTER_DIR`, in our case) and with a
 `.fastq` instead of a `.fastq.gz` extension.
 
-<details><summary>The full script `scripts/fastq_filter.R`</summary><br>
+<details><summary>The full script `scripts/fastq_filter.R`</summary><p>
 
 ```R
 #!/usr/bin/env Rscript
@@ -1270,6 +1293,7 @@ Sys.time()
 print('Done with script fastq_filter.R')
 ```
 
+</p>
 </details>
 
 <br>
@@ -1280,7 +1304,7 @@ print('Done with script fastq_filter.R')
 
 - Run rule `fastq_filter` for one sample and check the output.
 
-<details><summary>Solutions</summary><br>
+<details><summary>Solutions</summary><p>
 
 ```python
 rule fastq_filter:
@@ -1314,9 +1338,12 @@ $ ls -lh results/fastq_filter/
 #> -rw-r--r-- 1 jelmer PAS0471 19M Apr 21 11:47 201_R2_filt.fastq
 ```
 
+</p>
 </details>
 
 :::
+
+<br>
 
 <details><summary>Full Snakefile #6</summary>
 
@@ -1450,6 +1477,7 @@ rule fastq_filter:
         """
 ```
 
+</p>
 </details>
 
 <br>
@@ -1576,6 +1604,7 @@ write.table(seqtab, outfile,
 print('Done with script ASV_infer.R')
 ```
 
+</p>
 </details>
 <br>
 
@@ -1592,7 +1621,7 @@ which will be passed on the the DADA2 functions.
 
 How can we make sure Snakemake allocated 8 cores/threads for this job?
 
-<details><summary>Solution.</summary><br>
+<details><summary>Solution.</summary><p>
 
 By using a `threads` directive in the rule:
 
@@ -1600,12 +1629,13 @@ By using a `threads` directive in the rule:
 threads: 8
 ```
 
+</p>
 </details>
 
 And how can we make sure Snakemake passes a request of 8 cores/threads to SLURM
 for this job?
 
-<details><summary>Solution.</summary><br>
+<details><summary>Solution.</summary><p>
 
 By using a `resources` directive in the rule, with a key `cpus` that matches
 what we have specified in `slurm_profile/config.yaml`:
@@ -1625,6 +1655,7 @@ cluster: "sbatch --account={resources.account}
 default-resources: [cpus=1, mem_mb=4000, time_min=60, account=PAS1855]
 ```
 
+</p>
 </details>
 
 :::
@@ -1652,7 +1683,7 @@ order:
 
 - Run the rule.
 
-<details><summary>Hints</summary><br>
+<details><summary>Hints</summary><p>
 
 - Because this is the final rule in the workflow, whose output is specified
   as the input of `rule all`, running Snakemake without arguments will do the job.
@@ -1660,9 +1691,10 @@ order:
 - Note that the previous two rules will also automatically be run for the two
   remaining samples.
   
+</p>
 </details>
 
-<details><summary>Solutions</summary><br>
+<details><summary>Solutions</summary><p>
 
 ```python
 rule ASV_infer:
@@ -1699,6 +1731,7 @@ $ ls -lh results/ASV_infer/
 #> -rw-r--r-- 1 jelmer PAS0471 426K Apr 21 12:57 ASV_table.tsv
 ```
 
+</p>
 </details>
 
 :::

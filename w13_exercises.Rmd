@@ -21,11 +21,11 @@ using a dummy RNA-seq workflow.
 Load the Conda environment in which you have Snakemake installed:
 
 ```sh
-module load python/3.6-conda5.2
-source activate ipy-env
+$ module load python/3.6-conda5.2
+$ source activate ipy-env
 
 # Check if Snakemake can be found and is inside your ipy-env:
-which snakemake
+$ which snakemake
 #> ~/.conda/envs/ipy-env/bin/snakemake
 ```
 
@@ -33,31 +33,31 @@ We will recreate a very similar set of files and the final Snakefile from class
 -- copy the files from `/fs/ess/PAS1855/exercises/week13/` to do so:
 
 ```sh
-cd /fs/ess/PAS1855/users/$USER/week13
-cp -r /fs/ess/PAS1855/exercises/week13/exercise1 .
+$ cd /fs/ess/PAS1855/users/$USER/week13
+$ cp -r /fs/ess/PAS1855/exercises/week13/exercise1 .
 
-cd exercise1
-
-tree
+$ cd exercise1
 ```
 
-```
-.
-├── data
-│   ├── smpA.fastq
-│   ├── smpC.fastq
-│   └── smpG.fastq
-├── res
-├── scripts
-│   ├── count.sh
-│   ├── map.sh
-│   └── trim.sh
-└── workflow
-    ├── DAGs
-    └── Snakefile
+```sh
+$ tree
+#> .
+#> ├── data
+#> │   ├── smpA.fastq
+#> │   ├── smpC.fastq
+#> │   └── smpG.fastq
+#> ├── res
+#> ├── scripts
+#> │   ├── count.sh
+#> │   ├── map.sh
+#> │   └── trim.sh
+#> └── workflow
+#>     ├── DAGs
+#>     └── Snakefile
 ```
 
 <details><summary>Or use this code to create the dirs and files from scratch</summary>
+<p>
 
 - Create the dir structure and the dummy FASTQ files:
 
@@ -155,10 +155,12 @@ rule count:
         "scripts/count.sh {input} > {output}"
 ```
 
+</p>
 </details>
+
 <br>
 
-Currently, our Snakefile `workflow/Snakefile` looks like this:
+**Currently, our Snakefile `workflow/Snakefile` contains the following:**
 
 <details><summary>Show Snakefile</summary>
 ```sh
@@ -210,7 +212,6 @@ rule count:
 ```
 
 </details>
-<br>
 
 Note that some formatting details in the Snakefile above are slightly different
 from what was shown in class.
@@ -240,10 +241,6 @@ as shown for `rule count` above:
 
 - Every item in `input` and `output` is trailed by a comma.[^2]
   
-  <p align="center">
-  <img src=img/snakemake/snakefmt_extension.png width=60%>
-  </p>
-
 Furthermore, I have added some Python multi-line (triple-quote) comments
 explaining what the Snakefile and each individual rule does.
 
@@ -257,11 +254,12 @@ explaining what the Snakefile and each individual rule does.
 
 ### 2. First DAG and Snakemake run
 
-- Create and view a DAG (workflow diagram in Directed Acyclic Graph form)
-  for our current Snakefile to remind yourself of the steps in the workflow.
+- **Create and view a DAG for our current Snakefile.**  
+  This workflow diagram in Directed Acyclic Graph form will remind you of
+  the steps in the workflow.
 
-<details>
-<summary>Solution</summary>
+<details><summary>Solution</summary>
+<p>
 
 ```sh
 snakemake --dag | dot -T svg > workflow/DAGs/v1.svg 
@@ -271,15 +269,14 @@ snakemake --dag | dot -T svg > workflow/DAGs/v1.svg
 <img src=img/snakemake/v1.svg width=55%>
 </p>
 
+</p>
 </details>
 
-<br>
+- **Run the entire workflow.**
 
-- Run the entire workflow.
+<details><summary>Solution</summary>
+<p>
 
-<details>
-<summary>Solution</summary>
-<br>
 Below, Snakemake is being run with the `-p` (print shell commands) and `-q` (quiet)
 options for concise output.
 To better understand what Snakemake is doing,
@@ -308,6 +305,7 @@ snakemake -j1 -pq
 #> scripts/count.sh res/smpG.bam res/smpC.bam res/smpA.bam > res/count_table.txt
 ```
 
+</p>
 </details>
 
 <br>
@@ -337,7 +335,7 @@ echo 'echo "Using ref genome: $2" && cat $2' >> scripts/map.sh
 - **Adapt the Snakefile to accommodate this change.**
 
 <details><summary>Hints</summary>
-<br>
+<p>
 
 To do so, you'll need to do the following in the `map` rule:
 
@@ -354,10 +352,11 @@ Moreover, it is good practice to define hard-coded input files like this one
 clearly at the top of your script/Snakefile
 (or use a [configuration file](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html).
 
+</p>
 </details>
 
 <details><summary>Solution</summary>
-<br>
+<p>
 
 - Assign the filename somewhere near the top:
 
@@ -378,9 +377,8 @@ clearly at the top of your script/Snakefile
           "scripts/map.sh {input.fastq} {input.ref} > {output}"
   ```
 
+</p>
 </details>
-
-<br>
 
 - **Do you think Snakemake would rerun parts of the workflow now?**
   **How could you test this without actually rerunning anything?**
@@ -423,8 +421,6 @@ clearly at the top of your script/Snakefile
   # [...]  
   ```
 </details>
-
-<br>
 
 - **Rerun Snakemake.**
 
@@ -476,28 +472,25 @@ echo "FastQC results for file $infile" > "$outfile"
 cat "$infile" > "$outfile"
 ```
 
-<br>
-
 - **Make `scripts/fastqc.sh` executable.**
 
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
+
 ```sh
 chmod u+x scripts/fastqc.sh
 ```
-</details>
 
-<br>
+</p>
+</details>
 
 - **Figure out what the script does and create your `rule fastqc` accordingly.**
   
   As the output dir, you can just use the `res` (results) dir we have been using,
   or optionally a subdir of that.
 
-<details>
-<summary>Hints</summary>
-<br>
+<details><summary>Hints</summary>
+<p>
 
 - The script will write to an output file `<output-dir>/<sample>.fastqc.html`.
   *That is, you don't specify the output file to the script, only the output directory.*
@@ -509,11 +502,11 @@ chmod u+x scripts/fastqc.sh
   but you *don't* reference `{output}` in the `shell` directive.
   Instead, you just provide the output dir as the second argument to the script.
 
+</p>
 </details>
 
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 ```sh
 rule fastqc:
@@ -525,6 +518,7 @@ rule fastqc:
         "scripts/fastqc.sh {input} res"
 ```
 
+</p>
 </details>
 
 <br>
@@ -536,9 +530,8 @@ rule fastqc:
   
   *Think about what the answer should be before you try.*
 
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 It will not run anything:
 
@@ -551,6 +544,7 @@ snakemake -j1 -pr
 This is because the FastQC output files are not being used by any other rule,
 nor are they listed in rule `all`.
 
+</p>
 </details>
 
 <br>
@@ -559,9 +553,8 @@ nor are they listed in rule `all`.
 
   *Think about what the answer should be before you try.*
 
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 You will get a `WorkflowError`:
 
@@ -580,6 +573,7 @@ This may be surprising but recall that Snakemake works backwards in the sense
 that it looks at output files first (rather than first inferring input files
 from existing files), and here, it does not know which output files to produce.
 
+</p>
 </details>
 
 <br>
@@ -587,9 +581,8 @@ from existing files), and here, it does not know which output files to produce.
 - **How, then, can you get Snakemake to run the FastQC rule?**
   **First, think just in terms of changing the Snakemake command-line call.**
 
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 You could specify a specific output file for one of the samples,
 e.g. `res/smpA.fastqc.html`:
@@ -608,6 +601,7 @@ Note above that the line the script printed to standard output
 (`Running FastQC for file: $infile , to output dir: $outdir`)
 is indeed simply printed to standard out among the other output of Snakemake.
 
+</p>
 </details>
 
 <br>
@@ -616,17 +610,16 @@ is indeed simply printed to standard out among the other output of Snakemake.
   **standard part of the workflow? Run Snakemake after you changed the Snakefile.**  
   (I.e., without having to invoke each output file separately, like above.) 
 
-<details>
-<summary>Hints</summary>
-<br>
+<details><summary>Hints</summary>
+<p>
 You should include the output files of the FastQC script in the `input` of
 `rule all`, using the `expand()` function.
 
+</p>
 </details>
 
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 - Add a line to `rule all` so that it becomes:
 
@@ -652,6 +645,8 @@ You should include the output files of the FastQC script in the `input` of
   #> scripts/fastqc.sh data/smpG.fastq res
   #> Running FastQC for file: data/smpG.fastq , to output dir: res
   ```
+
+</p>
 </details>
 
 <br>
@@ -665,9 +660,8 @@ You should include the output files of the FastQC script in the `input` of
   3. Try to rerun the workflow.
   4. Make sure to undo the error-inducing change to `rule map` you just made.
   
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 - Remove the output files:
 
@@ -730,7 +724,7 @@ You should include the output files of the FastQC script in the `input` of
           "scripts/map.sh {input.fastq} {input.ref} > {output}"
   ```
 
-
+</p>
 </details>  
 <br>
 
@@ -752,9 +746,8 @@ in the next section, we will therefore use log files.
 
 - **Check the output files. Are there output files at all for rule `map`?**
 
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 Nope! These were removed by Snakemake because of the errors.
 You may have noticed this in the error messages above, where it said,
@@ -765,6 +758,7 @@ for example:
 #> res/smpG.bam
 ```
 
+</p>
 </details>
 <br>
 
@@ -824,9 +818,8 @@ rule myscript:
     though most will be empty in the absence of errors;
     only the logs for the `fastqc` rule should contain something. 
   
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 - The full Snakefile with log directives added to each rule (minus comments):
 
@@ -938,8 +931,8 @@ tree log
 - Only the `fastqc` log files should have nonzero file sizes,
   which you can quickly check by running `ls -lhR log`.
 
+</p>
 </details>
-
 
 <br>
 
@@ -984,9 +977,8 @@ You have two main options:
   
   Save the script as `workflow/snakemake_submit.sh`.
 
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 ```sh
 #!/bin/bash
@@ -1001,7 +993,9 @@ set -e -u -o pipefail
 snakemake -j1 -p
 ```
 
+</p>
 </details>
+
 <br>
 
 So far, we have been using `-j1` (i.e. `--jobs 1`), such that Snakemake will
@@ -1020,18 +1014,17 @@ so those jobs could be run at the same time (*in parallel*).
   - How could you make sure there is no mismatch between the resources requested
     from SLURM and the number of jobs provided to Snakemake?
 
-<details>
-<summary>Hints</summary>
-<br>
+<details><summary>Hints</summary>
+<p>
 
 For the last question: you should use a SLURM environment variables.
 The environment variable in question is `$SLURM_NTASKS`.
 
+</p>
 </details>
 
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 - It would make sense to run 6 jobs at the same time:
   
@@ -1067,7 +1060,9 @@ The environment variable in question is `$SLURM_NTASKS`.
   snakemake -j"$SLURM_NTASKS" -p  
   ```
 
+</p>
 </details>
+
 <br>
 
 - **Delete the workflow's output files and submit the SLURM job**.
@@ -1075,7 +1070,7 @@ The environment variable in question is `$SLURM_NTASKS`.
 
 <details>
 <summary>Solution</summary>
-<br>
+<p>
 
 ```sh
 rm -r res log/*
@@ -1083,6 +1078,7 @@ rm -r res log/*
 sbatch workflow/snakemake_submit.sh
 ```
 
+</p>
 </details>
 
 <br>
@@ -1157,7 +1153,7 @@ as we'll see a little later.
 
 <details>
 <summary>Solution</summary>
-<br>
+<p>
 
 Contents of `slurm_profile/config.yaml`:
 
@@ -1170,6 +1166,7 @@ cluster: "sbatch --account={resources.account}
 default-resources: [cpus=1, mem_mb=1000, time_min=5, account=PAS1855]
 ```
 
+</p>
 </details>
 
 <br>
@@ -1181,7 +1178,7 @@ To run Snakemake with the profile, we need to use the option
 
 <details>
 <summary>Solution</summary>
-<br>
+<p>
 
 ```sh
 rm -r res log/*
@@ -1189,6 +1186,7 @@ rm -r res log/*
 snakemake -j6 --profile slurm_profile
 ```
 
+</p>
 </details>
 
 <br>
@@ -1223,16 +1221,17 @@ We can take that opportunity to also:
 
 <details>
 <summary>Hints</summary>
-<br>
+<p>
 
 Note that in YAML,
 key-value pairs are specified as `key:value`, not `--key value`.
 
+</p>
 </details>
 
 <details>
 <summary>Solution</summary>
-<br>
+<p>
 
 ```YAML
 jobs: 100
@@ -1252,6 +1251,7 @@ jobs: 100
 latency-wait: 30
 ```
 
+</p>
 </details>
 
 <br>
@@ -1273,7 +1273,7 @@ squeue -u $USER -l
 
 <details>
 <summary>Solution</summary>
-<br>
+<p>
 
 ```sh
 rm -r res log/*
@@ -1281,6 +1281,7 @@ rm -r res log/*
 snakemake --profile slurm_profile
 ```
 
+</p>
 </details>
 
 <br>
@@ -1305,7 +1306,7 @@ localrules: all, clean
 
 <details>
 <summary>Solution</summary>
-<br>
+<p>
 
 Your full Snakefile should now contain the following:
 
@@ -1373,6 +1374,7 @@ rm -r res log/*
 snakemake --profile slurm_profile
 ```
 
+</p>
 </details>
 
 <br>
@@ -1387,15 +1389,16 @@ the rule in question generates.
 
 - **Which SLURM directive does this correspond to?** 
   
-<details>
-<summary>Hints</summary>
-<br>
+<details><summary>Hints</summary>
+<p>
+
 It is either `--cpus-per-task` or `--ntasks`.
+
+</p>
 </details>
 
-<details>
-<summary>Solution</summary>
-<br>
+<details><summary>Solution</summary>
+<p>
 
 The `threads` directive in a Snakefile corresponds to the `--cpus-per-task`
 SLURM directive. (Recall that SLURM uses the terms CPU, cores and threads
@@ -1404,6 +1407,7 @@ roughly equivalently.)
 When specifying multiple `--cpus-per-task` (SLURM) / `threads` (Snakemake),
 you are allowing *a single process (task) to perform multithreading*.
 
+</p>
 </details>
 
 <br>
@@ -1425,7 +1429,7 @@ For now, we'll keep it simple and merely use the `threads` directive:
 
 <details>
 <summary>Solution</summary>
-<br>
+<p>
 
 Rule map should now contain the following:
 
@@ -1443,6 +1447,7 @@ rule map:
         "scripts/map.sh {input.fastq} {input.ref} >{output} 2>{log}"
 ```
 
+</p>
 </details>
 
 <br>
@@ -1480,7 +1485,7 @@ default value of `4000`, and pass that on the SLURM job request!
 
 <details>
 <summary>Solution</summary>
-<br>
+<p>
 
 Assuming time is referred to as `time_min` in `slurm_profile/config.yaml`
 (this has to match!), `rule map` should now contain the following:
@@ -1500,6 +1505,7 @@ rule map:
         "scripts/map.sh {input.fastq} {input.ref} >{output} 2>{log}"
 ```
 
+</p>
 </details>
 
 <br>
@@ -1509,7 +1515,7 @@ rule map:
 
 <details>
 <summary>Solution</summary>
-<br>
+<p>
 
 **There are a few different options:**
 
@@ -1540,6 +1546,6 @@ rule map:
   squeue -u $USER -l
   ```
 
+</p>
 </details>
 
-<br>
